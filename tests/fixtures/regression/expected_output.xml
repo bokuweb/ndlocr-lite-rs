@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<OCRDATASET xmlns="">
+  <PAGE IMAGENAME="input.jpg" WIDTH="100" HEIGHT="200">
+    <TEXTBLOCK>
+      <LINE TYPE="line_main" X="10" Y="20" WIDTH="20" HEIGHT="20" CONF="0.900" STRING="abc" ORIENT="vertical"></LINE>
+      <LINE TYPE="line_main" X="1" Y="2" WIDTH="2" HEIGHT="2" CONF="0.800" STRING="&lt;x&amp;&quot;&apos;&gt;" ORIENT="horizontal"></LINE>
+    </TEXTBLOCK>
+  </PAGE>
+</OCRDATASET>

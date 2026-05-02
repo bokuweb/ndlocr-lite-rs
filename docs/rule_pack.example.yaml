@@ -1,0 +1,18 @@
+line_replacements:
+  - from: "本拠約"
+    to: "本契約"
+  - from: "關示"
+    to: "開示"
+
+merge_rules:
+  - left_suffix: "本契"
+    right_prefix: "約"
+    drop_right_prefix_chars: 0
+  - left_suffix: "若しく"
+    right_prefix: "くは"
+    drop_right_prefix_chars: 1
+  - left_suffix: "ものと"
+    right_prefix: "とし"
+    drop_right_prefix_chars: 1
+
+collapse_duplicate_adjacent_lines: true

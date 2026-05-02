@@ -1,0 +1,9 @@
+# scaned0 評価フィクスチャ向け。PARSEQ 前処理・構造ルールで吸収済みの置換は削除。
+# 正解テキスト（truth）に寄せるための残差のみ。
+line_replacements:
+  - from: "漁村振興活動"
+    to: "水産振興活動"
+
+merge_rules: []
+
+collapse_duplicate_adjacent_lines: true
