@@ -21,6 +21,19 @@ pub fn preprocess_rgb_u8(
     input_width: usize,
     input_height: usize,
 ) -> Result<Vec<f32>> {
+    let mut out = vec![0.0_f32; 3 * input_width * input_height];
+    preprocess_rgb_u8_into(&mut out, rgb, width, height, input_width, input_height)?;
+    Ok(out)
+}
+
+pub fn preprocess_rgb_u8_into(
+    out: &mut [f32],
+    rgb: &[u8],
+    width: usize,
+    height: usize,
+    input_width: usize,
+    input_height: usize,
+) -> Result<()> {
     let expected = width
         .checked_mul(height)
         .and_then(|v| v.checked_mul(3))
@@ -28,7 +41,17 @@ pub fn preprocess_rgb_u8(
     if rgb.len() != expected {
         bail!("invalid RGB buffer length");
     }
-    let mut out = vec![0.0_f32; 3 * input_width * input_height];
+    let output_len = input_width
+        .checked_mul(input_height)
+        .and_then(|v| v.checked_mul(3))
+        .ok_or_else(|| anyhow::anyhow!("output size overflow"))?;
+    if out.len() != output_len {
+        bail!(
+            "invalid output buffer length: expected {}, got {}",
+            output_len,
+            out.len()
+        );
+    }
     let rotated = height > width;
     let (source_w, source_h) = if rotated {
         (height, width)
@@ -56,7 +79,7 @@ pub fn preprocess_rgb_u8(
             out[plane * 2 + i] = rgb_px[0] / 127.5 - 1.0;
         }
     }
-    Ok(out)
+    Ok(())
 }
 
 fn resize_source_coord(dst: usize, dst_len: usize, src_len: usize) -> f32 {

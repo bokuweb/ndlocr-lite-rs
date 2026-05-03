@@ -49,3 +49,7 @@ harness = false
 [[bench]]
 name = "parseq_preprocess_bench"
 harness = false
+
+[[bench]]
+name = "parseq_batch_preprocess_bench"
+harness = false
