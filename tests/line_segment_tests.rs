@@ -52,6 +52,34 @@ proptest! {
         let fast = detect_textline_bands_fast(&rgb, width, height, threshold);
         prop_assert_eq!(fast, naive);
     }
+
+    #[test]
+    fn fast_and_naive_segmentation_are_equivalent_for_sparse_noise(
+        width in 64usize..160usize,
+        height in 64usize..160usize,
+        threshold in 120u8..240u8,
+        seed in any::<u64>(),
+    ) {
+        let mut rgb = vec![255u8; width * height * 3];
+        for y in 0..height {
+            for x in 0..width {
+                let n = ((x as u64).wrapping_mul(0x9E37_79B1)
+                    ^ (y as u64).wrapping_mul(0x85EB_CA77)
+                    ^ seed)
+                    % 97;
+                if n < 3 {
+                    let i = (y * width + x) * 3;
+                    rgb[i] = 0;
+                    rgb[i + 1] = 0;
+                    rgb[i + 2] = 0;
+                }
+            }
+        }
+
+        let naive = detect_textline_bands_naive(&rgb, width, height, threshold);
+        let fast = detect_textline_bands_fast(&rgb, width, height, threshold);
+        prop_assert_eq!(fast, naive);
+    }
 }
 
 fn draw_black_band(
