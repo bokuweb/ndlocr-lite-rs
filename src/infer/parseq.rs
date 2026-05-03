@@ -1,6 +1,5 @@
 use crate::io;
 use anyhow::{Context, Result, bail};
-use image::{ImageBuffer, Rgb, imageops::FilterType};
 use std::fs;
 use std::path::Path;
 
@@ -29,31 +28,82 @@ pub fn preprocess_rgb_u8(
     if rgb.len() != expected {
         bail!("invalid RGB buffer length");
     }
-    let rotated;
-    let (source, rw, rh) = if height > width {
-        let (buf, rw, rh) = rotate_ccw_rgb_u8(rgb, width, height);
-        rotated = buf;
-        (&rotated[..], rw, rh)
-    } else {
-        (rgb, width, height)
-    };
-    let resized = resize_bilinear_stretch_rgb_u8(source, rw, rh, input_width, input_height)?;
     let mut out = vec![0.0_f32; 3 * input_width * input_height];
+    let rotated = height > width;
+    let (source_w, source_h) = if rotated {
+        (height, width)
+    } else {
+        (width, height)
+    };
+    if input_width == 0 || input_height == 0 {
+        bail!("invalid resize dimension");
+    }
     let plane = input_width * input_height;
     for y in 0..input_height {
+        let sy = resize_source_coord(y, input_height, source_h);
+        let y0 = sy.floor() as usize;
+        let y1 = (y0 + 1).min(source_h - 1);
+        let wy = sy - y0 as f32;
         for x in 0..input_width {
-            let s = (y * input_width + x) * 3;
+            let sx = resize_source_coord(x, input_width, source_w);
+            let x0 = sx.floor() as usize;
+            let x1 = (x0 + 1).min(source_w - 1);
+            let wx = sx - x0 as f32;
+            let rgb_px = bilinear_rgb(rgb, width, height, rotated, x0, y0, x1, y1, wx, wy);
             let i = y * input_width + x;
-            out[i] = resized[s] as f32 / 127.5 - 1.0;
-            out[plane + i] = resized[s + 1] as f32 / 127.5 - 1.0;
-            out[plane * 2 + i] = resized[s + 2] as f32 / 127.5 - 1.0;
+            out[i] = rgb_px[2] / 127.5 - 1.0;
+            out[plane + i] = rgb_px[1] / 127.5 - 1.0;
+            out[plane * 2 + i] = rgb_px[0] / 127.5 - 1.0;
         }
     }
-    // RGB の各平面を、Python の `[:, :, ::-1]` に合わせて B,G,R（NCHW）に並べ替え。
-    for i in 0..plane {
-        out.swap(i, plane * 2 + i);
-    }
     Ok(out)
+}
+
+fn resize_source_coord(dst: usize, dst_len: usize, src_len: usize) -> f32 {
+    if dst_len <= 1 {
+        return 0.0;
+    }
+    (((dst as f32 + 0.5) * src_len as f32 / dst_len as f32) - 0.5).clamp(0.0, (src_len - 1) as f32)
+}
+
+fn bilinear_rgb(
+    rgb: &[u8],
+    width: usize,
+    height: usize,
+    rotated: bool,
+    x0: usize,
+    y0: usize,
+    x1: usize,
+    y1: usize,
+    wx: f32,
+    wy: f32,
+) -> [f32; 3] {
+    let p00 = source_rgb(rgb, width, height, rotated, x0, y0);
+    let p10 = source_rgb(rgb, width, height, rotated, x1, y0);
+    let p01 = source_rgb(rgb, width, height, rotated, x0, y1);
+    let p11 = source_rgb(rgb, width, height, rotated, x1, y1);
+    let mut out = [0.0f32; 3];
+    for c in 0..3 {
+        let top = p00[c] as f32 * (1.0 - wx) + p10[c] as f32 * wx;
+        let bottom = p01[c] as f32 * (1.0 - wx) + p11[c] as f32 * wx;
+        out[c] = top * (1.0 - wy) + bottom * wy;
+    }
+    out
+}
+
+fn source_rgb(
+    rgb: &[u8],
+    width: usize,
+    height: usize,
+    rotated: bool,
+    x: usize,
+    y: usize,
+) -> [u8; 3] {
+    let (ox, oy) = if rotated { (width - 1 - y, x) } else { (x, y) };
+    debug_assert!(ox < width);
+    debug_assert!(oy < height);
+    let i = (oy * width + ox) * 3;
+    [rgb[i], rgb[i + 1], rgb[i + 2]]
 }
 
 pub fn decode_indices(indices: &[i64], charset: &[char]) -> String {
@@ -387,44 +437,6 @@ fn recognize_image_impl(
     _charset: &[char],
 ) -> Result<RecognizeResult> {
     bail!("onnx feature is disabled. Rebuild with `--features onnx`.");
-}
-
-fn rotate_ccw_rgb_u8(rgb: &[u8], width: usize, height: usize) -> (Vec<u8>, usize, usize) {
-    let new_w = height;
-    let new_h = width;
-    let mut out = vec![0_u8; rgb.len()];
-    for y in 0..height {
-        for x in 0..width {
-            let nx = y;
-            let ny = width - 1 - x;
-            let s = (y * width + x) * 3;
-            let d = (ny * new_w + nx) * 3;
-            out[d..d + 3].copy_from_slice(&rgb[s..s + 3]);
-        }
-    }
-    (out, new_w, new_h)
-}
-
-fn resize_bilinear_stretch_rgb_u8(
-    rgb: &[u8],
-    src_w: usize,
-    src_h: usize,
-    dst_w: usize,
-    dst_h: usize,
-) -> Result<Vec<u8>> {
-    if src_w == 0 || src_h == 0 || dst_w == 0 || dst_h == 0 {
-        bail!("invalid resize dimension");
-    }
-    let img: ImageBuffer<Rgb<u8>, Vec<u8>> =
-        ImageBuffer::from_raw(src_w as u32, src_h as u32, rgb.to_vec()).ok_or_else(|| {
-            anyhow::anyhow!(
-                "invalid RGB buffer size for resize (expected {}x{}x3)",
-                src_w,
-                src_h
-            )
-        })?;
-    let resized = image::imageops::resize(&img, dst_w as u32, dst_h as u32, FilterType::Triangle);
-    Ok(resized.into_raw())
 }
 
 fn collapse_repeated_chunks(
