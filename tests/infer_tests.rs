@@ -91,6 +91,50 @@ fn smoke_detect_with_onnx_feature_can_load_model() {
 
 #[cfg(feature = "onnx")]
 #[test]
+#[ignore = "requires ONNX model/image fixtures via env vars"]
+fn deim_pool_detects_pages_in_parallel_and_matches_session_output() {
+    use ndlocr_lite_rs::infer::deim_cached::{DeimPool, DeimSession};
+    use ndlocr_lite_rs::io as nd_io;
+
+    let Some(model) = std::env::var_os("NDLOCR_TEST_DEIM_MODEL") else {
+        eprintln!("skip: set NDLOCR_TEST_DEIM_MODEL and NDLOCR_TEST_IMAGE to run");
+        return;
+    };
+    let Some(image) = std::env::var_os("NDLOCR_TEST_IMAGE") else {
+        eprintln!("skip: set NDLOCR_TEST_DEIM_MODEL and NDLOCR_TEST_IMAGE to run");
+        return;
+    };
+    let model = std::path::PathBuf::from(model);
+    let image = std::path::PathBuf::from(image);
+
+    let session = DeimSession::load(&model).expect("session load");
+    let img = nd_io::load_rgb_u8(&image).expect("image load");
+    let single = session
+        .detect_rgb_u8(&img.data, img.width, img.height, 0.3)
+        .expect("session detect");
+
+    let pool = DeimPool::load(&model, 2).expect("pool load");
+    assert_eq!(pool.parallelism(), 2);
+    let pool_single = pool
+        .detect_rgb_u8(&img.data, img.width, img.height, 0.3)
+        .expect("pool detect");
+    assert_eq!(single.len(), pool_single.len());
+
+    // 同じ画像を 4 ページぶん投げて全部同じ件数の検出が返ることを確認。
+    let items: Vec<(&[u8], usize, usize)> = (0..4)
+        .map(|_| (img.data.as_slice(), img.width, img.height))
+        .collect();
+    let batched = pool
+        .detect_batch_rgb_u8(&items, 0.3)
+        .expect("pool batch detect");
+    assert_eq!(batched.len(), 4);
+    for page in &batched {
+        assert_eq!(page.len(), single.len());
+    }
+}
+
+#[cfg(feature = "onnx")]
+#[test]
 #[ignore = "requires ONNX model/image/charset fixtures via env vars"]
 fn smoke_recognize_with_onnx_feature_can_load_model_and_charset() {
     let Some(model) = std::env::var_os("NDLOCR_TEST_PARSEQ_MODEL") else {
