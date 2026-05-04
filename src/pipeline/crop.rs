@@ -64,13 +64,12 @@ pub fn crop_rgb_u8(rgb: &[u8], width: usize, height: usize, bbox: BBox) -> Resul
     let oh = bbox.ymax - bbox.ymin;
     let mut out = vec![0_u8; ow * oh * 3];
     for y in 0..oh {
-        for x in 0..ow {
-            let sx = bbox.xmin + x;
-            let sy = bbox.ymin + y;
-            let s = (sy * width + sx) * 3;
-            let d = (y * ow + x) * 3;
-            out[d..d + 3].copy_from_slice(&rgb[s..s + 3]);
-        }
+        let sy = bbox.ymin + y;
+        let src_start = (sy * width + bbox.xmin) * 3;
+        let src_end = src_start + ow * 3;
+        let dst_start = y * ow * 3;
+        let dst_end = dst_start + ow * 3;
+        out[dst_start..dst_end].copy_from_slice(&rgb[src_start..src_end]);
     }
     Ok(CroppedImage {
         data: out,

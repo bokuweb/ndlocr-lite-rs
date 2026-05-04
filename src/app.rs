@@ -18,6 +18,57 @@ use crate::postprocess::dict::PostprocessDict;
 use crate::postprocess::page_rules::apply_structural_rules;
 use crate::postprocess::rule_pack::RulePack;
 
+#[derive(Clone, Debug)]
+pub struct PreparedLineCrop {
+    pub crop: crate::pipeline::crop::CroppedImage,
+    pub bbox_xyxy: [i32; 4],
+    pub confidence: f32,
+    pub pred_char_count: f32,
+    pub is_vertical: bool,
+}
+
+pub fn prepare_line_crops(
+    rgb: &[u8],
+    width: usize,
+    height: usize,
+    detections: Vec<deim::Detection>,
+    pad: usize,
+) -> Result<Vec<PreparedLineCrop>> {
+    let mut crops = Vec::new();
+    for det in detections {
+        if !det.class_name.starts_with("line_") {
+            continue;
+        }
+        let [x0, y0, x1, y1] = [
+            det.box_xyxy[0].max(0) as usize,
+            det.box_xyxy[1].max(0) as usize,
+            det.box_xyxy[2].max(0) as usize,
+            det.box_xyxy[3].max(0) as usize,
+        ];
+        if x0 >= x1 || y0 >= y1 || x1 > width || y1 > height {
+            continue;
+        }
+        let (x0, y0, x1, y1) = expand_bbox_xyxy_clamped(x0, y0, x1, y1, pad, width, height);
+        let crop = crop_rgb_u8(rgb, width, height, BBox::new(x0, y0, x1, y1))?;
+        crops.push(PreparedLineCrop {
+            crop,
+            bbox_xyxy: [x0 as i32, y0 as i32, x1 as i32, y1 as i32],
+            confidence: det.confidence,
+            pred_char_count: det.pred_char_count,
+            is_vertical: (y1.saturating_sub(y0)) > (x1.saturating_sub(x0)),
+        });
+    }
+    Ok(crops)
+}
+
+#[cfg(feature = "onnx")]
+fn sorted_batch_results(
+    mut indexed: Vec<(usize, parseq::RecognizeResult)>,
+) -> Vec<parseq::RecognizeResult> {
+    indexed.sort_by_key(|(i, _)| *i);
+    indexed.into_iter().map(|(_, r)| r).collect()
+}
+
 pub fn build_mock_line_detections(
     width: usize,
     height: usize,
@@ -129,79 +180,126 @@ impl CachedPageRecognizer {
         })
     }
 
-    fn recognize_for_page(
+    fn recognize_for_page_batch(
         &self,
-        rgb: &[u8],
-        width: usize,
-        height: usize,
-        pred_char_count_hint: Option<f32>,
+        crops: &[PreparedLineCrop],
         args: &RecognizePageArgs,
-    ) -> Result<parseq::RecognizeResult> {
-        let recognized = self.recognize_line_with_optional_cascade(
-            args.enable_cascade,
-            args.cascade_threshold_30_to_50,
-            args.cascade_threshold_50_to_100,
-            pred_char_count_hint,
-            rgb,
-            width,
-            height,
-        )?;
-        let recognized = self.maybe_split_long_line_and_recognize(
-            recognized,
-            rgb,
-            width,
-            height,
-            args.split_long_lines,
-            args.split_long_line_char_threshold,
-        )?;
-        self.maybe_rerank_line_quality(
-            recognized,
-            rgb,
-            width,
-            height,
-            args.quality_boost,
-            args.quality_boost_min_delta,
-            args.split_long_lines,
-            args.split_long_line_char_threshold,
-            args.cascade_threshold_30_to_50,
-            args.cascade_threshold_50_to_100,
-        )
+    ) -> Result<Vec<parseq::RecognizeResult>> {
+        let mut recognized = self.recognize_initial_batch(crops, args)?;
+        for (line, result) in crops.iter().zip(recognized.iter_mut()) {
+            let after_split = self.maybe_split_long_line_and_recognize(
+                result.clone(),
+                &line.crop.data,
+                line.crop.width,
+                line.crop.height,
+                args.split_long_lines,
+                args.split_long_line_char_threshold,
+            )?;
+            *result = self.maybe_rerank_line_quality(
+                after_split,
+                &line.crop.data,
+                line.crop.width,
+                line.crop.height,
+                args.quality_boost,
+                args.quality_boost_min_delta,
+                args.split_long_lines,
+                args.split_long_line_char_threshold,
+                args.cascade_threshold_30_to_50,
+                args.cascade_threshold_50_to_100,
+            )?;
+        }
+        Ok(recognized)
     }
 
-    #[allow(clippy::too_many_arguments)]
-    fn recognize_line_with_optional_cascade(
+    fn recognize_initial_batch(
         &self,
-        enable_cascade: bool,
-        th_30_to_50: usize,
-        th_50_to_100: usize,
-        pred_char_count_hint: Option<f32>,
-        rgb: &[u8],
-        width: usize,
-        height: usize,
-    ) -> Result<parseq::RecognizeResult> {
-        if !enable_cascade {
-            return self.pool100.recognize_rgb_u8(rgb, width, height);
+        crops: &[PreparedLineCrop],
+        args: &RecognizePageArgs,
+    ) -> Result<Vec<parseq::RecognizeResult>> {
+        if crops.is_empty() {
+            return Ok(Vec::new());
+        }
+        if !args.enable_cascade {
+            let items: Vec<(usize, &PreparedLineCrop)> = crops.iter().enumerate().collect();
+            return self
+                .recognize_batch_on_pool_or_100(None, &items)
+                .map(sorted_batch_results);
         }
 
-        let pred_char_bucket = pred_char_count_hint
-            .map(normalize_pred_char_bucket)
-            .unwrap_or_else(|| estimate_pred_char_bucket(width, height, th_30_to_50, th_50_to_100));
-
-        let mut out = if pred_char_bucket == 3.0 {
-            self.recognize_30_or_100(rgb, width, height)?
-        } else if pred_char_bucket == 2.0 {
-            self.recognize_50_or_100(rgb, width, height)?
-        } else {
-            self.pool100.recognize_rgb_u8(rgb, width, height)?
-        };
-
-        if pred_char_bucket == 3.0 && out.text.chars().count() >= th_30_to_50 {
-            out = self.recognize_50_or_100(rgb, width, height)?;
+        let mut b30 = Vec::new();
+        let mut b50 = Vec::new();
+        let mut b100 = Vec::new();
+        for (i, line) in crops.iter().enumerate() {
+            let bucket = normalize_pred_char_bucket(line.pred_char_count);
+            if bucket == 3.0 {
+                b30.push((i, line));
+            } else if bucket == 2.0 {
+                b50.push((i, line));
+            } else {
+                b100.push((i, line));
+            }
         }
-        if out.text.chars().count() >= th_50_to_100 {
-            out = self.pool100.recognize_rgb_u8(rgb, width, height)?;
+
+        let mut all: Vec<Option<parseq::RecognizeResult>> = vec![None; crops.len()];
+        for (idx, result) in self.recognize_batch_on_pool_or_100(self.pool30.as_ref(), &b30)? {
+            all[idx] = Some(result);
         }
-        Ok(out)
+        for (idx, result) in self.recognize_batch_on_pool_or_100(self.pool50.as_ref(), &b50)? {
+            all[idx] = Some(result);
+        }
+        for (idx, result) in self.recognize_batch_on_pool_or_100(None, &b100)? {
+            all[idx] = Some(result);
+        }
+
+        let mut redo50 = Vec::new();
+        let mut redo100 = Vec::new();
+        for (i, line) in crops.iter().enumerate() {
+            let bucket = normalize_pred_char_bucket(line.pred_char_count);
+            let len = all[i].as_ref().map(|r| r.text.chars().count()).unwrap_or(0);
+            if bucket == 3.0 && len >= args.cascade_threshold_30_to_50 {
+                redo50.push((i, line));
+            } else if bucket == 2.0 && len >= args.cascade_threshold_50_to_100 {
+                redo100.push((i, line));
+            }
+        }
+
+        let mut redo50_to_100 = Vec::new();
+        for (idx, result) in self.recognize_batch_on_pool_or_100(self.pool50.as_ref(), &redo50)? {
+            if result.text.chars().count() >= args.cascade_threshold_50_to_100 {
+                redo50_to_100.push((idx, &crops[idx]));
+            } else {
+                all[idx] = Some(result);
+            }
+        }
+        redo100.extend(redo50_to_100);
+        for (idx, result) in self.recognize_batch_on_pool_or_100(None, &redo100)? {
+            all[idx] = Some(result);
+        }
+
+        all.into_iter()
+            .enumerate()
+            .map(|(i, r)| {
+                r.ok_or_else(|| anyhow::anyhow!("missing recognition result for line {i}"))
+            })
+            .collect()
+    }
+
+    fn recognize_batch_on_pool_or_100(
+        &self,
+        pool: Option<&ParseqPool>,
+        items: &[(usize, &PreparedLineCrop)],
+    ) -> Result<Vec<(usize, parseq::RecognizeResult)>> {
+        if items.is_empty() {
+            return Ok(Vec::new());
+        }
+        let payload: Vec<(&[u8], usize, usize)> = items
+            .iter()
+            .map(|(_, line)| (&line.crop.data[..], line.crop.width, line.crop.height))
+            .collect();
+        let recs = pool
+            .unwrap_or(&self.pool100)
+            .recognize_batch_rgb_u8(&payload)?;
+        Ok(items.iter().map(|(i, _)| *i).zip(recs).collect())
     }
 
     fn maybe_split_long_line_and_recognize(
@@ -321,30 +419,6 @@ impl CachedPageRecognizer {
 
         Ok(best)
     }
-
-    fn recognize_30_or_100(
-        &self,
-        rgb: &[u8],
-        width: usize,
-        height: usize,
-    ) -> Result<parseq::RecognizeResult> {
-        match self.pool30.as_ref() {
-            Some(pool) => pool.recognize_rgb_u8(rgb, width, height),
-            None => self.pool100.recognize_rgb_u8(rgb, width, height),
-        }
-    }
-
-    fn recognize_50_or_100(
-        &self,
-        rgb: &[u8],
-        width: usize,
-        height: usize,
-    ) -> Result<parseq::RecognizeResult> {
-        match self.pool50.as_ref() {
-            Some(pool) => pool.recognize_rgb_u8(rgb, width, height),
-            None => self.pool100.recognize_rgb_u8(rgb, width, height),
-        }
-    }
 }
 
 pub fn run_cli(cli: Cli) -> Result<()> {
@@ -415,32 +489,15 @@ pub fn run_cli(cli: Cli) -> Result<()> {
             };
             #[cfg(feature = "onnx")]
             let cached_parseq = CachedPageRecognizer::load(&args)?;
-            let mut recognized_lines = Vec::new();
             let pad = args.line_crop_padding as usize;
-            for det in line_detections {
-                let [x0, y0, x1, y1] = [
-                    det.box_xyxy[0].max(0) as usize,
-                    det.box_xyxy[1].max(0) as usize,
-                    det.box_xyxy[2].max(0) as usize,
-                    det.box_xyxy[3].max(0) as usize,
-                ];
-                if x0 >= x1 || y0 >= y1 || x1 > img.width || y1 > img.height {
-                    continue;
-                }
-                let (x0, y0, x1, y1) =
-                    expand_bbox_xyxy_clamped(x0, y0, x1, y1, pad, img.width, img.height);
-                let crop =
-                    crop_rgb_u8(&img.data, img.width, img.height, BBox::new(x0, y0, x1, y1))?;
-                #[cfg(feature = "onnx")]
-                let recognized = cached_parseq.recognize_for_page(
-                    &crop.data,
-                    crop.width,
-                    crop.height,
-                    Some(det.pred_char_count),
-                    &args,
-                )?;
-                #[cfg(not(feature = "onnx"))]
-                let recognized = {
+            let prepared =
+                prepare_line_crops(&img.data, img.width, img.height, line_detections, pad)?;
+            #[cfg(feature = "onnx")]
+            let recognized_results = cached_parseq.recognize_for_page_batch(&prepared, &args)?;
+            #[cfg(not(feature = "onnx"))]
+            let recognized_results: Vec<parseq::RecognizeResult> = {
+                let mut out = Vec::with_capacity(prepared.len());
+                for line in &prepared {
                     let recognized = recognize_line_with_optional_cascade(
                         &args.model,
                         &args.model30,
@@ -448,30 +505,30 @@ pub fn run_cli(cli: Cli) -> Result<()> {
                         args.enable_cascade,
                         args.cascade_threshold_30_to_50,
                         args.cascade_threshold_50_to_100,
-                        Some(det.pred_char_count),
-                        &crop.data,
-                        crop.width,
-                        crop.height,
+                        Some(line.pred_char_count),
+                        &line.crop.data,
+                        line.crop.width,
+                        line.crop.height,
                         &args.charset,
                     )?;
                     let recognized = maybe_split_long_line_and_recognize(
                         recognized,
                         &args.model,
-                        &crop.data,
-                        crop.width,
-                        crop.height,
+                        &line.crop.data,
+                        line.crop.width,
+                        line.crop.height,
                         &args.charset,
                         args.split_long_lines,
                         args.split_long_line_char_threshold,
                     )?;
-                    maybe_rerank_line_quality(
+                    out.push(maybe_rerank_line_quality(
                         recognized,
                         &args.model,
                         &args.model30,
                         &args.model50,
-                        &crop.data,
-                        crop.width,
-                        crop.height,
+                        &line.crop.data,
+                        line.crop.width,
+                        line.crop.height,
                         &args.charset,
                         args.quality_boost,
                         args.quality_boost_min_delta,
@@ -479,8 +536,12 @@ pub fn run_cli(cli: Cli) -> Result<()> {
                         args.split_long_line_char_threshold,
                         args.cascade_threshold_30_to_50,
                         args.cascade_threshold_50_to_100,
-                    )?
-                };
+                    )?);
+                }
+                out
+            };
+            let mut recognized_lines = Vec::new();
+            for (line, recognized) in prepared.iter().zip(recognized_results) {
                 if recognized.mean_confidence >= args.min_line_confidence
                     && !recognized.text.trim().is_empty()
                 {
@@ -490,10 +551,10 @@ pub fn run_cli(cli: Cli) -> Result<()> {
                         recognized.text
                     };
                     recognized_lines.push(RecognizedLine {
-                        bbox_xyxy: [x0 as i32, y0 as i32, x1 as i32, y1 as i32],
+                        bbox_xyxy: line.bbox_xyxy,
                         text,
                         confidence: recognized.mean_confidence,
-                        is_vertical: (y1.saturating_sub(y0)) > (x1.saturating_sub(x0)),
+                        is_vertical: line.is_vertical,
                     });
                 }
             }
