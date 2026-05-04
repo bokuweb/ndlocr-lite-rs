@@ -9,3 +9,6 @@ pub mod deim_cached;
 
 #[cfg(feature = "onnx")]
 pub mod ort_init;
+
+#[cfg(feature = "onnx")]
+pub mod page_pool;

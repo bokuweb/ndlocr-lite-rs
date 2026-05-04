@@ -330,6 +330,68 @@ impl ParseqPool {
         out.pop().ok_or_else(|| anyhow!("empty batch result"))
     }
 
+    /// 並列度を使い切らずに **1 つの Session** だけを借りてバッチ推論する。
+    ///
+    /// `recognize_batch_rgb_u8` は内部で N 個の Session を全部使ってチャンク
+    /// 並列実行する。このとき呼び出し元自身が複数スレッドから並列に呼ぶと、
+    /// 全 Session が常に locked になって他スレッドが進めなくなる
+    /// (worker > pool size でも実質的に直列化)。
+    ///
+    /// `PageRecognizer` のようにページ単位で並列ワーカーを走らせていて、
+    /// 各ワーカーが「自分の 1 ページ分の行」だけをまとめて推論したい場合は
+    /// こちらを使う。1 Session は専有するが、他の Session は他ワーカーが
+    /// 同時に使えるので、ページ間並列が崩れない。
+    pub fn recognize_batch_single_session_rgb_u8(
+        &self,
+        items: &[(&[u8], usize, usize)],
+    ) -> Result<Vec<RecognizeResult>> {
+        if items.is_empty() {
+            return Ok(vec![]);
+        }
+        let n = self.sessions.len();
+        let start = self.next.fetch_add(1, Ordering::Relaxed) % n;
+        let mut acquired: Option<std::sync::MutexGuard<'_, SessionCell>> = None;
+        for off in 0..n {
+            let i = (start + off) % n;
+            if let Ok(g) = self.sessions[i].try_lock() {
+                acquired = Some(g);
+                break;
+            }
+        }
+        let mut guard = match acquired {
+            Some(g) => g,
+            None => self.sessions[start]
+                .lock()
+                .map_err(|_| anyhow!("parseq pool mutex poisoned"))?,
+        };
+        if self.batch_dim_dynamic {
+            run_batch_on_session(
+                &mut guard.0,
+                &self.input_name,
+                &self.output_name,
+                self.input_w,
+                self.input_h,
+                &self.charset,
+                items,
+            )
+        } else {
+            let mut out = Vec::with_capacity(items.len());
+            for it in items {
+                let single = [*it];
+                out.extend(run_batch_on_session(
+                    &mut guard.0,
+                    &self.input_name,
+                    &self.output_name,
+                    self.input_w,
+                    self.input_h,
+                    &self.charset,
+                    &single,
+                )?);
+            }
+            Ok(out)
+        }
+    }
+
     fn recognize_batch_indexed(
         &self,
         items: &[IndexedImage<'_>],
