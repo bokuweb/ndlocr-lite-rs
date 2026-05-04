@@ -1,5 +1,7 @@
 # ndlocr-lite-rs
 
+[![CI](https://github.com/bokuweb/ndlocr-lite-rs/actions/workflows/ci.yml/badge.svg)](https://github.com/bokuweb/ndlocr-lite-rs/actions/workflows/ci.yml)
+
 PoC repository for reimplementing the `ndlocr` OCR pipeline in Rust + ONNX.
 
 ## Capabilities
