@@ -11,7 +11,7 @@ use crate::output::artifacts::save_page_artifacts;
 use crate::output::docx::save_text_as_docx;
 use crate::pipeline::connect::RecognizedLine;
 use crate::pipeline::crop::{BBox, crop_rgb_u8, expand_bbox_xyxy_clamped};
-use crate::pipeline::line_segment::detect_textline_bands_naive;
+use crate::pipeline::line_segment::{detect_textline_bands_fast, detect_textline_bands_naive};
 use crate::pipeline::reading_order::sort_lines_in_reading_order;
 use crate::pipeline::run_page::{PageInput, run_page};
 use crate::postprocess::dict::PostprocessDict;
@@ -111,6 +111,36 @@ pub fn normalize_line_count(requested_count: usize, image_height: usize) -> usiz
 
 pub fn normalize_line_confidence(requested_confidence: f32) -> f32 {
     requested_confidence.clamp(0.0, 1.0)
+}
+
+pub fn fallback_line_detections_from_bands(
+    rgb: &[u8],
+    width: usize,
+    height: usize,
+    binarize_threshold: u8,
+    cascade_threshold_30_to_50: usize,
+    cascade_threshold_50_to_100: usize,
+) -> Vec<deim::Detection> {
+    let bands = if width.saturating_mul(height) >= 1_000_000 {
+        detect_textline_bands_fast(rgb, width, height, binarize_threshold)
+    } else {
+        detect_textline_bands_naive(rgb, width, height, binarize_threshold)
+    };
+    bands
+        .into_iter()
+        .map(|[x0, y0, x1, y1]| deim::Detection {
+            class_index: 1,
+            confidence: 1.0,
+            box_xyxy: [x0 as i32, y0 as i32, x1 as i32, y1 as i32],
+            pred_char_count: estimate_pred_char_bucket(
+                x1.saturating_sub(x0),
+                y1.saturating_sub(y0),
+                cascade_threshold_30_to_50,
+                cascade_threshold_50_to_100,
+            ),
+            class_name: "line_main".to_string(),
+        })
+        .collect()
 }
 
 struct MockConfig {
@@ -456,7 +486,9 @@ pub fn run_cli(cli: Cli) -> Result<()> {
                         .filter(|d| d.class_name.starts_with("line_"))
                         .collect::<Vec<_>>(),
                     Err(err) => {
-                        eprintln!("warn: deim detection failed, fallback to naive: {err}");
+                        eprintln!(
+                            "warn: deim detection failed, fallback to threshold bands: {err}"
+                        );
                         Vec::new()
                     }
                 }
@@ -464,26 +496,14 @@ pub fn run_cli(cli: Cli) -> Result<()> {
                 Vec::new()
             };
             let line_detections = if deim_lines.is_empty() {
-                detect_textline_bands_naive(
+                fallback_line_detections_from_bands(
                     &img.data,
                     img.width,
                     img.height,
                     args.binarize_threshold,
+                    args.cascade_threshold_30_to_50,
+                    args.cascade_threshold_50_to_100,
                 )
-                .into_iter()
-                .map(|[x0, y0, x1, y1]| deim::Detection {
-                    class_index: 1,
-                    confidence: 1.0,
-                    box_xyxy: [x0 as i32, y0 as i32, x1 as i32, y1 as i32],
-                    pred_char_count: estimate_pred_char_bucket(
-                        x1.saturating_sub(x0),
-                        y1.saturating_sub(y0),
-                        args.cascade_threshold_30_to_50,
-                        args.cascade_threshold_50_to_100,
-                    ),
-                    class_name: "line_main".to_string(),
-                })
-                .collect::<Vec<_>>()
             } else {
                 deim_lines
             };
