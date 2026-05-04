@@ -47,8 +47,17 @@ fn batch_slot(
 ) -> anyhow::Result<Vec<f32>> {
     let plane = 3 * input_width * input_height;
     let mut batch = vec![0.0f32; images.len() * plane];
+    let mut scratch = parseq::PreprocessScratch::new();
     for (slot, rgb) in batch.chunks_mut(plane).zip(images) {
-        preprocess_batch_slot(slot, rgb, width, height, input_width, input_height)?;
+        preprocess_batch_slot(
+            slot,
+            rgb,
+            width,
+            height,
+            input_width,
+            input_height,
+            &mut scratch,
+        )?;
     }
     Ok(batch)
 }
@@ -60,13 +69,22 @@ fn preprocess_batch_slot(
     height: usize,
     input_width: usize,
     input_height: usize,
+    scratch: &mut parseq::PreprocessScratch,
 ) -> anyhow::Result<()> {
     if height > width {
         let tensor = parseq::preprocess_rgb_u8(rgb, width, height, input_width, input_height)?;
         slot.copy_from_slice(&tensor);
         return Ok(());
     }
-    parseq::preprocess_rgb_u8_into(slot, rgb, width, height, input_width, input_height)
+    parseq::preprocess_rgb_u8_into_with_scratch(
+        slot,
+        rgb,
+        width,
+        height,
+        input_width,
+        input_height,
+        scratch,
+    )
 }
 
 fn make_images(batch: usize, w: usize, h: usize) -> Vec<Vec<u8>> {

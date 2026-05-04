@@ -22,8 +22,9 @@ use std::sync::atomic::{AtomicUsize, Ordering};
 
 use super::ort_init::{OrtAnyhow, ensure_init};
 use super::parseq::{
-    RecognizeResult, load_charset_from_yaml_str, predict_text_from_flat_logits_with_confidence,
-    preprocess_rgb_u8, preprocess_rgb_u8_into, sanitize_recognized_text,
+    PreprocessScratch, RecognizeResult, load_charset_from_yaml_str,
+    predict_text_from_flat_logits_with_confidence, preprocess_rgb_u8,
+    preprocess_rgb_u8_into_with_scratch, sanitize_recognized_text,
 };
 
 pub fn default_parseq_parallelism() -> usize {
@@ -199,14 +200,17 @@ fn run_batch_on_session(
     let preprocess_results: Result<()> = buf
         .par_chunks_mut(plane_local)
         .zip(items.par_iter())
-        .try_for_each(|(slot, (rgb, w, h))| -> Result<()> {
-            if h > w {
-                let tensor = preprocess_rgb_u8(rgb, *w, *h, input_w, input_h)?;
-                slot.copy_from_slice(&tensor);
-                return Ok(());
-            }
-            preprocess_rgb_u8_into(slot, rgb, *w, *h, input_w, input_h)
-        });
+        .try_for_each_init(
+            PreprocessScratch::new,
+            |scratch, (slot, (rgb, w, h))| -> Result<()> {
+                if h > w {
+                    let tensor = preprocess_rgb_u8(rgb, *w, *h, input_w, input_h)?;
+                    slot.copy_from_slice(&tensor);
+                    return Ok(());
+                }
+                preprocess_rgb_u8_into_with_scratch(slot, rgb, *w, *h, input_w, input_h, scratch)
+            },
+        );
     preprocess_results?;
     let arr = Array::from_shape_vec((n, 3, input_h, input_w), buf)?;
     let tensor = TensorRef::from_array_view(arr.view()).anyort()?;
