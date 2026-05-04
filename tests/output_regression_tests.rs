@@ -30,7 +30,14 @@ fn output_builders_match_regression_fixtures() {
     let expected_xml = include_str!("fixtures/regression/expected_output.xml");
     let expected_txt = include_str!("fixtures/regression/expected_output.txt");
 
-    assert_eq!(actual_json, expected_json.trim_end());
-    assert_eq!(actual_xml.trim_end(), expected_xml.trim_end());
-    assert_eq!(actual_txt, expected_txt.trim_end());
+    assert_eq!(actual_json, normalize_newlines(expected_json).trim_end());
+    assert_eq!(
+        actual_xml.trim_end(),
+        normalize_newlines(expected_xml).trim_end()
+    );
+    assert_eq!(actual_txt, normalize_newlines(expected_txt).trim_end());
+}
+
+fn normalize_newlines(s: &str) -> String {
+    s.replace("\r\n", "\n")
 }
