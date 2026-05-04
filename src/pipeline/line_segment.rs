@@ -52,6 +52,7 @@ pub fn detect_textline_bands_fast(
 ) -> Vec<[usize; 4]> {
     let threshold_sum = threshold as u16 * 3;
     let stride = width * 3;
+    let mut ink = vec![false; width * height];
     let mut row_ink = vec![0usize; height];
     for (y, row_count) in row_ink.iter_mut().enumerate() {
         let mut c = 0usize;
@@ -60,6 +61,7 @@ pub fn detect_textline_bands_fast(
             let i = x * 3;
             let sum = row[i] as u16 + row[i + 1] as u16 + row[i + 2] as u16;
             if sum < threshold_sum {
+                ink[y * width + x] = true;
                 c += 1;
             }
         }
@@ -76,17 +78,13 @@ pub fn detect_textline_bands_fast(
         .map(|(y0, y1)| {
             let band_h = (y1 - y0).max(1);
             let mut col_ink = vec![0usize; width];
-            for (x, col) in col_ink.iter_mut().enumerate() {
-                let mut c = 0usize;
-                for y in y0..y1 {
-                    let row = &rgb[(y * stride)..((y + 1) * stride)];
-                    let i = x * 3;
-                    let sum = row[i] as u16 + row[i + 1] as u16 + row[i + 2] as u16;
-                    if sum < threshold_sum {
-                        c += 1;
+            for y in y0..y1 {
+                let row = &ink[(y * width)..((y + 1) * width)];
+                for (x, &is_ink) in row.iter().enumerate() {
+                    if is_ink {
+                        col_ink[x] += 1;
                     }
                 }
-                *col = c;
             }
             let (x0, x1) = refine_x_bounds(&col_ink, band_h, width);
             [

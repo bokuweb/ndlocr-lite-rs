@@ -1,5 +1,6 @@
 use ndlocr_lite_rs::app::{
-    build_mock_line_detections, normalize_line_confidence, normalize_line_count, prepare_line_crops,
+    build_mock_line_detections, fallback_line_detections_from_bands, normalize_line_confidence,
+    normalize_line_count, prepare_line_crops,
 };
 use ndlocr_lite_rs::infer::deim::Detection;
 use proptest::prelude::*;
@@ -44,6 +45,30 @@ fn normalize_line_confidence_clamps_to_valid_range() {
     assert!((normalize_line_confidence(-1.0) - 0.0).abs() < 1e-6);
     assert!((normalize_line_confidence(0.42) - 0.42).abs() < 1e-6);
     assert!((normalize_line_confidence(2.0) - 1.0).abs() < 1e-6);
+}
+
+#[test]
+fn fallback_line_detections_preserve_band_detection_metadata() {
+    let width = 240usize;
+    let height = 140usize;
+    let mut rgb = vec![255u8; width * height * 3];
+    for y in 20..36 {
+        for x in 16..(width - 16) {
+            let i = (y * width + x) * 3;
+            rgb[i] = 0;
+            rgb[i + 1] = 0;
+            rgb[i + 2] = 0;
+        }
+    }
+
+    let dets = fallback_line_detections_from_bands(&rgb, width, height, 220, 25, 45);
+
+    assert_eq!(dets.len(), 1);
+    assert_eq!(dets[0].class_name, "line_main");
+    assert_eq!(dets[0].class_index, 1);
+    assert!((dets[0].confidence - 1.0).abs() < 1e-6);
+    assert!(dets[0].box_xyxy[1] <= 20);
+    assert!(dets[0].box_xyxy[3] >= 36);
 }
 
 #[test]
