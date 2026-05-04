@@ -22,8 +22,9 @@ use std::sync::atomic::{AtomicUsize, Ordering};
 
 use super::ort_init::{OrtAnyhow, ensure_init};
 use super::parseq::{
-    RecognizeResult, load_charset_from_yaml_str, predict_text_from_flat_logits_with_confidence,
-    preprocess_rgb_u8, sanitize_recognized_text,
+    PreprocessScratch, RecognizeResult, load_charset_from_yaml_str,
+    predict_text_from_flat_logits_with_confidence, preprocess_rgb_u8,
+    preprocess_rgb_u8_into_with_scratch, sanitize_recognized_text,
 };
 
 pub fn default_parseq_parallelism() -> usize {
@@ -193,24 +194,31 @@ fn run_batch_on_session(
     let n = items.len();
     let plane = 3 * input_h * input_w;
     let mut buf = vec![0.0f32; n * plane];
-    // 各行の preprocess を rayon で並列化。`buf` は plane 境界で重複しないので
-    // chunks_mut を `par_iter` と zip すれば各スレッドが排他的に書ける。
+    // 各行の preprocess を rayon で並列化。小さい batch や縦長 crop は direct
+    // write が有利だが、大きい横書き batch は local Vec -> memcpy の方が速い
+    // ケースがあるため、bench に基づいて従来 path を残す。
     let plane_local = plane;
-    let preprocess_results: Result<()> = buf
-        .par_chunks_mut(plane_local)
-        .zip(items.par_iter())
-        .try_for_each(|(slot, (rgb, w, h))| -> Result<()> {
-            let tensor = preprocess_rgb_u8(rgb, *w, *h, input_w, input_h)?;
-            if tensor.len() != plane_local {
-                bail!(
-                    "preprocessed tensor size mismatch: {} != {}",
-                    tensor.len(),
-                    plane_local
-                );
-            }
-            slot.copy_from_slice(&tensor);
-            Ok(())
-        });
+    let use_direct_slots = items.len() < 16 || items.iter().any(|(_, w, h)| h > w);
+    let preprocess_results: Result<()> = if use_direct_slots {
+        buf.par_chunks_mut(plane_local)
+            .zip(items.par_iter())
+            .try_for_each_init(
+                PreprocessScratch::new,
+                |scratch, (slot, (rgb, w, h))| -> Result<()> {
+                    preprocess_rgb_u8_into_with_scratch(
+                        slot, rgb, *w, *h, input_w, input_h, scratch,
+                    )
+                },
+            )
+    } else {
+        buf.par_chunks_mut(plane_local)
+            .zip(items.par_iter())
+            .try_for_each(|(slot, (rgb, w, h))| -> Result<()> {
+                let tensor = preprocess_rgb_u8(rgb, *w, *h, input_w, input_h)?;
+                slot.copy_from_slice(&tensor);
+                Ok(())
+            })
+    };
     preprocess_results?;
     let arr = Array::from_shape_vec((n, 3, input_h, input_w), buf)?;
     let tensor = TensorRef::from_array_view(arr.view()).anyort()?;
