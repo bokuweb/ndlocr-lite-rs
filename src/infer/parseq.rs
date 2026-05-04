@@ -21,6 +21,63 @@ pub fn preprocess_rgb_u8(
     input_width: usize,
     input_height: usize,
 ) -> Result<Vec<f32>> {
+    let mut out = vec![0.0_f32; 3 * input_width * input_height];
+    let mut scratch = PreprocessScratch::new();
+    preprocess_rgb_u8_into_with_scratch(
+        &mut out,
+        rgb,
+        width,
+        height,
+        input_width,
+        input_height,
+        &mut scratch,
+    )?;
+    Ok(out)
+}
+
+#[derive(Default)]
+pub struct PreprocessScratch {
+    xs: Vec<SampleCoord>,
+    ys: Vec<SampleCoord>,
+    xs_key: Option<(usize, usize)>,
+    ys_key: Option<(usize, usize)>,
+}
+
+impl PreprocessScratch {
+    pub fn new() -> Self {
+        Self::default()
+    }
+}
+
+pub fn preprocess_rgb_u8_into(
+    out: &mut [f32],
+    rgb: &[u8],
+    width: usize,
+    height: usize,
+    input_width: usize,
+    input_height: usize,
+) -> Result<()> {
+    let mut scratch = PreprocessScratch::new();
+    preprocess_rgb_u8_into_with_scratch(
+        out,
+        rgb,
+        width,
+        height,
+        input_width,
+        input_height,
+        &mut scratch,
+    )
+}
+
+pub fn preprocess_rgb_u8_into_with_scratch(
+    out: &mut [f32],
+    rgb: &[u8],
+    width: usize,
+    height: usize,
+    input_width: usize,
+    input_height: usize,
+    scratch: &mut PreprocessScratch,
+) -> Result<()> {
     let expected = width
         .checked_mul(height)
         .and_then(|v| v.checked_mul(3))
@@ -28,7 +85,17 @@ pub fn preprocess_rgb_u8(
     if rgb.len() != expected {
         bail!("invalid RGB buffer length");
     }
-    let mut out = vec![0.0_f32; 3 * input_width * input_height];
+    let output_len = input_width
+        .checked_mul(input_height)
+        .and_then(|v| v.checked_mul(3))
+        .ok_or_else(|| anyhow::anyhow!("output size overflow"))?;
+    if out.len() != output_len {
+        bail!(
+            "invalid output buffer length: expected {}, got {}",
+            output_len,
+            out.len()
+        );
+    }
     let rotated = height > width;
     let (source_w, source_h) = if rotated {
         (height, width)
@@ -39,24 +106,125 @@ pub fn preprocess_rgb_u8(
         bail!("invalid resize dimension");
     }
     let plane = input_width * input_height;
-    for y in 0..input_height {
-        let sy = resize_source_coord(y, input_height, source_h);
-        let y0 = sy.floor() as usize;
-        let y1 = (y0 + 1).min(source_h - 1);
-        let wy = sy - y0 as f32;
-        for x in 0..input_width {
-            let sx = resize_source_coord(x, input_width, source_w);
-            let x0 = sx.floor() as usize;
-            let x1 = (x0 + 1).min(source_w - 1);
-            let wx = sx - x0 as f32;
-            let rgb_px = bilinear_rgb(rgb, width, height, rotated, x0, y0, x1, y1, wx, wy);
+    scratch.ensure_xs(input_width, source_w);
+    scratch.ensure_ys(input_height, source_h);
+    if rotated {
+        write_rotated_bgr_nchw(
+            out,
+            rgb,
+            width,
+            &scratch.xs,
+            &scratch.ys,
+            input_width,
+            plane,
+        );
+    } else {
+        write_bgr_nchw(
+            out,
+            rgb,
+            width,
+            &scratch.xs,
+            &scratch.ys,
+            input_width,
+            plane,
+        );
+    }
+    Ok(())
+}
+
+#[derive(Clone, Copy)]
+struct SampleCoord {
+    lo: usize,
+    hi: usize,
+    weight: f32,
+}
+
+impl PreprocessScratch {
+    fn ensure_xs(&mut self, dst_len: usize, src_len: usize) {
+        if self.xs_key != Some((dst_len, src_len)) {
+            build_sample_coords(dst_len, src_len, &mut self.xs);
+            self.xs_key = Some((dst_len, src_len));
+        }
+    }
+
+    fn ensure_ys(&mut self, dst_len: usize, src_len: usize) {
+        if self.ys_key != Some((dst_len, src_len)) {
+            build_sample_coords(dst_len, src_len, &mut self.ys);
+            self.ys_key = Some((dst_len, src_len));
+        }
+    }
+}
+
+fn build_sample_coords(dst_len: usize, src_len: usize, out: &mut Vec<SampleCoord>) {
+    out.clear();
+    if out.capacity() < dst_len {
+        out.reserve(dst_len - out.capacity());
+    }
+    for dst in 0..dst_len {
+        let s = resize_source_coord(dst, dst_len, src_len);
+        let lo = s.floor() as usize;
+        out.push(SampleCoord {
+            lo,
+            hi: (lo + 1).min(src_len - 1),
+            weight: s - lo as f32,
+        });
+    }
+}
+
+fn write_bgr_nchw(
+    out: &mut [f32],
+    rgb: &[u8],
+    width: usize,
+    xs: &[SampleCoord],
+    ys: &[SampleCoord],
+    input_width: usize,
+    plane: usize,
+) {
+    for (y, sy) in ys.iter().copied().enumerate() {
+        for (x, sx) in xs.iter().copied().enumerate() {
+            let rgb_px = bilinear_rgb_direct(
+                rgb,
+                (sy.lo * width + sx.lo) * 3,
+                (sy.lo * width + sx.hi) * 3,
+                (sy.hi * width + sx.lo) * 3,
+                (sy.hi * width + sx.hi) * 3,
+                sx.weight,
+                sy.weight,
+            );
             let i = y * input_width + x;
             out[i] = rgb_px[2] / 127.5 - 1.0;
             out[plane + i] = rgb_px[1] / 127.5 - 1.0;
             out[plane * 2 + i] = rgb_px[0] / 127.5 - 1.0;
         }
     }
-    Ok(out)
+}
+
+fn write_rotated_bgr_nchw(
+    out: &mut [f32],
+    rgb: &[u8],
+    width: usize,
+    xs: &[SampleCoord],
+    ys: &[SampleCoord],
+    input_width: usize,
+    plane: usize,
+) {
+    for (y, sy) in ys.iter().copied().enumerate() {
+        for (x, sx) in xs.iter().copied().enumerate() {
+            let rgb_px = bilinear_rgb_direct(
+                rgb,
+                (sx.lo * width + (width - 1 - sy.lo)) * 3,
+                (sx.hi * width + (width - 1 - sy.lo)) * 3,
+                (sx.lo * width + (width - 1 - sy.hi)) * 3,
+                (sx.hi * width + (width - 1 - sy.hi)) * 3,
+                sx.weight,
+                sy.weight,
+            );
+            let i = y * input_width + x;
+            out[i] = rgb_px[2] / 127.5 - 1.0;
+            out[plane + i] = rgb_px[1] / 127.5 - 1.0;
+            out[plane * 2 + i] = rgb_px[0] / 127.5 - 1.0;
+        }
+    }
 }
 
 fn resize_source_coord(dst: usize, dst_len: usize, src_len: usize) -> f32 {
@@ -66,44 +234,22 @@ fn resize_source_coord(dst: usize, dst_len: usize, src_len: usize) -> f32 {
     (((dst as f32 + 0.5) * src_len as f32 / dst_len as f32) - 0.5).clamp(0.0, (src_len - 1) as f32)
 }
 
-fn bilinear_rgb(
+fn bilinear_rgb_direct(
     rgb: &[u8],
-    width: usize,
-    height: usize,
-    rotated: bool,
-    x0: usize,
-    y0: usize,
-    x1: usize,
-    y1: usize,
+    p00: usize,
+    p10: usize,
+    p01: usize,
+    p11: usize,
     wx: f32,
     wy: f32,
 ) -> [f32; 3] {
-    let p00 = source_rgb(rgb, width, height, rotated, x0, y0);
-    let p10 = source_rgb(rgb, width, height, rotated, x1, y0);
-    let p01 = source_rgb(rgb, width, height, rotated, x0, y1);
-    let p11 = source_rgb(rgb, width, height, rotated, x1, y1);
     let mut out = [0.0f32; 3];
     for c in 0..3 {
-        let top = p00[c] as f32 * (1.0 - wx) + p10[c] as f32 * wx;
-        let bottom = p01[c] as f32 * (1.0 - wx) + p11[c] as f32 * wx;
+        let top = rgb[p00 + c] as f32 * (1.0 - wx) + rgb[p10 + c] as f32 * wx;
+        let bottom = rgb[p01 + c] as f32 * (1.0 - wx) + rgb[p11 + c] as f32 * wx;
         out[c] = top * (1.0 - wy) + bottom * wy;
     }
     out
-}
-
-fn source_rgb(
-    rgb: &[u8],
-    width: usize,
-    height: usize,
-    rotated: bool,
-    x: usize,
-    y: usize,
-) -> [u8; 3] {
-    let (ox, oy) = if rotated { (width - 1 - y, x) } else { (x, y) };
-    debug_assert!(ox < width);
-    debug_assert!(oy < height);
-    let i = (oy * width + ox) * 3;
-    [rgb[i], rgb[i + 1], rgb[i + 2]]
 }
 
 pub fn decode_indices(indices: &[i64], charset: &[char]) -> String {
