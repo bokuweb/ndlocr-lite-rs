@@ -455,10 +455,7 @@ mod tests {
     fn joins_latin_hyphenation_at_line_end() {
         // 英文書 PDF の OCR で行末 `-` が単語末ハイフネーションになっている
         // 典型例。次行と結合してハイフンを落とす。
-        let lines = vec![
-            "The implemen-".to_string(),
-            "tation is fast.".to_string(),
-        ];
+        let lines = vec!["The implemen-".to_string(), "tation is fast.".to_string()];
         let out = apply_structural_rules(&lines);
         assert_eq!(out, vec!["The implementation is fast.".to_string()]);
     }
@@ -474,7 +471,10 @@ mod tests {
         let out = apply_structural_rules(&lines);
         assert_eq!(out.len(), 2);
         assert!(out[0].ends_with("the lazy"));
-        assert_eq!(out[1], "dog repeatedly across the field with lighthearted abandon.");
+        assert_eq!(
+            out[1],
+            "dog repeatedly across the field with lighthearted abandon."
+        );
     }
 
     #[test]
