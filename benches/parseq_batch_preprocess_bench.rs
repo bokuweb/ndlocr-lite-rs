@@ -29,6 +29,14 @@ fn bench_parseq_batch_preprocess(c: &mut Criterion) {
             &images,
             |b, data| b.iter(|| parallel_direct_slot(black_box(data), w, h, iw, ih)),
         );
+        group.bench_with_input(BenchmarkId::new("old_policy", &id), &images, |b, data| {
+            b.iter(|| old_policy(black_box(data), w, h, iw, ih))
+        });
+        group.bench_with_input(
+            BenchmarkId::new("current_policy", &id),
+            &images,
+            |b, data| b.iter(|| current_policy(black_box(data), w, h, iw, ih)),
+        );
     }
     group.finish();
 }
@@ -120,6 +128,34 @@ fn parallel_direct_slot(
             },
         )?;
     Ok(batch)
+}
+
+fn old_policy(
+    images: &[Vec<u8>],
+    width: usize,
+    height: usize,
+    input_width: usize,
+    input_height: usize,
+) -> anyhow::Result<Vec<f32>> {
+    if images.len() < 16 || height > width {
+        parallel_direct_slot(images, width, height, input_width, input_height)
+    } else {
+        parallel_allocating_then_copy(images, width, height, input_width, input_height)
+    }
+}
+
+fn current_policy(
+    images: &[Vec<u8>],
+    width: usize,
+    height: usize,
+    input_width: usize,
+    input_height: usize,
+) -> anyhow::Result<Vec<f32>> {
+    if images.len() < 16 {
+        parallel_direct_slot(images, width, height, input_width, input_height)
+    } else {
+        parallel_allocating_then_copy(images, width, height, input_width, input_height)
+    }
 }
 
 fn make_images(batch: usize, w: usize, h: usize) -> Vec<Vec<u8>> {
