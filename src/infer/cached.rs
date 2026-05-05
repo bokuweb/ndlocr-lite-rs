@@ -194,11 +194,12 @@ fn run_batch_on_session(
     let n = items.len();
     let plane = 3 * input_h * input_w;
     let mut buf = vec![0.0f32; n * plane];
-    // 各行の preprocess を rayon で並列化。小さい batch や縦長 crop は direct
-    // write が有利だが、大きい横書き batch は local Vec -> memcpy の方が速い
-    // ケースがあるため、bench に基づいて従来 path を残す。
+    // 各行の preprocess を rayon で並列化。小さい batch は direct write が
+    // 有利だが、大きい batch は local Vec -> memcpy の方が速いケースがある
+    // ため、bench に基づいて path を選ぶ。
     let plane_local = plane;
-    let use_direct_slots = items.len() < 16 || items.iter().any(|(_, w, h)| h > w);
+    let use_direct_slots =
+        use_direct_batch_preprocess(items.len(), items.iter().any(|(_, w, h)| h > w));
     let preprocess_results: Result<()> = if use_direct_slots {
         buf.par_chunks_mut(plane_local)
             .zip(items.par_iter())
@@ -240,6 +241,10 @@ fn run_batch_on_session(
         out.push(r);
     }
     Ok(out)
+}
+
+fn use_direct_batch_preprocess(batch_len: usize, _has_vertical_crop: bool) -> bool {
+    batch_len < 16
 }
 
 /// 同じモデルから複数の `Session` を作って round-robin に貸し出すプール。
@@ -642,5 +647,26 @@ fn bucket_from_pred_char_count(pcc: Option<f32>) -> u8 {
         Some(v) if (v - 3.0).abs() < 0.2 => 3,
         Some(v) if (v - 2.0).abs() < 0.2 => 2,
         _ => 100,
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn batch_preprocess_policy_prefers_direct_for_small_batches() {
+        assert!(use_direct_batch_preprocess(8, false));
+        assert!(use_direct_batch_preprocess(8, true));
+    }
+
+    #[test]
+    fn batch_preprocess_policy_keeps_allocating_path_for_large_horizontal_batches() {
+        assert!(!use_direct_batch_preprocess(32, false));
+    }
+
+    #[test]
+    fn batch_preprocess_policy_keeps_allocating_path_for_large_vertical_batches() {
+        assert!(!use_direct_batch_preprocess(32, true));
     }
 }
