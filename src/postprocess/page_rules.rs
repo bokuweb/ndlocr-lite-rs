@@ -12,7 +12,73 @@ pub fn apply_structural_rules(lines: &[String]) -> Vec<String> {
         *line = clean_line_with_context(line, snapshot.get(idx + 1).map(|s| s.as_str()));
     }
     let out = merge_adjacent_lines(&out);
+    let out = join_latin_hyphenated_lines(&out);
     collapse_duplicate_adjacent_lines(&out)
+}
+
+/// 行末で単語が `-` でハイフネーションされた英文を、次行と結合して 1 単語に戻す。
+///
+/// 例:
+///   ["The implemen-", "tation is fast"] → ["The implementation is fast"]
+///
+/// 結合する条件 (3 つすべて満たす):
+///   1. 現在行が `[A-Za-z]-` で終わる (末尾の英字 + ハイフン)
+///   2. 次行が英字で始まる
+///   3. 次行が見出し境界 (`第` / `(` / `（` / `1.`) で始まらない
+///
+/// 「`-` で終わる ≠ ハイフネーション」のケース (`X-Y` 列挙、`A-1` 識別子など)
+/// は条件 1 で前 1 文字も英字を要求することで弾く。さらに次行が見出しっぽければ
+/// (`is_section_boundary_like`) 結合しない。条件を厳しく取って、誤結合のリスクを
+/// 行末の英字+ハイフンに限定している。
+fn join_latin_hyphenated_lines(lines: &[String]) -> Vec<String> {
+    // 結合は cascading に動かす: `light-` → `hearted` → `lighthearted` の後に
+    // さらに次行が来れば、新しい行末 (この場合は `.`) で再評価される。直前
+    // (`out.last_mut()`) と現在を peek-and-merge で組む書き方にすると、cascade
+    // が自然に動き、index 管理のミスも起きない。
+    let mut out: Vec<String> = Vec::with_capacity(lines.len());
+    for line in lines {
+        let should_merge = out
+            .last()
+            .map(|last| is_latin_hyphenation_pair(last, line))
+            .unwrap_or(false);
+        if should_merge {
+            // `last` を取り出して結合した上で push し直す。
+            let last = out.pop().expect("checked Some above");
+            let head = last.trim_end();
+            // `-` は ASCII 1 byte なので byte slice で安全に末尾 1 文字落とせる。
+            let head_no_hyphen = &head[..head.len() - 1];
+            let tail = line.trim_start();
+            out.push(format!("{head_no_hyphen}{tail}"));
+            continue;
+        }
+        out.push(line.clone());
+    }
+    out
+}
+
+fn is_latin_hyphenation_pair(current: &str, next: &str) -> bool {
+    let c = current.trim_end();
+    let n = next.trim_start();
+    if c.is_empty() || n.is_empty() {
+        return false;
+    }
+    if is_section_boundary_like(n) {
+        return false;
+    }
+    if !c.ends_with('-') {
+        return false;
+    }
+    // `-` の直前の文字が ASCII 英字であること (= 単語末ハイフネーションを示唆)。
+    // `X-Y` 列挙のような identifier は `-` の前が英字 1 文字でも成立してしまうが、
+    // OCR テキストの 1 行末で identifier がハイフン分割されるのは非常に稀なので
+    // 許容する (実害は小さい)。
+    let prev_char = c.chars().rev().nth(1);
+    if !prev_char.map(|c| c.is_ascii_alphabetic()).unwrap_or(false) {
+        return false;
+    }
+    // 次行先頭が ASCII 英字であること。
+    let next_char = n.chars().next().unwrap();
+    next_char.is_ascii_alphabetic()
 }
 
 /// 1〜3 文字以下で「漢字でも仮名でもない (= 記号・数字・空白だけ)」行は
@@ -383,6 +449,69 @@ mod tests {
         assert!(!is_decoration_line("附則"));
         assert!(!is_decoration_line("(税目)"));
         assert!(!is_decoration_line("第1章総則"));
+    }
+
+    #[test]
+    fn joins_latin_hyphenation_at_line_end() {
+        // 英文書 PDF の OCR で行末 `-` が単語末ハイフネーションになっている
+        // 典型例。次行と結合してハイフンを落とす。
+        let lines = vec![
+            "The implemen-".to_string(),
+            "tation is fast.".to_string(),
+        ];
+        let out = apply_structural_rules(&lines);
+        assert_eq!(out, vec!["The implementation is fast.".to_string()]);
+    }
+
+    #[test]
+    fn joins_multiple_hyphenated_words_in_sequence() {
+        let lines = vec![
+            "The quick brown fox jumps over the lazy".to_string(),
+            "dog repeat-".to_string(),
+            "edly across the field with light-".to_string(),
+            "hearted abandon.".to_string(),
+        ];
+        let out = apply_structural_rules(&lines);
+        assert_eq!(out.len(), 2);
+        assert!(out[0].ends_with("the lazy"));
+        assert_eq!(out[1], "dog repeatedly across the field with lighthearted abandon.");
+    }
+
+    #[test]
+    fn keeps_trailing_hyphen_when_next_line_is_section_boundary() {
+        // 次行が `第N条` などの見出しなら、末尾 `-` は単語ハイフンではなく
+        // OCR ノイズの可能性が高いので結合しない。
+        let lines = vec![
+            "concluding statement-".to_string(),
+            "第3条 規定".to_string(),
+        ];
+        let out = apply_structural_rules(&lines);
+        assert_eq!(out.len(), 2);
+        assert_eq!(out[0], "concluding statement-");
+    }
+
+    #[test]
+    fn keeps_trailing_hyphen_when_prev_char_is_not_alpha() {
+        // `1-` / `]-` / `)-` のようなケースは英単語ハイフネーションでないので
+        // 結合しない (1 - 2 列挙、識別子の境界、等の保護)。
+        let lines = vec!["item 1-".to_string(), "two next".to_string()];
+        let out = apply_structural_rules(&lines);
+        assert_eq!(out.len(), 2);
+        assert_eq!(out[0], "item 1-");
+    }
+
+    #[test]
+    fn keeps_trailing_hyphen_when_next_starts_non_alpha() {
+        // 次行が数字や日本語で始まる場合は単語結合の見込みが薄いのでそのまま。
+        let lines = vec!["page-".to_string(), "1 of 3".to_string()];
+        let out = apply_structural_rules(&lines);
+        assert_eq!(out.len(), 2);
+        assert_eq!(out[0], "page-");
+
+        let lines = vec!["section-".to_string(), "目次".to_string()];
+        let out = apply_structural_rules(&lines);
+        assert_eq!(out.len(), 2);
+        assert_eq!(out[0], "section-");
     }
 
     #[test]
