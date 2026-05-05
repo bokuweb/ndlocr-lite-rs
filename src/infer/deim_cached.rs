@@ -26,7 +26,7 @@ use std::sync::Mutex;
 use std::sync::atomic::{AtomicUsize, Ordering};
 
 use super::deim::{Detection, ScaleContext, build_detections, preprocess_rgb_u8};
-use super::ort_init::{OrtAnyhow, ensure_init};
+use super::ort_init::{OrtAnyhow, auto_intra_threads, ensure_init};
 
 pub struct DeimSession {
     session: Mutex<Session>,
@@ -34,13 +34,13 @@ pub struct DeimSession {
     input_h: usize,
 }
 
-fn build_session(model_path: &Path) -> Result<Session> {
+fn build_session(model_path: &Path, intra_threads: usize) -> Result<Session> {
     ensure_init();
     let session = Session::builder()
         .anyort()?
         .with_optimization_level(GraphOptimizationLevel::Level3)
         .anyort()?
-        .with_intra_threads(1)
+        .with_intra_threads(intra_threads.max(1))
         .anyort()?
         .commit_from_file(model_path)
         .anyort()?;
@@ -70,7 +70,8 @@ impl DeimSession {
         if !model_path.is_file() {
             bail!("deim model not found: {}", model_path.display());
         }
-        let session = build_session(model_path)?;
+        // 単発 Session なので pool=1 として intra を取る (= cpu 数を最大限使う)。
+        let session = build_session(model_path, auto_intra_threads(1))?;
         let (input_w, input_h) = extract_input_size(&session)?;
         Ok(Self {
             session: Mutex::new(session),
@@ -196,11 +197,14 @@ impl DeimPool {
             bail!("deim model not found: {}", model_path.display());
         }
         let parallelism = parallelism.max(1);
+        // pool 並列度から 1 セッションあたりの intra threads を決める。
+        // cached.rs の同名処理と同じ方針 (合計スレッド ≒ 論理コア数)。
+        let intra_threads = auto_intra_threads(parallelism);
         let mut sessions = Vec::with_capacity(parallelism);
         let mut input_w = 0usize;
         let mut input_h = 0usize;
         for _ in 0..parallelism {
-            let session = build_session(model_path)?;
+            let session = build_session(model_path, intra_threads)?;
             let (w, h) = extract_input_size(&session)?;
             input_w = w;
             input_h = h;
