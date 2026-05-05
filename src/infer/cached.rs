@@ -20,7 +20,7 @@ use std::path::Path;
 use std::sync::Mutex;
 use std::sync::atomic::{AtomicUsize, Ordering};
 
-use super::ort_init::{OrtAnyhow, ensure_init};
+use super::ort_init::{OrtAnyhow, auto_intra_threads, ensure_init};
 use super::parseq::{
     PreprocessScratch, RecognizeResult, load_charset_from_yaml_str,
     predict_text_from_flat_logits_with_confidence, preprocess_rgb_u8,
@@ -53,13 +53,15 @@ pub struct ParseqSession {
     charset: Vec<char>,
 }
 
-fn build_session(model_path: &Path) -> Result<Session> {
+fn build_session(model_path: &Path, intra_threads: usize) -> Result<Session> {
     ensure_init();
+    // intra_threads = 1 を渡すと旧挙動 (1 セッション 1 スレッド)。pool 並列度
+    // から `auto_intra_threads` で算出するのが既定。
     let session = Session::builder()
         .anyort()?
         .with_optimization_level(GraphOptimizationLevel::Level3)
         .anyort()?
-        .with_intra_threads(1)
+        .with_intra_threads(intra_threads.max(1))
         .anyort()?
         .commit_from_file(model_path)
         .anyort()?;
@@ -106,7 +108,8 @@ impl ParseqSession {
         let yaml_body = std::fs::read_to_string(charset_path)
             .with_context(|| format!("failed to read {}", charset_path.display()))?;
         let charset = load_charset_from_yaml_str(&yaml_body)?;
-        let session = build_session(model_path)?;
+        // 単発 Session なので pool=1 として intra を取る (= cpu 数を最大限使う)。
+        let session = build_session(model_path, auto_intra_threads(1))?;
         let (input_name, output_name, input_w, input_h, batch_dim_dynamic) =
             extract_input_meta(&session)?;
         Ok(Self {
@@ -272,6 +275,10 @@ impl ParseqPool {
             .with_context(|| format!("failed to read {}", charset_path.display()))?;
         let charset = load_charset_from_yaml_str(&yaml_body)?;
 
+        // pool 全体で「pool * intra ≒ 論理コア数」を狙う配分にする。各 Session
+        // が intra=1 の旧挙動だと、Intel 8C/16T などで 4-12 コアぶんの計算
+        // capacity を遊ばせていた。
+        let intra_threads = auto_intra_threads(parallelism);
         let mut sessions = Vec::with_capacity(parallelism);
         let mut input_name = String::new();
         let mut output_name = String::new();
@@ -279,7 +286,7 @@ impl ParseqPool {
         let mut input_h = 0usize;
         let mut batch_dim_dynamic = false;
         for _ in 0..parallelism {
-            let session = build_session(model_path)?;
+            let session = build_session(model_path, intra_threads)?;
             let (i_name, o_name, iw, ih, dyn_b) = extract_input_meta(&session)?;
             input_name = i_name;
             output_name = o_name;
