@@ -48,23 +48,38 @@ pub fn preprocess_rgb_u8(
     let plane = input_width * input_height;
     let mean = [0.485_f32, 0.456_f32, 0.406_f32];
     let std = [0.229_f32, 0.224_f32, 0.225_f32];
-    for y in 0..input_height {
-        let sy = y * max_wh / input_height;
+    let xs: Vec<usize> = (0..input_width).map(|x| x * max_wh / input_width).collect();
+    let ys: Vec<usize> = (0..input_height)
+        .map(|y| y * max_wh / input_height)
+        .collect();
+    let valid_cols = xs.partition_point(|&sx| sx < width);
+    let norm = build_deim_normalize_lut(mean, std);
+    let pad0 = norm[0][0];
+    let pad1 = norm[1][0];
+    let pad2 = norm[2][0];
+
+    for (y, &sy) in ys.iter().enumerate() {
         let in_h = sy < height;
-        for x in 0..input_width {
-            let sx = x * max_wh / input_width;
-            let i = y * input_width + x;
-            if in_h && sx < width {
+        if in_h {
+            for (x, &sx) in xs[..valid_cols].iter().enumerate() {
+                let i = y * input_width + x;
                 let s = (sy * width + sx) * 3;
-                out[i] = (rgb[s] as f32 / 255.0 - mean[0]) / std[0];
-                out[plane + i] = (rgb[s + 1] as f32 / 255.0 - mean[1]) / std[1];
-                out[plane * 2 + i] = (rgb[s + 2] as f32 / 255.0 - mean[2]) / std[2];
-            } else {
-                // padding 領域: 元の pad_to_square は 0 で埋め、その後正規化を
-                // 通すので最終的には -mean/std になる (= padding が黒の正規化)。
-                out[i] = -mean[0] / std[0];
-                out[plane + i] = -mean[1] / std[1];
-                out[plane * 2 + i] = -mean[2] / std[2];
+                out[i] = norm[0][rgb[s] as usize];
+                out[plane + i] = norm[1][rgb[s + 1] as usize];
+                out[plane * 2 + i] = norm[2][rgb[s + 2] as usize];
+            }
+            for x in valid_cols..input_width {
+                let i = y * input_width + x;
+                out[i] = pad0;
+                out[plane + i] = pad1;
+                out[plane * 2 + i] = pad2;
+            }
+        } else {
+            for x in 0..input_width {
+                let i = y * input_width + x;
+                out[i] = pad0;
+                out[plane + i] = pad1;
+                out[plane * 2 + i] = pad2;
             }
         }
     }
@@ -72,6 +87,16 @@ pub fn preprocess_rgb_u8(
         tensor: out,
         padded_wh: max_wh,
     })
+}
+
+fn build_deim_normalize_lut(mean: [f32; 3], std: [f32; 3]) -> [[f32; 256]; 3] {
+    let mut out = [[0.0f32; 256]; 3];
+    for c in 0..3 {
+        for v in 0..=255 {
+            out[c][v] = (v as f32 / 255.0 - mean[c]) / std[c];
+        }
+    }
+    out
 }
 
 pub fn scale_boxes_to_image_space(

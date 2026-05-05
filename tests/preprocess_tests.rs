@@ -42,6 +42,15 @@ fn deim_preprocess_pads_to_square_and_returns_metadata() {
     assert_eq!(out.tensor.len(), 12);
 }
 
+#[test]
+fn deim_preprocess_matches_direct_formula_for_padding_and_pixels() {
+    let rgb = make_rgb(3, 2);
+    let out = deim::preprocess_rgb_u8(&rgb, 3, 2, 5, 5).unwrap();
+    let expected = reference_deim_preprocess(&rgb, 3, 2, 5, 5);
+    assert_eq!(out.padded_wh, 3);
+    assert_eq!(out.tensor, expected);
+}
+
 proptest! {
     #[test]
     fn parseq_preprocess_normalized_values_are_in_range(
@@ -53,6 +62,39 @@ proptest! {
         let out = parseq::preprocess_rgb_u8(&data[0..needed], w, h, w, h).unwrap();
         for &v in &out { prop_assert!(v >= -1.0 && v <= 1.0); }
     }
+}
+
+fn reference_deim_preprocess(
+    rgb: &[u8],
+    width: usize,
+    height: usize,
+    input_width: usize,
+    input_height: usize,
+) -> Vec<f32> {
+    let max_wh = width.max(height);
+    let mut out = vec![0.0_f32; 3 * input_width * input_height];
+    let plane = input_width * input_height;
+    let mean = [0.485_f32, 0.456_f32, 0.406_f32];
+    let std = [0.229_f32, 0.224_f32, 0.225_f32];
+    for y in 0..input_height {
+        let sy = y * max_wh / input_height;
+        let in_h = sy < height;
+        for x in 0..input_width {
+            let sx = x * max_wh / input_width;
+            let i = y * input_width + x;
+            if in_h && sx < width {
+                let s = (sy * width + sx) * 3;
+                out[i] = (rgb[s] as f32 / 255.0 - mean[0]) / std[0];
+                out[plane + i] = (rgb[s + 1] as f32 / 255.0 - mean[1]) / std[1];
+                out[plane * 2 + i] = (rgb[s + 2] as f32 / 255.0 - mean[2]) / std[2];
+            } else {
+                out[i] = -mean[0] / std[0];
+                out[plane + i] = -mean[1] / std[1];
+                out[plane * 2 + i] = -mean[2] / std[2];
+            }
+        }
+    }
+    out
 }
 
 fn make_rgb(w: usize, h: usize) -> Vec<u8> {
