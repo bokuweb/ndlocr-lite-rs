@@ -423,6 +423,25 @@ impl ParseqPool {
         let chunk_size = items.len().div_ceil(n_sessions).max(1);
         let chunks: Vec<&[IndexedImage<'_>]> = items.chunks(chunk_size).collect();
         let n_chunks = chunks.len();
+
+        // **Fast path** for the very common 1-chunk case (e.g. `parallelism=1`,
+        // or a small batch that fits in a single session). `std::thread::scope`
+        // would still spawn 1 worker thread, do a join, and pay all the
+        // synchronization overhead even though there is no parallelism to
+        // extract. Run it inline instead — same semantics, no spawn/join.
+        //
+        // This matters because `ParseqCascadePool` already fans out across
+        // 30/50/100 buckets; downstream consumers tuning for that fan-out
+        // routinely set the per-bucket pool size to 1, so we hit this path
+        // on essentially every page.
+        if n_chunks == 1 {
+            let chunk = chunks[0];
+            if chunk.is_empty() {
+                return Ok(Vec::new());
+            }
+            return self.run_chunk_on_session(chunk, 0);
+        }
+
         let mut chunk_results: Vec<Result<Vec<(usize, RecognizeResult)>>> =
             (0..n_chunks).map(|_| Ok(Vec::new())).collect();
 
@@ -433,55 +452,8 @@ impl ParseqPool {
                 if chunk.is_empty() {
                     continue;
                 }
-                let session_mu = &self.sessions[ci % n_sessions];
-                let input_name = &self.input_name;
-                let output_name = &self.output_name;
-                let input_w = self.input_w;
-                let input_h = self.input_h;
-                let charset = &self.charset;
-                let dyn_batch = self.batch_dim_dynamic;
                 let chunk_ref: &[IndexedImage<'_>] = chunk;
-                let h = scope.spawn(move || -> Result<Vec<(usize, RecognizeResult)>> {
-                    let mut guard = session_mu
-                        .lock()
-                        .map_err(|_| anyhow!("parseq pool mutex poisoned"))?;
-                    let session = &mut guard.0;
-                    let payload: Vec<(&[u8], usize, usize)> = chunk_ref
-                        .iter()
-                        .map(|(_, r, w, hh)| (*r, *w, *hh))
-                        .collect();
-                    let recs = if dyn_batch {
-                        run_batch_on_session(
-                            session,
-                            input_name,
-                            output_name,
-                            input_w,
-                            input_h,
-                            charset,
-                            &payload,
-                        )?
-                    } else {
-                        let mut out = Vec::with_capacity(payload.len());
-                        for it in &payload {
-                            let single = [*it];
-                            out.extend(run_batch_on_session(
-                                session,
-                                input_name,
-                                output_name,
-                                input_w,
-                                input_h,
-                                charset,
-                                &single,
-                            )?);
-                        }
-                        out
-                    };
-                    Ok(chunk_ref
-                        .iter()
-                        .zip(recs)
-                        .map(|((idx, _, _, _), r)| (*idx, r))
-                        .collect())
-                });
+                let h = scope.spawn(move || self.run_chunk_on_session(chunk_ref, ci % n_sessions));
                 handles.push((ci, h));
             }
             for (ci, h) in handles {
@@ -495,6 +467,53 @@ impl ParseqPool {
             out.extend(r?);
         }
         Ok(out)
+    }
+
+    /// 1 つの session で 1 chunk ぶんを推論する内部ヘルパ。
+    /// `recognize_batch_indexed` の inline path と spawn path の両方が呼ぶ。
+    fn run_chunk_on_session(
+        &self,
+        chunk: &[IndexedImage<'_>],
+        session_idx: usize,
+    ) -> Result<Vec<(usize, RecognizeResult)>> {
+        let session_mu = &self.sessions[session_idx % self.sessions.len().max(1)];
+        let mut guard = session_mu
+            .lock()
+            .map_err(|_| anyhow!("parseq pool mutex poisoned"))?;
+        let session = &mut guard.0;
+        let payload: Vec<(&[u8], usize, usize)> =
+            chunk.iter().map(|(_, r, w, hh)| (*r, *w, *hh)).collect();
+        let recs = if self.batch_dim_dynamic {
+            run_batch_on_session(
+                session,
+                &self.input_name,
+                &self.output_name,
+                self.input_w,
+                self.input_h,
+                &self.charset,
+                &payload,
+            )?
+        } else {
+            let mut out = Vec::with_capacity(payload.len());
+            for it in &payload {
+                let single = [*it];
+                out.extend(run_batch_on_session(
+                    session,
+                    &self.input_name,
+                    &self.output_name,
+                    self.input_w,
+                    self.input_h,
+                    &self.charset,
+                    &single,
+                )?);
+            }
+            out
+        };
+        Ok(chunk
+            .iter()
+            .zip(recs)
+            .map(|((idx, _, _, _), r)| (*idx, r))
+            .collect())
     }
 
     pub fn recognize_batch_rgb_u8(
