@@ -579,24 +579,14 @@ impl ParseqCascadePool {
             }
         }
 
-        let mut r30: Result<Vec<(usize, RecognizeResult)>> = Ok(Vec::new());
-        let mut r50: Result<Vec<(usize, RecognizeResult)>> = Ok(Vec::new());
-        let mut r100: Result<Vec<(usize, RecognizeResult)>> = Ok(Vec::new());
-        std::thread::scope(|s| {
-            let h30 = s.spawn(|| self.pool30.recognize_batch_indexed(&idx30));
-            let h50 = s.spawn(|| self.pool50.recognize_batch_indexed(&idx50));
-            let h100 = s.spawn(|| self.pool100.recognize_batch_indexed(&idx100));
-            r30 = h30
-                .join()
-                .unwrap_or_else(|_| Err(anyhow!("cascade 30 worker panicked")));
-            r50 = h50
-                .join()
-                .unwrap_or_else(|_| Err(anyhow!("cascade 50 worker panicked")));
-            r100 = h100
-                .join()
-                .unwrap_or_else(|_| Err(anyhow!("cascade 100 worker panicked")));
-        });
-
+        let (r30, r50, r100) = run_three_pools_skipping_empty(
+            &self.pool30,
+            &idx30,
+            &self.pool50,
+            &idx50,
+            &self.pool100,
+            &idx100,
+        );
         let mut all: Vec<(usize, RecognizeResult)> = Vec::with_capacity(items.len());
         all.extend(r30?);
         all.extend(r50?);
@@ -616,18 +606,8 @@ impl ParseqCascadePool {
             }
         }
         if !redo50.is_empty() || !redo100.is_empty() {
-            let mut rd50: Result<Vec<(usize, RecognizeResult)>> = Ok(Vec::new());
-            let mut rd100: Result<Vec<(usize, RecognizeResult)>> = Ok(Vec::new());
-            std::thread::scope(|s| {
-                let h1 = s.spawn(|| self.pool50.recognize_batch_indexed(&redo50));
-                let h2 = s.spawn(|| self.pool100.recognize_batch_indexed(&redo100));
-                rd50 = h1
-                    .join()
-                    .unwrap_or_else(|_| Err(anyhow!("cascade redo50 panicked")));
-                rd100 = h2
-                    .join()
-                    .unwrap_or_else(|_| Err(anyhow!("cascade redo100 panicked")));
-            });
+            let (rd50, rd100) =
+                run_two_pools_skipping_empty(&self.pool50, &redo50, &self.pool100, &redo100);
             for (i, r) in rd50? {
                 if r.text.chars().count() >= 45 {
                     let it = items[i];
@@ -647,6 +627,133 @@ impl ParseqCascadePool {
 
         Ok(all.into_iter().map(|(_, r)| r).collect())
     }
+}
+
+/// `recognize_batch_with_buckets_rgb_u8` の thread fan-out 部分を、**非空
+/// バケットだけ** スレッド起動するように切り出したヘルパ。
+///
+/// 旧実装は常に 3 つの `thread::scope` を立ち上げていたため、典型的な日本語
+/// ページ (ほぼ全行が 30-bucket で 50/100 は空) でも 50/100 用のスレッドを
+/// 空 Vec のためだけに spawn → join していた。downstream で N 並列の OCR
+/// 呼び出しがあると、空ジョブのためのスレッド spawn だけで OS スケジューラ
+/// が thrash し、軽いページでも数十秒かかる現象を引き起こしていた。
+///
+/// 動作:
+///   - 全バケット空: そのまま `Ok(vec![])` を返す
+///   - 1 バケットだけ非空: スレッドを spawn せず inline 実行
+///   - 2-3 バケット非空: その数だけ spawn (空バケットはスキップ)
+///
+/// 計算結果の意味は不変。バケット結果の対応は `(usize, RecognizeResult)` の
+/// タプルに index を載せる旧仕様のまま。
+fn run_three_pools_skipping_empty(
+    p30: &ParseqPool,
+    items30: &[(usize, &[u8], usize, usize)],
+    p50: &ParseqPool,
+    items50: &[(usize, &[u8], usize, usize)],
+    p100: &ParseqPool,
+    items100: &[(usize, &[u8], usize, usize)],
+) -> (
+    Result<Vec<(usize, RecognizeResult)>>,
+    Result<Vec<(usize, RecognizeResult)>>,
+    Result<Vec<(usize, RecognizeResult)>>,
+) {
+    let active =
+        (!items30.is_empty()) as u8 + (!items50.is_empty()) as u8 + (!items100.is_empty()) as u8;
+    if active <= 1 {
+        // 0 or 1 active: thread::scope を立てずに inline 実行する。
+        let r30 = if items30.is_empty() {
+            Ok(Vec::new())
+        } else {
+            p30.recognize_batch_indexed(items30)
+        };
+        let r50 = if items50.is_empty() {
+            Ok(Vec::new())
+        } else {
+            p50.recognize_batch_indexed(items50)
+        };
+        let r100 = if items100.is_empty() {
+            Ok(Vec::new())
+        } else {
+            p100.recognize_batch_indexed(items100)
+        };
+        return (r30, r50, r100);
+    }
+    // 2-3 active: thread::scope で並走させるが、空のバケットはスキップ。
+    let mut r30: Result<Vec<(usize, RecognizeResult)>> = Ok(Vec::new());
+    let mut r50: Result<Vec<(usize, RecognizeResult)>> = Ok(Vec::new());
+    let mut r100: Result<Vec<(usize, RecognizeResult)>> = Ok(Vec::new());
+    std::thread::scope(|s| {
+        let h30 = if items30.is_empty() {
+            None
+        } else {
+            Some(s.spawn(|| p30.recognize_batch_indexed(items30)))
+        };
+        let h50 = if items50.is_empty() {
+            None
+        } else {
+            Some(s.spawn(|| p50.recognize_batch_indexed(items50)))
+        };
+        let h100 = if items100.is_empty() {
+            None
+        } else {
+            Some(s.spawn(|| p100.recognize_batch_indexed(items100)))
+        };
+        if let Some(h) = h30 {
+            r30 = h
+                .join()
+                .unwrap_or_else(|_| Err(anyhow!("cascade 30 worker panicked")));
+        }
+        if let Some(h) = h50 {
+            r50 = h
+                .join()
+                .unwrap_or_else(|_| Err(anyhow!("cascade 50 worker panicked")));
+        }
+        if let Some(h) = h100 {
+            r100 = h
+                .join()
+                .unwrap_or_else(|_| Err(anyhow!("cascade 100 worker panicked")));
+        }
+    });
+    (r30, r50, r100)
+}
+
+/// 2 プールバージョン (フォールバック redo50 / redo100 用)。
+fn run_two_pools_skipping_empty(
+    p50: &ParseqPool,
+    items50: &[(usize, &[u8], usize, usize)],
+    p100: &ParseqPool,
+    items100: &[(usize, &[u8], usize, usize)],
+) -> (
+    Result<Vec<(usize, RecognizeResult)>>,
+    Result<Vec<(usize, RecognizeResult)>>,
+) {
+    let active = (!items50.is_empty()) as u8 + (!items100.is_empty()) as u8;
+    if active <= 1 {
+        let r50 = if items50.is_empty() {
+            Ok(Vec::new())
+        } else {
+            p50.recognize_batch_indexed(items50)
+        };
+        let r100 = if items100.is_empty() {
+            Ok(Vec::new())
+        } else {
+            p100.recognize_batch_indexed(items100)
+        };
+        return (r50, r100);
+    }
+    let mut r50: Result<Vec<(usize, RecognizeResult)>> = Ok(Vec::new());
+    let mut r100: Result<Vec<(usize, RecognizeResult)>> = Ok(Vec::new());
+    std::thread::scope(|s| {
+        let h1 = s.spawn(|| p50.recognize_batch_indexed(items50));
+        let h2 = s.spawn(|| p100.recognize_batch_indexed(items100));
+        r50 = h1
+            .join()
+            .unwrap_or_else(|_| Err(anyhow!("cascade redo50 panicked")));
+        r100 = h2
+            .join()
+            .unwrap_or_else(|_| Err(anyhow!("cascade redo100 panicked")));
+    });
+    (r50, r100)
 }
 
 fn bucket_from_pred_char_count(pcc: Option<f32>) -> u8 {
