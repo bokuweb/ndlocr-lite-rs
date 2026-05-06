@@ -707,28 +707,10 @@ fn normalize_pred_char_bucket(v: f32) -> f32 {
     }
 }
 
-fn estimate_line_char_count(width: usize, height: usize) -> usize {
-    let h = height.max(1);
-    let ratio = width as f32 / h as f32;
-    // Empirical scale for Japanese page-line crops.
-    (ratio * 2.5).round().max(1.0) as usize
-}
-
-fn estimate_pred_char_bucket(
-    width: usize,
-    height: usize,
-    th_30_to_50: usize,
-    th_50_to_100: usize,
-) -> f32 {
-    let estimated_chars = estimate_line_char_count(width, height);
-    if estimated_chars <= th_30_to_50 {
-        3.0
-    } else if estimated_chars <= th_50_to_100 {
-        2.0
-    } else {
-        100.0
-    }
-}
+// 旧 `estimate_line_char_count` / `estimate_pred_char_bucket` は
+// `crate::cascade` に切り出して公開した (downstream consumer から再利用するため)。
+// app.rs は薄い alias 経由で使い続ける。
+use crate::cascade::estimate_pred_char_bucket;
 
 #[cfg(not(feature = "onnx"))]
 fn maybe_split_long_line_and_recognize(
