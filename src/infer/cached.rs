@@ -469,6 +469,82 @@ impl ParseqPool {
         Ok(out)
     }
 
+    /// Single-session 版 `recognize_batch_indexed`: chunk 分割を行わず、
+    /// `try_lock` で利用可能な 1 session を選び、batch 全体を 1 度に推論する。
+    ///
+    /// 用途: cascade pool のように **複数 N 並行な呼び出しが想定される文脈**
+    /// で、各 call が pool の異なる session を独立に掴めるようにする。
+    /// 旧 `recognize_batch_indexed` は items を `n_sessions` 個に分割して
+    /// **全 session を 1 call で占有** する設計のため、N 個の concurrent
+    /// caller が来ると全員が全 session を奪い合って真の並列にならなかった
+    /// (downstream の OCR 並列が pool 並列度と独立にスケールできない)。
+    ///
+    /// 戻り値は `recognize_batch_indexed` と同形 (= `(input_idx,
+    /// RecognizeResult)`)。空 batch は空 Vec。
+    fn recognize_batch_indexed_single_session(
+        &self,
+        items: &[IndexedImage<'_>],
+    ) -> Result<Vec<(usize, RecognizeResult)>> {
+        if items.is_empty() {
+            return Ok(Vec::new());
+        }
+        let n = self.sessions.len();
+        let start = self.next.fetch_add(1, Ordering::Relaxed) % n.max(1);
+        // try_lock で最初に空いた session を掴む。全部塞がっていたら start に
+        // blocking lock。
+        let mut acquired: Option<std::sync::MutexGuard<'_, SessionCell>> = None;
+        let mut chosen_idx: usize = start;
+        for off in 0..n {
+            let i = (start + off) % n;
+            if let Ok(g) = self.sessions[i].try_lock() {
+                acquired = Some(g);
+                chosen_idx = i;
+                break;
+            }
+        }
+        let mut guard = match acquired {
+            Some(g) => g,
+            None => self.sessions[start]
+                .lock()
+                .map_err(|_| anyhow!("parseq pool mutex poisoned"))?,
+        };
+        let session = &mut guard.0;
+        let payload: Vec<(&[u8], usize, usize)> =
+            items.iter().map(|(_, r, w, hh)| (*r, *w, *hh)).collect();
+        let recs = if self.batch_dim_dynamic {
+            run_batch_on_session(
+                session,
+                &self.input_name,
+                &self.output_name,
+                self.input_w,
+                self.input_h,
+                &self.charset,
+                &payload,
+            )?
+        } else {
+            let mut out = Vec::with_capacity(payload.len());
+            for it in &payload {
+                let single = [*it];
+                out.extend(run_batch_on_session(
+                    session,
+                    &self.input_name,
+                    &self.output_name,
+                    self.input_w,
+                    self.input_h,
+                    &self.charset,
+                    &single,
+                )?);
+            }
+            out
+        };
+        let _ = chosen_idx; // 可観測性が必要になったら tracing で使う
+        Ok(items
+            .iter()
+            .zip(recs)
+            .map(|((idx, _, _, _), r)| (*idx, r))
+            .collect())
+    }
+
     /// 1 つの session で 1 chunk ぶんを推論する内部ヘルパ。
     /// `recognize_batch_indexed` の inline path と spawn path の両方が呼ぶ。
     fn run_chunk_on_session(
@@ -528,7 +604,7 @@ impl ParseqPool {
             .enumerate()
             .map(|(i, (r, w, h))| (i, *r, *w, *h))
             .collect();
-        let mut by_idx = self.recognize_batch_indexed(&indexed)?;
+        let mut by_idx = self.recognize_batch_indexed_single_session(&indexed)?;
         by_idx.sort_by_key(|(i, _)| *i);
         Ok(by_idx.into_iter().map(|(_, r)| r).collect())
     }
@@ -631,7 +707,9 @@ impl ParseqCascadePool {
                 if r.text.chars().count() >= 45 {
                     let it = items[i];
                     let single = [(i, it.0, it.1, it.2)];
-                    let r2 = self.pool100.recognize_batch_indexed(&single)?;
+                    let r2 = self
+                        .pool100
+                        .recognize_batch_indexed_single_session(&single)?;
                     if let Some((_, rr)) = r2.into_iter().next() {
                         all[i].1 = rr;
                         continue;
@@ -683,17 +761,17 @@ fn run_three_pools_skipping_empty(
         let r30 = if items30.is_empty() {
             Ok(Vec::new())
         } else {
-            p30.recognize_batch_indexed(items30)
+            p30.recognize_batch_indexed_single_session(items30)
         };
         let r50 = if items50.is_empty() {
             Ok(Vec::new())
         } else {
-            p50.recognize_batch_indexed(items50)
+            p50.recognize_batch_indexed_single_session(items50)
         };
         let r100 = if items100.is_empty() {
             Ok(Vec::new())
         } else {
-            p100.recognize_batch_indexed(items100)
+            p100.recognize_batch_indexed_single_session(items100)
         };
         return (r30, r50, r100);
     }
@@ -705,17 +783,17 @@ fn run_three_pools_skipping_empty(
         let h30 = if items30.is_empty() {
             None
         } else {
-            Some(s.spawn(|| p30.recognize_batch_indexed(items30)))
+            Some(s.spawn(|| p30.recognize_batch_indexed_single_session(items30)))
         };
         let h50 = if items50.is_empty() {
             None
         } else {
-            Some(s.spawn(|| p50.recognize_batch_indexed(items50)))
+            Some(s.spawn(|| p50.recognize_batch_indexed_single_session(items50)))
         };
         let h100 = if items100.is_empty() {
             None
         } else {
-            Some(s.spawn(|| p100.recognize_batch_indexed(items100)))
+            Some(s.spawn(|| p100.recognize_batch_indexed_single_session(items100)))
         };
         if let Some(h) = h30 {
             r30 = h
@@ -751,20 +829,20 @@ fn run_two_pools_skipping_empty(
         let r50 = if items50.is_empty() {
             Ok(Vec::new())
         } else {
-            p50.recognize_batch_indexed(items50)
+            p50.recognize_batch_indexed_single_session(items50)
         };
         let r100 = if items100.is_empty() {
             Ok(Vec::new())
         } else {
-            p100.recognize_batch_indexed(items100)
+            p100.recognize_batch_indexed_single_session(items100)
         };
         return (r50, r100);
     }
     let mut r50: Result<Vec<(usize, RecognizeResult)>> = Ok(Vec::new());
     let mut r100: Result<Vec<(usize, RecognizeResult)>> = Ok(Vec::new());
     std::thread::scope(|s| {
-        let h1 = s.spawn(|| p50.recognize_batch_indexed(items50));
-        let h2 = s.spawn(|| p100.recognize_batch_indexed(items100));
+        let h1 = s.spawn(|| p50.recognize_batch_indexed_single_session(items50));
+        let h2 = s.spawn(|| p100.recognize_batch_indexed_single_session(items100));
         r50 = h1
             .join()
             .unwrap_or_else(|_| Err(anyhow!("cascade redo50 panicked")));
