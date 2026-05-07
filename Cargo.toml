@@ -12,6 +12,8 @@ onnx = ["dep:ort", "dep:ndarray"]
 # ロード or 推論失敗するため、有効化しても動かない。フォローアップ用の placeholder。
 # 詳細は src/infer/ort_init.rs のコメント参照)。
 coreml = ["onnx", "ort/coreml"]
+# Optional morphological OCR correction backed by delarocha + Vibrato dictionaries.
+morph-correct = ["dep:delarocha"]
 
 [dependencies]
 anyhow = "1"
@@ -32,6 +34,9 @@ serde = { version = "1", features = ["derive"] }
 serde_json = "1"
 serde_yaml = "0.9"
 zip = "2"
+delarocha = { git = "https://github.com/bokuweb/delarocha", tag = "0.0.11", optional = true, features = [
+    "vibrato-system",
+] }
 
 [dev-dependencies]
 criterion = "0.5"

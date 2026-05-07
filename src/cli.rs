@@ -95,6 +95,8 @@ pub struct RecognizePageArgs {
     pub output_docx: Option<PathBuf>,
     #[arg(long)]
     pub post_dict: Option<PathBuf>,
+    #[arg(long)]
+    pub morph_correct_dict: Option<PathBuf>,
 }
 
 #[derive(Debug, Args)]

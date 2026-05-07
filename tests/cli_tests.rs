@@ -118,6 +118,7 @@ fn parse_recognize_page_command_uses_defaults_and_optional_output() {
                 args.post_dict.unwrap().to_string_lossy(),
                 "config/post_dict.yaml"
             );
+            assert!(args.morph_correct_dict.is_none());
         }
         _ => panic!("recognize-page expected"),
     }
@@ -190,6 +191,27 @@ fn parse_recognize_page_command_accepts_rule_pack() {
             assert_eq!(
                 args.rule_pack.unwrap().to_string_lossy(),
                 "rules/scaned0.yaml"
+            );
+        }
+        _ => panic!("recognize-page expected"),
+    }
+}
+
+#[test]
+fn parse_recognize_page_command_accepts_morph_correct_dict() {
+    let cli = Cli::parse_from([
+        "ndlocr-lite-rs",
+        "recognize-page",
+        "--image",
+        "a.jpg",
+        "--morph-correct-dict",
+        "dict/system.dic.zst",
+    ]);
+    match cli.command {
+        Command::RecognizePage(args) => {
+            assert_eq!(
+                args.morph_correct_dict.unwrap().to_string_lossy(),
+                "dict/system.dic.zst"
             );
         }
         _ => panic!("recognize-page expected"),

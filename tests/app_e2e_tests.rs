@@ -307,3 +307,22 @@ fn recognize_page_command_rejects_invalid_rule_pack_yaml() {
     let err = run_cli(cli).expect_err("invalid rule-pack yaml should fail");
     assert!(err.to_string().contains("invalid rule pack yaml"));
 }
+
+#[cfg(not(feature = "morph-correct"))]
+#[test]
+fn recognize_page_command_reports_morph_correct_feature_disabled() {
+    let cli = Cli::parse_from([
+        "ndlocr-lite-rs",
+        "recognize-page",
+        "--image",
+        "input.png",
+        "--morph-correct-dict",
+        "dict/system.dic.zst",
+    ]);
+
+    let err = run_cli(cli).expect_err("morph-correct disabled should fail");
+    assert!(
+        err.to_string()
+            .contains("--morph-correct-dict requires building with --features morph-correct")
+    );
+}

@@ -15,6 +15,8 @@ use crate::pipeline::line_segment::{detect_textline_bands_fast, detect_textline_
 use crate::pipeline::reading_order::sort_lines_in_reading_order;
 use crate::pipeline::run_page::{PageInput, run_page};
 use crate::postprocess::dict::PostprocessDict;
+#[cfg(feature = "morph-correct")]
+use crate::postprocess::morph_correction::DelarochaMorphCorrector;
 use crate::postprocess::page_rules::apply_structural_rules;
 use crate::postprocess::rule_pack::RulePack;
 
@@ -472,6 +474,16 @@ pub fn run_cli(cli: Cli) -> Result<()> {
             } else {
                 None
             };
+            #[cfg(feature = "morph-correct")]
+            let morph_corrector = if let Some(path) = args.morph_correct_dict.as_ref() {
+                Some(DelarochaMorphCorrector::from_path(path)?)
+            } else {
+                None
+            };
+            #[cfg(not(feature = "morph-correct"))]
+            if args.morph_correct_dict.is_some() {
+                bail!("--morph-correct-dict requires building with --features morph-correct");
+            }
             let img = crate::io::load_rgb_u8(&args.image)?;
             let deim_lines = if args.use_deim_detection {
                 match deim::detect_rgb_u8(
@@ -569,6 +581,12 @@ pub fn run_cli(cli: Cli) -> Result<()> {
                         dict.apply(&recognized.text)
                     } else {
                         recognized.text
+                    };
+                    #[cfg(feature = "morph-correct")]
+                    let text = if let Some(corrector) = morph_corrector.as_ref() {
+                        corrector.correct_line(&text)?
+                    } else {
+                        text
                     };
                     recognized_lines.push(RecognizedLine {
                         bbox_xyxy: line.bbox_xyxy,
