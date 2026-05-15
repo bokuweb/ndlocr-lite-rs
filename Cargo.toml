@@ -2,6 +2,8 @@
 name = "ndlocr-lite-rs"
 version = "0.1.0"
 edition = "2024"
+license = "CC-BY-4.0"
+repository = "https://github.com/bokuweb/ndlocr-lite-rs"
 
 [features]
 default = []
