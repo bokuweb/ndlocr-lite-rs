@@ -478,6 +478,39 @@ pub fn recognize_rgb_u8_with_score(
     recognize_image_impl(model_path, rgb, width, height, &charset)
 }
 
+/// RGB画像のデコード本文と信頼度を、置換・反復除去・空白整理せずに返す。
+///
+/// EOSと低信頼度によるデコーダの停止条件は従来どおり適用する。
+/// 推論自体の誤認識や欠落を補正するAPIではない。
+pub fn recognize_rgb_u8_with_score_unprocessed(
+    model_path: &Path,
+    rgb: &[u8],
+    width: usize,
+    height: usize,
+    charset_path: &Path,
+) -> Result<RecognizeResult> {
+    if !model_path.is_file() || !charset_path.is_file() {
+        bail!("file not found");
+    }
+    let yaml_body = fs::read_to_string(charset_path)
+        .with_context(|| format!("failed to read {}", charset_path.display()))?;
+    let charset = load_charset_from_yaml_str(&yaml_body)?;
+    recognize_image_unprocessed_impl(model_path, rgb, width, height, &charset)
+}
+
+/// 従来の認識APIでは、共通のデコード結果に既存の後処理を適用する。
+fn recognize_image_impl(
+    model_path: &Path,
+    rgb: &[u8],
+    width: usize,
+    height: usize,
+    charset: &[char],
+) -> Result<RecognizeResult> {
+    let mut result = recognize_image_unprocessed_impl(model_path, rgb, width, height, charset)?;
+    result.text = sanitize_recognized_text(&result.text);
+    Ok(result)
+}
+
 #[cfg(feature = "onnx")]
 fn smoke_recognize_impl(model_path: &Path) -> Result<()> {
     use crate::infer::ort_init::OrtAnyhow;
@@ -496,7 +529,8 @@ fn smoke_recognize_impl(model_path: &Path) -> Result<()> {
 }
 
 #[cfg(feature = "onnx")]
-fn recognize_image_impl(
+/// RGB画像を推論し、文字単位のデコード結果を変更せず返す。
+fn recognize_image_unprocessed_impl(
     model_path: &Path,
     rgb: &[u8],
     width: usize,
@@ -556,7 +590,7 @@ fn recognize_image_impl(
         .try_extract_tensor::<f32>()
         .anyort()?;
     let shape: Vec<i64> = shape.to_vec();
-    let mut result = match shape.as_slice() {
+    let result = match shape.as_slice() {
         [1, t, c] => {
             predict_text_from_flat_logits_with_confidence(data, *t as usize, *c as usize, charset)
         }
@@ -565,7 +599,6 @@ fn recognize_image_impl(
         }
         _ => bail!("unsupported output shape: {:?}", shape),
     }?;
-    result.text = sanitize_recognized_text(&result.text);
     Ok(result)
 }
 
@@ -575,7 +608,8 @@ fn smoke_recognize_impl(_model_path: &Path) -> Result<()> {
 }
 
 #[cfg(not(feature = "onnx"))]
-fn recognize_image_impl(
+/// 推論runtimeを持たない構成は明示的に失敗する。
+fn recognize_image_unprocessed_impl(
     _model_path: &Path,
     _rgb: &[u8],
     _width: usize,
