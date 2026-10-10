@@ -78,6 +78,9 @@ pub fn preprocess_rgb_u8_into_with_scratch(
     input_height: usize,
     scratch: &mut PreprocessScratch,
 ) -> Result<()> {
+    if width == 0 || height == 0 {
+        bail!("invalid source image dimension");
+    }
     let expected = width
         .checked_mul(height)
         .and_then(|v| v.checked_mul(3))

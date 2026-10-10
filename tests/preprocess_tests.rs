@@ -1,6 +1,14 @@
 use ndlocr_lite_rs::infer::{deim, parseq};
 use proptest::prelude::*;
 
+/// 空の軸を持つ入力は、補間座標を作る前に明示エラーにする。
+#[test]
+fn parseq_preprocess_rejects_zero_source_dimensions() {
+    for (width, height) in [(0, 0), (0, 8), (8, 0)] {
+        assert!(parseq::preprocess_rgb_u8(&[], width, height, 2, 2).is_err());
+    }
+}
+
 #[test]
 fn parseq_preprocess_rotates_vertical_image_and_normalizes() {
     let rgb = vec![255_u8, 0, 0, 0, 0, 255];

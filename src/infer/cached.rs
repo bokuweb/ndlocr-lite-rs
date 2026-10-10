@@ -133,13 +133,26 @@ impl ParseqSession {
         width: usize,
         height: usize,
     ) -> Result<RecognizeResult> {
+        let mut result = self.recognize_rgb_u8_unprocessed(rgb, width, height)?;
+        result.text = sanitize_recognized_text(&result.text);
+        Ok(result)
+    }
+
+    /// ロード済みモデルで推論し、反復文字や空白を後処理せず保持する。
+    /// 失敗した画像の部分結果を保存せず、同じセッションで次の画像を認識できる。
+    pub fn recognize_rgb_u8_unprocessed(
+        &self,
+        rgb: &[u8],
+        width: usize,
+        height: usize,
+    ) -> Result<RecognizeResult> {
         let single = [(rgb, width, height)];
         let mut out = {
             let mut guard = self
                 .session
                 .lock()
                 .map_err(|_| anyhow!("parseq session mutex poisoned"))?;
-            run_batch_on_session(
+            run_batch_on_session_unprocessed(
                 &mut guard.0,
                 &self.input_name,
                 &self.output_name,
@@ -193,6 +206,31 @@ fn run_batch_on_session(
     charset: &[char],
     items: &[(&[u8], usize, usize)],
 ) -> Result<Vec<RecognizeResult>> {
+    let mut results = run_batch_on_session_unprocessed(
+        session,
+        input_name,
+        output_name,
+        input_w,
+        input_h,
+        charset,
+        items,
+    )?;
+    for result in &mut results {
+        result.text = sanitize_recognized_text(&result.text);
+    }
+    Ok(results)
+}
+
+/// 共通の推論・デコード結果を、後処理を適用する前の状態で返す。
+fn run_batch_on_session_unprocessed(
+    session: &mut Session,
+    input_name: &str,
+    output_name: &str,
+    input_w: usize,
+    input_h: usize,
+    charset: &[char],
+    items: &[(&[u8], usize, usize)],
+) -> Result<Vec<RecognizeResult>> {
     use rayon::prelude::*;
     let n = items.len();
     let plane = 3 * input_h * input_w;
@@ -238,9 +276,8 @@ fn run_batch_on_session(
     let mut out = Vec::with_capacity(n);
     for i in 0..n {
         let off = i * t * c;
-        let mut r =
+        let r =
             predict_text_from_flat_logits_with_confidence(&data[off..off + t * c], t, c, charset)?;
-        r.text = sanitize_recognized_text(&r.text);
         out.push(r);
     }
     Ok(out)
