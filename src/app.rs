@@ -472,7 +472,7 @@ pub fn run_cli(cli: Cli) -> Result<()> {
             } else {
                 None
             };
-            let img = crate::io::load_rgb_u8(&args.image)?;
+            let mut img = crate::io::load_rgb_u8(&args.image)?;
             let deim_lines = if args.use_deim_detection {
                 match deim::detect_rgb_u8(
                     &args.det_model,
@@ -496,6 +496,15 @@ pub fn run_cli(cli: Cli) -> Result<()> {
                 Vec::new()
             };
             let line_detections = if deim_lines.is_empty() {
+                // 検出と認識で同じ画素を使い、色背景だけを本文と取り違えない。
+                if let std::borrow::Cow::Owned(prepared) =
+                    crate::pipeline::background::normalize_chromatic_panels(
+                        &img.data, img.width, img.height,
+                    )
+                    .map_err(anyhow::Error::msg)?
+                {
+                    img.data = prepared;
+                }
                 fallback_line_detections_from_bands(
                     &img.data,
                     img.width,

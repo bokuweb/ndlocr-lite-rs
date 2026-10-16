@@ -1,3 +1,5 @@
+/// 色付き横長パネルの背景と字形を分離する。
+pub mod background;
 mod band_bounds;
 pub mod cascade;
 pub mod connect;

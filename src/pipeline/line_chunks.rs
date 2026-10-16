@@ -48,6 +48,7 @@ pub fn split_line(
         .checked_mul(MAX_CHUNK_ASPECT)
         .ok_or("line dimensions overflow")?;
     let gaps = blank_gaps(rgb, width, height, threshold);
+    let minimum = minimum_chunk_counts(&gaps, width, max_width);
     let mut chunks = Vec::new();
     let mut x0 = 0;
     let mut space_before = false;
@@ -60,25 +61,37 @@ pub fn split_line(
         let last = gaps
             .partition_point(|gap| gap.midpoint <= x0.saturating_add(max_width))
             .min(first.saturating_add(MAX_CHUNK_INK_RUNS));
-        let candidates = &gaps[first..last];
-        // 必要区間数で残り幅を均し、句読点だけの短い末尾区間を避ける。
-        let count = (width - x0)
-            .div_ceil(max_width)
-            .max((gaps.len() - first + 1).div_ceil(MAX_CHUNK_INK_RUNS));
-        let target = x0 + (width - x0).div_ceil(count);
+        // 後続も幅・字形数制限内に収まる切り方だけを候補にする。
+        // 幅だけから区間数を見積もると、境界の手前で漢字1字が孤立する。
+        let count = minimum[first];
+        if count == usize::MAX {
+            return Err(format!(
+                "long OCR line has no safe blank-column boundary after column {x0}"
+            ));
+        }
+        let candidates: Vec<_> = gaps[first..last]
+            .iter()
+            .enumerate()
+            .filter(|(offset, _)| minimum[first + offset + 1].saturating_add(1) == count)
+            .map(|(_, gap)| gap)
+            .collect();
+        let target = x0 + (width - x0).div_ceil(count.max(1));
         let gap = candidates
             .iter()
+            .copied()
             .filter(|gap| gap.word_space)
             .min_by_key(|gap| gap.midpoint.abs_diff(target))
             .or_else(|| {
                 let nearest = candidates
                     .iter()
+                    .copied()
                     .min_by_key(|gap| gap.midpoint.abs_diff(target))?;
                 // 行高の1/20以下の白列は漢字の部品間にもある。
                 // 通常の字間は維持し、近傍により広い字間があるときだけ避ける。
                 if nearest.width <= height / 20 {
                     candidates
                         .iter()
+                        .copied()
                         .filter(|gap| {
                             gap.width >= height.div_ceil(10)
                                 && gap.midpoint.abs_diff(target) <= height
@@ -109,6 +122,29 @@ pub fn split_line(
         gap_before,
     });
     Ok(chunks)
+}
+
+/// 各白列境界から末尾までを安全に覆う最小区間数を後ろから求める。
+/// 1区間の候補は字形数制限で最大20個なので、空白数に比例する。
+fn minimum_chunk_counts(gaps: &[BlankGap], width: usize, max_width: usize) -> Vec<usize> {
+    let mut counts = vec![usize::MAX; gaps.len() + 1];
+    for first in (0..=gaps.len()).rev() {
+        let x0 = if first == 0 {
+            0
+        } else {
+            gaps[first - 1].midpoint
+        };
+        if width - x0 <= max_width && gaps.len() - first < MAX_CHUNK_INK_RUNS {
+            counts[first] = 1;
+        }
+        for next in first..gaps.len().min(first.saturating_add(MAX_CHUNK_INK_RUNS)) {
+            if gaps[next].midpoint - x0 > max_width {
+                break;
+            }
+            counts[first] = counts[first].min(counts[next + 1].saturating_add(1));
+        }
+    }
+    counts
 }
 
 /// 前後にインクがある空白の中央と、単語間隔の推定を保持する。
