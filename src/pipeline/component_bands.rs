@@ -106,7 +106,8 @@ pub(super) fn restore_isolated_bands(
         };
         let mut restored = Vec::<[usize; 4]>::new();
         for seed in &components {
-            if !is_glyph_seed(*seed, scale) {
+            let small_aligned = is_small_aligned_seed(*seed, scale, bands, y0, y1);
+            if !is_glyph_seed(*seed, scale) && !small_aligned {
                 continue;
             }
             let mut bounds = seed.bounds;
@@ -120,15 +121,27 @@ pub(super) fn restore_isolated_bands(
                 }
             }
             let h = bounds[3] - bounds[1];
-            if h * 4 < scale * 3 || h * 2 > scale * 3 {
+            if (!small_aligned && h * 4 < scale * 3) || h * 2 > scale * 3 {
                 continue;
             }
-            let band = [
+            let mut band = [
                 bounds[0].saturating_sub(2),
                 bounds[1].saturating_sub(1).max(y0),
                 (bounds[2] + 2).min(width),
                 (bounds[3] + 1).min(y1),
             ];
+            if small_aligned {
+                // x-heightを全高字形へ拡大せず、横書きの自動回転を余白で避ける。
+                band[1] = band[1].min(band[3].saturating_sub(scale + 2).max(y0));
+                let target_width = ((band[3] - band[1]) * 5)
+                    .div_ceil(4)
+                    .max(band[2] - band[0])
+                    .min(width);
+                band[0] = band[0]
+                    .saturating_sub((target_width - (band[2] - band[0])) / 2)
+                    .min(width - target_width);
+                band[2] = band[0] + target_width;
+            }
             if let Some(existing) = restored
                 .iter_mut()
                 .find(|b| b[1] < band[3] && band[1] < b[3] && b[3].abs_diff(band[3]) <= scale / 4)
@@ -144,6 +157,32 @@ pub(super) fn restore_isolated_bands(
         bands.extend(restored);
     }
     bands.sort_unstable_by_key(|b| (b[1], b[0]));
+}
+
+/// 通常の本文左端とそろう小文字高の成分だけを孤立行の起点にする。
+fn is_small_aligned_seed(
+    component: Component,
+    scale: usize,
+    bands: &[[usize; 4]],
+    gap_top: usize,
+    gap_bottom: usize,
+) -> bool {
+    let [x0, y0, x1, y1] = component.bounds;
+    let (w, h) = (x1 - x0, y1 - y0);
+    y0 > gap_top
+        && y1 < gap_bottom
+        && h * 5 >= scale * 2
+        && h * 4 < scale * 3
+        && w * 4 >= h
+        && w <= h * 2
+        && component.area >= h * 2
+        && component.area * 100 >= w * h * 8
+        && component.area * 100 <= w * h * 65
+        && bands.iter().any(|b| {
+            b[2] - b[0] >= scale * 3
+                && (b[3] - b[1]) * 4 >= scale * 3
+                && b[0].abs_diff(x0) <= scale / 4
+        })
 }
 
 /// 文字高・縦横比・密度を満たす成分だけを補助検出の起点にする。
@@ -347,5 +386,43 @@ mod truncated_tests {
             proptest::prop_assert!((b[2] - b[0]) * 4 >= (b[3] - b[1]) * 5);
             proptest::prop_assert!(b[1] >= actual[1][3]);
         }
+    }
+}
+
+#[cfg(test)]
+mod small_aligned_tests {
+    use super::{Component, is_small_aligned_seed};
+
+    /// 面積と寸法が文字相当の成分を、通常本文の左端へ置く。
+    fn seed(h: usize) -> Component {
+        Component {
+            bounds: [100, 150, 120, 150 + h],
+            area: h * 8,
+        }
+    }
+
+    /// 小文字高と全高の間に取りこぼす寸法帯を作らない。
+    #[test]
+    fn small_height_range_reaches_the_full_height_fallback() {
+        let bands = [[98, 10, 400, 62], [98, 80, 400, 132]];
+        for h in 20..=37 {
+            assert!(
+                is_small_aligned_seed(seed(h), 50, &bands, 132, 250),
+                "height {h}"
+            );
+        }
+        assert!(!is_small_aligned_seed(seed(19), 50, &bands, 132, 250));
+        assert!(!is_small_aligned_seed(seed(38), 50, &bands, 132, 250));
+    }
+
+    /// 本文への距離とギャップ境界を等号まで検証する。
+    #[test]
+    fn text_margin_and_gap_edges_bound_the_fallback() {
+        let bands = [[88, 10, 400, 62], [88, 80, 400, 132]];
+        assert!(is_small_aligned_seed(seed(20), 50, &bands, 132, 250));
+        let far = [[87, 10, 400, 62], [87, 80, 400, 132]];
+        assert!(!is_small_aligned_seed(seed(20), 50, &far, 132, 250));
+        assert!(!is_small_aligned_seed(seed(20), 50, &bands, 150, 250));
+        assert!(!is_small_aligned_seed(seed(20), 50, &bands, 132, 170));
     }
 }
