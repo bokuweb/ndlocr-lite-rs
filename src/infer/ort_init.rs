@@ -56,16 +56,19 @@ impl<T, E: std::fmt::Display> OrtAnyhow<T> for std::result::Result<T, E> {
 /// `pool_parallelism = 0` を渡されたら 1 にフォールバック。intra は [1, 8] に
 /// clamp して、超大コアでも 1 session に thrashing 級の thread を持たせない。
 pub fn auto_intra_threads(pool_parallelism: usize) -> usize {
-    if let Ok(raw) = std::env::var("NDLOCR_INTRA_THREADS") {
-        if let Ok(n) = raw.parse::<usize>() {
-            return n.clamp(1, 32);
-        }
-    }
+    let raw = std::env::var("NDLOCR_INTRA_THREADS").ok();
     let cpus = std::thread::available_parallelism()
         .map(|n| n.get())
         .unwrap_or(2);
-    let pool = pool_parallelism.max(1);
-    (cpus / pool).clamp(1, 8)
+    resolve_intra_threads(raw.as_deref(), cpus, pool_parallelism)
+}
+
+/// 環境変数とCPU情報の取得から独立して、セッションのスレッド数を決める。
+fn resolve_intra_threads(raw: Option<&str>, cpus: usize, pool_parallelism: usize) -> usize {
+    if let Some(n) = raw.and_then(|value| value.parse::<usize>().ok()) {
+        return n.clamp(1, 32);
+    }
+    (cpus / pool_parallelism.max(1)).clamp(1, 8)
 }
 
 /// 最初の [`ort::session::Session`] を作る前に呼ぶ。多重呼び出しは no-op。
@@ -97,84 +100,48 @@ pub fn ensure_init() {
 
 #[cfg(test)]
 mod tests {
-    use super::auto_intra_threads;
+    use super::resolve_intra_threads;
 
-    /// 論理コア 8 / pool=4 → intra=2 を計算する基本ケース。
-    /// `available_parallelism` 直依存なので、テスト環境で常に再現できる
-    /// ように env var で 8 に固定する。
-    fn with_env<F: FnOnce()>(key: &str, value: &str, f: F) {
-        // SAFETY: tests are single-threaded by default (--test-threads=1 is
-        // not required because tests don't share env mutation in practice;
-        // but to avoid races we wrap each test that uses env vars.)
-        let prev = std::env::var(key).ok();
-        unsafe { std::env::set_var(key, value) };
-        f();
-        unsafe {
-            match prev {
-                Some(v) => std::env::set_var(key, v),
-                None => std::env::remove_var(key),
-            }
+    /// 明示したスレッド数はプール並列度より優先する。
+    #[test]
+    fn env_override_takes_precedence() {
+        assert_eq!(resolve_intra_threads(Some("3"), 8, 4), 3);
+        assert_eq!(resolve_intra_threads(Some("3"), 8, 1), 3);
+    }
+
+    /// 明示値の上下限を、プロセス環境を変更せず固定する。
+    #[test]
+    fn env_override_clamps_to_sane_range() {
+        assert_eq!(resolve_intra_threads(Some("0"), 8, 4), 1);
+        assert_eq!(resolve_intra_threads(Some("999"), 8, 4), 32);
+    }
+
+    /// 不正な明示値ではCPU数とプール数から計算する。
+    #[test]
+    fn env_override_invalid_falls_back_to_auto() {
+        for raw in ["not-a-number", "", "-1"] {
+            assert_eq!(resolve_intra_threads(Some(raw), 8, 4), 2);
         }
     }
 
-    #[test]
-    fn env_override_takes_precedence() {
-        with_env("NDLOCR_INTRA_THREADS", "3", || {
-            assert_eq!(auto_intra_threads(4), 3);
-            assert_eq!(auto_intra_threads(1), 3);
-        });
-    }
-
-    #[test]
-    fn env_override_clamps_to_sane_range() {
-        with_env("NDLOCR_INTRA_THREADS", "0", || {
-            assert_eq!(auto_intra_threads(4), 1);
-        });
-        with_env("NDLOCR_INTRA_THREADS", "999", || {
-            assert_eq!(auto_intra_threads(4), 32);
-        });
-    }
-
-    #[test]
-    fn env_override_invalid_falls_back_to_auto() {
-        // 解析できない値は env override 失敗扱いで auto 計算に降りる。
-        with_env("NDLOCR_INTRA_THREADS", "not-a-number", || {
-            let n = auto_intra_threads(1);
-            assert!(
-                (1..=8).contains(&n),
-                "auto fallback should be in [1,8], got {n}"
-            );
-        });
-    }
-
+    /// ゼロのプール数は1として扱う。
     #[test]
     fn pool_zero_is_treated_as_one() {
-        // 0 を渡されたら 1 扱い (= cpu_count を独占する 1 session 相当)。
-        // env override が効いていない状態で測る。
-        unsafe { std::env::remove_var("NDLOCR_INTRA_THREADS") };
-        let n0 = auto_intra_threads(0);
-        let n1 = auto_intra_threads(1);
-        assert_eq!(n0, n1, "pool=0 should be coerced to pool=1");
+        assert_eq!(resolve_intra_threads(None, 8, 0), 8);
+        assert_eq!(resolve_intra_threads(None, 8, 1), 8);
     }
 
+    /// 多数のCPUでも自動設定の上限を8に保つ。
     #[test]
     fn intra_clamps_to_8_on_huge_machines() {
-        // pool=1 / cpus=64 でも 1 session に 64 thread はやり過ぎなので
-        // 8 に丸める (実装の clamp 上限)。env override 経由ではなく
-        // auto path で確認したいので env を消す。
-        unsafe { std::env::remove_var("NDLOCR_INTRA_THREADS") };
-        // pool=1 だと cpus / 1 = cpus がそのまま intra になる。これが 8 で
-        // clamp されること。テスト機の cpus に依存しないよう、戻り値の
-        // 上限が 8 であることだけ確認する。
-        let n = auto_intra_threads(1);
-        assert!(n <= 8, "intra should be clamped to <=8, got {n}");
+        assert_eq!(resolve_intra_threads(None, 64, 1), 8);
     }
 
+    /// 巨大なプールやCPU情報の欠落でも1以上を保つ。
     #[test]
     fn intra_at_least_1_for_huge_pool() {
-        // pool >> cpus でも 0 にはならず 1 を返す。
-        unsafe { std::env::remove_var("NDLOCR_INTRA_THREADS") };
-        assert_eq!(auto_intra_threads(usize::MAX), 1);
-        assert_eq!(auto_intra_threads(1024), 1);
+        assert_eq!(resolve_intra_threads(None, 8, usize::MAX), 1);
+        assert_eq!(resolve_intra_threads(None, 8, 1024), 1);
+        assert_eq!(resolve_intra_threads(None, 0, 1), 1);
     }
 }
