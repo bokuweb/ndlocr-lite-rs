@@ -26,7 +26,7 @@ pub(super) fn restore_truncated_bands(
     }
     for i in 0..bands.len() {
         let band = bands[i];
-        if (band[3] - band[1]) * 4 >= scale * 3 || band[2] - band[0] > scale * 3 {
+        if (band[3] - band[1]) * 4 >= scale * 3 || band[2] - band[0] > scale * 6 {
             continue;
         }
         let y0 = band[1]
@@ -41,8 +41,8 @@ pub(super) fn restore_truncated_bands(
             let [cx0, cy0, cx1, cy1] = component.bounds;
             if cy0 <= y0
                 || cy1 >= y1
-                || cx0 < band[0].saturating_sub(scale / 8)
-                || cx1 > (band[2] + scale / 8).min(width)
+                || cx0 < band[0].saturating_sub(scale / 4)
+                || cx1 > (band[2] + scale / 4).min(width)
                 || cx0 >= band[2]
                 || cx1 <= band[0]
                 || cy0 >= band[3]
@@ -334,6 +334,29 @@ mod truncated_tests {
             let mut actual = bands(100);
             restore_truncated_bands(&rgb, width, height, 220, &mut actual);
             assert_eq!(actual, bands(100), "kind {kind}");
+        }
+    }
+
+    /// 見出しの幅と斜め画の横ずれは、等号を含む上限までだけ許容する。
+    #[test]
+    fn heading_width_and_diagonal_offset_have_bounded_limits() {
+        for (line_width, offset, restored) in [(264, 11, true), (265, 11, false), (264, 12, false)]
+        {
+            let (width, height) = (512, 240);
+            let mut rgb = vec![255; width * height * 3];
+            glyph(&mut rgb, width, 100 - offset, 130, 170);
+            let mut actual = bands(100);
+            actual[2][2] = 100 + line_width;
+            let before = actual.clone();
+            restore_truncated_bands(&rgb, width, height, 220, &mut actual);
+            assert_eq!(
+                actual != before,
+                restored,
+                "width={line_width} offset={offset}"
+            );
+            if restored {
+                assert!(actual[2][0] <= 89 && actual[2][3] >= 170);
+            }
         }
     }
 
