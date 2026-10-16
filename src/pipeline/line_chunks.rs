@@ -348,7 +348,12 @@ fn blank_gaps(rgb: &[u8], width: usize, height: usize, threshold: u8) -> Vec<Bla
         // 字幅の3/5以上を単語空白と推定する。極端な横長インクは行高で頭打ちにする。
         let typical = representative_width(&ink_widths, &ink_extents, height).min(height);
         let preferred_gap = typical.saturating_mul(3).div_ceil(5);
-        let word_gap = word_gap_threshold(&gaps, typical, height);
+        // 斜体などで複数字が連結した成分が複数あれば、全角相当の中央値だけで除外しない。
+        let connected_runs = ink_widths
+            .iter()
+            .filter(|&&width| width >= height.saturating_mul(2))
+            .count();
+        let word_gap = word_gap_threshold(&gaps, typical, height, connected_runs);
         // 幅の中央値が近い英字行を除くため、全角相当の字形も十分あることを要求する。
         let wide_glyphs = ink_widths
             .iter()
@@ -419,18 +424,29 @@ fn blank_gaps(rgb: &[u8], width: usize, height: usize, threshold: u8) -> Vec<Bla
 }
 
 /// 複数の実単語間隔が字間と分離している行では、実画像の間隔を使う。
-fn word_gap_threshold(gaps: &[BlankGap], typical: usize, height: usize) -> usize {
+fn word_gap_threshold(
+    gaps: &[BlankGap],
+    typical: usize,
+    height: usize,
+    connected_runs: usize,
+) -> usize {
     let fallback = typical.saturating_mul(3).div_ceil(5);
-    if typical >= height.saturating_mul(2).div_ceil(3) || gaps.len() < 6 {
+    if (typical >= height.saturating_mul(2).div_ceil(3) && connected_runs < 3) || gaps.len() < 6 {
         return fallback;
     }
     let mut widths: Vec<_> = gaps.iter().map(|gap| gap.width).collect();
     widths.sort_unstable();
     for first in widths.len().div_ceil(2)..=widths.len() - 3 {
         let (small, large) = (widths[first - 1], widths[first]);
-        // 少なくとも3空白が、字間の2倍以上かつ行高の1/5以上でまとまる。
+        // 6空白以上の支持がある場合だけ、中間幅の字間1個を許す。
+        let separated = (large as u128) >= (small as u128) * 2
+            || (widths.len() - first >= 6
+                && first >= 2
+                && (large as u128) >= (widths[first - 2] as u128) * 2
+                && (small as u128) * 3 <= (large as u128) * 2);
+        // 少なくとも3空白が、字間と分離しかつ行高の1/5以上でまとまる。
         if large >= height.div_ceil(5)
-            && (large as u128) >= (small as u128) * 2
+            && separated
             && (*widths.last().unwrap() as u128) <= (large as u128) * 2
         {
             return fallback.min(large);
@@ -540,6 +556,27 @@ mod tests {
             (vec![1, 2, 5, 10, 12, 20], 23, 47, 10),
             (vec![1, 2, 5, 10, 12, 21], 23, 47, 14),
             (vec![1, 2, 4, 9, 12, 15], 23, 47, 14),
+            // 6個以上の単語空白なら、1個だけ広い字間が混ざっても支持が残る。
+            (
+                vec![1, 1, 2, 2, 3, 4, 7, 12, 13, 13, 14, 15, 20],
+                22,
+                48,
+                12,
+            ),
+            (vec![1, 1, 2, 2, 3, 4, 7, 12, 13, 13, 14, 20], 22, 48, 14),
+            (
+                vec![1, 1, 2, 2, 3, 4, 7, 12, 13, 13, 14, 15, 25],
+                22,
+                48,
+                14,
+            ),
+            // 広い字間が2個なら分離した二群とは扱わない。
+            (
+                vec![1, 1, 2, 2, 3, 7, 7, 12, 13, 13, 14, 15, 20],
+                22,
+                48,
+                14,
+            ),
         ] {
             let gaps: Vec<_> = widths
                 .iter()
@@ -552,10 +589,49 @@ mod tests {
                 })
                 .collect();
             assert_eq!(
-                word_gap_threshold(&gaps, typical, height),
+                word_gap_threshold(&gaps, typical, height, 0),
                 expected,
                 "{widths:?}, {typical}/{height}"
             );
+        }
+    }
+
+    /// 連結字形が3個未満なら全角相当中央値の除外を維持する。
+    #[test]
+    fn joined_glyph_support_does_not_relax_wide_rows_without_evidence() {
+        let gaps: Vec<_> = [1, 1, 2, 2, 3, 3, 4, 5, 5, 11, 14, 14, 15, 15, 16, 20]
+            .into_iter()
+            .map(|width| BlankGap {
+                midpoint: 0,
+                width,
+                word_space: false,
+                preferred_split: false,
+                internal_glyph_gap: false,
+            })
+            .collect();
+        for (connected_runs, expected) in [(0, 21), (1, 21), (2, 21), (3, 11)] {
+            assert_eq!(word_gap_threshold(&gaps, 35, 49, connected_runs), expected);
+        }
+    }
+
+    proptest! {
+        #![proptest_config(proptest::test_runner::Config::with_cases(32))]
+        /// 同じ間隔分布を拡大しても、支持数と空白閾値の関係を保つ。
+        #[test]
+        fn supported_word_gap_distribution_scales(scale in 1usize..9, connected in 0usize..5) {
+            let widths = [1, 1, 2, 2, 3, 3, 4, 5, 5, 11, 14, 14, 15, 15, 16, 20];
+            let gaps: Vec<_> = widths.into_iter().map(|width| BlankGap {
+                midpoint: 0, width: width * scale, word_space: false,
+                preferred_split: false, internal_glyph_gap: false,
+            }).collect();
+            let expected = if connected >= 3 { 11 * scale } else { (35 * scale * 3).div_ceil(5) };
+            prop_assert_eq!(word_gap_threshold(&gaps, 35 * scale, 49 * scale, connected), expected);
+            let gaps: Vec<_> = [1, 1, 2, 2, 3, 4, 7, 12, 13, 13, 14, 15, 20]
+                .into_iter().map(|width| BlankGap {
+                    midpoint: 0, width: width * scale, word_space: false,
+                    preferred_split: false, internal_glyph_gap: false,
+                }).collect();
+            prop_assert_eq!(word_gap_threshold(&gaps, 22 * scale, 48 * scale, 0), 12 * scale);
         }
     }
 
