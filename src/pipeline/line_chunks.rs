@@ -285,24 +285,29 @@ fn blank_gaps(rgb: &[u8], width: usize, height: usize, threshold: u8) -> Vec<Bla
                 ink_widths[index] >= height.div_ceil(2)
                     && ink_extents[index] >= height.saturating_mul(2).div_ceil(3)
             });
-            let bearing = |index| {
-                let width = ink_widths[index];
-                compact_glyph_bearing(width, ink_extents[index], typical, height).or_else(|| {
-                    if wide_row && full_neighbors {
-                        open_glyph_bearing(
-                            width,
-                            ink_extents[index],
-                            ink_heights[index],
-                            typical,
-                            height,
-                        )
-                    } else {
-                        None
-                    }
-                })
+            let compact_left = compact_glyph_bearing(left, ink_extents[i], typical, height);
+            let compact_right = compact_glyph_bearing(right, ink_extents[i + 1], typical, height);
+            let paired_compact = compact_left.is_some() && compact_right.is_some();
+            let bearing = |index, compact: Option<usize>| {
+                // 英字の小画単独ではadvanceを推定せず、隣接する小画同士だけ補正する。
+                compact
+                    .filter(|_| typical >= height.saturating_mul(2).div_ceil(3) || paired_compact)
+                    .or_else(|| {
+                        if wide_row && full_neighbors {
+                            open_glyph_bearing(
+                                ink_widths[index],
+                                ink_extents[index],
+                                ink_heights[index],
+                                typical,
+                                height,
+                            )
+                        } else {
+                            None
+                        }
+                    })
             };
-            let bearing_left = bearing(i);
-            let bearing_right = bearing(i + 1);
+            let (bearing_left, bearing_right) =
+                (bearing(i, compact_left), bearing(i + 1, compact_right));
             let tall_narrow =
                 tall_narrow_glyph(left, ink_extents[i], ink_heights[i], typical, height)
                     || tall_narrow_glyph(
@@ -415,6 +420,41 @@ fn open_glyph_bearing(
 mod tests {
     use super::*;
     use proptest::prelude::*;
+
+    /// 小画と本文の間は通常閾値、小画同士だけは両側の余白を考慮する。
+    #[test]
+    fn latin_single_and_paired_marks_obey_gap_boundaries() {
+        for (paired, gap, expected) in [
+            (false, 11, false),
+            (false, 12, true),
+            (false, 17, true),
+            (true, 17, false),
+            (true, 24, false),
+            (true, 25, true),
+        ] {
+            let height = 46;
+            let right_width = if paired { 7 } else { 19 };
+            let width = 19 * 3 + 7 + right_width + 3 * 3 + gap;
+            let mut rgb = vec![255; width * height * 3];
+            let mut x = 0;
+            for (ink_width, extent, following_gap) in [
+                (19, 35, 3),
+                (19, 35, 3),
+                (19, 35, 3),
+                (7, 11, gap),
+                (right_width, if paired { 11 } else { 35 }, 0),
+            ] {
+                for y in height - extent..height {
+                    for col in x..x + ink_width {
+                        rgb[(y * width + col) * 3..(y * width + col) * 3 + 3].fill(0);
+                    }
+                }
+                x += ink_width + following_gap;
+            }
+            let gaps = blank_gaps(&rgb, width, height, 220);
+            assert_eq!(gaps.last().unwrap().word_space, expected, "{paired}/{gap}");
+        }
+    }
 
     /// 低い成分と本体の最低支持数を満たす場合だけ細い成分の偏りを除く。
     #[test]

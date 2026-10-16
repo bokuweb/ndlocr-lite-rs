@@ -1,0 +1,24 @@
+{
+  "source_repository": "https://github.com/jlsi/omo",
+  "source_pdf": "fixtures/input/pdf_parser/resources/pdf/text_extract/only_ascii.pdf",
+  "source_image_sha256": "dd037394581d83989b29911e78878d83490aa12be9654f42005d6014a2369b0a",
+  "render_dpi": 300,
+  "crop": [
+    355,
+    1254,
+    2121,
+    1300
+  ],
+  "truth": "Amazon, Discord, Dropbox, Google (Alphabet), Meta, and Microsoft. In December 2022, it",
+  "crop_sha256": "aa394cb1b6df9935ddb3ed4c74c75b743238005cbf4ee45a2ccc044d2dd08112",
+  "real_word_gaps": [
+    [
+      342,
+      359
+    ],
+    [
+      1048,
+      1065
+    ]
+  ]
+}
