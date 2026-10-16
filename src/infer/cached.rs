@@ -98,6 +98,11 @@ fn extract_input_meta(session: &Session) -> Result<(String, String, usize, usize
 }
 
 impl ParseqSession {
+    /// ロード済みONNXの入力画像寸法を幅・高さの順で返す。
+    pub fn input_dimensions(&self) -> (usize, usize) {
+        (self.input_w, self.input_h)
+    }
+
     pub fn load(model_path: &Path, charset_path: &Path) -> Result<Self> {
         if !model_path.is_file() {
             bail!("parseq model not found: {}", model_path.display());

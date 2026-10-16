@@ -31,6 +31,7 @@ fn reusable_session_preserves_repetitions_without_reloading_files() {
     std::fs::copy(model, &model_copy).unwrap();
     std::fs::copy(charset, &charset_copy).unwrap();
     let session = ParseqSession::load(&model_copy, &charset_copy).unwrap();
+    assert_eq!(session.input_dimensions(), (256, 24));
     std::fs::remove_file(model_copy).unwrap();
     std::fs::remove_file(charset_copy).unwrap();
     for _ in 0..3 {

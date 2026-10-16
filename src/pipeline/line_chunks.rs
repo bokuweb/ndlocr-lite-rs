@@ -33,6 +33,41 @@ pub const MAX_CHUNK_ASPECT: usize = 8;
 /// 30文字モデルに対し、密集した字形を余裕を持って分割するインク列群数。
 const MAX_CHUNK_INK_RUNS: usize = 20;
 
+/// モデルの入力寸法を指定し、収まる短い行の文脈を保持する。
+pub fn split_line_for_input(
+    rgb: &[u8],
+    width: usize,
+    height: usize,
+    threshold: u8,
+    input_width: usize,
+    input_height: usize,
+) -> Result<Vec<LineChunk>, String> {
+    let expected = width.checked_mul(height).and_then(|n| n.checked_mul(3));
+    if width == 0 || height == 0 || expected != Some(rgb.len()) {
+        return Err("invalid RGB line dimensions".into());
+    }
+    if input_width == 0 || input_height == 0 || input_width.checked_mul(input_height).is_none() {
+        return Err("invalid model input dimensions".into());
+    }
+    let scaled_width = width
+        .checked_mul(input_height)
+        .ok_or("line dimensions overflow")?;
+    let scaled_input = height
+        .checked_mul(input_width)
+        .ok_or("line dimensions overflow")?;
+    if scaled_width <= scaled_input
+        && blank_gaps(rgb, width, height, threshold).len() < MAX_CHUNK_INK_RUNS
+    {
+        return Ok(vec![LineChunk {
+            x0: 0,
+            x1: width,
+            space_before: false,
+            gap_before: 0,
+        }]);
+    }
+    split_line(rgb, width, height, threshold)
+}
+
 /// インクを横切らずに行を短い区間へ分割し、分割不能なら拒否する。
 pub fn split_line(
     rgb: &[u8],
