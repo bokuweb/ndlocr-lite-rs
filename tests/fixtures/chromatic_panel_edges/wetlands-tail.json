@@ -1,0 +1,16 @@
+{
+  "source_repository": "https://github.com/jlsi/omo",
+  "source_path": "fixtures/input/pdf_parser/resources/grapecity/documents_for_pdf/document/analyze/extract-paragraphs.pdf",
+  "source_sha256": "a9a753f02250d86f15bea539efc92a60e2a5afe670679acfc4183f2f338c35cb",
+  "page": 1,
+  "dpi": 300,
+  "crop_xyxy": [
+    130,
+    1580,
+    2390,
+    1870
+  ],
+  "image_sha256": "97dda33e1b3a142eef2432cdc8ec0acda195b6537910fc56e88aeb45b86d9eb4",
+  "tail_truth": "whose growth may clog rivers, foul",
+  "purpose": "regression selected after first full-page inference; not holdout"
+}
