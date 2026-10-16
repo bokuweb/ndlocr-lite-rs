@@ -93,6 +93,31 @@ fn is_glyph_seed(component: Component, scale: usize) -> bool {
         && component.area * 100 <= w * h * 65
 }
 
+/// 上下の断片へまたがる成分が、文字の寸法・密度を持つ場合だけ結合を許す。
+pub(super) fn has_bridging_glyph(
+    rgb: &[u8],
+    width: usize,
+    bounds: [usize; 4],
+    upper_end: usize,
+    lower_start: usize,
+    scale: usize,
+    threshold: u8,
+) -> bool {
+    let Some(components) = components_in_gap(rgb, width, bounds[1], bounds[3], threshold) else {
+        return false;
+    };
+    components.into_iter().any(|component| {
+        let [x0, y0, x1, y1] = component.bounds;
+        x0 >= bounds[0]
+            && x1 <= bounds[2]
+            && y0 > bounds[1]
+            && y1 < bounds[3]
+            && y0 < upper_end.saturating_sub(1)
+            && y1 > lower_start + 1
+            && is_glyph_seed(component, scale)
+    })
+}
+
 /// 上部の分離字形か、seedと同じ基線付近にある近接句読点を含める。
 fn belongs_to_glyph(seed: Component, part: Component, scale: usize) -> bool {
     let [sx0, sy0, sx1, sy1] = seed.bounds;
