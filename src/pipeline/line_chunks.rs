@@ -264,11 +264,8 @@ fn blank_gaps(rgb: &[u8], width: usize, height: usize, threshold: u8) -> Vec<Bla
         ink_extents.push(ink_bottom - ink_top);
     }
     if !ink_widths.is_empty() {
-        let middle = ink_widths.len() / 2;
-        let mut sorted_widths = ink_widths.clone();
-        let (_, typical_width, _) = sorted_widths.select_nth_unstable(middle);
         // 字幅の3/5以上を単語空白と推定する。極端な横長インクは行高で頭打ちにする。
-        let typical = (*typical_width).min(height);
+        let typical = representative_width(&ink_widths, &ink_extents, height).min(height);
         let word_gap = typical.saturating_mul(3).div_ceil(5);
         // 幅の中央値が近い英字行を除くため、全角相当の字形も十分あることを要求する。
         let wide_glyphs = ink_widths
@@ -333,6 +330,35 @@ fn blank_gaps(rgb: &[u8], width: usize, height: usize, threshold: u8) -> Vec<Bla
     gaps
 }
 
+/// 細い成分が過半数かつ低い成分も多ければ、十分な本体から代表字幅を推定する。
+fn representative_width(widths: &[usize], extents: &[usize], height: usize) -> usize {
+    let narrow = widths
+        .iter()
+        .filter(|&&width| width < height.div_ceil(3))
+        .count();
+    let small = widths
+        .iter()
+        .zip(extents)
+        .filter(|&(width, extent)| *width < height.div_ceil(3) && *extent < height.div_ceil(2))
+        .count();
+    let body: Vec<_> = widths
+        .iter()
+        .zip(extents)
+        .filter(|&(width, extent)| *width >= height.div_ceil(3) && *extent >= height.div_ceil(2))
+        .map(|(&width, _)| width)
+        .collect();
+    let mut candidates = if narrow > widths.len() / 2
+        && small >= widths.len().div_ceil(3)
+        && body.len() >= widths.len().div_ceil(4)
+    {
+        body
+    } else {
+        widths.to_vec()
+    };
+    let middle = candidates.len() / 2;
+    *candidates.select_nth_unstable(middle).1
+}
+
 /// 和文行の半字幅以上の全高字形を、細い括弧と区別する。
 fn tall_narrow_glyph(
     width: usize,
@@ -349,13 +375,19 @@ fn tall_narrow_glyph(
         && peak < height.saturating_mul(2).div_ceil(3)
 }
 
-/// 和文相当の字幅を持つ行で、背の低い小字形の背景余白を行高から推定する。
+/// 背の低い小字形の背景余白を、和文では行高・英字では代表幅から推定する。
 fn compact_glyph_bearing(
     width: usize,
     extent: usize,
     typical: usize,
     height: usize,
 ) -> Option<usize> {
+    if typical < height.saturating_mul(2).div_ceil(3)
+        && width < typical.div_ceil(2)
+        && extent < height.div_ceil(2)
+    {
+        return Some(typical.saturating_sub(width).div_ceil(2));
+    }
     (typical >= height.saturating_mul(2).div_ceil(3)
         && width >= typical.saturating_mul(3).div_ceil(4)
         && width <= height.saturating_mul(3) / 4
@@ -383,6 +415,36 @@ fn open_glyph_bearing(
 mod tests {
     use super::*;
     use proptest::prelude::*;
+
+    /// 低い成分と本体の最低支持数を満たす場合だけ細い成分の偏りを除く。
+    #[test]
+    fn punctuation_width_requires_short_and_body_support() {
+        for (short, body, expected) in [(4, 3, 20), (3, 3, 8), (4, 2, 8)] {
+            let widths = [vec![8; 7], vec![20; 5]].concat();
+            let extents = [
+                vec![12; short],
+                vec![40; 7 - short],
+                vec![30; body],
+                vec![12; 5 - body],
+            ]
+            .concat();
+            assert_eq!(representative_width(&widths, &extents, 48), expected);
+        }
+        // 幅1/3・高さ1/2の等号は本体、直下は対象外とする。
+        assert_eq!(representative_width(&[8, 8, 16], &[12, 12, 24], 48), 16);
+        assert_eq!(representative_width(&[8, 8, 15], &[12, 12, 24], 48), 8);
+        assert_eq!(representative_width(&[8, 8, 16], &[12, 12, 23], 48), 8);
+        assert_eq!(representative_width(&[8, 8, 8], &[40, 40, 40], 48), 8);
+    }
+
+    /// 英字句読点の幅・高さの上限と全高の細字の除外を固定する。
+    #[test]
+    fn latin_punctuation_bearing_excludes_full_height_stems() {
+        assert_eq!(compact_glyph_bearing(9, 23, 20, 48), Some(6));
+        assert_eq!(compact_glyph_bearing(10, 23, 20, 48), None);
+        assert_eq!(compact_glyph_bearing(9, 24, 20, 48), None);
+        assert_eq!(compact_glyph_bearing(9, 40, 20, 48), None);
+    }
 
     /// 全高で疎な字形の左右余白と広い実空白を区別する。
     #[test]
