@@ -1,6 +1,10 @@
+/// 傾いた字形の投影から実単語空白を確認する。
+mod slanted_spaces;
+
 /// 画像内の間隔分布から単語空白の閾値を推定する。
 mod word_spaces;
 
+use slanted_spaces::restore_slanted_word_spaces;
 use word_spaces::word_gap_threshold;
 
 /// 横書き行から切り出す、重複・欠落のない水平区間。
@@ -116,7 +120,7 @@ pub fn split_line_for_input(
     let scaled_input = height
         .checked_mul(input_width)
         .ok_or("line dimensions overflow")?;
-    let gaps = blank_gaps(rgb, width, height, threshold);
+    let mut gaps = blank_gaps(rgb, width, height, threshold);
     if scaled_width <= scaled_input && gaps.len() < MAX_CHUNK_INK_RUNS {
         return Ok(vec![LineChunk {
             x0: 0,
@@ -138,6 +142,7 @@ pub fn split_line_for_input(
             chunks.truncate(first + 1);
         }
     }
+    restore_slanted_word_spaces(rgb, width, height, threshold, &mut gaps);
     restore_word_spaces(&mut chunks, &gaps);
     Ok(chunks)
 }
@@ -153,8 +158,9 @@ pub fn split_line(
     if width == 0 || height == 0 || expected != Some(rgb.len()) {
         return Err("invalid RGB line dimensions".into());
     }
-    let gaps = blank_gaps(rgb, width, height, threshold);
+    let mut gaps = blank_gaps(rgb, width, height, threshold);
     let mut chunks = split_line_at_preferred_gaps(&gaps, width, height)?;
+    restore_slanted_word_spaces(rgb, width, height, threshold, &mut gaps);
     restore_word_spaces(&mut chunks, &gaps);
     Ok(chunks)
 }

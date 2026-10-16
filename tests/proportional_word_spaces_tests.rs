@@ -253,3 +253,53 @@ fn residual_formatted_word_spaces_are_preserved() {
     }
     assert!(missing.is_empty(), "{missing:?}");
 }
+
+/// 斜体の数詞後の実空白を、元の区間とモデル入力を維持して復元する。
+#[cfg(all(feature = "onnx", unix))]
+#[test]
+#[ignore = "requires fixed PARSeq assets"]
+fn italic_number_word_space_is_preserved() {
+    use ndlocr_lite_rs::{
+        infer::cached::ParseqSession, pipeline::line_chunks::crop_line_chunk_rgb_u8,
+    };
+    let image = load_rgb_u8(std::path::Path::new(
+        "tests/fixtures/chromatic_text_contrast/page.png",
+    ))
+    .unwrap();
+    let rgb = normalize_chromatic_panels(&image.data, image.width, image.height).unwrap();
+    let bands = detect_textline_bands_naive(&rgb, image.width, image.height, 220);
+    let session = ParseqSession::load(
+        &std::path::PathBuf::from(std::env::var_os("NDLOCR_TEST_PARSEQ_MODEL").unwrap()),
+        &std::path::PathBuf::from(std::env::var_os("NDLOCR_TEST_CHARSET").unwrap()),
+    )
+    .unwrap();
+    let row = 14;
+    let [x0, y0, x1, y1] = bands[row];
+    let line = crop_rgb_u8(&rgb, image.width, image.height, BBox::new(x0, y0, x1, y1)).unwrap();
+    let chunks = split_line_for_input(&line.data, line.width, line.height, 220, 256, 24).unwrap();
+    assert_eq!(
+        chunks.iter().map(|c| (c.x0, c.x1)).collect::<Vec<_>>(),
+        [(0, 135), (135, 552), (552, 987), (987, 1351), (1351, 1822)],
+        "original partition must remain unchanged"
+    );
+    assert!(chunks[4].space_before);
+    let mut actual = String::new();
+    for (index, chunk) in chunks.iter().enumerate() {
+        let crop =
+            crop_line_chunk_rgb_u8(&line.data, line.width, line.height, &chunks, index).unwrap();
+        assert_eq!(crop.width, [135, 417, 435, 364, 471][index]);
+        let result = session
+            .recognize_rgb_u8_unprocessed(&crop.data, crop.width, crop.height)
+            .unwrap();
+        eprintln!(
+            "ROW {row} {chunk:?} {}x{} {:?}",
+            crop.width, crop.height, result.text
+        );
+        if chunk.insert_space_before(&actual, &result.text, line.height) {
+            actual.push(' ');
+        }
+        actual.push_str(&result.text);
+    }
+    eprintln!("ROW {row} ACTUAL {actual:?}");
+    assert!(actual.contains("16 points"), "{actual:?}");
+}
