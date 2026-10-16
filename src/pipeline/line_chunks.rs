@@ -23,6 +23,7 @@ impl LineChunk {
 
 /// 幅/高さ比5以上で、両端が単語境界または行端のchunkだけ純白の外側列を除く。
 /// 短い/疎なchunk・字形間分割・未分割行・PARSeqの回転条件が変わる場合は元の余白を保持する。
+/// 除去幅が高さの四分の一未満なら、小さな側部余白と元の入力文脈を保持する。
 pub fn crop_line_chunk_rgb_u8(
     rgb: &[u8],
     width: usize,
@@ -44,9 +45,13 @@ pub fn crop_line_chunk_rgb_u8(
         return crop_rgb_u8(rgb, width, height, bbox);
     }
     let image = crop_rgb_u8_tight_horizontal(rgb, width, height, bbox)?;
+    let removed = chunk.x1 - chunk.x0 - image.width;
     let original_rotated = (height as u128) * 5 > ((chunk.x1 - chunk.x0) as u128) * 4;
     let tight_rotated = (height as u128) * 5 > (image.width as u128) * 4;
-    if original_rotated != tight_rotated || horizontal_ink_runs(&image) < MIN_MARGIN_CROP_INK_RUNS {
+    if (removed as u128) * 4 < height as u128
+        || original_rotated != tight_rotated
+        || horizontal_ink_runs(&image) < MIN_MARGIN_CROP_INK_RUNS
+    {
         return crop_rgb_u8(rgb, width, height, BBox::new(chunk.x0, 0, chunk.x1, height));
     }
     Ok(image)

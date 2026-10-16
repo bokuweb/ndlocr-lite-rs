@@ -101,6 +101,10 @@ proptest::proptest! {
         proptest::prop_assert_eq!(height * 5 > width * 4, height * 5 > crop.width * 4);
         proptest::prop_assert_eq!(crop.height, height);
         proptest::prop_assert_eq!(crop.data.chunks_exact(3).filter(|p| *p != [255; 3]).count(), runs);
+        if (left + right) * 4 < height {
+            let original = crop_rgb_u8(&rgb, width * 2, height, BBox::new(0, 0, width, height)).unwrap();
+            proptest::prop_assert_eq!(crop, original);
+        }
     }
 }
 
@@ -164,5 +168,33 @@ fn sparse_marks_keep_context_at_support_boundary() {
                 .width,
             if runs == 8 { 32 } else { runs * 2 - 1 }
         );
+    }
+}
+
+/// 高さの四分の一未満の小さな余白削除では入力幅を変えず文脈を保つ。
+#[test]
+fn tiny_margin_removal_keeps_context_at_boundary() {
+    for right in [2, 3, 4] {
+        let width = 7 + 287 + right;
+        let mut rgb = vec![255; width * 2 * 44 * 3];
+        for x in (7..294).step_by(2) {
+            rgb[x * 3] = 254;
+        }
+        let chunks = vec![
+            LineChunk {
+                x0: 0,
+                x1: width,
+                space_before: false,
+                gap_before: 0,
+            },
+            LineChunk {
+                x0: width,
+                x1: width * 2,
+                space_before: true,
+                gap_before: 3,
+            },
+        ];
+        let crop = crop_line_chunk_rgb_u8(&rgb, width * 2, 44, &chunks, 0).unwrap();
+        assert_eq!(crop.width, if right < 4 { width } else { 287 });
     }
 }

@@ -1,5 +1,7 @@
 # 分割行の単語欠落と白余白の比較
 
+後続の小余白保持条件は [chunk_context_margin.md](chunk_context_margin.md) を参照。
+
 ## 仕様（実装前）
 
 横書き行の一部をPARSeqへ渡すと、その区間にない下伸び字形のために確保した
