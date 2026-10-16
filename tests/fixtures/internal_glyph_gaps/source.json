@@ -1,0 +1,18 @@
+{
+  "source_repository": "jlsi/omo",
+  "source_pdf": "fixtures/input/pdf_parser/resources/word/simple.pdf",
+  "source_pdf_sha256": "fef165b821e1b0de847e82810a032d2fd6c4863d534bb2309e66c6be486c8b95",
+  "source_page_png_sha256": "a679356dee9fdc624085f3ab5941956be7d8350eb09fda9f069aa0b306101cde",
+  "dpi": 300,
+  "page": 1,
+  "crop_xyxy": [
+    471,
+    653,
+    2108,
+    700
+  ],
+  "crop_sha256": "6ed47829746bd5c99c48df67467ebce0ed91f94496c6eb18bd61729fd2a90f9c",
+  "truth": "(ア) Rust は非常に高速でメモリ効率が高くランタイムやガベージコ",
+  "baseline": "(ア) Rust は非常に高速でメモリ効率カ高く ランタイムやガベージコ",
+  "development_data": true
+}

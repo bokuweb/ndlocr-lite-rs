@@ -121,9 +121,9 @@ pub fn split_line(
                     .iter()
                     .copied()
                     .min_by_key(|gap| gap.midpoint.abs_diff(target))?;
-                // 行高の1/20以下の白列は漢字の部品間にもある。
+                // 一字幅に収まる仮名の左右画線間にも細い白列がある。
                 // 通常の字間は維持し、近傍により広い字間があるときだけ避ける。
-                if nearest.width <= height / 20 {
+                if nearest.width <= height / 20 || nearest.internal_glyph_gap {
                     candidates
                         .iter()
                         .copied()
@@ -190,6 +190,8 @@ struct BlankGap {
     width: usize,
     /// 代表的な字形の幅から単語間隔と推定したか。
     word_space: bool,
+    /// 前後の画線が一字幅に収まる狭い部品間の候補か。
+    internal_glyph_gap: bool,
 }
 
 /// 行全高で閾値未満の画素がない内側の列群を列挙する。
@@ -239,6 +241,7 @@ fn blank_gaps(rgb: &[u8], width: usize, height: usize, threshold: u8) -> Vec<Bla
                     midpoint: start + (x - start) / 2,
                     width: x - start,
                     word_space: false,
+                    internal_glyph_gap: false,
                 });
             }
         }
@@ -257,6 +260,8 @@ fn blank_gaps(rgb: &[u8], width: usize, height: usize, threshold: u8) -> Vec<Bla
         let word_gap = typical.saturating_mul(3).div_ceil(5);
         for (i, gap) in gaps.iter_mut().enumerate() {
             let (left, right) = (ink_widths[i], ink_widths[i + 1]);
+            gap.internal_glyph_gap = gap.width < height.div_ceil(10)
+                && left.saturating_add(gap.width).saturating_add(right) <= height;
             let narrow_stem = (left < typical.div_ceil(2)
                 && ink_heights[i] >= height.saturating_mul(2).div_ceil(3))
                 || (right < typical.div_ceil(2)
@@ -520,6 +525,48 @@ mod tests {
         assert_eq!(chunks.last().unwrap().x1, 843);
     }
 
+    /// 行高1/20より広くても、一字幅に収まる左右画線間では分割しない。
+    #[test]
+    fn avoids_internal_kana_gap_within_one_glyph_width() {
+        let mut columns = vec![true; 1000];
+        columns[310..315].fill(false);
+        columns[338..342].fill(false);
+        columns[355..364].fill(false);
+        columns[650..657].fill(false);
+        let chunks = split_line(&image(&columns, 47), 1000, 47, 220).unwrap();
+        assert!(
+            chunks
+                .iter()
+                .any(|chunk| chunk.x0 <= 315 && chunk.x1 >= 355),
+            "{chunks:?}"
+        );
+    }
+
+    /// 1/10以上の字間や一字幅に収まらない画線では、新しい部品間判定を適用しない。
+    #[test]
+    fn keeps_wider_gaps_and_separate_glyphs() {
+        for (left_start, gap_end) in [(315, 343), (298, 342)] {
+            let mut columns = vec![true; 1000];
+            columns[left_start - 5..left_start].fill(false);
+            columns[338..gap_end].fill(false);
+            columns[355..364].fill(false);
+            columns[650..657].fill(false);
+            let chunks = split_line(&image(&columns, 47), 1000, 47, 220).unwrap();
+            assert_eq!(chunks[0].x1, 340);
+        }
+    }
+
+    /// 部品間らしい白列でも、近傍に広い候補がなければ安全な白列へ戻す。
+    #[test]
+    fn internal_gap_without_wider_neighbor_keeps_safe_fallback() {
+        let mut columns = vec![true; 1000];
+        for gap in [310..314, 338..342, 355..359, 650..654] {
+            columns[gap].fill(false);
+        }
+        let chunks = split_line(&image(&columns, 47), 1000, 47, 220).unwrap();
+        assert_eq!(chunks[0].x1, 340);
+    }
+
     /// 行高の1/20を超える字間や遠くの空白では、均等分割を変更しない。
     #[test]
     fn keeps_normal_bearings_and_does_not_seek_distant_gaps() {
@@ -542,6 +589,27 @@ mod tests {
         assert!(split_line(&[], 1, 1, 220).is_err());
         assert!(split_line(&[], 0, 1, 220).is_err());
         assert!(split_line(&[], usize::MAX, 2, 220).is_err());
+    }
+
+    proptest! {
+        #![proptest_config(ProptestConfig::with_cases(32))]
+        /// 一字内の部品間保護を、拡大・左右反転・水平移動でも維持する。
+        #[test]
+        fn internal_kana_gap_survives_scale_reflection_and_translation(
+            scale in 1usize..5, padding in 0usize..11, reflected in any::<bool>(),
+        ) {
+            let mut columns = vec![true; 1000];
+            for gap in [310..315, 338..342, 355..364, 650..657] {
+                columns[gap].fill(false);
+            }
+            let (mut start,mut end) = (315,355);
+            if reflected { columns.reverse(); (start,end) = (1000-end,1000-start); }
+            let mut scaled = vec![false; padding];
+            for ink in columns { scaled.extend(std::iter::repeat_n(ink,scale)); }
+            scaled.extend(vec![false; padding]);
+            let chunks = split_line(&image(&scaled,47*scale),scaled.len(),47*scale,220).unwrap();
+            prop_assert!(chunks.iter().any(|c| c.x0 <= start*scale+padding && c.x1 >= end*scale+padding));
+        }
     }
 
     proptest! {
