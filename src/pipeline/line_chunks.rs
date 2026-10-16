@@ -55,9 +55,8 @@ pub fn split_line_for_input(
     let scaled_input = height
         .checked_mul(input_width)
         .ok_or("line dimensions overflow")?;
-    if scaled_width <= scaled_input
-        && blank_gaps(rgb, width, height, threshold).len() < MAX_CHUNK_INK_RUNS
-    {
+    let gaps = blank_gaps(rgb, width, height, threshold);
+    if scaled_width <= scaled_input && gaps.len() < MAX_CHUNK_INK_RUNS {
         return Ok(vec![LineChunk {
             x0: 0,
             x1: width,
@@ -65,7 +64,20 @@ pub fn split_line_for_input(
             gap_before: 0,
         }]);
     }
-    split_line(rgb, width, height, threshold)
+    let mut chunks = split_line(rgb, width, height, threshold)?;
+    // 最後の単語空白の後に残る語は、実入力比率と字形数に収まれば文脈を保つ。
+    if let Some(first) = chunks.iter().rposition(|chunk| chunk.space_before) {
+        let x0 = chunks[first].x0;
+        let tail_runs = gaps.len() - gaps.partition_point(|gap| gap.midpoint <= x0);
+        if first + 1 < chunks.len()
+            && (width - x0) * input_height <= scaled_input
+            && tail_runs < MAX_CHUNK_INK_RUNS
+        {
+            chunks[first].x1 = width;
+            chunks.truncate(first + 1);
+        }
+    }
+    Ok(chunks)
 }
 
 /// インクを横切らずに行を短い区間へ分割し、分割不能なら拒否する。
