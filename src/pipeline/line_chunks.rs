@@ -270,6 +270,12 @@ fn blank_gaps(rgb: &[u8], width: usize, height: usize, threshold: u8) -> Vec<Bla
         // 字幅の3/5以上を単語空白と推定する。極端な横長インクは行高で頭打ちにする。
         let typical = (*typical_width).min(height);
         let word_gap = typical.saturating_mul(3).div_ceil(5);
+        // 幅の中央値が近い英字行を除くため、全角相当の字形も十分あることを要求する。
+        let wide_glyphs = ink_widths
+            .iter()
+            .filter(|&&width| width >= height.saturating_mul(2).div_ceil(3))
+            .count();
+        let wide_row = wide_glyphs >= ink_widths.len().div_ceil(3);
         for (i, gap) in gaps.iter_mut().enumerate() {
             let (left, right) = (ink_widths[i], ink_widths[i + 1]);
             gap.internal_glyph_gap = gap.width < height.div_ceil(10)
@@ -278,8 +284,28 @@ fn blank_gaps(rgb: &[u8], width: usize, height: usize, threshold: u8) -> Vec<Bla
                 && ink_heights[i] >= height.saturating_mul(2).div_ceil(3))
                 || (right < typical.div_ceil(2)
                     && ink_heights[i + 1] >= height.saturating_mul(2).div_ceil(3));
-            let compact_left = compact_glyph_bearing(left, ink_extents[i], typical, height);
-            let compact_right = compact_glyph_bearing(right, ink_extents[i + 1], typical, height);
+            let full_neighbors = [i, i + 1].into_iter().all(|index| {
+                ink_widths[index] >= height.div_ceil(2)
+                    && ink_extents[index] >= height.saturating_mul(2).div_ceil(3)
+            });
+            let bearing = |index| {
+                let width = ink_widths[index];
+                compact_glyph_bearing(width, ink_extents[index], typical, height).or_else(|| {
+                    if wide_row && full_neighbors {
+                        open_glyph_bearing(
+                            width,
+                            ink_extents[index],
+                            ink_heights[index],
+                            typical,
+                            height,
+                        )
+                    } else {
+                        None
+                    }
+                })
+            };
+            let bearing_left = bearing(i);
+            let bearing_right = bearing(i + 1);
             let tall_narrow =
                 tall_narrow_glyph(left, ink_extents[i], ink_heights[i], typical, height)
                     || tall_narrow_glyph(
@@ -291,13 +317,13 @@ fn blank_gaps(rgb: &[u8], width: usize, height: usize, threshold: u8) -> Vec<Bla
                     );
             gap.word_space = if narrow_stem
                 || tall_narrow
-                || compact_left.is_some()
-                || compact_right.is_some()
+                || bearing_left.is_some()
+                || bearing_right.is_some()
             {
                 // 細い字形・小字形の左右余白を差し引き、文字間隔を単語空白と誤判定しない。
-                let bearings = compact_left
+                let bearings = bearing_left
                     .unwrap_or_else(|| typical.saturating_sub(left).div_ceil(2))
-                    + compact_right.unwrap_or_else(|| typical.saturating_sub(right).div_ceil(2));
+                    + bearing_right.unwrap_or_else(|| typical.saturating_sub(right).div_ceil(2));
                 gap.width.saturating_sub(bearings) > word_gap
             } else {
                 gap.width >= word_gap
@@ -337,10 +363,65 @@ fn compact_glyph_bearing(
         .then(|| height.saturating_sub(width).div_ceil(2))
 }
 
+/// 半行高以上の幅を持つ疎な全高字形に限り、字送りの左右余白を推定する。
+fn open_glyph_bearing(
+    width: usize,
+    extent: usize,
+    peak: usize,
+    typical: usize,
+    height: usize,
+) -> Option<usize> {
+    (typical >= height.saturating_mul(3) / 5
+        && width >= height.div_ceil(2)
+        && width <= height
+        && extent >= height.saturating_mul(2).div_ceil(3)
+        && peak < height.div_ceil(2))
+    .then(|| height.saturating_sub(width).div_ceil(2))
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
     use proptest::prelude::*;
+
+    /// 全高で疎な字形の左右余白と広い実空白を区別する。
+    #[test]
+    fn open_glyph_spaces_obey_shape_boundaries() {
+        for (normal, middle, extent, peak, gap, expected) in [
+            (34, 30, 40, 16, 24, false),
+            (34, 30, 40, 16, 48, true),
+            (34, 24, 32, 23, 24, false),
+            (34, 23, 40, 16, 24, true),
+            (34, 40, 31, 16, 24, true),
+            (34, 30, 40, 24, 24, true),
+            (28, 30, 40, 16, 22, true),
+            (27, 30, 40, 16, 22, true),
+            (34, 49, 40, 16, 24, true),
+        ] {
+            let height = 48;
+            let width = normal * 2 + middle + gap * 2;
+            let mut rgb = vec![255; width * height * 3];
+            for x in 0..width {
+                let rows = if x < normal || x >= normal + gap * 2 + middle {
+                    0..height
+                } else if (normal + gap..normal + gap + middle).contains(&x) {
+                    let top = x % 2 * (extent - peak);
+                    top..top + peak
+                } else {
+                    0..0
+                };
+                for y in rows {
+                    rgb[(y * width + x) * 3..(y * width + x) * 3 + 3].fill(0);
+                }
+            }
+            let gaps = blank_gaps(&rgb, width, height, 220);
+            assert_eq!(gaps.len(), 2);
+            assert!(
+                gaps.iter().all(|g| g.word_space == expected),
+                "normal={normal} middle={middle} extent={extent} peak={peak} gap={gap}"
+            );
+        }
+    }
 
     /// 列単位のインク配置をRGB画像へ変換する。
     fn image(columns: &[bool], height: usize) -> Vec<u8> {
