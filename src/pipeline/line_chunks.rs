@@ -21,6 +21,51 @@ impl LineChunk {
     }
 }
 
+/// 分割上限から一字高以内で、両端が単語境界または行端のchunkだけ純白の外側列を除く。
+/// 短い/疎なchunk・字形間分割・未分割行・PARSeqの回転条件が変わる場合は元の余白を保持する。
+pub fn crop_line_chunk_rgb_u8(
+    rgb: &[u8],
+    width: usize,
+    height: usize,
+    chunks: &[LineChunk],
+    index: usize,
+) -> anyhow::Result<super::crop::CroppedImage> {
+    use super::crop::{BBox, crop_rgb_u8, crop_rgb_u8_tight_horizontal};
+    let chunk = chunks
+        .get(index)
+        .ok_or_else(|| anyhow::anyhow!("invalid chunk index"))?;
+    let word_bounded = chunks.len() > 1
+        && (index == 0 || chunk.space_before)
+        && chunks.get(index + 1).is_none_or(|next| next.space_before);
+    let wide = (chunk.x1.saturating_sub(chunk.x0) as u128)
+        >= (height as u128) * (MAX_CHUNK_ASPECT - 1) as u128;
+    let bbox = BBox::new(chunk.x0, 0, chunk.x1, height);
+    if !word_bounded || !wide {
+        return crop_rgb_u8(rgb, width, height, bbox);
+    }
+    let image = crop_rgb_u8_tight_horizontal(rgb, width, height, bbox)?;
+    let original_rotated = (height as u128) * 5 > ((chunk.x1 - chunk.x0) as u128) * 4;
+    let tight_rotated = (height as u128) * 5 > (image.width as u128) * 4;
+    if original_rotated != tight_rotated || horizontal_ink_runs(&image) < MAX_CHUNK_INK_RUNS / 2 {
+        return crop_rgb_u8(rgb, width, height, BBox::new(chunk.x0, 0, chunk.x1, height));
+    }
+    Ok(image)
+}
+
+/// RGB全チャンネルの非白画素を用い、独立したインク列群の支持数を数える。
+fn horizontal_ink_runs(image: &super::crop::CroppedImage) -> usize {
+    let mut runs = 0;
+    let mut previous = false;
+    for x in 0..image.width {
+        let ink = (0..image.height).any(|y| {
+            image.data[(y * image.width + x) * 3..(y * image.width + x + 1) * 3] != [255; 3]
+        });
+        runs += usize::from(ink && !previous);
+        previous = ink;
+    }
+    runs
+}
+
 /// 和文句読点の直後を対象に、仮名・漢字のUnicode範囲を判定する。
 fn is_japanese_character(value: char) -> bool {
     matches!(value, '\u{3040}'..='\u{30ff}' | '\u{3400}'..='\u{4dbf}'
