@@ -47,3 +47,12 @@ All eight panel tests (including real inference and two property tests) pass,
 as do the repeated-character session/unprocessed regressions. The public API
 retains dimensions and positions; omo also exercises the whole-page path.
 This is development evidence, not an independent generalization benchmark.
+
+## Third Red: retain word boundaries
+
+The first lookahead implementation increased omo's separate-document errors from
+9/91 to 13/91: minimizing chunk count strictly prevented existing word-space
+splits. Pin a synthetic word boundary that needs one extra chunk. Use lookahead
+to reject impossible suffixes and calculate the balance target, while allowing
+the established word-space preference to choose additional feasible chunks.
+All existing corpus ceilings remain unchanged.

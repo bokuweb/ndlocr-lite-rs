@@ -72,7 +72,7 @@ pub fn split_line(
         let candidates: Vec<_> = gaps[first..last]
             .iter()
             .enumerate()
-            .filter(|(offset, _)| minimum[first + offset + 1].saturating_add(1) == count)
+            .filter(|(offset, _)| minimum[first + offset + 1] != usize::MAX)
             .map(|(_, gap)| gap)
             .collect();
         let target = x0 + (width - x0).div_ceil(count.max(1));
@@ -249,6 +249,18 @@ mod tests {
                 },
             ]
         );
+    }
+
+    /// 必要区間数が増えても、後続を安全に分割できる単語空白を維持する。
+    #[test]
+    fn word_space_can_require_an_additional_feasible_chunk() {
+        let mut columns = vec![true; 300];
+        columns[50..70].fill(false);
+        columns[145..149].fill(false);
+        columns[220..224].fill(false);
+        let chunks = split_line(&image(&columns, 20), 300, 20, 220).unwrap();
+        assert_eq!(chunks[0].x1, 60);
+        assert!(chunks[1].space_before);
     }
 
     /// 字間の狭い白列には単語空白を挿入しない。
