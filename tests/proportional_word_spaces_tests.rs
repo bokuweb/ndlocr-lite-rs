@@ -8,6 +8,46 @@ use ndlocr_lite_rs::{
     },
 };
 
+/// 原寸の残る2境界では、分割座標を維持し実空白だけを復元する。
+#[test]
+fn mixed_format_residual_boundaries_keep_their_space_attribute() {
+    let image = load_rgb_u8(std::path::Path::new(
+        "tests/fixtures/chromatic_text_contrast/page.png",
+    ))
+    .unwrap();
+    let rgb = normalize_chromatic_panels(&image.data, image.width, image.height).unwrap();
+    let bands = detect_textline_bands_naive(&rgb, image.width, image.height, 220);
+    for (row, positions, spaces) in [
+        (
+            5,
+            vec![0, 483, 958, 1285, 1944],
+            vec![false, true, false, true],
+        ),
+        (
+            13,
+            vec![0, 189, 744, 950, 1441, 1907],
+            vec![false, true, false, true, true],
+        ),
+    ] {
+        let [x0, y0, x1, y1] = bands[row];
+        let line = crop_rgb_u8(&rgb, image.width, image.height, BBox::new(x0, y0, x1, y1)).unwrap();
+        let chunks =
+            split_line_for_input(&line.data, line.width, line.height, 220, 256, 24).unwrap();
+        assert_eq!(
+            chunks
+                .iter()
+                .map(|c| c.x0)
+                .chain([line.width])
+                .collect::<Vec<_>>(),
+            positions
+        );
+        assert_eq!(
+            chunks.iter().map(|c| c.space_before).collect::<Vec<_>>(),
+            spaces
+        );
+    }
+}
+
 /// 混在書式の原寸行の実単語間隔を、chunk連結で消さない。
 #[test]
 fn proportional_word_boundaries_keep_their_space_attribute() {
@@ -159,4 +199,57 @@ fn italic_line_keeps_original_word_spaces() {
         actual,
         "3. Using TextFormat.FontStyle.BoldItalic to emulate bold italic style."
     );
+}
+
+/// 書式混在行の残る空白欠落を、区間別推論と連結属性から分離する。
+#[cfg(all(feature = "onnx", unix))]
+#[test]
+#[ignore = "requires fixed PARSeq assets"]
+fn residual_formatted_word_spaces_are_preserved() {
+    use ndlocr_lite_rs::{
+        infer::cached::ParseqSession, pipeline::line_chunks::crop_line_chunk_rgb_u8,
+    };
+    let image = load_rgb_u8(std::path::Path::new(
+        "tests/fixtures/chromatic_text_contrast/page.png",
+    ))
+    .unwrap();
+    let rgb = normalize_chromatic_panels(&image.data, image.width, image.height).unwrap();
+    let bands = detect_textline_bands_naive(&rgb, image.width, image.height, 220);
+    let session = ParseqSession::load(
+        &std::path::PathBuf::from(std::env::var_os("NDLOCR_TEST_PARSEQ_MODEL").unwrap()),
+        &std::path::PathBuf::from(std::env::var_os("NDLOCR_TEST_CHARSET").unwrap()),
+    )
+    .unwrap();
+    let mut missing = Vec::new();
+    for (row, expected) in [
+        (5, "background color Color"),
+        (6, "font size 18 points"),
+        (13, "bold italic text"),
+    ] {
+        let [x0, y0, x1, y1] = bands[row];
+        let line = crop_rgb_u8(&rgb, image.width, image.height, BBox::new(x0, y0, x1, y1)).unwrap();
+        let chunks =
+            split_line_for_input(&line.data, line.width, line.height, 220, 256, 24).unwrap();
+        let mut actual = String::new();
+        for (index, chunk) in chunks.iter().enumerate() {
+            let crop = crop_line_chunk_rgb_u8(&line.data, line.width, line.height, &chunks, index)
+                .unwrap();
+            let result = session
+                .recognize_rgb_u8_unprocessed(&crop.data, crop.width, crop.height)
+                .unwrap();
+            eprintln!(
+                "ROW {row} {chunk:?} {}x{} {:?}",
+                crop.width, crop.height, result.text
+            );
+            if chunk.insert_space_before(&actual, &result.text, line.height) {
+                actual.push(' ');
+            }
+            actual.push_str(&result.text);
+        }
+        eprintln!("ROW {row} ACTUAL {actual:?}");
+        if !actual.contains(expected) {
+            missing.push((row, expected, actual));
+        }
+    }
+    assert!(missing.is_empty(), "{missing:?}");
 }
