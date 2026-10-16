@@ -104,10 +104,10 @@ proptest::proptest! {
     }
 }
 
-/// 分割上限から一字高以内の長いchunkだけを調整し、短い単語の文脈を保つ。
+/// 幅/高さ比5以上のchunkを調整し、短い単語の文脈を保つ。
 #[test]
 fn short_word_context_is_kept_at_aspect_boundary() {
-    for width in [96, 112] {
+    for width in [79, 80, 96, 112] {
         let mut rgb = vec![255; width * 2 * 16 * 3];
         for x in (2..22).step_by(2) {
             rgb[x * 3] = 0;
@@ -131,7 +131,7 @@ fn short_word_context_is_kept_at_aspect_boundary() {
             crop_line_chunk_rgb_u8(&rgb, width * 2, 16, &chunks, 0)
                 .unwrap()
                 .width,
-            if width == 96 { 96 } else { 20 }
+            if width == 79 { 79 } else { 20 }
         );
     }
 }
@@ -139,7 +139,7 @@ fn short_word_context_is_kept_at_aspect_boundary() {
 /// 幅が長くても疎な記号の文脈を保ち、インク列群の支持数の等号でだけ除去する。
 #[test]
 fn sparse_marks_keep_context_at_support_boundary() {
-    for runs in [9, 10] {
+    for runs in [8, 9, 10] {
         let mut rgb = vec![255; 32 * 2 * 2 * 3];
         for x in (2..2 + runs * 2).step_by(2) {
             rgb[x * 3] = 254;
@@ -162,7 +162,7 @@ fn sparse_marks_keep_context_at_support_boundary() {
             crop_line_chunk_rgb_u8(&rgb, 64, 2, &chunks, 0)
                 .unwrap()
                 .width,
-            if runs == 9 { 32 } else { 19 }
+            if runs == 8 { 32 } else { runs * 2 - 1 }
         );
     }
 }

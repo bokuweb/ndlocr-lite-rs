@@ -21,7 +21,7 @@ impl LineChunk {
     }
 }
 
-/// 分割上限から一字高以内で、両端が単語境界または行端のchunkだけ純白の外側列を除く。
+/// 幅/高さ比5以上で、両端が単語境界または行端のchunkだけ純白の外側列を除く。
 /// 短い/疎なchunk・字形間分割・未分割行・PARSeqの回転条件が変わる場合は元の余白を保持する。
 pub fn crop_line_chunk_rgb_u8(
     rgb: &[u8],
@@ -37,8 +37,8 @@ pub fn crop_line_chunk_rgb_u8(
     let word_bounded = chunks.len() > 1
         && (index == 0 || chunk.space_before)
         && chunks.get(index + 1).is_none_or(|next| next.space_before);
-    let wide = (chunk.x1.saturating_sub(chunk.x0) as u128)
-        >= (height as u128) * (MAX_CHUNK_ASPECT - 1) as u128;
+    let wide =
+        (chunk.x1.saturating_sub(chunk.x0) as u128) >= (height as u128) * MIN_MARGIN_CROP_ASPECT;
     let bbox = BBox::new(chunk.x0, 0, chunk.x1, height);
     if !word_bounded || !wide {
         return crop_rgb_u8(rgb, width, height, bbox);
@@ -46,11 +46,17 @@ pub fn crop_line_chunk_rgb_u8(
     let image = crop_rgb_u8_tight_horizontal(rgb, width, height, bbox)?;
     let original_rotated = (height as u128) * 5 > ((chunk.x1 - chunk.x0) as u128) * 4;
     let tight_rotated = (height as u128) * 5 > (image.width as u128) * 4;
-    if original_rotated != tight_rotated || horizontal_ink_runs(&image) < MAX_CHUNK_INK_RUNS / 2 {
+    if original_rotated != tight_rotated || horizontal_ink_runs(&image) < MIN_MARGIN_CROP_INK_RUNS {
         return crop_rgb_u8(rgb, width, height, BBox::new(chunk.x0, 0, chunk.x1, height));
     }
     Ok(image)
 }
+
+/// 開発コーパスで短い区間の拡大誤読を避けた、白余白調整の最小幅/高さ比。
+const MIN_MARGIN_CROP_ASPECT: u128 = 5;
+
+/// 疎な記号の文脈を保持するために必要な独立インク列群数。
+const MIN_MARGIN_CROP_INK_RUNS: usize = 9;
 
 /// RGB全チャンネルの非白画素を用い、独立したインク列群の支持数を数える。
 fn horizontal_ink_runs(image: &super::crop::CroppedImage) -> usize {
