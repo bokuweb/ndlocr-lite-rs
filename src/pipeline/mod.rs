@@ -2,6 +2,7 @@
 pub mod background;
 mod band_bounds;
 pub mod cascade;
+mod component_bands;
 pub mod connect;
 pub mod crop;
 /// 横書き行を画素欠落のない短い認識区間に分割する。

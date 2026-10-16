@@ -24,6 +24,16 @@
       ],
       "truth": "目次",
       "png_sha256": "5f7fe1139c938bc3ae8cbf354f66b0d26c7b032d60e20c8ae73a000d5d1e20b7"
+    },
+    "body_tail": {
+      "crop_xyxy": [
+        300,
+        2870,
+        600,
+        2950
+      ],
+      "truth": "う。",
+      "png_sha256": "ec9dc3a6cbba46a266c3ab014121305200eade305e3e36eaf5b019a006dcad0f"
     }
   }
 }

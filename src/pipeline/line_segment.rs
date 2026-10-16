@@ -1,4 +1,5 @@
 use super::band_bounds::restore_edge_ink;
+use super::component_bands::restore_isolated_bands;
 
 /// 行・列のインク密度で横書き行を検出し、細い行端字形を保持する。
 pub fn detect_textline_bands_naive(
@@ -20,7 +21,7 @@ pub fn detect_textline_bands_naive(
         *row_count = count;
     }
     let spans = detect_spans(&row_ink, width);
-    spans
+    let mut bands = spans
         .into_iter()
         .map(|(y0, y1)| {
             let band_h = (y1 - y0).max(1);
@@ -49,7 +50,9 @@ pub fn detect_textline_bands_naive(
                 threshold,
             )
         })
-        .collect()
+        .collect();
+    restore_isolated_bands(rgb, width, height, threshold, &mut bands);
+    bands
 }
 
 /// インクマスクを共有して横書き行を検出し、細い行端字形を保持する。
@@ -82,7 +85,7 @@ pub fn detect_textline_bands_fast(
         return Vec::new();
     }
 
-    spans
+    let mut bands = spans
         .into_iter()
         .map(|(y0, y1)| {
             let band_h = (y1 - y0).max(1);
@@ -108,7 +111,9 @@ pub fn detect_textline_bands_fast(
                 threshold,
             )
         })
-        .collect()
+        .collect();
+    restore_isolated_bands(rgb, width, height, threshold, &mut bands);
+    bands
 }
 
 /// 強い画素行を含む低密度の候補を保ち、短いノイズと行間を除く。
