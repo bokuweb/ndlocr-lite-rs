@@ -19,7 +19,7 @@ pub fn detect_textline_bands_naive(
         }
         *row_count = count;
     }
-    let spans = detect_spans(&row_ink, width, height);
+    let spans = detect_spans(&row_ink, width);
     spans
         .into_iter()
         .map(|(y0, y1)| {
@@ -77,7 +77,7 @@ pub fn detect_textline_bands_fast(
         *row_count = c;
     }
 
-    let spans = detect_spans(&row_ink, width, height);
+    let spans = detect_spans(&row_ink, width);
     if spans.is_empty() {
         return Vec::new();
     }
@@ -111,34 +111,37 @@ pub fn detect_textline_bands_fast(
         .collect()
 }
 
-/// 行方向のインク密度から近接行をまとめ、短いノイズを除く。
-fn detect_spans(row_ink: &[usize], width: usize, height: usize) -> Vec<(usize, usize)> {
-    let row_threshold = (width / 80).max(8);
+/// 強い画素行を含む低密度の候補を保ち、短いノイズと行間を除く。
+fn detect_spans(row_ink: &[usize], width: usize) -> Vec<(usize, usize)> {
+    let strong_threshold = (width / 80).max(8);
     let mut spans = Vec::new();
     let mut start: Option<usize> = None;
+    let mut end = 0usize;
+    let mut seeded = false;
     let mut gap = 0usize;
     for (y, &ink) in row_ink.iter().enumerate() {
-        if ink >= row_threshold {
-            if start.is_none() {
-                start = Some(y);
-            }
+        if ink >= 8 {
+            start.get_or_insert(y);
+            end = y + 1;
+            seeded |= ink >= strong_threshold;
             gap = 0;
-        } else if start.is_some() {
+        } else if let Some(s) = start {
             gap += 1;
             if gap > 2 {
-                let s = start.take().unwrap_or(0);
-                let e = y.saturating_sub(gap).saturating_add(1);
-                if e > s + 6 {
-                    spans.push((s, e));
+                if seeded && end > s + 6 {
+                    spans.push((s, end));
                 }
+                start = None;
+                seeded = false;
                 gap = 0;
             }
         }
     }
     if let Some(s) = start
-        && height > s + 6
+        && seeded
+        && end > s + 6
     {
-        spans.push((s, height));
+        spans.push((s, end));
     }
     spans
 }

@@ -1,0 +1,29 @@
+{
+  "source": "https://github.com/jlsi/omo/blob/6de819718f3a34133b70250a0fc9a20bd2a87de2/fixtures/input/pdf_parser/resources/web/dennyu-unyoukijun210401r.pdf",
+  "source_sha256": "44b5d55191d5c617d7a79497f233124b4198379c38ab7239567aadb1a3702335",
+  "page": 1,
+  "dpi": 300,
+  "purpose": "development regression, not independent holdout",
+  "regions": {
+    "purpose": {
+      "crop_xyxy": [
+        360,
+        1655,
+        650,
+        1735
+      ],
+      "truth": "（目的）",
+      "png_sha256": "0dceefc7b0d4db632b68489784dc48f89f05b0b7efdbba6b235ff57f23233d80"
+    },
+    "contents": {
+      "crop_xyxy": [
+        280,
+        650,
+        450,
+        730
+      ],
+      "truth": "目次",
+      "png_sha256": "5f7fe1139c938bc3ae8cbf354f66b0d26c7b032d60e20c8ae73a000d5d1e20b7"
+    }
+  }
+}
