@@ -199,21 +199,29 @@ fn blank_gaps(rgb: &[u8], width: usize, height: usize, threshold: u8) -> Vec<Bla
     let mut seen_ink = false;
     let mut ink_start = None;
     let mut ink_widths = Vec::new();
+    let mut ink_heights = Vec::new();
+    let mut peak_height = 0;
     for x in 0..width {
-        let blank = (0..height).all(|y| {
-            let i = (y * width + x) * 3;
-            u16::from(rgb[i]) + u16::from(rgb[i + 1]) + u16::from(rgb[i + 2])
-                >= u16::from(threshold) * 3
-        });
+        let ink_height = (0..height)
+            .filter(|&y| {
+                let i = (y * width + x) * 3;
+                u16::from(rgb[i]) + u16::from(rgb[i + 1]) + u16::from(rgb[i + 2])
+                    < u16::from(threshold) * 3
+            })
+            .count();
+        let blank = ink_height == 0;
         if blank {
             if let Some(start) = ink_start.take() {
                 ink_widths.push(x - start);
+                ink_heights.push(peak_height);
+                peak_height = 0;
             }
             if seen_ink && blank_start.is_none() {
                 blank_start = Some(x);
             }
         } else {
             ink_start.get_or_insert(x);
+            peak_height = peak_height.max(ink_height);
             seen_ink = true;
             if let Some(start) = blank_start.take() {
                 gaps.push(BlankGap {
@@ -226,14 +234,29 @@ fn blank_gaps(rgb: &[u8], width: usize, height: usize, threshold: u8) -> Vec<Bla
     }
     if let Some(start) = ink_start {
         ink_widths.push(width - start);
+        ink_heights.push(peak_height);
     }
     if !ink_widths.is_empty() {
         let middle = ink_widths.len() / 2;
-        let (_, typical_width, _) = ink_widths.select_nth_unstable(middle);
+        let mut sorted_widths = ink_widths.clone();
+        let (_, typical_width, _) = sorted_widths.select_nth_unstable(middle);
         // 字幅の3/5以上を単語空白と推定する。極端な横長インクは行高で頭打ちにする。
-        let word_gap = (*typical_width).min(height).saturating_mul(3).div_ceil(5);
-        for gap in &mut gaps {
-            gap.word_space = gap.width >= word_gap;
+        let typical = (*typical_width).min(height);
+        let word_gap = typical.saturating_mul(3).div_ceil(5);
+        for (i, gap) in gaps.iter_mut().enumerate() {
+            let (left, right) = (ink_widths[i], ink_widths[i + 1]);
+            let narrow_stem = (left < typical.div_ceil(2)
+                && ink_heights[i] >= height.saturating_mul(2).div_ceil(3))
+                || (right < typical.div_ceil(2)
+                    && ink_heights[i + 1] >= height.saturating_mul(2).div_ceil(3));
+            gap.word_space = if narrow_stem {
+                // 細い字形の左右余白を差し引き、文字間隔を単語空白と誤判定しない。
+                let bearings = typical.saturating_sub(left).div_ceil(2)
+                    + typical.saturating_sub(right).div_ceil(2);
+                gap.width.saturating_sub(bearings) > word_gap
+            } else {
+                gap.width >= word_gap
+            };
         }
     }
     gaps
@@ -253,6 +276,44 @@ mod tests {
                     .flat_map(|ink| [if *ink { 0 } else { 255 }; 3])
             })
             .collect()
+    }
+
+    /// 細い文字の左右余白を単語空白と取り違えず、本当の広い空白は保持する。
+    #[test]
+    fn narrow_side_bearings_are_not_word_spaces() {
+        for (gap, expected) in [(26, false), (50, true)] {
+            let mut columns = vec![true; 30];
+            columns.extend(vec![false; gap]);
+            columns.extend([true; 14]);
+            columns.extend(vec![false; gap]);
+            columns.extend([true; 30]);
+            let gaps = blank_gaps(&image(&columns, 48), columns.len(), 48, 220);
+            assert_eq!(gaps.len(), 2);
+            assert!(gaps.iter().all(|g| g.word_space == expected), "gap={gap}");
+        }
+        let mut normal = vec![true; 30];
+        normal.extend([false; 18]);
+        normal.extend([true; 30]);
+        assert!(blank_gaps(&image(&normal, 48), normal.len(), 48, 220)[0].word_space);
+    }
+
+    /// 曲線括弧の狭さだけで本当の単語空白を消さない。
+    #[test]
+    fn curved_narrow_glyph_keeps_word_space() {
+        let (width, height) = (120, 48);
+        let mut columns = vec![false; width];
+        columns[..30].fill(true);
+        columns[56..70].fill(true);
+        columns[90..].fill(true);
+        let mut rgb = image(&columns, height);
+        for y in 0..height {
+            for x in 56..70 {
+                if x != 56 + y % 14 {
+                    rgb[(y * width + x) * 3..(y * width + x + 1) * 3].fill(255);
+                }
+            }
+        }
+        assert!(blank_gaps(&rgb, width, height, 220)[0].word_space);
     }
 
     /// 単語空白を優先し、短い最終区間まで元の画素範囲を覆う。
@@ -411,6 +472,26 @@ mod tests {
     }
 
     proptest! {
+        /// 字形の余白判定は左右反転と行外余白の追加に依存しない。
+        #[test]
+        fn word_spaces_are_reflection_and_translation_invariant(
+            columns in prop::collection::vec(any::<bool>(), 1..300),
+            height in 6usize..50, padding in 0usize..80,
+        ) {
+            let expected: Vec<_> = blank_gaps(&image(&columns, height), columns.len(), height, 220)
+                .into_iter().map(|gap| gap.word_space).collect();
+            let mut translated = vec![false; padding];
+            translated.extend_from_slice(&columns);
+            translated.extend(vec![false; padding]);
+            let actual: Vec<_> = blank_gaps(&image(&translated, height), translated.len(), height, 220)
+                .into_iter().map(|gap| gap.word_space).collect();
+            prop_assert_eq!(&expected, &actual);
+            translated.reverse();
+            let reflected: Vec<_> = blank_gaps(&image(&translated, height), translated.len(), height, 220)
+                .into_iter().rev().map(|gap| gap.word_space).collect();
+            prop_assert_eq!(expected, reflected);
+        }
+
         /// 成功した分割は全画素を一度ずつ覆い、白列以外を横切らない。
         #[test]
         fn chunks_tile_the_image_without_cutting_ink(
