@@ -117,3 +117,38 @@ fn make_rgb(w: usize, h: usize) -> Vec<u8> {
     }
     out
 }
+
+/// 公式1.3.1の方針に合わせ、ほぼ正方形の切り出しも反時計回りにする。
+#[test]
+fn parseq_rotates_nearly_square_crops_like_current_upstream() {
+    for (width, height, rotate) in [(5, 4, false), (5, 5, true), (10, 8, false), (10, 9, true)] {
+        let rgb = make_rgb(width, height);
+        let expected_rgb = if rotate {
+            let mut result = Vec::new();
+            for y in 0..width {
+                for x in 0..height {
+                    let i = (x * width + width - 1 - y) * 3;
+                    result.extend_from_slice(&rgb[i..i + 3]);
+                }
+            }
+            result
+        } else {
+            rgb.clone()
+        };
+        let (out_w, out_h) = if rotate {
+            (height, width)
+        } else {
+            (width, height)
+        };
+        let out = parseq::preprocess_rgb_u8(&rgb, width, height, out_w, out_h).unwrap();
+        let expected: Vec<f32> = [2, 1, 0]
+            .into_iter()
+            .flat_map(|c| {
+                expected_rgb
+                    .chunks_exact(3)
+                    .map(move |p| f32::from(p[c]) / 127.5 - 1.0)
+            })
+            .collect();
+        assert_eq!(out, expected, "{width}x{height}");
+    }
+}

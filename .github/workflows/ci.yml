@@ -31,3 +31,31 @@ jobs:
 
       - name: cargo test
         run: cargo test
+
+      - name: Asset fetcher regressions
+        run: python3 -m unittest discover -s tests -p test_fetch_upstream_assets.py
+
+  inference:
+    name: real PARSeq (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+        with:
+          key: onnx
+      - name: Fetch and verify pinned official assets
+        run: |
+          python3 tools/fetch_upstream_assets.py models
+          python3 tools/fetch_upstream_assets.py models --offline
+      - name: Real raw and reusable-session regressions
+        env:
+          NDLOCR_TEST_PARSEQ_MODEL: models/parseq-ndl-24x256-30-tiny-189epoch-tegaki3-r8data-202604.onnx
+          NDLOCR_TEST_CHARSET: models/NDLmoji.yaml
+          NDLOCR_TEST_REPEAT_IMAGE: tests/fixtures/parseq_unprocessed/repeated_digits.png
+        run: cargo test --features onnx --test parseq_unprocessed_tests --test parseq_session_unprocessed_tests -- --include-ignored

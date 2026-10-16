@@ -11,7 +11,7 @@ pub struct RecognizeResult {
 
 /// PARSEQ 入力テンソルを作る（`ndlocr/src/parseq.py` と同じ方針）。
 ///
-/// - 縦長なら 90° 反時計回りに回転（`h > w` のとき `cv2.ROTATE_90_COUNTERCLOCKWISE` に相当）
+/// - 高さが幅の80%を超えたら 90° 反時計回りに回転（`h > w * 0.8` のとき `cv2.ROTATE_90_COUNTERCLOCKWISE` に相当）
 /// - `cv2.resize(..., INTER_LINEAR)` に相当する **バイリニア**で `(input_w, input_h)` へ **全面ストレッチ**
 /// - PIL RGB を `[:, :, ::-1]` したのと同じ **BGR 順**で NCHW（学習・Python 推論と整合）
 pub fn preprocess_rgb_u8(
@@ -99,7 +99,7 @@ pub fn preprocess_rgb_u8_into_with_scratch(
             out.len()
         );
     }
-    let rotated = height > width;
+    let rotated = (height as u128) * 5 > (width as u128) * 4;
     let (source_w, source_h) = if rotated {
         (height, width)
     } else {

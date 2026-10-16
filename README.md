@@ -108,3 +108,21 @@ This implementation is a Rust port PoC that references the design, model operati
 Upstream: [ndlocr-lite](https://github.com/ndl-lab/ndlocr-lite)
 
 When distributing or modifying, comply with CC BY 4.0 and give appropriate credit (upstream project name, reference URL, and whether changes were made).
+
+## Official upstream compatibility
+
+Reviewed official Python source: `ndl-lab/ndlocr-lite@d001dad2013ceabb5736ff8d637474e443eb73c2`
+(latest reviewed release: 1.3.1). Models are unchanged from 1.2.1; PARSeq now uses
+the official `height > width * 0.8` rotation condition. This does not imply full
+GUI/PDF/Markdown feature parity. See [the audit and update procedure](docs/ocr_pipeline_compatibility.md).
+
+Fetch pinned models, charset and license notices with:
+
+```sh
+python3 tools/fetch_upstream_assets.py models
+python3 tools/fetch_upstream_assets.py models --offline
+```
+
+Reusable horizontal-line preprocessing is available through
+`pipeline::line_chunks::split_line`; both simple line detectors preserve nearby
+thin edge glyphs. Domain-specific text replacement remains external rule-pack policy.

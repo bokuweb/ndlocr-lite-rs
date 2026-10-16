@@ -1,3 +1,6 @@
+use super::band_bounds::restore_edge_ink;
+
+/// 行・列のインク密度で横書き行を検出し、細い行端字形を保持する。
 pub fn detect_textline_bands_naive(
     rgb: &[u8],
     width: usize,
@@ -34,16 +37,22 @@ pub fn detect_textline_bands_naive(
                 *col = c;
             }
             let (x0, x1) = refine_x_bounds(&col_ink, band_h, width);
-            [
-                x0,
-                y0.saturating_sub(1),
-                x1.max(x0 + 1),
-                (y1 + 1).min(height),
-            ]
+            restore_edge_ink(
+                rgb,
+                width,
+                [
+                    x0,
+                    y0.saturating_sub(1),
+                    x1.max(x0 + 1),
+                    (y1 + 1).min(height),
+                ],
+                threshold,
+            )
         })
         .collect()
 }
 
+/// インクマスクを共有して横書き行を検出し、細い行端字形を保持する。
 pub fn detect_textline_bands_fast(
     rgb: &[u8],
     width: usize,
@@ -87,16 +96,22 @@ pub fn detect_textline_bands_fast(
                 }
             }
             let (x0, x1) = refine_x_bounds(&col_ink, band_h, width);
-            [
-                x0,
-                y0.saturating_sub(1),
-                x1.max(x0 + 1),
-                (y1 + 1).min(height),
-            ]
+            restore_edge_ink(
+                rgb,
+                width,
+                [
+                    x0,
+                    y0.saturating_sub(1),
+                    x1.max(x0 + 1),
+                    (y1 + 1).min(height),
+                ],
+                threshold,
+            )
         })
         .collect()
 }
 
+/// 行方向のインク密度から近接行をまとめ、短いノイズを除く。
 fn detect_spans(row_ink: &[usize], width: usize, height: usize) -> Vec<(usize, usize)> {
     let row_threshold = (width / 80).max(8);
     let mut spans = Vec::new();
@@ -128,6 +143,7 @@ fn detect_spans(row_ink: &[usize], width: usize, height: usize) -> Vec<(usize, u
     spans
 }
 
+/// 列のインク密度から左右の余白を決める。
 fn refine_x_bounds(col_ink: &[usize], band_h: usize, width: usize) -> (usize, usize) {
     let max_ink = col_ink.iter().copied().max().unwrap_or(0);
     if max_ink == 0 {
