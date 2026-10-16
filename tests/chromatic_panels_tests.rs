@@ -51,7 +51,10 @@ fn public_gradient_header_is_detected_at_glyph_height() {
     assert_eq!(bands.len(), 1);
     let [x0, y0, x1, y1] = bands[0];
     assert!(x0 <= 46 && x1 >= 1060, "{bands:?}");
-    assert!(y0 >= 45 && y0 <= 60 && y1 >= 110 && y1 <= 125, "{bands:?}");
+    assert!(
+        (45..=60).contains(&y0) && (110..=125).contains(&y1),
+        "{bands:?}"
+    );
 }
 
 /// 単独の色文字や細い罫線を背景として消さない。
