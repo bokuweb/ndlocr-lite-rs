@@ -1,5 +1,5 @@
 use super::band_bounds::restore_edge_ink;
-use super::component_bands::restore_isolated_bands;
+use super::component_bands::{restore_isolated_bands, restore_truncated_bands};
 use super::fragment_bands::rejoin_fragmented_bands;
 
 /// 行・列のインク密度で横書き行を検出し、細い行端字形を保持する。
@@ -53,6 +53,7 @@ pub fn detect_textline_bands_naive(
         })
         .collect();
     rejoin_fragmented_bands(rgb, width, height, threshold, &mut bands);
+    restore_truncated_bands(rgb, width, height, threshold, &mut bands);
     restore_isolated_bands(rgb, width, height, threshold, &mut bands);
     bands
 }
@@ -115,6 +116,7 @@ pub fn detect_textline_bands_fast(
         })
         .collect();
     rejoin_fragmented_bands(rgb, width, height, threshold, &mut bands);
+    restore_truncated_bands(rgb, width, height, threshold, &mut bands);
     restore_isolated_bands(rgb, width, height, threshold, &mut bands);
     bands
 }

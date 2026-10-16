@@ -7,6 +7,72 @@ struct Component {
     area: usize,
 }
 
+/// 短い既存行に重なる文字成分を調べ、行投影で欠けた上下の画を戻す。
+pub(super) fn restore_truncated_bands(
+    rgb: &[u8],
+    width: usize,
+    height: usize,
+    threshold: u8,
+    bands: &mut [[usize; 4]],
+) {
+    if bands.len() < 3 {
+        return;
+    }
+    let mut heights: Vec<_> = bands.iter().map(|b| b[3] - b[1]).collect();
+    heights.sort_unstable();
+    let scale = heights[heights.len() / 2].saturating_sub(2);
+    if scale < 12 {
+        return;
+    }
+    for i in 0..bands.len() {
+        let band = bands[i];
+        if (band[3] - band[1]) * 4 >= scale * 3 || band[2] - band[0] > scale * 3 {
+            continue;
+        }
+        let y0 = band[1]
+            .saturating_sub(scale / 2)
+            .max(if i == 0 { 0 } else { bands[i - 1][3] });
+        let y1 = (band[3] + scale / 2).min(bands.get(i + 1).map_or(height, |b| b[1]));
+        let Some(components) = components_in_gap(rgb, width, y0, y1, threshold) else {
+            continue;
+        };
+        let mut bounds = band;
+        for component in components {
+            let [cx0, cy0, cx1, cy1] = component.bounds;
+            if cy0 <= y0
+                || cy1 >= y1
+                || cx0 < band[0].saturating_sub(scale / 8)
+                || cx1 > (band[2] + scale / 8).min(width)
+                || cx0 >= band[2]
+                || cx1 <= band[0]
+                || cy0 >= band[3]
+                || cy1 <= band[1]
+                || (cy0 >= band[1] && cy1 <= band[3])
+                || !is_glyph_seed(component, scale)
+            {
+                continue;
+            }
+            bounds[0] = bounds[0].min(cx0.saturating_sub(2));
+            bounds[2] = bounds[2].max((cx1 + 2).min(width));
+            let padding = (scale / 8).max(1);
+            bounds[1] = bounds[1].min(cy0.saturating_sub(padding).max(y0));
+            bounds[3] = bounds[3].max((cy1 + padding).min(y1));
+        }
+        if (bounds[1] == band[1] && bounds[3] == band[3]) || (bounds[3] - bounds[1]) * 2 > scale * 3
+        {
+            continue;
+        }
+        let target_width = (bounds[2] - bounds[0]).max(((bounds[3] - bounds[1]) * 5).div_ceil(4));
+        if target_width > width {
+            continue;
+        }
+        let left = bounds[0]
+            .saturating_sub((target_width - (bounds[2] - bounds[0])) / 2)
+            .min(width - target_width);
+        bands[i] = [left, bounds[1], left + target_width, bounds[3]];
+    }
+}
+
 /// 既存行の文字高を基準に、行間で落ちた孤立字形だけを補助検出する。
 pub(super) fn restore_isolated_bands(
     rgb: &[u8],
@@ -188,4 +254,98 @@ fn components_in_gap(
         components.push(Component { bounds, area });
     }
     Some(components)
+}
+
+#[cfg(test)]
+mod truncated_tests {
+    use super::restore_truncated_bands;
+
+    /// 通常行2本と、下端が欠けた短い行の境界を返す。
+    fn bands(x: usize) -> Vec<[usize; 4]> {
+        vec![[0, 5, 100, 51], [0, 60, 100, 106], [x, 130, x + 44, 157]]
+    }
+
+    /// 矩形とは異なる密度の、上下につながる文字相当の画素を描く。
+    fn glyph(rgb: &mut [u8], width: usize, x: usize, top: usize, bottom: usize) {
+        for y in top..bottom {
+            for dx in 0..44 {
+                if dx < 4 || (y >= bottom - 4 && dx < 40) {
+                    rgb[(y * width + x + dx) * 3..(y * width + x + dx) * 3 + 3].fill(0);
+                }
+            }
+        }
+    }
+
+    /// 罫線・塗り潰し・既存行と接しない別字形・小点を外端復元に使わない。
+    #[test]
+    fn unrelated_or_non_glyph_ink_does_not_extend_a_band() {
+        for kind in 0..4 {
+            let (width, height) = (256, 240);
+            let mut rgb = vec![255; width * height * 3];
+            match kind {
+                0 => glyph(&mut rgb, width, 100, 130, 210),
+                1 => {
+                    for y in 130..170 {
+                        rgb[(y * width + 100) * 3..(y * width + 144) * 3].fill(0);
+                    }
+                }
+                2 => glyph(&mut rgb, width, 100, 160, 200),
+                _ => rgb[(165 * width + 110) * 3..(165 * width + 112) * 3].fill(0),
+            }
+            let mut actual = bands(100);
+            restore_truncated_bands(&rgb, width, height, 220, &mut actual);
+            assert_eq!(actual, bands(100), "kind {kind}");
+        }
+    }
+
+    /// 隣行の開始に達する成分は、別行との接続かもしれないので復元しない。
+    #[test]
+    fn a_component_touching_the_neighbor_is_rejected() {
+        let mut rgb = vec![255; 256 * 240 * 3];
+        glyph(&mut rgb, 256, 100, 130, 170);
+        let mut actual = bands(100);
+        actual.push([100, 170, 144, 216]);
+        let before = actual.clone();
+        restore_truncated_bands(&rgb, 256, 240, 220, &mut actual);
+        assert_eq!(actual, before);
+    }
+
+    /// 通常高の文脈が足りないページは切り出しを変更しない。
+    #[test]
+    fn no_scale_context_means_no_extension() {
+        let mut actual = bands(100)[1..].to_vec();
+        let before = actual.clone();
+        restore_truncated_bands(&vec![0; 256 * 240 * 3], 256, 240, 220, &mut actual);
+        assert_eq!(actual, before);
+    }
+
+    /// 全画素が既存範囲内なら、短い文字でも余白を追加しない。
+    #[test]
+    fn an_already_complete_short_glyph_is_unchanged() {
+        let mut rgb = vec![255; 256 * 240 * 3];
+        glyph(&mut rgb, 256, 100, 130, 160);
+        let mut actual = bands(100);
+        actual[2][3] = 161;
+        let before = actual.clone();
+        restore_truncated_bands(&rgb, 256, 240, 220, &mut actual);
+        assert_eq!(actual, before);
+    }
+
+    proptest::proptest! {
+        #![proptest_config(proptest::test_runner::Config::with_cases(32))]
+        /// 左右の画像端でも元範囲と全字形を保持し、画像境界からはみ出さない。
+        #[test]
+        fn restored_glyph_stays_in_page(x in 0usize..200, margin in 20usize..80) {
+            let width = (x + 44 + margin).max(100);
+            let mut rgb = vec![255; width * 240 * 3];
+            glyph(&mut rgb, width, x, 130, 170);
+            let mut actual = bands(x);
+            restore_truncated_bands(&rgb, width, 240, 220, &mut actual);
+            let b = actual[2];
+            proptest::prop_assert!(b[0] <= x && b[2] >= x + 44 && b[2] <= width);
+            proptest::prop_assert!(b[1] <= 130 && b[3] >= 170);
+            proptest::prop_assert!((b[2] - b[0]) * 4 >= (b[3] - b[1]) * 5);
+            proptest::prop_assert!(b[1] >= actual[1][3]);
+        }
+    }
 }
