@@ -170,6 +170,11 @@ fn gradient_header_chunks_do_not_isolate_last_heading_glyph() {
     )
     .unwrap();
     let chunks = split_line(&line.data, line.width, line.height, 220).unwrap();
+    // 見出しと括弧の間の実空白は細い括弧の字幅余白で消さない。
+    assert!(
+        chunks.iter().any(|c| c.x0 == 551 && c.space_before),
+        "{chunks:?}"
+    );
     assert!(
         chunks.iter().all(|c| c.x1 - c.x0 >= line.height * 2),
         "{chunks:?}"

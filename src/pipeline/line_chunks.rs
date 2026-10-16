@@ -280,7 +280,20 @@ fn blank_gaps(rgb: &[u8], width: usize, height: usize, threshold: u8) -> Vec<Bla
                     && ink_heights[i + 1] >= height.saturating_mul(2).div_ceil(3));
             let compact_left = compact_glyph_bearing(left, ink_extents[i], typical, height);
             let compact_right = compact_glyph_bearing(right, ink_extents[i + 1], typical, height);
-            gap.word_space = if narrow_stem || compact_left.is_some() || compact_right.is_some() {
+            let tall_narrow =
+                tall_narrow_glyph(left, ink_extents[i], ink_heights[i], typical, height)
+                    || tall_narrow_glyph(
+                        right,
+                        ink_extents[i + 1],
+                        ink_heights[i + 1],
+                        typical,
+                        height,
+                    );
+            gap.word_space = if narrow_stem
+                || tall_narrow
+                || compact_left.is_some()
+                || compact_right.is_some()
+            {
                 // 細い字形・小字形の左右余白を差し引き、文字間隔を単語空白と誤判定しない。
                 let bearings = compact_left
                     .unwrap_or_else(|| typical.saturating_sub(left).div_ceil(2))
@@ -292,6 +305,22 @@ fn blank_gaps(rgb: &[u8], width: usize, height: usize, threshold: u8) -> Vec<Bla
         }
     }
     gaps
+}
+
+/// 和文行の半字幅以上の全高字形を、細い括弧と区別する。
+fn tall_narrow_glyph(
+    width: usize,
+    extent: usize,
+    peak: usize,
+    typical: usize,
+    height: usize,
+) -> bool {
+    typical >= height.saturating_mul(2).div_ceil(3)
+        && width >= typical.div_ceil(2)
+        && width.saturating_mul(4) < typical.saturating_mul(3)
+        && extent >= height.saturating_mul(2).div_ceil(3)
+        && peak >= height.div_ceil(2)
+        && peak < height.saturating_mul(2).div_ceil(3)
 }
 
 /// 和文相当の字幅を持つ行で、背の低い小字形の背景余白を行高から推定する。
@@ -341,6 +370,53 @@ mod tests {
         normal.extend([false; 18]);
         normal.extend([true; 30]);
         assert!(blank_gaps(&image(&normal, 48), normal.len(), 48, 220)[0].word_space);
+    }
+
+    /// 全高仮名の余白は除き、字幅・密度・行種別の境界と実空白を保持する。
+    #[test]
+    fn tall_kana_side_bearings_obey_shape_and_space_boundaries() {
+        // (代表字幅、対象字幅、縦extent、列peak、空白幅、単語空白か)。
+        for (normal, middle, extent, peak, gap, expected) in [
+            (34, 16, 41, 26, 21, true),
+            (34, 17, 41, 26, 21, false),
+            (34, 23, 41, 26, 21, false),
+            (34, 23, 41, 26, 27, false),
+            (34, 23, 41, 31, 21, false),
+            (34, 23, 41, 32, 21, true),
+            (42, 27, 45, 42, 27, true),
+            (34, 23, 41, 26, 28, true),
+            (34, 23, 41, 26, 50, true),
+            (31, 23, 41, 26, 21, true),
+            (32, 23, 41, 26, 21, false),
+            (34, 25, 41, 26, 21, false),
+            (34, 26, 41, 26, 21, true),
+            (34, 23, 41, 23, 21, true),
+            (34, 23, 41, 24, 21, false),
+            (34, 23, 31, 24, 21, true),
+            (34, 23, 32, 24, 21, false),
+            (34, 14, 48, 4, 26, true),
+            (20, 14, 41, 26, 21, true),
+        ] {
+            let (width, height) = (normal * 2 + middle + gap * 2, 48);
+            let mut rgb = vec![255; width * height * 3];
+            for y in 0..height {
+                for x in 0..width {
+                    let offset = (x % 2) * (extent - peak);
+                    if x < normal
+                        || x >= width - normal
+                        || ((normal + gap..normal + gap + middle).contains(&x)
+                            && (offset..offset + peak).contains(&y))
+                    {
+                        rgb[(y * width + x) * 3..(y * width + x + 1) * 3].fill(0);
+                    }
+                }
+            }
+            let gaps = blank_gaps(&rgb, width, height, 220);
+            assert!(
+                gaps.iter().all(|g| g.word_space == expected),
+                "normal={normal} middle={middle} extent={extent} peak={peak} gap={gap}"
+            );
+        }
     }
 
     /// 小さな正方形に近い字形の左右余白と、明確な広い空白を区別する。
