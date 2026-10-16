@@ -120,7 +120,7 @@ pub fn split_line_for_input(
             gap_before: 0,
         }]);
     }
-    let mut chunks = split_line(rgb, width, height, threshold)?;
+    let mut chunks = split_line_at_preferred_gaps(&gaps, width, height)?;
     // 最後の単語空白の後に残る語は、実入力比率と字形数に収まれば文脈を保つ。
     if let Some(first) = chunks.iter().rposition(|chunk| chunk.space_before) {
         let x0 = chunks[first].x0;
@@ -133,6 +133,7 @@ pub fn split_line_for_input(
             chunks.truncate(first + 1);
         }
     }
+    restore_word_spaces(&mut chunks, &gaps);
     Ok(chunks)
 }
 
@@ -147,11 +148,22 @@ pub fn split_line(
     if width == 0 || height == 0 || expected != Some(rgb.len()) {
         return Err("invalid RGB line dimensions".into());
     }
+    let gaps = blank_gaps(rgb, width, height, threshold);
+    let mut chunks = split_line_at_preferred_gaps(&gaps, width, height)?;
+    restore_word_spaces(&mut chunks, &gaps);
+    Ok(chunks)
+}
+
+/// 従来の字幅閾値による優先境界を使い、モデル入力の文脈を維持する。
+fn split_line_at_preferred_gaps(
+    gaps: &[BlankGap],
+    width: usize,
+    height: usize,
+) -> Result<Vec<LineChunk>, String> {
     let max_width = height
         .checked_mul(MAX_CHUNK_ASPECT)
         .ok_or("line dimensions overflow")?;
-    let gaps = blank_gaps(rgb, width, height, threshold);
-    let minimum = minimum_chunk_counts(&gaps, width, max_width);
+    let minimum = minimum_chunk_counts(gaps, width, max_width);
     let mut chunks = Vec::new();
     let mut x0 = 0;
     let mut space_before = false;
@@ -182,7 +194,7 @@ pub fn split_line(
         let gap = candidates
             .iter()
             .copied()
-            .filter(|gap| gap.word_space)
+            .filter(|gap| gap.preferred_split)
             .min_by_key(|gap| gap.midpoint.abs_diff(target))
             .or_else(|| {
                 let nearest = candidates
@@ -215,7 +227,7 @@ pub fn split_line(
             gap_before,
         });
         x0 = gap.midpoint;
-        space_before = gap.word_space;
+        space_before = gap.preferred_split;
         gap_before = gap.width;
     }
     chunks.push(LineChunk {
@@ -225,6 +237,16 @@ pub fn split_line(
         gap_before,
     });
     Ok(chunks)
+}
+
+/// 区間選択・末尾統合の完了後に、実単語間隔の連結空白を補う。
+fn restore_word_spaces(chunks: &mut [LineChunk], gaps: &[BlankGap]) {
+    for chunk in chunks.iter_mut().skip(1) {
+        let index = gaps.partition_point(|gap| gap.midpoint < chunk.x0);
+        if let Some(gap) = gaps.get(index).filter(|gap| gap.midpoint == chunk.x0) {
+            chunk.space_before = gap.word_space;
+        }
+    }
 }
 
 /// 各白列境界から末尾までを安全に覆う最小区間数を後ろから求める。
@@ -256,8 +278,10 @@ struct BlankGap {
     midpoint: usize,
     /// 空白の列数。
     width: usize,
-    /// 代表的な字形の幅から単語間隔と推定したか。
+    /// 実間隔の支持も含めて単語空白と推定したか。
     word_space: bool,
+    /// 従来の字幅閾値で区間選択に優先する境界か。
+    preferred_split: bool,
     /// 前後の画線が一字幅に収まる狭い部品間の候補か。
     internal_glyph_gap: bool,
 }
@@ -309,6 +333,7 @@ fn blank_gaps(rgb: &[u8], width: usize, height: usize, threshold: u8) -> Vec<Bla
                     midpoint: start + (x - start) / 2,
                     width: x - start,
                     word_space: false,
+                    preferred_split: false,
                     internal_glyph_gap: false,
                 });
             }
@@ -322,7 +347,8 @@ fn blank_gaps(rgb: &[u8], width: usize, height: usize, threshold: u8) -> Vec<Bla
     if !ink_widths.is_empty() {
         // 字幅の3/5以上を単語空白と推定する。極端な横長インクは行高で頭打ちにする。
         let typical = representative_width(&ink_widths, &ink_extents, height).min(height);
-        let word_gap = typical.saturating_mul(3).div_ceil(5);
+        let preferred_gap = typical.saturating_mul(3).div_ceil(5);
+        let word_gap = word_gap_threshold(&gaps, typical, height);
         // 幅の中央値が近い英字行を除くため、全角相当の字形も十分あることを要求する。
         let wide_glyphs = ink_widths
             .iter()
@@ -373,22 +399,44 @@ fn blank_gaps(rgb: &[u8], width: usize, height: usize, threshold: u8) -> Vec<Bla
                         typical,
                         height,
                     );
-            gap.word_space = if narrow_stem
-                || tall_narrow
-                || bearing_left.is_some()
-                || bearing_right.is_some()
-            {
-                // 細い字形・小字形の左右余白を差し引き、文字間隔を単語空白と誤判定しない。
-                let bearings = bearing_left
-                    .unwrap_or_else(|| typical.saturating_sub(left).div_ceil(2))
-                    + bearing_right.unwrap_or_else(|| typical.saturating_sub(right).div_ceil(2));
-                gap.width.saturating_sub(bearings) > word_gap
-            } else {
-                gap.width >= word_gap
+            let is_word_space = |threshold| {
+                if narrow_stem || tall_narrow || bearing_left.is_some() || bearing_right.is_some() {
+                    // 細い字形・小字形の左右余白を差し引き、文字間隔を単語空白と誤判定しない。
+                    let bearings = bearing_left
+                        .unwrap_or_else(|| typical.saturating_sub(left).div_ceil(2))
+                        + bearing_right
+                            .unwrap_or_else(|| typical.saturating_sub(right).div_ceil(2));
+                    gap.width.saturating_sub(bearings) > threshold
+                } else {
+                    gap.width >= threshold
+                }
             };
+            gap.preferred_split = is_word_space(preferred_gap);
+            gap.word_space = is_word_space(word_gap);
         }
     }
     gaps
+}
+
+/// 複数の実単語間隔が字間と分離している行では、実画像の間隔を使う。
+fn word_gap_threshold(gaps: &[BlankGap], typical: usize, height: usize) -> usize {
+    let fallback = typical.saturating_mul(3).div_ceil(5);
+    if typical >= height.saturating_mul(2).div_ceil(3) || gaps.len() < 6 {
+        return fallback;
+    }
+    let mut widths: Vec<_> = gaps.iter().map(|gap| gap.width).collect();
+    widths.sort_unstable();
+    for first in widths.len().div_ceil(2)..=widths.len() - 3 {
+        let (small, large) = (widths[first - 1], widths[first]);
+        // 少なくとも3空白が、字間の2倍以上かつ行高の1/5以上でまとまる。
+        if large >= height.div_ceil(5)
+            && (large as u128) >= (small as u128) * 2
+            && (*widths.last().unwrap() as u128) <= (large as u128) * 2
+        {
+            return fallback.min(large);
+        }
+    }
+    fallback
 }
 
 /// 細い成分が過半数かつ低い成分も多ければ、十分な本体から代表字幅を推定する。
@@ -476,6 +524,40 @@ fn open_glyph_bearing(
 mod tests {
     use super::*;
     use proptest::prelude::*;
+
+    /// 字間と単語間隔の二群に十分な支持がある場合だけ、字幅基準を下げる。
+    #[test]
+    fn proportional_gap_population_requires_separation_and_support() {
+        for (widths, typical, height, expected) in [
+            (vec![1, 1, 2, 2, 3, 10, 12, 15], 23, 37, 10),
+            (vec![1, 2, 3, 5, 6, 12, 13, 15], 23, 47, 12),
+            (vec![1, 2, 3, 5, 7, 12, 13, 15], 23, 47, 14),
+            (vec![1, 2, 3, 4, 12, 13], 23, 47, 14),
+            (vec![1, 2, 3, 12, 13, 14, 15], 23, 47, 14),
+            (vec![1, 2, 3, 12, 13, 30], 23, 47, 14),
+            (vec![1, 1, 2, 2, 3, 10, 12, 15], 25, 37, 15),
+            (vec![1, 1, 2, 2, 2, 6, 7, 8], 23, 47, 14),
+            (vec![1, 2, 5, 10, 12, 20], 23, 47, 10),
+            (vec![1, 2, 5, 10, 12, 21], 23, 47, 14),
+            (vec![1, 2, 4, 9, 12, 15], 23, 47, 14),
+        ] {
+            let gaps: Vec<_> = widths
+                .iter()
+                .map(|&width| BlankGap {
+                    midpoint: 0,
+                    width,
+                    word_space: false,
+                    preferred_split: false,
+                    internal_glyph_gap: false,
+                })
+                .collect();
+            assert_eq!(
+                word_gap_threshold(&gaps, typical, height),
+                expected,
+                "{widths:?}, {typical}/{height}"
+            );
+        }
+    }
 
     /// 小画と本文の間は通常閾値、小画同士だけは両側の余白を考慮する。
     #[test]

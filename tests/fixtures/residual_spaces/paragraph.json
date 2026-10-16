@@ -1,0 +1,18 @@
+{
+  "source_repository": "https://github.com/jlsi/omo",
+  "source_revision": "6f35c4114537bfd6ae93e32e8e71e800457f085c",
+  "source_image": "fixtures/input/ocr_paragraph_accuracy/page1.png",
+  "source_sha256": "982aae213dcaaccf71ee6c2de966e28c9796309c33e87d29b6362f320134d922",
+  "bbox_xyxy": [
+    301,
+    1065,
+    2174,
+    1112
+  ],
+  "truth": "turpis. Volutpat nibh, nunc magna non diam euismod sed dolore non diam nibh tempus donec",
+  "crop_sha256": "4d765f133216355553141d1f65eeb704bb9e2a9513756e185508b6042e8e55d9",
+  "status": "development data, fixed in previous full-page evaluation",
+  "normalized_crop_sha256": "e3a880d5eade83936f2f26c852dc89d270f9463029c8e7cfc675a7fa29819e2d",
+  "normalization_revision": "ae0fe4322d737ab9bb49a2e579ffce10c8bfd47f",
+  "normalization": "normalize_chromatic_panels on full source page before native crop"
+}
