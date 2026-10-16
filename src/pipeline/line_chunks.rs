@@ -200,13 +200,21 @@ fn blank_gaps(rgb: &[u8], width: usize, height: usize, threshold: u8) -> Vec<Bla
     let mut ink_start = None;
     let mut ink_widths = Vec::new();
     let mut ink_heights = Vec::new();
+    let mut ink_extents = Vec::new();
     let mut peak_height = 0;
+    let mut ink_top = height;
+    let mut ink_bottom = 0;
     for x in 0..width {
         let ink_height = (0..height)
             .filter(|&y| {
                 let i = (y * width + x) * 3;
-                u16::from(rgb[i]) + u16::from(rgb[i + 1]) + u16::from(rgb[i + 2])
-                    < u16::from(threshold) * 3
+                let ink = u16::from(rgb[i]) + u16::from(rgb[i + 1]) + u16::from(rgb[i + 2])
+                    < u16::from(threshold) * 3;
+                if ink {
+                    ink_top = ink_top.min(y);
+                    ink_bottom = ink_bottom.max(y + 1);
+                }
+                ink
             })
             .count();
         let blank = ink_height == 0;
@@ -214,7 +222,10 @@ fn blank_gaps(rgb: &[u8], width: usize, height: usize, threshold: u8) -> Vec<Bla
             if let Some(start) = ink_start.take() {
                 ink_widths.push(x - start);
                 ink_heights.push(peak_height);
+                ink_extents.push(ink_bottom - ink_top);
                 peak_height = 0;
+                ink_top = height;
+                ink_bottom = 0;
             }
             if seen_ink && blank_start.is_none() {
                 blank_start = Some(x);
@@ -235,6 +246,7 @@ fn blank_gaps(rgb: &[u8], width: usize, height: usize, threshold: u8) -> Vec<Bla
     if let Some(start) = ink_start {
         ink_widths.push(width - start);
         ink_heights.push(peak_height);
+        ink_extents.push(ink_bottom - ink_top);
     }
     if !ink_widths.is_empty() {
         let middle = ink_widths.len() / 2;
@@ -249,10 +261,13 @@ fn blank_gaps(rgb: &[u8], width: usize, height: usize, threshold: u8) -> Vec<Bla
                 && ink_heights[i] >= height.saturating_mul(2).div_ceil(3))
                 || (right < typical.div_ceil(2)
                     && ink_heights[i + 1] >= height.saturating_mul(2).div_ceil(3));
-            gap.word_space = if narrow_stem {
-                // 細い字形の左右余白を差し引き、文字間隔を単語空白と誤判定しない。
-                let bearings = typical.saturating_sub(left).div_ceil(2)
-                    + typical.saturating_sub(right).div_ceil(2);
+            let compact_left = compact_glyph_bearing(left, ink_extents[i], typical, height);
+            let compact_right = compact_glyph_bearing(right, ink_extents[i + 1], typical, height);
+            gap.word_space = if narrow_stem || compact_left.is_some() || compact_right.is_some() {
+                // 細い字形・小字形の左右余白を差し引き、文字間隔を単語空白と誤判定しない。
+                let bearings = compact_left
+                    .unwrap_or_else(|| typical.saturating_sub(left).div_ceil(2))
+                    + compact_right.unwrap_or_else(|| typical.saturating_sub(right).div_ceil(2));
                 gap.width.saturating_sub(bearings) > word_gap
             } else {
                 gap.width >= word_gap
@@ -260,6 +275,20 @@ fn blank_gaps(rgb: &[u8], width: usize, height: usize, threshold: u8) -> Vec<Bla
         }
     }
     gaps
+}
+
+/// 和文相当の字幅を持つ行で、背の低い小字形の背景余白を行高から推定する。
+fn compact_glyph_bearing(
+    width: usize,
+    extent: usize,
+    typical: usize,
+    height: usize,
+) -> Option<usize> {
+    (typical >= height.saturating_mul(2).div_ceil(3)
+        && width >= typical.saturating_mul(3).div_ceil(4)
+        && width <= height.saturating_mul(3) / 4
+        && extent <= height.saturating_mul(2) / 3)
+        .then(|| height.saturating_sub(width).div_ceil(2))
 }
 
 #[cfg(test)]
@@ -295,6 +324,50 @@ mod tests {
         normal.extend([false; 18]);
         normal.extend([true; 30]);
         assert!(blank_gaps(&image(&normal, 48), normal.len(), 48, 220)[0].word_space);
+    }
+
+    /// 小さな正方形に近い字形の左右余白と、明確な広い空白を区別する。
+    #[test]
+    fn compact_glyph_side_bearings_are_not_word_spaces() {
+        for (gap, expected) in [(25, false), (50, true)] {
+            let (width, height) = (35 + gap + 32 + gap + 35, 47);
+            let mut rgb = vec![255; width * height * 3];
+            for y in 0..height {
+                for x in 0..width {
+                    if x < 35
+                        || x >= width - 35
+                        || ((16..45).contains(&y) && (35 + gap..67 + gap).contains(&x))
+                    {
+                        rgb[(y * width + x) * 3..(y * width + x + 1) * 3].fill(0);
+                    }
+                }
+            }
+            let gaps = blank_gaps(&rgb, width, height, 220);
+            assert_eq!(gaps.len(), 2);
+            assert!(gaps.iter().all(|g| g.word_space == expected), "gap={gap}");
+        }
+    }
+
+    /// 小文字相当の狭い字幅や全高の括弧では、通常の単語空白を保持する。
+    #[test]
+    fn compact_bearings_keep_latin_and_full_height_spaces() {
+        for (normal, middle, extent, gap) in [(20, 18, 29, 13), (35, 32, 47, 25)] {
+            let (width, height) = (normal * 2 + middle + gap * 2, 47);
+            let mut rgb = vec![255; width * height * 3];
+            for y in 0..height {
+                for x in 0..width {
+                    if x < normal
+                        || x >= width - normal
+                        || (y < extent && (normal + gap..normal + gap + middle).contains(&x))
+                    {
+                        rgb[(y * width + x) * 3..(y * width + x + 1) * 3].fill(0);
+                    }
+                }
+            }
+            let gaps = blank_gaps(&rgb, width, height, 220);
+            assert_eq!(gaps.len(), 2);
+            assert!(gaps.iter().all(|gap| gap.word_space));
+        }
     }
 
     /// 曲線括弧の狭さだけで本当の単語空白を消さない。
@@ -469,6 +542,34 @@ mod tests {
         assert!(split_line(&[], 1, 1, 220).is_err());
         assert!(split_line(&[], 0, 1, 220).is_err());
         assert!(split_line(&[], usize::MAX, 2, 220).is_err());
+    }
+
+    proptest! {
+        #![proptest_config(ProptestConfig::with_cases(32))]
+        /// 実字形の左右反転と背景の追加でも、小書き仮名と本当の空白の区別を保つ。
+        #[test]
+        fn real_compact_bearings_are_reflection_and_translation_invariant(
+            padding in 0usize..80, reflected in any::<bool>(),
+        ) {
+            let im = crate::io::load_rgb_u8(std::path::Path::new(
+                "tests/fixtures/small_kana_bearings/thread.png",
+            )).unwrap();
+            let expected: Vec<_> = blank_gaps(&im.data, im.width, im.height, 220)
+                .into_iter().map(|gap| gap.word_space).collect();
+            let width = im.width + padding * 2;
+            let mut rgb = vec![255; width * im.height * 3];
+            for y in 0..im.height {
+                for x in 0..im.width {
+                    let target = if reflected { im.width - 1 - x } else { x } + padding;
+                    rgb[(y * width + target) * 3..(y * width + target + 1) * 3]
+                        .copy_from_slice(&im.data[(y * im.width + x) * 3..(y * im.width + x + 1) * 3]);
+                }
+            }
+            let mut actual: Vec<_> = blank_gaps(&rgb, width, im.height, 220)
+                .into_iter().map(|gap| gap.word_space).collect();
+            if reflected { actual.reverse(); }
+            prop_assert_eq!(expected, actual);
+        }
     }
 
     proptest! {
