@@ -4,7 +4,11 @@ mod slanted_spaces;
 /// 画像内の間隔分布から単語空白の閾値を推定する。
 mod word_spaces;
 
+/// 回転判定へ入る小区間を、モデルに収まる水平単語の文脈へ戻す。
+mod word_fragments;
+
 use slanted_spaces::restore_slanted_word_spaces;
+use word_fragments::merge_rotated_word_fragments;
 use word_spaces::word_gap_threshold;
 
 /// 横書き行から切り出す、重複・欠落のない水平区間。
@@ -144,6 +148,7 @@ pub fn split_line_for_input(
     }
     restore_slanted_word_spaces(rgb, width, height, threshold, &mut gaps);
     restore_word_spaces(&mut chunks, &gaps);
+    merge_rotated_word_fragments(&mut chunks, &gaps, height, input_width, input_height);
     Ok(chunks)
 }
 
