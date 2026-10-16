@@ -25,20 +25,17 @@ pub fn normalize_chromatic_panels(
     let mut background = None;
     for y in 0..=height {
         let mut count = 0;
-        let mut longest = 0;
-        let mut run = 0;
         let mut histogram = [0usize; 256];
+        let mut has_background_run = false;
         if y < height {
-            for pixel in rgb[y * width * 3..(y + 1) * width * 3].chunks_exact(3) {
-                if chromatic(pixel) {
-                    count += 1;
-                    histogram[usize::from(brightness(pixel))] += 1;
-                    run += 1;
-                    longest = longest.max(run);
-                } else {
-                    run = 0;
-                }
+            let row = &rgb[y * width * 3..(y + 1) * width * 3];
+            for pixel in row.chunks_exact(3).filter(|pixel| chromatic(pixel)) {
+                count += 1;
+                histogram[usize::from(brightness(pixel))] += 1;
             }
+            // 密な色文字しかない行では、背景が変わったと判断しない。
+            has_background_run =
+                count >= min_coverage && !background_sample_ranges(row, min_solid_run).is_empty();
         }
         if count >= min_coverage {
             let mut cumulative = 0;
@@ -50,7 +47,7 @@ pub fn normalize_chromatic_panels(
                 })
                 .expect("chromatic row has samples") as u8;
             // 字形がgradientの一部を隠すだけの中央値変化では分割しない。
-            if longest >= min_solid_run
+            if has_background_run
                 && background.is_some_and(|previous| {
                     normalized_intensity(median, previous) < 220
                         || normalized_intensity(previous, median) < 220
@@ -65,8 +62,10 @@ pub fn normalize_chromatic_panels(
                 background = None;
             }
             start.get_or_insert(y);
-            background.get_or_insert(median);
-            seeded |= longest >= min_solid_run;
+            if has_background_run {
+                background.get_or_insert(median);
+                seeded = true;
+            }
         } else if let Some(y0) = start.take() {
             if seeded && y - y0 >= 8 {
                 normalize_panel(rgb, width, y0, y, &mut output);
@@ -96,12 +95,27 @@ fn background_sample_ranges(row: &[u8], min_run: usize) -> Vec<std::ops::Range<u
     let mut start = None;
     let width = row.len() / 3;
     for x in 0..=width {
-        if x < width && chromatic(&row[x * 3..x * 3 + 3]) {
-            start.get_or_insert(x);
-        } else if let Some(x0) = start.take()
-            && x - x0 >= min_run
-        {
-            ranges.push(x0..x);
+        let pixel = (x < width).then(|| &row[x * 3..x * 3 + 3]);
+        let colored = pixel.is_some_and(chromatic);
+        // 色文字も有彩色なので、字形の色境界で背景の連続標本を分ける。
+        // 隣接画素の差だけを見ることで、緩やかな横方向gradientは保持する。
+        let continuous = colored && start.is_some() && {
+            let previous = &row[(x - 1) * 3..x * 3];
+            let current = pixel.unwrap();
+            current
+                .iter()
+                .zip(previous)
+                .all(|(&a, &b)| a.abs_diff(b) < MIN_CHROMA)
+        };
+        if !continuous {
+            if let Some(x0) = start.take()
+                && x - x0 >= min_run
+            {
+                ranges.push(x0..x);
+            }
+            if colored {
+                start = Some(x);
+            }
         }
     }
     ranges
@@ -144,6 +158,7 @@ fn normalize_panel(rgb: &[u8], width: usize, y0: usize, y1: usize, output: &mut 
             *samples[channel].select_nth_unstable(middle).1
         }));
     }
+    extend_solid_panel_edges(rgb, width, y0, y1, &mut backgrounds);
     for y in y0..y1 {
         // 同じ行でも色文字の外側白紙を背景内の白文字として反転しない。
         let is_background = |x: &usize| {
@@ -163,6 +178,38 @@ fn normalize_panel(rgb: &[u8], width: usize, y0: usize, y1: usize, output: &mut 
             };
             let i = (y * width + x) * 3;
             output.to_mut()[i..i + 3].fill(normalized_color_intensity(&rgb[i..i + 3], *background));
+        }
+    }
+}
+
+/// 広い標本の外縁に接し、行帯の全高で色が不変な細い枠だけを背景へ延長する。
+fn extend_solid_panel_edges(
+    rgb: &[u8],
+    width: usize,
+    y0: usize,
+    y1: usize,
+    backgrounds: &mut [Option<[u8; 3]>],
+) {
+    let Some(left) = backgrounds.iter().position(Option::is_some) else {
+        return;
+    };
+    let right = backgrounds.iter().rposition(Option::is_some).unwrap();
+    for columns in [
+        (0..left).rev().collect::<Vec<_>>(),
+        (right + 1..width).collect(),
+    ] {
+        for x in columns {
+            let i = (y0 * width + x) * 3;
+            let color: [u8; 3] = rgb[i..i + 3].try_into().unwrap();
+            if !chromatic(&color)
+                || !(y0 + 1..y1).all(|y| {
+                    let i = (y * width + x) * 3;
+                    rgb[i..i + 3] == color
+                })
+            {
+                break;
+            }
+            backgrounds[x] = Some(color);
         }
     }
 }

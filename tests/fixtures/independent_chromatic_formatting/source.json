@@ -1,0 +1,20 @@
+{
+  "source": "fixtures/input/pdf_parser/resources/grapecity/documents_for_pdf/document/text/character-formatting.pdf",
+  "page": 1,
+  "dpi": 300,
+  "crop_xyxy": [
+    260,
+    730,
+    2270,
+    990
+  ],
+  "comparison": "Unicode edit distance, no normalization; physical newlines retained; final newline excluded",
+  "truth_chars": 147,
+  "truth_lines": 2,
+  "truth_frozen_before_first_inference": "2026-10-16T20:51:49.129813+00:00",
+  "source_sha256": "488baa14148679a8ba6696eb0b36e16b381a511b00c59d80a6b1446c8a54ffd4",
+  "image_sha256": "5a9c92731f4a1a0f9e9fe74b627a5ab072f0c94985510e450ae72ad128a11754",
+  "truth_sha256": "f1d39af865f72ba3552e428c61974d8ce9ad647644b939e9995df2f3990a736d",
+  "source_repository": "https://github.com/jlsi/omo",
+  "source_revision": "3418850681b65fbd2f6d9b9151106d59f27c4743"
+}

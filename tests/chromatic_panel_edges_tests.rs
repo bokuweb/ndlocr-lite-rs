@@ -166,6 +166,27 @@ fn public_adjacent_panels_preserve_all_text_rows() {
         220,
     );
     assert_eq!(bands.len(), 38, "{bands:?}");
+    for [x0, y0, x1, y1] in bands {
+        let line = ndlocr_lite_rs::pipeline::crop::crop_rgb_u8(
+            &rgb,
+            image.width,
+            image.height,
+            ndlocr_lite_rs::pipeline::crop::BBox::new(x0, y0, x1, y1),
+        )
+        .unwrap();
+        assert!(
+            ndlocr_lite_rs::pipeline::line_chunks::split_line_for_input(
+                &line.data,
+                line.width,
+                line.height,
+                220,
+                256,
+                24,
+            )
+            .is_ok(),
+            "band {x0},{y0},{x1},{y1}"
+        );
+    }
 }
 
 /// 長い行が段落の少数でも、その行だけにある背景列を黒帯として残さない。
