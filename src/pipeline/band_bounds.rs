@@ -1,6 +1,6 @@
-//! 行端の細い字形を、近傍の元画素から回収する。
+//! 行端の疎な字形を、近傍の元画素から回収する。
 
-/// 列のインク密度で除外された横長で細い行端字形を、行高以内の近傍から回収する。
+/// 列密度で除外された横棒と疎な行端字形を、行高に基づく近傍から回収する。
 /// 入力画像とbandは行検出で検証済み。字形かノイズかの判定は形状による推定。
 pub(super) fn restore_edge_ink(
     rgb: &[u8],
@@ -17,10 +17,13 @@ pub(super) fn restore_edge_ink(
                 < u16::from(threshold)
         })
     };
-    // 本文字形の細い部品は飛び越え、横棒状の独立した列群だけを対象にする。
+    // 本文字形の細い部品は飛び越え、独立した列群の形状を確認する。
     for (start, end) in [
-        (x0.saturating_sub(line_height), x0),
-        (x1, x1.saturating_add(line_height).min(width)),
+        (x0.saturating_sub(line_height.saturating_mul(2)), x0),
+        (
+            x1,
+            x1.saturating_add(line_height.saturating_mul(2)).min(width),
+        ),
     ] {
         let mut x = start;
         while x < end {
@@ -44,20 +47,42 @@ pub(super) fn restore_edge_ink(
             if span_width < line_height.div_ceil(3) || span_width > line_height.saturating_mul(2) {
                 continue;
             }
-            let ink_rows = (y0..y1).filter(|&y| {
-                (left..right).any(|x| {
+            let mut first = y1;
+            let mut last = y0;
+            let mut area = 0usize;
+            let mut max_col = 0usize;
+            for x in left..right {
+                let mut col = 0;
+                for y in y0..y1 {
                     let i = (y * width + x) * 3;
-                    (u16::from(rgb[i]) + u16::from(rgb[i + 1]) + u16::from(rgb[i + 2])) / 3
+                    if (u16::from(rgb[i]) + u16::from(rgb[i + 1]) + u16::from(rgb[i + 2])) / 3
                         < u16::from(threshold)
-                })
-            });
-            let mut rows = ink_rows;
-            if let Some(first) = rows.next() {
-                let last = rows.next_back().unwrap_or(first);
-                if last - first < line_height.div_ceil(4) {
-                    x0 = x0.min(left.saturating_sub(2));
-                    x1 = x1.max(right.saturating_add(2).min(width));
+                    {
+                        first = first.min(y);
+                        last = last.max(y);
+                        col += 1;
+                    }
                 }
+                area += col;
+                max_col = max_col.max(col);
+            }
+            let gap = band[0]
+                .saturating_sub(right)
+                .max(left.saturating_sub(band[2]));
+            let ink_height = last + 1 - first;
+            let thin_bar = last - first < line_height.div_ceil(4) && gap <= line_height;
+            let sparse_glyph = span_width * 3 >= line_height * 2
+                && span_width * 2 <= line_height * 3
+                && ink_height * 4 >= line_height
+                && ink_height * 5 <= line_height * 4
+                && max_col <= line_height / 6
+                && area >= span_width * 2
+                && area * 4 <= span_width * ink_height
+                && (first + last + 1).abs_diff(y0 + y1) <= line_height / 2
+                && gap * 2 <= line_height * 3;
+            if thin_bar || sparse_glyph {
+                x0 = x0.min(left.saturating_sub(2));
+                x1 = x1.max(right.saturating_add(2).min(width));
             }
         }
     }
@@ -120,6 +145,26 @@ mod tests {
             restore_edge_ink(&mirrored, 180, band, 220),
             [58, 4, 144, 28]
         );
+    }
+
+    /// 既存の本文範囲に近くても密な矩形・小点・幅広線は補助回収しない。
+    #[test]
+    fn sparse_recovery_rejects_non_glyph_shapes() {
+        let original = crate::io::load_rgb_u8(std::path::Path::new(
+            "tests/fixtures/sparse_edges/phone.png",
+        ))
+        .unwrap();
+        for (w, h) in [(45, 17), (3, 3), (80, 17)] {
+            let mut rgb = original.data.clone();
+            for row in rgb.chunks_exact_mut(original.width * 3) {
+                row[..120 * 3].fill(255);
+            }
+            for y in 22..22 + h {
+                rgb[(y * original.width + 35) * 3..(y * original.width + 35 + w) * 3].fill(0);
+            }
+            let band = [135, 8, 326, 53];
+            assert_eq!(restore_edge_ink(&rgb, original.width, band, 220), band);
+        }
     }
 
     proptest! {

@@ -1,0 +1,24 @@
+{
+  "source": "jlsi/omo fixtures/input/pdf_parser/resources/web/dennyu-unyoukijun210401r.pdf",
+  "source_sha256": "44b5d55191d5c617d7a79497f233124b4198379c38ab7239567aadb1a3702335",
+  "page": 2,
+  "dpi": 300,
+  "regions": {
+    "phone": [
+      390,
+      2730,
+      770,
+      2790
+    ],
+    "delegation": [
+      390,
+      2225,
+      770,
+      2290
+    ]
+  },
+  "truth": {
+    "phone": "へ 電話番号",
+    "delegation": "二 委任状の有無"
+  }
+}
