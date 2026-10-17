@@ -11,6 +11,7 @@ use crate::output::artifacts::save_page_artifacts;
 use crate::output::docx::save_text_as_docx;
 use crate::pipeline::connect::RecognizedLine;
 use crate::pipeline::crop::{BBox, crop_rgb_u8, expand_bbox_xyxy_clamped};
+use crate::pipeline::line_detections::select_line_detections;
 use crate::pipeline::line_segment::{detect_textline_bands_fast, detect_textline_bands_naive};
 use crate::pipeline::reading_order::sort_lines_in_reading_order;
 use crate::pipeline::run_page::{PageInput, run_page};
@@ -35,10 +36,7 @@ pub fn prepare_line_crops(
     pad: usize,
 ) -> Result<Vec<PreparedLineCrop>> {
     let mut crops = Vec::new();
-    for det in detections {
-        if !det.class_name.starts_with("line_") {
-            continue;
-        }
+    for det in select_line_detections(&detections, width, height) {
         let [x0, y0, x1, y1] = [
             det.box_xyxy[0].max(0) as usize,
             det.box_xyxy[1].max(0) as usize,
