@@ -106,8 +106,9 @@ pub(super) fn restore_isolated_bands(
         };
         let mut restored = Vec::<[usize; 4]>::new();
         for seed in &components {
-            let small_aligned = is_small_aligned_seed(*seed, scale, bands, y0, y1);
-            if !is_glyph_seed(*seed, scale) && !small_aligned {
+            let small_contextual =
+                is_small_contextual_seed(*seed, scale, bands, [width, height], y0, y1);
+            if !is_glyph_seed(*seed, scale) && !small_contextual {
                 continue;
             }
             let mut bounds = seed.bounds;
@@ -121,7 +122,7 @@ pub(super) fn restore_isolated_bands(
                 }
             }
             let h = bounds[3] - bounds[1];
-            if (!small_aligned && h * 4 < scale * 3) || h * 2 > scale * 3 {
+            if (!small_contextual && h * 4 < scale * 3) || h * 2 > scale * 3 {
                 continue;
             }
             let mut band = [
@@ -130,9 +131,11 @@ pub(super) fn restore_isolated_bands(
                 (bounds[2] + 2).min(width),
                 (bounds[3] + 1).min(y1),
             ];
-            if small_aligned {
-                // x-heightを全高字形へ拡大せず、横書きの自動回転を余白で避ける。
-                band[1] = band[1].min(band[3].saturating_sub(scale + 2).max(y0));
+            if small_contextual {
+                // 小さい書体のフッターは原寸高を保ち、本文のx-heightだけ余白を補う。
+                if !is_centered_footer(seed.bounds, scale, [width, height], y0, y1) {
+                    band[1] = band[1].min(band[3].saturating_sub(scale + 2).max(y0));
+                }
                 let target_width = ((band[3] - band[1]) * 5)
                     .div_ceil(4)
                     .max(band[2] - band[0])
@@ -159,11 +162,12 @@ pub(super) fn restore_isolated_bands(
     bands.sort_unstable_by_key(|b| (b[1], b[0]));
 }
 
-/// 通常の本文左端とそろう小文字高の成分だけを孤立行の起点にする。
-fn is_small_aligned_seed(
+/// 本文左端または離れた中央フッターの文脈を持つ小字形を起点にする。
+fn is_small_contextual_seed(
     component: Component,
     scale: usize,
     bands: &[[usize; 4]],
+    page_size: [usize; 2],
     gap_top: usize,
     gap_bottom: usize,
 ) -> bool {
@@ -178,11 +182,25 @@ fn is_small_aligned_seed(
         && component.area >= h * 2
         && component.area * 100 >= w * h * 8
         && component.area * 100 <= w * h * 65
-        && bands.iter().any(|b| {
+        && (bands.iter().any(|b| {
             b[2] - b[0] >= scale * 3
                 && (b[3] - b[1]) * 4 >= scale * 3
                 && b[0].abs_diff(x0) <= scale / 4
-        })
+        }) || is_centered_footer(component.bounds, scale, page_size, gap_top, gap_bottom))
+}
+
+/// 本文から十分離れ、上下余白がある最終ギャップの中央成分だけを認める。
+fn is_centered_footer(
+    bounds: [usize; 4],
+    scale: usize,
+    page_size: [usize; 2],
+    gap_top: usize,
+    gap_bottom: usize,
+) -> bool {
+    gap_bottom == page_size[1]
+        && bounds[1].saturating_sub(gap_top) >= scale * 2
+        && gap_bottom.saturating_sub(bounds[3]) >= scale
+        && (bounds[0] + bounds[2]).abs_diff(page_size[0]) <= scale
 }
 
 /// 文字高・縦横比・密度を満たす成分だけを補助検出の起点にする。
@@ -414,7 +432,7 @@ mod truncated_tests {
 
 #[cfg(test)]
 mod small_aligned_tests {
-    use super::{Component, is_small_aligned_seed};
+    use super::{Component, is_small_contextual_seed};
 
     /// 面積と寸法が文字相当の成分を、通常本文の左端へ置く。
     fn seed(h: usize) -> Component {
@@ -430,22 +448,64 @@ mod small_aligned_tests {
         let bands = [[98, 10, 400, 62], [98, 80, 400, 132]];
         for h in 20..=37 {
             assert!(
-                is_small_aligned_seed(seed(h), 50, &bands, 132, 250),
+                is_small_contextual_seed(seed(h), 50, &bands, [500, 300], 132, 250),
                 "height {h}"
             );
         }
-        assert!(!is_small_aligned_seed(seed(19), 50, &bands, 132, 250));
-        assert!(!is_small_aligned_seed(seed(38), 50, &bands, 132, 250));
+        assert!(!is_small_contextual_seed(
+            seed(19),
+            50,
+            &bands,
+            [500, 300],
+            132,
+            250
+        ));
+        assert!(!is_small_contextual_seed(
+            seed(38),
+            50,
+            &bands,
+            [500, 300],
+            132,
+            250
+        ));
     }
 
     /// 本文への距離とギャップ境界を等号まで検証する。
     #[test]
     fn text_margin_and_gap_edges_bound_the_fallback() {
         let bands = [[88, 10, 400, 62], [88, 80, 400, 132]];
-        assert!(is_small_aligned_seed(seed(20), 50, &bands, 132, 250));
+        assert!(is_small_contextual_seed(
+            seed(20),
+            50,
+            &bands,
+            [500, 300],
+            132,
+            250
+        ));
         let far = [[87, 10, 400, 62], [87, 80, 400, 132]];
-        assert!(!is_small_aligned_seed(seed(20), 50, &far, 132, 250));
-        assert!(!is_small_aligned_seed(seed(20), 50, &bands, 150, 250));
-        assert!(!is_small_aligned_seed(seed(20), 50, &bands, 132, 170));
+        assert!(!is_small_contextual_seed(
+            seed(20),
+            50,
+            &far,
+            [500, 300],
+            132,
+            250
+        ));
+        assert!(!is_small_contextual_seed(
+            seed(20),
+            50,
+            &bands,
+            [500, 300],
+            150,
+            250
+        ));
+        assert!(!is_small_contextual_seed(
+            seed(20),
+            50,
+            &bands,
+            [500, 300],
+            132,
+            170
+        ));
     }
 }
