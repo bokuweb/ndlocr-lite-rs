@@ -1,5 +1,7 @@
 use std::borrow::Cow;
 
+mod antialias;
+
 /// 色背景とみなすRGB成分の最小差。無彩色の本文には作用させない。
 const MIN_CHROMA: u8 = 24;
 
@@ -180,6 +182,7 @@ fn normalize_panel(rgb: &[u8], width: usize, y0: usize, y1: usize, output: &mut 
             output.to_mut()[i..i + 3].fill(normalized_color_intensity(&rgb[i..i + 3], *background));
         }
     }
+    antialias::remove_panel_fringe(rgb, width, y0, y1, &backgrounds, output);
 }
 
 /// 広い標本の外縁に接し、行帯の全高で色が不変な細い枠だけを背景へ延長する。

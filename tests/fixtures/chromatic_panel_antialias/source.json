@@ -1,0 +1,29 @@
+{
+  "source_repository": "https://github.com/jlsi/omo",
+  "source_case": {
+    "name": "ocr_formatted_accuracy",
+    "degrees": -2,
+    "image": "docs/benchmarks/ocr-2026-10-18-skew/images/ocr_formatted_accuracy_-2.png",
+    "image_sha256": "17c36bc134dae48ed25d58c1bb30d111dff1da6e5c656520e6512f30c44f62f9",
+    "truth": "fixtures/expected/ocr_formatted_accuracy/truth.txt",
+    "truth_sha256": "eadd697f917c50768266d6614c1c8117c75c73d9ffdddad19d6aaf21c52a6a9a",
+    "source": "fixtures/input/ocr_formatted_accuracy/page1.png",
+    "source_sha256": "773c82238bfb969dfd733f05d4e00c8cfed69fef2dc31d8cefe02bfc4dd20ecd",
+    "dimensions": [
+      2664,
+      3388
+    ]
+  },
+  "library_head_before_change": "69684a82af4b277a43840d5b6c951b0589412a6b",
+  "preparation": "research-prototype.patch in omo/docs/benchmarks/ocr-2026-10-18-skew; integer column shifts before normalization; threshold 220",
+  "crop_xyxy": [
+    320,
+    1651,
+    2070,
+    1730
+  ],
+  "image_sha256": "9093a267417726a3a244bff1284bd356fe78d9aa76fc21eb2cfe36ccfd8254a2",
+  "prepared_rgb_sha256": "e017fc205f2e7d166ed9e8a84098ceb0aa9e479a4b545dcd35eaa74c1180cc6a",
+  "evidence": "omo/docs/benchmarks/ocr-2026-10-18-panel-antialias/skew-candidate.json",
+  "status": "regression from known development data; no independent holdout"
+}
