@@ -68,10 +68,10 @@ pub fn detect_vertical_textline_columns(
             });
         if has_ink {
             first_ink.get_or_insert(y);
-            if let Some(start) = blank_start.take() {
-                if y - start >= glyph_width.saturating_mul(2) {
-                    gaps.push((start, y));
-                }
+            if let Some(start) = blank_start.take()
+                && y - start >= glyph_width.saturating_mul(2)
+            {
+                gaps.push((start, y));
             }
             last_ink = y + 1;
         } else {
