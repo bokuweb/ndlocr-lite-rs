@@ -30,8 +30,9 @@ pub fn rotate_vertical_column_rgb_u8(
 /// RGB8の縦書きページから、段は上→下・各段の列は右→左の半開矩形を検出する。
 ///
 /// 縦書きが既知のページで明示的に使用する。紙面の陰影補正は行わず、
-/// 全幅の広い白帯の前後に十分な高さと複数列がある場合に段を分ける。
-/// 単列の段・汚れや罫線で白帯が途切れる紙面は段分けの対象外とする。
+/// 初回検出列の水平包絡内の広い白帯の前後に、十分な高さと複数列がある場合に段を分ける。
+/// 検出列の外側余白の細罫線は段判定から除外するが、元画素を加工しない。
+/// 単列の段・本文内の汚れや罫線で白帯が途切れる紙面は段分けの対象外とする。
 /// 返した矩形は元画像から切り出し、縦列回転と縦列用分割を経て認識できる。
 /// 空画像・長さ不一致・寸法の積のoverflowはエラーにする。
 pub fn detect_vertical_textline_columns(
@@ -55,13 +56,17 @@ pub fn detect_vertical_textline_columns(
         .collect();
     widths.sort_unstable();
     let glyph_width = widths[widths.len() / 2];
+    // 本文列の包絡外にある罫線・汚れで段間の白帯を塞がない。
+    // 列間も含めて走査し、本文内の連続したインクは従来通り分割を妨げる。
+    let text_x0 = columns.iter().map(|b| b[0]).min().unwrap();
+    let text_x1 = columns.iter().map(|b| b[2]).max().unwrap();
     let mut cuts = vec![0];
     let mut blank_start = None;
     let mut first_ink = None;
     let mut last_ink = 0;
     let mut gaps = Vec::new();
     for y in 0..height {
-        let has_ink = rgb[y * width * 3..(y + 1) * width * 3]
+        let has_ink = rgb[(y * width + text_x0) * 3..(y * width + text_x1) * 3]
             .chunks_exact(3)
             .any(|pixel| {
                 (pixel[0] as u16 + pixel[1] as u16 + pixel[2] as u16) / 3 < threshold as u16

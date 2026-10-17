@@ -303,3 +303,71 @@ fn unsupported_single_column_block_keeps_original_detection() {
         [[119, 18, 141, 302], [39, 18, 61, 122]]
     );
 }
+
+/// 本文の外側余白に段を貫く細い罫線があっても、上下の本文を結合しない。
+#[test]
+fn outer_margin_rule_does_not_join_stacked_body() {
+    for rule_x in [10, 165] {
+        let (w, h) = (180, 340);
+        let mut rgb = vec![255; w * h * 3];
+        for body in [
+            [120, 20, 140, 120],
+            [40, 20, 60, 120],
+            [120, 200, 140, 300],
+            [40, 200, 60, 300],
+        ] {
+            rect(&mut rgb, w, body);
+        }
+        rect(&mut rgb, w, [rule_x, 10, rule_x + 2, 320]);
+        assert_eq!(
+            detect_vertical_textline_columns(&rgb, w, h, 220).unwrap(),
+            [
+                [119, 18, 141, 122],
+                [39, 18, 61, 122],
+                [119, 198, 141, 302],
+                [39, 198, 61, 302]
+            ],
+            "rule x={rule_x}"
+        );
+    }
+}
+
+/// 検出列の間を貫く細線は本文内なので、外側余白の罫線として無視しない。
+#[test]
+fn internal_rule_keeps_original_detection() {
+    let (w, h) = (180, 340);
+    let mut rgb = vec![255; w * h * 3];
+    for body in [
+        [120, 20, 140, 120],
+        [40, 20, 60, 120],
+        [120, 200, 140, 300],
+        [40, 200, 60, 300],
+        [90, 10, 92, 320],
+    ] {
+        rect(&mut rgb, w, body);
+    }
+    assert_eq!(
+        detect_vertical_textline_columns(&rgb, w, h, 220).unwrap(),
+        [[119, 18, 141, 302], [39, 18, 61, 302]]
+    );
+}
+
+proptest! {
+    #![proptest_config(ProptestConfig::with_cases(24))]
+    /// 移動・拡大・左右を変えても、外側の細罫線が本文の段を結合しない。
+    #[test]
+    fn margin_rule_blocks_scale_and_translate(
+        scale in 1usize..4, dx in 0usize..11, dy in 0usize..11, left in any::<bool>()
+    ) {
+        let (w, h) = (180 * scale + dx, 340 * scale + dy);
+        let mut rgb = vec![255; w * h * 3];
+        let bodies = [[120,20,140,120], [40,20,60,120],
+            [120,200,140,300], [40,200,60,300]]
+            .map(|[x0,y0,x1,y1]| [x0*scale+dx,y0*scale+dy,x1*scale+dx,y1*scale+dy]);
+        for body in bodies { rect(&mut rgb,w,body); }
+        let x = (if left { 10 } else { 165 }) * scale + dx;
+        rect(&mut rgb, w, [x, 10*scale+dy, x+2*scale, 320*scale+dy]);
+        let actual = detect_vertical_textline_columns(&rgb,w,h,220).unwrap();
+        prop_assert_eq!(actual, bodies.map(|[x0,y0,x1,y1]| [x0-1,y0-2,x1+1,y1+2]));
+    }
+}

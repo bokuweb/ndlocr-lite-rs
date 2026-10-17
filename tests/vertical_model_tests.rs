@@ -250,15 +250,42 @@ fn detected_alternate_fonts_preserve_disconnected_numerals() {
 #[test]
 #[ignore = "requires fixed PARSeq assets"]
 fn stacked_printed_body_preserves_full_text_and_reading_order() {
+    assert_stacked_body(None);
+}
+
+/// 左右の外側余白の罫線で本文の47列と既存の文字精度が失われない。
+#[test]
+#[ignore = "requires fixed PARSeq assets"]
+fn stacked_printed_body_with_outer_rules_preserves_text() {
+    for left in [true, false] {
+        assert_stacked_body(Some(left));
+    }
+}
+
+/// 固定本文を元画素のまま認識し、必要に応じて外側余白だけへ細線を足す。
+fn assert_stacked_body(margin_rule: Option<bool>) {
     let session = ParseqSession::load(
         std::path::Path::new(&std::env::var("NDLOCR_TEST_PARSEQ_MODEL").unwrap()),
         std::path::Path::new(&std::env::var("NDLOCR_TEST_CHARSET").unwrap()),
     )
     .unwrap();
-    let im = ndlocr_lite_rs::io::load_rgb_u8(std::path::Path::new(
+    let mut im = ndlocr_lite_rs::io::load_rgb_u8(std::path::Path::new(
         "tests/fixtures/stacked_vertical/body.png",
     ))
     .unwrap();
+    if let Some(left) = margin_rule {
+        let width = im.width + 80;
+        let mut padded = vec![255; width * im.height * 3];
+        for y in 0..im.height {
+            let start = (y * width + 40) * 3;
+            padded[start..start + im.width * 3]
+                .copy_from_slice(&im.data[y * im.width * 3..(y + 1) * im.width * 3]);
+            let x = if left { 8 } else { width - 10 };
+            padded[(y * width + x) * 3..(y * width + x + 2) * 3].fill(0);
+        }
+        im.data = padded;
+        im.width = width;
+    }
     let truth = include_str!("fixtures/stacked_vertical/truth.txt")
         .strip_suffix('\n')
         .unwrap();
@@ -300,6 +327,12 @@ fn stacked_printed_body_preserves_full_text_and_reading_order() {
         start.elapsed().as_millis()
     );
     assert_eq!(columns.len(), 47);
+    if margin_rule.is_some() {
+        assert!(
+            errors <= 35,
+            "margin rule must retain the fixed 35/1044 baseline"
+        );
+    }
     assert!(
         errors * 10 <= 1044,
         "fixed whole-body error rate must be <=10%"
