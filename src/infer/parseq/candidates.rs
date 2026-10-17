@@ -79,24 +79,17 @@ pub fn predict_text_from_flat_logits_with_candidates(
     charset: &[char],
     top_k: usize,
 ) -> Result<ParseqCandidateResult> {
-    if top_k == 0 || timesteps == 0 || classes == 0 {
-        bail!("top_k/timesteps/classes must be > 0");
-    }
-    let expected = timesteps
-        .checked_mul(classes)
-        .ok_or_else(|| anyhow::anyhow!("logits shape overflow"))?;
-    if logits.len() < expected || charset.len().checked_add(1) != Some(classes) {
-        bail!("logits shape or charset mismatch");
-    }
-    if logits[..expected].iter().any(|v| !v.is_finite()) {
-        bail!("candidate logits must be finite");
+    if top_k == 0 {
+        bail!("top_k must be > 0");
     }
     let k = top_k.min(classes);
-    let mut indices: Vec<usize> = (0..classes).collect();
+    // 共通デコーダによる形状・文字集合・有限値の検証後にのみ確保する。
+    let mut indices: Option<Vec<usize>> = None;
     let mut steps = Vec::new();
     let mut stop_reason = ParseqStopReason::TimestepsExhausted;
     let recognition =
         decode_flat_logits_with_observer(logits, timesteps, classes, charset, |step| {
+            let indices = indices.get_or_insert_with(|| (0..classes).collect());
             let compare = |a: &usize, b: &usize| {
                 step.row[*b]
                     .partial_cmp(&step.row[*a])

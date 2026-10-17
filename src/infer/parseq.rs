@@ -368,6 +368,10 @@ pub fn sanitize_recognized_text(input: &str) -> String {
     apply_common_japanese_ocr_replacements(&out)
 }
 
+/// 平坦モデル出力を検証して本文を取得する。
+///
+/// # Errors
+/// 形状不正、EOSを含むクラス数と文字集合の不一致、形状内の非有限値を拒否する。
 pub fn predict_text_from_flat_logits(
     logits: &[f32],
     timesteps: usize,
@@ -377,6 +381,11 @@ pub fn predict_text_from_flat_logits(
     Ok(predict_text_from_flat_logits_with_confidence(logits, timesteps, classes, charset)?.text)
 }
 
+/// 平坦モデル出力を検証し、本文と平均信頼度を返す。
+///
+/// # Errors
+/// 形状不正、EOSを含むクラス数と文字集合の不一致、形状内の非有限値を拒否する。
+/// 停止後のステップも検証し、形状外の末尾データは無視する。
 pub fn predict_text_from_flat_logits_with_confidence(
     logits: &[f32],
     timesteps: usize,
@@ -402,6 +411,12 @@ fn decode_flat_logits_with_observer(
         .ok_or_else(|| anyhow::anyhow!("logits shape overflow"))?;
     if logits.len() < expected {
         bail!("flat logits length is shorter than shape");
+    }
+    if charset.len().checked_add(1) != Some(classes) {
+        bail!("logits classes and charset mismatch");
+    }
+    if logits[..expected].iter().any(|v| !v.is_finite()) {
+        bail!("logits must be finite");
     }
     let mut text = String::new();
     let mut conf_sum = 0.0f32;
