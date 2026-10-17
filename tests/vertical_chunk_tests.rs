@@ -56,3 +56,142 @@ proptest! {
         }
     }
 }
+
+/// 既知の描画矩形は検証だけに使い、二・三を途中で切断しない。
+#[test]
+fn long_rendered_columns_do_not_split_glyph_interiors() {
+    use ndlocr_lite_rs::pipeline::vertical_segment::rotate_vertical_column_rgb_u8;
+    let manifest: serde_json::Value =
+        serde_json::from_str(include_str!("fixtures/long_vertical/manifest.json")).unwrap();
+    for item in manifest["items"].as_array().unwrap() {
+        let path = std::path::Path::new("tests/fixtures/long_vertical")
+            .join(item["image"].as_str().unwrap());
+        let im = ndlocr_lite_rs::io::load_rgb_u8(&path).unwrap();
+        let r = rotate_vertical_column_rgb_u8(&im.data, im.width, im.height).unwrap();
+        let chunks =
+            split_rotated_vertical_column_for_input(&r.data, r.width, r.height, 220, 256, 24)
+                .unwrap();
+        assert!(chunks.len() >= 2);
+        for chunk in chunks.iter().skip(1) {
+            for bbox in item["glyph_boxes"].as_array().unwrap() {
+                let top = bbox[1].as_u64().unwrap() as usize;
+                let bottom = bbox[3].as_u64().unwrap() as usize;
+                assert!(
+                    chunk.x0 <= top || chunk.x0 >= bottom,
+                    "{}: split {} inside [{top}, {bottom})",
+                    item["id"],
+                    chunk.x0
+                );
+            }
+        }
+    }
+}
+
+/// 一定字送りの中央だけ三本の離れた画線とし、左右移動・反転も行う。
+fn disconnected_center(
+    count: usize,
+    scale: usize,
+    padding: usize,
+    reflected: bool,
+) -> (Vec<u8>, usize, usize, (usize, usize)) {
+    let height = 34 * scale;
+    let width = count * 26 * scale + padding * 2;
+    let mut rgb = vec![255; width * height * 3];
+    let center = count / 2;
+    for n in 0..count {
+        for dx in 0..20 * scale {
+            if n == center
+                && !(dx < 2 * scale
+                    || (7 * scale..9 * scale).contains(&dx)
+                    || (14 * scale..16 * scale).contains(&dx))
+            {
+                continue;
+            }
+            let x = padding + n * 26 * scale + dx;
+            let x = if reflected { width - 1 - x } else { x };
+            for y in 4 * scale..30 * scale {
+                rgb[(y * width + x) * 3..(y * width + x + 1) * 3].fill(0);
+            }
+        }
+    }
+    let start = padding + center * 26 * scale;
+    let end = start + 16 * scale;
+    let bounds = if reflected {
+        (width - end, width - start)
+    } else {
+        (start, end)
+    };
+    (rgb, width, height, bounds)
+}
+
+proptest! {
+    #![proptest_config(ProptestConfig::with_cases(24))]
+    /// 等間隔列の三本画線を拡大・移動・反転しても、白帯で字形を分断しない。
+    #[test]
+    fn disconnected_strokes_stay_together(scale in 1usize..4, padding in 0usize..15, half_count in 10usize..18, reflected in any::<bool>()) {
+        let (rgb, width, height, (start, end)) = disconnected_center(half_count * 2 + 1, scale, padding, reflected);
+        let chunks = split_rotated_vertical_column_for_input(&rgb, width, height, 220, 256, 24).unwrap();
+        prop_assert!(chunks.len() >= 2);
+        prop_assert_eq!(chunks[0].x0, 0);
+        prop_assert_eq!(chunks.last().unwrap().x1, width);
+        for chunk in chunks.iter().skip(1) {
+            prop_assert!(chunk.x0 <= start || chunk.x0 >= end, "split {} inside [{}, {})",chunk.x0,start,end);
+            prop_assert!(!chunk.space_before);
+        }
+    }
+}
+
+/// 独立した一を並べた列は、離れた画線を一文字へ集約してモデル上限を超えない。
+#[test]
+fn separate_single_strokes_still_obey_the_group_limit() {
+    let height = 34;
+    let width = 31 * 26;
+    let mut rgb = vec![255; width * height * 3];
+    for n in 0..31 {
+        for y in 4..30 {
+            for x in n * 26..n * 26 + 2 {
+                rgb[(y * width + x) * 3..(y * width + x + 1) * 3].fill(0);
+            }
+        }
+    }
+    let chunks =
+        split_rotated_vertical_column_for_input(&rgb, width, height, 220, 256, 24).unwrap();
+    assert_eq!(chunks.len(), 2);
+    for chunk in chunks {
+        let groups = (0..31)
+            .filter(|&n| chunk.x0 <= n * 26 && n * 26 < chunk.x1)
+            .count();
+        assert!(groups <= 20);
+        assert!(!chunk.space_before);
+    }
+}
+
+/// 細線の長い列は、支持字形の有無にかかわらず無制限に一群へ連鎖しない。
+#[test]
+fn dense_stroke_chains_do_not_bypass_chunk_limits() {
+    for anchors in [0, 6] {
+        let height = 34;
+        let width = anchors * 26 + 61 * 8;
+        let mut rgb = vec![255; width * height * 3];
+        for n in 0..anchors + 61 {
+            let (start, end) = if n < anchors {
+                (n * 26, n * 26 + 20)
+            } else {
+                let start = anchors * 26 + (n - anchors) * 8;
+                (start, start + 2)
+            };
+            for y in 4..30 {
+                for x in start..end {
+                    rgb[(y * width + x) * 3..(y * width + x + 1) * 3].fill(0);
+                }
+            }
+        }
+        let chunks =
+            split_rotated_vertical_column_for_input(&rgb, width, height, 220, 256, 24).unwrap();
+        assert_eq!(
+            chunks.len(),
+            if anchors == 0 { 4 } else { 2 },
+            "anchors={anchors}"
+        );
+    }
+}

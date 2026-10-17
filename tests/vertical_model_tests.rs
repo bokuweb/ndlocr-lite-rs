@@ -150,3 +150,53 @@ fn explicit_vertical_columns_improve_frozen_full_page_truth() {
     );
     assert!(errors <= 4, "must retain the fixed 4/83 vertical baseline");
 }
+
+/// 原文を分割へ渡さず、長い列の内部白帯による二・三の分裂を防ぐ。
+#[test]
+#[ignore = "requires fixed PARSeq assets"]
+fn long_vertical_columns_preserve_disconnected_numerals() {
+    let session = ParseqSession::load(
+        std::path::Path::new(&std::env::var("NDLOCR_TEST_PARSEQ_MODEL").unwrap()),
+        std::path::Path::new(&std::env::var("NDLOCR_TEST_CHARSET").unwrap()),
+    )
+    .unwrap();
+    let manifest: serde_json::Value =
+        serde_json::from_str(include_str!("fixtures/long_vertical/manifest.json")).unwrap();
+    let (iw, ih) = session.input_dimensions();
+    let mut failures = Vec::new();
+    for item in manifest["items"].as_array().unwrap() {
+        let path = std::path::Path::new("tests/fixtures/long_vertical")
+            .join(item["image"].as_str().unwrap());
+        let im = ndlocr_lite_rs::io::load_rgb_u8(&path).unwrap();
+        let r = rotate_vertical_column_rgb_u8(&im.data, im.width, im.height).unwrap();
+        let chunks =
+            split_rotated_vertical_column_for_input(&r.data, r.width, r.height, 220, iw, ih)
+                .unwrap();
+        let mut actual = String::new();
+        for i in 0..chunks.len() {
+            let crop = crop_line_chunk_rgb_u8(&r.data, r.width, r.height, &chunks, i).unwrap();
+            actual.push_str(
+                &session
+                    .recognize_rgb_u8_unprocessed_with_orientation(
+                        &crop.data,
+                        crop.width,
+                        crop.height,
+                        ParseqOrientation::Horizontal,
+                    )
+                    .unwrap()
+                    .text,
+            );
+        }
+        let truth = item["truth"].as_str().unwrap();
+        eprintln!(
+            "{}: {}/{}, {actual:?}",
+            item["id"],
+            edit_distance(truth, &actual),
+            truth.chars().count()
+        );
+        if actual != truth {
+            failures.push(item["id"].clone());
+        }
+    }
+    assert!(failures.is_empty(), "long-column regressions: {failures:?}");
+}

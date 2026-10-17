@@ -373,6 +373,18 @@ fn blank_gaps_with_word_gap_limit(
     threshold: u8,
     word_gap_limit: usize,
 ) -> Vec<BlankGap> {
+    blank_gaps_with_geometry(rgb, width, height, threshold, word_gap_limit, false)
+}
+
+/// 書字方向ごとの分類を行い、一度の画素走査でインク群と白帯を調べる。
+fn blank_gaps_with_geometry(
+    rgb: &[u8],
+    width: usize,
+    height: usize,
+    threshold: u8,
+    word_gap_limit: usize,
+    vertical: bool,
+) -> Vec<BlankGap> {
     let mut gaps = Vec::new();
     let mut blank_start = None;
     let mut seen_ink = false;
@@ -428,6 +440,9 @@ fn blank_gaps_with_word_gap_limit(
         ink_widths.push(width - start);
         ink_heights.push(peak_height);
         ink_extents.push(ink_bottom - ink_top);
+    }
+    if vertical {
+        return vertical::retain_glyph_boundaries(gaps, &ink_widths, &ink_extents, height);
     }
     if !ink_widths.is_empty() {
         // 字幅の3/5以上を単語空白と推定する。極端な横長インクは行高で頭打ちにする。
