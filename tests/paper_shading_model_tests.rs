@@ -86,4 +86,12 @@ fn paper_shading_separates_five_rows_and_halves_initial_errors() {
     eprintln!("PAPER SHADING {errors}/68: {actual:?}");
     // 完全一致は未達。この開発画像の改善ゲートは本番精度の受入基準ではない。
     assert!(errors <= 28, "must halve initial 56/68: {actual:?}");
+    assert!(
+        actual.ends_with('。'),
+        "must recognize the detached final period: {actual:?}"
+    );
+    assert!(
+        errors < 18,
+        "must improve the fixed 18/68 baseline: {actual:?}"
+    );
 }

@@ -1,10 +1,10 @@
 /// 未検出領域にある8近傍の画素成分。
 #[derive(Clone, Copy)]
-struct Component {
+pub(super) struct Component {
     /// 左上・右下の半開画素境界。
-    bounds: [usize; 4],
+    pub(super) bounds: [usize; 4],
     /// 閾値未満の画素数。
-    area: usize,
+    pub(super) area: usize,
 }
 
 /// 短い既存行に重なる文字成分を調べ、行投影で欠けた上下の画を戻す。
@@ -256,7 +256,7 @@ fn belongs_to_glyph(seed: Component, part: Component, scale: usize) -> bool {
 }
 
 /// 行間の成分を一度ずつ走査し、成分数が過剰なノイズ領域は打ち切る。
-fn components_in_gap(
+pub(super) fn components_in_gap(
     rgb: &[u8],
     width: usize,
     y0: usize,
