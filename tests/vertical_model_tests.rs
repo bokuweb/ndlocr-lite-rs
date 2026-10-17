@@ -5,10 +5,12 @@ use ndlocr_lite_rs::{
     io::RgbImageData,
     pipeline::{
         crop::{BBox, crop_rgb_u8},
-        line_chunks::{crop_line_chunk_rgb_u8, split_line_for_input},
+        line_chunks::{
+            crop_line_chunk_rgb_u8, split_line_for_input, split_rotated_vertical_column_for_input,
+        },
         line_segment::detect_textline_bands_naive,
         paper_background::normalize_paper_shading,
-        vertical_segment::detect_vertical_textline_columns,
+        vertical_segment::{detect_vertical_textline_columns, rotate_vertical_column_rgb_u8},
     },
 };
 
@@ -100,6 +102,38 @@ fn explicit_vertical_columns_improve_frozen_full_page_truth() {
                 ParseqOrientation::Auto,
             )
             .unwrap();
+        let rotated = rotate_vertical_column_rgb_u8(&crop.data, crop.width, crop.height).unwrap();
+        let (iw, ih) = session.input_dimensions();
+        let chunks = split_rotated_vertical_column_for_input(
+            &rotated.data,
+            rotated.width,
+            rotated.height,
+            220,
+            iw,
+            ih,
+        )
+        .unwrap();
+        let mut chunked = String::new();
+        for i in 0..chunks.len() {
+            let part =
+                crop_line_chunk_rgb_u8(&rotated.data, rotated.width, rotated.height, &chunks, i)
+                    .unwrap();
+            chunked.push_str(
+                &session
+                    .recognize_rgb_u8_unprocessed_with_orientation(
+                        &part.data,
+                        part.width,
+                        part.height,
+                        ParseqOrientation::Horizontal,
+                    )
+                    .unwrap()
+                    .text,
+            );
+        }
+        assert_eq!(
+            chunked, result.text,
+            "bounded vertical path must preserve full-column context"
+        );
         lines.push(result.text);
     }
     let actual = lines.join("\n");
@@ -114,5 +148,5 @@ fn explicit_vertical_columns_improve_frozen_full_page_truth() {
         lines[0].ends_with('。'),
         "must retain the first column period"
     );
-    assert!(errors < 9, "must improve the fixed 9/83 vertical baseline");
+    assert!(errors <= 4, "must retain the fixed 4/83 vertical baseline");
 }
