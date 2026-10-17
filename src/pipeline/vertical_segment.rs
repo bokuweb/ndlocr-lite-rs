@@ -1,3 +1,32 @@
+/// 既知の縦書き列を無補間で反時計回り90度回し、横書き分割・Horizontal推論へ渡す。
+/// 上→下を左→右へ移し、寸法比による自動判定を行わない。
+pub fn rotate_vertical_column_rgb_u8(
+    rgb: &[u8],
+    width: usize,
+    height: usize,
+) -> Result<super::crop::CroppedImage, String> {
+    let length = width.checked_mul(height).and_then(|n| n.checked_mul(3));
+    if width == 0 || height == 0 || length != Some(rgb.len()) {
+        return Err("invalid RGB column dimensions".into());
+    }
+    let mut data = Vec::new();
+    data.try_reserve_exact(rgb.len())
+        .map_err(|error| format!("cannot allocate rotated column: {error}"))?;
+    data.resize(rgb.len(), 0);
+    for y in 0..height {
+        for x in 0..width {
+            let source = (y * width + x) * 3;
+            let target = ((width - 1 - x) * height + y) * 3;
+            data[target..target + 3].copy_from_slice(&rgb[source..source + 3]);
+        }
+    }
+    Ok(super::crop::CroppedImage {
+        data,
+        width: height,
+        height: width,
+    })
+}
+
 /// RGB8の縦書きページから右→左順の半開矩形を検出する。
 ///
 /// 縦書きが既知のページで明示的に使用する。紙面の陰影補正は行わず、
