@@ -18,7 +18,7 @@ mod punctuation_tails;
 
 use slanted_spaces::restore_slanted_word_spaces;
 use word_fragments::{merge_rotated_word_fragments, restore_short_word_tails};
-use word_spaces::word_gap_threshold;
+use word_spaces::{strong_connected_gap_threshold, word_gap_threshold};
 
 /// 横書き行から切り出す、重複・欠落のない水平区間。
 #[derive(Debug, PartialEq, Eq)]
@@ -413,7 +413,6 @@ fn blank_gaps_with_word_gap_limit(
     if !ink_widths.is_empty() {
         // 字幅の3/5以上を単語空白と推定する。極端な横長インクは行高で頭打ちにする。
         let typical = representative_width(&ink_widths, &ink_extents, height).min(height);
-        let preferred_gap = typical.saturating_mul(3).div_ceil(5);
         // 斜体などで複数字が連結した成分が複数あれば、全角相当の中央値だけで除外しない。
         let connected_runs = ink_widths
             .iter()
@@ -421,6 +420,16 @@ fn blank_gaps_with_word_gap_limit(
             .count();
         let word_gap =
             word_gap_threshold(&gaps, typical, height, connected_runs).min(word_gap_limit);
+        // 連結字形の強い二群に限り、単語内部より支持済みの空白を優先する。
+        let preferred_gap = if typical >= height.saturating_mul(2).div_ceil(3) && connected_runs < 3
+        {
+            strong_connected_gap_threshold(&gaps, height, connected_runs)
+                .map_or(typical.saturating_mul(3).div_ceil(5), |gap| {
+                    gap.min(word_gap)
+                })
+        } else {
+            typical.saturating_mul(3).div_ceil(5)
+        };
         // 幅の中央値が近い英字行を除くため、全角相当の字形も十分あることを要求する。
         let wide_glyphs = ink_widths
             .iter()

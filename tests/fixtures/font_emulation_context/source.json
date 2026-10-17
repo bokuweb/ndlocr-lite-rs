@@ -1,0 +1,16 @@
+{
+  "source": "fixtures/input/pdf_parser/resources/grapecity/documents_for_pdf/document/fonts/bold-italic-emulation.pdf",
+  "source_sha256": "807c86f422b135a46657c68a1f1cf03ca444f51a9bc1033d43ff0e2f7b7963c6",
+  "page": 1,
+  "dpi": 200,
+  "png_sha256": "c68ffe6d28d564b626544ef260f89e66c25d055f75140e5baa7d4762a0450711",
+  "truth_sha256": "b111b71880b48eb2ff39870db762ba2c48dee3b899916848ecef32f336974d25",
+  "truth_chars": 427,
+  "truth_words": 69,
+  "rows": 9,
+  "library_revision": "c5774e03acc4fffbcffbfb9bc7e430fbccc43f88",
+  "truth_frozen_before_inference_utc": "2026-10-17T02:49:25.310461+00:00",
+  "transcription": "Visible raster manually compared with embedded PDF text; physical line breaks preserved, no OCR used.",
+  "source_repository": "https://github.com/jlsi/omo",
+  "evaluation_status": "development data after first inference; frozen truth unchanged"
+}

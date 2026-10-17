@@ -32,7 +32,7 @@ pub(super) fn restore_slanted_word_spaces(
             slope = candidate;
         }
     }
-    if slope == 0 || best - baseline < baseline.div_ceil(5) {
+    if slope == 0 || best - baseline < baseline.div_ceil(10) {
         return;
     }
     let Some(size) = projected_width
@@ -65,12 +65,21 @@ pub(super) fn restore_slanted_word_spaces(
         word_gap_limit,
     );
     let center_shift = row_shift(height / 2, height, slope);
-    for gap in gaps {
+    let supported = |gap: &BlankGap| {
         let center = gap.midpoint + center_shift;
-        gap.word_space |= confirmed.iter().any(|candidate| {
+        confirmed.iter().any(|candidate| {
             let start = candidate.midpoint - candidate.width / 2;
             candidate.word_space && (start..start + candidate.width).contains(&center)
-        });
+        })
+    };
+    // 弱い傾きは、投影と元白列の双方が6個以上の単語空白を支持するときだけ採る。
+    if best - baseline < baseline.div_ceil(5)
+        && gaps.iter().filter(|gap| supported(gap)).count() < 6
+    {
+        return;
+    }
+    for gap in gaps {
+        gap.word_space |= supported(gap);
     }
 }
 
@@ -126,6 +135,84 @@ mod tests {
                 crop_rgb_u8(&rgb, image.width, image.height, BBox::new(x0, y0, x1, y1)).unwrap();
             (line.data, line.width, line.height)
         })
+    }
+
+    /// 弱い擬似斜体でも、投影後に6実空白が確認できれば元境界を復元する。
+    #[test]
+    fn weak_slant_requires_six_confirmed_spaces() {
+        use crate::{
+            io::load_rgb_u8,
+            pipeline::crop::{BBox, crop_rgb_u8},
+        };
+        let page = load_rgb_u8(std::path::Path::new(
+            "tests/fixtures/font_emulation_context/page.png",
+        ))
+        .unwrap();
+        let line = crop_rgb_u8(
+            &page.data,
+            page.width,
+            page.height,
+            BBox::new(204, 652, 1038, 686),
+        )
+        .unwrap();
+        let mut gaps = blank_gaps(&line.data, line.width, line.height, 220);
+        assert!(gaps.iter().all(|gap| !gap.word_space));
+        let mut unsupported = blank_gaps(&line.data, line.width, line.height, 220);
+        unsupported.retain(|gap| gap.midpoint != 94);
+        restore_slanted_word_spaces(&line.data, line.width, line.height, 220, &mut unsupported);
+        assert!(
+            unsupported.iter().all(|gap| !gap.word_space),
+            "five matches must not relax the slope gate"
+        );
+        let before: Vec<_> = gaps
+            .iter()
+            .map(|g| (g.midpoint, g.width, g.preferred_split))
+            .collect();
+        restore_slanted_word_spaces(&line.data, line.width, line.height, 220, &mut gaps);
+        assert!(gaps.iter().find(|g| g.midpoint == 391).unwrap().word_space);
+        assert!(gaps.iter().find(|g| g.midpoint == 604).unwrap().word_space);
+        assert_eq!(gaps.iter().filter(|g| g.word_space).count(), 6);
+        assert_eq!(
+            gaps.iter()
+                .map(|g| (g.midpoint, g.width, g.preferred_split))
+                .collect::<Vec<_>>(),
+            before
+        );
+    }
+
+    proptest::proptest! {
+        #![proptest_config(proptest::test_runner::Config::with_cases(12))]
+        /// 弱い傾きの6空白支持を拡大・移動・反転でも確認し、既存境界は保存する。
+        #[test]
+        fn weak_slant_preserves_pixel_geometry(
+            scale in 1usize..4, margin in 0usize..8, reflected in proptest::bool::ANY,
+        ) {
+            use crate::{io::load_rgb_u8, pipeline::crop::{BBox, crop_rgb_u8}};
+            let page = load_rgb_u8(std::path::Path::new(
+                "tests/fixtures/font_emulation_context/page.png",
+            )).unwrap();
+            let line = crop_rgb_u8(&page.data, page.width, page.height,
+                BBox::new(204, 652, 1038, 686)).unwrap();
+            let width = line.width * scale + margin * 2;
+            let height = line.height * scale;
+            let mut rgb = vec![255; width*height*3];
+            for y in 0..height {
+                for x in 0..line.width*scale {
+                    let target = if reflected {width-1-margin-x} else {margin+x};
+                    let source = ((y/scale)*line.width+x/scale)*3;
+                    rgb[(y*width+target)*3..(y*width+target)*3+3]
+                        .copy_from_slice(&line.data[source..source+3]);
+                }
+            }
+            let mut gaps = blank_gaps(&rgb,width,height,220);
+            let before:Vec<_>=gaps.iter().map(|g|(g.midpoint,g.width,g.preferred_split,g.word_space)).collect();
+            restore_slanted_word_spaces(&rgb,width,height,220,&mut gaps);
+            proptest::prop_assert_eq!(gaps.iter().filter(|gap| gap.word_space).count(),6);
+            for (gap,(midpoint,gap_width,preferred,word)) in gaps.iter().zip(before) {
+                proptest::prop_assert_eq!((gap.midpoint,gap.width,gap.preferred_split),(midpoint,gap_width,preferred));
+                proptest::prop_assert!(!word || gap.word_space);
+            }
+        }
     }
 
     /// 元画像に6個の確認済み空白がある場合だけ、その幅を補正後へ引き継ぐ。

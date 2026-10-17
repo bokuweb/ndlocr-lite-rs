@@ -8,8 +8,12 @@ pub(super) fn word_gap_threshold(
     connected_runs: usize,
 ) -> usize {
     let fallback = typical.saturating_mul(3).div_ceil(5);
-    if (typical >= height.saturating_mul(2).div_ceil(3) && connected_runs < 3) || gaps.len() < 6 {
+    if gaps.len() < 6 {
         return fallback;
+    }
+    if typical >= height.saturating_mul(2).div_ceil(3) && connected_runs < 3 {
+        return strong_connected_gap_threshold(gaps, height, connected_runs)
+            .map_or(fallback, |threshold| fallback.min(threshold));
     }
     let mut widths: Vec<_> = gaps.iter().map(|gap| gap.width).collect();
     widths.sort_unstable();
@@ -34,6 +38,33 @@ pub(super) fn word_gap_threshold(
         }
     }
     fallback
+}
+
+/// 連結字形で中央値が膨らんでも、5空白以上が字間の2.5倍なら実間隔を採る。
+pub(super) fn strong_connected_gap_threshold(
+    gaps: &[BlankGap],
+    height: usize,
+    connected_runs: usize,
+) -> Option<usize> {
+    if connected_runs == 0 || gaps.len() < 10 {
+        return None;
+    }
+    let mut widths: Vec<_> = gaps.iter().map(|gap| gap.width).collect();
+    widths.sort_unstable();
+    for first in widths.len().div_ceil(2)..=widths.len() - 5 {
+        let (small, large) = (widths[first - 1], widths[first]);
+        if (large as u128) * 2 < (small as u128) * 5 {
+            continue;
+        }
+        let threshold = large
+            .max(height.div_ceil(5))
+            .max(widths.last()?.div_ceil(2));
+        let retained = widths.len() - widths.partition_point(|&width| width < threshold);
+        if retained >= 3 {
+            return Some(threshold);
+        }
+    }
+    None
 }
 
 #[cfg(test)]
@@ -215,6 +246,47 @@ mod tests {
                     preferred_split: false, internal_glyph_gap: false,
                 }).collect::<Vec<_>>();
             prop_assert_eq!(word_gap_threshold(&gaps,36*scale,76*scale,0),(36*scale*3).div_ceil(5));
+        }
+    }
+}
+
+#[cfg(test)]
+mod connected_population_tests {
+    use super::*;
+    use proptest::prelude::*;
+    /// 強く分離した5個以上の実空白と連結成分の支持だけが全角相当の除外を超える。
+    #[test]
+    fn strong_population_requires_joined_ink_and_five_gaps() {
+        for (widths, connected, expected) in [
+            (vec![1, 1, 1, 2, 2, 3, 3, 4, 11, 12, 13, 14], 1, 20),
+            (vec![1, 1, 1, 2, 2, 3, 3, 4, 11, 11, 11, 12, 13, 14], 1, 11),
+            (vec![1, 1, 1, 2, 2, 3, 3, 4, 11, 11, 11, 12, 13, 14], 0, 20),
+            (vec![1, 1, 1, 2, 2, 3, 3, 4, 11, 11, 12, 13, 14], 1, 11),
+            (vec![1, 1, 1, 2, 2, 3, 3, 5, 11, 11, 11, 12, 13, 14], 1, 20),
+            (vec![1, 1, 1, 2, 2, 3, 3, 4, 11, 11, 11, 12, 13, 60], 1, 20),
+            (vec![1, 1, 1, 2, 2, 3, 3, 3, 8, 10, 11, 13, 14, 16], 1, 9),
+        ] {
+            let gaps: Vec<_> = widths
+                .into_iter()
+                .map(|width| BlankGap {
+                    midpoint: 0,
+                    width,
+                    word_space: false,
+                    preferred_split: false,
+                    internal_glyph_gap: false,
+                })
+                .collect();
+            assert_eq!(word_gap_threshold(&gaps, 33, 44, connected), expected);
+        }
+    }
+    proptest! {
+        #![proptest_config(proptest::test_runner::Config::with_cases(24))]
+        /// 拡大しても強い群分離と連結成分の必要性を維持する。
+        #[test]
+        fn strong_population_scales(scale in 1usize..9,connected in 0usize..3) {
+            let gaps:Vec<_>=[1,1,1,2,2,3,3,4,11,11,11,12,13,14].into_iter().map(|width| BlankGap {midpoint:0,width:width*scale,word_space:false,preferred_split:false,internal_glyph_gap:false}).collect();
+            let expected=if connected>0 {11*scale} else {(33*scale*3).div_ceil(5)};
+            prop_assert_eq!(word_gap_threshold(&gaps,33*scale,44*scale,connected),expected);
         }
     }
 }
