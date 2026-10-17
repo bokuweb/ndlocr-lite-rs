@@ -245,3 +245,63 @@ fn alternate_fonts_preserve_disconnected_numerals() {
 fn detected_alternate_fonts_preserve_disconnected_numerals() {
     assert_long_vertical_columns(true, "vertical_fonts");
 }
+
+/// 推論前に固定した印刷本文全体を、検出・切り出し・縦列分割から認識する。
+#[test]
+#[ignore = "requires fixed PARSeq assets"]
+fn stacked_printed_body_preserves_full_text_and_reading_order() {
+    let session = ParseqSession::load(
+        std::path::Path::new(&std::env::var("NDLOCR_TEST_PARSEQ_MODEL").unwrap()),
+        std::path::Path::new(&std::env::var("NDLOCR_TEST_CHARSET").unwrap()),
+    )
+    .unwrap();
+    let im = ndlocr_lite_rs::io::load_rgb_u8(std::path::Path::new(
+        "tests/fixtures/stacked_vertical/body.png",
+    ))
+    .unwrap();
+    let truth = include_str!("fixtures/stacked_vertical/truth.txt")
+        .strip_suffix('\n')
+        .unwrap();
+    assert_eq!((truth.lines().count(), truth.chars().count()), (47, 1044));
+    let start = std::time::Instant::now();
+    let columns = detect_vertical_textline_columns(&im.data, im.width, im.height, 220).unwrap();
+    let (iw, ih) = session.input_dimensions();
+    let mut lines = Vec::new();
+    let mut calls = 0;
+    for &[x0, y0, x1, y1] in &columns {
+        let crop = crop_rgb_u8(&im.data, im.width, im.height, BBox::new(x0, y0, x1, y1)).unwrap();
+        let r = rotate_vertical_column_rgb_u8(&crop.data, crop.width, crop.height).unwrap();
+        let chunks =
+            split_rotated_vertical_column_for_input(&r.data, r.width, r.height, 220, iw, ih)
+                .unwrap();
+        let mut text = String::new();
+        for i in 0..chunks.len() {
+            let part = crop_line_chunk_rgb_u8(&r.data, r.width, r.height, &chunks, i).unwrap();
+            text.push_str(
+                &session
+                    .recognize_rgb_u8_unprocessed_with_orientation(
+                        &part.data,
+                        part.width,
+                        part.height,
+                        ParseqOrientation::Horizontal,
+                    )
+                    .unwrap()
+                    .text,
+            );
+            calls += 1;
+        }
+        lines.push(text);
+    }
+    let actual = lines.join("\n");
+    let errors = edit_distance(truth, &actual);
+    eprintln!(
+        "STACKED FULL {errors}/1044 columns={} calls={calls} elapsed_ms={} text={actual:?}",
+        columns.len(),
+        start.elapsed().as_millis()
+    );
+    assert_eq!(columns.len(), 47);
+    assert!(
+        errors * 10 <= 1044,
+        "fixed whole-body error rate must be <=10%"
+    );
+}

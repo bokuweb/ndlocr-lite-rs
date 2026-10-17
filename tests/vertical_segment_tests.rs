@@ -152,3 +152,154 @@ proptest! {
         prop_assert!(columns.windows(2).all(|pair| pair[0][0] >= pair[1][0]));
     }
 }
+
+/// 上下に分離した段は上→下、各段内は右→左で返し、同じxの列を結合しない。
+#[test]
+fn stacked_blocks_preserve_reading_order_and_original_bounds() {
+    let (w, h) = (180, 340);
+    let bodies = [
+        [120, 20, 140, 120],
+        [40, 20, 60, 120],
+        [120, 200, 140, 300],
+        [40, 200, 60, 300],
+    ];
+    let mut rgb = vec![255; w * h * 3];
+    for body in bodies {
+        rect(&mut rgb, w, body);
+    }
+    let actual = detect_vertical_textline_columns(&rgb, w, h, 220).unwrap();
+    assert_eq!(
+        actual,
+        bodies.map(|[x0, y0, x1, y1]| [x0 - 1, y0 - 2, x1 + 1, y1 + 2])
+    );
+}
+
+/// 字間が全列で揃っていても、字幅より狭い白帯では段を作らない。
+#[test]
+fn aligned_character_spaces_remain_one_block() {
+    let (w, h) = (180, 340);
+    let mut rgb = vec![255; w * h * 3];
+    for x in [40, 120] {
+        for y in [20, 60, 100, 140, 180, 220] {
+            rect(&mut rgb, w, [x, y, x + 20, y + 20]);
+        }
+    }
+    let actual = detect_vertical_textline_columns(&rgb, w, h, 220).unwrap();
+    assert_eq!(actual, [[119, 18, 141, 242], [39, 18, 61, 242]]);
+}
+
+/// 一列が段間を横断するときは、局所的な空白をページ全体の境界にしない。
+#[test]
+fn local_column_gaps_do_not_create_page_blocks() {
+    let (w, h) = (180, 340);
+    let mut rgb = vec![255; w * h * 3];
+    for body in [[120, 20, 140, 300], [40, 20, 60, 120], [40, 200, 60, 300]] {
+        rect(&mut rgb, w, body);
+    }
+    assert_eq!(
+        detect_vertical_textline_columns(&rgb, w, h, 220).unwrap(),
+        [[119, 18, 141, 302], [39, 18, 61, 302]]
+    );
+}
+
+/// 手動固定した実資料の上23列・下24列を、本文ROIの元座標で保持する。
+#[test]
+fn printed_body_has_two_blocks_and_forty_seven_columns() {
+    let im = ndlocr_lite_rs::io::load_rgb_u8(std::path::Path::new(
+        "tests/fixtures/stacked_vertical/body.png",
+    ))
+    .unwrap();
+    let columns = detect_vertical_textline_columns(&im.data, im.width, im.height, 220).unwrap();
+    eprintln!("STACKED BOUNDS {columns:?}");
+    assert_eq!(columns.len(), 47);
+    assert!(columns[..23].iter().all(|b| b[3] < 310));
+    assert!(columns[23..].iter().all(|b| b[1] > 310));
+    for block in [&columns[..23], &columns[23..]] {
+        assert!(block.windows(2).all(|pair| pair[0][0] > pair[1][0]));
+    }
+    // 写真や枠を除いた本文ROIなので、閾値内の全画素に検出領域を要求する。
+    let mut missing = Vec::new();
+    for y in 0..im.height {
+        for x in 0..im.width {
+            let i = (y * im.width + x) * 3;
+            let ink = (im.data[i] as u16 + im.data[i + 1] as u16 + im.data[i + 2] as u16) / 3 < 220;
+            if ink
+                && !columns
+                    .iter()
+                    .any(|b| b[0] <= x && x < b[2] && b[1] <= y && y < b[3])
+            {
+                missing.push((x, y));
+            }
+        }
+    }
+    assert!(
+        missing.is_empty(),
+        "uncovered body ink: {} pixels, first {:?}",
+        missing.len(),
+        &missing[..missing.len().min(12)]
+    );
+}
+
+proptest! {
+    #![proptest_config(ProptestConfig::with_cases(24))]
+    /// 拡大・移動しても段順・列順と全インクの元座標を保つ。
+    #[test]
+    fn stacked_blocks_scale_and_translate(scale in 1usize..4, dx in 0usize..11, dy in 0usize..11) {
+        let (w,h)=(180*scale+dx,340*scale+dy);
+        let mut rgb=vec![255;w*h*3];
+        let bodies=[[120,20,140,120],[40,20,60,120],
+            [120,200,140,300],[40,200,60,300]]
+            .map(|[x0,y0,x1,y1]| [x0*scale+dx,y0*scale+dy,x1*scale+dx,y1*scale+dy]);
+        for body in bodies { rect(&mut rgb,w,body); }
+        let actual=detect_vertical_textline_columns(&rgb,w,h,220).unwrap();
+        prop_assert_eq!(actual,bodies.map(|[x0,y0,x1,y1]| [x0-1,y0-2,x1+1,y1+2]));
+    }
+}
+
+/// 三段でも段順を保ち、前後の大きなページ余白から空の段を作らない。
+#[test]
+fn three_blocks_ignore_outer_page_margins() {
+    let (w, h) = (180, 680);
+    let mut rgb = vec![255; w * h * 3];
+    for y in [80, 280, 480] {
+        for x in [40, 120] {
+            rect(&mut rgb, w, [x, y, x + 20, y + 100]);
+        }
+    }
+    let expected: Vec<_> = [80, 280, 480]
+        .into_iter()
+        .flat_map(|y| [[119, y - 2, 141, y + 102], [39, y - 2, 61, y + 102]])
+        .collect();
+    assert_eq!(
+        detect_vertical_textline_columns(&rgb, w, h, 220).unwrap(),
+        expected
+    );
+}
+
+/// 単列だけの広い段落空白は複数列による裏付けがないため分割しない。
+#[test]
+fn single_column_keeps_large_internal_paragraph_gap() {
+    let (w, h) = (180, 340);
+    let mut rgb = vec![255; w * h * 3];
+    for body in [[120, 20, 140, 120], [120, 200, 140, 300]] {
+        rect(&mut rgb, w, body);
+    }
+    assert_eq!(
+        detect_vertical_textline_columns(&rgb, w, h, 220).unwrap(),
+        [[119, 18, 141, 302]]
+    );
+}
+
+/// 分割後の片側が単列の場合も、段としての裏付けが足りないので元の検出を保つ。
+#[test]
+fn unsupported_single_column_block_keeps_original_detection() {
+    let (w, h) = (180, 340);
+    let mut rgb = vec![255; w * h * 3];
+    for body in [[120, 20, 140, 120], [40, 20, 60, 120], [120, 200, 140, 300]] {
+        rect(&mut rgb, w, body);
+    }
+    assert_eq!(
+        detect_vertical_textline_columns(&rgb, w, h, 220).unwrap(),
+        [[119, 18, 141, 302], [39, 18, 61, 122]]
+    );
+}
