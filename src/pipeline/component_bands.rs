@@ -263,13 +263,28 @@ pub(super) fn components_in_gap(
     y1: usize,
     threshold: u8,
 ) -> Option<Vec<Component>> {
+    components_in_region(rgb, width, [0, y0, width, y1], threshold)
+}
+
+/// 半開矩形内の8近傍成分を元画像の座標で返し、256成分を超える場合は打ち切る。
+pub(super) fn components_in_region(
+    rgb: &[u8],
+    width: usize,
+    region: [usize; 4],
+    threshold: u8,
+) -> Option<Vec<Component>> {
+    let [x0, y0, x1, y1] = region;
+    let region_width = x1 - x0;
     let h = y1 - y0;
-    let mut ink = vec![false; width * h];
-    for (i, pixel) in rgb[y0 * width * 3..y1 * width * 3]
-        .chunks_exact(3)
-        .enumerate()
-    {
-        ink[i] = pixel.iter().map(|&c| u16::from(c)).sum::<u16>() < u16::from(threshold) * 3;
+    let mut ink = vec![false; region_width * h];
+    for (y, row) in ink.chunks_mut(region_width.max(1)).enumerate() {
+        let start = ((y + y0) * width + x0) * 3;
+        for (is_ink, pixel) in row
+            .iter_mut()
+            .zip(rgb[start..start + region_width * 3].chunks_exact(3))
+        {
+            *is_ink = pixel.iter().map(|&c| u16::from(c)).sum::<u16>() < u16::from(threshold) * 3;
+        }
     }
     let mut components = Vec::new();
     let mut pending = Vec::new();
@@ -283,22 +298,22 @@ pub(super) fn components_in_gap(
         ink[origin] = false;
         pending.push(origin);
         let mut bounds = [
-            origin % width,
-            origin / width,
-            origin % width + 1,
-            origin / width + 1,
+            origin % region_width,
+            origin / region_width,
+            origin % region_width + 1,
+            origin / region_width + 1,
         ];
         let mut area = 0;
         while let Some(i) = pending.pop() {
-            let (x, y) = (i % width, i / width);
+            let (x, y) = (i % region_width, i / region_width);
             bounds[0] = bounds[0].min(x);
             bounds[1] = bounds[1].min(y);
             bounds[2] = bounds[2].max(x + 1);
             bounds[3] = bounds[3].max(y + 1);
             area += 1;
             for ny in y.saturating_sub(1)..=(y + 1).min(h - 1) {
-                for nx in x.saturating_sub(1)..=(x + 1).min(width - 1) {
-                    let next = ny * width + nx;
+                for nx in x.saturating_sub(1)..=(x + 1).min(region_width - 1) {
+                    let next = ny * region_width + nx;
                     if ink[next] {
                         ink[next] = false;
                         pending.push(next);
@@ -306,11 +321,55 @@ pub(super) fn components_in_gap(
                 }
             }
         }
+        bounds[0] += x0;
         bounds[1] += y0;
+        bounds[2] += x0;
         bounds[3] += y0;
         components.push(Component { bounds, area });
     }
     Some(components)
+}
+
+#[cfg(test)]
+mod region_tests {
+    use super::components_in_region;
+
+    /// 限定矩形でも8近傍を保持し、領域外の画素を混ぜず元画像の座標を返す。
+    #[test]
+    fn region_keeps_diagonal_connectivity_and_absolute_coordinates() {
+        let (width, height) = (100, 30);
+        let mut rgb = vec![255; width * height * 3];
+        for (x, y) in [(41, 13), (42, 14), (60, 16), (9, 14), (90, 14)] {
+            rgb[(y * width + x) * 3..(y * width + x) * 3 + 3].fill(0);
+        }
+        let components = components_in_region(&rgb, width, [20, 10, 80, 20], 220).unwrap();
+        assert_eq!(components.len(), 2);
+        assert_eq!(components[0].bounds, [41, 13, 43, 15]);
+        assert_eq!(components[0].area, 2);
+        assert_eq!(components[1].bounds, [60, 16, 61, 17]);
+        assert_eq!(components[1].area, 1);
+    }
+
+    /// 遠い領域を除外しても、近傍自身の256成分という上限を緩めない。
+    #[test]
+    fn region_preserves_the_component_limit() {
+        let (width, height) = (1024, 10);
+        let mut rgb = vec![255; width * height * 3];
+        for i in 0..256 {
+            let x = 30 + i * 3;
+            rgb[(4 * width + x) * 3..(4 * width + x) * 3 + 3].fill(0);
+        }
+        let region = [20, 2, 1020, 7];
+        assert_eq!(
+            components_in_region(&rgb, width, region, 220)
+                .unwrap()
+                .len(),
+            256
+        );
+        let x = 30 + 256 * 3;
+        rgb[(4 * width + x) * 3..(4 * width + x) * 3 + 3].fill(0);
+        assert!(components_in_region(&rgb, width, region, 220).is_none());
+    }
 }
 
 #[cfg(test)]

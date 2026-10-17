@@ -41,6 +41,23 @@ fn page(scale: usize, dx: usize, dy: usize, mark: [usize; 4]) -> (Vec<u8>, usize
     (rgb, width, height)
 }
 
+/// 合成本文を広いページへ移し、遠い右余白に独立した点を加える。
+fn wide_page(scale: usize, dx: usize, dy: usize, noise: usize) -> (Vec<u8>, usize, usize) {
+    let (original, original_width, h) = page(scale, dx, dy, [177, 55, 183, 63]);
+    let w = 1200 * scale + dx;
+    let mut rgb = vec![255; w * h * 3];
+    for y in 0..h {
+        rgb[y * w * 3..(y * w + original_width) * 3]
+            .copy_from_slice(&original[y * original_width * 3..(y + 1) * original_width * 3]);
+    }
+    for i in 0..noise {
+        let x = (300 + i * 3) * scale + dx;
+        let y = 73 * scale + dy;
+        rect(&mut rgb, w, [x, y, x + scale, y + scale]);
+    }
+    (rgb, w, h)
+}
+
 /// 目視固定した原画素の5句読点を、それぞれの本文帯が含む。
 #[test]
 fn prepared_handwriting_keeps_all_five_trailing_marks() {
@@ -81,6 +98,18 @@ fn includes_sparse_period_below_the_trailing_body() {
     let bands = detect_textline_bands_naive(&rgb, w, h, 220);
     assert_eq!(bands.len(), 1);
     assert!(bands[0][2] >= 183 && bands[0][3] >= 63, "{bands:?}");
+}
+
+/// 遠い余白の260個の独立ノイズで、本文近くの句点回収を無効にしない。
+#[test]
+fn distant_speckle_does_not_disable_punctuation_recovery() {
+    let (rgb, w, h) = wide_page(1, 0, 0, 0);
+    let expected = detect_textline_bands_naive(&rgb, w, h, 220);
+    assert_eq!(expected.len(), 1);
+    assert!(expected[0][2] >= 183 && expected[0][3] >= 63);
+    let (rgb, _, _) = wide_page(1, 0, 0, 260);
+    assert_eq!(detect_textline_bands_naive(&rgb, w, h, 220), expected);
+    assert_eq!(detect_textline_bands_fast(&rgb, w, h, 220), expected);
 }
 
 /// 上側、遠方、次行位置、塗り潰し、小点、長い線は行末の句読点にしない。
@@ -153,5 +182,17 @@ proptest! {
         prop_assert!(b[2] >= 183*scale+dx && b[3] >= 63*scale+dy);
         prop_assert!(b[2] <= w && b[3] <= h);
         prop_assert_eq!(bands,detect_textline_bands_fast(&rgb,w,h,220));
+    }
+
+    /// 拡大・移動・上限超過の遠方ノイズでも、本文近傍の句点境界を維持する。
+    #[test]
+    fn distant_noise_preserves_local_bands(scale in 1usize..4, dx in 0usize..20, dy in 0usize..20, noise in 257usize..281) {
+        let (clean,w,h) = wide_page(scale,dx,dy,0);
+        let expected = detect_textline_bands_naive(&clean,w,h,220);
+        prop_assert_eq!(expected.len(),1);
+        prop_assert!(expected[0][2] >= 183*scale+dx && expected[0][3] >= 63*scale+dy);
+        let (noisy,_,_) = wide_page(scale,dx,dy,noise);
+        prop_assert_eq!(detect_textline_bands_naive(&noisy,w,h,220), expected.clone());
+        prop_assert_eq!(detect_textline_bands_fast(&noisy,w,h,220), expected);
     }
 }

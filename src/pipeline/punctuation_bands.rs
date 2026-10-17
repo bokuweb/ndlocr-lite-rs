@@ -1,6 +1,6 @@
 //! 行の下端または右下から離れた疎な小成分を、元の帯へ回収する。
 
-use super::component_bands::{Component, components_in_gap};
+use super::component_bands::{Component, components_in_region};
 
 /// 長い本文帯の下端を跨ぐ小成分と、右下の近接句読点を一巡で含める。
 pub(super) fn restore_trailing_punctuation(
@@ -23,14 +23,24 @@ pub(super) fn restore_trailing_punctuation(
         if bottom <= top {
             continue;
         }
-        let Some(components) = components_in_gap(rgb, width, top, bottom, threshold) else {
+        // 候補の開始位置上限に最大幅と1画素を加え、無関係な余白は走査しない。
+        let left = band[0].saturating_sub(1);
+        let right = (band[2] + scale + scale / 2 + 1).min(width);
+        let Some(components) =
+            components_in_region(rgb, width, [left, top, right, bottom], threshold)
+        else {
             continue;
         };
         let supported_end = has_trailing_body(rgb, width, band, threshold);
         let mut bounds = band;
         for component in components {
             let [x0, y0, x1, y1] = component.bounds;
-            if y0 <= top || y1 >= bottom || !is_sparse_mark(component, scale) {
+            if y0 <= top
+                || y1 >= bottom
+                || (left > 0 && x0 <= left)
+                || (right < width && x1 >= right)
+                || !is_sparse_mark(component, scale)
+            {
                 continue;
             }
             let crossing_bottom = x0 >= band[0] && x1 <= band[2] && y0 < band[3] && y1 > band[3];
