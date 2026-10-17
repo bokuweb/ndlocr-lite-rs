@@ -1,6 +1,7 @@
 use super::band_bounds::restore_edge_ink;
 use super::component_bands::{restore_isolated_bands, restore_truncated_bands};
 use super::fragment_bands::rejoin_fragmented_bands;
+use super::noisy_line_gaps::separate_noisy_line_gaps;
 use super::punctuation_bands::restore_trailing_punctuation;
 
 /// 行・列のインク密度で横書き行を検出し、細い行端字形を保持する。
@@ -22,7 +23,13 @@ pub fn detect_textline_bands_naive(
         }
         *row_count = count;
     }
-    let spans = detect_spans(&row_ink, width);
+    let spans = separate_noisy_line_gaps(
+        rgb,
+        width,
+        &row_ink,
+        threshold,
+        detect_spans(&row_ink, width),
+    );
     let mut bands = spans
         .into_iter()
         .map(|(y0, y1)| {
@@ -85,7 +92,13 @@ pub fn detect_textline_bands_fast(
         *row_count = c;
     }
 
-    let spans = detect_spans(&row_ink, width);
+    let spans = separate_noisy_line_gaps(
+        rgb,
+        width,
+        &row_ink,
+        threshold,
+        detect_spans(&row_ink, width),
+    );
     if spans.is_empty() {
         return Vec::new();
     }
