@@ -1,6 +1,7 @@
 use std::borrow::Cow;
 
 mod antialias;
+mod exterior;
 
 /// 色背景とみなすRGB成分の最小差。無彩色の本文には作用させない。
 const MIN_CHROMA: u8 = 24;
@@ -9,6 +10,7 @@ const MIN_CHROMA: u8 = 24;
 ///
 /// 横長の色パネルだけを対象にし、普通の無彩色ページは借用のまま返す。
 /// 背景は列ごとの多数派から推定するため、写真や任意の図版には適用しない。
+/// ページ外周へ4近傍で接続する完全白は外側の白紙として保持する。
 /// 検出・分割・認識には返された同じ画素列を使用すること。
 pub fn normalize_chromatic_panels(
     rgb: &[u8],
@@ -25,6 +27,7 @@ pub fn normalize_chromatic_panels(
     let mut start = None;
     let mut seeded = false;
     let mut background = None;
+    let mut exterior = None;
     for y in 0..=height {
         let mut count = 0;
         let mut histogram = [0usize; 256];
@@ -57,7 +60,7 @@ pub fn normalize_chromatic_panels(
             {
                 if let Some(y0) = start.take() {
                     if seeded && y - y0 >= 8 {
-                        normalize_panel(rgb, width, y0, y, &mut output);
+                        normalize_panel(rgb, width, y0, y, &mut output, &mut exterior);
                     }
                 }
                 seeded = false;
@@ -70,7 +73,7 @@ pub fn normalize_chromatic_panels(
             }
         } else if let Some(y0) = start.take() {
             if seeded && y - y0 >= 8 {
-                normalize_panel(rgb, width, y0, y, &mut output);
+                normalize_panel(rgb, width, y0, y, &mut output, &mut exterior);
             }
             seeded = false;
             background = None;
@@ -124,7 +127,15 @@ fn background_sample_ranges(row: &[u8], min_run: usize) -> Vec<std::ops::Range<u
 }
 
 /// 各列のRGB背景を推定し、背景内の明暗・異色の字形を白地へ写す。
-fn normalize_panel(rgb: &[u8], width: usize, y0: usize, y1: usize, output: &mut Cow<'_, [u8]>) {
+fn normalize_panel(
+    rgb: &[u8],
+    width: usize,
+    y0: usize,
+    y1: usize,
+    output: &mut Cow<'_, [u8]>,
+    exterior: &mut Option<Vec<bool>>,
+) {
+    let exterior = exterior.get_or_insert_with(|| exterior::white_paper(rgb, width));
     let seed_ranges: Vec<_> = (y0..y1)
         .map(|y| {
             background_sample_ranges(
@@ -178,6 +189,9 @@ fn normalize_panel(rgb: &[u8], width: usize, y0: usize, y1: usize, output: &mut 
             let Some(background) = background else {
                 continue;
             };
+            if exterior[y * width + x] {
+                continue;
+            }
             let i = (y * width + x) * 3;
             output.to_mut()[i..i + 3].fill(normalized_color_intensity(&rgb[i..i + 3], *background));
         }

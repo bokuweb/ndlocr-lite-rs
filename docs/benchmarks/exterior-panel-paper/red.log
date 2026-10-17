@@ -1,0 +1,59 @@
+      ┌─────────┐  mr boxington
+     ╱ ═══════ ╱│
+    ╱─────────╱ │
+    │ •    (◉)│≡│
+    │  ◟▄▄▄◞  │ ╱
+    │   ◀◆▶   │╱
+    └─────────┘
+   Compiling ndlocr-lite-rs v0.1.0 (/Volumes/X9/ghq/github.com/bokuweb/ndlocr-lite-rs)
+mbx[progress]: 15s elapsed; 0 hits, 0 misses, 0 bypassed, 0 not looked up; ~0s compiler work saved
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 18.14s
+     Running tests/exterior_panel_paper_tests.rs (/Volumes/X9/omo-punctuation-locality/target/debug/deps/exterior_panel_paper_tests-667606f9388402f1)
+
+running 4 tests
+test keeps_enclosed_white_and_black_glyphs ... ok
+test diagonal_contact_is_not_exterior_connection ... ok
+test keeps_exterior_paper_in_concave_panel ... FAILED
+test varied_notches ... FAILED
+
+failures:
+
+---- keeps_exterior_paper_in_concave_panel stdout ----
+
+thread 'keeps_exterior_paper_in_concave_panel' (11247499) panicked at tests/exterior_panel_paper_tests.rs:25:9:
+assertion `left == right` failed: paper at 32,36
+  left: [0, 0, 0]
+ right: [255, 255, 255]
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+---- varied_notches stdout ----
+proptest: FileFailurePersistence::SourceParallel set, but failed to find lib.rs or main.rs
+proptest: FileFailurePersistence::SourceParallel set, but failed to find lib.rs or main.rs
+proptest: Saving this and future failures in /Volumes/X9/ghq/github.com/bokuweb/ndlocr-lite-rs/tests/exterior_panel_paper_tests.proptest-regressions
+proptest: If this test was run on a CI system, you may wish to add the following line to your copy of the file. (You may need to create it.)
+cc 4887f05cc35febb58394dff130e711d4b1c4c8bba97462b616848b931cba0e10
+
+thread 'varied_notches' (11247500) panicked at tests/exterior_panel_paper_tests.rs:46:1:
+Test failed: assertion failed: `(left == right)` 
+  left: `[0, 0, 0]`,
+ right: `[255, 255, 255]` at tests/exterior_panel_paper_tests.rs:55.
+minimal failing input: offset = 0, depth = 100, color = [
+    0,
+    0,
+    24,
+]
+	successes: 0
+	local rejects: 0
+	global rejects: 0
+
+
+
+failures:
+    keeps_exterior_paper_in_concave_panel
+    varied_notches
+
+test result: FAILED. 2 passed; 2 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.67s
+
+error: test failed, to rerun pass `--test exterior_panel_paper_tests`
+mbx[cache]: 0 hits, 0 misses, 1 not looked up, 2 incremental; 0 B downloaded, 0 B uploaded, 2.8 MiB stored locally
+mbx[savings]: 758.2 GiB of outputs reflinked rather than copied
