@@ -10,6 +10,9 @@ mod word_fragments;
 /// 行頭の小画線にモデル入力の上下余白を保持する。
 mod leading_marks;
 
+/// 孤立した上下の小画線だけを前の単語へ戻す。
+mod punctuation_tails;
+
 use slanted_spaces::restore_slanted_word_spaces;
 use word_fragments::{merge_rotated_word_fragments, restore_short_word_tails};
 use word_spaces::word_gap_threshold;
@@ -172,6 +175,14 @@ pub fn split_line_for_input(
     restore_slanted_word_spaces(rgb, width, height, threshold, &mut gaps);
     restore_word_spaces(&mut chunks, &gaps);
     restore_short_word_tails(&mut chunks, &gaps, height, input_width, input_height);
+    punctuation_tails::restore_separated_marks(
+        rgb,
+        (width, height),
+        threshold,
+        &mut chunks,
+        &gaps,
+        (input_width, input_height),
+    );
     merge_rotated_word_fragments(&mut chunks, &gaps, height, input_width, input_height);
     Ok(chunks)
 }

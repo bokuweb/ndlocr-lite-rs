@@ -254,7 +254,7 @@ fn residual_formatted_word_spaces_are_preserved() {
     assert!(missing.is_empty(), "{missing:?}");
 }
 
-/// 斜体の数詞後の実空白を、元の区間とモデル入力を維持して復元する。
+/// 推論数を保ち、小画線の境界移動後も数詞後の実空白を復元する。
 #[cfg(all(feature = "onnx", unix))]
 #[test]
 #[ignore = "requires fixed PARSeq assets"]
@@ -279,15 +279,22 @@ fn italic_number_word_space_is_preserved() {
     let chunks = split_line_for_input(&line.data, line.width, line.height, 220, 256, 24).unwrap();
     assert_eq!(
         chunks.iter().map(|c| (c.x0, c.x1)).collect::<Vec<_>>(),
-        [(0, 135), (135, 552), (552, 987), (987, 1351), (1351, 1822)],
-        "original partition must remain unchanged"
+        [
+            (0, 135),
+            (135, 552),
+            (552, 1019),
+            (1019, 1351),
+            (1351, 1822)
+        ],
+        "only the small-mark boundary moves within the confirmed white columns"
     );
+    assert!(chunks[3].space_before);
     assert!(chunks[4].space_before);
     let mut actual = String::new();
     for (index, chunk) in chunks.iter().enumerate() {
         let crop =
             crop_line_chunk_rgb_u8(&line.data, line.width, line.height, &chunks, index).unwrap();
-        assert_eq!(crop.width, [135, 417, 435, 364, 471][index]);
+        assert_eq!(crop.width, [135, 417, 467, 332, 471][index]);
         let result = session
             .recognize_rgb_u8_unprocessed(&crop.data, crop.width, crop.height)
             .unwrap();
@@ -301,5 +308,8 @@ fn italic_number_word_space_is_preserved() {
         actual.push_str(&result.text);
     }
     eprintln!("ROW {row} ACTUAL {actual:?}");
-    assert!(actual.contains("16 points"), "{actual:?}");
+    assert_eq!(
+        actual,
+        "font 'Times New Roman Bold Italic', font size 16 points, text color"
+    );
 }

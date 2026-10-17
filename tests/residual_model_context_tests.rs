@@ -116,3 +116,15 @@ fn leading_normal_quote_keeps_context() {
         "This is normal text drawn using font 'Times New Roman', font size 12 points, text color Color"
     );
 }
+
+/// 単語の後ろから離れた上下の小画線を前区間へ戻し、後続空白を保持する。
+#[test]
+#[ignore = "requires fixed PARSeq assets"]
+fn separated_tail_marks_keep_following_word_space() {
+    let (actual, count) = recognize_row(14);
+    assert_eq!(count, 5, "no additional inference");
+    assert_eq!(
+        actual,
+        "font 'Times New Roman Bold Italic', font size 16 points, text color"
+    );
+}
