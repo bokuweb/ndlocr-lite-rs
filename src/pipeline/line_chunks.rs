@@ -7,6 +7,9 @@ mod word_spaces;
 /// 回転判定へ入る小区間を、モデルに収まる水平単語の文脈へ戻す。
 mod word_fragments;
 
+/// 行頭の小画線にモデル入力の上下余白を保持する。
+mod leading_marks;
+
 use slanted_spaces::restore_slanted_word_spaces;
 use word_fragments::{merge_rotated_word_fragments, restore_short_word_tails};
 use word_spaces::word_gap_threshold;
@@ -37,7 +40,27 @@ impl LineChunk {
 /// 幅/高さ比5以上で、両端が単語境界または行端のchunkだけ純白の外側列を除く。
 /// 短い/疎なchunk・字形間分割・未分割行・PARSeqの回転条件が変わる場合は元の余白を保持する。
 /// 除去幅が高さの四分の一未満なら、小さな側部余白と元の入力文脈を保持する。
+/// 単語境界に囲まれた水平区間の孤立した上部記号には、全画素を保って最小の上下白余白を加える。
 pub fn crop_line_chunk_rgb_u8(
+    rgb: &[u8],
+    width: usize,
+    height: usize,
+    chunks: &[LineChunk],
+    index: usize,
+) -> anyhow::Result<super::crop::CroppedImage> {
+    let image = crop_line_chunk_without_mark_context(rgb, width, height, chunks, index)?;
+    let bounded = chunks.len() > 1
+        && (index == 0 || chunks[index].space_before)
+        && chunks.get(index + 1).is_none_or(|next| next.space_before);
+    Ok(if bounded {
+        leading_marks::preserve_leading_mark(image)
+    } else {
+        image
+    })
+}
+
+/// 元の単語境界・回転分類を維持して外側白列だけを調整する。
+fn crop_line_chunk_without_mark_context(
     rgb: &[u8],
     width: usize,
     height: usize,

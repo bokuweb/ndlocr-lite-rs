@@ -94,3 +94,25 @@ fn italic_sentence_keeps_punctuation_position() {
         "background color Color [Transparent]. This is bold italic text drawn"
     );
 }
+
+/// 行頭の小さい引用符を、固定モデルでも本文と一緒に保持する。
+#[test]
+#[ignore = "requires fixed PARSeq assets"]
+fn leading_italic_quote_keeps_context() {
+    let (actual, _) = recognize_row(4);
+    assert_eq!(
+        actual,
+        "'Times New Roman Italic', font size 16 points, text color Color [Black],"
+    );
+}
+
+/// 単語境界の上部引用符を二重引用符へ読み替えない。
+#[test]
+#[ignore = "requires fixed PARSeq assets"]
+fn leading_normal_quote_keeps_context() {
+    let (actual, _) = recognize_row(0);
+    assert_eq!(
+        actual,
+        "This is normal text drawn using font 'Times New Roman', font size 12 points, text color Color"
+    );
+}
