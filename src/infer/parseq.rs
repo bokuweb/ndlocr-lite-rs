@@ -1,3 +1,4 @@
+use super::preprocess::{checked_tensor_len, zeroed_tensor};
 use crate::io;
 use anyhow::{Context, Result, bail};
 use std::fs;
@@ -48,7 +49,7 @@ pub fn preprocess_rgb_u8(
     )
 }
 
-/// 入力の方向を明示してBGR/NCHWテンソルを作る。
+/// 入力を確保前に検証し、方向を明示してBGR/NCHWテンソルを作る。
 pub fn preprocess_rgb_u8_with_orientation(
     rgb: &[u8],
     width: usize,
@@ -57,7 +58,8 @@ pub fn preprocess_rgb_u8_with_orientation(
     input_height: usize,
     orientation: ParseqOrientation,
 ) -> Result<Vec<f32>> {
-    let mut out = vec![0.0_f32; 3 * input_width * input_height];
+    let output_len = checked_tensor_len(rgb, width, height, input_width, input_height)?;
+    let mut out = zeroed_tensor(output_len)?;
     let mut scratch = PreprocessScratch::with_orientation(orientation);
     preprocess_rgb_u8_into_with_scratch(
         &mut out,
@@ -127,20 +129,7 @@ pub fn preprocess_rgb_u8_into_with_scratch(
     input_height: usize,
     scratch: &mut PreprocessScratch,
 ) -> Result<()> {
-    if width == 0 || height == 0 {
-        bail!("invalid source image dimension");
-    }
-    let expected = width
-        .checked_mul(height)
-        .and_then(|v| v.checked_mul(3))
-        .ok_or_else(|| anyhow::anyhow!("image size overflow"))?;
-    if rgb.len() != expected {
-        bail!("invalid RGB buffer length");
-    }
-    let output_len = input_width
-        .checked_mul(input_height)
-        .and_then(|v| v.checked_mul(3))
-        .ok_or_else(|| anyhow::anyhow!("output size overflow"))?;
+    let output_len = checked_tensor_len(rgb, width, height, input_width, input_height)?;
     if out.len() != output_len {
         bail!(
             "invalid output buffer length: expected {}, got {}",
@@ -155,9 +144,6 @@ pub fn preprocess_rgb_u8_into_with_scratch(
     } else {
         (width, height)
     };
-    if input_width == 0 || input_height == 0 {
-        bail!("invalid resize dimension");
-    }
     let plane = input_width * input_height;
     scratch.ensure_xs(input_width, source_w);
     scratch.ensure_ys(input_height, source_h);
