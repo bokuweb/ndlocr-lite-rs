@@ -3,6 +3,13 @@ use anyhow::{Context, Result, bail};
 use std::fs;
 use std::path::Path;
 
+mod candidates;
+use candidates::DecodeStep;
+pub use candidates::{
+    ParseqCandidate, ParseqCandidateResult, ParseqStepCandidates, ParseqStopReason,
+    predict_text_from_flat_logits_with_candidates,
+};
+
 #[derive(Debug, Clone)]
 pub struct RecognizeResult {
     pub text: String,
@@ -390,6 +397,17 @@ pub fn predict_text_from_flat_logits_with_confidence(
     classes: usize,
     charset: &[char],
 ) -> Result<RecognizeResult> {
+    decode_flat_logits_with_observer(logits, timesteps, classes, charset, |_| {})
+}
+
+/// 既存の演算順序を維持し、処理したステップを必要な呼び出し元だけに通知する。
+fn decode_flat_logits_with_observer(
+    logits: &[f32],
+    timesteps: usize,
+    classes: usize,
+    charset: &[char],
+    mut observe: impl FnMut(DecodeStep<'_>),
+) -> Result<RecognizeResult> {
     if timesteps == 0 || classes == 0 {
         bail!("timesteps/classes must be > 0");
     }
@@ -420,16 +438,33 @@ pub fn predict_text_from_flat_logits_with_confidence(
         }
         let pmax = if exp_sum > 0.0 { 1.0 / exp_sum } else { 0.0 };
 
-        if bi == 0 {
-            break;
-        }
-        if conf_count >= min_tokens_before_low_conf_stop && pmax < low_confidence_threshold {
-            break;
-        }
-        if let Some(ch) = charset.get(bi - 1) {
+        let stop_reason = if bi == 0 {
+            Some(ParseqStopReason::EndOfSequence)
+        } else if conf_count >= min_tokens_before_low_conf_stop && pmax < low_confidence_threshold {
+            Some(ParseqStopReason::LowConfidence)
+        } else {
+            None
+        };
+        let mut text_range = None;
+        if stop_reason.is_none()
+            && let Some(ch) = charset.get(bi - 1)
+        {
+            let start = text.len();
             text.push(*ch);
+            text_range = Some(start..text.len());
             conf_sum += pmax;
             conf_count += 1;
+        }
+        observe(DecodeStep {
+            timestep: t,
+            row,
+            winner: bi,
+            probability: pmax,
+            text_range,
+            stop_reason,
+        });
+        if stop_reason.is_some() {
+            break;
         }
     }
     let mean_confidence = if conf_count > 0 {

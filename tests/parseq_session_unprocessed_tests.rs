@@ -99,3 +99,103 @@ fn horizontal_digit_preserves_one_character() {
     assert_eq!(recovered.text, actual.text);
     assert!((recovered.mean_confidence - actual.mean_confidence).abs() < 1e-5);
 }
+
+/// 候補取得はロード済みモデルを使い、方向指定・反復・失敗後の再利用を保持する。
+#[test]
+#[ignore = "requires fixed PARSeq assets and the 111111 image"]
+fn candidates_reuse_session_and_preserve_raw_predictions() {
+    use ndlocr_lite_rs::infer::parseq::ParseqStopReason;
+    let model =
+        PathBuf::from(std::env::var_os("NDLOCR_TEST_PARSEQ_MODEL").expect("model required"));
+    let charset = PathBuf::from(std::env::var_os("NDLOCR_TEST_CHARSET").expect("charset required"));
+    let directory = tempfile::tempdir().unwrap();
+    let model_copy = directory.path().join("model.onnx");
+    let charset_copy = directory.path().join("charset.yaml");
+    std::fs::copy(model, &model_copy).unwrap();
+    std::fs::copy(charset, &charset_copy).unwrap();
+    let session = ParseqSession::load(&model_copy, &charset_copy).unwrap();
+    std::fs::remove_file(model_copy).unwrap();
+    std::fs::remove_file(charset_copy).unwrap();
+    let digit = load_rgb_u8(
+        &PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+            .join("tests/fixtures/horizontal_digit/digit.png"),
+    )
+    .unwrap();
+    let repeated = load_rgb_u8(&PathBuf::from(
+        std::env::var_os("NDLOCR_TEST_REPEAT_IMAGE").expect("image required"),
+    ))
+    .unwrap();
+    for (image, orientation, text) in [
+        (&digit, ParseqOrientation::Horizontal, "1"),
+        (&digit, ParseqOrientation::Auto, "11"),
+        (&repeated, ParseqOrientation::Auto, "111111"),
+    ] {
+        let expected = session
+            .recognize_rgb_u8_unprocessed_with_orientation(
+                &image.data,
+                image.width,
+                image.height,
+                orientation,
+            )
+            .unwrap();
+        for _ in 0..2 {
+            let actual = session
+                .recognize_rgb_u8_candidates_with_orientation(
+                    &image.data,
+                    image.width,
+                    image.height,
+                    orientation,
+                    3,
+                )
+                .unwrap();
+            assert_eq!(actual.recognition.text, text);
+            assert_eq!(actual.recognition.text, expected.text);
+            assert!((actual.recognition.mean_confidence - expected.mean_confidence).abs() < 1e-5);
+            assert_eq!(actual.stop_reason, ParseqStopReason::EndOfSequence);
+            assert_eq!(actual.steps.len(), text.chars().count() + 1);
+            let mut reconstructed = String::new();
+            for step in &actual.steps {
+                assert_eq!(step.candidates.len(), 3);
+                let winner = &step.candidates[0];
+                assert!(winner.probability.is_finite());
+                assert!((0.0..=1.0).contains(&winner.probability));
+                if let Some(range) = &step.text_range {
+                    assert_eq!(range.start, reconstructed.len());
+                    reconstructed.push(winner.character.unwrap());
+                    assert_eq!(range.end, reconstructed.len());
+                }
+            }
+            assert_eq!(reconstructed, text);
+        }
+        assert!(
+            session
+                .recognize_rgb_u8_candidates_with_orientation(
+                    &image.data,
+                    image.width,
+                    image.height,
+                    orientation,
+                    0
+                )
+                .is_err()
+        );
+        assert!(
+            session
+                .recognize_rgb_u8_candidates_with_orientation(&[], 0, 0, orientation, 3)
+                .is_err()
+        );
+        assert_eq!(
+            session
+                .recognize_rgb_u8_candidates_with_orientation(
+                    &image.data,
+                    image.width,
+                    image.height,
+                    orientation,
+                    1
+                )
+                .unwrap()
+                .recognition
+                .text,
+            text
+        );
+    }
+}

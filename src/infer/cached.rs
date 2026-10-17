@@ -22,7 +22,8 @@ use std::sync::atomic::{AtomicUsize, Ordering};
 
 use super::ort_init::{OrtAnyhow, auto_intra_threads, ensure_init};
 use super::parseq::{
-    ParseqOrientation, PreprocessScratch, RecognizeResult, load_charset_from_yaml_str,
+    ParseqCandidateResult, ParseqOrientation, PreprocessScratch, RecognizeResult,
+    load_charset_from_yaml_str, predict_text_from_flat_logits_with_candidates,
     predict_text_from_flat_logits_with_confidence, preprocess_rgb_u8_into_with_scratch,
     preprocess_rgb_u8_with_orientation, sanitize_recognized_text,
 };
@@ -188,6 +189,40 @@ impl ParseqSession {
         Ok(result)
     }
 
+    /// ロード済みモデルを一度推論し、方向指定と後処理前の文字候補を返す。
+    /// k=0は推論前に拒否する。画像や候補の検証が失敗しても再利用できる。
+    pub fn recognize_rgb_u8_candidates_with_orientation(
+        &self,
+        rgb: &[u8],
+        width: usize,
+        height: usize,
+        orientation: ParseqOrientation,
+        top_k: usize,
+    ) -> Result<ParseqCandidateResult> {
+        if top_k == 0 {
+            bail!("top_k must be > 0");
+        }
+        let single = [(rgb, width, height)];
+        let mut guard = self
+            .session
+            .lock()
+            .map_err(|_| anyhow!("parseq session mutex poisoned"))?;
+        let mut out = run_batch_on_session_with_decoder(
+            &mut guard.0,
+            &self.input_name,
+            &self.output_name,
+            self.input_w,
+            self.input_h,
+            &self.charset,
+            &single,
+            orientation,
+            |logits, t, c, charset| {
+                predict_text_from_flat_logits_with_candidates(logits, t, c, charset, top_k)
+            },
+        )?;
+        out.pop().ok_or_else(|| anyhow!("empty batch result"))
+    }
+
     pub fn recognize_batch_rgb_u8(
         &self,
         items: &[(&[u8], usize, usize)],
@@ -277,6 +312,32 @@ fn run_batch_on_session_with_orientation(
     items: &[(&[u8], usize, usize)],
     orientation: ParseqOrientation,
 ) -> Result<Vec<RecognizeResult>> {
+    run_batch_on_session_with_decoder(
+        session,
+        input_name,
+        output_name,
+        input_w,
+        input_h,
+        charset,
+        items,
+        orientation,
+        predict_text_from_flat_logits_with_confidence,
+    )
+}
+
+/// 同じ前処理と一回の推論を共用し、呼び出し元が必要なデコードだけを行う。
+#[allow(clippy::too_many_arguments)]
+fn run_batch_on_session_with_decoder<R>(
+    session: &mut Session,
+    input_name: &str,
+    output_name: &str,
+    input_w: usize,
+    input_h: usize,
+    charset: &[char],
+    items: &[(&[u8], usize, usize)],
+    orientation: ParseqOrientation,
+    decode: impl Fn(&[f32], usize, usize, &[char]) -> Result<R>,
+) -> Result<Vec<R>> {
     use rayon::prelude::*;
     let n = items.len();
     let plane = 3 * input_h * input_w;
@@ -323,8 +384,7 @@ fn run_batch_on_session_with_orientation(
     let mut out = Vec::with_capacity(n);
     for i in 0..n {
         let off = i * t * c;
-        let r =
-            predict_text_from_flat_logits_with_confidence(&data[off..off + t * c], t, c, charset)?;
+        let r = decode(&data[off..off + t * c], t, c, charset)?;
         out.push(r);
     }
     Ok(out)
