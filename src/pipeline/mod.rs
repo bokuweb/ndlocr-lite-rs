@@ -10,6 +10,8 @@ mod fragment_bands;
 pub mod line_chunks;
 /// 行クラスの競合検出を、認識前に共通の条件で選ぶ。
 pub(crate) mod line_detections;
+/// 原領域を保持し、予算内の隣接帯結合を採点候補として列挙する。
+pub mod line_hypotheses;
 pub mod line_segment;
 mod noisy_line_gaps;
 /// 明るい紙面の緩い陰影を検出と認識に共通の画素へ準備する。

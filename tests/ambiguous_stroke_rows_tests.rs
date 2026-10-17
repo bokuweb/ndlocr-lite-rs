@@ -92,3 +92,34 @@ proptest::proptest! {
         proptest::prop_assert_eq!(&bands,&detect_textline_bands_fast(&rgb,w,h,220));
     }
 }
+
+/// 曖昧な横線2行の結合候補を得ても、独立した元の4領域は採用判断まで維持する。
+#[test]
+fn merge_hypotheses_do_not_replace_ambiguous_stroke_rows() {
+    use ndlocr_lite_rs::pipeline::line_hypotheses::{MergeBudget, adjacent_line_merge_hypotheses};
+    for cells in 3..=5 {
+        for lower_y in [200, 210, 220] {
+            for thickness in [10, 15] {
+                let (rgb, w, h, _) = separate_stroke_rows(1, 0, 0, cells, lower_y, thickness);
+                let bands = detect_textline_bands_naive(&rgb, w, h, 220);
+                let original = bands.clone();
+                let result = adjacent_line_merge_hypotheses(
+                    w,
+                    h,
+                    &bands,
+                    MergeBudget {
+                        max_source_bands: 4,
+                        max_candidates: 3,
+                        max_total_pixels: w * h * 3,
+                    },
+                )
+                .unwrap();
+                assert_eq!(bands, original);
+                assert_eq!(bands.len(), 4);
+                assert_eq!(result.candidates.len(), 3);
+                assert_eq!(result.candidates[2].source_indices, [2, 3]);
+                assert_eq!(result.omitted_pairs, 0);
+            }
+        }
+    }
+}
