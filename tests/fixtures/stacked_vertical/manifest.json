@@ -1,0 +1,29 @@
+{
+  "source": "https://raw.githubusercontent.com/ndl-lab/ndlocr-lite/d001dad2013ceabb5736ff8d637474e443eb73c2/resource/digidepo_11048278_po_geppo1803_00021.jpg",
+  "source_sha256": "046d0e35bef95f10cf46756fa355446a797825e2352d3cd9c9e578f5bc1e6827",
+  "license": "CC BY 4.0 (upstream repository)",
+  "roi": [
+    126,
+    133,
+    724,
+    758
+  ],
+  "size": [
+    598,
+    625
+  ],
+  "columns": [
+    23,
+    24
+  ],
+  "truth_characters": 1044,
+  "normalization": "No paragraph-indent or author-name gap encoded; line breaks separate physical columns. Fullwidth Latin/digits transcribed as printed. No score-time normalization.",
+  "acceptance": {
+    "columns": 47,
+    "top_columns": 23,
+    "bottom_columns": 24,
+    "max_edit_rate": 0.1,
+    "preserve_prior_vertical_regressions": true
+  },
+  "limitations": "Body ROI development fixture, not full page, not independent holdout; training overlap unknown."
+}

@@ -4,6 +4,7 @@ use std::collections::HashMap;
 use crate::infer::deim::Detection;
 use crate::pipeline::cascade::{LineCandidate, run_cascade_with_idx};
 use crate::pipeline::crop::{BBox, CroppedImage, crop_rgb_u8};
+use crate::pipeline::line_detections::select_line_detections;
 
 #[derive(Clone, Debug, PartialEq)]
 pub struct RecognizedLine {
@@ -59,10 +60,7 @@ where
     let mut crop_map = HashMap::new();
     let mut bbox_map = HashMap::new();
     let mut conf_map = HashMap::new();
-    for det in detections
-        .iter()
-        .filter(|d| d.class_name.starts_with("line_"))
-    {
+    for det in select_line_detections(detections, width, height) {
         let idx = lines.len();
         let bbox = BBox::new(
             det.box_xyxy[0] as usize,

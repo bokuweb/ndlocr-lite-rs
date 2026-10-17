@@ -1,0 +1,48 @@
+{
+  "source": "jlsi/omo fixtures/input/ocr_english_article_accuracy/page1.png",
+  "source_sha256": "dd037394581d83989b29911e78878d83490aa12be9654f42005d6014a2369b0a",
+  "development_data": true,
+  "cases": [
+    {
+      "name": "purpose",
+      "bbox": [
+        927,
+        430,
+        1274,
+        475
+      ],
+      "truth": "general-purpose",
+      "sha256": "6ce9e1dfe43defb4539888bf4c95a94a501af94494c791bc6c0424bc51114cd5",
+      "raw_before": "general-purpose 1",
+      "raw_after": "general-purpose"
+    },
+    {
+      "name": "borrow",
+      "bbox": [
+        989,
+        654,
+        1344,
+        700
+      ],
+      "truth": "races, its \"borrow",
+      "sha256": "fc1e1386fa9d70a0bcb76f732b93a73a213a5eb12c31a009247d794f5976fbe1",
+      "raw_before": "races, its borrow",
+      "raw_after": "races, its \"borrow"
+    },
+    {
+      "name": "year",
+      "bbox": [
+        1225,
+        2152,
+        1578,
+        2201
+      ],
+      "truth": "project in 2009",
+      "sha256": "2e8df829f15ed73f817d45c74c0e940946b19cbed92f446af9095a5c78a1326c",
+      "raw_before": "project in 20091",
+      "raw_after": "project in 2009"
+    }
+  ],
+  "model": "parseq-ndl-24x256-30-tiny-189epoch-tegaki3-r8data-202604.onnx",
+  "baseline_revision": "03189f4e52c4c551ddec513336bb828fd46c5aa8"
+}

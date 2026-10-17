@@ -1,0 +1,61 @@
+{
+  "source_repository": "jlsi/omo",
+  "source_pdf": "fixtures/input/pdf_parser/resources/word/simple.pdf",
+  "source_pdf_sha256": "fef165b821e1b0de847e82810a032d2fd6c4863d534bb2309e66c6be486c8b95",
+  "source_png_sha256": "a679356dee9fdc624085f3ab5941956be7d8350eb09fda9f069aa0b306101cde",
+  "page": 1,
+  "dpi": 300,
+  "baseline_revision": "ef38344b9bc01d5c84b3f83d13bd706382165c8f",
+  "development_fixture": true,
+  "cases": [
+    {
+      "name": "runtimes",
+      "crop": [
+        471,
+        653,
+        2108,
+        700
+      ],
+      "truth": "(ア) Rust は非常に高速でメモリ効率が高くランタイムやガベージコ",
+      "image_sha256": "6ed47829746bd5c99c48df67467ebce0ed91f94496c6eb18bd61729fd2a90f9c"
+    },
+    {
+      "name": "possible",
+      "crop": [
+        559,
+        1179,
+        1265,
+        1226
+      ],
+      "truth": "ル時に排除することが可能です。",
+      "image_sha256": "2302ca2b2c293d4d967a25a8042255efd4b4de3a0224e1b77d1bae8eb2eb8975"
+    },
+    {
+      "name": "docs",
+      "crop": [
+        471,
+        1404,
+        2103,
+        1451
+      ],
+      "truth": "(ア) Rust には優れたドキュメント、有用なエラーメッセージを備え",
+      "image_sha256": "568a078ae94b738da195233518e4c86e47a373caaa1e0015cb8f17dc15e65388"
+    }
+  ],
+  "negative_cases": [
+    {
+      "name": "latin",
+      "source_repository": "jlsi/omo",
+      "source_png": "fixtures/input/ocr_accuracy/gothic_20_6.png",
+      "image_sha256": "34aa28a96609cc3f26ff27c54f256bb109055a6a4762474fd9703c5864435c7c",
+      "truth": "OCR accuracy test 1234567890"
+    },
+    {
+      "name": "scan",
+      "source_repository": "jlsi/omo",
+      "source_png": "fixtures/input/ocr_scan_accuracy/copy_storage.png",
+      "image_sha256": "6fc3a59c93db40614af67f33be91bd075bf240876a6f2cd2b2721ac0c388eaf6",
+      "truth": "し、その複製物は、原本と同等の保管、管理をする。"
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "source_repository": "https://github.com/jlsi/omo",
+  "source": "fixtures/input/pdf_parser/resources/word/yuuka_shoken_info.pdf",
+  "source_sha256": "e5cc88ec5ad465158660a1fd0325b6fb17cc21f9ccbb52a9ad51e891d3e5e8d4",
+  "page": 1,
+  "dpi": 300,
+  "page_png_sha256": "ef03e9c709455aecca67937f63eab957267d83239e114ec52a0d8c0ef368241f",
+  "crop": [
+    1190,
+    740,
+    1290,
+    815
+  ],
+  "png_sha256": "1fe1f1332a16b9044ea5c47c7378b78e7468bc01e0665777bd1d8a67385f63c2",
+  "truth": "せ",
+  "evaluation": "Selected from development financial page after 77/473 evaluation; detected bounds truncate connected lower strokes."
+}

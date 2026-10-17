@@ -2,7 +2,7 @@ use criterion::{BenchmarkId, Criterion, black_box, criterion_group, criterion_ma
 use ndlocr_lite_rs::infer::parseq;
 
 fn bench_parseq_decode(c: &mut Criterion) {
-    let charset = vec!['あ'; 512];
+    let charset = vec!['あ'; 511];
     let mut group = c.benchmark_group("parseq_decode");
     for &(t, csz) in &[
         (32usize, 512usize),

@@ -1,0 +1,15 @@
+{
+  "source": "https://github.com/jlsi/omo/blob/6de819718f3a34133b70250a0fc9a20bd2a87de2/fixtures/input/pdf_parser/resources/web/dennyu-unyoukijun210401r.pdf",
+  "source_sha256": "44b5d55191d5c617d7a79497f233124b4198379c38ab7239567aadb1a3702335",
+  "page": 1,
+  "dpi": 300,
+  "crop_xyxy": [
+    200,
+    165,
+    1400,
+    320
+  ],
+  "png_sha256": "aaf636c629e7696fd30ff6c8e4fe550cbb71a7be6f26aad8d0cb764d3dda8206",
+  "truth": "電子入札運用基準 （受注者様向け）",
+  "purpose": "development regression; image selected before implementation; not independent holdout"
+}

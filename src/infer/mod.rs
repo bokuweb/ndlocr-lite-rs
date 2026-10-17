@@ -1,5 +1,6 @@
 pub mod deim;
 pub mod parseq;
+mod preprocess;
 
 #[cfg(feature = "onnx")]
 pub mod cached;

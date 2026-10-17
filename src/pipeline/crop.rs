@@ -49,6 +49,39 @@ pub fn expand_bbox_xyxy_clamped(
     }
 }
 
+/// 領域を切り出し、真っ白な外側の列だけを除く。全画線・内部空白・上下余白は保持する。
+/// 白紙の場合は非空の元領域を返し、通常の切り出しと同じ入力検証を行う。
+pub fn crop_rgb_u8_tight_horizontal(
+    rgb: &[u8],
+    width: usize,
+    height: usize,
+    bbox: BBox,
+) -> Result<CroppedImage> {
+    let mut crop = crop_rgb_u8(rgb, width, height, bbox)?;
+    let mut left = crop.width;
+    let mut right = 0;
+    for row in crop.data.chunks_exact(crop.width * 3) {
+        for (x, pixel) in row.chunks_exact(3).enumerate() {
+            if pixel != [255, 255, 255] {
+                left = left.min(x);
+                right = right.max(x + 1);
+            }
+        }
+    }
+    if left >= right || (left == 0 && right == crop.width) {
+        return Ok(crop);
+    }
+    let tight_width = right - left;
+    for y in 0..crop.height {
+        let start = (y * crop.width + left) * 3;
+        crop.data
+            .copy_within(start..start + tight_width * 3, y * tight_width * 3);
+    }
+    crop.data.truncate(tight_width * crop.height * 3);
+    crop.width = tight_width;
+    Ok(crop)
+}
+
 pub fn crop_rgb_u8(rgb: &[u8], width: usize, height: usize, bbox: BBox) -> Result<CroppedImage> {
     let expected = width
         .checked_mul(height)

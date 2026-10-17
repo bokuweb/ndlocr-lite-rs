@@ -10,14 +10,15 @@
 
 ベースとなる学習/変換手順は `ndlocr/train/README.md` に準拠します。
 
-また、`ndlocr-lite` と同様に **配布アーカイブ同梱モデルを取り出す**方法も使えます。
+学習せず公式モデルを使う場合は、レビュー済みコミット・SHA-256で固定した取得経路を使います。
+文字集合とライセンス通知も同じ版から取得します。
 
 ```bash
-chmod +x tools/fetch_models_from_ndlocr_release.sh
-tools/fetch_models_from_ndlocr_release.sh --tag 1.2.1
+python3 tools/fetch_upstream_assets.py models
+python3 tools/fetch_upstream_assets.py models --offline
 ```
 
-これで `models/` に ONNX が配置されます（学習不要）。
+追従先と次回更新の手順は [互換性監査](ocr_pipeline_compatibility.md) を参照してください。
 
 ## 事前準備
 

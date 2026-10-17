@@ -14,6 +14,7 @@ pub struct PageInput<'a> {
 
 pub struct PageOutput {
     pub total_detection_count: usize,
+    /// クラス競合を除いて実際に認識した行数。
     pub line_detection_count: usize,
     pub texts: Vec<String>,
     pub lines: Vec<RecognizedLine>,
@@ -30,11 +31,6 @@ where
     F50: Fn(&CroppedImage) -> String,
     F100: Fn(&CroppedImage) -> String,
 {
-    let line_detection_count = input
-        .detections
-        .iter()
-        .filter(|d| d.class_name.starts_with("line_"))
-        .count();
     let mut lines = recognize_line_detections_with_cascade_detailed(
         input.rgb,
         input.width,
@@ -48,7 +44,7 @@ where
     let texts = lines.iter().map(|l| l.text.clone()).collect();
     Ok(PageOutput {
         total_detection_count: input.detections.len(),
-        line_detection_count,
+        line_detection_count: lines.len(),
         texts,
         lines,
     })

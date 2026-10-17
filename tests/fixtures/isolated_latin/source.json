@@ -1,0 +1,18 @@
+{
+  "source": "https://github.com/jlsi/omo/blob/eb0586e20623c88144535296809c85ef3ccb99d6/fixtures/input/ocr_mixed_text_accuracy/page1.png",
+  "source_sha256": "39464a821c48a4c3ef3c73c31ba32f0cf8386c2ad1c09f0d244570134ca1772f",
+  "crop_xyxy": [
+    330,
+    1240,
+    450,
+    1540
+  ],
+  "png_sha256": "1e3b7c9f4611ea4418a8369a1da175b75221839feac3e1efd65f2670d604a90d",
+  "truth": [
+    "i",
+    "w",
+    "m",
+    "a"
+  ],
+  "purpose": "development regression, not independent holdout"
+}

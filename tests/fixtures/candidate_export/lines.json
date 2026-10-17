@@ -1,0 +1,4 @@
+[
+  {"id":"digit","bounds":[0,0,46,48],"truth":"1"},
+  {"id":"missing","bounds":null,"truth":"欠"}
+]

@@ -1,0 +1,19 @@
+{
+  "source_repository": "jlsi/omo",
+  "source_pdf": "fixtures/input/pdf_parser/resources/word/simple.pdf",
+  "source_page": 1,
+  "dpi": 300,
+  "crop": [
+    381,
+    585,
+    792,
+    621
+  ],
+  "image_sha256": "945290821eb6dbfe3fce85568fdff28a500a3181fd6d1f46f502e963609cbbc7",
+  "truth": "1.パフォーマンス",
+  "development_fixture": true,
+  "baseline_revision": "1b92e701c2f1770f85caaca78c3d81e372d1c9a4",
+  "baseline_raw": "1. パフオーマンス",
+  "source_pdf_sha256": "fef165b821e1b0de847e82810a032d2fd6c4863d534bb2309e66c6be486c8b95",
+  "threshold": 220
+}
