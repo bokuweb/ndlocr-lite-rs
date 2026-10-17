@@ -48,3 +48,7 @@ cargo test --locked --features onnx --test vertical_model_tests -- --ignored --n
 ## Windows checkoutの原文固定
 
 Windows CIではGitのautocrlfにより原文LFがCRLFへ変換され、列数6は一致するが83文字の期待が89文字となって失敗した。原文と評価器で改行を除去・正規化するのではなく、このfixtureだけを `.gitattributes` の `text eol=lf` で固定する。元の原文hash・83文字ゲート・生出力は変えない。autocrlf=trueでのcheckoutでもLFだけが残ることを検証する。
+# 回転済み縦列の分割（実装前の追加仕様）
+
+横書きの単語間隔推定は回転した縦書き字形に適用しない。`split_rotated_vertical_column_for_input` は白列だけで分割し、区間間へ空白を追加しない。短い列の文脈を保持するため、最大20インク列群、幅/高さ比20以下かつモデル入力比の2倍以下の区間にまとめる。これは30文字PARSeq向けの保守的な開発上限であり、全資料・全モデルの精度保証ではない。限界を超える列は既存の白列境界探索で均等に分割し、区切れないものは拒否する。横書き分割の挙動は変更しない。
+

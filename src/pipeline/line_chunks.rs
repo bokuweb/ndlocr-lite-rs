@@ -19,6 +19,10 @@ mod leading_marks;
 /// 孤立した上下の小画線だけを前の単語へ戻す。
 mod punctuation_tails;
 
+/// 回転した縦書き字形の文脈を保つ分割。
+mod vertical;
+pub use vertical::split_rotated_vertical_column_for_input;
+
 use slanted_spaces::restore_slanted_word_spaces;
 use word_fragments::{merge_rotated_word_fragments, restore_short_word_tails};
 use word_spaces::{strong_connected_gap_threshold, word_gap_threshold};
@@ -165,7 +169,14 @@ pub fn split_line_for_input(
             gap_before: 0,
         }]);
     }
-    let mut chunks = split_line_at_preferred_gaps(&gaps, width, height)?;
+    let mut chunks = split_line_at_preferred_gaps(
+        &gaps,
+        width,
+        height,
+        height
+            .checked_mul(MAX_CHUNK_ASPECT)
+            .ok_or("line dimensions overflow")?,
+    )?;
     // 最後の単語空白の後に残る語は、実入力比率と字形数に収まれば文脈を保つ。
     if let Some(first) = chunks.iter().rposition(|chunk| chunk.space_before) {
         let x0 = chunks[first].x0;
@@ -206,7 +217,14 @@ pub fn split_line(
         return Err("invalid RGB line dimensions".into());
     }
     let mut gaps = blank_gaps(rgb, width, height, threshold);
-    let mut chunks = split_line_at_preferred_gaps(&gaps, width, height)?;
+    let mut chunks = split_line_at_preferred_gaps(
+        &gaps,
+        width,
+        height,
+        height
+            .checked_mul(MAX_CHUNK_ASPECT)
+            .ok_or("line dimensions overflow")?,
+    )?;
     restore_slanted_word_spaces(rgb, width, height, threshold, &mut gaps);
     restore_word_spaces(&mut chunks, &gaps);
     Ok(chunks)
@@ -217,10 +235,8 @@ fn split_line_at_preferred_gaps(
     gaps: &[BlankGap],
     width: usize,
     height: usize,
+    max_width: usize,
 ) -> Result<Vec<LineChunk>, String> {
-    let max_width = height
-        .checked_mul(MAX_CHUNK_ASPECT)
-        .ok_or("line dimensions overflow")?;
     let minimum = minimum_chunk_counts(gaps, width, max_width);
     let mut chunks = Vec::new();
     let mut x0 = 0;
