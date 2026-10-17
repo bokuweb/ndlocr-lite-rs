@@ -304,6 +304,17 @@ struct BlankGap {
 
 /// 行全高で閾値未満の画素がない内側の列群を列挙する。
 fn blank_gaps(rgb: &[u8], width: usize, height: usize, threshold: u8) -> Vec<BlankGap> {
+    blank_gaps_with_word_gap_limit(rgb, width, height, threshold, usize::MAX)
+}
+
+/// 支持のある元画像の単語幅を閾値の上限とし、字形余白の保護を維持する。
+fn blank_gaps_with_word_gap_limit(
+    rgb: &[u8],
+    width: usize,
+    height: usize,
+    threshold: u8,
+    word_gap_limit: usize,
+) -> Vec<BlankGap> {
     let mut gaps = Vec::new();
     let mut blank_start = None;
     let mut seen_ink = false;
@@ -369,7 +380,8 @@ fn blank_gaps(rgb: &[u8], width: usize, height: usize, threshold: u8) -> Vec<Bla
             .iter()
             .filter(|&&width| width >= height.saturating_mul(2))
             .count();
-        let word_gap = word_gap_threshold(&gaps, typical, height, connected_runs);
+        let word_gap =
+            word_gap_threshold(&gaps, typical, height, connected_runs).min(word_gap_limit);
         // 幅の中央値が近い英字行を除くため、全角相当の字形も十分あることを要求する。
         let wide_glyphs = ink_widths
             .iter()

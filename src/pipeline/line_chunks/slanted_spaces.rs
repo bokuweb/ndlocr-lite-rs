@@ -1,4 +1,4 @@
-use super::{BlankGap, blank_gaps};
+use super::{BlankGap, blank_gaps_with_word_gap_limit};
 
 /// 元画像の白列へ、強い傾き補正でも確認できる単語空白だけを加える。
 pub(super) fn restore_slanted_word_spaces(
@@ -51,7 +51,19 @@ pub(super) fn restore_slanted_word_spaces(
             }
         }
     }
-    let confirmed = blank_gaps(&projected, projected_width, height, threshold);
+    let supported = gaps.iter().filter(|gap| gap.word_space);
+    let word_gap_limit = if supported.clone().count() >= 6 {
+        supported.map(|gap| gap.width).min().unwrap_or(usize::MAX)
+    } else {
+        usize::MAX
+    };
+    let confirmed = blank_gaps_with_word_gap_limit(
+        &projected,
+        projected_width,
+        height,
+        threshold,
+        word_gap_limit,
+    );
     let center_shift = row_shift(height / 2, height, slope);
     for gap in gaps {
         let center = gap.midpoint + center_shift;
@@ -90,6 +102,82 @@ fn projection_score(
 mod tests {
     use super::*;
     use crate::pipeline::line_chunks::blank_gaps;
+
+    /// 原寸の斜体行を一度だけ正規化し、画素変換の回帰へ共有する。
+    fn punctuation_line() -> &'static (Vec<u8>, usize, usize) {
+        static LINE: std::sync::OnceLock<(Vec<u8>, usize, usize)> = std::sync::OnceLock::new();
+        LINE.get_or_init(|| {
+            use crate::{
+                io::load_rgb_u8,
+                pipeline::{
+                    background::normalize_chromatic_panels,
+                    crop::{BBox, crop_rgb_u8},
+                    line_segment::detect_textline_bands_naive,
+                },
+            };
+            let image = load_rgb_u8(std::path::Path::new(
+                "tests/fixtures/chromatic_text_contrast/page.png",
+            ))
+            .unwrap();
+            let rgb = normalize_chromatic_panels(&image.data, image.width, image.height).unwrap();
+            let bands = detect_textline_bands_naive(&rgb, image.width, image.height, 220);
+            let [x0, y0, x1, y1] = bands[6];
+            let line =
+                crop_rgb_u8(&rgb, image.width, image.height, BBox::new(x0, y0, x1, y1)).unwrap();
+            (line.data, line.width, line.height)
+        })
+    }
+
+    /// 元画像に6個の確認済み空白がある場合だけ、その幅を補正後へ引き継ぐ。
+    #[test]
+    fn punctuation_space_requires_original_gap_support() {
+        let (rgb, width, height) = punctuation_line();
+        for support in [5, 6] {
+            let mut gaps = blank_gaps(rgb, *width, *height, 220);
+            let mut retained = 0;
+            for gap in &mut gaps {
+                if gap.word_space {
+                    retained += 1;
+                    gap.word_space = retained <= support;
+                }
+            }
+            restore_slanted_word_spaces(rgb, *width, *height, 220, &mut gaps);
+            let target = gaps.iter().find(|gap| gap.midpoint == 1324).unwrap();
+            assert_eq!(target.word_space, support == 6);
+        }
+    }
+
+    proptest::proptest! {
+        #![proptest_config(proptest::test_runner::Config::with_cases(12))]
+        /// 拡大・移動・反転でも句読点後の空白を戻し、既存の白列と確認済み空白を保つ。
+        #[test]
+        fn punctuation_space_preserves_pixel_geometry(
+            scale in 1usize..4, margin in 0usize..16, reflected in proptest::bool::ANY,
+        ) {
+            let (source, source_width, source_height) = punctuation_line();
+            let width = source_width * scale + margin * 2;
+            let height = source_height * scale;
+            let mut rgb = vec![255; width * height * 3];
+            for y in 0..height {
+                for x in 0..source_width * scale {
+                    let target = if reflected {width - 1 - margin - x} else {margin + x};
+                    let i = ((y/scale) * source_width + x/scale) * 3;
+                    rgb[(y*width+target)*3..(y*width+target)*3+3].copy_from_slice(&source[i..i+3]);
+                }
+            }
+            let target = if reflected {width-margin-1324*scale} else {margin+1324*scale};
+            let mut gaps = blank_gaps(&rgb,width,height,220);
+            let before: Vec<_> = gaps.iter().map(|g|(g.midpoint,g.width,g.word_space,g.preferred_split,g.internal_glyph_gap)).collect();
+            restore_slanted_word_spaces(&rgb,width,height,220,&mut gaps);
+            let nearest = gaps.iter().min_by_key(|g|g.midpoint.abs_diff(target)).unwrap();
+            proptest::prop_assert!(nearest.midpoint.abs_diff(target)<=scale);
+            proptest::prop_assert!(nearest.word_space);
+            for (gap, (midpoint,gap_width,word,preferred,internal)) in gaps.iter().zip(before) {
+                proptest::prop_assert_eq!((gap.midpoint,gap.width,gap.preferred_split,gap.internal_glyph_gap),(midpoint,gap_width,preferred,internal));
+                proptest::prop_assert!(!word || gap.word_space);
+            }
+        }
+    }
 
     /// 字間は連結して見えるが、実単語間の白列が残る斜体行を作る。
     fn slanted_words(
