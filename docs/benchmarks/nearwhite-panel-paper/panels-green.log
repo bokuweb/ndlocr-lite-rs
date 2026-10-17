@@ -1,0 +1,38 @@
+      ┌─────────┐  mr boxington
+     ╱ ═══════ ╱│
+    ╱─────────╱ │
+    │ •    (◉)│≡│
+    │  ◟▄▄▄◞  │ ╱
+    │   ◀◆▶   │╱
+    └─────────┘
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.77s
+     Running tests/chromatic_panel_antialias_tests.rs (/Volumes/X9/omo-punctuation-locality/target/debug/deps/chromatic_panel_antialias_tests-f4980db5fdf9a1a4)
+
+running 5 tests
+test glyphs_and_thin_rules_remain_dark ... ok
+test sloped_antialiased_edges_leave_no_foreground ... ok
+test black_and_colored_border_rules_are_retained ... ok
+test real_resampled_panel_has_safe_word_boundaries ... ok
+test edge_removal_survives_translation_and_blend_phase ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.83s
+
+     Running tests/exterior_panel_paper_tests.rs (/Volumes/X9/omo-punctuation-locality/target/debug/deps/exterior_panel_paper_tests-667606f9388402f1)
+
+running 4 tests
+test diagonal_contact_is_not_exterior_connection ... ok
+test keeps_enclosed_white_and_black_glyphs ... ok
+test keeps_exterior_paper_in_concave_panel ... ok
+test varied_notches ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.51s
+
+     Running tests/nearwhite_panel_paper_tests.rs (/Volumes/X9/omo-punctuation-locality/target/debug/deps/nearwhite_panel_paper_tests-582c72841f4e03ea)
+
+running 3 tests
+test outer_fringe_keeps_protected_rgb ... ok
+test preserves_antialiased_exterior_paper ... ok
+test nearwhite_channels ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.81s
+

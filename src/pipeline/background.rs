@@ -10,7 +10,7 @@ const MIN_CHROMA: u8 = 24;
 ///
 /// 横長の色パネルだけを対象にし、普通の無彩色ページは借用のまま返す。
 /// 背景は列ごとの多数派から推定するため、写真や任意の図版には適用しない。
-/// ページ外周へ4近傍で接続する完全白は外側の白紙として保持する。
+/// ページ外周へ4近傍で接続する近白（RGB各成分250以上）は元RGBのまま保持する。
 /// 検出・分割・認識には返された同じ画素列を使用すること。
 pub fn normalize_chromatic_panels(
     rgb: &[u8],
@@ -196,7 +196,7 @@ fn normalize_panel(
             output.to_mut()[i..i + 3].fill(normalized_color_intensity(&rgb[i..i + 3], *background));
         }
     }
-    antialias::remove_panel_fringe(rgb, width, y0, y1, &backgrounds, output);
+    antialias::remove_panel_fringe(rgb, width, y0, y1, &backgrounds, exterior, output);
 }
 
 /// 広い標本の外縁に接し、行帯の全高で色が不変な細い枠だけを背景へ延長する。

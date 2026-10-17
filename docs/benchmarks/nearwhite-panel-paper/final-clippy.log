@@ -1,0 +1,103 @@
+      ┌─────────┐  mr boxington
+     ╱ ═══════ ╱│
+    ╱─────────╱ │
+    │ •    (◉)│≡│
+    │  ◟▄▄▄◞  │ ╱
+    │   ◀◆▶   │╱
+    └─────────┘
+    Checking ndlocr-lite-rs v0.1.0 (/Volumes/X9/ghq/github.com/bokuweb/ndlocr-lite-rs)
+warning: this function has too many arguments (11/7)
+   --> src/app.rs:666:1
+    |
+666 | / fn recognize_line_with_optional_cascade(
+667 | |     model100: &Path,
+668 | |     model30: &Path,
+669 | |     model50: &Path,
+...   |
+677 | |     charset: &Path,
+678 | | ) -> Result<parseq::RecognizeResult> {
+    | |____________________________________^
+    |
+    = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.97.0/index.html#too_many_arguments
+    = note: `#[warn(clippy::too_many_arguments)]` on by default
+
+warning: this function has too many arguments (8/7)
+   --> src/app.rs:723:1
+    |
+723 | / fn maybe_split_long_line_and_recognize(
+724 | |     recognized: parseq::RecognizeResult,
+725 | |     model100: &Path,
+726 | |     rgb: &[u8],
+...   |
+731 | |     split_long_line_char_threshold: usize,
+732 | | ) -> Result<parseq::RecognizeResult> {
+    | |____________________________________^
+    |
+    = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.97.0/index.html#too_many_arguments
+
+warning: this function has too many arguments (14/7)
+   --> src/app.rs:781:1
+    |
+781 | / fn maybe_rerank_line_quality(
+782 | |     base: parseq::RecognizeResult,
+783 | |     model100: &Path,
+784 | |     model30: &Path,
+...   |
+795 | |     cascade_th_50_to_100: usize,
+796 | | ) -> Result<parseq::RecognizeResult> {
+    | |____________________________________^
+    |
+    = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.97.0/index.html#too_many_arguments
+
+warning: the loop variable `v` is used to index `out`
+  --> src/infer/deim.rs:91:18
+   |
+91 |         for v in 0..=255 {
+   |                  ^^^^^^^
+   |
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.97.0/index.html#needless_range_loop
+   = note: `#[warn(clippy::needless_range_loop)]` on by default
+help: consider using an iterator and enumerate()
+   |
+91 -         for v in 0..=255 {
+91 +         for (v, <item>) in out.iter_mut().enumerate() {
+   |
+
+warning: this function has too many arguments (9/7)
+  --> src/output/artifacts.rs:9:1
+   |
+ 9 | / pub fn save_page_artifacts(
+10 | |     lines: &[RecognizedLine],
+11 | |     texts: &[String],
+12 | |     img_width: usize,
+...  |
+18 | |     out_txt_path: &Path,
+19 | | ) -> Result<()> {
+   | |_______________^
+   |
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.97.0/index.html#too_many_arguments
+
+warning: this `if` statement can be collapsed
+  --> src/pipeline/background.rs:61:17
+   |
+61 | /                 if let Some(y0) = start.take() {
+62 | |                     if seeded && y - y0 >= 8 {
+63 | |                         normalize_panel(rgb, width, y0, y, &mut output, &mut exterior);
+64 | |                     }
+65 | |                 }
+   | |_________________^
+   |
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.97.0/index.html#collapsible_if
+   = note: `#[warn(clippy::collapsible_if)]` on by default
+help: collapse nested if block
+   |
+61 ~                 if let Some(y0) = start.take()
+62 ~                     && seeded && y - y0 >= 8 {
+63 |                         normalize_panel(rgb, width, y0, y, &mut output, &mut exterior);
+64 ~                     }
+   |
+
+warning: `ndlocr-lite-rs` (lib) generated 6 warnings (run `cargo clippy --fix --lib -p ndlocr-lite-rs -- --no-deps` to apply 1 suggestion)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 3.36s
+mbx[cache]: 0 hits, 0 misses, 2 incremental; 0 B downloaded, 0 B uploaded, 0 B stored locally
+mbx[savings]: 8d 19h of compiler time avoided across 15432 builds

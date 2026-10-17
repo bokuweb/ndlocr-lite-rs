@@ -1,0 +1,54 @@
+use ndlocr_lite_rs::pipeline::background::normalize_chromatic_panels;
+use proptest::prelude::*;
+
+/// 近白の凹部と、色背景に囲まれた同色の字形を作る。
+fn fixture(paper: [u8; 3]) -> (Vec<u8>, usize, usize) {
+    let (w, h) = (400, 96);
+    let mut rgb = vec![255; w * h * 3];
+    for y in 8..88 {
+        for x in 16..384 {
+            let c = if (36..60).contains(&y) && (32..140).contains(&x) {
+                paper
+            } else {
+                [255, 165, 0]
+            };
+            rgb[(y * w + x) * 3..(y * w + x) * 3 + 3].copy_from_slice(&c);
+        }
+    }
+    // 凹部を上から外周へつなぐ補間色の細路。
+    for y in 0..36 {
+        rgb[(y * w + 80) * 3..(y * w + 80) * 3 + 3].copy_from_slice(&paper);
+    }
+    for y in 40..56 {
+        for x in 260..268 {
+            rgb[(y * w + x) * 3..(y * w + x) * 3 + 3].copy_from_slice(&paper);
+        }
+    }
+    (rgb, w, h)
+}
+
+#[test]
+/// 補間色の外側白紙を黒い行結合片へ変えない。
+fn preserves_antialiased_exterior_paper() {
+    let paper = [255, 254, 254];
+    let (rgb, w, h) = fixture(paper);
+    let out = normalize_chromatic_panels(&rgb, w, h).unwrap();
+    assert_eq!(&out[(48 * w + 100) * 3..(48 * w + 100) * 3 + 3], &paper);
+    assert!(
+        out[(48 * w + 263) * 3..(48 * w + 263) * 3 + 3]
+            .iter()
+            .all(|&v| v < 30)
+    );
+}
+
+proptest! {
+    #![proptest_config(ProptestConfig::with_cases(32))]
+    #[test]
+    /// 近白の全成分の組合せで外側保持と囲まれた字形の暗色化を両立する。
+    fn nearwhite_channels(paper in prop::array::uniform3(250u8..=255)) {
+        let (rgb,w,h)=fixture(paper);
+        let out=normalize_chromatic_panels(&rgb,w,h).unwrap();
+        prop_assert_eq!(&out[(48*w+100)*3..(48*w+100)*3+3],&paper);
+        prop_assert!(out[(48*w+263)*3..(48*w+263)*3+3].iter().all(|&v|v<30));
+    }
+}

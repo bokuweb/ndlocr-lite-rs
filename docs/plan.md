@@ -16,3 +16,9 @@
 - test/document first
 - t_wada方式（Red->Green->Refactor）
 - 効果的な箇所で property-based testing
+
+## 2026-10-18: 外周近白紙
+
+- 仕様 `docs/nearwhite-panel-paper.md`、局所Red 2件と後段色縁処理のRed 1件を先に固定。
+- 全成分250以上の4近傍経路を保護し、既存色縁除去でも元RGBを維持する。囲まれた近白字形と249境界を検査。
+- 固定28画像の全文比較と公開pin統合はomo #79で実施。全画像の精度改善・JPEG一般化・production readyは未確認。

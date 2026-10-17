@@ -1,0 +1,39 @@
+      ┌─────────┐  mr boxington
+     ╱ ═══════ ╱│
+    ╱─────────╱ │
+    │ •    (◉)│≡│
+    │  ◟▄▄▄◞  │ ╱
+    │   ◀◆▶   │╱
+    └─────────┘
+   Compiling ndlocr-lite-rs v0.1.0 (/Volumes/X9/ghq/github.com/bokuweb/ndlocr-lite-rs)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 4.96s
+     Running unittests src/lib.rs (/Volumes/X9/omo-punctuation-locality/target/debug/deps/ndlocr_lite_rs-ff2eef3ca10c70f8)
+
+running 4 tests
+test pipeline::background::exterior::tests::nearwhite_threshold_and_diagonal_barriers ... ok
+test pipeline::background::exterior::tests::one_dimensional_edges ... ok
+test pipeline::background::exterior::tests::run_fill_matches_pixel_search ... ok
+test pipeline::background::exterior::tests::nearwhite_run_fill_matches_pixel_search ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 121 filtered out; finished in 0.03s
+
+     Running tests/chromatic_panel_antialias_tests.rs (/Volumes/X9/omo-punctuation-locality/target/debug/deps/chromatic_panel_antialias_tests-f4980db5fdf9a1a4)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 5 filtered out; finished in 0.00s
+
+     Running tests/exterior_panel_paper_tests.rs (/Volumes/X9/omo-punctuation-locality/target/debug/deps/exterior_panel_paper_tests-667606f9388402f1)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 4 filtered out; finished in 0.00s
+
+     Running tests/nearwhite_panel_paper_tests.rs (/Volumes/X9/omo-punctuation-locality/target/debug/deps/nearwhite_panel_paper_tests-582c72841f4e03ea)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 3 filtered out; finished in 0.00s
+
+mbx[cache]: 0 hits, 0 misses, 6 incremental; 0 B downloaded, 0 B uploaded, 0 B stored locally
+mbx[savings]: 8d 19h of compiler time avoided across 15431 builds

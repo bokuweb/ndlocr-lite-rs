@@ -1,0 +1,56 @@
+      ┌─────────┐  mr boxington
+     ╱ ═══════ ╱│
+    ╱─────────╱ │
+    │ •    (◉)│≡│
+    │  ◟▄▄▄◞  │ ╱
+    │   ◀◆▶   │╱
+    └─────────┘
+   Compiling ndlocr-lite-rs v0.1.0 (/Volumes/X9/ghq/github.com/bokuweb/ndlocr-lite-rs)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 6.88s
+     Running tests/nearwhite_panel_paper_tests.rs (/Volumes/X9/omo-punctuation-locality/target/debug/deps/nearwhite_panel_paper_tests-582c72841f4e03ea)
+
+running 2 tests
+test preserves_antialiased_exterior_paper ... FAILED
+test nearwhite_channels ... FAILED
+
+failures:
+
+---- preserves_antialiased_exterior_paper stdout ----
+
+thread 'preserves_antialiased_exterior_paper' (11421670) panicked at tests/nearwhite_panel_paper_tests.rs:36:5:
+assertion `left == right` failed
+  left: [1, 1, 1]
+ right: [255, 254, 254]
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+---- nearwhite_channels stdout ----
+proptest: FileFailurePersistence::SourceParallel set, but failed to find lib.rs or main.rs
+proptest: FileFailurePersistence::SourceParallel set, but failed to find lib.rs or main.rs
+proptest: Saving this and future failures in /Volumes/X9/ghq/github.com/bokuweb/ndlocr-lite-rs/tests/nearwhite_panel_paper_tests.proptest-regressions
+proptest: If this test was run on a CI system, you may wish to add the following line to your copy of the file. (You may need to create it.)
+cc 1821e6d1fd53567b39d197c01e6a44bf2c0a773e411cf0a362d7952808821a21
+
+thread 'nearwhite_channels' (11421669) panicked at tests/nearwhite_panel_paper_tests.rs:40:1:
+Test failed: assertion failed: `(left == right)` 
+  left: `[5, 5, 5]`,
+ right: `[250, 250, 250]` at tests/nearwhite_panel_paper_tests.rs:47.
+minimal failing input: paper = [
+    250,
+    250,
+    250,
+]
+	successes: 0
+	local rejects: 0
+	global rejects: 0
+
+
+
+failures:
+    nearwhite_channels
+    preserves_antialiased_exterior_paper
+
+test result: FAILED. 0 passed; 2 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.18s
+
+error: test failed, to rerun pass `--test nearwhite_panel_paper_tests`
+mbx[cache]: 0 hits, 0 misses, 1 not looked up, 2 incremental; 0 B downloaded, 0 B uploaded, 2.7 MiB stored locally
+mbx[savings]: 8d 19h of compiler time avoided across 15425 builds

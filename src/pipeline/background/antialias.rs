@@ -25,6 +25,7 @@ pub(super) fn remove_panel_fringe(
     y0: usize,
     y1: usize,
     backgrounds: &[Option<[u8; 3]>],
+    exterior: &[bool],
     output: &mut Cow<'_, [u8]>,
 ) {
     let height = rgb.len() / 3 / width;
@@ -91,6 +92,9 @@ pub(super) fn remove_panel_fringe(
                             edge.inner + 1..edge.paper + 1
                         };
                         for y in rows {
+                            if exterior[y * width + column] {
+                                continue;
+                            }
                             let i = (y * width + column) * 3;
                             output.to_mut()[i..i + 3].fill(255);
                         }
