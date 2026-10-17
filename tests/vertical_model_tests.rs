@@ -151,10 +151,22 @@ fn explicit_vertical_columns_improve_frozen_full_page_truth() {
     assert!(errors <= 4, "must retain the fixed 4/83 vertical baseline");
 }
 
-/// 原文を分割へ渡さず、長い列の内部白帯による二・三の分裂を防ぐ。
+/// 全画像と検出後の切り出しの両方で、二・三の内部白帯を保持する。
 #[test]
 #[ignore = "requires fixed PARSeq assets"]
 fn long_vertical_columns_preserve_disconnected_numerals() {
+    assert_long_vertical_columns(false);
+}
+
+/// omoと同じ列検出・切り出し経路でも全文を保持する。
+#[test]
+#[ignore = "requires fixed PARSeq assets"]
+fn detected_long_columns_preserve_disconnected_numerals() {
+    assert_long_vertical_columns(true);
+}
+
+/// 固定画像の原文を推論へ渡さず、指定経路の全文認識を検証する。
+fn assert_long_vertical_columns(detect_column: bool) {
     let session = ParseqSession::load(
         std::path::Path::new(&std::env::var("NDLOCR_TEST_PARSEQ_MODEL").unwrap()),
         std::path::Path::new(&std::env::var("NDLOCR_TEST_CHARSET").unwrap()),
@@ -168,7 +180,23 @@ fn long_vertical_columns_preserve_disconnected_numerals() {
         let path = std::path::Path::new("tests/fixtures/long_vertical")
             .join(item["image"].as_str().unwrap());
         let im = ndlocr_lite_rs::io::load_rgb_u8(&path).unwrap();
-        let r = rotate_vertical_column_rgb_u8(&im.data, im.width, im.height).unwrap();
+        let cropped = if detect_column {
+            let columns =
+                detect_vertical_textline_columns(&im.data, im.width, im.height, 220).unwrap();
+            assert_eq!(columns.len(), 1);
+            let [x0, y0, x1, y1] = columns[0];
+            crop_rgb_u8(&im.data, im.width, im.height, BBox::new(x0, y0, x1, y1)).unwrap()
+        } else {
+            crop_rgb_u8(
+                &im.data,
+                im.width,
+                im.height,
+                BBox::new(0, 0, im.width, im.height),
+            )
+            .unwrap()
+        };
+        let r =
+            rotate_vertical_column_rgb_u8(&cropped.data, cropped.width, cropped.height).unwrap();
         let chunks =
             split_rotated_vertical_column_for_input(&r.data, r.width, r.height, 220, iw, ih)
                 .unwrap();

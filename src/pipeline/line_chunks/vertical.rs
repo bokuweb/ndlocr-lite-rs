@@ -64,22 +64,26 @@ pub(super) fn retain_glyph_boundaries(
     height: usize,
 ) -> Vec<BlankGap> {
     let minimum_extent = height.saturating_mul(2).div_ceil(5);
-    let anchors = widths
+    let mut anchor_widths: Vec<_> = widths
         .iter()
         .zip(extents)
         .filter(|&(&width, &extent)| width >= minimum_extent && extent >= minimum_extent)
-        .take(6)
-        .count();
-    if anchors < 6 {
+        .map(|(&width, _)| width)
+        .collect();
+    if anchor_widths.len() < 6 {
         return gaps;
     }
+    // 列の余白が切り落とされても、一字幅の推定を支持字形の中央値から保つ。
+    let middle = anchor_widths.len() / 2;
+    let (_, median, _) = anchor_widths.select_nth_unstable(middle);
+    let max_group_width = (*median).min(height);
     let mut group_width = widths[0];
     let mut i = 0;
     gaps.retain(|gap| {
         let joined = group_width
             .saturating_add(gap.width)
             .saturating_add(widths[i + 1]);
-        let internal = joined <= height.saturating_mul(2) / 3
+        let internal = joined <= max_group_width
             && is_internal_stroke_gap(
                 [widths[i], widths[i + 1]],
                 [extents[i], extents[i + 1]],

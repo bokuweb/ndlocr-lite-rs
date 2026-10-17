@@ -87,6 +87,54 @@ fn long_rendered_columns_do_not_split_glyph_interiors() {
     }
 }
 
+/// 既知の描画矩形は検証だけに使い、二・三を途中で切断しない。
+#[test]
+fn detected_long_columns_do_not_split_glyph_interiors() {
+    use ndlocr_lite_rs::pipeline::vertical_segment::rotate_vertical_column_rgb_u8;
+    let manifest: serde_json::Value =
+        serde_json::from_str(include_str!("fixtures/long_vertical/manifest.json")).unwrap();
+    for item in manifest["items"].as_array().unwrap() {
+        let path = std::path::Path::new("tests/fixtures/long_vertical")
+            .join(item["image"].as_str().unwrap());
+        let im = ndlocr_lite_rs::io::load_rgb_u8(&path).unwrap();
+        let columns = ndlocr_lite_rs::pipeline::vertical_segment::detect_vertical_textline_columns(
+            &im.data, im.width, im.height, 220,
+        )
+        .unwrap();
+        assert_eq!(columns.len(), 1);
+        let [x0, y0, x1, y1] = columns[0];
+        let cropped = ndlocr_lite_rs::pipeline::crop::crop_rgb_u8(
+            &im.data,
+            im.width,
+            im.height,
+            ndlocr_lite_rs::pipeline::crop::BBox::new(x0, y0, x1, y1),
+        )
+        .unwrap();
+        let r =
+            rotate_vertical_column_rgb_u8(&cropped.data, cropped.width, cropped.height).unwrap();
+        eprintln!(
+            "{}: column {:?}, rotated height {}",
+            item["id"], columns[0], r.height
+        );
+        let chunks =
+            split_rotated_vertical_column_for_input(&r.data, r.width, r.height, 220, 256, 24)
+                .unwrap();
+        assert!(chunks.len() >= 2);
+        for chunk in chunks.iter().skip(1) {
+            for bbox in item["glyph_boxes"].as_array().unwrap() {
+                let top = bbox[1].as_u64().unwrap() as usize;
+                let bottom = bbox[3].as_u64().unwrap() as usize;
+                assert!(
+                    chunk.x0 + y0 <= top || chunk.x0 + y0 >= bottom,
+                    "{}: split {} inside [{top}, {bottom})",
+                    item["id"],
+                    chunk.x0 + y0
+                );
+            }
+        }
+    }
+}
+
 /// 一定字送りの中央だけ三本の離れた画線とし、左右移動・反転も行う。
 fn disconnected_center(
     count: usize,
