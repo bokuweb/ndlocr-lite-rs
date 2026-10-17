@@ -40,19 +40,20 @@ pub fn split_rotated_vertical_column_for_input(
     Ok(chunks)
 }
 
-/// 細く背の高い画線が一字幅に収まる白帯を、回転済み縦列の字形内部と推定する。
-/// 広い字間を持つ一、短い点や太い字形を結合しない。曖昧な詰め組みの完全識別は保証しない。
-pub(super) fn is_internal_stroke_gap(
+/// 回転済み縦列の隣接成分が、ともに細く背の高い画線か判定する。
+/// 厚みが自身の長さの四分の一以下の画線だけを扱う。曖昧な詰め組みの完全識別は保証しない。
+pub(super) fn is_tall_narrow_stroke_pair(
     widths: [usize; 2],
     extents: [usize; 2],
-    gap: usize,
     height: usize,
 ) -> bool {
-    widths.into_iter().all(|width| width <= height / 10)
+    widths
+        .into_iter()
+        .zip(extents)
+        .all(|(width, extent)| width <= extent / 4)
         && extents
             .into_iter()
             .all(|extent| extent >= height.saturating_mul(2).div_ceil(5))
-        && widths[0].saturating_add(gap).saturating_add(widths[1]) <= height.saturating_mul(2) / 3
 }
 
 /// 十分な全幅字形の支持がある列だけで内部白帯を除き、連鎖した群の幅も制限する。
@@ -84,10 +85,9 @@ pub(super) fn retain_glyph_boundaries(
             .saturating_add(gap.width)
             .saturating_add(widths[i + 1]);
         let internal = joined <= max_group_width
-            && is_internal_stroke_gap(
+            && is_tall_narrow_stroke_pair(
                 [widths[i], widths[i + 1]],
                 [extents[i], extents[i + 1]],
-                gap.width,
                 height,
             );
         group_width = if internal { joined } else { widths[i + 1] };

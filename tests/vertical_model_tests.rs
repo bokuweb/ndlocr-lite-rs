@@ -155,29 +155,32 @@ fn explicit_vertical_columns_improve_frozen_full_page_truth() {
 #[test]
 #[ignore = "requires fixed PARSeq assets"]
 fn long_vertical_columns_preserve_disconnected_numerals() {
-    assert_long_vertical_columns(false);
+    assert_long_vertical_columns(false, "long_vertical");
 }
 
 /// omoと同じ列検出・切り出し経路でも全文を保持する。
 #[test]
 #[ignore = "requires fixed PARSeq assets"]
 fn detected_long_columns_preserve_disconnected_numerals() {
-    assert_long_vertical_columns(true);
+    assert_long_vertical_columns(true, "long_vertical");
 }
 
 /// 固定画像の原文を推論へ渡さず、指定経路の全文認識を検証する。
-fn assert_long_vertical_columns(detect_column: bool) {
+fn assert_long_vertical_columns(detect_column: bool, fixture: &str) {
     let session = ParseqSession::load(
         std::path::Path::new(&std::env::var("NDLOCR_TEST_PARSEQ_MODEL").unwrap()),
         std::path::Path::new(&std::env::var("NDLOCR_TEST_CHARSET").unwrap()),
     )
     .unwrap();
-    let manifest: serde_json::Value =
-        serde_json::from_str(include_str!("fixtures/long_vertical/manifest.json")).unwrap();
+    let manifest: serde_json::Value = serde_json::from_str(
+        &std::fs::read_to_string(format!("tests/fixtures/{fixture}/manifest.json")).unwrap(),
+    )
+    .unwrap();
     let (iw, ih) = session.input_dimensions();
     let mut failures = Vec::new();
     for item in manifest["items"].as_array().unwrap() {
-        let path = std::path::Path::new("tests/fixtures/long_vertical")
+        let path = std::path::Path::new("tests/fixtures")
+            .join(fixture)
             .join(item["image"].as_str().unwrap());
         let im = ndlocr_lite_rs::io::load_rgb_u8(&path).unwrap();
         let cropped = if detect_column {
@@ -217,7 +220,7 @@ fn assert_long_vertical_columns(detect_column: bool) {
         }
         let truth = item["truth"].as_str().unwrap();
         eprintln!(
-            "{}: {}/{}, {actual:?}",
+            "{} detected={detect_column}: {}/{}, {actual:?}",
             item["id"],
             edit_distance(truth, &actual),
             truth.chars().count()
@@ -227,4 +230,18 @@ fn assert_long_vertical_columns(detect_column: bool) {
         }
     }
     assert!(failures.is_empty(), "long-column regressions: {failures:?}");
+}
+
+/// 太字と明朝体の二・三も、全画像と列切り出し後の双方で全文を保持する。
+#[test]
+#[ignore = "requires fixed PARSeq assets"]
+fn alternate_fonts_preserve_disconnected_numerals() {
+    assert_long_vertical_columns(false, "vertical_fonts");
+}
+
+/// 検出後に列幅が狭くなっても、別書体の全文を保持する。
+#[test]
+#[ignore = "requires fixed PARSeq assets"]
+fn detected_alternate_fonts_preserve_disconnected_numerals() {
+    assert_long_vertical_columns(true, "vertical_fonts");
 }
