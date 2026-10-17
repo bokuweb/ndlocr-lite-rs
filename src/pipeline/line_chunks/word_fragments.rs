@@ -29,6 +29,46 @@ pub(super) fn merge_rotated_word_fragments(
     }
 }
 
+/// 次の実空白までの短い単語末尾を、画素を分断せず前区間へ戻す。
+pub(super) fn restore_short_word_tails(
+    chunks: &mut [LineChunk],
+    gaps: &[BlankGap],
+    height: usize,
+    input_width: usize,
+    input_height: usize,
+) {
+    for index in 0..chunks.len().saturating_sub(1) {
+        let left = &chunks[index];
+        let right = &chunks[index + 1];
+        if (index != 0 && !left.space_before) || right.space_before {
+            continue;
+        }
+        let first = gaps.partition_point(|gap| gap.midpoint <= right.x0);
+        let Some(gap) = gaps[first..].iter().find(|gap| gap.word_space) else {
+            continue;
+        };
+        if gap.midpoint >= right.x1 || gap.width < height.div_ceil(5) {
+            continue;
+        }
+        let rotated = |width: usize| height as u128 * 5 > width as u128 * 4;
+        let fits = (gap.midpoint - left.x0) as u128 * input_height as u128
+            <= height as u128 * input_width as u128;
+        let ink_start = gaps.partition_point(|gap| gap.midpoint <= left.x0);
+        let ink_end = gaps.partition_point(|item| item.midpoint < gap.midpoint);
+        if rotated(gap.midpoint - right.x0)
+            && !rotated(left.x1 - left.x0)
+            && !rotated(right.x1 - gap.midpoint)
+            && fits
+            && ink_end - ink_start < MAX_CHUNK_INK_RUNS
+        {
+            chunks[index].x1 = gap.midpoint;
+            chunks[index + 1].x0 = gap.midpoint;
+            chunks[index + 1].space_before = true;
+            chunks[index + 1].gap_before = gap.width;
+        }
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -125,6 +165,100 @@ mod tests {
                     .collect::<Vec<_>>(),
                 "case={case}"
             );
+        }
+    }
+
+    /// 次の実空白を境界にし、区間数と画素被覆を保つ。
+    #[test]
+    fn short_tail_moves_to_next_word_space() {
+        let mut actual = chunks();
+        actual[1].x1 = 800;
+        actual.pop();
+        let support = vec![BlankGap {
+            midpoint: 450,
+            width: 20,
+            word_space: true,
+            preferred_split: true,
+            internal_glyph_gap: false,
+        }];
+        restore_short_word_tails(&mut actual, &support, 64, 256, 24);
+        assert_eq!(actual[0].x1, 450);
+        assert_eq!(actual[1].x0, 450);
+        assert_eq!(actual[1].x1, 800);
+        assert!(actual[1].space_before);
+        assert_eq!(actual[1].gap_before, 20);
+    }
+
+    /// 文脈・短さ・実空白・入力比率・列群上限が不足する場合は維持する。
+    #[test]
+    fn unsupported_short_tail_preserves_partition() {
+        for case in 0..8 {
+            let mut actual = chunks();
+            actual[1].x1 = 800;
+            actual.pop();
+            let mut support = vec![BlankGap {
+                midpoint: 450,
+                width: 20,
+                word_space: true,
+                preferred_split: true,
+                internal_glyph_gap: false,
+            }];
+            let mut input_width = 256;
+            match case {
+                0 => actual[1].space_before = true,
+                1 => support[0].word_space = false,
+                2 => support[0].midpoint = 500,
+                3 => support[0].midpoint = 780,
+                4 => input_width = 128,
+                5 => {
+                    support.extend(gaps(20).into_iter().map(|mut gap| {
+                        gap.midpoint = gap.midpoint * 400 / 475;
+                        gap
+                    }));
+                    support.sort_by_key(|gap| gap.midpoint);
+                }
+                6 => actual[0].x0 = 350,
+                7 => support[0].width = 4,
+                _ => unreachable!(),
+            }
+            let before = actual
+                .iter()
+                .map(|c| (c.x0, c.x1, c.space_before, c.gap_before))
+                .collect::<Vec<_>>();
+            restore_short_word_tails(&mut actual, &support, 64, input_width, 24);
+            assert_eq!(
+                actual
+                    .iter()
+                    .map(|c| (c.x0, c.x1, c.space_before, c.gap_before))
+                    .collect::<Vec<_>>(),
+                before,
+                "case={case}"
+            );
+        }
+    }
+
+    proptest::proptest! {
+        /// 拡大・平行移動後も同じ空白を選び、全画素の被覆と区間数を保つ。
+        #[test]
+        fn short_tail_preserves_coverage(
+            scale in 1usize..9, margin in 0usize..40,
+        ) {
+            let mut actual = vec![
+                LineChunk { x0: margin, x1: 400*scale+margin, space_before: false, gap_before: 0 },
+                LineChunk { x0: 400*scale+margin, x1: 800*scale+margin, space_before: false, gap_before: 3*scale },
+            ];
+            let support = vec![BlankGap {
+                midpoint: 450*scale+margin, width: 20*scale, word_space: true,
+                preferred_split: true, internal_glyph_gap: false,
+            }];
+            restore_short_word_tails(&mut actual, &support, 64*scale, 256, 24);
+            proptest::prop_assert_eq!(actual.len(),2);
+            proptest::prop_assert_eq!(actual[0].x0,margin);
+            proptest::prop_assert_eq!(actual[0].x1,450*scale+margin);
+            proptest::prop_assert_eq!(actual[0].x1,actual[1].x0);
+            proptest::prop_assert_eq!(actual[1].x1,800*scale+margin);
+            proptest::prop_assert!(actual[1].space_before);
+            proptest::prop_assert_eq!(actual[1].gap_before,20*scale);
         }
     }
 

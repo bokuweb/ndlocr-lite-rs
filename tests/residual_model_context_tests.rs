@@ -70,3 +70,27 @@ fn italic_punctuation_boundary_keeps_space() {
         "using font 'Times New Roman Bold Italic', font size 18 points,"
     );
 }
+
+/// 単語内で孤立する閉じ括弧を固定モデルで再現する先行Red。
+#[test]
+#[ignore = "requires fixed PARSeq assets"]
+fn word_tail_bracket_keeps_context() {
+    let (actual, count) = recognize_row(3);
+    assert_eq!(count, 4);
+    assert_eq!(
+        actual,
+        "background color Color [Transparent]. This is italic text drawn using font"
+    );
+}
+
+/// 境界変更が既存の斜体文の句点位置を壊さない。
+#[test]
+#[ignore = "requires fixed PARSeq assets"]
+fn italic_sentence_keeps_punctuation_position() {
+    let (actual, count) = recognize_row(5);
+    assert_eq!(count, 4);
+    assert_eq!(
+        actual,
+        "background color Color [Transparent]. This is bold italic text drawn"
+    );
+}

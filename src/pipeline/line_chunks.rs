@@ -8,7 +8,7 @@ mod word_spaces;
 mod word_fragments;
 
 use slanted_spaces::restore_slanted_word_spaces;
-use word_fragments::merge_rotated_word_fragments;
+use word_fragments::{merge_rotated_word_fragments, restore_short_word_tails};
 use word_spaces::word_gap_threshold;
 
 /// 横書き行から切り出す、重複・欠落のない水平区間。
@@ -148,6 +148,7 @@ pub fn split_line_for_input(
     }
     restore_slanted_word_spaces(rgb, width, height, threshold, &mut gaps);
     restore_word_spaces(&mut chunks, &gaps);
+    restore_short_word_tails(&mut chunks, &gaps, height, input_width, input_height);
     merge_rotated_word_fragments(&mut chunks, &gaps, height, input_width, input_height);
     Ok(chunks)
 }
