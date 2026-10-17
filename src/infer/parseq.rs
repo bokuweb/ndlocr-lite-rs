@@ -415,7 +415,11 @@ fn decode_flat_logits_with_observer(
     if charset.len().checked_add(1) != Some(classes) {
         bail!("logits classes and charset mismatch");
     }
-    if logits[..expected].iter().any(|v| !v.is_finite()) {
+    // 短絡しない集約で、全形状の検証を自動ベクトル化できるようにする。
+    if logits[..expected]
+        .iter()
+        .fold(false, |invalid, value| invalid | !value.is_finite())
+    {
         bail!("logits must be finite");
     }
     let mut text = String::new();
