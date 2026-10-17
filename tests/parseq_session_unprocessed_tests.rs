@@ -1,7 +1,10 @@
 #![cfg(all(feature = "onnx", unix))]
 
 use ndlocr_lite_rs::{
-    infer::{cached::ParseqSession, parseq::recognize_rgb_u8_with_score_unprocessed},
+    infer::{
+        cached::ParseqSession,
+        parseq::{ParseqOrientation, recognize_rgb_u8_with_score_unprocessed},
+    },
     io::load_rgb_u8,
 };
 use std::path::PathBuf;
@@ -49,4 +52,50 @@ fn reusable_session_preserves_repetitions_without_reloading_files() {
             .text,
         expected.text
     );
+}
+
+/// 横書き本文から切り出した正方形に近い数字を重複させない。
+#[test]
+#[ignore = "requires fixed PARSeq assets"]
+fn horizontal_digit_preserves_one_character() {
+    let model =
+        PathBuf::from(std::env::var_os("NDLOCR_TEST_PARSEQ_MODEL").expect("model required"));
+    let charset = PathBuf::from(std::env::var_os("NDLOCR_TEST_CHARSET").expect("charset required"));
+    let image = load_rgb_u8(
+        &PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+            .join("tests/fixtures/horizontal_digit/digit.png"),
+    )
+    .unwrap();
+    let session = ParseqSession::load(&model, &charset).unwrap();
+    let actual = session
+        .recognize_rgb_u8_unprocessed_with_orientation(
+            &image.data,
+            image.width,
+            image.height,
+            ParseqOrientation::Horizontal,
+        )
+        .unwrap();
+    assert_eq!(actual.text, "1");
+    let legacy = session
+        .recognize_rgb_u8_unprocessed(&image.data, image.width, image.height)
+        .unwrap();
+    assert_eq!(
+        legacy.text, "11",
+        "existing Auto behavior remains compatible"
+    );
+    assert!(
+        session
+            .recognize_rgb_u8_unprocessed_with_orientation(&[], 0, 0, ParseqOrientation::Horizontal)
+            .is_err()
+    );
+    let recovered = session
+        .recognize_rgb_u8_unprocessed_with_orientation(
+            &image.data,
+            image.width,
+            image.height,
+            ParseqOrientation::Horizontal,
+        )
+        .unwrap();
+    assert_eq!(recovered.text, actual.text);
+    assert!((recovered.mean_confidence - actual.mean_confidence).abs() < 1e-5);
 }

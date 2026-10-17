@@ -22,9 +22,9 @@ use std::sync::atomic::{AtomicUsize, Ordering};
 
 use super::ort_init::{OrtAnyhow, auto_intra_threads, ensure_init};
 use super::parseq::{
-    PreprocessScratch, RecognizeResult, load_charset_from_yaml_str,
-    predict_text_from_flat_logits_with_confidence, preprocess_rgb_u8,
-    preprocess_rgb_u8_into_with_scratch, sanitize_recognized_text,
+    ParseqOrientation, PreprocessScratch, RecognizeResult, load_charset_from_yaml_str,
+    predict_text_from_flat_logits_with_confidence, preprocess_rgb_u8_into_with_scratch,
+    preprocess_rgb_u8_with_orientation, sanitize_recognized_text,
 };
 
 pub fn default_parseq_parallelism() -> usize {
@@ -151,13 +151,29 @@ impl ParseqSession {
         width: usize,
         height: usize,
     ) -> Result<RecognizeResult> {
+        self.recognize_rgb_u8_unprocessed_with_orientation(
+            rgb,
+            width,
+            height,
+            ParseqOrientation::Auto,
+        )
+    }
+
+    /// 入力方向を明示し、同じモデルで後処理前の本文と信頼度を返す。
+    pub fn recognize_rgb_u8_unprocessed_with_orientation(
+        &self,
+        rgb: &[u8],
+        width: usize,
+        height: usize,
+        orientation: ParseqOrientation,
+    ) -> Result<RecognizeResult> {
         let single = [(rgb, width, height)];
         let mut out = {
             let mut guard = self
                 .session
                 .lock()
                 .map_err(|_| anyhow!("parseq session mutex poisoned"))?;
-            run_batch_on_session_unprocessed(
+            run_batch_on_session_with_orientation(
                 &mut guard.0,
                 &self.input_name,
                 &self.output_name,
@@ -165,6 +181,7 @@ impl ParseqSession {
                 self.input_h,
                 &self.charset,
                 &single,
+                orientation,
             )?
         };
         let result = out.pop().ok_or_else(|| anyhow!("empty batch result"))?;
@@ -236,6 +253,30 @@ fn run_batch_on_session_unprocessed(
     charset: &[char],
     items: &[(&[u8], usize, usize)],
 ) -> Result<Vec<RecognizeResult>> {
+    run_batch_on_session_with_orientation(
+        session,
+        input_name,
+        output_name,
+        input_w,
+        input_h,
+        charset,
+        items,
+        ParseqOrientation::Auto,
+    )
+}
+
+/// 方向指定を前処理に渡し、既存の推論・デコードを共用する。
+#[allow(clippy::too_many_arguments)]
+fn run_batch_on_session_with_orientation(
+    session: &mut Session,
+    input_name: &str,
+    output_name: &str,
+    input_w: usize,
+    input_h: usize,
+    charset: &[char],
+    items: &[(&[u8], usize, usize)],
+    orientation: ParseqOrientation,
+) -> Result<Vec<RecognizeResult>> {
     use rayon::prelude::*;
     let n = items.len();
     let plane = 3 * input_h * input_w;
@@ -250,7 +291,7 @@ fn run_batch_on_session_unprocessed(
         buf.par_chunks_mut(plane_local)
             .zip(items.par_iter())
             .try_for_each_init(
-                PreprocessScratch::new,
+                || PreprocessScratch::with_orientation(orientation),
                 |scratch, (slot, (rgb, w, h))| -> Result<()> {
                     preprocess_rgb_u8_into_with_scratch(
                         slot, rgb, *w, *h, input_w, input_h, scratch,
@@ -261,7 +302,8 @@ fn run_batch_on_session_unprocessed(
         buf.par_chunks_mut(plane_local)
             .zip(items.par_iter())
             .try_for_each(|(slot, (rgb, w, h))| -> Result<()> {
-                let tensor = preprocess_rgb_u8(rgb, *w, *h, input_w, input_h)?;
+                let tensor =
+                    preprocess_rgb_u8_with_orientation(rgb, *w, *h, input_w, input_h, orientation)?;
                 slot.copy_from_slice(&tensor);
                 Ok(())
             })

@@ -9,6 +9,16 @@ pub struct RecognizeResult {
     pub mean_confidence: f32,
 }
 
+/// PARSeq入力画像の方向。既存APIはAutoを使用する。
+#[derive(Debug, Clone, Copy, Default, PartialEq, Eq)]
+pub enum ParseqOrientation {
+    /// 公式upstreamと同じアスペクト比による自動回転。
+    #[default]
+    Auto,
+    /// 横書き行の切り出し。寸法にかかわらず回転しない。
+    Horizontal,
+}
+
 /// PARSEQ 入力テンソルを作る（`ndlocr/src/parseq.py` と同じ方針）。
 ///
 /// - 高さが幅の80%を超えたら 90° 反時計回りに回転（`h > w * 0.8` のとき `cv2.ROTATE_90_COUNTERCLOCKWISE` に相当）
@@ -21,8 +31,27 @@ pub fn preprocess_rgb_u8(
     input_width: usize,
     input_height: usize,
 ) -> Result<Vec<f32>> {
+    preprocess_rgb_u8_with_orientation(
+        rgb,
+        width,
+        height,
+        input_width,
+        input_height,
+        ParseqOrientation::Auto,
+    )
+}
+
+/// 入力の方向を明示してBGR/NCHWテンソルを作る。
+pub fn preprocess_rgb_u8_with_orientation(
+    rgb: &[u8],
+    width: usize,
+    height: usize,
+    input_width: usize,
+    input_height: usize,
+    orientation: ParseqOrientation,
+) -> Result<Vec<f32>> {
     let mut out = vec![0.0_f32; 3 * input_width * input_height];
-    let mut scratch = PreprocessScratch::new();
+    let mut scratch = PreprocessScratch::with_orientation(orientation);
     preprocess_rgb_u8_into_with_scratch(
         &mut out,
         rgb,
@@ -35,8 +64,11 @@ pub fn preprocess_rgb_u8(
     Ok(out)
 }
 
+/// 再利用する補間座標と、入力に適用する方向指定。
 #[derive(Default)]
 pub struct PreprocessScratch {
+    /// 入力画像の方向。
+    orientation: ParseqOrientation,
     xs: Vec<SampleCoord>,
     ys: Vec<SampleCoord>,
     xs_key: Option<(usize, usize)>,
@@ -44,8 +76,17 @@ pub struct PreprocessScratch {
 }
 
 impl PreprocessScratch {
+    /// 従来どおり自動方向判定する作業領域を作る。
     pub fn new() -> Self {
         Self::default()
+    }
+
+    /// 入力方向を固定した作業領域を作る。座標キャッシュは寸法ごとに更新する。
+    pub fn with_orientation(orientation: ParseqOrientation) -> Self {
+        Self {
+            orientation,
+            ..Self::default()
+        }
     }
 }
 
@@ -69,6 +110,7 @@ pub fn preprocess_rgb_u8_into(
     )
 }
 
+/// 作業領域の方向指定と補間座標を使い、呼び出し元のバッファへ書き込む。
 pub fn preprocess_rgb_u8_into_with_scratch(
     out: &mut [f32],
     rgb: &[u8],
@@ -99,7 +141,8 @@ pub fn preprocess_rgb_u8_into_with_scratch(
             out.len()
         );
     }
-    let rotated = (height as u128) * 5 > (width as u128) * 4;
+    let rotated = scratch.orientation == ParseqOrientation::Auto
+        && (height as u128) * 5 > (width as u128) * 4;
     let (source_w, source_h) = if rotated {
         (height, width)
     } else {

@@ -152,3 +152,68 @@ fn parseq_rotates_nearly_square_crops_like_current_upstream() {
         assert_eq!(out, expected, "{width}x{height}");
     }
 }
+
+/// 横書き指定は正方形・縦長を含む全寸法で元画素の向きを保つ。
+#[test]
+fn horizontal_preprocess_preserves_pixel_orientation() {
+    for (w, h) in [(5, 4), (5, 5), (10, 9), (1, 4), (46, 48)] {
+        let rgb = make_rgb(w, h);
+        let out = parseq::preprocess_rgb_u8_with_orientation(
+            &rgb,
+            w,
+            h,
+            w,
+            h,
+            parseq::ParseqOrientation::Horizontal,
+        )
+        .unwrap();
+        let expected: Vec<f32> = [2, 1, 0]
+            .into_iter()
+            .flat_map(|c| {
+                rgb.chunks_exact(3)
+                    .map(move |p| f32::from(p[c]) / 127.5 - 1.0)
+            })
+            .collect();
+        assert_eq!(out, expected);
+    }
+}
+
+proptest! {
+    /// 寸法が交互に変わっても方向指定と補間座標キャッシュを保持する。
+    #[test]
+    fn horizontal_scratch_matches_allocating_after_dimension_changes(
+        dimensions in proptest::collection::vec((1usize..30, 1usize..30), 1..8),
+    ) {
+        let orientation = parseq::ParseqOrientation::Horizontal;
+        let mut scratch = parseq::PreprocessScratch::with_orientation(orientation);
+        for (w, h) in dimensions {
+            let rgb = make_rgb(w, h);
+            let expected = parseq::preprocess_rgb_u8_with_orientation(&rgb, w, h, 13, 3, orientation).unwrap();
+            let mut actual = vec![0.; expected.len()];
+            parseq::preprocess_rgb_u8_into_with_scratch(&mut actual, &rgb, w, h, 13, 3, &mut scratch).unwrap();
+            prop_assert_eq!(actual, expected);
+        }
+    }
+}
+
+/// 横書き指定でも入力と出力寸法の検証を省略しない。
+#[test]
+fn horizontal_preprocess_rejects_invalid_buffers() {
+    for (rgb, w, h, ow, oh) in [
+        (&[][..], 0, 0, 2, 2),
+        (&[0; 2][..], 1, 1, 2, 2),
+        (&[0; 3][..], 1, 1, 0, 2),
+    ] {
+        assert!(
+            parseq::preprocess_rgb_u8_with_orientation(
+                rgb,
+                w,
+                h,
+                ow,
+                oh,
+                parseq::ParseqOrientation::Horizontal
+            )
+            .is_err()
+        );
+    }
+}
