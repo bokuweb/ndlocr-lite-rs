@@ -1,3 +1,6 @@
+/// 実空白を挟む斜体と直立の切替を分割する。
+mod style_transitions;
+
 /// 傾いた字形の投影から実単語空白を確認する。
 mod slanted_spaces;
 
@@ -184,6 +187,7 @@ pub fn split_line_for_input(
         (input_width, input_height),
     );
     merge_rotated_word_fragments(&mut chunks, &gaps, height, input_width, input_height);
+    style_transitions::split_style_transitions(rgb, width, height, threshold, &mut chunks, &gaps);
     Ok(chunks)
 }
 

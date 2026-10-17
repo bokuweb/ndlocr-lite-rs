@@ -128,3 +128,15 @@ fn separated_tail_marks_keep_following_word_space() {
         "font 'Times New Roman Bold Italic', font size 16 points, text color"
     );
 }
+
+/// 原画像に残る斜体角括弧を固定モデルの全文一致で保護する先行Red。
+#[test]
+#[ignore = "requires fixed PARSeq assets"]
+fn italic_brackets_keep_original_glyphs() {
+    let (actual, count) = recognize_row(8);
+    assert_eq!(count, 4, "one style boundary adds one inference");
+    assert_eq!(
+        actual,
+        "[Transparent]. This is normal text drawn using font"
+    );
+}
