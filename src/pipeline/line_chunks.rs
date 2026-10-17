@@ -19,6 +19,9 @@ mod leading_marks;
 /// 孤立した上下の小画線だけを前の単語へ戻す。
 mod punctuation_tails;
 
+/// 分割不能な長い行から、広い完全白余白だけを認識対象の外へ分離する。
+mod wide_spaces;
+
 /// 回転した縦書き字形の文脈を保つ分割。
 mod vertical;
 pub use vertical::split_rotated_vertical_column_for_input;
@@ -27,7 +30,8 @@ use slanted_spaces::restore_slanted_word_spaces;
 use word_fragments::{merge_rotated_word_fragments, restore_short_word_tails};
 use word_spaces::{strong_connected_gap_threshold, word_gap_threshold};
 
-/// 横書き行から切り出す、重複・欠落のない水平区間。
+/// 横書き行から切り出す、非白画素の重複・欠落のない元座標の水平区間。
+/// 認識用APIは広い完全白余白の中央を省く場合があり、区間が隣接するとは限らない。
 #[derive(Debug, PartialEq, Eq)]
 pub struct LineChunk {
     /// 区間の先頭列（含む）。
@@ -139,6 +143,7 @@ pub const MAX_CHUNK_ASPECT: usize = 8;
 const MAX_CHUNK_INK_RUNS: usize = 20;
 
 /// モデルの入力寸法を指定し、収まる短い行の文脈を保持する。
+/// 通常分割が失敗したときは、広い完全白余白だけを省いて元座標の認識区間を返す。
 pub fn split_line_for_input(
     rgb: &[u8],
     width: usize,
@@ -169,14 +174,24 @@ pub fn split_line_for_input(
             gap_before: 0,
         }]);
     }
-    let mut chunks = split_line_at_preferred_gaps(
-        &gaps,
-        width,
-        height,
-        height
-            .checked_mul(MAX_CHUNK_ASPECT)
-            .ok_or("line dimensions overflow")?,
-    )?;
+    let max_width = height
+        .checked_mul(MAX_CHUNK_ASPECT)
+        .ok_or("line dimensions overflow")?;
+    let mut chunks = match split_line_at_preferred_gaps(&gaps, width, height, max_width) {
+        Ok(chunks) => chunks,
+        Err(error) => {
+            return wide_spaces::split_separated_groups(
+                rgb,
+                width,
+                height,
+                threshold,
+                input_width,
+                input_height,
+                max_width,
+            )
+            .unwrap_or(Err(error));
+        }
+    };
     // 最後の単語空白の後に残る語は、実入力比率と字形数に収まれば文脈を保つ。
     if let Some(first) = chunks.iter().rposition(|chunk| chunk.space_before) {
         let x0 = chunks[first].x0;

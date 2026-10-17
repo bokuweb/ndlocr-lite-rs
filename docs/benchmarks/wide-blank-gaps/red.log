@@ -1,0 +1,157 @@
+      ┌─────────┐  mr boxington
+     ╱ ═══════ ╱│
+    ╱─────────╱ │
+    │ •    (◉)│≡│
+    │  ◟▄▄▄◞  │ ╱
+    │   ◀◆▶   │╱
+    └─────────┘
+   Compiling rav1e v0.8.1
+   Compiling ravif v0.13.0
+   Compiling image v0.25.10
+   Compiling ndlocr-lite-rs v0.1.0 (/Volumes/X9/ghq/github.com/bokuweb/ndlocr-lite-rs)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 11.72s
+     Running tests/wide_blank_gaps_tests.rs (target/debug/deps/wide_blank_gaps_tests-ce006f58fcf3c4d3)
+
+running 5 tests
+test nearwhite_marks_are_never_omitted ... ok
+test unbreakable_group_still_rejects_the_whole_line ... ok
+test widely_separated_groups_are_safe_recognition_chunks ... FAILED
+test six_upright_label_bands_keep_every_nonwhite_pixel ... FAILED
+test sparse_groups_preserve_pixels_and_spaces ... FAILED
+
+failures:
+
+---- widely_separated_groups_are_safe_recognition_chunks stdout ----
+
+thread 'widely_separated_groups_are_safe_recognition_chunks' (10791717) panicked at tests/wide_blank_gaps_tests.rs:51:74:
+called `Result::unwrap()` on an `Err` value: "long OCR line has no safe blank-column boundary after column 0"
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+---- six_upright_label_bands_keep_every_nonwhite_pixel stdout ----
+
+thread 'six_upright_label_bands_keep_every_nonwhite_pixel' (10791714) panicked at tests/wide_blank_gaps_tests.rs:68:88:
+called `Result::unwrap()` on an `Err` value: "long OCR line has no safe blank-column boundary after column 0"
+
+---- sparse_groups_preserve_pixels_and_spaces stdout ----
+proptest: FileFailurePersistence::SourceParallel set, but failed to find lib.rs or main.rs
+
+thread 'sparse_groups_preserve_pixels_and_spaces' (10791715) panicked at tests/wide_blank_gaps_tests.rs:101:68:
+called `Result::unwrap()` on an `Err` value: "long OCR line has no safe blank-column boundary after column 0"
+
+thread 'sparse_groups_preserve_pixels_and_spaces' (10791715) panicked at tests/wide_blank_gaps_tests.rs:101:68:
+called `Result::unwrap()` on an `Err` value: "long OCR line has no safe blank-column boundary after column 0"
+
+thread 'sparse_groups_preserve_pixels_and_spaces' (10791715) panicked at tests/wide_blank_gaps_tests.rs:101:68:
+called `Result::unwrap()` on an `Err` value: "long OCR line has no safe blank-column boundary after column 0"
+
+thread 'sparse_groups_preserve_pixels_and_spaces' (10791715) panicked at tests/wide_blank_gaps_tests.rs:101:68:
+called `Result::unwrap()` on an `Err` value: "long OCR line has no safe blank-column boundary after column 0"
+
+thread 'sparse_groups_preserve_pixels_and_spaces' (10791715) panicked at tests/wide_blank_gaps_tests.rs:101:68:
+called `Result::unwrap()` on an `Err` value: "long OCR line has no safe blank-column boundary after column 0"
+
+thread 'sparse_groups_preserve_pixels_and_spaces' (10791715) panicked at tests/wide_blank_gaps_tests.rs:101:68:
+called `Result::unwrap()` on an `Err` value: "long OCR line has no safe blank-column boundary after column 0"
+
+thread 'sparse_groups_preserve_pixels_and_spaces' (10791715) panicked at tests/wide_blank_gaps_tests.rs:101:68:
+called `Result::unwrap()` on an `Err` value: "long OCR line has no safe blank-column boundary after column 0"
+
+thread 'sparse_groups_preserve_pixels_and_spaces' (10791715) panicked at tests/wide_blank_gaps_tests.rs:101:68:
+called `Result::unwrap()` on an `Err` value: "long OCR line has no safe blank-column boundary after column 0"
+
+thread 'sparse_groups_preserve_pixels_and_spaces' (10791715) panicked at tests/wide_blank_gaps_tests.rs:101:68:
+called `Result::unwrap()` on an `Err` value: "long OCR line has no safe blank-column boundary after column 0"
+
+thread 'sparse_groups_preserve_pixels_and_spaces' (10791715) panicked at tests/wide_blank_gaps_tests.rs:101:68:
+called `Result::unwrap()` on an `Err` value: "long OCR line has no safe blank-column boundary after column 0"
+
+thread 'sparse_groups_preserve_pixels_and_spaces' (10791715) panicked at tests/wide_blank_gaps_tests.rs:101:68:
+called `Result::unwrap()` on an `Err` value: "long OCR line has no safe blank-column boundary after column 0"
+
+thread 'sparse_groups_preserve_pixels_and_spaces' (10791715) panicked at tests/wide_blank_gaps_tests.rs:101:68:
+called `Result::unwrap()` on an `Err` value: "long OCR line has no safe blank-column boundary after column 0"
+
+thread 'sparse_groups_preserve_pixels_and_spaces' (10791715) panicked at tests/wide_blank_gaps_tests.rs:101:68:
+called `Result::unwrap()` on an `Err` value: "long OCR line has no safe blank-column boundary after column 0"
+
+thread 'sparse_groups_preserve_pixels_and_spaces' (10791715) panicked at tests/wide_blank_gaps_tests.rs:101:68:
+called `Result::unwrap()` on an `Err` value: "long OCR line has no safe blank-column boundary after column 0"
+
+thread 'sparse_groups_preserve_pixels_and_spaces' (10791715) panicked at tests/wide_blank_gaps_tests.rs:101:68:
+called `Result::unwrap()` on an `Err` value: "long OCR line has no safe blank-column boundary after column 0"
+
+thread 'sparse_groups_preserve_pixels_and_spaces' (10791715) panicked at tests/wide_blank_gaps_tests.rs:101:68:
+called `Result::unwrap()` on an `Err` value: "long OCR line has no safe blank-column boundary after column 0"
+
+thread 'sparse_groups_preserve_pixels_and_spaces' (10791715) panicked at tests/wide_blank_gaps_tests.rs:101:68:
+called `Result::unwrap()` on an `Err` value: "long OCR line has no safe blank-column boundary after column 0"
+
+thread 'sparse_groups_preserve_pixels_and_spaces' (10791715) panicked at tests/wide_blank_gaps_tests.rs:101:68:
+called `Result::unwrap()` on an `Err` value: "long OCR line has no safe blank-column boundary after column 0"
+
+thread 'sparse_groups_preserve_pixels_and_spaces' (10791715) panicked at tests/wide_blank_gaps_tests.rs:101:68:
+called `Result::unwrap()` on an `Err` value: "long OCR line has no safe blank-column boundary after column 0"
+
+thread 'sparse_groups_preserve_pixels_and_spaces' (10791715) panicked at tests/wide_blank_gaps_tests.rs:101:68:
+called `Result::unwrap()` on an `Err` value: "long OCR line has no safe blank-column boundary after column 0"
+
+thread 'sparse_groups_preserve_pixels_and_spaces' (10791715) panicked at tests/wide_blank_gaps_tests.rs:101:68:
+called `Result::unwrap()` on an `Err` value: "long OCR line has no safe blank-column boundary after column 0"
+
+thread 'sparse_groups_preserve_pixels_and_spaces' (10791715) panicked at tests/wide_blank_gaps_tests.rs:101:68:
+called `Result::unwrap()` on an `Err` value: "long OCR line has no safe blank-column boundary after column 0"
+
+thread 'sparse_groups_preserve_pixels_and_spaces' (10791715) panicked at tests/wide_blank_gaps_tests.rs:101:68:
+called `Result::unwrap()` on an `Err` value: "long OCR line has no safe blank-column boundary after column 0"
+
+thread 'sparse_groups_preserve_pixels_and_spaces' (10791715) panicked at tests/wide_blank_gaps_tests.rs:101:68:
+called `Result::unwrap()` on an `Err` value: "long OCR line has no safe blank-column boundary after column 0"
+
+thread 'sparse_groups_preserve_pixels_and_spaces' (10791715) panicked at tests/wide_blank_gaps_tests.rs:101:68:
+called `Result::unwrap()` on an `Err` value: "long OCR line has no safe blank-column boundary after column 0"
+
+thread 'sparse_groups_preserve_pixels_and_spaces' (10791715) panicked at tests/wide_blank_gaps_tests.rs:101:68:
+called `Result::unwrap()` on an `Err` value: "long OCR line has no safe blank-column boundary after column 0"
+
+thread 'sparse_groups_preserve_pixels_and_spaces' (10791715) panicked at tests/wide_blank_gaps_tests.rs:101:68:
+called `Result::unwrap()` on an `Err` value: "long OCR line has no safe blank-column boundary after column 0"
+
+thread 'sparse_groups_preserve_pixels_and_spaces' (10791715) panicked at tests/wide_blank_gaps_tests.rs:101:68:
+called `Result::unwrap()` on an `Err` value: "long OCR line has no safe blank-column boundary after column 0"
+
+thread 'sparse_groups_preserve_pixels_and_spaces' (10791715) panicked at tests/wide_blank_gaps_tests.rs:101:68:
+called `Result::unwrap()` on an `Err` value: "long OCR line has no safe blank-column boundary after column 0"
+
+thread 'sparse_groups_preserve_pixels_and_spaces' (10791715) panicked at tests/wide_blank_gaps_tests.rs:101:68:
+called `Result::unwrap()` on an `Err` value: "long OCR line has no safe blank-column boundary after column 0"
+
+thread 'sparse_groups_preserve_pixels_and_spaces' (10791715) panicked at tests/wide_blank_gaps_tests.rs:101:68:
+called `Result::unwrap()` on an `Err` value: "long OCR line has no safe blank-column boundary after column 0"
+proptest: FileFailurePersistence::SourceParallel set, but failed to find lib.rs or main.rs
+proptest: Saving this and future failures in /Volumes/X9/ghq/github.com/bokuweb/ndlocr-lite-rs/tests/wide_blank_gaps_tests.proptest-regressions
+proptest: If this test was run on a CI system, you may wish to add the following line to your copy of the file. (You may need to create it.)
+cc 773eca39e5502ad7f4c89cf0fc945cbd05470c6f02af7edd14b5aa3ee8a1b7af
+
+thread 'sparse_groups_preserve_pixels_and_spaces' (10791715) panicked at tests/wide_blank_gaps_tests.rs:94:1:
+Test failed: called `Result::unwrap()` on an `Err` value: "long OCR line has no safe blank-column boundary after column 0".
+minimal failing input: h = 3, factor = 9, odd = 0, padding = 0, color = [
+    0,
+    0,
+    0,
+]
+	successes: 0
+	local rejects: 0
+	global rejects: 0
+
+
+
+failures:
+    six_upright_label_bands_keep_every_nonwhite_pixel
+    sparse_groups_preserve_pixels_and_spaces
+    widely_separated_groups_are_safe_recognition_chunks
+
+test result: FAILED. 2 passed; 3 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+error: test failed, to rerun pass `--test wide_blank_gaps_tests`
+mbx[cache]: 3 hits, 2 misses, 1 not looked up; 0 B downloaded, 0 B uploaded, 54.5 MiB stored locally
+mbx[savings]: 8d 19h of compiler time avoided across 15290 builds
