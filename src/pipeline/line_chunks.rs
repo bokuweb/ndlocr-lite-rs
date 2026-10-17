@@ -7,6 +7,9 @@ mod slanted_spaces;
 /// 画像内の間隔分布から単語空白の閾値を推定する。
 mod word_spaces;
 
+/// 一定の全角相当字送りから、字形の左右余白を推定する。
+mod regular_advance;
+
 /// 回転判定へ入る小区間を、モデルに収まる水平単語の文脈へ戻す。
 mod word_fragments;
 
@@ -436,6 +439,11 @@ fn blank_gaps_with_word_gap_limit(
             .filter(|&&width| width >= height.saturating_mul(2).div_ceil(3))
             .count();
         let wide_row = wide_glyphs >= ink_widths.len().div_ceil(3);
+        let regular_advance = wide_row
+            .then(|| {
+                regular_advance::supported_glyph_advance(&ink_widths, &ink_extents, &gaps, height)
+            })
+            .flatten();
         for (i, gap) in gaps.iter_mut().enumerate() {
             let (left, right) = (ink_widths[i], ink_widths[i + 1]);
             gap.internal_glyph_gap = gap.width < height.div_ceil(10)
@@ -493,7 +501,23 @@ fn blank_gaps_with_word_gap_limit(
                 }
             };
             gap.preferred_split = is_word_space(preferred_gap);
-            gap.word_space = is_word_space(word_gap);
+            // 優先分割は維持し、一定の全角字送りに含まれる左右余白だけを連結空白から除く。
+            let regular_bearing = regular_advance
+                .filter(|&advance| {
+                    // 字送りの許容幅を超す中心距離は実空白として保護する。
+                    let center_twice = left as u128 + gap.width as u128 * 2 + right as u128;
+                    center_twice * 4 <= advance as u128 * 8 + height as u128
+                        && full_neighbors
+                        && left <= height
+                        && right <= height
+                })
+                .map(|advance| {
+                    advance.saturating_sub(left).div_ceil(2)
+                        + advance.saturating_sub(right).div_ceil(2)
+                });
+            gap.word_space = is_word_space(word_gap)
+                && regular_bearing
+                    .is_none_or(|bearing| gap.width.saturating_sub(bearing) > word_gap);
         }
     }
     gaps

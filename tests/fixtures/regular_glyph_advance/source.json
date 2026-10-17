@@ -1,0 +1,54 @@
+{
+  "source_url": "https://github.com/jlsi/omo/blob/72e8c83e86c19a22f250309be229e2d6031bba2c/fixtures/input/ocr_financial_accuracy/page1.png",
+  "truth_url": "https://github.com/jlsi/omo/blob/72e8c83e86c19a22f250309be229e2d6031bba2c/fixtures/expected/ocr_financial_accuracy/truth.txt",
+  "source_sha256": "ef03e9c709455aecca67937f63eab957267d83239e114ec52a0d8c0ef368241f",
+  "method": "Existing frozen truth and visual inspection: remove only spurious chunk-join spaces inside Japanese words; preserve remaining model errors and fullwidth/ASCII distinctions. Development data.",
+  "rows": [
+    {
+      "name": "announcement",
+      "bounds": [
+        287,
+        865,
+        2243,
+        913
+      ],
+      "previous_text": "当社は、本年1月 1 日に開示いたしま した2023年3月期 決算短信にて、第00期有価証券",
+      "png_sha256": "efc0eb48eca42b2e89a9cd635c03aa574e810caf0e4100b8a838b7a7cad64cf2"
+    },
+    {
+      "name": "schedule",
+      "bounds": [
+        238,
+        927,
+        2239,
+        975
+      ],
+      "previous_text": "報告書の提出を本日予定と しておりま したが、12月30日 の提出予定に変更となりました",
+      "png_sha256": "e62379cbde5414166b5ace29b8d8c8ad9995faeb6934e5f875164e09b01bc17f"
+    },
+    {
+      "name": "company",
+      "bounds": [
+        335,
+        2040,
+        2238,
+        2088
+      ],
+      "previous_text": "本年1月20 日に適時開示しました当社海外子会社のテス トインターナショナルコ",
+      "png_sha256": "5d40103691748603be14986720a73d679197c8d0251de6fbb188a0903de97271"
+    }
+  ],
+  "protected_case": {
+    "name": "chapter_space",
+    "source_url": "https://github.com/jlsi/omo/blob/72e8c83e86c19a22f250309be229e2d6031bba2c/fixtures/input/ocr_holdout_accuracy/full_page.png",
+    "truth_url": "https://github.com/jlsi/omo/blob/72e8c83e86c19a22f250309be229e2d6031bba2c/fixtures/expected/ocr_holdout_accuracy/full_page_truth.txt",
+    "bounds": [
+      349,
+      882,
+      1764,
+      930
+    ],
+    "png_sha256": "edb27f3da81c5ec49e050b029810fe60bf52b091774ca1b3dff312d4d07afbfc",
+    "expected_prefix": "第3章 利用者"
+  }
+}
