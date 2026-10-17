@@ -121,3 +121,50 @@ fn scaled_connected_strokes_remain_connected() {
         assert_eq!(bands, detect_textline_bands_fast(&rgb, w, h, 220));
     }
 }
+
+proptest::proptest! {
+    #![proptest_config(proptest::test_runner::Config::with_cases(16))]
+    /// 短い横画は拡大・移動や汚れ位置によらず本文から分割しない。
+    #[test]
+    fn short_glyph_fragment_does_not_become_a_new_line(
+        scale in 1usize..4, offset in 0usize..20, shift in 0usize..8
+    ) {
+        let (width, height) = (400 * scale, 210 * scale + offset);
+        let mut rgb = vec![255; width * height * 3];
+        for [x0, y0, x1, y1] in [[40, 10, 280, 40], [40, 55, 280, 85], [100, 100, 200, 115], [40, 145, 280, 175]] {
+            rect(&mut rgb, width, [x0 * scale, y0 * scale + offset, x1 * scale, y1 * scale + offset]);
+        }
+        for y in 115..145 {
+            let x = 10 + (y + shift) % 4 * 15;
+            rect(&mut rgb, width, [x * scale, y * scale + offset, (x + 8) * scale, (y + 1) * scale + offset]);
+        }
+        let bands = detect_textline_bands_naive(&rgb, width, height, 220);
+        proptest::prop_assert_eq!(bands.len(), 3, "scale={} offset={}: {:?}", scale, offset, bands);
+        proptest::prop_assert_eq!(&bands, &detect_textline_bands_fast(&rgb, width, height, 220));
+        proptest::prop_assert!(bands[2][1] <= 100 * scale + offset && bands[2][3] >= 175 * scale + offset);
+        proptest::prop_assert!(bands[2][0] <= 40 * scale && bands[2][2] >= 280 * scale);
+    }
+}
+
+/// 実フォントの短い横画を追加分割せず、元の下側領域を保持する。
+#[test]
+fn mixed_font_height_preserves_existing_lower_region() {
+    let image = ndlocr_lite_rs::io::load_rgb_u8(std::path::Path::new(
+        "tests/fixtures/noisy_line_gaps/mixed_height.png",
+    ))
+    .unwrap();
+    let bands = detect_textline_bands_naive(&image.data, image.width, image.height, 220);
+    assert_eq!(
+        bands,
+        vec![
+            [40, 27, 263, 56],
+            [40, 87, 263, 116],
+            [68, 229, 912, 271],
+            [56, 296, 926, 372],
+        ]
+    );
+    assert_eq!(
+        bands,
+        detect_textline_bands_fast(&image.data, image.width, image.height, 220)
+    );
+}

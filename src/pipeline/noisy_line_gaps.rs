@@ -51,6 +51,12 @@ pub(super) fn separate_noisy_line_gaps(
             if cut - previous < scale / 2 || end - cut < scale / 2 {
                 continue;
             }
+            let minimum_ink_height = scale - scale / 4;
+            if !has_body_height(&row_ink[previous..cut], density_limit, minimum_ink_height)
+                || !has_body_height(&row_ink[cut..end], density_limit, minimum_ink_height)
+            {
+                continue;
+            }
             let top = cut.saturating_sub(scale / 4).max(start);
             let bottom = (cut + scale / 4).min(end);
             let Some(components) =
@@ -70,6 +76,22 @@ pub(super) fn separate_noisy_line_gaps(
         result.push((previous, end));
     }
     result
+}
+
+/// 疎な汚れや空白を含めず、本文相当の連続したインク高があるかを調べる。
+fn has_body_height(rows: &[usize], density_limit: usize, minimum_height: usize) -> bool {
+    let mut run = 0;
+    for &ink in rows {
+        if ink > density_limit {
+            run += 1;
+            if run >= minimum_height {
+                return true;
+            }
+        } else {
+            run = 0;
+        }
+    }
+    false
 }
 
 #[cfg(test)]
