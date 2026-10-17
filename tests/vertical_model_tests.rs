@@ -1,0 +1,118 @@
+#![cfg(feature = "onnx")]
+
+use ndlocr_lite_rs::{
+    infer::{cached::ParseqSession, parseq::ParseqOrientation},
+    io::RgbImageData,
+    pipeline::{
+        crop::{BBox, crop_rgb_u8},
+        line_chunks::{crop_line_chunk_rgb_u8, split_line_for_input},
+        line_segment::detect_textline_bands_naive,
+        paper_background::normalize_paper_shading,
+        vertical_segment::detect_vertical_textline_columns,
+    },
+};
+
+/// 空白・句読点・列区切りを維持するUnicodeスカラー単位の距離。
+fn edit_distance(expected: &str, actual: &str) -> usize {
+    let actual: Vec<_> = actual.chars().collect();
+    let mut row: Vec<_> = (0..=actual.len()).collect();
+    for (i, a) in expected.chars().enumerate() {
+        let mut diagonal = row[0];
+        row[0] = i + 1;
+        for (j, &b) in actual.iter().enumerate() {
+            let previous = row[j + 1];
+            row[j + 1] = (row[j] + 1)
+                .min(previous + 1)
+                .min(diagonal + usize::from(a != b));
+            diagonal = previous;
+        }
+    }
+    row[actual.len()]
+}
+
+/// 現在の横書き検出・分割・Horizontal推論を同じ画素で評価する。
+fn horizontal_baseline(session: &ParseqSession, im: &RgbImageData) -> Result<String, String> {
+    let (iw, ih) = session.input_dimensions();
+    let mut lines = Vec::new();
+    for [x0, y0, x1, y1] in detect_textline_bands_naive(&im.data, im.width, im.height, 220) {
+        let crop = crop_rgb_u8(&im.data, im.width, im.height, BBox::new(x0, y0, x1, y1)).unwrap();
+        let chunks = split_line_for_input(&crop.data, crop.width, crop.height, 220, iw, ih)?;
+        let mut text = String::new();
+        for (i, chunk) in chunks.iter().enumerate() {
+            let part =
+                crop_line_chunk_rgb_u8(&crop.data, crop.width, crop.height, &chunks, i).unwrap();
+            let result = session
+                .recognize_rgb_u8_unprocessed_with_orientation(
+                    &part.data,
+                    part.width,
+                    part.height,
+                    ParseqOrientation::Horizontal,
+                )
+                .unwrap();
+            if chunk.insert_space_before(&text, &result.text, crop.height) {
+                text.push(' ');
+            }
+            text.push_str(&result.text);
+        }
+        lines.push(text);
+    }
+    Ok(lines.join("\n"))
+}
+
+/// 先行固定した6列と原文で、横書き経路からの全文改善を検証する。
+#[test]
+#[ignore = "requires fixed PARSeq assets"]
+fn explicit_vertical_columns_improve_frozen_full_page_truth() {
+    let session = ParseqSession::load(
+        std::path::Path::new(&std::env::var("NDLOCR_TEST_PARSEQ_MODEL").unwrap()),
+        std::path::Path::new(&std::env::var("NDLOCR_TEST_CHARSET").unwrap()),
+    )
+    .unwrap();
+    let mut im = ndlocr_lite_rs::io::load_rgb_u8(std::path::Path::new(
+        "tests/fixtures/vertical_handwriting/page.png",
+    ))
+    .unwrap();
+    let truth = include_str!("fixtures/vertical_handwriting/truth.txt")
+        .strip_suffix('\n')
+        .unwrap();
+    assert_eq!((truth.lines().count(), truth.chars().count()), (6, 83));
+    let raw = horizontal_baseline(&session, &im).unwrap();
+    let raw_errors = edit_distance(truth, &raw);
+    eprintln!("RAW HORIZONTAL {raw_errors}/83: {raw:?}");
+    im.data = normalize_paper_shading(&im.data, im.width, im.height)
+        .unwrap()
+        .into_owned();
+    let horizontal = horizontal_baseline(&session, &im);
+    let horizontal_errors = horizontal
+        .as_ref()
+        .ok()
+        .map(|text| edit_distance(truth, text));
+    eprintln!("PREPARED HORIZONTAL {horizontal_errors:?}/83: {horizontal:?}");
+    let columns = detect_vertical_textline_columns(&im.data, im.width, im.height, 220).unwrap();
+    let mut lines = Vec::new();
+    for &[x0, y0, x1, y1] in &columns {
+        let crop = crop_rgb_u8(&im.data, im.width, im.height, BBox::new(x0, y0, x1, y1)).unwrap();
+        let result = session
+            .recognize_rgb_u8_unprocessed_with_orientation(
+                &crop.data,
+                crop.width,
+                crop.height,
+                ParseqOrientation::Auto,
+            )
+            .unwrap();
+        lines.push(result.text);
+    }
+    let actual = lines.join("\n");
+    let errors = edit_distance(truth, &actual);
+    eprintln!("PREPARED VERTICAL {errors}/83: {actual:?}");
+    assert_eq!(columns.len(), 6);
+    assert!(errors < raw_errors);
+    if let Some(horizontal_errors) = horizontal_errors {
+        assert!(errors < horizontal_errors);
+    }
+    assert!(
+        lines[0].ends_with('。'),
+        "must retain the first column period"
+    );
+    assert!(errors < 9, "must improve the fixed 9/83 vertical baseline");
+}

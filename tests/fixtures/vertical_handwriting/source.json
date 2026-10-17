@@ -1,0 +1,17 @@
+{
+  "source_url": "https://raw.githubusercontent.com/ndl-lab/ndlocr-lite/d001dad2013ceabb5736ff8d637474e443eb73c2/resource/tategaki2026-04-24-094138.png",
+  "image_sha256": "de23150f486655691b8e85f211f760c95610a2e12a4cdcec4e92c7a657d1b62a",
+  "attribution": "National Diet Library, ndl-lab/ndlocr-lite resource; repository CC BY 4.0, https://github.com/ndl-lab/ndlocr-lite/blob/d001dad2013ceabb5736ff8d637474e443eb73c2/LICENCE",
+  "image_modified": false,
+  "truth_method": "Manual visual transcription before first inference. Six columns, right to left, top to bottom. No upstream XML or canonical text used. Preserve 山ぎは/やみ/なほ/蛍 as written.",
+  "truth_sha256": "7bbf9503ca8d7299162b17ddc34f4b5277bf3b8644df4be05784ef7c0a46a3ae",
+  "characters_excluding_final_newline": 83,
+  "frozen_at_utc": "2026-10-17T09:10:05.929270+00:00",
+  "baseline_library_sha": "47e32e6acf5838ee5c0c9a3ce859a469f8ee0221",
+  "expectation": {
+    "columns": 6,
+    "order": "right-to-left",
+    "recognition": "Strict Unicode edit distance including spaces/punctuation/column breaks; require fewer edits than same-image horizontal baseline. No model text replacement. Paper normalization remains opt-in."
+  },
+  "limitations": "Public upstream example may overlap model training. Development sample, not an unseen-model or production acceptance claim."
+}

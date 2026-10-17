@@ -14,3 +14,5 @@ pub mod paper_background;
 mod punctuation_bands;
 pub mod reading_order;
 pub mod run_page;
+/// 既知の縦書きページを元座標の右から左の列へ分ける。
+pub mod vertical_segment;
