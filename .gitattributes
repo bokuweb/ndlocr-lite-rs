@@ -1,0 +1,2 @@
+# Preserve frozen full-page truth bytes on Windows as well.
+/tests/fixtures/vertical_handwriting/truth.txt text eol=lf

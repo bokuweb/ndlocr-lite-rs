@@ -36,3 +36,7 @@ cargo test --locked --features onnx --test vertical_model_tests -- --ignored --n
 ## 現在の結果
 
 転置による列検出は6列、厳密距離4/83。残りは「ぎ→き」「か→が」と句点2個の欠落。モデル入力・デコード・文字置換は変更していない。通常回帰と実ONNX回帰をCIに追加する。
+
+## Windows checkoutの原文固定
+
+Windows CIではGitのautocrlfにより原文LFがCRLFへ変換され、列数6は一致するが83文字の期待が89文字となって失敗した。原文と評価器で改行を除去・正規化するのではなく、このfixtureだけを `.gitattributes` の `text eol=lf` で固定する。元の原文hash・83文字ゲート・生出力は変えない。autocrlf=trueでのcheckoutでもLFだけが残ることを検証する。
