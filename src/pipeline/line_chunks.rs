@@ -19,6 +19,9 @@ mod leading_marks;
 /// 孤立した行頭小記号の認識文脈を維持する。
 mod leading_symbols;
 
+/// 分離された下側の小画線を直前の本文へ戻す。
+mod trailing_symbols;
+
 /// 孤立した上下の小画線だけを前の単語へ戻す。
 mod punctuation_tails;
 
@@ -238,6 +241,14 @@ pub fn split_line_for_input(
     merge_rotated_word_fragments(&mut chunks, &gaps, height, input_width, input_height);
     style_transitions::split_style_transitions(rgb, width, height, threshold, &mut chunks, &gaps);
     leading_symbols::restore_leading_symbol(
+        rgb,
+        (width, height),
+        threshold,
+        &mut chunks,
+        &gaps,
+        (input_width, input_height),
+    );
+    trailing_symbols::restore_trailing_lower_mark(
         rgb,
         (width, height),
         threshold,

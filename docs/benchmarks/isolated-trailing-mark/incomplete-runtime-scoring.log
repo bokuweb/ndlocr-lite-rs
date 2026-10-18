@@ -1,0 +1,7 @@
+after completed 206
+Traceback (most recent call last):
+  File "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/dense-crop/evaluate.py", line 33, in <module>
+    subprocess.run(['python3','tools/eval_ocr_metrics.py','--truth-dir',str(r/'truth'),'--system','before='+str(r/'before'/mode),'--system','after='+str(r/'after'/mode),'--normalize',norm,'--require-all','--output-csv',str(r/(stem+'.csv')),'--output-md',str(r/(stem+'.md'))],check=True,capture_output=True)
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 528, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['python3', 'tools/eval_ocr_metrics.py', '--truth-dir', 'tmp/dense-crop/truth', '--system', 'before=tmp/dense-crop/before/runtime100', '--system', 'after=tmp/dense-crop/after/runtime100', '--normalize', 'none', '--require-all', '--output-csv', 'tmp/dense-crop/runtime100-none.csv', '--output-md', 'tmp/dense-crop/runtime100-none.md']' returned non-zero exit status 2.

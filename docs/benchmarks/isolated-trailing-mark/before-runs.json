@@ -1,0 +1,1247 @@
+{
+  "binary_sha256": "06f6950aa9f071d249daec573b52c4e619b03c9713d2290def23cdee4b223f67",
+  "runs": [
+    {
+      "reused": "docs/benchmarks/dense-line/after/deim/library_gothic24.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/bands/library_gothic24.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/deim/observations_gothic24.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/bands/observations_gothic24.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/deim/japanese_gothic24.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/bands/japanese_gothic24.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/deim/uri_gothic24.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/bands/uri_gothic24.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/deim/control_en_gothic24.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/bands/control_en_gothic24.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/deim/control_ja_gothic24.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/bands/control_ja_gothic24.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/deim/library_gothic36.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/bands/library_gothic36.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/deim/observations_gothic36.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/bands/observations_gothic36.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/deim/japanese_gothic36.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/bands/japanese_gothic36.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/deim/uri_gothic36.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/bands/uri_gothic36.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/deim/control_en_gothic36.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/bands/control_en_gothic36.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/deim/control_ja_gothic36.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/bands/control_ja_gothic36.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/deim/library_mincho24.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/bands/library_mincho24.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/deim/observations_mincho24.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/bands/observations_mincho24.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/deim/japanese_mincho24.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/bands/japanese_mincho24.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/deim/uri_mincho24.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/bands/uri_mincho24.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/deim/control_en_mincho24.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/bands/control_en_mincho24.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/deim/control_ja_mincho24.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/bands/control_ja_mincho24.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/deim/library_mincho36.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/bands/library_mincho36.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/deim/observations_mincho36.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/bands/observations_mincho36.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/deim/japanese_mincho36.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/bands/japanese_mincho36.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/deim/uri_mincho36.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/bands/uri_mincho36.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/deim/control_en_mincho36.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/bands/control_en_mincho36.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/deim/control_ja_mincho36.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/bands/control_ja_mincho36.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/deim/paragraph_raw.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/bands/paragraph_raw.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/deim/paragraph_normalized.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/bands/paragraph_normalized.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/deim/jma_climate_2025.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/bands/jma_climate_2025.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/deim/jma_kobe_notice.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/bands/jma_kobe_notice.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/deim/ndl_accessibility_p2.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/bands/ndl_accessibility_p2.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/deim/ndl_logo_ja.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/bands/ndl_logo_ja.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/deim/scaned0.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/bands/scaned0.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/deim/jma_climate_2025_half.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/bands/jma_climate_2025_half.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/deim/jma_climate_2025_jpeg75.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/bands/jma_climate_2025_jpeg75.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/deim/jma_climate_2025_jpeg90.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/bands/jma_climate_2025_jpeg90.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/deim/jma_kobe_notice_half.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/bands/jma_kobe_notice_half.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/deim/jma_kobe_notice_jpeg75.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/bands/jma_kobe_notice_jpeg75.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/deim/jma_kobe_notice_jpeg90.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/bands/jma_kobe_notice_jpeg90.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/deim/ndl_accessibility_p2_half.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/bands/ndl_accessibility_p2_half.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/deim/ndl_accessibility_p2_jpeg75.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/bands/ndl_accessibility_p2_jpeg75.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/deim/ndl_accessibility_p2_jpeg90.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/bands/ndl_accessibility_p2_jpeg90.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/deim/ndl_logo_ja_half.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/bands/ndl_logo_ja_half.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/deim/ndl_logo_ja_jpeg75.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/bands/ndl_logo_ja_jpeg75.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/deim/ndl_logo_ja_jpeg90.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/bands/ndl_logo_ja_jpeg90.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/deim/scaned0_half.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/bands/scaned0_half.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/deim/scaned0_jpeg75.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/bands/scaned0_jpeg75.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/deim/scaned0_jpeg90.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/bands/scaned0_jpeg90.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/deim/dense_library_maru24_original.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/bands/dense_library_maru24_original.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/deim/dense_library_maru24_jpeg75.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/bands/dense_library_maru24_jpeg75.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/deim/dense_library_maru24_half.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/bands/dense_library_maru24_half.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/deim/dense_observations_maru24_original.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/bands/dense_observations_maru24_original.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/deim/dense_observations_maru24_jpeg75.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/bands/dense_observations_maru24_jpeg75.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/deim/dense_observations_maru24_half.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/bands/dense_observations_maru24_half.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/deim/dense_library_maru36_original.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/bands/dense_library_maru36_original.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/deim/dense_library_maru36_jpeg75.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/bands/dense_library_maru36_jpeg75.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/deim/dense_library_maru36_half.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/bands/dense_library_maru36_half.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/deim/dense_observations_maru36_original.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/bands/dense_observations_maru36_original.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/deim/dense_observations_maru36_jpeg75.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/bands/dense_observations_maru36_jpeg75.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/deim/dense_observations_maru36_half.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/bands/dense_observations_maru36_half.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/deim/dense_library_bold24_original.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/bands/dense_library_bold24_original.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/deim/dense_library_bold24_jpeg75.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/bands/dense_library_bold24_jpeg75.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/deim/dense_library_bold24_half.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/bands/dense_library_bold24_half.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/deim/dense_observations_bold24_original.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/bands/dense_observations_bold24_original.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/deim/dense_observations_bold24_jpeg75.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/bands/dense_observations_bold24_jpeg75.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/deim/dense_observations_bold24_half.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/bands/dense_observations_bold24_half.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/deim/dense_library_bold36_original.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/bands/dense_library_bold36_original.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/deim/dense_library_bold36_jpeg75.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/bands/dense_library_bold36_jpeg75.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/deim/dense_library_bold36_half.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/bands/dense_library_bold36_half.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/deim/dense_observations_bold36_original.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/bands/dense_observations_bold36_original.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/deim/dense_observations_bold36_jpeg75.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/bands/dense_observations_bold36_jpeg75.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/deim/dense_observations_bold36_half.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/bands/dense_observations_bold36_half.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/deim/dense_blank.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/bands/dense_blank.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/deim/dense_rule.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/bands/dense_rule.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/deim/dense_solid.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/bands/dense_solid.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/deim/dense_speckles.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/bands/dense_speckles.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/deim/dense_horizontal_marks.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/bands/dense_horizontal_marks.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/deim/dense_vertical_bars.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/bands/dense_vertical_bars.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/deim/dense_spaced_short.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/bands/dense_spaced_short.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/deim/dense_repeated_i.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/bands/dense_repeated_i.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/deim/dense_repeated_digits.txt"
+    },
+    {
+      "reused": "docs/benchmarks/dense-line/after/bands/dense_repeated_digits.txt"
+    },
+    {
+      "argv": [
+        "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/dense-line/candidate-ndlocr",
+        "recognize-page",
+        "--image",
+        "tests/fixtures/dense_crop/images/ja_thin20_pad0.png",
+        "--charset",
+        "models/NDLmoji.yaml",
+        "--use-deim-detection",
+        "true",
+        "--output-txt",
+        "tmp/dense-crop/before/deim/crop_ja_thin20_pad0.txt"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 10.419978916
+    },
+    {
+      "argv": [
+        "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/dense-line/candidate-ndlocr",
+        "recognize-page",
+        "--image",
+        "tests/fixtures/dense_crop/images/ja_thin20_pad0.png",
+        "--charset",
+        "models/NDLmoji.yaml",
+        "--use-deim-detection",
+        "false",
+        "--output-txt",
+        "tmp/dense-crop/before/bands/crop_ja_thin20_pad0.txt"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 8.0748625
+    },
+    {
+      "argv": [
+        "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/dense-line/candidate-ndlocr",
+        "recognize-page",
+        "--image",
+        "tests/fixtures/dense_crop/images/ja_thin20_pad0_jpeg75.jpg",
+        "--charset",
+        "models/NDLmoji.yaml",
+        "--use-deim-detection",
+        "true",
+        "--output-txt",
+        "tmp/dense-crop/before/deim/crop_ja_thin20_pad0_jpeg75.txt"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 10.480928792
+    },
+    {
+      "argv": [
+        "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/dense-line/candidate-ndlocr",
+        "recognize-page",
+        "--image",
+        "tests/fixtures/dense_crop/images/ja_thin20_pad0_jpeg75.jpg",
+        "--charset",
+        "models/NDLmoji.yaml",
+        "--use-deim-detection",
+        "false",
+        "--output-txt",
+        "tmp/dense-crop/before/bands/crop_ja_thin20_pad0_jpeg75.txt"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 7.390305417
+    },
+    {
+      "argv": [
+        "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/dense-line/candidate-ndlocr",
+        "recognize-page",
+        "--image",
+        "tests/fixtures/dense_crop/images/ja_thin20_pad6.png",
+        "--charset",
+        "models/NDLmoji.yaml",
+        "--use-deim-detection",
+        "true",
+        "--output-txt",
+        "tmp/dense-crop/before/deim/crop_ja_thin20_pad6.txt"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 8.657465541999999
+    },
+    {
+      "argv": [
+        "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/dense-line/candidate-ndlocr",
+        "recognize-page",
+        "--image",
+        "tests/fixtures/dense_crop/images/ja_thin20_pad6.png",
+        "--charset",
+        "models/NDLmoji.yaml",
+        "--use-deim-detection",
+        "false",
+        "--output-txt",
+        "tmp/dense-crop/before/bands/crop_ja_thin20_pad6.txt"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 7.074045249999999
+    },
+    {
+      "argv": [
+        "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/dense-line/candidate-ndlocr",
+        "recognize-page",
+        "--image",
+        "tests/fixtures/dense_crop/images/en_thin20_pad0.png",
+        "--charset",
+        "models/NDLmoji.yaml",
+        "--use-deim-detection",
+        "true",
+        "--output-txt",
+        "tmp/dense-crop/before/deim/crop_en_thin20_pad0.txt"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 9.377924667000002
+    },
+    {
+      "argv": [
+        "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/dense-line/candidate-ndlocr",
+        "recognize-page",
+        "--image",
+        "tests/fixtures/dense_crop/images/en_thin20_pad0.png",
+        "--charset",
+        "models/NDLmoji.yaml",
+        "--use-deim-detection",
+        "false",
+        "--output-txt",
+        "tmp/dense-crop/before/bands/crop_en_thin20_pad0.txt"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 6.996607834000002
+    },
+    {
+      "argv": [
+        "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/dense-line/candidate-ndlocr",
+        "recognize-page",
+        "--image",
+        "tests/fixtures/dense_crop/images/en_thin20_pad0_jpeg75.jpg",
+        "--charset",
+        "models/NDLmoji.yaml",
+        "--use-deim-detection",
+        "true",
+        "--output-txt",
+        "tmp/dense-crop/before/deim/crop_en_thin20_pad0_jpeg75.txt"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 7.205075917000002
+    },
+    {
+      "argv": [
+        "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/dense-line/candidate-ndlocr",
+        "recognize-page",
+        "--image",
+        "tests/fixtures/dense_crop/images/en_thin20_pad0_jpeg75.jpg",
+        "--charset",
+        "models/NDLmoji.yaml",
+        "--use-deim-detection",
+        "false",
+        "--output-txt",
+        "tmp/dense-crop/before/bands/crop_en_thin20_pad0_jpeg75.txt"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 7.472605291000001
+    },
+    {
+      "argv": [
+        "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/dense-line/candidate-ndlocr",
+        "recognize-page",
+        "--image",
+        "tests/fixtures/dense_crop/images/en_thin20_pad6.png",
+        "--charset",
+        "models/NDLmoji.yaml",
+        "--use-deim-detection",
+        "true",
+        "--output-txt",
+        "tmp/dense-crop/before/deim/crop_en_thin20_pad6.txt"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 8.488630375
+    },
+    {
+      "argv": [
+        "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/dense-line/candidate-ndlocr",
+        "recognize-page",
+        "--image",
+        "tests/fixtures/dense_crop/images/en_thin20_pad6.png",
+        "--charset",
+        "models/NDLmoji.yaml",
+        "--use-deim-detection",
+        "false",
+        "--output-txt",
+        "tmp/dense-crop/before/bands/crop_en_thin20_pad6.txt"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 7.2071362090000015
+    },
+    {
+      "argv": [
+        "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/dense-line/candidate-ndlocr",
+        "recognize-page",
+        "--image",
+        "tests/fixtures/dense_crop/images/ja_thin40_pad0.png",
+        "--charset",
+        "models/NDLmoji.yaml",
+        "--use-deim-detection",
+        "true",
+        "--output-txt",
+        "tmp/dense-crop/before/deim/crop_ja_thin40_pad0.txt"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 9.307223999999998
+    },
+    {
+      "argv": [
+        "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/dense-line/candidate-ndlocr",
+        "recognize-page",
+        "--image",
+        "tests/fixtures/dense_crop/images/ja_thin40_pad0.png",
+        "--charset",
+        "models/NDLmoji.yaml",
+        "--use-deim-detection",
+        "false",
+        "--output-txt",
+        "tmp/dense-crop/before/bands/crop_ja_thin40_pad0.txt"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 6.9784088749999995
+    },
+    {
+      "argv": [
+        "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/dense-line/candidate-ndlocr",
+        "recognize-page",
+        "--image",
+        "tests/fixtures/dense_crop/images/ja_thin40_pad0_jpeg75.jpg",
+        "--charset",
+        "models/NDLmoji.yaml",
+        "--use-deim-detection",
+        "true",
+        "--output-txt",
+        "tmp/dense-crop/before/deim/crop_ja_thin40_pad0_jpeg75.txt"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 9.007293791999999
+    },
+    {
+      "argv": [
+        "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/dense-line/candidate-ndlocr",
+        "recognize-page",
+        "--image",
+        "tests/fixtures/dense_crop/images/ja_thin40_pad0_jpeg75.jpg",
+        "--charset",
+        "models/NDLmoji.yaml",
+        "--use-deim-detection",
+        "false",
+        "--output-txt",
+        "tmp/dense-crop/before/bands/crop_ja_thin40_pad0_jpeg75.txt"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 6.830743874999996
+    },
+    {
+      "argv": [
+        "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/dense-line/candidate-ndlocr",
+        "recognize-page",
+        "--image",
+        "tests/fixtures/dense_crop/images/ja_thin40_pad6.png",
+        "--charset",
+        "models/NDLmoji.yaml",
+        "--use-deim-detection",
+        "true",
+        "--output-txt",
+        "tmp/dense-crop/before/deim/crop_ja_thin40_pad6.txt"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 9.400852792000002
+    },
+    {
+      "argv": [
+        "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/dense-line/candidate-ndlocr",
+        "recognize-page",
+        "--image",
+        "tests/fixtures/dense_crop/images/ja_thin40_pad6.png",
+        "--charset",
+        "models/NDLmoji.yaml",
+        "--use-deim-detection",
+        "false",
+        "--output-txt",
+        "tmp/dense-crop/before/bands/crop_ja_thin40_pad6.txt"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 6.990219750000001
+    },
+    {
+      "argv": [
+        "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/dense-line/candidate-ndlocr",
+        "recognize-page",
+        "--image",
+        "tests/fixtures/dense_crop/images/en_thin40_pad0.png",
+        "--charset",
+        "models/NDLmoji.yaml",
+        "--use-deim-detection",
+        "true",
+        "--output-txt",
+        "tmp/dense-crop/before/deim/crop_en_thin40_pad0.txt"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 9.719414792000002
+    },
+    {
+      "argv": [
+        "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/dense-line/candidate-ndlocr",
+        "recognize-page",
+        "--image",
+        "tests/fixtures/dense_crop/images/en_thin40_pad0.png",
+        "--charset",
+        "models/NDLmoji.yaml",
+        "--use-deim-detection",
+        "false",
+        "--output-txt",
+        "tmp/dense-crop/before/bands/crop_en_thin40_pad0.txt"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 7.440797959000001
+    },
+    {
+      "argv": [
+        "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/dense-line/candidate-ndlocr",
+        "recognize-page",
+        "--image",
+        "tests/fixtures/dense_crop/images/en_thin40_pad0_jpeg75.jpg",
+        "--charset",
+        "models/NDLmoji.yaml",
+        "--use-deim-detection",
+        "true",
+        "--output-txt",
+        "tmp/dense-crop/before/deim/crop_en_thin40_pad0_jpeg75.txt"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 8.438063249999999
+    },
+    {
+      "argv": [
+        "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/dense-line/candidate-ndlocr",
+        "recognize-page",
+        "--image",
+        "tests/fixtures/dense_crop/images/en_thin40_pad0_jpeg75.jpg",
+        "--charset",
+        "models/NDLmoji.yaml",
+        "--use-deim-detection",
+        "false",
+        "--output-txt",
+        "tmp/dense-crop/before/bands/crop_en_thin40_pad0_jpeg75.txt"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 4.699285000000003
+    },
+    {
+      "argv": [
+        "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/dense-line/candidate-ndlocr",
+        "recognize-page",
+        "--image",
+        "tests/fixtures/dense_crop/images/en_thin40_pad6.png",
+        "--charset",
+        "models/NDLmoji.yaml",
+        "--use-deim-detection",
+        "true",
+        "--output-txt",
+        "tmp/dense-crop/before/deim/crop_en_thin40_pad6.txt"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 4.617267417000001
+    },
+    {
+      "argv": [
+        "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/dense-line/candidate-ndlocr",
+        "recognize-page",
+        "--image",
+        "tests/fixtures/dense_crop/images/en_thin40_pad6.png",
+        "--charset",
+        "models/NDLmoji.yaml",
+        "--use-deim-detection",
+        "false",
+        "--output-txt",
+        "tmp/dense-crop/before/bands/crop_en_thin40_pad6.txt"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 4.683579541999997
+    },
+    {
+      "argv": [
+        "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/dense-line/candidate-ndlocr",
+        "recognize-page",
+        "--image",
+        "tests/fixtures/dense_crop/images/ja_heavy20_pad0.png",
+        "--charset",
+        "models/NDLmoji.yaml",
+        "--use-deim-detection",
+        "true",
+        "--output-txt",
+        "tmp/dense-crop/before/deim/crop_ja_heavy20_pad0.txt"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 6.264804916999999
+    },
+    {
+      "argv": [
+        "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/dense-line/candidate-ndlocr",
+        "recognize-page",
+        "--image",
+        "tests/fixtures/dense_crop/images/ja_heavy20_pad0.png",
+        "--charset",
+        "models/NDLmoji.yaml",
+        "--use-deim-detection",
+        "false",
+        "--output-txt",
+        "tmp/dense-crop/before/bands/crop_ja_heavy20_pad0.txt"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 4.974270208
+    },
+    {
+      "argv": [
+        "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/dense-line/candidate-ndlocr",
+        "recognize-page",
+        "--image",
+        "tests/fixtures/dense_crop/images/ja_heavy20_pad0_jpeg75.jpg",
+        "--charset",
+        "models/NDLmoji.yaml",
+        "--use-deim-detection",
+        "true",
+        "--output-txt",
+        "tmp/dense-crop/before/deim/crop_ja_heavy20_pad0_jpeg75.txt"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 4.836854958999993
+    },
+    {
+      "argv": [
+        "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/dense-line/candidate-ndlocr",
+        "recognize-page",
+        "--image",
+        "tests/fixtures/dense_crop/images/ja_heavy20_pad0_jpeg75.jpg",
+        "--charset",
+        "models/NDLmoji.yaml",
+        "--use-deim-detection",
+        "false",
+        "--output-txt",
+        "tmp/dense-crop/before/bands/crop_ja_heavy20_pad0_jpeg75.txt"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 4.798744041999996
+    },
+    {
+      "argv": [
+        "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/dense-line/candidate-ndlocr",
+        "recognize-page",
+        "--image",
+        "tests/fixtures/dense_crop/images/ja_heavy20_pad6.png",
+        "--charset",
+        "models/NDLmoji.yaml",
+        "--use-deim-detection",
+        "true",
+        "--output-txt",
+        "tmp/dense-crop/before/deim/crop_ja_heavy20_pad6.txt"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 5.526182333999998
+    },
+    {
+      "argv": [
+        "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/dense-line/candidate-ndlocr",
+        "recognize-page",
+        "--image",
+        "tests/fixtures/dense_crop/images/ja_heavy20_pad6.png",
+        "--charset",
+        "models/NDLmoji.yaml",
+        "--use-deim-detection",
+        "false",
+        "--output-txt",
+        "tmp/dense-crop/before/bands/crop_ja_heavy20_pad6.txt"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 4.863634750000003
+    },
+    {
+      "argv": [
+        "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/dense-line/candidate-ndlocr",
+        "recognize-page",
+        "--image",
+        "tests/fixtures/dense_crop/images/en_heavy20_pad0.png",
+        "--charset",
+        "models/NDLmoji.yaml",
+        "--use-deim-detection",
+        "true",
+        "--output-txt",
+        "tmp/dense-crop/before/deim/crop_en_heavy20_pad0.txt"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 6.1837869160000025
+    },
+    {
+      "argv": [
+        "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/dense-line/candidate-ndlocr",
+        "recognize-page",
+        "--image",
+        "tests/fixtures/dense_crop/images/en_heavy20_pad0.png",
+        "--charset",
+        "models/NDLmoji.yaml",
+        "--use-deim-detection",
+        "false",
+        "--output-txt",
+        "tmp/dense-crop/before/bands/crop_en_heavy20_pad0.txt"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 5.070366167000003
+    },
+    {
+      "argv": [
+        "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/dense-line/candidate-ndlocr",
+        "recognize-page",
+        "--image",
+        "tests/fixtures/dense_crop/images/en_heavy20_pad0_jpeg75.jpg",
+        "--charset",
+        "models/NDLmoji.yaml",
+        "--use-deim-detection",
+        "true",
+        "--output-txt",
+        "tmp/dense-crop/before/deim/crop_en_heavy20_pad0_jpeg75.txt"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 6.2406382089999966
+    },
+    {
+      "argv": [
+        "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/dense-line/candidate-ndlocr",
+        "recognize-page",
+        "--image",
+        "tests/fixtures/dense_crop/images/en_heavy20_pad0_jpeg75.jpg",
+        "--charset",
+        "models/NDLmoji.yaml",
+        "--use-deim-detection",
+        "false",
+        "--output-txt",
+        "tmp/dense-crop/before/bands/crop_en_heavy20_pad0_jpeg75.txt"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 4.9610720000000015
+    },
+    {
+      "argv": [
+        "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/dense-line/candidate-ndlocr",
+        "recognize-page",
+        "--image",
+        "tests/fixtures/dense_crop/images/en_heavy20_pad6.png",
+        "--charset",
+        "models/NDLmoji.yaml",
+        "--use-deim-detection",
+        "true",
+        "--output-txt",
+        "tmp/dense-crop/before/deim/crop_en_heavy20_pad6.txt"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 6.031091958000005
+    },
+    {
+      "argv": [
+        "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/dense-line/candidate-ndlocr",
+        "recognize-page",
+        "--image",
+        "tests/fixtures/dense_crop/images/en_heavy20_pad6.png",
+        "--charset",
+        "models/NDLmoji.yaml",
+        "--use-deim-detection",
+        "false",
+        "--output-txt",
+        "tmp/dense-crop/before/bands/crop_en_heavy20_pad6.txt"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 5.151381333000003
+    },
+    {
+      "argv": [
+        "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/dense-line/candidate-ndlocr",
+        "recognize-page",
+        "--image",
+        "tests/fixtures/dense_crop/images/ja_heavy40_pad0.png",
+        "--charset",
+        "models/NDLmoji.yaml",
+        "--use-deim-detection",
+        "true",
+        "--output-txt",
+        "tmp/dense-crop/before/deim/crop_ja_heavy40_pad0.txt"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 5.150896750000001
+    },
+    {
+      "argv": [
+        "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/dense-line/candidate-ndlocr",
+        "recognize-page",
+        "--image",
+        "tests/fixtures/dense_crop/images/ja_heavy40_pad0.png",
+        "--charset",
+        "models/NDLmoji.yaml",
+        "--use-deim-detection",
+        "false",
+        "--output-txt",
+        "tmp/dense-crop/before/bands/crop_ja_heavy40_pad0.txt"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 3.579227207999992
+    },
+    {
+      "argv": [
+        "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/dense-line/candidate-ndlocr",
+        "recognize-page",
+        "--image",
+        "tests/fixtures/dense_crop/images/ja_heavy40_pad0_jpeg75.jpg",
+        "--charset",
+        "models/NDLmoji.yaml",
+        "--use-deim-detection",
+        "true",
+        "--output-txt",
+        "tmp/dense-crop/before/deim/crop_ja_heavy40_pad0_jpeg75.txt"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 4.907296833000004
+    },
+    {
+      "argv": [
+        "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/dense-line/candidate-ndlocr",
+        "recognize-page",
+        "--image",
+        "tests/fixtures/dense_crop/images/ja_heavy40_pad0_jpeg75.jpg",
+        "--charset",
+        "models/NDLmoji.yaml",
+        "--use-deim-detection",
+        "false",
+        "--output-txt",
+        "tmp/dense-crop/before/bands/crop_ja_heavy40_pad0_jpeg75.txt"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 3.6117995000000036
+    },
+    {
+      "argv": [
+        "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/dense-line/candidate-ndlocr",
+        "recognize-page",
+        "--image",
+        "tests/fixtures/dense_crop/images/ja_heavy40_pad6.png",
+        "--charset",
+        "models/NDLmoji.yaml",
+        "--use-deim-detection",
+        "true",
+        "--output-txt",
+        "tmp/dense-crop/before/deim/crop_ja_heavy40_pad6.txt"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 4.87803933299999
+    },
+    {
+      "argv": [
+        "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/dense-line/candidate-ndlocr",
+        "recognize-page",
+        "--image",
+        "tests/fixtures/dense_crop/images/ja_heavy40_pad6.png",
+        "--charset",
+        "models/NDLmoji.yaml",
+        "--use-deim-detection",
+        "false",
+        "--output-txt",
+        "tmp/dense-crop/before/bands/crop_ja_heavy40_pad6.txt"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 3.608680290999999
+    },
+    {
+      "argv": [
+        "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/dense-line/candidate-ndlocr",
+        "recognize-page",
+        "--image",
+        "tests/fixtures/dense_crop/images/en_heavy40_pad0.png",
+        "--charset",
+        "models/NDLmoji.yaml",
+        "--use-deim-detection",
+        "true",
+        "--output-txt",
+        "tmp/dense-crop/before/deim/crop_en_heavy40_pad0.txt"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 6.064071041999995
+    },
+    {
+      "argv": [
+        "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/dense-line/candidate-ndlocr",
+        "recognize-page",
+        "--image",
+        "tests/fixtures/dense_crop/images/en_heavy40_pad0.png",
+        "--charset",
+        "models/NDLmoji.yaml",
+        "--use-deim-detection",
+        "false",
+        "--output-txt",
+        "tmp/dense-crop/before/bands/crop_en_heavy40_pad0.txt"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 3.36685995900001
+    },
+    {
+      "argv": [
+        "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/dense-line/candidate-ndlocr",
+        "recognize-page",
+        "--image",
+        "tests/fixtures/dense_crop/images/en_heavy40_pad0_jpeg75.jpg",
+        "--charset",
+        "models/NDLmoji.yaml",
+        "--use-deim-detection",
+        "true",
+        "--output-txt",
+        "tmp/dense-crop/before/deim/crop_en_heavy40_pad0_jpeg75.txt"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 4.924263665999987
+    },
+    {
+      "argv": [
+        "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/dense-line/candidate-ndlocr",
+        "recognize-page",
+        "--image",
+        "tests/fixtures/dense_crop/images/en_heavy40_pad0_jpeg75.jpg",
+        "--charset",
+        "models/NDLmoji.yaml",
+        "--use-deim-detection",
+        "false",
+        "--output-txt",
+        "tmp/dense-crop/before/bands/crop_en_heavy40_pad0_jpeg75.txt"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 5.191020083999987
+    },
+    {
+      "argv": [
+        "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/dense-line/candidate-ndlocr",
+        "recognize-page",
+        "--image",
+        "tests/fixtures/dense_crop/images/en_heavy40_pad6.png",
+        "--charset",
+        "models/NDLmoji.yaml",
+        "--use-deim-detection",
+        "true",
+        "--output-txt",
+        "tmp/dense-crop/before/deim/crop_en_heavy40_pad6.txt"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 6.502069582999994
+    },
+    {
+      "argv": [
+        "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/dense-line/candidate-ndlocr",
+        "recognize-page",
+        "--image",
+        "tests/fixtures/dense_crop/images/en_heavy40_pad6.png",
+        "--charset",
+        "models/NDLmoji.yaml",
+        "--use-deim-detection",
+        "false",
+        "--output-txt",
+        "tmp/dense-crop/before/bands/crop_en_heavy40_pad6.txt"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 5.217965041999989
+    }
+  ]
+}

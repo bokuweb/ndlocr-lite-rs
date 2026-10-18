@@ -63,7 +63,7 @@ fn record_dense_page_runtime() {
             .unwrap();
             rows.push(serde_json::json!({"id":row["id"],"text":text,"lines":page.lines.iter().map(|l|serde_json::json!({"bbox":l.bbox_xyxy,"text":l.text,"confidence":l.confidence})).collect::<Vec<_>>()}));
         }
-        assert_eq!(rows.len(), 79);
+        assert_eq!(rows.len(), manifest["inputs"].as_array().unwrap().len());
         std::fs::write(
             directory.join("results.json"),
             serde_json::to_vec_pretty(&rows).unwrap(),
