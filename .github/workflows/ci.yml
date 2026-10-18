@@ -73,4 +73,6 @@ jobs:
       - name: Real lossless chunk margin sensitivity
         env:
           NDLOCR_INTRA_THREADS: "1"
-        run: cargo run --locked --features onnx --example probe_margin_sensitivity -- models/parseq-ndl-24x256-30-tiny-189epoch-tegaki3-r8data-202604.onnx models/NDLmoji.yaml tests/fixtures/margin_sensitivity margin-sensitivity.json
+        run: |
+          cargo test --locked --features onnx --example probe_margin_sensitivity --test margin_sensitivity_tests
+          cargo run --locked --features onnx --example probe_margin_sensitivity -- models/parseq-ndl-24x256-30-tiny-189epoch-tegaki3-r8data-202604.onnx models/NDLmoji.yaml tests/fixtures/margin_sensitivity margin-sensitivity.json
