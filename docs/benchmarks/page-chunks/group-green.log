@@ -1,0 +1,15 @@
+   Compiling ndlocr-lite-rs v0.1.0 (/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.34s
+     Running tests/native_chunk_group_tests.rs (target/debug/deps/native_chunk_group_tests-cc87193735e1d8e0)
+
+running 5 tests
+test merges_only_contiguous_chunks_up_to_actual_model_ratio ... ok
+test handles_exact_boundaries_and_unsplittable_wide_originals ... ok
+test rejects_invalid_geometry_and_orders ... ok
+test preserves_removed_white_gaps_and_boundary_metadata ... ok
+test groups_preserve_exact_pixel_column_coverage ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+mbx[cache]: 0 hits, 0 misses, 1 not looked up, 1 incremental; 0 B downloaded, 0 B uploaded, 0 B stored locally
+mbx[savings]: 102.9 GiB of target/ is an elaborate illusion. the disk is in on it.

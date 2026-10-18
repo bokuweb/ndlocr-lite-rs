@@ -1,0 +1,22 @@
+   Compiling ndlocr-lite-rs v0.1.0 (/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.33s
+     Running tests/native_chunk_group_tests.rs (target/debug/deps/native_chunk_group_tests-cc87193735e1d8e0)
+
+running 5 tests
+test preserves_removed_white_gaps_and_boundary_metadata ... ok
+test handles_exact_boundaries_and_unsplittable_wide_originals ... ok
+test merges_only_contiguous_chunks_up_to_actual_model_ratio ... ok
+test rejects_invalid_geometry_and_orders ... ok
+test groups_preserve_exact_pixel_column_coverage ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+     Running tests/page_chunk_probe_tests.rs (target/debug/deps/page_chunk_probe_tests-572edfd652ca6701)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+mbx[cache]: 0 hits, 0 misses, 1 not looked up, 1 incremental; 0 B downloaded, 0 B uploaded, 0 B stored locally
+mbx[gc]: evicted 0 objects and 0 action results (3.1 MiB logical); 23.0 GiB logical remain
+mbx[savings]: disposed of 1.3 TiB logical without being asked. that is rather the point.

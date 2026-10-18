@@ -1,0 +1,17 @@
+{
+  "pages": 40,
+  "regions": 730,
+  "eligible_regions": 410,
+  "split_regions": 402,
+  "fine_chunk_inferences": 2168,
+  "native_chunk_inferences": 804,
+  "cli_replay_files": 40,
+  "baseline_repeated_regions_with_identical_text_and_confidence": 730,
+  "comparisons_per_strategy": 120,
+  "regressing_comparisons": {
+    "fine": 63,
+    "native": 30,
+    "all100": 15
+  },
+  "production_changes": false
+}
