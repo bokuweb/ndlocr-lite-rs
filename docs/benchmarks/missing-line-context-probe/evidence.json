@@ -1,0 +1,33 @@
+{
+  "sha256": "8c2ca85769fdfc624b6831d6e96e645ffd56d720e2622774517fb4cec7b8bd78",
+  "members": {
+    "ci-bae38d3.json": "31a88225e0f4fb4d3b22aa8e8b8b5fc7ec4d8d893a2f1ad6ef2cfb7d60eb80f2",
+    "docs/benchmarks/missing-line-context-probe/summarize.py": "7f5348563f73f822be407985577a38654cb80004e1600f53dc821949d3ad7a98",
+    "docs/missing_line_context_probe.md": "b6d4c05efaf0664c7d207ac762f11c7688ab6b81ff2c49c9074ef67b8399adc6",
+    "final-tests.log": "67f51c7556174c613d77aeca3dbea132cd65d5a2f73fb174a8518b3dd954482f",
+    "green.log": "670ce9907dc0c96b1dd68fda4968c0d90566a1079c14d0d3353b09d2dc470dcb",
+    "high-floor-probe.json": "319d919188a3d3ed19c27e39bd9714e5c83818b35b0c4fe6014093fbcbdad7dc",
+    "input-identity.log": "a4b837d21eb7622f0c2fa04c1557a20c1314b79fe2ff3f681f8f21eeb9c1885c",
+    "metrics-green.log": "fb44e2c61be43a975ade30a07f6a7dd43d94d6abf1cf78664c192654d05f4f1e",
+    "metrics-obsolete-expectation.log": "4cffd891d2443c9b2944af68b019f9338dd4a983f3c115a6d14ee0722b4e6da2",
+    "metrics-red.log": "05014fbd2f2f47ef2c24e601eb9bfd96131a7b50979d359b47066ff3f52e52d6",
+    "naive-audit.json": "e2b7580bf95a2fad884b421c8e3ac1532fafccd1f9fc18d731a1ba82408f69ed",
+    "probe.json": "3669c3273ce54aaaadce1f5fe8fb00c0315a0b0a595b1df0b07cc097ee6ddca2",
+    "probe.log": "ef4e8c98069b9701ba690e9e2ee768cf11a7163ccd6a65508199ca3cfebf4f6c",
+    "red.log": "8f1fada67d87887408373e89d93d13976bd6082c77995bd910ac39ee2a25f28b",
+    "refactor-green.log": "91616267e1d3217f71740e103ad3db382f567afe71ba4da11c331bc88a9545b1",
+    "relative-green.log": "67f51c7556174c613d77aeca3dbea132cd65d5a2f73fb174a8518b3dd954482f",
+    "relative-red.log": "5bc444e83988e1779bc751f110549e0e998faeaa551c91fb1e4bb9ccd69ef241",
+    "replay-probe.json": "3669c3273ce54aaaadce1f5fe8fb00c0315a0b0a595b1df0b07cc097ee6ddca2",
+    "replay-red.log": "666fc6b66d5c20a15a74f83b918b06bcd5c52122b67fa640625dba0e9ed3477d",
+    "replay.log": "ef4e8c98069b9701ba690e9e2ee768cf11a7163ccd6a65508199ca3cfebf4f6c",
+    "tests/missing_context_input_tests.rs": "145fbde9f610a6fac6a67e063bbb472377001ce6f8fafd3ceb4b71456aef7ac6",
+    "tools/missing_line_context_probe.py": "515ad59535a1d948980dd381c6374f4a636be34521022b5d451a71051665786a",
+    "tools/test_missing_line_context_probe.py": "1dbcd86550ebd26e2b858be224abf0182e81ccd6ccf1f80120a6077aa206252d",
+    "unpack.log": "80a9f6743874ed91e642563dbc8322610f935f121ead26fc697180e1e1635ebc"
+  },
+  "parent_archives": {
+    "text-evidence.zip": "f055619aa7704247cab661c8d8144b00f091f5aca7d9550bbf3293dff97f71f5",
+    "diagnostic-evidence.zip": "ba66adc73c2e01593f3a8e96c6e950f3fe000944ad1f5f954ae598ecbd393321"
+  }
+}
