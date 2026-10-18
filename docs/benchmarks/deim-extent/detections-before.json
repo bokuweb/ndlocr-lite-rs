@@ -1,0 +1,948 @@
+{
+  "raw": [
+    {
+      "bounds": [
+        43,
+        1132,
+        949,
+        1272
+      ],
+      "class_index": 0,
+      "class_name": "text_block",
+      "confidence": 0.9525231122970581,
+      "pred_char_count": 1.0
+    },
+    {
+      "bounds": [
+        41,
+        382,
+        870,
+        406
+      ],
+      "class_index": 1,
+      "class_name": "line_main",
+      "confidence": 0.947742223739624,
+      "pred_char_count": 2.0
+    },
+    {
+      "bounds": [
+        72,
+        598,
+        948,
+        622
+      ],
+      "class_index": 1,
+      "class_name": "line_main",
+      "confidence": 0.9477137327194214,
+      "pred_char_count": 2.0
+    },
+    {
+      "bounds": [
+        88,
+        1055,
+        608,
+        1079
+      ],
+      "class_index": 1,
+      "class_name": "line_main",
+      "confidence": 0.9476357698440552,
+      "pred_char_count": 2.0
+    },
+    {
+      "bounds": [
+        43,
+        806,
+        359,
+        829
+      ],
+      "class_index": 1,
+      "class_name": "line_main",
+      "confidence": 0.9444116950035095,
+      "pred_char_count": 3.0
+    },
+    {
+      "bounds": [
+        46,
+        723,
+        949,
+        747
+      ],
+      "class_index": 1,
+      "class_name": "line_main",
+      "confidence": 0.9427886009216309,
+      "pred_char_count": 2.0
+    },
+    {
+      "bounds": [
+        43,
+        902,
+        563,
+        925
+      ],
+      "class_index": 1,
+      "class_name": "line_main",
+      "confidence": 0.9413160085678101,
+      "pred_char_count": 2.0
+    },
+    {
+      "bounds": [
+        44,
+        764,
+        934,
+        788
+      ],
+      "class_index": 1,
+      "class_name": "line_main",
+      "confidence": 0.9410073757171631,
+      "pred_char_count": 2.0
+    },
+    {
+      "bounds": [
+        70,
+        481,
+        946,
+        505
+      ],
+      "class_index": 1,
+      "class_name": "line_main",
+      "confidence": 0.9402496814727783,
+      "pred_char_count": 2.0
+    },
+    {
+      "bounds": [
+        88,
+        1208,
+        949,
+        1233
+      ],
+      "class_index": 1,
+      "class_name": "line_main",
+      "confidence": 0.9390051364898682,
+      "pred_char_count": 2.0
+    },
+    {
+      "bounds": [
+        43,
+        298,
+        949,
+        322
+      ],
+      "class_index": 1,
+      "class_name": "line_main",
+      "confidence": 0.937747597694397,
+      "pred_char_count": 2.0
+    },
+    {
+      "bounds": [
+        45,
+        640,
+        948,
+        664
+      ],
+      "class_index": 1,
+      "class_name": "line_main",
+      "confidence": 0.9371390342712402,
+      "pred_char_count": 2.0
+    },
+    {
+      "bounds": [
+        69,
+        863,
+        948,
+        887
+      ],
+      "class_index": 1,
+      "class_name": "line_main",
+      "confidence": 0.9364362955093384,
+      "pred_char_count": 2.0
+    },
+    {
+      "bounds": [
+        42,
+        978,
+        950,
+        1079
+      ],
+      "class_index": 0,
+      "class_name": "text_block",
+      "confidence": 0.9355132579803467,
+      "pred_char_count": 1.0
+    },
+    {
+      "bounds": [
+        44,
+        681,
+        935,
+        705
+      ],
+      "class_index": 1,
+      "class_name": "line_main",
+      "confidence": 0.9353774785995483,
+      "pred_char_count": 2.0
+    },
+    {
+      "bounds": [
+        40,
+        256,
+        949,
+        406
+      ],
+      "class_index": 0,
+      "class_name": "text_block",
+      "confidence": 0.9340165853500366,
+      "pred_char_count": 1.0
+    },
+    {
+      "bounds": [
+        44,
+        341,
+        949,
+        365
+      ],
+      "class_index": 1,
+      "class_name": "line_main",
+      "confidence": 0.9332984685897827,
+      "pred_char_count": 2.0
+    },
+    {
+      "bounds": [
+        42,
+        978,
+        948,
+        1002
+      ],
+      "class_index": 1,
+      "class_name": "line_main",
+      "confidence": 0.9329410791397095,
+      "pred_char_count": 2.0
+    },
+    {
+      "bounds": [
+        90,
+        1249,
+        454,
+        1272
+      ],
+      "class_index": 1,
+      "class_name": "line_main",
+      "confidence": 0.9328008890151978,
+      "pred_char_count": 3.0
+    },
+    {
+      "bounds": [
+        44,
+        480,
+        949,
+        925
+      ],
+      "class_index": 0,
+      "class_name": "text_block",
+      "confidence": 0.9297913312911987,
+      "pred_char_count": 1.0
+    },
+    {
+      "bounds": [
+        87,
+        1170,
+        949,
+        1195
+      ],
+      "class_index": 1,
+      "class_name": "line_main",
+      "confidence": 0.9284706115722656,
+      "pred_char_count": 2.0
+    },
+    {
+      "bounds": [
+        43,
+        1132,
+        948,
+        1156
+      ],
+      "class_index": 1,
+      "class_name": "line_main",
+      "confidence": 0.9268980026245117,
+      "pred_char_count": 2.0
+    },
+    {
+      "bounds": [
+        90,
+        1017,
+        949,
+        1041
+      ],
+      "class_index": 1,
+      "class_name": "line_main",
+      "confidence": 0.926449179649353,
+      "pred_char_count": 2.0
+    },
+    {
+      "bounds": [
+        42,
+        519,
+        949,
+        544
+      ],
+      "class_index": 1,
+      "class_name": "line_main",
+      "confidence": 0.9127644300460815,
+      "pred_char_count": 2.0
+    },
+    {
+      "bounds": [
+        69,
+        257,
+        944,
+        282
+      ],
+      "class_index": 1,
+      "class_name": "line_main",
+      "confidence": 0.9006829857826233,
+      "pred_char_count": 2.0
+    },
+    {
+      "bounds": [
+        671,
+        48,
+        948,
+        73
+      ],
+      "class_index": 1,
+      "class_name": "line_main",
+      "confidence": 0.8858048319816589,
+      "pred_char_count": 3.0
+    },
+    {
+      "bounds": [
+        137,
+        154,
+        852,
+        220
+      ],
+      "class_index": 0,
+      "class_name": "text_block",
+      "confidence": 0.8843605518341064,
+      "pred_char_count": 1.0
+    },
+    {
+      "bounds": [
+        48,
+        558,
+        134,
+        581
+      ],
+      "class_index": 1,
+      "class_name": "line_main",
+      "confidence": 0.8781206607818604,
+      "pred_char_count": 3.0
+    },
+    {
+      "bounds": [
+        671,
+        87,
+        949,
+        108
+      ],
+      "class_index": 1,
+      "class_name": "line_main",
+      "confidence": 0.8601052761077881,
+      "pred_char_count": 3.0
+    },
+    {
+      "bounds": [
+        137,
+        193,
+        850,
+        219
+      ],
+      "class_index": 16,
+      "class_name": "line_title",
+      "confidence": 0.8593742847442627,
+      "pred_char_count": 2.0
+    },
+    {
+      "bounds": [
+        672,
+        10,
+        946,
+        32
+      ],
+      "class_index": 1,
+      "class_name": "line_main",
+      "confidence": 0.8354555368423462,
+      "pred_char_count": 3.0
+    },
+    {
+      "bounds": [
+        85,
+        1323,
+        884,
+        1347
+      ],
+      "class_index": 1,
+      "class_name": "line_main",
+      "confidence": 0.83294278383255,
+      "pred_char_count": 2.0
+    },
+    {
+      "bounds": [
+        138,
+        155,
+        851,
+        182
+      ],
+      "class_index": 16,
+      "class_name": "line_title",
+      "confidence": 0.8327853679656982,
+      "pred_char_count": 2.0
+    },
+    {
+      "bounds": [
+        85,
+        1323,
+        884,
+        1347
+      ],
+      "class_index": 0,
+      "class_name": "text_block",
+      "confidence": 0.8291780948638916,
+      "pred_char_count": 1.0
+    },
+    {
+      "bounds": [
+        669,
+        14,
+        949,
+        109
+      ],
+      "class_index": 0,
+      "class_name": "text_block",
+      "confidence": 0.8094063997268677,
+      "pred_char_count": 1.0
+    },
+    {
+      "bounds": [
+        46,
+        1406,
+        820,
+        1503
+      ],
+      "class_index": 0,
+      "class_name": "text_block",
+      "confidence": 0.7907236218452454,
+      "pred_char_count": 1.0
+    },
+    {
+      "bounds": [
+        75,
+        1406,
+        355,
+        1421
+      ],
+      "class_index": 4,
+      "class_name": "line_note",
+      "confidence": 0.6716989278793335,
+      "pred_char_count": 2.0
+    },
+    {
+      "bounds": [
+        47,
+        1463,
+        353,
+        1481
+      ],
+      "class_index": 4,
+      "class_name": "line_note",
+      "confidence": 0.669318675994873,
+      "pred_char_count": 2.0
+    },
+    {
+      "bounds": [
+        77,
+        1487,
+        820,
+        1503
+      ],
+      "class_index": 4,
+      "class_name": "line_note",
+      "confidence": 0.6538541316986084,
+      "pred_char_count": 1.0
+    },
+    {
+      "bounds": [
+        77,
+        1428,
+        805,
+        1447
+      ],
+      "class_index": 4,
+      "class_name": "line_note",
+      "confidence": 0.6181206703186035,
+      "pred_char_count": 1.0
+    },
+    {
+      "bounds": [
+        77,
+        1428,
+        805,
+        1447
+      ],
+      "class_index": 1,
+      "class_name": "line_main",
+      "confidence": 0.5705521106719971,
+      "pred_char_count": 1.0
+    },
+    {
+      "bounds": [
+        77,
+        1487,
+        820,
+        1503
+      ],
+      "class_index": 1,
+      "class_name": "line_main",
+      "confidence": 0.5305231809616089,
+      "pred_char_count": 1.0
+    },
+    {
+      "bounds": [
+        47,
+        1463,
+        353,
+        1481
+      ],
+      "class_index": 1,
+      "class_name": "line_main",
+      "confidence": 0.4779316186904907,
+      "pred_char_count": 2.0
+    },
+    {
+      "bounds": [
+        85,
+        1323,
+        884,
+        1347
+      ],
+      "class_index": 16,
+      "class_name": "line_title",
+      "confidence": 0.419578492641449,
+      "pred_char_count": 2.0
+    },
+    {
+      "bounds": [
+        76,
+        1406,
+        355,
+        1421
+      ],
+      "class_index": 0,
+      "class_name": "text_block",
+      "confidence": 0.36333832144737244,
+      "pred_char_count": 1.0
+    },
+    {
+      "bounds": [
+        44,
+        862,
+        947,
+        925
+      ],
+      "class_index": 0,
+      "class_name": "text_block",
+      "confidence": 0.3563306927680969,
+      "pred_char_count": 1.0
+    },
+    {
+      "bounds": [
+        75,
+        1406,
+        355,
+        1421
+      ],
+      "class_index": 1,
+      "class_name": "line_main",
+      "confidence": 0.34648507833480835,
+      "pred_char_count": 2.0
+    },
+    {
+      "bounds": [
+        138,
+        155,
+        851,
+        182
+      ],
+      "class_index": 1,
+      "class_name": "line_main",
+      "confidence": 0.2949085831642151,
+      "pred_char_count": 2.0
+    },
+    {
+      "bounds": [
+        44,
+        862,
+        947,
+        925
+      ],
+      "class_index": 1,
+      "class_name": "line_main",
+      "confidence": 0.284753680229187,
+      "pred_char_count": 1.0
+    },
+    {
+      "bounds": [
+        671,
+        87,
+        949,
+        108
+      ],
+      "class_index": 0,
+      "class_name": "text_block",
+      "confidence": 0.2743527591228485,
+      "pred_char_count": 1.0
+    },
+    {
+      "bounds": [
+        672,
+        10,
+        946,
+        32
+      ],
+      "class_index": 16,
+      "class_name": "line_title",
+      "confidence": 0.2551068663597107,
+      "pred_char_count": 3.0
+    }
+  ],
+  "selected": [
+    {
+      "bounds": [
+        41,
+        382,
+        870,
+        406
+      ],
+      "confidence": 0.947742223739624,
+      "pred_char_count": 2.0
+    },
+    {
+      "bounds": [
+        72,
+        598,
+        948,
+        622
+      ],
+      "confidence": 0.9477137327194214,
+      "pred_char_count": 2.0
+    },
+    {
+      "bounds": [
+        88,
+        1055,
+        608,
+        1079
+      ],
+      "confidence": 0.9476357698440552,
+      "pred_char_count": 2.0
+    },
+    {
+      "bounds": [
+        43,
+        806,
+        359,
+        829
+      ],
+      "confidence": 0.9444116950035095,
+      "pred_char_count": 3.0
+    },
+    {
+      "bounds": [
+        46,
+        723,
+        949,
+        747
+      ],
+      "confidence": 0.9427886009216309,
+      "pred_char_count": 2.0
+    },
+    {
+      "bounds": [
+        43,
+        902,
+        563,
+        925
+      ],
+      "confidence": 0.9413160085678101,
+      "pred_char_count": 2.0
+    },
+    {
+      "bounds": [
+        44,
+        764,
+        934,
+        788
+      ],
+      "confidence": 0.9410073757171631,
+      "pred_char_count": 2.0
+    },
+    {
+      "bounds": [
+        70,
+        481,
+        946,
+        505
+      ],
+      "confidence": 0.9402496814727783,
+      "pred_char_count": 2.0
+    },
+    {
+      "bounds": [
+        88,
+        1208,
+        949,
+        1233
+      ],
+      "confidence": 0.9390051364898682,
+      "pred_char_count": 2.0
+    },
+    {
+      "bounds": [
+        43,
+        298,
+        949,
+        322
+      ],
+      "confidence": 0.937747597694397,
+      "pred_char_count": 2.0
+    },
+    {
+      "bounds": [
+        45,
+        640,
+        948,
+        664
+      ],
+      "confidence": 0.9371390342712402,
+      "pred_char_count": 2.0
+    },
+    {
+      "bounds": [
+        69,
+        863,
+        948,
+        887
+      ],
+      "confidence": 0.9364362955093384,
+      "pred_char_count": 2.0
+    },
+    {
+      "bounds": [
+        44,
+        681,
+        935,
+        705
+      ],
+      "confidence": 0.9353774785995483,
+      "pred_char_count": 2.0
+    },
+    {
+      "bounds": [
+        44,
+        341,
+        949,
+        365
+      ],
+      "confidence": 0.9332984685897827,
+      "pred_char_count": 2.0
+    },
+    {
+      "bounds": [
+        42,
+        978,
+        948,
+        1002
+      ],
+      "confidence": 0.9329410791397095,
+      "pred_char_count": 2.0
+    },
+    {
+      "bounds": [
+        90,
+        1249,
+        454,
+        1272
+      ],
+      "confidence": 0.9328008890151978,
+      "pred_char_count": 3.0
+    },
+    {
+      "bounds": [
+        87,
+        1170,
+        949,
+        1195
+      ],
+      "confidence": 0.9284706115722656,
+      "pred_char_count": 2.0
+    },
+    {
+      "bounds": [
+        43,
+        1132,
+        948,
+        1156
+      ],
+      "confidence": 0.9268980026245117,
+      "pred_char_count": 2.0
+    },
+    {
+      "bounds": [
+        90,
+        1017,
+        949,
+        1041
+      ],
+      "confidence": 0.926449179649353,
+      "pred_char_count": 2.0
+    },
+    {
+      "bounds": [
+        42,
+        519,
+        949,
+        544
+      ],
+      "confidence": 0.9127644300460815,
+      "pred_char_count": 2.0
+    },
+    {
+      "bounds": [
+        69,
+        257,
+        944,
+        282
+      ],
+      "confidence": 0.9006829857826233,
+      "pred_char_count": 2.0
+    },
+    {
+      "bounds": [
+        671,
+        48,
+        948,
+        73
+      ],
+      "confidence": 0.8858048319816589,
+      "pred_char_count": 3.0
+    },
+    {
+      "bounds": [
+        48,
+        558,
+        134,
+        581
+      ],
+      "confidence": 0.8781206607818604,
+      "pred_char_count": 3.0
+    },
+    {
+      "bounds": [
+        671,
+        87,
+        949,
+        108
+      ],
+      "confidence": 0.8601052761077881,
+      "pred_char_count": 3.0
+    },
+    {
+      "bounds": [
+        137,
+        193,
+        850,
+        219
+      ],
+      "confidence": 0.8593742847442627,
+      "pred_char_count": 2.0
+    },
+    {
+      "bounds": [
+        672,
+        10,
+        946,
+        32
+      ],
+      "confidence": 0.8354555368423462,
+      "pred_char_count": 3.0
+    },
+    {
+      "bounds": [
+        85,
+        1323,
+        884,
+        1347
+      ],
+      "confidence": 0.83294278383255,
+      "pred_char_count": 2.0
+    },
+    {
+      "bounds": [
+        138,
+        155,
+        851,
+        182
+      ],
+      "confidence": 0.8327853679656982,
+      "pred_char_count": 2.0
+    },
+    {
+      "bounds": [
+        75,
+        1406,
+        355,
+        1421
+      ],
+      "confidence": 0.6716989278793335,
+      "pred_char_count": 2.0
+    },
+    {
+      "bounds": [
+        47,
+        1463,
+        353,
+        1481
+      ],
+      "confidence": 0.669318675994873,
+      "pred_char_count": 2.0
+    },
+    {
+      "bounds": [
+        77,
+        1487,
+        820,
+        1503
+      ],
+      "confidence": 0.6538541316986084,
+      "pred_char_count": 1.0
+    },
+    {
+      "bounds": [
+        77,
+        1428,
+        805,
+        1447
+      ],
+      "confidence": 0.6181206703186035,
+      "pred_char_count": 1.0
+    },
+    {
+      "bounds": [
+        44,
+        862,
+        947,
+        925
+      ],
+      "confidence": 0.284753680229187,
+      "pred_char_count": 1.0
+    }
+  ]
+}

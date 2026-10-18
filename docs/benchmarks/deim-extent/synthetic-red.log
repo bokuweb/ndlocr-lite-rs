@@ -1,0 +1,55 @@
+   Compiling ndlocr-lite-rs v0.1.0 (/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.45s
+     Running tests/multiline_duplicate_tests.rs (target/debug/deps/multiline_duplicate_tests-b3a8ce6c177ef966)
+
+running 4 tests
+test two_strong_rows_remove_only_the_weak_multiline_region ... FAILED
+test cascade_connection_recognizes_each_supported_row_once ... FAILED
+test uncertain_or_incomplete_support_keeps_the_candidate ... ok
+test suppression_preserves_winners_at_scale ... FAILED
+
+failures:
+
+---- two_strong_rows_remove_only_the_weak_multiline_region stdout ----
+
+thread 'two_strong_rows_remove_only_the_weak_multiline_region' (39392292) panicked at tests/multiline_duplicate_tests.rs:59:5:
+assertion `left == right` failed
+  left: 3
+ right: 2
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+---- cascade_connection_recognizes_each_supported_row_once stdout ----
+
+thread 'cascade_connection_recognizes_each_supported_row_once' (39392290) panicked at tests/multiline_duplicate_tests.rs:81:5:
+assertion `left == right` failed
+  left: 3
+ right: 2
+
+---- suppression_preserves_winners_at_scale stdout ----
+proptest: FileFailurePersistence::SourceParallel set, but failed to find lib.rs or main.rs
+proptest: FileFailurePersistence::SourceParallel set, but failed to find lib.rs or main.rs
+proptest: Saving this and future failures in /Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tests/multiline_duplicate_tests.proptest-regressions
+proptest: If this test was run on a CI system, you may wish to add the following line to your copy of the file. (You may need to create it.)
+cc 3ef1a4db19d19e0f93478dd135f20e76a1b7457b69d6bc1541cd6286ddb20944
+
+thread 'suppression_preserves_winners_at_scale' (39392291) panicked at tests/multiline_duplicate_tests.rs:127:1:
+Test failed: assertion failed: `(left == right)` 
+  left: `[[20, 20, 380, 40], [20, 60, 380, 80], [20, 20, 380, 80]]`,
+ right: `[[20, 20, 380, 40], [20, 60, 380, 80]]` at tests/multiline_duplicate_tests.rs:135.
+minimal failing input: scale = 1, margin = 0, vertical = false, reverse = false
+	successes: 0
+	local rejects: 0
+	global rejects: 0
+
+
+
+failures:
+    cascade_connection_recognizes_each_supported_row_once
+    suppression_preserves_winners_at_scale
+    two_strong_rows_remove_only_the_weak_multiline_region
+
+test result: FAILED. 1 passed; 3 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+error: test failed, to rerun pass `--test multiline_duplicate_tests`
+mbx[cache]: 0 hits, 2 misses, 1 not looked up; 0 B downloaded, 0 B uploaded, 45.5 MiB stored locally
+mbx[savings]: your deleted worktrees left 1.2 TiB logical behind. left. past tense.

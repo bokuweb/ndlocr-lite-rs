@@ -1,0 +1,16 @@
+   Compiling ndlocr-lite-rs v0.1.0 (/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.61s
+     Running tests/multiline_duplicate_tests.rs (target/debug/deps/multiline_duplicate_tests-b3a8ce6c177ef966)
+
+running 6 tests
+test cascade_connection_recognizes_each_supported_row_once ... ok
+test two_strong_rows_remove_only_the_weak_multiline_region ... ok
+test suppressed_region_cannot_suppress_another_candidate ... ok
+test uncertain_or_incomplete_support_keeps_the_candidate ... ok
+test exact_confidence_and_line_gap_boundaries_are_respected ... ok
+test suppression_preserves_winners_at_scale ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.10s
+
+mbx[cache]: 0 hits, 0 misses, 1 not looked up, 1 incremental; 0 B downloaded, 0 B uploaded, 0 B stored locally
+mbx[savings]: the running total stands at 11h 2m across 8966 builds. nobody is counting except the box.

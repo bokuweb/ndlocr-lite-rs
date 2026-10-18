@@ -1,0 +1,19 @@
+{
+  "raw_equal": true,
+  "raw_count": 51,
+  "removed": [
+    {
+      "bounds": [
+        44,
+        862,
+        947,
+        925
+      ],
+      "confidence": 0.284753680229187,
+      "pred_char_count": 1.0
+    }
+  ],
+  "added": [],
+  "remaining_selected_metadata_equal": true,
+  "cargo_lock_sha256": "c1d3ee306ca0548895437a8c618d828370a5fc4e7552d6fba5ae5160f13c9ab9"
+}

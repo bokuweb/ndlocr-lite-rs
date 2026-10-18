@@ -1,0 +1,306 @@
+[
+  {
+    "config": "deim",
+    "image": "jma_kobe_notice.png",
+    "version": "before",
+    "binary_sha256": "841639a46f6458b6ac79c915066bf1179288f177663791a7ee22ad93d395509b",
+    "exit": 0,
+    "stderr": "",
+    "command": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/accuracy-followup/current-ndlocr",
+      "recognize-page",
+      "--image",
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tests/fixtures/eval/images/jma_kobe_notice.png",
+      "--charset",
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/models/NDLmoji.yaml",
+      "--output-txt",
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/accuracy-independent/cli/deim/before/jma_kobe_notice.txt"
+    ]
+  },
+  {
+    "config": "deim",
+    "image": "jma_kobe_notice.png",
+    "version": "after",
+    "binary_sha256": "3651beb3f038d694ad21c8c8513b1b38b0f09f0fc46515d916bce492bd98de1b",
+    "exit": 0,
+    "stderr": "",
+    "command": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/accuracy-independent/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tests/fixtures/eval/images/jma_kobe_notice.png",
+      "--charset",
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/models/NDLmoji.yaml",
+      "--output-txt",
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/accuracy-independent/cli/deim/after/jma_kobe_notice.txt"
+    ]
+  },
+  {
+    "config": "deim",
+    "image": "ndl_accessibility_p2.png",
+    "version": "before",
+    "binary_sha256": "841639a46f6458b6ac79c915066bf1179288f177663791a7ee22ad93d395509b",
+    "exit": 0,
+    "stderr": "",
+    "command": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/accuracy-followup/current-ndlocr",
+      "recognize-page",
+      "--image",
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tests/fixtures/eval/images/ndl_accessibility_p2.png",
+      "--charset",
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/models/NDLmoji.yaml",
+      "--output-txt",
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/accuracy-independent/cli/deim/before/ndl_accessibility_p2.txt"
+    ]
+  },
+  {
+    "config": "deim",
+    "image": "ndl_accessibility_p2.png",
+    "version": "after",
+    "binary_sha256": "3651beb3f038d694ad21c8c8513b1b38b0f09f0fc46515d916bce492bd98de1b",
+    "exit": 0,
+    "stderr": "",
+    "command": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/accuracy-independent/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tests/fixtures/eval/images/ndl_accessibility_p2.png",
+      "--charset",
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/models/NDLmoji.yaml",
+      "--output-txt",
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/accuracy-independent/cli/deim/after/ndl_accessibility_p2.txt"
+    ]
+  },
+  {
+    "config": "deim",
+    "image": "ndl_logo_ja.png",
+    "version": "before",
+    "binary_sha256": "841639a46f6458b6ac79c915066bf1179288f177663791a7ee22ad93d395509b",
+    "exit": 0,
+    "stderr": "",
+    "command": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/accuracy-followup/current-ndlocr",
+      "recognize-page",
+      "--image",
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tests/fixtures/eval/images/ndl_logo_ja.png",
+      "--charset",
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/models/NDLmoji.yaml",
+      "--output-txt",
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/accuracy-independent/cli/deim/before/ndl_logo_ja.txt"
+    ]
+  },
+  {
+    "config": "deim",
+    "image": "ndl_logo_ja.png",
+    "version": "after",
+    "binary_sha256": "3651beb3f038d694ad21c8c8513b1b38b0f09f0fc46515d916bce492bd98de1b",
+    "exit": 0,
+    "stderr": "",
+    "command": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/accuracy-independent/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tests/fixtures/eval/images/ndl_logo_ja.png",
+      "--charset",
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/models/NDLmoji.yaml",
+      "--output-txt",
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/accuracy-independent/cli/deim/after/ndl_logo_ja.txt"
+    ]
+  },
+  {
+    "config": "deim",
+    "image": "scaned0.png",
+    "version": "before",
+    "binary_sha256": "841639a46f6458b6ac79c915066bf1179288f177663791a7ee22ad93d395509b",
+    "exit": 0,
+    "stderr": "",
+    "command": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/accuracy-followup/current-ndlocr",
+      "recognize-page",
+      "--image",
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tests/fixtures/eval/images/scaned0.png",
+      "--charset",
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/models/NDLmoji.yaml",
+      "--output-txt",
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/accuracy-independent/cli/deim/before/scaned0.txt"
+    ]
+  },
+  {
+    "config": "deim",
+    "image": "scaned0.png",
+    "version": "after",
+    "binary_sha256": "3651beb3f038d694ad21c8c8513b1b38b0f09f0fc46515d916bce492bd98de1b",
+    "exit": 0,
+    "stderr": "",
+    "command": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/accuracy-independent/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tests/fixtures/eval/images/scaned0.png",
+      "--charset",
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/models/NDLmoji.yaml",
+      "--output-txt",
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/accuracy-independent/cli/deim/after/scaned0.txt"
+    ]
+  },
+  {
+    "config": "bands",
+    "image": "jma_kobe_notice.png",
+    "version": "before",
+    "binary_sha256": "841639a46f6458b6ac79c915066bf1179288f177663791a7ee22ad93d395509b",
+    "exit": 0,
+    "stderr": "",
+    "command": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/accuracy-followup/current-ndlocr",
+      "recognize-page",
+      "--image",
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tests/fixtures/eval/images/jma_kobe_notice.png",
+      "--charset",
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/models/NDLmoji.yaml",
+      "--output-txt",
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/accuracy-independent/cli/bands/before/jma_kobe_notice.txt",
+      "--use-deim-detection",
+      "false"
+    ]
+  },
+  {
+    "config": "bands",
+    "image": "jma_kobe_notice.png",
+    "version": "after",
+    "binary_sha256": "3651beb3f038d694ad21c8c8513b1b38b0f09f0fc46515d916bce492bd98de1b",
+    "exit": 0,
+    "stderr": "",
+    "command": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/accuracy-independent/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tests/fixtures/eval/images/jma_kobe_notice.png",
+      "--charset",
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/models/NDLmoji.yaml",
+      "--output-txt",
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/accuracy-independent/cli/bands/after/jma_kobe_notice.txt",
+      "--use-deim-detection",
+      "false"
+    ]
+  },
+  {
+    "config": "bands",
+    "image": "ndl_accessibility_p2.png",
+    "version": "before",
+    "binary_sha256": "841639a46f6458b6ac79c915066bf1179288f177663791a7ee22ad93d395509b",
+    "exit": 0,
+    "stderr": "",
+    "command": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/accuracy-followup/current-ndlocr",
+      "recognize-page",
+      "--image",
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tests/fixtures/eval/images/ndl_accessibility_p2.png",
+      "--charset",
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/models/NDLmoji.yaml",
+      "--output-txt",
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/accuracy-independent/cli/bands/before/ndl_accessibility_p2.txt",
+      "--use-deim-detection",
+      "false"
+    ]
+  },
+  {
+    "config": "bands",
+    "image": "ndl_accessibility_p2.png",
+    "version": "after",
+    "binary_sha256": "3651beb3f038d694ad21c8c8513b1b38b0f09f0fc46515d916bce492bd98de1b",
+    "exit": 0,
+    "stderr": "",
+    "command": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/accuracy-independent/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tests/fixtures/eval/images/ndl_accessibility_p2.png",
+      "--charset",
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/models/NDLmoji.yaml",
+      "--output-txt",
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/accuracy-independent/cli/bands/after/ndl_accessibility_p2.txt",
+      "--use-deim-detection",
+      "false"
+    ]
+  },
+  {
+    "config": "bands",
+    "image": "ndl_logo_ja.png",
+    "version": "before",
+    "binary_sha256": "841639a46f6458b6ac79c915066bf1179288f177663791a7ee22ad93d395509b",
+    "exit": 0,
+    "stderr": "",
+    "command": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/accuracy-followup/current-ndlocr",
+      "recognize-page",
+      "--image",
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tests/fixtures/eval/images/ndl_logo_ja.png",
+      "--charset",
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/models/NDLmoji.yaml",
+      "--output-txt",
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/accuracy-independent/cli/bands/before/ndl_logo_ja.txt",
+      "--use-deim-detection",
+      "false"
+    ]
+  },
+  {
+    "config": "bands",
+    "image": "ndl_logo_ja.png",
+    "version": "after",
+    "binary_sha256": "3651beb3f038d694ad21c8c8513b1b38b0f09f0fc46515d916bce492bd98de1b",
+    "exit": 0,
+    "stderr": "",
+    "command": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/accuracy-independent/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tests/fixtures/eval/images/ndl_logo_ja.png",
+      "--charset",
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/models/NDLmoji.yaml",
+      "--output-txt",
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/accuracy-independent/cli/bands/after/ndl_logo_ja.txt",
+      "--use-deim-detection",
+      "false"
+    ]
+  },
+  {
+    "config": "bands",
+    "image": "scaned0.png",
+    "version": "before",
+    "binary_sha256": "841639a46f6458b6ac79c915066bf1179288f177663791a7ee22ad93d395509b",
+    "exit": 0,
+    "stderr": "",
+    "command": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/accuracy-followup/current-ndlocr",
+      "recognize-page",
+      "--image",
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tests/fixtures/eval/images/scaned0.png",
+      "--charset",
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/models/NDLmoji.yaml",
+      "--output-txt",
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/accuracy-independent/cli/bands/before/scaned0.txt",
+      "--use-deim-detection",
+      "false"
+    ]
+  },
+  {
+    "config": "bands",
+    "image": "scaned0.png",
+    "version": "after",
+    "binary_sha256": "3651beb3f038d694ad21c8c8513b1b38b0f09f0fc46515d916bce492bd98de1b",
+    "exit": 0,
+    "stderr": "",
+    "command": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/accuracy-independent/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tests/fixtures/eval/images/scaned0.png",
+      "--charset",
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/models/NDLmoji.yaml",
+      "--output-txt",
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/accuracy-independent/cli/bands/after/scaned0.txt",
+      "--use-deim-detection",
+      "false"
+    ]
+  }
+]

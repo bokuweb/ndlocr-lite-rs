@@ -1,0 +1,39 @@
+warning: methods `recognize_batch_indexed` and `run_chunk_on_session` are never used
+   --> src/infer/cached.rs:559:8
+    |
+409 | impl ParseqPool {
+    | --------------- methods in this implementation
+...
+559 |     fn recognize_batch_indexed(
+    |        ^^^^^^^^^^^^^^^^^^^^^^^
+...
+694 |     fn run_chunk_on_session(
+    |        ^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: `ndlocr-lite-rs` (lib) generated 1 warning
+   Compiling ndlocr-lite-rs v0.1.0 (/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.28s
+     Running tests/deim_extent_regression_tests.rs (target/debug/deps/deim_extent_regression_tests-2953b38d27a7c18e)
+
+running 1 test
+TARGET [([69, 863, 948, 887], 0.9364363, 2.0), ([44, 862, 947, 925], 0.28475368, 1.0)]
+
+thread 'physical_body_line_has_one_selected_crop' (39385826) panicked at tests/deim_extent_regression_tests.rs:46:5:
+assertion `left == right` failed: one physical line must produce one crop
+  left: 2
+ right: 1
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+test physical_body_line_has_one_selected_crop ... FAILED
+
+failures:
+
+failures:
+    physical_body_line_has_one_selected_crop
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.72s
+
+error: test failed, to rerun pass `--test deim_extent_regression_tests`
+mbx[cache]: 0 hits, 0 misses, 1 bypassed; 0 B downloaded, 0 B uploaded, 0 B stored locally
+mbx[savings]: 58476 compilations retrieved with a straight face.

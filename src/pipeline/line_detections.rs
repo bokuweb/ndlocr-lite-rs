@@ -1,5 +1,41 @@
 use crate::infer::deim::Detection;
 
+mod multiline;
+
+/// クラス競合の後、既存の強い2行に覆われる複数行候補だけを追加除外する。
+pub(crate) fn select_line_detections_with_pixels<'a>(
+    detections: &'a [Detection],
+    rgb: &[u8],
+    width: usize,
+    height: usize,
+) -> Vec<&'a Detection> {
+    let selected = select_line_detections(detections, width, height);
+    if selected.len() < 3
+        || width.checked_mul(height).and_then(|n| n.checked_mul(3)) != Some(rgb.len())
+    {
+        return selected;
+    }
+    let mut order: Vec<_> = selected.iter().copied().enumerate().collect();
+    order.sort_by(|a, b| {
+        b.1.confidence
+            .total_cmp(&a.1.confidence)
+            .then(a.0.cmp(&b.0))
+    });
+    let mut retained = vec![false; selected.len()];
+    let mut kept = Vec::new();
+    for (index, candidate) in order {
+        if !multiline::covered_by_two_lines(candidate, &kept, rgb, width, height) {
+            retained[index] = true;
+            kept.push(candidate);
+        }
+    }
+    selected
+        .into_iter()
+        .zip(retained)
+        .filter_map(|(d, keep)| keep.then_some(d))
+        .collect()
+}
+
 /// ほぼ同じ領域に対する異クラス競合だけを除き、元順で認識行を選ぶ。
 pub(crate) fn select_line_detections(
     detections: &[Detection],

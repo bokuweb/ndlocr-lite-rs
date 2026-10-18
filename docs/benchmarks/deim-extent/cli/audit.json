@@ -1,0 +1,170 @@
+[
+  {
+    "config": "deim",
+    "normalize": "none",
+    "file": "jma_kobe_notice.txt",
+    "before": 111,
+    "after": 75
+  },
+  {
+    "config": "deim",
+    "normalize": "none",
+    "file": "ndl_accessibility_p2.txt",
+    "before": 60,
+    "after": 60
+  },
+  {
+    "config": "deim",
+    "normalize": "none",
+    "file": "ndl_logo_ja.txt",
+    "before": 1,
+    "after": 1
+  },
+  {
+    "config": "deim",
+    "normalize": "none",
+    "file": "scaned0.txt",
+    "before": 9,
+    "after": 9
+  },
+  {
+    "config": "deim",
+    "normalize": "width",
+    "file": "jma_kobe_notice.txt",
+    "before": 64,
+    "after": 28
+  },
+  {
+    "config": "deim",
+    "normalize": "width",
+    "file": "ndl_accessibility_p2.txt",
+    "before": 55,
+    "after": 55
+  },
+  {
+    "config": "deim",
+    "normalize": "width",
+    "file": "ndl_logo_ja.txt",
+    "before": 1,
+    "after": 1
+  },
+  {
+    "config": "deim",
+    "normalize": "width",
+    "file": "scaned0.txt",
+    "before": 7,
+    "after": 7
+  },
+  {
+    "config": "deim",
+    "normalize": "strict",
+    "file": "jma_kobe_notice.txt",
+    "before": 95,
+    "after": 59
+  },
+  {
+    "config": "deim",
+    "normalize": "strict",
+    "file": "ndl_accessibility_p2.txt",
+    "before": 11,
+    "after": 11
+  },
+  {
+    "config": "deim",
+    "normalize": "strict",
+    "file": "ndl_logo_ja.txt",
+    "before": 0,
+    "after": 0
+  },
+  {
+    "config": "deim",
+    "normalize": "strict",
+    "file": "scaned0.txt",
+    "before": 8,
+    "after": 8
+  },
+  {
+    "config": "bands",
+    "normalize": "none",
+    "file": "jma_kobe_notice.txt",
+    "before": 80,
+    "after": 80
+  },
+  {
+    "config": "bands",
+    "normalize": "none",
+    "file": "ndl_accessibility_p2.txt",
+    "before": 53,
+    "after": 53
+  },
+  {
+    "config": "bands",
+    "normalize": "none",
+    "file": "ndl_logo_ja.txt",
+    "before": 1,
+    "after": 1
+  },
+  {
+    "config": "bands",
+    "normalize": "none",
+    "file": "scaned0.txt",
+    "before": 9,
+    "after": 9
+  },
+  {
+    "config": "bands",
+    "normalize": "width",
+    "file": "jma_kobe_notice.txt",
+    "before": 32,
+    "after": 32
+  },
+  {
+    "config": "bands",
+    "normalize": "width",
+    "file": "ndl_accessibility_p2.txt",
+    "before": 48,
+    "after": 48
+  },
+  {
+    "config": "bands",
+    "normalize": "width",
+    "file": "ndl_logo_ja.txt",
+    "before": 1,
+    "after": 1
+  },
+  {
+    "config": "bands",
+    "normalize": "width",
+    "file": "scaned0.txt",
+    "before": 7,
+    "after": 7
+  },
+  {
+    "config": "bands",
+    "normalize": "strict",
+    "file": "jma_kobe_notice.txt",
+    "before": 62,
+    "after": 62
+  },
+  {
+    "config": "bands",
+    "normalize": "strict",
+    "file": "ndl_accessibility_p2.txt",
+    "before": 9,
+    "after": 9
+  },
+  {
+    "config": "bands",
+    "normalize": "strict",
+    "file": "ndl_logo_ja.txt",
+    "before": 0,
+    "after": 0
+  },
+  {
+    "config": "bands",
+    "normalize": "strict",
+    "file": "scaned0.txt",
+    "before": 8,
+    "after": 8
+  }
+]

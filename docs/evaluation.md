@@ -152,7 +152,7 @@ tools/run_eval_rust_ab.sh \
 ### いま済んでいること（ブロッカーなし）
 
 - PARSEQ 行画像の前処理は `ndlocr/src/parseq.py` と整合（全面ストレッチのバイリニア相当、BGR NCHW）。Rust と original の認識差の主要因を解消済み。
-- 同梱の定量比較用データは `tests/fixtures/eval/` の **3枚**（`scaned0`、`ndl_logo_ja`、`jma_kobe_notice`）。手順は本書および `docs/examples.md` の「CER/WER 評価」。
+- 同梱の定量比較用データは `tests/fixtures/eval/` の **4枚**（`scaned0`、`ndl_logo_ja`、`jma_kobe_notice`、`ndl_accessibility_p2`）。手順は本書および `docs/examples.md` の「CER/WER 評価」。
 - **参考（同一環境・同梱2枚・strict CER の集計）**: Rust 約 **0.034**、original（`ocr.py`）約 **0.043**（2026-03 時点の目安。モデル・ORT・ルールパックで変動する）。
 - 文書固有の置換はコアに入れず、`--rule-pack`（例: `docs/rule_pack.scaned0.yaml`）で吸収する方針（`AGENTS.md`）。
 
