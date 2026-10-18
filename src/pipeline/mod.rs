@@ -8,6 +8,8 @@ mod component_bands;
 pub mod connect;
 pub mod crop;
 mod fragment_bands;
+/// 純白の左右余白を指定幅へ揃える明示API。
+pub mod horizontal_margins;
 /// 横書き行を画素欠落のない短い認識区間に分割する。
 pub mod line_chunks;
 /// 行クラスの競合検出を、認識前に共通の条件で選ぶ。
