@@ -16,7 +16,7 @@ pub(crate) fn line_recognition_regions<'a>(
     selected.into_iter().zip(completed).collect()
 }
 
-/// クラス競合の後、既存の強い2行に覆われる複数行候補だけを追加除外する。
+/// 近似同一領域の選択後、既存の強い2行に覆われる複数行候補だけを追加除外する。
 pub(crate) fn select_line_detections_with_pixels<'a>(
     detections: &'a [Detection],
     rgb: &[u8],

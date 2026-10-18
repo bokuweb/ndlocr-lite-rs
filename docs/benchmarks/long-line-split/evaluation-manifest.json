@@ -1,0 +1,391 @@
+{
+  "baseline_commit": "8edefcd34ac1ff82f9dd535fb8e1f895f4b9e6c7",
+  "binaries": {
+    "before": {
+      "path": "tmp/deim-same-class/candidate-ndlocr",
+      "sha256": "d6b2f5b0fc70f21db29661a3570835f7ee4a38df548d97e1a8fc382cb1d6e4ed"
+    },
+    "after": {
+      "path": "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/long-line-split/final/candidate-ndlocr",
+      "sha256": "ec58288b949f22b242d3ecfcdb917050bdfdfcee03dd983bef1c597ea3037c6f"
+    }
+  },
+  "inputs": [
+    {
+      "id": "library_gothic24",
+      "image": "tests/fixtures/long_line_split/images/library_gothic24.png",
+      "truth": "tests/fixtures/long_line_split/truth/library_gothic24.txt",
+      "cohort": "long_line",
+      "image_sha256": "f9db244088cd448369099f1f52e5bf96a24f27dfff535768b26dff2d9292e18e",
+      "truth_sha256": "2635395b99f6aa0376616c0cc052e5d9f80ab83bd35fa97fd71c4e508af18eb4"
+    },
+    {
+      "id": "observations_gothic24",
+      "image": "tests/fixtures/long_line_split/images/observations_gothic24.png",
+      "truth": "tests/fixtures/long_line_split/truth/observations_gothic24.txt",
+      "cohort": "long_line",
+      "image_sha256": "202d5eeef1aa9b5b62d02f09f897d143f210290309b44d14170971ee3c5f4cb5",
+      "truth_sha256": "97ae2f913f290e481813697dca0d7e9ae93f9b7e6bc821c08a0d65970e20efcb"
+    },
+    {
+      "id": "japanese_gothic24",
+      "image": "tests/fixtures/long_line_split/images/japanese_gothic24.png",
+      "truth": "tests/fixtures/long_line_split/truth/japanese_gothic24.txt",
+      "cohort": "long_line",
+      "image_sha256": "b4c104277a7b462086d1f345504327efe6d78d269501d1b18f4cc152c149c50e",
+      "truth_sha256": "6356e4961ebc2af8fa206293c3a52e9da9ea019bf115fc8ee8de4d89407627c1"
+    },
+    {
+      "id": "uri_gothic24",
+      "image": "tests/fixtures/long_line_split/images/uri_gothic24.png",
+      "truth": "tests/fixtures/long_line_split/truth/uri_gothic24.txt",
+      "cohort": "long_line",
+      "image_sha256": "ea4cfd730cff9ee9c39436908b2c77f6e62439a98b6e65684504cc815e3fb031",
+      "truth_sha256": "46282bcf986a7df8df710f6cb4f895a53ca589c08bbf227607f7dfbf475219c3"
+    },
+    {
+      "id": "control_en_gothic24",
+      "image": "tests/fixtures/long_line_split/images/control_en_gothic24.png",
+      "truth": "tests/fixtures/long_line_split/truth/control_en_gothic24.txt",
+      "cohort": "long_line",
+      "image_sha256": "e072a0c59d31c3d0df2126a26e5fff7822517c6a55b866ec0b0c5ea835209589",
+      "truth_sha256": "7016e9b0895dbc968a3da5c1623f2a63793719ce8ebf500608467705ff05f546"
+    },
+    {
+      "id": "control_ja_gothic24",
+      "image": "tests/fixtures/long_line_split/images/control_ja_gothic24.png",
+      "truth": "tests/fixtures/long_line_split/truth/control_ja_gothic24.txt",
+      "cohort": "long_line",
+      "image_sha256": "356000e557c6867aac0658f4c5b5ba1a7f19e2f2f75c641a51287416e7fb2717",
+      "truth_sha256": "a6b0ecec434e9cefa8e22b3e48142eb8e964fa60a871277f579c811a7a323117"
+    },
+    {
+      "id": "library_gothic36",
+      "image": "tests/fixtures/long_line_split/images/library_gothic36.png",
+      "truth": "tests/fixtures/long_line_split/truth/library_gothic36.txt",
+      "cohort": "long_line",
+      "image_sha256": "68f8af0d75151d26cc7d0438919c035fc7fd6fd6a1d6603a691687e3617e0121",
+      "truth_sha256": "2635395b99f6aa0376616c0cc052e5d9f80ab83bd35fa97fd71c4e508af18eb4"
+    },
+    {
+      "id": "observations_gothic36",
+      "image": "tests/fixtures/long_line_split/images/observations_gothic36.png",
+      "truth": "tests/fixtures/long_line_split/truth/observations_gothic36.txt",
+      "cohort": "long_line",
+      "image_sha256": "324f67cafb171f65f26cae302873b6c0680c1d317a513458139320081918c59f",
+      "truth_sha256": "97ae2f913f290e481813697dca0d7e9ae93f9b7e6bc821c08a0d65970e20efcb"
+    },
+    {
+      "id": "japanese_gothic36",
+      "image": "tests/fixtures/long_line_split/images/japanese_gothic36.png",
+      "truth": "tests/fixtures/long_line_split/truth/japanese_gothic36.txt",
+      "cohort": "long_line",
+      "image_sha256": "ebb756247a90cf847fa94ec9afae72347d6e436921f22a44b566e4a902e513d6",
+      "truth_sha256": "6356e4961ebc2af8fa206293c3a52e9da9ea019bf115fc8ee8de4d89407627c1"
+    },
+    {
+      "id": "uri_gothic36",
+      "image": "tests/fixtures/long_line_split/images/uri_gothic36.png",
+      "truth": "tests/fixtures/long_line_split/truth/uri_gothic36.txt",
+      "cohort": "long_line",
+      "image_sha256": "6a0e7506ca4cd6bc52a2c74dbc6d3b3c9b17baf1bb182cc2ad97e7996ce16528",
+      "truth_sha256": "46282bcf986a7df8df710f6cb4f895a53ca589c08bbf227607f7dfbf475219c3"
+    },
+    {
+      "id": "control_en_gothic36",
+      "image": "tests/fixtures/long_line_split/images/control_en_gothic36.png",
+      "truth": "tests/fixtures/long_line_split/truth/control_en_gothic36.txt",
+      "cohort": "long_line",
+      "image_sha256": "56d5d760e3b41c5f882e346df34e82deadb59d1ab9a84bcaff5395f7962c4685",
+      "truth_sha256": "7016e9b0895dbc968a3da5c1623f2a63793719ce8ebf500608467705ff05f546"
+    },
+    {
+      "id": "control_ja_gothic36",
+      "image": "tests/fixtures/long_line_split/images/control_ja_gothic36.png",
+      "truth": "tests/fixtures/long_line_split/truth/control_ja_gothic36.txt",
+      "cohort": "long_line",
+      "image_sha256": "6e06dad2205106245bddc7de9f66caef0d844c2239ffff61dd134d504efa7e66",
+      "truth_sha256": "a6b0ecec434e9cefa8e22b3e48142eb8e964fa60a871277f579c811a7a323117"
+    },
+    {
+      "id": "library_mincho24",
+      "image": "tests/fixtures/long_line_split/images/library_mincho24.png",
+      "truth": "tests/fixtures/long_line_split/truth/library_mincho24.txt",
+      "cohort": "long_line",
+      "image_sha256": "fdd17ab95d7d10201e6e47c9c9e9cbdc083d28fdd42c209a242fa696ed9d3afa",
+      "truth_sha256": "2635395b99f6aa0376616c0cc052e5d9f80ab83bd35fa97fd71c4e508af18eb4"
+    },
+    {
+      "id": "observations_mincho24",
+      "image": "tests/fixtures/long_line_split/images/observations_mincho24.png",
+      "truth": "tests/fixtures/long_line_split/truth/observations_mincho24.txt",
+      "cohort": "long_line",
+      "image_sha256": "851db51ad5e4d6b8544f96107048b959849e32233c570a930e093c110d1aaa4a",
+      "truth_sha256": "97ae2f913f290e481813697dca0d7e9ae93f9b7e6bc821c08a0d65970e20efcb"
+    },
+    {
+      "id": "japanese_mincho24",
+      "image": "tests/fixtures/long_line_split/images/japanese_mincho24.png",
+      "truth": "tests/fixtures/long_line_split/truth/japanese_mincho24.txt",
+      "cohort": "long_line",
+      "image_sha256": "1f2043f01d4d5d73f4945d04ca4373bfedeff714b9da247e3e3ae9fc4caa7588",
+      "truth_sha256": "6356e4961ebc2af8fa206293c3a52e9da9ea019bf115fc8ee8de4d89407627c1"
+    },
+    {
+      "id": "uri_mincho24",
+      "image": "tests/fixtures/long_line_split/images/uri_mincho24.png",
+      "truth": "tests/fixtures/long_line_split/truth/uri_mincho24.txt",
+      "cohort": "long_line",
+      "image_sha256": "f430a493e281017e20a18aaa42189b48851a54c6ddd884c4bc1d97e72791e5ac",
+      "truth_sha256": "46282bcf986a7df8df710f6cb4f895a53ca589c08bbf227607f7dfbf475219c3"
+    },
+    {
+      "id": "control_en_mincho24",
+      "image": "tests/fixtures/long_line_split/images/control_en_mincho24.png",
+      "truth": "tests/fixtures/long_line_split/truth/control_en_mincho24.txt",
+      "cohort": "long_line",
+      "image_sha256": "33743b9a0780e36c7ee2a2867ecc279390141fe10d31d6adf206b7df4617242b",
+      "truth_sha256": "7016e9b0895dbc968a3da5c1623f2a63793719ce8ebf500608467705ff05f546"
+    },
+    {
+      "id": "control_ja_mincho24",
+      "image": "tests/fixtures/long_line_split/images/control_ja_mincho24.png",
+      "truth": "tests/fixtures/long_line_split/truth/control_ja_mincho24.txt",
+      "cohort": "long_line",
+      "image_sha256": "8955356bf3b65b29710fba55d3cbe19454849bebd582420476bd84a9d8fdd8df",
+      "truth_sha256": "a6b0ecec434e9cefa8e22b3e48142eb8e964fa60a871277f579c811a7a323117"
+    },
+    {
+      "id": "library_mincho36",
+      "image": "tests/fixtures/long_line_split/images/library_mincho36.png",
+      "truth": "tests/fixtures/long_line_split/truth/library_mincho36.txt",
+      "cohort": "long_line",
+      "image_sha256": "255d0d2a5255ea89e4923baa45fdbe525d72324505fd93790eab980264234eaa",
+      "truth_sha256": "2635395b99f6aa0376616c0cc052e5d9f80ab83bd35fa97fd71c4e508af18eb4"
+    },
+    {
+      "id": "observations_mincho36",
+      "image": "tests/fixtures/long_line_split/images/observations_mincho36.png",
+      "truth": "tests/fixtures/long_line_split/truth/observations_mincho36.txt",
+      "cohort": "long_line",
+      "image_sha256": "a50058f142261e2ed10ee3650a6d862603249bac5e59c669cf02c7e539bffad9",
+      "truth_sha256": "97ae2f913f290e481813697dca0d7e9ae93f9b7e6bc821c08a0d65970e20efcb"
+    },
+    {
+      "id": "japanese_mincho36",
+      "image": "tests/fixtures/long_line_split/images/japanese_mincho36.png",
+      "truth": "tests/fixtures/long_line_split/truth/japanese_mincho36.txt",
+      "cohort": "long_line",
+      "image_sha256": "91c773b70de7983efae68592b1932f2c32ca5d081b5428d3501ed9079ccacce2",
+      "truth_sha256": "6356e4961ebc2af8fa206293c3a52e9da9ea019bf115fc8ee8de4d89407627c1"
+    },
+    {
+      "id": "uri_mincho36",
+      "image": "tests/fixtures/long_line_split/images/uri_mincho36.png",
+      "truth": "tests/fixtures/long_line_split/truth/uri_mincho36.txt",
+      "cohort": "long_line",
+      "image_sha256": "7b4a07dc930dd6fafd9a9bc1c3c9934dbda98e777069a7f2ce67cd38ad7f291f",
+      "truth_sha256": "46282bcf986a7df8df710f6cb4f895a53ca589c08bbf227607f7dfbf475219c3"
+    },
+    {
+      "id": "control_en_mincho36",
+      "image": "tests/fixtures/long_line_split/images/control_en_mincho36.png",
+      "truth": "tests/fixtures/long_line_split/truth/control_en_mincho36.txt",
+      "cohort": "long_line",
+      "image_sha256": "c2b180271e3104cfaebc5795a28b942d93685bb792227a6cae60531f01d95ab8",
+      "truth_sha256": "7016e9b0895dbc968a3da5c1623f2a63793719ce8ebf500608467705ff05f546"
+    },
+    {
+      "id": "control_ja_mincho36",
+      "image": "tests/fixtures/long_line_split/images/control_ja_mincho36.png",
+      "truth": "tests/fixtures/long_line_split/truth/control_ja_mincho36.txt",
+      "cohort": "long_line",
+      "image_sha256": "1a192d1a2aed8868acaa3a0cb315ef0e5b66861785a68acc0d73b0ff2084e6a9",
+      "truth_sha256": "a6b0ecec434e9cefa8e22b3e48142eb8e964fa60a871277f579c811a7a323117"
+    },
+    {
+      "id": "paragraph_raw",
+      "image": "tests/fixtures/long_line_split/images/paragraph_raw.png",
+      "truth": "tests/fixtures/long_line_split/truth/paragraph_raw.txt",
+      "cohort": "long_line",
+      "image_sha256": "4d765f133216355553141d1f65eeb704bb9e2a9513756e185508b6042e8e55d9",
+      "truth_sha256": "c80c59d32644d244cfcb5cf94577ca66c521fb6ffe00354a77d4175680c4f9b9"
+    },
+    {
+      "id": "paragraph_normalized",
+      "image": "tests/fixtures/long_line_split/images/paragraph_normalized.png",
+      "truth": "tests/fixtures/long_line_split/truth/paragraph_normalized.txt",
+      "cohort": "long_line",
+      "image_sha256": "e3a880d5eade83936f2f26c852dc89d270f9463029c8e7cfc675a7fa29819e2d",
+      "truth_sha256": "c80c59d32644d244cfcb5cf94577ca66c521fb6ffe00354a77d4175680c4f9b9"
+    },
+    {
+      "id": "jma_climate_2025",
+      "image": "tests/fixtures/eval/images/jma_climate_2025.png",
+      "truth": "tests/fixtures/eval/truth/jma_climate_2025.txt",
+      "cohort": "existing",
+      "image_sha256": "510f9d13c35771cf14a986ccfc6c1fe84674dc75ed21672cce0ac580f98abf2d",
+      "truth_sha256": "141df98934af4904246d95d0faeae1ba258f203a145a37119fc911c540002f0a"
+    },
+    {
+      "id": "jma_kobe_notice",
+      "image": "tests/fixtures/eval/images/jma_kobe_notice.png",
+      "truth": "tests/fixtures/eval/truth/jma_kobe_notice.txt",
+      "cohort": "existing",
+      "image_sha256": "39fc07a08d60ce140055c885a8017673ae477da21a357429913ee5b615792e83",
+      "truth_sha256": "9759bf8c14a2a4bb4c09cc4fa9d89da6b1273c3b60b25c136ddbe9b6126fc839"
+    },
+    {
+      "id": "ndl_accessibility_p2",
+      "image": "tests/fixtures/eval/images/ndl_accessibility_p2.png",
+      "truth": "tests/fixtures/eval/truth/ndl_accessibility_p2.txt",
+      "cohort": "existing",
+      "image_sha256": "c78d3792c550169925f44681d40f82c468b5e081d66004cee0a2d11851a4d30d",
+      "truth_sha256": "e43426f86c2bde33369a6ff88ea8a18510fcacf03219d11a1de2ac771b071659"
+    },
+    {
+      "id": "ndl_logo_ja",
+      "image": "tests/fixtures/eval/images/ndl_logo_ja.png",
+      "truth": "tests/fixtures/eval/truth/ndl_logo_ja.txt",
+      "cohort": "existing",
+      "image_sha256": "e276b26027e0dc5f7a4fb0ae2ef73e75d1e25c2fc9349d15699281bb34fe92b0",
+      "truth_sha256": "9fa80f1b267c9efaf3812a1a53b501b2ee0bbe7ac4c3f91f43685922b9b9f740"
+    },
+    {
+      "id": "scaned0",
+      "image": "tests/fixtures/eval/images/scaned0.png",
+      "truth": "tests/fixtures/eval/truth/scaned0.txt",
+      "cohort": "existing",
+      "image_sha256": "ebda3b944590310c11497df8981f5dc88e5976ae9a3e46ceab6e9c6911e94ddb",
+      "truth_sha256": "b5328ef4a7e9376456b2fb66233662d58f62c806b6cae343559ddb78c89fce30"
+    },
+    {
+      "id": "jma_climate_2025_half",
+      "image": "docs/benchmarks/deim-edge/quality/images/jma_climate_2025_half.png",
+      "truth": "tests/fixtures/eval/truth/jma_climate_2025.txt",
+      "cohort": "existing",
+      "image_sha256": "80d95846eeba79a82abb6a929e75d442c10d3bf035f9c568d8fd56e0f9552769",
+      "truth_sha256": "141df98934af4904246d95d0faeae1ba258f203a145a37119fc911c540002f0a"
+    },
+    {
+      "id": "jma_climate_2025_jpeg75",
+      "image": "docs/benchmarks/deim-edge/quality/images/jma_climate_2025_jpeg75.jpg",
+      "truth": "tests/fixtures/eval/truth/jma_climate_2025.txt",
+      "cohort": "existing",
+      "image_sha256": "97e3bafd9088a3cac2d9b0f621e28178ce45b3f661f2e4dece3c6c10a4b329cd",
+      "truth_sha256": "141df98934af4904246d95d0faeae1ba258f203a145a37119fc911c540002f0a"
+    },
+    {
+      "id": "jma_climate_2025_jpeg90",
+      "image": "docs/benchmarks/deim-edge/quality/images/jma_climate_2025_jpeg90.jpg",
+      "truth": "tests/fixtures/eval/truth/jma_climate_2025.txt",
+      "cohort": "existing",
+      "image_sha256": "0fb78b8ddc485263794317813128bbc7b175bc1ad96ae68fe4aad4bbf0e4e1cc",
+      "truth_sha256": "141df98934af4904246d95d0faeae1ba258f203a145a37119fc911c540002f0a"
+    },
+    {
+      "id": "jma_kobe_notice_half",
+      "image": "docs/benchmarks/deim-edge/quality/images/jma_kobe_notice_half.png",
+      "truth": "tests/fixtures/eval/truth/jma_kobe_notice.txt",
+      "cohort": "existing",
+      "image_sha256": "424028fd57f3e26eb8778afdf0ba69595677d8403885304ffe4755600d1012c1",
+      "truth_sha256": "9759bf8c14a2a4bb4c09cc4fa9d89da6b1273c3b60b25c136ddbe9b6126fc839"
+    },
+    {
+      "id": "jma_kobe_notice_jpeg75",
+      "image": "docs/benchmarks/deim-edge/quality/images/jma_kobe_notice_jpeg75.jpg",
+      "truth": "tests/fixtures/eval/truth/jma_kobe_notice.txt",
+      "cohort": "existing",
+      "image_sha256": "ae86dd046ff7008db7932b7835573e5cd96d60d6c0ab802b49e8dc285ba3907b",
+      "truth_sha256": "9759bf8c14a2a4bb4c09cc4fa9d89da6b1273c3b60b25c136ddbe9b6126fc839"
+    },
+    {
+      "id": "jma_kobe_notice_jpeg90",
+      "image": "docs/benchmarks/deim-edge/quality/images/jma_kobe_notice_jpeg90.jpg",
+      "truth": "tests/fixtures/eval/truth/jma_kobe_notice.txt",
+      "cohort": "existing",
+      "image_sha256": "d1eee6fbf9702604e10fa0aac50f462d674963b0f53ed4cedd4bd6772458beb9",
+      "truth_sha256": "9759bf8c14a2a4bb4c09cc4fa9d89da6b1273c3b60b25c136ddbe9b6126fc839"
+    },
+    {
+      "id": "ndl_accessibility_p2_half",
+      "image": "docs/benchmarks/deim-edge/quality/images/ndl_accessibility_p2_half.png",
+      "truth": "tests/fixtures/eval/truth/ndl_accessibility_p2.txt",
+      "cohort": "existing",
+      "image_sha256": "45573ce515e0baf79c93efaddb532b3d070da92944553a6f1463dba57a88e1d3",
+      "truth_sha256": "e43426f86c2bde33369a6ff88ea8a18510fcacf03219d11a1de2ac771b071659"
+    },
+    {
+      "id": "ndl_accessibility_p2_jpeg75",
+      "image": "docs/benchmarks/deim-edge/quality/images/ndl_accessibility_p2_jpeg75.jpg",
+      "truth": "tests/fixtures/eval/truth/ndl_accessibility_p2.txt",
+      "cohort": "existing",
+      "image_sha256": "722b41e5d7aa9d788a8478c25da216665a55531d00080d6f32b0bbef6b379956",
+      "truth_sha256": "e43426f86c2bde33369a6ff88ea8a18510fcacf03219d11a1de2ac771b071659"
+    },
+    {
+      "id": "ndl_accessibility_p2_jpeg90",
+      "image": "docs/benchmarks/deim-edge/quality/images/ndl_accessibility_p2_jpeg90.jpg",
+      "truth": "tests/fixtures/eval/truth/ndl_accessibility_p2.txt",
+      "cohort": "existing",
+      "image_sha256": "8759c41153c196dda266f634df484daf3640a5fd6d10b97091e311cf37e76c90",
+      "truth_sha256": "e43426f86c2bde33369a6ff88ea8a18510fcacf03219d11a1de2ac771b071659"
+    },
+    {
+      "id": "ndl_logo_ja_half",
+      "image": "docs/benchmarks/deim-edge/quality/images/ndl_logo_ja_half.png",
+      "truth": "tests/fixtures/eval/truth/ndl_logo_ja.txt",
+      "cohort": "existing",
+      "image_sha256": "371756abe65c77d27e67e47cda5dca5be5b1e4289c7e754b9ae917bf7f18cc20",
+      "truth_sha256": "9fa80f1b267c9efaf3812a1a53b501b2ee0bbe7ac4c3f91f43685922b9b9f740"
+    },
+    {
+      "id": "ndl_logo_ja_jpeg75",
+      "image": "docs/benchmarks/deim-edge/quality/images/ndl_logo_ja_jpeg75.jpg",
+      "truth": "tests/fixtures/eval/truth/ndl_logo_ja.txt",
+      "cohort": "existing",
+      "image_sha256": "c683160509bfe079f4556786502609bfca4e3fec5f375807bdf20f58a38c0371",
+      "truth_sha256": "9fa80f1b267c9efaf3812a1a53b501b2ee0bbe7ac4c3f91f43685922b9b9f740"
+    },
+    {
+      "id": "ndl_logo_ja_jpeg90",
+      "image": "docs/benchmarks/deim-edge/quality/images/ndl_logo_ja_jpeg90.jpg",
+      "truth": "tests/fixtures/eval/truth/ndl_logo_ja.txt",
+      "cohort": "existing",
+      "image_sha256": "812d2e4eda593490b846f15bb326ccd0251792a5b2b9d8a58a7ac355fe3a4c70",
+      "truth_sha256": "9fa80f1b267c9efaf3812a1a53b501b2ee0bbe7ac4c3f91f43685922b9b9f740"
+    },
+    {
+      "id": "scaned0_half",
+      "image": "docs/benchmarks/deim-edge/quality/images/scaned0_half.png",
+      "truth": "tests/fixtures/eval/truth/scaned0.txt",
+      "cohort": "existing",
+      "image_sha256": "99c6e934956cab3418281b9609e164ece2d52be482fa777b00163a9cf57f384d",
+      "truth_sha256": "b5328ef4a7e9376456b2fb66233662d58f62c806b6cae343559ddb78c89fce30"
+    },
+    {
+      "id": "scaned0_jpeg75",
+      "image": "docs/benchmarks/deim-edge/quality/images/scaned0_jpeg75.jpg",
+      "truth": "tests/fixtures/eval/truth/scaned0.txt",
+      "cohort": "existing",
+      "image_sha256": "63e20580606a398d491e9f58bcf84a7e0bedf8ed577cad842ba9d005b9728721",
+      "truth_sha256": "b5328ef4a7e9376456b2fb66233662d58f62c806b6cae343559ddb78c89fce30"
+    },
+    {
+      "id": "scaned0_jpeg90",
+      "image": "docs/benchmarks/deim-edge/quality/images/scaned0_jpeg90.jpg",
+      "truth": "tests/fixtures/eval/truth/scaned0.txt",
+      "cohort": "existing",
+      "image_sha256": "2357c74f5d1fc9f8d931db6ede5ed1baa74b49dbc2cb249039ade85eb15f2eb8",
+      "truth_sha256": "b5328ef4a7e9376456b2fb66233662d58f62c806b6cae343559ddb78c89fce30"
+    }
+  ],
+  "before_provenance": "docs/benchmarks/deim-same-class/evaluation-manifest.json",
+  "models": {
+    "models/parseq-ndl-24x256-30-tiny-189epoch-tegaki3-r8data-202604.onnx": "9e651bae4c1a4d5254da1127e86e82e21ef62d5339b37e62d4a3d3d30831772d",
+    "models/parseq-ndl-24x768-100-tiny-153epoch-tegaki3-r8data-202604.onnx": "06462b0dbd5b0b8508545c8c3d485cf20dbf4ffa652fe145e69c9e7457080602",
+    "models/deim-s-1024x1024.onnx": "c156ce0c4e704bc3bf7e4016d0a87b949cffa8b3724f4b4cc696b8284c3c7373",
+    "models/parseq-ndl-24x384-50-tiny-300epoch-tegaki3-r8data-202604.onnx": "49cea9db4552f19eb05c8ee202fcf74714977749b2f4c9376b127fde41b07a99"
+  },
+  "charset_sha256": "f6ad5a2de444b495155866af811cf1a98309dcae3225db802767ea531a2dc529"
+}

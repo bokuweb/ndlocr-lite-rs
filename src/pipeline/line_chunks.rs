@@ -28,6 +28,10 @@ mod wide_spaces;
 /// 下線だけが字間を接続する行の安全な分割。
 mod underlines;
 
+/// 長行の中央再認識で字形と単語空白を保持する。
+mod long_split;
+pub(crate) use long_split::split_long_line_near_center;
+
 /// 回転した縦書き字形の文脈を保つ分割。
 mod vertical;
 pub use vertical::split_rotated_vertical_column_for_input;

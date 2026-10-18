@@ -1,0 +1,604 @@
+[
+  {
+    "confidence": 0.9991312623023987,
+    "cuts_connected_ink": true,
+    "eligible": true,
+    "fragment": "The library preserves historical books, maps, photographs, and newspapers so fututure readers can st",
+    "id": "library_gothic24",
+    "legacy_pieces": [
+      {
+        "bounds": [
+          0,
+          745
+        ],
+        "confidence": 0.9999479651451111,
+        "text": "The library preserves historical books, maps, photographs, an"
+      },
+      {
+        "bounds": [
+          745,
+          1490
+        ],
+        "confidence": 0.9999700784683228,
+        "text": "d newspapers so that future readers can study their contents."
+      }
+    ],
+    "midpoint": 745,
+    "raw": "The library preserves historical books, maps, photographs, and newspapers so fututure readers can st",
+    "size": [
+      1490,
+      33
+    ]
+  },
+  {
+    "confidence": 0.9922652244567871,
+    "cuts_connected_ink": true,
+    "eligible": true,
+    "fragment": "Fach observation includes the station nameasurement time,instrument setings, and a short note descri",
+    "id": "observations_gothic24",
+    "legacy_pieces": [
+      {
+        "bounds": [
+          0,
+          800
+        ],
+        "confidence": 0.9990659356117249,
+        "text": "Each observation includes the station name, measurement time, ins"
+      },
+      {
+        "bounds": [
+          800,
+          1600
+        ],
+        "confidence": 0.9999428987503052,
+        "text": "strument settings, and a short note describing the local conditions."
+      }
+    ],
+    "midpoint": 800,
+    "raw": "Fach observation includes the station nameasurement time,instrument setings, and a short note descri",
+    "size": [
+      1600,
+      33
+    ]
+  },
+  {
+    "confidence": 0.9306474924087524,
+    "cuts_connected_ink": false,
+    "eligible": false,
+    "fragment": "調整",
+    "id": "japanese_gothic24",
+    "legacy_pieces": [],
+    "midpoint": 1444,
+    "raw": "調整",
+    "size": [
+      2888,
+      33
+    ]
+  },
+  {
+    "confidence": 0.9431115984916687,
+    "cuts_connected_ink": true,
+    "eligible": true,
+    "fragment": "htps//exampleimald//bray/colectons/hitorca-maps/meta/obsenationgrecords/measurement corditiors/echre",
+    "id": "uri_gothic24",
+    "legacy_pieces": [
+      {
+        "bounds": [
+          0,
+          859
+        ],
+        "confidence": 0.9929084777832031,
+        "text": "https://example.invalid/library/collections/historical-maps/metadata/ob:"
+      },
+      {
+        "bounds": [
+          859,
+          1718
+        ],
+        "confidence": 0.999439537525177,
+        "text": "servation_records/measurement_conditions/technical-report_2026.html"
+      }
+    ],
+    "midpoint": 859,
+    "raw": "htps//exampleimald//bray/colectons/hitorca-maps/meta/obsenationgrecords/measurement corditiors/echre",
+    "size": [
+      1718,
+      35
+    ]
+  },
+  {
+    "confidence": 0.9998942613601685,
+    "cuts_connected_ink": false,
+    "eligible": false,
+    "fragment": "Readers can search the catalogue online.",
+    "id": "control_en_gothic24",
+    "legacy_pieces": [],
+    "midpoint": 250,
+    "raw": "Readers can search the catalogue online.",
+    "size": [
+      500,
+      32
+    ]
+  },
+  {
+    "confidence": 0.9999720454216003,
+    "cuts_connected_ink": false,
+    "eligible": false,
+    "fragment": "図書館の資料を検索して閲覧できます。",
+    "id": "control_ja_gothic24",
+    "legacy_pieces": [],
+    "midpoint": 220,
+    "raw": "図書館の資料を検索して閲覧できます。",
+    "size": [
+      440,
+      32
+    ]
+  },
+  {
+    "confidence": 0.995364785194397,
+    "cuts_connected_ink": true,
+    "eligible": true,
+    "fragment": "The library preserves historical books, maps, photographs, and newspapers so fututure readers can st",
+    "id": "library_gothic36",
+    "legacy_pieces": [
+      {
+        "bounds": [
+          0,
+          1108
+        ],
+        "confidence": 0.9999659061431885,
+        "text": "The library preserves historical books, maps, photographs, an"
+      },
+      {
+        "bounds": [
+          1108,
+          2216
+        ],
+        "confidence": 0.9999676942825317,
+        "text": "d newspapers so that future readers can study their contents."
+      }
+    ],
+    "midpoint": 1108,
+    "raw": "The library preserves historical books, maps, photographs, and newspapers so fututure readers can st",
+    "size": [
+      2216,
+      45
+    ]
+  },
+  {
+    "confidence": 0.9946724772453308,
+    "cuts_connected_ink": true,
+    "eligible": true,
+    "fragment": "Each observation includes the station nameasurement time,instrument setting, and a short note descri",
+    "id": "observations_gothic36",
+    "legacy_pieces": [
+      {
+        "bounds": [
+          0,
+          1195
+        ],
+        "confidence": 0.9999592900276184,
+        "text": "Each observation includes the station name, measurement time, in"
+      },
+      {
+        "bounds": [
+          1195,
+          2390
+        ],
+        "confidence": 0.9999618530273438,
+        "text": "strument settings, and a short note describing the local conditions."
+      }
+    ],
+    "midpoint": 1195,
+    "raw": "Each observation includes the station nameasurement time,instrument setting, and a short note descri",
+    "size": [
+      2390,
+      45
+    ]
+  },
+  {
+    "confidence": 0.3991685211658478,
+    "cuts_connected_ink": false,
+    "eligible": false,
+    "fragment": "間学は",
+    "id": "japanese_gothic36",
+    "legacy_pieces": [],
+    "midpoint": 2164,
+    "raw": "間学は",
+    "size": [
+      4328,
+      45
+    ]
+  },
+  {
+    "confidence": 0.9444854259490967,
+    "cuts_connected_ink": true,
+    "eligible": true,
+    "fragment": "https//exampleinvald/bray/collectords/istonca-ms/meta/obsenvervefon records/measurement conditicapor",
+    "id": "uri_gothic36",
+    "legacy_pieces": [
+      {
+        "bounds": [
+          0,
+          1283
+        ],
+        "confidence": 0.9976962208747864,
+        "text": "https://example.invalid/library/collections/historical-maps/metadata/ob:"
+      },
+      {
+        "bounds": [
+          1283,
+          2566
+        ],
+        "confidence": 0.9970505237579346,
+        "text": "servation_records/measurement conditions/technical-report 2026.html"
+      }
+    ],
+    "midpoint": 1283,
+    "raw": "https//exampleinvald/bray/collectords/istonca-ms/meta/obsenvervefon records/measurement conditicapor",
+    "size": [
+      2566,
+      47
+    ]
+  },
+  {
+    "confidence": 0.9998653531074524,
+    "cuts_connected_ink": false,
+    "eligible": false,
+    "fragment": "Readers can search the catalogue online.",
+    "id": "control_en_gothic36",
+    "legacy_pieces": [],
+    "midpoint": 371,
+    "raw": "Readers can search the catalogue online.",
+    "size": [
+      742,
+      44
+    ]
+  },
+  {
+    "confidence": 0.9999771118164062,
+    "cuts_connected_ink": false,
+    "eligible": false,
+    "fragment": "図書館の資料を検索して閲覧できます。",
+    "id": "control_ja_gothic36",
+    "legacy_pieces": [],
+    "midpoint": 328,
+    "raw": "図書館の資料を検索して閲覧できます。",
+    "size": [
+      656,
+      44
+    ]
+  },
+  {
+    "confidence": 0.9991596937179565,
+    "cuts_connected_ink": true,
+    "eligible": true,
+    "fragment": "The library preserves historical books, maps, photographs, and newspapers so that futureaders can st",
+    "id": "library_mincho24",
+    "legacy_pieces": [
+      {
+        "bounds": [
+          0,
+          707
+        ],
+        "confidence": 0.9999809265136719,
+        "text": "The library preserves historical books, maps, photographs, an"
+      },
+      {
+        "bounds": [
+          707,
+          1415
+        ],
+        "confidence": 0.9999617338180542,
+        "text": "d newspapers so that future readers can study their contents."
+      }
+    ],
+    "midpoint": 707,
+    "raw": "The library preserves historical books, maps, photographs, and newspapers so that futureaders can st",
+    "size": [
+      1415,
+      32
+    ]
+  },
+  {
+    "confidence": 0.991824746131897,
+    "cuts_connected_ink": false,
+    "eligible": true,
+    "fragment": "Each observation includes the station name, measurent fime, instrument setings, a short note describ",
+    "id": "observations_mincho24",
+    "legacy_pieces": [
+      {
+        "bounds": [
+          0,
+          769
+        ],
+        "confidence": 0.9999833106994629,
+        "text": "Each observation includes the station name, measurement time, in"
+      },
+      {
+        "bounds": [
+          769,
+          1538
+        ],
+        "confidence": 0.9998714327812195,
+        "text": "strument settings, and a short note describing the local conditions."
+      }
+    ],
+    "midpoint": 769,
+    "raw": "Each observation includes the station name, measurent fime, instrument setings, a short note describ",
+    "size": [
+      1538,
+      31
+    ]
+  },
+  {
+    "confidence": 0.7775075435638428,
+    "cuts_connected_ink": false,
+    "eligible": false,
+    "fragment": "調査で",
+    "id": "japanese_mincho24",
+    "legacy_pieces": [],
+    "midpoint": 1444,
+    "raw": "調査で",
+    "size": [
+      2888,
+      33
+    ]
+  },
+  {
+    "confidence": 0.8896315097808838,
+    "cuts_connected_ink": true,
+    "eligible": true,
+    "fragment": "htps/exampleinvald/lbran/colleciong/intoricd-maps/netadata/a/on records/neasuremerememendions/echnic",
+    "id": "uri_mincho24",
+    "legacy_pieces": [
+      {
+        "bounds": [
+          0,
+          815
+        ],
+        "confidence": 0.9948101043701172,
+        "text": "https://example.invalid/library/collections/historical-maps/metadata/ob."
+      },
+      {
+        "bounds": [
+          815,
+          1631
+        ],
+        "confidence": 0.9992669224739075,
+        "text": "servation_records/measurement_conditions/technical-report_2026.html"
+      }
+    ],
+    "midpoint": 815,
+    "raw": "htps/exampleinvald/lbran/colleciong/intoricd-maps/netadata/a/on records/neasuremerememendions/echnic",
+    "size": [
+      1631,
+      33
+    ]
+  },
+  {
+    "confidence": 0.999907374382019,
+    "cuts_connected_ink": false,
+    "eligible": false,
+    "fragment": "Readers can search the catalogue online.",
+    "id": "control_en_mincho24",
+    "legacy_pieces": [],
+    "midpoint": 239,
+    "raw": "Readers can search the catalogue online.",
+    "size": [
+      478,
+      31
+    ]
+  },
+  {
+    "confidence": 0.9999526143074036,
+    "cuts_connected_ink": false,
+    "eligible": false,
+    "fragment": "図書館の資料を検索して閲覧できます。",
+    "id": "control_ja_mincho24",
+    "legacy_pieces": [],
+    "midpoint": 220,
+    "raw": "図書館の資料を検索して閲覧できます。",
+    "size": [
+      440,
+      32
+    ]
+  },
+  {
+    "confidence": 0.992021381855011,
+    "cuts_connected_ink": true,
+    "eligible": true,
+    "fragment": "The library preserves historical books, maps, photographs, and newspapers so that fure readers can s",
+    "id": "library_mincho36",
+    "legacy_pieces": [
+      {
+        "bounds": [
+          0,
+          1052
+        ],
+        "confidence": 0.9989978671073914,
+        "text": "The library preserves historical books, maps, photographs, ar"
+      },
+      {
+        "bounds": [
+          1052,
+          2105
+        ],
+        "confidence": 0.9969216585159302,
+        "text": "id newspapers so that future readers can study their contents."
+      }
+    ],
+    "midpoint": 1052,
+    "raw": "The library preserves historical books, maps, photographs, and newspapers so that fure readers can s",
+    "size": [
+      2105,
+      45
+    ]
+  },
+  {
+    "confidence": 0.9917589426040649,
+    "cuts_connected_ink": false,
+    "eligible": true,
+    "fragment": "Each observation inchudes the station name, measurent time, instrument setings, a short note describ",
+    "id": "observations_mincho36",
+    "legacy_pieces": [
+      {
+        "bounds": [
+          0,
+          1141
+        ],
+        "confidence": 0.9999833703041077,
+        "text": "Each observation includes the station name, measurement time, in"
+      },
+      {
+        "bounds": [
+          1141,
+          2282
+        ],
+        "confidence": 0.9997692108154297,
+        "text": "strument settings, and a short note describing the local conditions."
+      }
+    ],
+    "midpoint": 1141,
+    "raw": "Each observation inchudes the station name, measurent time, instrument setings, a short note describ",
+    "size": [
+      2282,
+      43
+    ]
+  },
+  {
+    "confidence": 0.7862365245819092,
+    "cuts_connected_ink": false,
+    "eligible": false,
+    "fragment": "原告書の結果学説",
+    "id": "japanese_mincho36",
+    "legacy_pieces": [],
+    "midpoint": 2164,
+    "raw": "原告書の結果学説",
+    "size": [
+      4328,
+      45
+    ]
+  },
+  {
+    "confidence": 0.9155740141868591,
+    "cuts_connected_ink": true,
+    "eligible": true,
+    "fragment": "hups//example invaldlibrary/collecion/historical-meladatalcbseraion recorisinessurement condiony/cal",
+    "id": "uri_mincho36",
+    "legacy_pieces": [
+      {
+        "bounds": [
+          0,
+          1217
+        ],
+        "confidence": 0.9997038245201111,
+        "text": "https://example.invalid/library/collections/historical-maps/metadata/ob"
+      },
+      {
+        "bounds": [
+          1217,
+          2435
+        ],
+        "confidence": 0.9997638463973999,
+        "text": "servation_records/measurement_conditions/technical-report_2026.html"
+      }
+    ],
+    "midpoint": 1217,
+    "raw": "hups//example invaldlibrary/collecion/historical-meladatalcbseraion recorisinessurement condiony/cal",
+    "size": [
+      2435,
+      47
+    ]
+  },
+  {
+    "confidence": 0.9999316930770874,
+    "cuts_connected_ink": false,
+    "eligible": false,
+    "fragment": "Readers can search the catalogue online.",
+    "id": "control_en_mincho36",
+    "legacy_pieces": [],
+    "midpoint": 354,
+    "raw": "Readers can search the catalogue online.",
+    "size": [
+      708,
+      43
+    ]
+  },
+  {
+    "confidence": 0.9999671578407288,
+    "cuts_connected_ink": false,
+    "eligible": false,
+    "fragment": "図書館の資料を検索して閲覧できます。",
+    "id": "control_ja_mincho36",
+    "legacy_pieces": [],
+    "midpoint": 328,
+    "raw": "図書館の資料を検索して閲覧できます。",
+    "size": [
+      656,
+      44
+    ]
+  },
+  {
+    "confidence": 0.9966986179351807,
+    "cuts_connected_ink": true,
+    "eligible": true,
+    "fragment": "turpis. Volutpat nibh, nune magna non diam euismod sed dolore non diam nibh tempus donec",
+    "id": "paragraph_raw",
+    "legacy_pieces": [
+      {
+        "bounds": [
+          0,
+          936
+        ],
+        "confidence": 0.9994231462478638,
+        "text": "turpis. Volutpat nibh, nunc magna non diam eu"
+      },
+      {
+        "bounds": [
+          936,
+          1873
+        ],
+        "confidence": 0.9893679022789001,
+        "text": "lismod sed dolore non diam nibh tempus donec"
+      }
+    ],
+    "midpoint": 936,
+    "raw": "turpis. Volutpat nibh, nune magna non diam euismod sed dolore non diam nibh tempus donec",
+    "size": [
+      1873,
+      47
+    ]
+  },
+  {
+    "confidence": 0.9966986179351807,
+    "cuts_connected_ink": true,
+    "eligible": true,
+    "fragment": "turpis. Volutpat nibh, nune magna non diam euismod sed dolore non diam nibh tempus donec",
+    "id": "paragraph_normalized",
+    "legacy_pieces": [
+      {
+        "bounds": [
+          0,
+          936
+        ],
+        "confidence": 0.9994231462478638,
+        "text": "turpis. Volutpat nibh, nunc magna non diam eu"
+      },
+      {
+        "bounds": [
+          936,
+          1873
+        ],
+        "confidence": 0.9893679022789001,
+        "text": "lismod sed dolore non diam nibh tempus donec"
+      }
+    ],
+    "midpoint": 936,
+    "raw": "turpis. Volutpat nibh, nune magna non diam euismod sed dolore non diam nibh tempus donec",
+    "size": [
+      1873,
+      47
+    ]
+  }
+]

@@ -12,7 +12,7 @@ mod fragment_bands;
 pub mod horizontal_margins;
 /// 横書き行を画素欠落のない短い認識区間に分割する。
 pub mod line_chunks;
-/// 行クラスの競合検出を、認識前に共通の条件で選ぶ。
+/// 行検出の重複候補を、認識前に共通の条件で選ぶ。
 pub(crate) mod line_detections;
 /// 原領域を保持し、予算内の隣接帯結合を採点候補として列挙する。
 pub mod line_hypotheses;

@@ -1,0 +1,20 @@
+[
+  {
+    "stage": "initial",
+    "recorded_path": "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/long-line-split/candidate-ndlocr",
+    "preserved_path": "tmp/long-line-split/initial-candidate-ndlocr",
+    "sha256": "a740ec8550cf21a6750cc38ebdffdd36d8a0e5dbf45e38c30f11565435171463"
+  },
+  {
+    "stage": "refined-before-dedup",
+    "recorded_path": "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/long-line-split/candidate-ndlocr",
+    "preserved_path": "tmp/long-line-split/candidate-ndlocr",
+    "sha256": "0e7865b395e73f50b673a10a0a476082fe4c3cb21de705772bd70144b152d5ef"
+  },
+  {
+    "stage": "final",
+    "recorded_path": "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/long-line-split/final/candidate-ndlocr",
+    "preserved_path": "tmp/long-line-split/final/candidate-ndlocr",
+    "sha256": "ec58288b949f22b242d3ecfcdb917050bdfdfcee03dd983bef1c597ea3037c6f"
+  }
+]

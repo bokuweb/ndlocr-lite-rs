@@ -373,10 +373,13 @@ impl CachedPageRecognizer {
         if char_count < split_long_line_char_threshold || width < height.saturating_mul(4) {
             return Ok(recognized);
         }
-        let mid = width / 2;
-        if mid == 0 || mid >= width {
+        let Some(chunks) =
+            crate::pipeline::line_chunks::split_long_line_near_center(rgb, width, height, 220)
+                .map_err(anyhow::Error::msg)?
+        else {
             return Ok(recognized);
-        }
+        };
+        let mid = chunks[0].x1;
         let left = crop_rgb_u8(rgb, width, height, BBox::new(0, 0, mid, height))?;
         let right = crop_rgb_u8(rgb, width, height, BBox::new(mid, 0, width, height))?;
         let left_rec = self
@@ -391,7 +394,15 @@ impl CachedPageRecognizer {
         if left_len == 0 && right_len == 0 {
             return Ok(recognized);
         }
-        let text = format!("{}{}", left_rec.text, right_rec.text);
+        let separator = if left_len > 0
+            && right_len > 0
+            && chunks[1].insert_space_before(&left_rec.text, &right_rec.text, height)
+        {
+            " "
+        } else {
+            ""
+        };
+        let text = format!("{}{}{}", left_rec.text, separator, right_rec.text);
         let total_len = (left_len + right_len) as f32;
         let mean_confidence = if total_len > 0.0 {
             (left_rec.mean_confidence * left_len as f32
@@ -764,10 +775,13 @@ fn maybe_split_long_line_and_recognize(
     if char_count < split_long_line_char_threshold || width < height.saturating_mul(4) {
         return Ok(recognized);
     }
-    let mid = width / 2;
-    if mid == 0 || mid >= width {
+    let Some(chunks) =
+        crate::pipeline::line_chunks::split_long_line_near_center(rgb, width, height, 220)
+            .map_err(anyhow::Error::msg)?
+    else {
         return Ok(recognized);
-    }
+    };
+    let mid = chunks[0].x1;
     let left = crop_rgb_u8(rgb, width, height, BBox::new(0, 0, mid, height))?;
     let right = crop_rgb_u8(rgb, width, height, BBox::new(mid, 0, width, height))?;
     let left_rec = parseq::recognize_rgb_u8_with_score(
@@ -790,7 +804,15 @@ fn maybe_split_long_line_and_recognize(
     if left_len == 0 && right_len == 0 {
         return Ok(recognized);
     }
-    let text = format!("{}{}", left_rec.text, right_rec.text);
+    let separator = if left_len > 0
+        && right_len > 0
+        && chunks[1].insert_space_before(&left_rec.text, &right_rec.text, height)
+    {
+        " "
+    } else {
+        ""
+    };
+    let text = format!("{}{}{}", left_rec.text, separator, right_rec.text);
     let total_len = (left_len + right_len) as f32;
     let mean_confidence = if total_len > 0.0 {
         (left_rec.mean_confidence * left_len as f32 + right_rec.mean_confidence * right_len as f32)

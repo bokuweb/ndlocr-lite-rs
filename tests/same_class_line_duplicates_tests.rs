@@ -86,3 +86,39 @@ fn real_deim_retains_raw_queries_but_recognizes_one_physical_uri_line() {
     assert_eq!(crops[0].confidence, winner.confidence);
     assert_eq!(crops[0].pred_char_count, winner.pred_char_count);
 }
+
+/// 単一モデルのPageRecognizerでも近似同一queryを一度だけ認識する。
+#[cfg(feature = "onnx")]
+#[test]
+#[ignore = "requires pinned DEIM/100-character models"]
+fn page_runtime_selects_the_same_single_physical_line() {
+    use ndlocr_lite_rs::infer::page_pool::{PageRecognizer, PageRecognizerOptions};
+    let image = ndlocr_lite_rs::io::load_rgb_u8(std::path::Path::new(
+        "tests/fixtures/long_line_split/images/uri_gothic36.png",
+    ))
+    .unwrap();
+    let runtime = PageRecognizer::load(
+        std::path::Path::new("models/deim-s-1024x1024.onnx"),
+        std::path::Path::new(
+            "models/parseq-ndl-24x768-100-tiny-153epoch-tegaki3-r8data-202604.onnx",
+        ),
+        std::path::Path::new("models/NDLmoji.yaml"),
+        1,
+    )
+    .unwrap();
+    let page = runtime
+        .recognize_page_rgb_u8(
+            &image.data,
+            image.width,
+            image.height,
+            PageRecognizerOptions {
+                det_conf_threshold: 0.25,
+                min_line_confidence: 0.0,
+                drop_empty_text: false,
+            },
+        )
+        .unwrap();
+    assert_eq!(page.lines.len(), 1);
+    assert_eq!(page.lines[0].bbox_xyxy, [224, 0, 2494, 39]);
+    assert!(!page.lines[0].text.is_empty());
+}

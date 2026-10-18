@@ -8,6 +8,17 @@ pub(super) fn split_underlined_line(
     threshold: u8,
     input: (usize, usize),
 ) -> Option<Vec<LineChunk>> {
+    let masked = mask_supported_underline(rgb, (width, height), threshold)?;
+    // 全ての対象画線を除外済みなので、同じfallbackには再入しない。
+    split_line_for_input(&masked, width, height, threshold, input.0, input.1).ok()
+}
+
+/// 支持のある薄い下線だけを判断用コピーから外し、認識用RGBは変更しない。
+pub(super) fn mask_supported_underline(
+    rgb: &[u8],
+    (width, height): (usize, usize),
+    threshold: u8,
+) -> Option<Vec<u8>> {
     if height < 12 {
         return None;
     }
@@ -73,6 +84,5 @@ pub(super) fn split_underlined_line(
     if groups < 6 || body_bottom.saturating_sub(body_top) < height.div_ceil(2) {
         return None;
     }
-    // 全ての対象画線を除外済みなので、同じfallbackには再入しない。
-    split_line_for_input(&masked, width, height, threshold, input.0, input.1).ok()
+    Some(masked)
 }

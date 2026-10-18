@@ -1,0 +1,15 @@
+   Compiling ndlocr-lite-rs v0.1.0 (/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.98s
+     Running tests/underlined_line_tests.rs (target/debug/deps/underlined_line_tests-618412b1ad0778bd)
+
+running 5 tests
+test unsupported_rules_keep_the_original_error ... ok
+test already_splittable_or_short_lines_keep_original_context ... ok
+test long_underline_allows_boundaries_without_changing_pixels ... ok
+test real_url_bands_are_splittable_in_both_detection_paths ... ok
+test underlined_splits_preserve_coverage_and_glyphs ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.20s
+
+mbx[cache]: 0 hits, 0 misses, 2 not looked up, 3 incremental; 0 B downloaded, 0 B uploaded, 0 B stored locally
+mbx[savings]: 11h 2m refunded over 9021 builds. no receipt necessary.

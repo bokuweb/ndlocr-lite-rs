@@ -1,0 +1,39 @@
+warning: methods `recognize_batch_indexed` and `run_chunk_on_session` are never used
+   --> src/infer/cached.rs:572:8
+    |
+410 | impl ParseqPool {
+    | --------------- methods in this implementation
+...
+572 |     fn recognize_batch_indexed(
+    |        ^^^^^^^^^^^^^^^^^^^^^^^
+...
+691 |     fn run_chunk_on_session(
+    |        ^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: `ndlocr-lite-rs` (lib) generated 1 warning
+   Compiling ndlocr-lite-rs v0.1.0 (/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.49s
+     Running tests/long_line_split_model_tests.rs (target/debug/deps/long_line_split_model_tests-943a9a9b6c60f285)
+
+running 1 test
+14 eligible crops, 12 midpoint cuts
+
+thread 'long_line_midpoint_does_not_cut_a_connected_stroke' (39629391) panicked at tests/long_line_split_model_tests.rs:72:5:
+assertion `left == right` failed: must not cut connected foreground strokes
+  left: 12
+ right: 0
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+test long_line_midpoint_does_not_cut_a_connected_stroke ... FAILED
+
+failures:
+
+failures:
+    long_line_midpoint_does_not_cut_a_connected_stroke
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 4.47s
+
+error: test failed, to rerun pass `--test long_line_split_model_tests`
+mbx[cache]: 0 hits, 0 misses, 1 bypassed; 0 B downloaded, 0 B uploaded, 0 B stored locally
+mbx[savings]: 58476 compilations, each compiled once and served warm ever since
