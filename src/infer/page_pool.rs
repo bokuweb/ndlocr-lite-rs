@@ -349,9 +349,35 @@ fn recognize_one_page(
             confidence: rec.mean_confidence,
         });
     }
+    let scored: Vec<_> = lines
+        .iter()
+        .map(|line| crate::pipeline::line_context::ScoredRegion {
+            bounds: line.bbox_xyxy,
+            text: &line.text,
+            mean_confidence: line.confidence,
+        })
+        .collect();
+    let keep = crate::pipeline::line_context::select_contexts(&scored, parseq.input_dimensions());
+    let mut keep = keep.into_iter().peekable();
+    let lines = lines
+        .into_iter()
+        .enumerate()
+        .filter_map(|(i, line)| {
+            if keep.peek() == Some(&i) {
+                keep.next();
+                Some(line)
+            } else {
+                None
+            }
+        })
+        .collect();
     Ok(PageResult { page_index, lines })
 }
 
 #[cfg(test)]
 #[path = "../../tests/support/page_band_fallback_model.rs"]
 mod band_fallback_tests;
+
+#[cfg(test)]
+#[path = "../../tests/support/contained_line_context_model.rs"]
+mod contained_context_tests;

@@ -25,8 +25,11 @@ use super::parseq::{
     ParseqCandidateResult, ParseqOrientation, PreprocessScratch, RecognizeResult,
     load_charset_from_yaml_str, predict_text_from_flat_logits_with_candidates,
     predict_text_from_flat_logits_with_confidence, preprocess_rgb_u8_into_with_scratch,
-    preprocess_rgb_u8_with_orientation, sanitize_recognized_fragment, sanitize_recognized_text,
+    preprocess_rgb_u8_with_orientation,
 };
+
+#[cfg(test)]
+use super::parseq::sanitize_recognized_text;
 
 pub fn default_parseq_parallelism() -> usize {
     std::env::var("NDLOCR_PARSEQ_PARALLELISM")
@@ -140,7 +143,13 @@ impl ParseqSession {
         height: usize,
     ) -> Result<RecognizeResult> {
         let mut result = self.recognize_rgb_u8_unprocessed(rgb, width, height)?;
-        result.text = sanitize_recognized_text(&result.text);
+        result.text = super::visible_repetitions::sanitize_visible_single_line(
+            &result.text,
+            rgb,
+            width,
+            height,
+            ParseqOrientation::Auto,
+        );
         Ok(result)
     }
 
@@ -272,8 +281,14 @@ fn run_batch_on_session(
         charset,
         items,
     )?;
-    for result in &mut results {
-        result.text = sanitize_recognized_text(&result.text);
+    for (result, &(rgb, width, height)) in results.iter_mut().zip(items) {
+        result.text = super::visible_repetitions::sanitize_visible_single_line(
+            &result.text,
+            rgb,
+            width,
+            height,
+            ParseqOrientation::Auto,
+        );
     }
     Ok(results)
 }
@@ -394,6 +409,12 @@ fn use_direct_batch_preprocess(batch_len: usize, _has_vertical_crop: bool) -> bo
     batch_len < 16
 }
 
+#[derive(Clone, Copy)]
+enum ParseqTextPolicy {
+    SingleLine,
+    Fragment,
+}
+
 /// 同じモデルから複数の `Session` を作って round-robin に貸し出すプール。
 pub struct ParseqPool {
     sessions: Vec<Mutex<SessionCell>>,
@@ -404,7 +425,7 @@ pub struct ParseqPool {
     input_h: usize,
     batch_dim_dynamic: bool,
     charset: Vec<char>,
-    postprocess: fn(&str) -> String,
+    postprocess: ParseqTextPolicy,
 }
 
 impl ParseqPool {
@@ -449,11 +470,12 @@ impl ParseqPool {
             input_h,
             batch_dim_dynamic,
             charset,
-            postprocess: sanitize_recognized_text,
+            postprocess: ParseqTextPolicy::SingleLine,
         })
     }
 
     /// ページの行・chunkに、文の途中の閉じ括弧を保持する後処理を使う。
+    /// 同じRGBの独立した画線群が文字数を支持するときだけ反復制限を省く。
     pub(crate) fn load_for_fragments(
         model: &Path,
         charset: &Path,
@@ -463,7 +485,7 @@ impl ParseqPool {
     }
 
     pub(crate) fn for_fragments(mut self) -> Self {
-        self.postprocess = sanitize_recognized_fragment;
+        self.postprocess = ParseqTextPolicy::Fragment;
         self
     }
 
@@ -492,8 +514,27 @@ impl ParseqPool {
             items,
             orientation,
         )?;
-        for result in &mut results {
-            result.text = (self.postprocess)(&result.text);
+        for (result, &(rgb, width, height)) in results.iter_mut().zip(items) {
+            result.text = match self.postprocess {
+                ParseqTextPolicy::SingleLine => {
+                    super::visible_repetitions::sanitize_visible_single_line(
+                        &result.text,
+                        rgb,
+                        width,
+                        height,
+                        orientation,
+                    )
+                }
+                ParseqTextPolicy::Fragment => {
+                    super::visible_repetitions::sanitize_visible_repetitions(
+                        &result.text,
+                        rgb,
+                        width,
+                        height,
+                        orientation,
+                    )
+                }
+            };
         }
         Ok(results)
     }
@@ -1059,3 +1100,7 @@ mod tests {
         assert!(!use_direct_batch_preprocess(32, true));
     }
 }
+
+#[cfg(test)]
+#[path = "../../tests/support/visible_repetitions_model.rs"]
+mod visible_repetition_model_tests;

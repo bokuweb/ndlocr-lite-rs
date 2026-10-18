@@ -1,0 +1,222 @@
+[
+  {
+    "id": "library_gothic24",
+    "matches": true,
+    "mode": "runtime30_eval"
+  },
+  {
+    "id": "ndl_logo_ja",
+    "matches": true,
+    "mode": "runtime30_eval"
+  },
+  {
+    "id": "dense_library_bold24_original",
+    "matches": true,
+    "mode": "runtime30_eval"
+  },
+  {
+    "id": "crop_ja_thin40_pad6",
+    "matches": true,
+    "mode": "runtime30_eval"
+  },
+  {
+    "id": "fallback_single_ja_mincho_jpeg75",
+    "matches": true,
+    "mode": "runtime30_eval"
+  },
+  {
+    "id": "repeat_zero_n12_gothic_png",
+    "matches": true,
+    "mode": "runtime30_eval"
+  },
+  {
+    "id": "repeat_lower_l_n08_gothic_jpeg75",
+    "matches": true,
+    "mode": "runtime30_eval"
+  },
+  {
+    "id": "repeat_mixed_a1_n08_gothic_png",
+    "matches": true,
+    "mode": "runtime30_eval"
+  },
+  {
+    "id": "repeat_eight_n06_mincho_jpeg75",
+    "matches": true,
+    "mode": "runtime30_eval"
+  },
+  {
+    "id": "repeat_upper_o_n06_mincho_png",
+    "matches": true,
+    "mode": "runtime30_eval"
+  },
+  {
+    "id": "repeat_mixed_a1_n04_mincho_jpeg75",
+    "matches": true,
+    "mode": "runtime30_eval"
+  },
+  {
+    "id": "library_gothic24",
+    "matches": true,
+    "mode": "runtime30_default"
+  },
+  {
+    "id": "ndl_logo_ja",
+    "matches": true,
+    "mode": "runtime30_default"
+  },
+  {
+    "id": "dense_library_bold24_original",
+    "matches": true,
+    "mode": "runtime30_default"
+  },
+  {
+    "id": "crop_ja_thin40_pad6",
+    "matches": true,
+    "mode": "runtime30_default"
+  },
+  {
+    "id": "fallback_single_ja_mincho_jpeg75",
+    "matches": true,
+    "mode": "runtime30_default"
+  },
+  {
+    "id": "repeat_zero_n12_gothic_png",
+    "matches": true,
+    "mode": "runtime30_default"
+  },
+  {
+    "id": "repeat_lower_l_n08_gothic_jpeg75",
+    "matches": true,
+    "mode": "runtime30_default"
+  },
+  {
+    "id": "repeat_mixed_a1_n08_gothic_png",
+    "matches": true,
+    "mode": "runtime30_default"
+  },
+  {
+    "id": "repeat_eight_n06_mincho_jpeg75",
+    "matches": true,
+    "mode": "runtime30_default"
+  },
+  {
+    "id": "repeat_upper_o_n06_mincho_png",
+    "matches": true,
+    "mode": "runtime30_default"
+  },
+  {
+    "id": "repeat_mixed_a1_n04_mincho_jpeg75",
+    "matches": true,
+    "mode": "runtime30_default"
+  },
+  {
+    "id": "library_gothic24",
+    "matches": true,
+    "mode": "runtime100_eval"
+  },
+  {
+    "id": "ndl_logo_ja",
+    "matches": true,
+    "mode": "runtime100_eval"
+  },
+  {
+    "id": "dense_library_bold24_original",
+    "matches": true,
+    "mode": "runtime100_eval"
+  },
+  {
+    "id": "crop_ja_thin40_pad6",
+    "matches": true,
+    "mode": "runtime100_eval"
+  },
+  {
+    "id": "fallback_single_ja_mincho_jpeg75",
+    "matches": true,
+    "mode": "runtime100_eval"
+  },
+  {
+    "id": "repeat_zero_n12_gothic_png",
+    "matches": true,
+    "mode": "runtime100_eval"
+  },
+  {
+    "id": "repeat_lower_l_n08_gothic_jpeg75",
+    "matches": true,
+    "mode": "runtime100_eval"
+  },
+  {
+    "id": "repeat_mixed_a1_n08_gothic_png",
+    "matches": true,
+    "mode": "runtime100_eval"
+  },
+  {
+    "id": "repeat_eight_n06_mincho_jpeg75",
+    "matches": true,
+    "mode": "runtime100_eval"
+  },
+  {
+    "id": "repeat_upper_o_n06_mincho_png",
+    "matches": true,
+    "mode": "runtime100_eval"
+  },
+  {
+    "id": "repeat_mixed_a1_n04_mincho_jpeg75",
+    "matches": true,
+    "mode": "runtime100_eval"
+  },
+  {
+    "id": "library_gothic24",
+    "matches": true,
+    "mode": "runtime100_default"
+  },
+  {
+    "id": "ndl_logo_ja",
+    "matches": true,
+    "mode": "runtime100_default"
+  },
+  {
+    "id": "dense_library_bold24_original",
+    "matches": true,
+    "mode": "runtime100_default"
+  },
+  {
+    "id": "crop_ja_thin40_pad6",
+    "matches": true,
+    "mode": "runtime100_default"
+  },
+  {
+    "id": "fallback_single_ja_mincho_jpeg75",
+    "matches": true,
+    "mode": "runtime100_default"
+  },
+  {
+    "id": "repeat_zero_n12_gothic_png",
+    "matches": true,
+    "mode": "runtime100_default"
+  },
+  {
+    "id": "repeat_lower_l_n08_gothic_jpeg75",
+    "matches": true,
+    "mode": "runtime100_default"
+  },
+  {
+    "id": "repeat_mixed_a1_n08_gothic_png",
+    "matches": true,
+    "mode": "runtime100_default"
+  },
+  {
+    "id": "repeat_eight_n06_mincho_jpeg75",
+    "matches": true,
+    "mode": "runtime100_default"
+  },
+  {
+    "id": "repeat_upper_o_n06_mincho_png",
+    "matches": true,
+    "mode": "runtime100_default"
+  },
+  {
+    "id": "repeat_mixed_a1_n04_mincho_jpeg75",
+    "matches": true,
+    "mode": "runtime100_default"
+  }
+]

@@ -188,6 +188,19 @@ struct CachedPageRecognizer {
 
 #[cfg(feature = "onnx")]
 impl CachedPageRecognizer {
+    fn context_input_dimensions(&self) -> (usize, usize) {
+        [
+            Some(&self.pool100),
+            self.pool30.as_ref(),
+            self.pool50.as_ref(),
+        ]
+        .into_iter()
+        .flatten()
+        .map(|pool| pool.input_dimensions())
+        .min_by(|&(aw, ah), &(bw, bh)| (aw as u128 * bh as u128).cmp(&(bw as u128 * ah as u128)))
+        .unwrap()
+    }
+
     fn load(args: &RecognizePageArgs) -> Result<Self> {
         let parallelism = default_parseq_parallelism();
         let pool100 = ParseqPool::load_for_fragments(&args.model, &args.charset, parallelism)?;
@@ -639,17 +652,45 @@ pub fn run_cli(cli: Cli) -> Result<()> {
                 if recognized.mean_confidence >= args.min_line_confidence
                     && !recognized.text.trim().is_empty()
                 {
-                    let text = if let Some(dict) = post_dict.as_ref() {
-                        dict.apply(&recognized.text)
-                    } else {
-                        recognized.text
-                    };
                     recognized_lines.push(RecognizedLine {
                         bbox_xyxy: line.bbox_xyxy,
-                        text,
+                        text: recognized.text,
                         confidence: recognized.mean_confidence,
                         is_vertical: line.is_vertical,
                     });
+                }
+            }
+            #[cfg(feature = "onnx")]
+            {
+                let scored: Vec<_> = recognized_lines
+                    .iter()
+                    .map(|line| crate::pipeline::line_context::ScoredRegion {
+                        bounds: line.bbox_xyxy,
+                        text: &line.text,
+                        mean_confidence: line.confidence,
+                    })
+                    .collect();
+                let keep = crate::pipeline::line_context::select_contexts(
+                    &scored,
+                    cached_parseq.context_input_dimensions(),
+                );
+                let mut keep = keep.into_iter().peekable();
+                recognized_lines = recognized_lines
+                    .into_iter()
+                    .enumerate()
+                    .filter_map(|(i, line)| {
+                        if keep.peek() == Some(&i) {
+                            keep.next();
+                            Some(line)
+                        } else {
+                            None
+                        }
+                    })
+                    .collect();
+            }
+            if let Some(dict) = post_dict.as_ref() {
+                for line in &mut recognized_lines {
+                    line.text = dict.apply(&line.text);
                 }
             }
             sort_lines_in_reading_order(&mut recognized_lines);

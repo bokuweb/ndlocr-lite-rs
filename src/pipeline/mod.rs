@@ -30,3 +30,6 @@ pub mod vertical_segment;
 mod framed_lines;
 
 pub(crate) mod band_text_support;
+
+#[cfg(any(feature = "onnx", test))]
+pub(crate) mod line_context;

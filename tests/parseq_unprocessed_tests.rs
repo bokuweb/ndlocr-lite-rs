@@ -52,12 +52,12 @@ fn unprocessed_recognition_preserves_repeated_digits_and_patterns() {
         assert!(result.mean_confidence.is_finite());
         assert!((0.5..=1.0).contains(&result.mean_confidence));
 
-        let legacy_expected = match case {
+        let text_only_expected = match case {
             "repeated_digits" => "1111",
             "repeated_pattern" => "123123",
             _ => unreachable!(),
         };
-        let legacy = ndlocr_lite_rs::infer::parseq::recognize_rgb_u8_with_score(
+        let processed = ndlocr_lite_rs::infer::parseq::recognize_rgb_u8_with_score(
             std::path::Path::new(&model),
             &image.data,
             image.width,
@@ -65,8 +65,17 @@ fn unprocessed_recognition_preserves_repeated_digits_and_patterns() {
             std::path::Path::new(&charset),
         )
         .unwrap();
-        assert_eq!(legacy.text, legacy_expected, "legacy API: {case}");
-        assert!((legacy.mean_confidence - result.mean_confidence).abs() < 1e-6);
+        assert_eq!(
+            processed.text,
+            expected.trim_end(),
+            "image-supported recognition: {case}"
+        );
+        assert_eq!(
+            ndlocr_lite_rs::infer::parseq::sanitize_recognized_text(&result.text),
+            text_only_expected,
+            "text-only policy remains compatible: {case}"
+        );
+        assert!((processed.mean_confidence - result.mean_confidence).abs() < 1e-6);
         assert_eq!(
             ndlocr_lite_rs::infer::parseq::recognize_rgb_u8(
                 std::path::Path::new(&model),
@@ -76,7 +85,7 @@ fn unprocessed_recognition_preserves_repeated_digits_and_patterns() {
                 std::path::Path::new(&charset),
             )
             .unwrap(),
-            legacy_expected
+            expected.trim_end()
         );
         assert_eq!(
             ndlocr_lite_rs::infer::parseq::recognize_image(
@@ -85,7 +94,7 @@ fn unprocessed_recognition_preserves_repeated_digits_and_patterns() {
                 std::path::Path::new(&charset),
             )
             .unwrap(),
-            legacy_expected
+            expected.trim_end()
         );
     }
 }

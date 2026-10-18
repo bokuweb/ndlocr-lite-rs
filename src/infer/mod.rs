@@ -25,3 +25,5 @@ pub(crate) mod dense_line_recovery;
 
 #[cfg(any(feature = "onnx", test))]
 pub(crate) mod band_line_recovery;
+
+pub(crate) mod visible_repetitions;

@@ -1,0 +1,37 @@
+{
+  "context-default-tests.log": {
+    "passed": 567,
+    "sha256": "01bfc741b91cfc7e0613acf0bfd7030b722600300f39c684df7aff068955dc71"
+  },
+  "context-default-lib-final.log": {
+    "passed": 209,
+    "sha256": "cfa4e7ed82b57bade4b9f9e39ee3ce85eded2d963aa80defcd073e30e4d81a0d"
+  },
+  "context-onnx-tests.log": {
+    "passed": 513,
+    "sha256": "6feaac4f6aa9db96c42e07e2b5272b76e18dc7377996a3c10a4956013a5f0b05"
+  },
+  "example-tests.log": {
+    "passed": 18,
+    "sha256": "e9e65894d0a63f40e9bf54830401e157399ba197011c44f414007421cd5f67e6"
+  },
+  "context-parity.log": {
+    "passed": 1,
+    "sha256": "1065d1c1d010809e0ac2e15083061e4785e4fdb8eecb5a5e19b73451efcc73f1"
+  },
+  "context-transport-tests.log": {
+    "passed": 0,
+    "sha256": "5f40b5ba6e6ba8be93b40b31c284e400de8ed425fce72c548a95add8baa9eed1"
+  },
+  "default_distinct_passed": 568,
+  "transport_python_passed": 2,
+  "fresh_runtime_pages": 44,
+  "fresh_single_cli_checks": 33,
+  "clippy": {
+    "library_warnings": 18,
+    "baseline_library_warnings": 17,
+    "new_warning": "chunks_exact(3) style suggestion in visible_repetitions.rs",
+    "example_warnings": 1,
+    "sha256": "a21189ba9f16673eb75f31c75d31c05f2ca59848bf9559b30033bf86cd3e3412"
+  }
+}

@@ -341,6 +341,18 @@ pub fn sanitize_recognized_fragment(input: &str) -> String {
 }
 
 fn sanitize_with_bracket_policy(input: &str, remove_unmatched: bool) -> String {
+    sanitize_with_policies(input, remove_unmatched, true)
+}
+
+pub(crate) fn sanitize_fragment_preserving_repetitions(input: &str) -> String {
+    sanitize_with_policies(input, false, false)
+}
+
+pub(crate) fn sanitize_line_preserving_repetitions(input: &str) -> String {
+    sanitize_with_policies(input, true, false)
+}
+
+fn sanitize_with_policies(input: &str, remove_unmatched: bool, limit_repetitions: bool) -> String {
     let mut out = String::with_capacity(input.len());
     let mut prev: Option<char> = None;
     let mut run = 0usize;
@@ -366,14 +378,18 @@ fn sanitize_with_bracket_policy(input: &str, remove_unmatched: bool) -> String {
         let too_many_digits = ch.is_ascii_digit() && run > 4;
         let too_many_symbols = !ch.is_alphanumeric() && run > 3;
         let too_many_same_char = run > 8;
-        if too_many_digits || too_many_symbols || too_many_same_char {
+        if limit_repetitions && (too_many_digits || too_many_symbols || too_many_same_char) {
             continue;
         }
         out.push(ch);
     }
     let out = out.trim().to_string();
-    let out = collapse_repeated_chunks(&out, 2, 2, 10);
-    let out = collapse_repeated_phrases(&out, &["という。", "このように, "], 1);
+    let out = if limit_repetitions {
+        let out = collapse_repeated_chunks(&out, 2, 2, 10);
+        collapse_repeated_phrases(&out, &["という。", "このように, "], 1)
+    } else {
+        out
+    };
     let out = if remove_unmatched {
         remove_unmatched_closing_brackets(&out)
     } else {
@@ -598,7 +614,7 @@ pub fn recognize_rgb_u8_with_score_unprocessed(
     recognize_image_unprocessed_impl(model_path, rgb, width, height, &charset)
 }
 
-/// 従来の認識APIでは、共通のデコード結果に既存の後処理を適用する。
+/// 画像を持つ認識APIでは、共通のデコード結果の反復数を同じRGBで確認する。
 fn recognize_image_impl(
     model_path: &Path,
     rgb: &[u8],
@@ -607,7 +623,13 @@ fn recognize_image_impl(
     charset: &[char],
 ) -> Result<RecognizeResult> {
     let mut result = recognize_image_unprocessed_impl(model_path, rgb, width, height, charset)?;
-    result.text = sanitize_recognized_text(&result.text);
+    result.text = super::visible_repetitions::sanitize_visible_single_line(
+        &result.text,
+        rgb,
+        width,
+        height,
+        ParseqOrientation::Auto,
+    );
     Ok(result)
 }
 

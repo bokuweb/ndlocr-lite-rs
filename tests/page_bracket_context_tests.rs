@@ -117,10 +117,10 @@ fn page_runtime_constructors_preserve_closers_and_confidence() {
     }
 }
 
-/// 公開の単行Poolと両batch APIは従来の本文・順序・信頼度を保持する。
+/// 公開の単行Poolと両batch APIは括弧方針・支持された反復・順序・信頼度を保持する。
 #[test]
 #[ignore = "requires pinned PARSeq assets"]
-fn legacy_pool_batch_paths_keep_their_existing_text_policy() {
+fn pool_batch_paths_keep_single_line_brackets_and_supported_repetitions() {
     use ndlocr_lite_rs::infer::cached::ParseqPool;
     let model = std::path::PathBuf::from(std::env::var("NDLOCR_TEST_PARSEQ_MODEL").unwrap());
     let charset = std::path::PathBuf::from(std::env::var("NDLOCR_TEST_CHARSET").unwrap());
@@ -150,7 +150,15 @@ fn legacy_pool_batch_paths_keep_their_existing_text_policy() {
         .map(|(rgb, w, h)| session.recognize_rgb_u8(rgb, *w, *h).unwrap())
         .collect();
     assert_eq!(expected[0].text, "り1.2。");
-    assert_eq!(expected[1].text, "1111");
+    assert_eq!(
+        expected[1].text, "111111",
+        "six digits are present in the frozen image"
+    );
+    assert_eq!(
+        sanitize_recognized_text(&expected[1].text),
+        "1111",
+        "text-only cleanup remains unchanged"
+    );
     let pool = ParseqPool::load(&model, &charset, 2).unwrap();
     for actual in [
         images

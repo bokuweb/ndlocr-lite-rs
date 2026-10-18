@@ -1,0 +1,20 @@
+{
+  "256": {
+    "compared_inputs": 308,
+    "sanitizer_worse": 95,
+    "sanitizer_better": 35,
+    "raw_exact_lost": 65
+  },
+  "384": {
+    "compared_inputs": 308,
+    "sanitizer_worse": 110,
+    "sanitizer_better": 11,
+    "raw_exact_lost": 79
+  },
+  "768": {
+    "compared_inputs": 308,
+    "sanitizer_worse": 91,
+    "sanitizer_better": 6,
+    "raw_exact_lost": 60
+  }
+}
