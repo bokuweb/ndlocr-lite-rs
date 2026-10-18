@@ -1,0 +1,25 @@
+   Compiling ndlocr-lite-rs v0.1.0 (/Volumes/X9/ghq/github.com/bokuweb/ndlocr-lite-rs)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 13.61s
+     Running unittests src/lib.rs (/tmp/omo-capacity-target/debug/deps/ndlocr_lite_rs-e8e1af844508bd27)
+
+running 2 tests
+test pipeline::line_chunks::leading_symbols::tests::leading_symbol_joins_fitting_body_context ... FAILED
+test pipeline::line_chunks::leading_symbols::tests::unsupported_context_keeps_original_boundaries ... ok
+
+failures:
+
+---- pipeline::line_chunks::leading_symbols::tests::leading_symbol_joins_fitting_body_context stdout ----
+
+thread 'pipeline::line_chunks::leading_symbols::tests::leading_symbol_joins_fitting_body_context' (15714422) panicked at src/pipeline/line_chunks/leading_symbols.rs:42:9:
+assertion `left == right` failed
+  left: 3
+ right: 2
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    pipeline::line_chunks::leading_symbols::tests::leading_symbol_joins_fitting_body_context
+
+test result: FAILED. 1 passed; 1 failed; 0 ignored; 0 measured; 136 filtered out; finished in 0.00s
+
+error: test failed, to rerun pass `--lib`
