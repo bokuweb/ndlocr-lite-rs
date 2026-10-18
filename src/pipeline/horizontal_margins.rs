@@ -19,6 +19,16 @@ pub fn normalize_horizontal_margins(
     height: usize,
     margin: usize,
 ) -> Result<HorizontalMargins> {
+    prepare_margins(rgb, width, height, margin, false)
+}
+/// 縮小限定と無条件正規化で共通の入力検証・出典計算・RGB転送を行う。
+fn prepare_margins(
+    rgb: &[u8],
+    width: usize,
+    height: usize,
+    margin: usize,
+    only_contract: bool,
+) -> Result<HorizontalMargins> {
     anyhow::ensure!(width > 0 && height > 0, "empty image");
     let expected = width
         .checked_mul(height)
@@ -45,6 +55,11 @@ pub fn normalize_horizontal_margins(
         .checked_mul(2)
         .and_then(|m| m.checked_add(content_width))
         .ok_or_else(|| anyhow::anyhow!("output width overflow"))?;
+    let (left, content_width, output_x, output_width) = if only_contract && output_width >= width {
+        (0, width, 0, width)
+    } else {
+        (left, content_width, output_x, output_width)
+    };
     let len = output_width
         .checked_mul(height)
         .and_then(|n| n.checked_mul(3))
@@ -67,4 +82,14 @@ pub fn normalize_horizontal_margins(
         content_width,
         output_x,
     })
+}
+
+/// 正規化後に幅が厳密に縮む場合だけ白余白を置換し、それ以外は入力を維持する。
+pub fn compact_horizontal_margins(
+    rgb: &[u8],
+    width: usize,
+    height: usize,
+    margin: usize,
+) -> Result<HorizontalMargins> {
+    prepare_margins(rgb, width, height, margin, true)
 }
