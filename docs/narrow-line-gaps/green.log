@@ -1,0 +1,11 @@
+   Compiling ndlocr-lite-rs v0.1.0 (/Volumes/X9/ghq/github.com/bokuweb/ndlocr-lite-rs)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 23.73s
+     Running unittests src/lib.rs (/tmp/omo-capacity-target/debug/deps/ndlocr_lite_rs-e8e1af844508bd27)
+
+running 3 tests
+test pipeline::noisy_line_gaps::tests::component_limit_preserves_region ... ok
+test pipeline::noisy_line_gaps::tests::tightly_spaced_jma_titles_are_separate_bands ... ok
+test pipeline::noisy_line_gaps::tests::single_row_valley_preserves_connected_glyphs ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 133 filtered out; finished in 0.82s
+

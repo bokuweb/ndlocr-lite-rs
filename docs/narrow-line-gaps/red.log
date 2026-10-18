@@ -1,0 +1,40 @@
+   Compiling ndlocr-lite-rs v0.1.0 (/Volumes/X9/ghq/github.com/bokuweb/ndlocr-lite-rs)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 25.33s
+     Running unittests src/lib.rs (/tmp/omo-capacity-target/debug/deps/ndlocr_lite_rs-e8e1af844508bd27)
+
+running 3 tests
+test pipeline::noisy_line_gaps::tests::component_limit_preserves_region ... ok
+test pipeline::noisy_line_gaps::tests::single_row_valley_preserves_connected_glyphs ... FAILED
+test pipeline::noisy_line_gaps::tests::tightly_spaced_jma_titles_are_separate_bands ... FAILED
+
+failures:
+
+---- pipeline::noisy_line_gaps::tests::single_row_valley_preserves_connected_glyphs stdout ----
+proptest: Saving this and future failures in /Volumes/X9/ghq/github.com/bokuweb/ndlocr-lite-rs/proptest-regressions/pipeline/noisy_line_gaps.txt
+proptest: If this test was run on a CI system, you may wish to add the following line to your copy of the file. (You may need to create it.)
+cc 93139b565fdb05d56ff3e9d8a7fd8c8ba3b282f5c7a5652818e347ecbdefbb49
+
+thread 'pipeline::noisy_line_gaps::tests::single_row_valley_preserves_connected_glyphs' (15518781) panicked at src/pipeline/noisy_line_gaps.rs:166:5:
+Test failed: assertion failed: `(left == right)` 
+  left: `[(0, 12), (24, 36), (48, 73)]`,
+ right: `[(0, 12), (24, 36), (48, 60), (60, 73)]` at src/pipeline/noisy_line_gaps.rs:172.
+minimal failing input: scale = 12, offset = 0
+	successes: 0
+	local rejects: 0
+	global rejects: 0
+
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+---- pipeline::noisy_line_gaps::tests::tightly_spaced_jma_titles_are_separate_bands stdout ----
+
+thread 'pipeline::noisy_line_gaps::tests::tightly_spaced_jma_titles_are_separate_bands' (15518782) panicked at src/pipeline/noisy_line_gaps.rs:140:9:
+second title merged: [163, 149, 826, 203]
+
+
+failures:
+    pipeline::noisy_line_gaps::tests::single_row_valley_preserves_connected_glyphs
+    pipeline::noisy_line_gaps::tests::tightly_spaced_jma_titles_are_separate_bands
+
+test result: FAILED. 1 passed; 2 failed; 0 ignored; 0 measured; 133 filtered out; finished in 0.55s
+
+error: test failed, to rerun pass `--lib`

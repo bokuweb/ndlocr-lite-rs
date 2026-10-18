@@ -41,9 +41,7 @@ pub(super) fn separate_noisy_line_gaps(
             while y < end && row_ink[y] <= density_limit {
                 y += 1;
             }
-            if y - valley_start < 3 {
-                continue;
-            }
+            // 狭い行間も候補に含め、上下の本文高と連結成分で字形の分断を防ぐ。
             let middle = valley_start + (y - valley_start) / 2;
             let cut = (valley_start..y)
                 .min_by_key(|&row| (row_ink[row], row.abs_diff(middle)))
@@ -64,11 +62,25 @@ pub(super) fn separate_noisy_line_gaps(
             else {
                 continue;
             };
-            if components
+            let crossing: Vec<_> = components
                 .iter()
-                .any(|c| c.bounds[1] == top && c.bounds[3] == bottom)
-            {
-                continue;
+                .filter(|c| c.bounds[1] == top && c.bounds[3] == bottom)
+                .collect();
+            if !crossing.is_empty() {
+                // 細い行間で少数の隣接文字が接触していても、行全体の大半が離れていれば分ける。
+                let narrow_contact = y - valley_start < 3
+                    && peak >= scale * 8
+                    && crossing
+                        .iter()
+                        .all(|c| c.bounds[2] - c.bounds[0] <= scale * 2)
+                    && crossing
+                        .iter()
+                        .map(|c| c.bounds[2] - c.bounds[0])
+                        .sum::<usize>()
+                        <= peak / 10;
+                if !narrow_contact {
+                    continue;
+                }
             }
             result.push((previous, cut));
             previous = cut;
@@ -121,5 +133,77 @@ mod tests {
             separate_noisy_line_gaps(&rgb, width, &row_ink, 220, spans.clone()),
             spans
         );
+    }
+
+    /// 実資料の太字見出し2行を独立した行として残し、両実装で一致させる。
+    #[test]
+    fn tightly_spaced_jma_titles_are_separate_bands() {
+        use crate::pipeline::line_segment::{
+            detect_textline_bands_fast, detect_textline_bands_naive,
+        };
+        let image = image::load_from_memory(include_bytes!(
+            "../../tests/fixtures/line_segment/jma-notice-body.png"
+        ))
+        .unwrap()
+        .to_rgb8();
+        let (w, h) = (image.width() as usize, image.height() as usize);
+        let bands = detect_textline_bands_naive(image.as_raw(), w, h, 220);
+        assert_eq!(bands, detect_textline_bands_fast(image.as_raw(), w, h, 220));
+        let first: Vec<_> = bands.iter().filter(|b| b[1] <= 162 && 162 < b[3]).collect();
+        let second: Vec<_> = bands.iter().filter(|b| b[1] <= 190 && 190 < b[3]).collect();
+        assert_eq!(first.len(), 1);
+        assert_eq!(second.len(), 1);
+        assert!(first[0][3] <= 190, "second title merged: {:?}", first[0]);
+        assert!(second[0][1] > 162, "first title merged: {:?}", second[0]);
+    }
+
+    /// 投影が同じでも、谷の縦画で接続する字形を分断しない。
+    fn narrow_gap_case(scale: usize, connected: bool, offset: usize) -> Vec<(usize, usize)> {
+        let width = 240;
+        let height = 6 * scale + 1;
+        let mut rgb = vec![255; width * height * 3];
+        let mut rows = vec![0; height];
+        let start = 4 * scale;
+        for (y, count) in rows.iter_mut().enumerate() {
+            let body = y < scale
+                || (2 * scale..3 * scale).contains(&y)
+                || (start..start + scale).contains(&y)
+                || y > start + scale;
+            let range = if body {
+                20..220
+            } else if y == start + scale {
+                if connected {
+                    20 + offset..28 + offset
+                } else {
+                    0..8
+                }
+            } else {
+                0..0
+            };
+            for x in range {
+                rgb[(y * width + x) * 3..(y * width + x + 1) * 3].fill(0);
+                *count += 1;
+            }
+        }
+        separate_noisy_line_gaps(
+            &rgb,
+            width,
+            &rows,
+            220,
+            vec![(0, scale), (2 * scale, 3 * scale), (start, height)],
+        )
+    }
+
+    proptest::proptest! {
+        /// 薄い孤立汚れのある1px行間だけを分け、連結した縦画は全高を保つ。
+        #[test]
+        fn single_row_valley_preserves_connected_glyphs(scale in 12usize..40, offset in 0usize..180) {
+            let start = 4 * scale;
+            let end = 6 * scale + 1;
+            proptest::prop_assert_eq!(narrow_gap_case(scale, false, offset),
+                vec![(0, scale), (2 * scale, 3 * scale), (start, start + scale), (start + scale, end)]);
+            proptest::prop_assert_eq!(narrow_gap_case(scale, true, offset),
+                vec![(0, scale), (2 * scale, 3 * scale), (start, end)]);
+        }
     }
 }
