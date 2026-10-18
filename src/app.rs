@@ -222,7 +222,9 @@ impl CachedPageRecognizer {
         args: &RecognizePageArgs,
     ) -> Result<Vec<parseq::RecognizeResult>> {
         let mut recognized = self.recognize_initial_batch(crops, args)?;
-        for (line, result) in crops.iter().zip(recognized.iter_mut()) {
+        let bounds: Vec<_> = crops.iter().map(|line| line.bbox_xyxy).collect();
+        let isolated = crate::infer::dense_line_recovery::isolated_recovery_regions(&bounds);
+        for ((line, result), isolated) in crops.iter().zip(recognized.iter_mut()).zip(isolated) {
             if args.enable_cascade
                 && self.pool30.is_some()
                 && normalize_pred_char_bucket(line.pred_char_count) == 3.0
@@ -262,6 +264,20 @@ impl CachedPageRecognizer {
                 args.cascade_threshold_30_to_50,
                 args.cascade_threshold_50_to_100,
             )?;
+            if args.split_long_lines
+                && isolated
+                && let Some(recovered) =
+                    crate::infer::dense_line_recovery::recover_dense_horizontal_line(
+                        result,
+                        &line.crop.data,
+                        line.crop.width,
+                        line.crop.height,
+                        self.pool100.input_dimensions(),
+                        |rgb, w, h| self.pool100.recognize_horizontal_rgb_u8(rgb, w, h),
+                    )
+            {
+                *result = recovered;
+            }
         }
         Ok(recognized)
     }

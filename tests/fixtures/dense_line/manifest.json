@@ -1,0 +1,296 @@
+{
+  "pillow_version": "12.3.0",
+  "fonts": [
+    {
+      "name": "maru",
+      "path": "ヒラギノ丸ゴ ProN W4.ttc",
+      "sha256": "9949bc165c11b85686e9d6c1cb754f24b64ced4835bf1fa28d291a5ba6a89de4"
+    },
+    {
+      "name": "bold",
+      "path": "ヒラギノ角ゴシック W6.ttc",
+      "sha256": "495faf728470c0111c15265fd5844293fb0bef4240371b79a888371a4ae38c3b"
+    }
+  ],
+  "rows": [
+    {
+      "id": "library_maru24_original",
+      "image": "tests/fixtures/dense_line/images/library_maru24_original.png",
+      "truth": "図書館では資料の保存と公開を継続し、利用者が必要な情報を探せるように目録を整備しています。新しい電子資料を追加するときは、文字の読み上げ、画面の拡大、色の変更、検索結果の表示などを確認し、担当者が検査の記録と改善の内容をまとめて公開します。",
+      "sha256": "4267129948187efb4a1143fbfbab38c102572c9dc99a453ebfa73f4f9bd6c5be",
+      "font": "maru",
+      "font_size": 24,
+      "transform": "original"
+    },
+    {
+      "id": "library_maru24_jpeg75",
+      "image": "tests/fixtures/dense_line/images/library_maru24_jpeg75.jpg",
+      "truth": "図書館では資料の保存と公開を継続し、利用者が必要な情報を探せるように目録を整備しています。新しい電子資料を追加するときは、文字の読み上げ、画面の拡大、色の変更、検索結果の表示などを確認し、担当者が検査の記録と改善の内容をまとめて公開します。",
+      "sha256": "f81daea2ea25502e4a2150f22f5d10384c858a029bd24d5acc073bef7a4a7641",
+      "font": "maru",
+      "font_size": 24,
+      "transform": "jpeg75"
+    },
+    {
+      "id": "library_maru24_half",
+      "image": "tests/fixtures/dense_line/images/library_maru24_half.png",
+      "truth": "図書館では資料の保存と公開を継続し、利用者が必要な情報を探せるように目録を整備しています。新しい電子資料を追加するときは、文字の読み上げ、画面の拡大、色の変更、検索結果の表示などを確認し、担当者が検査の記録と改善の内容をまとめて公開します。",
+      "sha256": "69d8988de946636c1f453ed116cbcbb505afbaeb880d8c328a0c8ebf0b051f0e",
+      "font": "maru",
+      "font_size": 24,
+      "transform": "half"
+    },
+    {
+      "id": "observations_maru24_original",
+      "image": "tests/fixtures/dense_line/images/observations_maru24_original.png",
+      "truth": "観測記録には測定場所、時刻、使用した機器、設定の変更、周辺の環境などを記載します。計画に沿って資料を集めた後は、担当者が数値の単位と日付を照合し、欠けている項目や重複した記録がないかを確認します。整理した結果は一覧表にまとめ、利用方法と注意点を添えて公開します。",
+      "sha256": "a9180cabbad5daab358580678f2577a95c01b316dd61aade5024c2b26c085903",
+      "font": "maru",
+      "font_size": 24,
+      "transform": "original"
+    },
+    {
+      "id": "observations_maru24_jpeg75",
+      "image": "tests/fixtures/dense_line/images/observations_maru24_jpeg75.jpg",
+      "truth": "観測記録には測定場所、時刻、使用した機器、設定の変更、周辺の環境などを記載します。計画に沿って資料を集めた後は、担当者が数値の単位と日付を照合し、欠けている項目や重複した記録がないかを確認します。整理した結果は一覧表にまとめ、利用方法と注意点を添えて公開します。",
+      "sha256": "29e46179f8898c9b768a49f49db5dd1bf0cb49b6980a605875cc4007a1c27ea4",
+      "font": "maru",
+      "font_size": 24,
+      "transform": "jpeg75"
+    },
+    {
+      "id": "observations_maru24_half",
+      "image": "tests/fixtures/dense_line/images/observations_maru24_half.png",
+      "truth": "観測記録には測定場所、時刻、使用した機器、設定の変更、周辺の環境などを記載します。計画に沿って資料を集めた後は、担当者が数値の単位と日付を照合し、欠けている項目や重複した記録がないかを確認します。整理した結果は一覧表にまとめ、利用方法と注意点を添えて公開します。",
+      "sha256": "5189a69ae9f4ea474d189f9a48022078b5407924f8d37d425c7033d9e90411fa",
+      "font": "maru",
+      "font_size": 24,
+      "transform": "half"
+    },
+    {
+      "id": "library_maru36_original",
+      "image": "tests/fixtures/dense_line/images/library_maru36_original.png",
+      "truth": "図書館では資料の保存と公開を継続し、利用者が必要な情報を探せるように目録を整備しています。新しい電子資料を追加するときは、文字の読み上げ、画面の拡大、色の変更、検索結果の表示などを確認し、担当者が検査の記録と改善の内容をまとめて公開します。",
+      "sha256": "e807b25b798cf5c645be42822d9c958002e491bc2e29f2f6dbf669c4a4c755c4",
+      "font": "maru",
+      "font_size": 36,
+      "transform": "original"
+    },
+    {
+      "id": "library_maru36_jpeg75",
+      "image": "tests/fixtures/dense_line/images/library_maru36_jpeg75.jpg",
+      "truth": "図書館では資料の保存と公開を継続し、利用者が必要な情報を探せるように目録を整備しています。新しい電子資料を追加するときは、文字の読み上げ、画面の拡大、色の変更、検索結果の表示などを確認し、担当者が検査の記録と改善の内容をまとめて公開します。",
+      "sha256": "9327065d1d55b7b880d5c33f10945c324fd800b21050302ca141198de3d3de89",
+      "font": "maru",
+      "font_size": 36,
+      "transform": "jpeg75"
+    },
+    {
+      "id": "library_maru36_half",
+      "image": "tests/fixtures/dense_line/images/library_maru36_half.png",
+      "truth": "図書館では資料の保存と公開を継続し、利用者が必要な情報を探せるように目録を整備しています。新しい電子資料を追加するときは、文字の読み上げ、画面の拡大、色の変更、検索結果の表示などを確認し、担当者が検査の記録と改善の内容をまとめて公開します。",
+      "sha256": "905f65340b01b6736da7c77ca835cd88926f41c527acf9da5168ccbe4117404d",
+      "font": "maru",
+      "font_size": 36,
+      "transform": "half"
+    },
+    {
+      "id": "observations_maru36_original",
+      "image": "tests/fixtures/dense_line/images/observations_maru36_original.png",
+      "truth": "観測記録には測定場所、時刻、使用した機器、設定の変更、周辺の環境などを記載します。計画に沿って資料を集めた後は、担当者が数値の単位と日付を照合し、欠けている項目や重複した記録がないかを確認します。整理した結果は一覧表にまとめ、利用方法と注意点を添えて公開します。",
+      "sha256": "5287b095cda753c90e92e7a05513caa44763b860b96fb7f83bef73e74f3deeb2",
+      "font": "maru",
+      "font_size": 36,
+      "transform": "original"
+    },
+    {
+      "id": "observations_maru36_jpeg75",
+      "image": "tests/fixtures/dense_line/images/observations_maru36_jpeg75.jpg",
+      "truth": "観測記録には測定場所、時刻、使用した機器、設定の変更、周辺の環境などを記載します。計画に沿って資料を集めた後は、担当者が数値の単位と日付を照合し、欠けている項目や重複した記録がないかを確認します。整理した結果は一覧表にまとめ、利用方法と注意点を添えて公開します。",
+      "sha256": "6342a2daf9ed9a22a4855b6ae8a2b58eb1c731ab2430022d761926da6f83f5fa",
+      "font": "maru",
+      "font_size": 36,
+      "transform": "jpeg75"
+    },
+    {
+      "id": "observations_maru36_half",
+      "image": "tests/fixtures/dense_line/images/observations_maru36_half.png",
+      "truth": "観測記録には測定場所、時刻、使用した機器、設定の変更、周辺の環境などを記載します。計画に沿って資料を集めた後は、担当者が数値の単位と日付を照合し、欠けている項目や重複した記録がないかを確認します。整理した結果は一覧表にまとめ、利用方法と注意点を添えて公開します。",
+      "sha256": "748172c604e6e352673e4f827adbab5489b691abd863777880878bfd358de536",
+      "font": "maru",
+      "font_size": 36,
+      "transform": "half"
+    },
+    {
+      "id": "library_bold24_original",
+      "image": "tests/fixtures/dense_line/images/library_bold24_original.png",
+      "truth": "図書館では資料の保存と公開を継続し、利用者が必要な情報を探せるように目録を整備しています。新しい電子資料を追加するときは、文字の読み上げ、画面の拡大、色の変更、検索結果の表示などを確認し、担当者が検査の記録と改善の内容をまとめて公開します。",
+      "sha256": "62ad1eba34ff1ad98e5c815f9b41bf548d2a9168d4cdf7cdd8c7e3de0b7a93a7",
+      "font": "bold",
+      "font_size": 24,
+      "transform": "original"
+    },
+    {
+      "id": "library_bold24_jpeg75",
+      "image": "tests/fixtures/dense_line/images/library_bold24_jpeg75.jpg",
+      "truth": "図書館では資料の保存と公開を継続し、利用者が必要な情報を探せるように目録を整備しています。新しい電子資料を追加するときは、文字の読み上げ、画面の拡大、色の変更、検索結果の表示などを確認し、担当者が検査の記録と改善の内容をまとめて公開します。",
+      "sha256": "b79aed76c8bb7d676941ec5cd38739052b25e0e677f040783aef13c40e68a8e3",
+      "font": "bold",
+      "font_size": 24,
+      "transform": "jpeg75"
+    },
+    {
+      "id": "library_bold24_half",
+      "image": "tests/fixtures/dense_line/images/library_bold24_half.png",
+      "truth": "図書館では資料の保存と公開を継続し、利用者が必要な情報を探せるように目録を整備しています。新しい電子資料を追加するときは、文字の読み上げ、画面の拡大、色の変更、検索結果の表示などを確認し、担当者が検査の記録と改善の内容をまとめて公開します。",
+      "sha256": "e2dbb3d9e718ef0a51aaef64698aa908d741142a5fc0e022432ade36b54b1746",
+      "font": "bold",
+      "font_size": 24,
+      "transform": "half"
+    },
+    {
+      "id": "observations_bold24_original",
+      "image": "tests/fixtures/dense_line/images/observations_bold24_original.png",
+      "truth": "観測記録には測定場所、時刻、使用した機器、設定の変更、周辺の環境などを記載します。計画に沿って資料を集めた後は、担当者が数値の単位と日付を照合し、欠けている項目や重複した記録がないかを確認します。整理した結果は一覧表にまとめ、利用方法と注意点を添えて公開します。",
+      "sha256": "028cc17d213a58a38f005a34c28b8b40362c99b5c967ef8173dcf7b1cd3ff993",
+      "font": "bold",
+      "font_size": 24,
+      "transform": "original"
+    },
+    {
+      "id": "observations_bold24_jpeg75",
+      "image": "tests/fixtures/dense_line/images/observations_bold24_jpeg75.jpg",
+      "truth": "観測記録には測定場所、時刻、使用した機器、設定の変更、周辺の環境などを記載します。計画に沿って資料を集めた後は、担当者が数値の単位と日付を照合し、欠けている項目や重複した記録がないかを確認します。整理した結果は一覧表にまとめ、利用方法と注意点を添えて公開します。",
+      "sha256": "0e8a6c5e10a4c20a9ea9514c248cb6796839e3f5ad2f8d44a0a74377012a395b",
+      "font": "bold",
+      "font_size": 24,
+      "transform": "jpeg75"
+    },
+    {
+      "id": "observations_bold24_half",
+      "image": "tests/fixtures/dense_line/images/observations_bold24_half.png",
+      "truth": "観測記録には測定場所、時刻、使用した機器、設定の変更、周辺の環境などを記載します。計画に沿って資料を集めた後は、担当者が数値の単位と日付を照合し、欠けている項目や重複した記録がないかを確認します。整理した結果は一覧表にまとめ、利用方法と注意点を添えて公開します。",
+      "sha256": "a0bb8d511a650485d2395e8563f68245ed611e0090163a92f084f49175ae88e4",
+      "font": "bold",
+      "font_size": 24,
+      "transform": "half"
+    },
+    {
+      "id": "library_bold36_original",
+      "image": "tests/fixtures/dense_line/images/library_bold36_original.png",
+      "truth": "図書館では資料の保存と公開を継続し、利用者が必要な情報を探せるように目録を整備しています。新しい電子資料を追加するときは、文字の読み上げ、画面の拡大、色の変更、検索結果の表示などを確認し、担当者が検査の記録と改善の内容をまとめて公開します。",
+      "sha256": "ddc314e853b9a5eef1fa8b88e50a0b6cc664978aea9e7a485e0434c14b3f1312",
+      "font": "bold",
+      "font_size": 36,
+      "transform": "original"
+    },
+    {
+      "id": "library_bold36_jpeg75",
+      "image": "tests/fixtures/dense_line/images/library_bold36_jpeg75.jpg",
+      "truth": "図書館では資料の保存と公開を継続し、利用者が必要な情報を探せるように目録を整備しています。新しい電子資料を追加するときは、文字の読み上げ、画面の拡大、色の変更、検索結果の表示などを確認し、担当者が検査の記録と改善の内容をまとめて公開します。",
+      "sha256": "b36692e89e7e01e6557baa96e0403fa88eea586ca24c2666cc44b55f389b0af2",
+      "font": "bold",
+      "font_size": 36,
+      "transform": "jpeg75"
+    },
+    {
+      "id": "library_bold36_half",
+      "image": "tests/fixtures/dense_line/images/library_bold36_half.png",
+      "truth": "図書館では資料の保存と公開を継続し、利用者が必要な情報を探せるように目録を整備しています。新しい電子資料を追加するときは、文字の読み上げ、画面の拡大、色の変更、検索結果の表示などを確認し、担当者が検査の記録と改善の内容をまとめて公開します。",
+      "sha256": "fe986d03eb2e0f1c38fa5da7ff4c5ff702132e650558e45367e35195507ed3f2",
+      "font": "bold",
+      "font_size": 36,
+      "transform": "half"
+    },
+    {
+      "id": "observations_bold36_original",
+      "image": "tests/fixtures/dense_line/images/observations_bold36_original.png",
+      "truth": "観測記録には測定場所、時刻、使用した機器、設定の変更、周辺の環境などを記載します。計画に沿って資料を集めた後は、担当者が数値の単位と日付を照合し、欠けている項目や重複した記録がないかを確認します。整理した結果は一覧表にまとめ、利用方法と注意点を添えて公開します。",
+      "sha256": "6e1b3027f2021e8ec1f713cd9e70cffbc61dc4a838478361b3d3c34a9a8615f3",
+      "font": "bold",
+      "font_size": 36,
+      "transform": "original"
+    },
+    {
+      "id": "observations_bold36_jpeg75",
+      "image": "tests/fixtures/dense_line/images/observations_bold36_jpeg75.jpg",
+      "truth": "観測記録には測定場所、時刻、使用した機器、設定の変更、周辺の環境などを記載します。計画に沿って資料を集めた後は、担当者が数値の単位と日付を照合し、欠けている項目や重複した記録がないかを確認します。整理した結果は一覧表にまとめ、利用方法と注意点を添えて公開します。",
+      "sha256": "0b40fefc3e26279fa9adf5f35bf374cdbe0c03b1cd9db73830c5bc400f665c7c",
+      "font": "bold",
+      "font_size": 36,
+      "transform": "jpeg75"
+    },
+    {
+      "id": "observations_bold36_half",
+      "image": "tests/fixtures/dense_line/images/observations_bold36_half.png",
+      "truth": "観測記録には測定場所、時刻、使用した機器、設定の変更、周辺の環境などを記載します。計画に沿って資料を集めた後は、担当者が数値の単位と日付を照合し、欠けている項目や重複した記録がないかを確認します。整理した結果は一覧表にまとめ、利用方法と注意点を添えて公開します。",
+      "sha256": "d44f8437656b9bc2764f8796bfb17b8ef616754f7472f343e450e0e756cb9c5d",
+      "font": "bold",
+      "font_size": 36,
+      "transform": "half"
+    },
+    {
+      "id": "blank",
+      "image": "tests/fixtures/dense_line/images/blank.png",
+      "truth": "",
+      "sha256": "bdb3daaf6c1c3f86e24925f8f994e099f14165770c6986ab3b7d0a1735d2dd5b",
+      "kind": "graphic_control"
+    },
+    {
+      "id": "rule",
+      "image": "tests/fixtures/dense_line/images/rule.png",
+      "truth": "",
+      "sha256": "4ceaca7211c1d77fcecbf433ebf1566340eb5b57103321023635071af0b2949d",
+      "kind": "graphic_control"
+    },
+    {
+      "id": "solid",
+      "image": "tests/fixtures/dense_line/images/solid.png",
+      "truth": "",
+      "sha256": "ba8c404d5021e5725da0025cfa53d18850da8801362bcb8e81b8b8e2d8dd5579",
+      "kind": "graphic_control"
+    },
+    {
+      "id": "speckles",
+      "image": "tests/fixtures/dense_line/images/speckles.png",
+      "truth": "",
+      "sha256": "14e05d053267a490691029c0fedbb2bfa89e9ff3c8c6534cf01e8109a5c9cdb4",
+      "kind": "graphic_control"
+    },
+    {
+      "id": "horizontal_marks",
+      "image": "tests/fixtures/dense_line/images/horizontal_marks.png",
+      "truth": "",
+      "sha256": "a3a63d32d61bb2a33725fc0a635f3a74c001d31c658af966846d023539c56e0b",
+      "kind": "graphic_control"
+    },
+    {
+      "id": "vertical_bars",
+      "image": "tests/fixtures/dense_line/images/vertical_bars.png",
+      "truth": "",
+      "sha256": "d7142ef630d469b6c6a4f3fe04a244eb39a05a469c6b9cbb95f6ad668ee43e24",
+      "kind": "graphic_control"
+    },
+    {
+      "id": "spaced_short",
+      "image": "tests/fixtures/dense_line/images/spaced_short.png",
+      "truth": "図 書 館",
+      "sha256": "15e3816fd460dc238738a24fe2da423302b5913add1cbce7510916a149436674",
+      "kind": "spacing_control"
+    },
+    {
+      "id": "repeated_i",
+      "image": "tests/fixtures/dense_line/images/repeated_i.png",
+      "truth": "IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII",
+      "sha256": "ec0dc6de13a183a2d07f4a1eb83a917a67f9a68ea9ab9b76bd59081c7e1cd968",
+      "kind": "repetition_control"
+    },
+    {
+      "id": "repeated_digits",
+      "image": "tests/fixtures/dense_line/images/repeated_digits.png",
+      "truth": "012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789",
+      "sha256": "382d7c3caa0190702a5fa37634798c61c8c945c68fc117fdfbf84940fce80813",
+      "kind": "repetition_control"
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+   Compiling ndlocr-lite-rs v0.1.0 (/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.06s
+     Running unittests src/lib.rs (target/debug/deps/ndlocr_lite_rs-c6da13c5479ca659)
+
+running 1 test
+test infer::dense_line_recovery::tests::overlapping_half_of_smaller_region_is_ambiguous_for_both ... FAILED
+
+failures:
+
+---- infer::dense_line_recovery::tests::overlapping_half_of_smaller_region_is_ambiguous_for_both stdout ----
+
+thread 'infer::dense_line_recovery::tests::overlapping_half_of_smaller_region_is_ambiguous_for_both' (39827653) panicked at src/infer/../../tests/support/dense_line_recovery_policy.rs:290:9:
+assertion `left == right` failed
+  left: [true, true]
+ right: [false, false]
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    infer::dense_line_recovery::tests::overlapping_half_of_smaller_region_is_ambiguous_for_both
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 167 filtered out; finished in 0.00s
+
+error: test failed, to rerun pass `--lib`
+mbx[cache]: 0 hits, 0 misses, 1 incremental; 0 B downloaded, 0 B uploaded, 0 B stored locally
+mbx[savings]: your deleted worktrees left 1.2 TiB logical behind. left. past tense.

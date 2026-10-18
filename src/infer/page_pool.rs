@@ -18,7 +18,9 @@
 //! 持つだけでよくなる。
 //!
 //! 認識精度に関わる post-processing (構造ルール、辞書、cascade fallback)
-//! は本モジュールには含めない。consumer 側で必要に応じて
+//! は本モジュールには含めない。極端に横長で文字密度が高い行の短すぎる結果だけ、
+//! 同じ供給モデルで安全な部分画像を追加認識する。全ての部分が高信頼度で
+//! 十分な文字量を説明できた場合に採用する。consumer 側で必要に応じて
 //! [`crate::postprocess::page_rules::apply_structural_rules`] を呼ぶ。
 
 #![cfg(feature = "onnx")]
@@ -252,7 +254,22 @@ fn recognize_one_page(
 
     // 4) 信頼度フィルタ + 空文字フィルタ。
     let mut lines: Vec<PageLine> = Vec::with_capacity(recs.len());
-    for ((bbox, _), rec) in crops.into_iter().zip(recs) {
+    let bounds: Vec<_> = crops.iter().map(|(bbox, _)| *bbox).collect();
+    let isolated = super::dense_line_recovery::isolated_recovery_regions(&bounds);
+    for (((bbox, crop), rec), isolated) in crops.into_iter().zip(recs).zip(isolated) {
+        let rec = if isolated {
+            super::dense_line_recovery::recover_dense_horizontal_line(
+                &rec,
+                &crop.data,
+                crop.width,
+                crop.height,
+                parseq.input_dimensions(),
+                |data, w, h| parseq.recognize_horizontal_rgb_u8(data, w, h),
+            )
+            .unwrap_or(rec)
+        } else {
+            rec
+        };
         if rec.mean_confidence < opts.min_line_confidence {
             continue;
         }

@@ -473,7 +473,16 @@ impl ParseqPool {
         session: &mut Session,
         items: &[(&[u8], usize, usize)],
     ) -> Result<Vec<RecognizeResult>> {
-        let mut results = run_batch_on_session_unprocessed(
+        self.run_on_session_oriented(session, items, ParseqOrientation::Auto)
+    }
+
+    fn run_on_session_oriented(
+        &self,
+        session: &mut Session,
+        items: &[(&[u8], usize, usize)],
+        orientation: ParseqOrientation,
+    ) -> Result<Vec<RecognizeResult>> {
+        let mut results = run_batch_on_session_with_orientation(
             session,
             &self.input_name,
             &self.output_name,
@@ -481,11 +490,26 @@ impl ParseqPool {
             self.input_h,
             &self.charset,
             items,
+            orientation,
         )?;
         for result in &mut results {
             result.text = (self.postprocess)(&result.text);
         }
         Ok(results)
+    }
+
+    pub(crate) fn input_dimensions(&self) -> (usize, usize) {
+        (self.input_w, self.input_h)
+    }
+
+    /// 横書きと確認した行の部分画像だけ方向を固定する。
+    pub(crate) fn recognize_horizontal_rgb_u8(
+        &self,
+        rgb: &[u8],
+        width: usize,
+        height: usize,
+    ) -> Result<RecognizeResult> {
+        self.recognize_rgb_u8_oriented(rgb, width, height, ParseqOrientation::Horizontal)
     }
 
     pub fn parallelism(&self) -> usize {
@@ -501,6 +525,16 @@ impl ParseqPool {
         rgb: &[u8],
         width: usize,
         height: usize,
+    ) -> Result<RecognizeResult> {
+        self.recognize_rgb_u8_oriented(rgb, width, height, ParseqOrientation::Auto)
+    }
+
+    fn recognize_rgb_u8_oriented(
+        &self,
+        rgb: &[u8],
+        width: usize,
+        height: usize,
+        orientation: ParseqOrientation,
     ) -> Result<RecognizeResult> {
         let n = self.sessions.len();
         let start = self.next.fetch_add(1, Ordering::Relaxed) % n;
@@ -519,7 +553,7 @@ impl ParseqPool {
                 .map_err(|_| anyhow!("parseq pool mutex poisoned"))?,
         };
         let single = [(rgb, width, height)];
-        let mut out = self.run_on_session(&mut guard.0, &single)?;
+        let mut out = self.run_on_session_oriented(&mut guard.0, &single, orientation)?;
         out.pop().ok_or_else(|| anyhow!("empty batch result"))
     }
 
@@ -985,6 +1019,10 @@ fn bucket_from_pred_char_count(pcc: Option<f32>) -> u8 {
         _ => 100,
     }
 }
+
+#[cfg(test)]
+#[path = "../../tests/support/dense_pool_orientation.rs"]
+mod dense_pool_orientation_tests;
 
 #[cfg(test)]
 mod tests {

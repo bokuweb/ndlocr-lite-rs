@@ -1,0 +1,67 @@
+   Compiling ndlocr-lite-rs v0.1.0 (/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs)
+error[E0599]: no method named `input_dimensions` found for struct `cached::ParseqPool` in the current scope
+   --> src/infer/../../tests/support/dense_pool_orientation.rs:9:21
+    |
+  9 |     assert_eq!(pool.input_dimensions(),session.input_dimensions());
+    |                     ^^^^^^^^^^^^^^^^ method not found in `cached::ParseqPool`
+    |
+   ::: src/infer/cached.rs:398:1
+    |
+398 | pub struct ParseqPool {
+    | --------------------- method `input_dimensions` not found for this struct
+
+error[E0599]: no method named `recognize_horizontal_rgb_u8` found for struct `cached::ParseqPool` in the current scope
+   --> src/infer/../../tests/support/dense_pool_orientation.rs:16:25
+    |
+ 16 |         let actual=pool.recognize_horizontal_rgb_u8(&image.data,image.width,image.height).unwrap();
+    |                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |
+   ::: src/infer/cached.rs:398:1
+    |
+398 | pub struct ParseqPool {
+    | --------------------- method `recognize_horizontal_rgb_u8` not found for this struct
+    |
+help: there is a method `recognize_rgb_u8` with a similar name
+    |
+ 16 -         let actual=pool.recognize_horizontal_rgb_u8(&image.data,image.width,image.height).unwrap();
+ 16 +         let actual=pool.recognize_rgb_u8(&image.data,image.width,image.height).unwrap();
+    |
+
+error[E0599]: no method named `recognize_horizontal_rgb_u8` found for struct `cached::ParseqPool` in the current scope
+   --> src/infer/../../tests/support/dense_pool_orientation.rs:21:18
+    |
+ 21 |     assert!(pool.recognize_horizontal_rgb_u8(&[],0,0).is_err());
+    |                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |
+   ::: src/infer/cached.rs:398:1
+    |
+398 | pub struct ParseqPool {
+    | --------------------- method `recognize_horizontal_rgb_u8` not found for this struct
+    |
+help: there is a method `recognize_rgb_u8` with a similar name
+    |
+ 21 -     assert!(pool.recognize_horizontal_rgb_u8(&[],0,0).is_err());
+ 21 +     assert!(pool.recognize_rgb_u8(&[],0,0).is_err());
+    |
+
+error[E0599]: no method named `recognize_horizontal_rgb_u8` found for struct `cached::ParseqPool` in the current scope
+   --> src/infer/../../tests/support/dense_pool_orientation.rs:22:21
+    |
+ 22 |     assert_eq!(pool.recognize_horizontal_rgb_u8(&image.data,image.width,image.height).unwrap().text,"1");
+    |                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |
+   ::: src/infer/cached.rs:398:1
+    |
+398 | pub struct ParseqPool {
+    | --------------------- method `recognize_horizontal_rgb_u8` not found for this struct
+    |
+help: there is a method `recognize_rgb_u8` with a similar name
+    |
+ 22 -     assert_eq!(pool.recognize_horizontal_rgb_u8(&image.data,image.width,image.height).unwrap().text,"1");
+ 22 +     assert_eq!(pool.recognize_rgb_u8(&image.data,image.width,image.height).unwrap().text,"1");
+    |
+
+For more information about this error, try `rustc --explain E0599`.
+error: could not compile `ndlocr-lite-rs` (lib test) due to 4 previous errors
+mbx[cache]: 0 hits, 0 misses, 1 bypassed; 0 B downloaded, 0 B uploaded, 0 B stored locally
+mbx[savings]: 1.3 TiB logical of old files removed to date. the broom sends its regards.

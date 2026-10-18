@@ -1,0 +1,58 @@
+   Compiling ndlocr-lite-rs v0.1.0 (/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs)
+warning: methods `input_dimensions`, `recognize_horizontal_rgb_u8`, `recognize_batch_indexed`, and `run_chunk_on_session` are never used
+   --> src/infer/cached.rs:501:19
+    |
+410 | impl ParseqPool {
+    | --------------- methods in this implementation
+...
+501 |     pub(crate) fn input_dimensions(&self) -> (usize, usize) {
+    |                   ^^^^^^^^^^^^^^^^
+...
+506 |     pub(crate) fn recognize_horizontal_rgb_u8(
+    |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+...
+606 |     fn recognize_batch_indexed(
+    |        ^^^^^^^^^^^^^^^^^^^^^^^
+...
+725 |     fn run_chunk_on_session(
+    |        ^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: function `recover_dense_horizontal_line` is never used
+ --> src/infer/dense_line_recovery.rs:4:15
+  |
+4 | pub(crate) fn recover_dense_horizontal_line<F>(
+  |               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: `ndlocr-lite-rs` (lib) generated 2 warnings
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.71s
+     Running tests/dense_line_regression_tests.rs (target/debug/deps/dense_line_regression_tests-f7ae1f55b740a1df)
+
+running 2 tests
+test dense_runtime_recovers_long_horizontal_japanese_with_each_primary_model ... FAILED
+test dense_cli_recovery_respects_explicit_split_disable ... FAILED
+
+failures:
+
+---- dense_runtime_recovers_long_horizontal_japanese_with_each_primary_model stdout ----
+
+thread 'dense_runtime_recovers_long_horizontal_japanese_with_each_primary_model' (39809162) panicked at tests/dense_line_regression_tests.rs:16:40:
+parseq-ndl-24x256-30-tiny-189epoch-tegaki3-r8data-202604.onnx: [PageLine { bbox_xyxy: [255, 9, 2855, 33], text: "(", confidence: 0.6696456 }]
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+---- dense_cli_recovery_respects_explicit_split_disable stdout ----
+
+thread 'dense_cli_recovery_respects_explicit_split_disable' (39809161) panicked at tests/dense_line_regression_tests.rs:29:21:
+通牒では計算の条
+
+
+failures:
+    dense_cli_recovery_respects_explicit_split_disable
+    dense_runtime_recovers_long_horizontal_japanese_with_each_primary_model
+
+test result: FAILED. 0 passed; 2 failed; 0 ignored; 0 measured; 0 filtered out; finished in 3.33s
+
+error: test failed, to rerun pass `--test dense_line_regression_tests`
+mbx[cache]: 0 hits, 0 misses, 3 bypassed; 0 B downloaded, 0 B uploaded, 0 B stored locally
+mbx[savings]: 58476 compilations on file. the box remembers.

@@ -19,3 +19,6 @@ pub mod margin_candidates;
 
 #[cfg(any(feature = "onnx", test))]
 pub(crate) mod short_line_order;
+
+#[cfg(any(feature = "onnx", test))]
+pub(crate) mod dense_line_recovery;

@@ -1,0 +1,26 @@
+   Compiling ndlocr-lite-rs v0.1.0 (/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs)
+warning: methods `recognize_batch_indexed` and `run_chunk_on_session` are never used
+   --> src/infer/cached.rs:606:8
+    |
+410 | impl ParseqPool {
+    | --------------- methods in this implementation
+...
+606 |     fn recognize_batch_indexed(
+    |        ^^^^^^^^^^^^^^^^^^^^^^^
+...
+725 |     fn run_chunk_on_session(
+    |        ^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: `ndlocr-lite-rs` (lib test) generated 1 warning
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 2.06s
+     Running unittests src/lib.rs (target/debug/deps/ndlocr_lite_rs-419bfb34943ac7d0)
+
+running 1 test
+test infer::cached::dense_pool_orientation_tests::dense_pool_horizontal_preserves_auto_and_matches_session ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 176 filtered out; finished in 0.74s
+
+mbx[cache]: 0 hits, 0 misses, 1 bypassed; 0 B downloaded, 0 B uploaded, 0 B stored locally
+mbx[savings]: 58476 compilations. rustc did each once; mbx did the rest of the showing up.

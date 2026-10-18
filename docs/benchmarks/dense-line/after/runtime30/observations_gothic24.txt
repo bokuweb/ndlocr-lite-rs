@@ -1,0 +1,1 @@
+Vation includes the station name, measurement time, instrument settings, and a short note describing the local cond
