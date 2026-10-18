@@ -2,6 +2,7 @@ use std::borrow::Cow;
 
 mod antialias;
 mod exterior;
+mod lateral;
 
 /// 色背景とみなすRGB成分の最小差。無彩色の本文には作用させない。
 const MIN_CHROMA: u8 = 24;
@@ -197,6 +198,7 @@ fn normalize_panel(
         }
     }
     antialias::remove_panel_fringe(rgb, width, y0, y1, &backgrounds, exterior, output);
+    lateral::remove_fringe(rgb, width, y0, y1, &backgrounds, exterior, output);
 }
 
 /// 広い標本の外縁に接し、行帯の全高で色が不変な細い枠だけを背景へ延長する。

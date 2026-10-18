@@ -1,0 +1,36 @@
+      ┌─────────┐  mr boxington
+     ╱ ═══════ ╱│
+    ╱─────────╱ │
+    │ •    (◉)│≡│
+    │  ◟▄▄▄◞  │ ╱
+    │   ◀◆▶   │╱
+    └─────────┘
+    Updating git repository `https://github.com/bokuweb/ndlocr-lite-rs`
+    Updating crates.io index
+     Locking 183 packages to latest Rust 1.97.1 compatible versions
+   Compiling ndlocr-lite-rs v0.1.0 (https://github.com/bokuweb/ndlocr-lite-rs?rev=8f641bd9df9b7210fc0e43defe8bb2b4664ff3a6#8f641bd9)
+mbx[progress]: 15s elapsed; 0 hits, 0 misses, 0 bypassed, 1 not looked up; ~0s compiler work saved
+   Compiling omo-lateral-baseline v0.0.0 (/tmp/omo-lateral-baseline)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 20.02s
+     Running tests/lateral.rs (/Volumes/X9/omo-punctuation-locality/target/debug/deps/lateral-7699cc57df80da67)
+
+running 1 test
+test retains_thick_or_short_regions ... FAILED
+
+failures:
+
+---- retains_thick_or_short_regions stdout ----
+
+thread 'retains_thick_or_short_regions' (11520020) panicked at tests/lateral.rs:107:9:
+assertion failed: out[i..i + 3].iter().map(|&v| u16::from(v)).sum::<u16>() < 660
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    retains_thick_or_short_regions
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 6 filtered out; finished in 0.03s
+
+error: test failed, to rerun pass `--test lateral`
+mbx[cache]: 0 hits, 0 misses, 2 not looked up; 0 B downloaded, 0 B uploaded, 26.1 MiB stored locally
+mbx[savings]: 7.0 TiB logical of files removed by collection so far

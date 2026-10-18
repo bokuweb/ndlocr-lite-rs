@@ -2,7 +2,7 @@ use super::{MIN_CHROMA, chromatic, normalized_color_intensity};
 use std::borrow::Cow;
 
 /// 白紙と色背景の間に許す混合画素の最大厚み。
-const MAX_FRINGE: usize = 3;
+pub(super) const MAX_FRINGE: usize = 3;
 
 /// 白との線形混合に許す成分ごとの整数丸め誤差。
 const MIX_TOLERANCE: u16 = 3;
@@ -111,7 +111,7 @@ pub(super) fn remove_panel_fringe(
 }
 
 /// 背景色から白へ向かう同じ混合率で全成分を説明できる場合だけ認める。
-fn is_white_mix(pixel: &[u8], background: [u8; 3]) -> bool {
+pub(super) fn is_white_mix(pixel: &[u8], background: [u8; 3]) -> bool {
     let channel = (0..3).min_by_key(|&c| background[c]).unwrap();
     let denominator = 255 - u16::from(background[channel]);
     let Some(numerator) = pixel[channel].checked_sub(background[channel]) else {

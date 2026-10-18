@@ -1,0 +1,19 @@
+      ┌─────────┐  mr boxington
+     ╱ ═══════ ╱│
+    ╱─────────╱ │
+    │ •    (◉)│≡│
+    │  ◟▄▄▄◞  │ ╱
+    │   ◀◆▶   │╱
+    └─────────┘
+   Compiling ndlocr-lite-rs v0.1.0 (/Volumes/X9/ghq/github.com/bokuweb/ndlocr-lite-rs)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 11.52s
+     Running tests/lateral_panel_fringe_tests.rs (/Volumes/X9/omo-punctuation-locality/target/debug/deps/lateral_panel_fringe_tests-6a6d816481849d93)
+
+running 2 tests
+test side_fringe_does_not_become_ink ... ok
+test side_fringe_survives_color_and_translation ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.82s
+
+mbx[cache]: 0 hits, 0 misses, 3 incremental; 0 B downloaded, 0 B uploaded, 0 B stored locally
+mbx[savings]: 5.7 TiB logical of abandoned target directories removed

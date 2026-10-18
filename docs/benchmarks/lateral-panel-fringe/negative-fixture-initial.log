@@ -1,0 +1,60 @@
+      ┌─────────┐  mr boxington
+     ╱ ═══════ ╱│
+    ╱─────────╱ │
+    │ •    (◉)│≡│
+    │  ◟▄▄▄◞  │ ╱
+    │   ◀◆▶   │╱
+    └─────────┘
+    Blocking waiting for file lock on package cache
+   Compiling ndlocr-lite-rs v0.1.0 (/Volumes/X9/ghq/github.com/bokuweb/ndlocr-lite-rs)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 8.55s
+     Running tests/chromatic_panel_antialias_tests.rs (/Volumes/X9/omo-punctuation-locality/target/debug/deps/chromatic_panel_antialias_tests-f4980db5fdf9a1a4)
+
+running 5 tests
+test glyphs_and_thin_rules_remain_dark ... ok
+test sloped_antialiased_edges_leave_no_foreground ... ok
+test black_and_colored_border_rules_are_retained ... ok
+test real_resampled_panel_has_safe_word_boundaries ... ok
+test edge_removal_survives_translation_and_blend_phase ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.49s
+
+     Running tests/exterior_panel_paper_tests.rs (/Volumes/X9/omo-punctuation-locality/target/debug/deps/exterior_panel_paper_tests-667606f9388402f1)
+
+running 4 tests
+test diagonal_contact_is_not_exterior_connection ... ok
+test keeps_exterior_paper_in_concave_panel ... ok
+test keeps_enclosed_white_and_black_glyphs ... ok
+test varied_notches ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 2.53s
+
+     Running tests/lateral_panel_fringe_tests.rs (/Volumes/X9/omo-punctuation-locality/target/debug/deps/lateral_panel_fringe_tests-6a6d816481849d93)
+mbx[progress]: 15s elapsed; 0 hits, 0 misses, 0 bypassed, 0 not looked up; ~0s compiler work saved
+
+running 7 tests
+test retains_thick_or_short_regions ... FAILED
+test side_fringe_does_not_become_ink ... ok
+test retains_enclosed_white_glyph ... ok
+test rejects_paper_below_threshold ... ok
+test preserves_exterior_paper_rgb ... ok
+test retains_black_and_different_color_rules ... ok
+test side_fringe_survives_color_and_translation ... ok
+
+failures:
+
+---- retains_thick_or_short_regions stdout ----
+
+thread 'retains_thick_or_short_regions' (11518338) panicked at tests/lateral_panel_fringe_tests.rs:107:9:
+assertion failed: out[i..i + 3].iter().map(|&v| u16::from(v)).sum::<u16>() < 660
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    retains_thick_or_short_regions
+
+test result: FAILED. 6 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 3.49s
+
+error: test failed, to rerun pass `--test lateral_panel_fringe_tests`
+mbx[cache]: 0 hits, 0 misses, 4 incremental; 0 B downloaded, 0 B uploaded, 0 B stored locally
+mbx[savings]: 8d 19h of compiler time avoided across 15450 builds

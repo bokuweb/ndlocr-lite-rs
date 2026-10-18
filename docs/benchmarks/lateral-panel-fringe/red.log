@@ -1,0 +1,52 @@
+      ┌─────────┐  mr boxington
+     ╱ ═══════ ╱│
+    ╱─────────╱ │
+    │ •    (◉)│≡│
+    │  ◟▄▄▄◞  │ ╱
+    │   ◀◆▶   │╱
+    └─────────┘
+   Compiling ndlocr-lite-rs v0.1.0 (/Volumes/X9/ghq/github.com/bokuweb/ndlocr-lite-rs)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 8.92s
+     Running tests/lateral_panel_fringe_tests.rs (/Volumes/X9/omo-punctuation-locality/target/debug/deps/lateral_panel_fringe_tests-6a6d816481849d93)
+
+running 2 tests
+test side_fringe_does_not_become_ink ... FAILED
+test side_fringe_survives_color_and_translation ... FAILED
+
+failures:
+
+---- side_fringe_does_not_become_ink stdout ----
+
+thread 'side_fringe_does_not_become_ink' (11509870) panicked at tests/lateral_panel_fringe_tests.rs:34:13:
+side became ink at 31,18: [255, 195, 86]
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+---- side_fringe_survives_color_and_translation stdout ----
+proptest: FileFailurePersistence::SourceParallel set, but failed to find lib.rs or main.rs
+proptest: FileFailurePersistence::SourceParallel set, but failed to find lib.rs or main.rs
+proptest: Saving this and future failures in /Volumes/X9/ghq/github.com/bokuweb/ndlocr-lite-rs/tests/lateral_panel_fringe_tests.proptest-regressions
+proptest: If this test was run on a CI system, you may wish to add the following line to your copy of the file. (You may need to create it.)
+cc 6c072d22beb7d8946a6dd9d80fd10f822efe84175ec4a94bdb426aaaec021bff
+
+thread 'side_fringe_survives_color_and_translation' (11509871) panicked at tests/lateral_panel_fringe_tests.rs:40:1:
+Test failed: 31,18 at tests/lateral_panel_fringe_tests.rs:50.
+minimal failing input: offset = 0, phase = 0, color = [
+    0,
+    0,
+    24,
+]
+	successes: 0
+	local rejects: 0
+	global rejects: 0
+
+
+
+failures:
+    side_fringe_does_not_become_ink
+    side_fringe_survives_color_and_translation
+
+test result: FAILED. 0 passed; 2 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.94s
+
+error: test failed, to rerun pass `--test lateral_panel_fringe_tests`
+mbx[cache]: 0 hits, 0 misses, 1 not looked up; 0 B downloaded, 0 B uploaded, 2.8 MiB stored locally
+mbx[savings]: 5.7 TiB logical of abandoned target directories removed
