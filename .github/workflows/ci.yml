@@ -82,3 +82,9 @@ jobs:
         run: |
           cargo test --locked --features onnx --example probe_margin_sensitivity --test margin_sensitivity_tests
           cargo run --locked --features onnx --example probe_margin_sensitivity -- models/parseq-ndl-24x256-30-tiny-189epoch-tegaki3-r8data-202604.onnx models/NDLmoji.yaml tests/fixtures/margin_sensitivity margin-sensitivity.json
+
+      - name: Resampling comparison regressions and real baseline parity
+        run: |
+          cargo test --locked --features onnx --example compare_parseq_resampling
+          cargo run --locked --features onnx --example compare_parseq_resampling -- --manifest tests/fixtures/resampling_comparison/pages.json --model models/parseq-ndl-24x256-30-tiny-189epoch-tegaki3-r8data-202604.onnx --charset models/NDLmoji.yaml --output resampling-comparison.json
+          python3 -c 'import json,math; r=json.load(open("resampling-comparison.json")); assert r["model_dimensions"] == [256,24]; p=r["pages"]; assert len(p)==1 and len(p[0]["lines"])==1; line=p[0]["lines"][0]; assert line["bilinear"]==json.load(open("candidate-export.json"))[0]["text"]=="1"; assert len(line["chunks"])==1; c=line["chunks"][0]; assert all(c[m]["error"] is None and math.isfinite(c[m]["confidence"]) for m in ("bilinear","area"))'

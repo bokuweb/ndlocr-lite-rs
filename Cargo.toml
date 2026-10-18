@@ -44,6 +44,10 @@ tempfile = "3"
 name = "probe_margin_sensitivity"
 required-features = ["onnx"]
 
+[[example]]
+name = "compare_parseq_resampling"
+required-features = ["onnx"]
+
 [[bench]]
 name = "line_segment_bench"
 harness = false
