@@ -1,0 +1,16 @@
+   Compiling ndlocr-lite-rs v0.1.0 (/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 3.86s
+     Running unittests src/lib.rs (target/debug/deps/ndlocr_lite_rs-c6da13c5479ca659)
+
+running 6 tests
+test infer::short_line_order::tests::uses_only_two_high_confidence_agreeing_model_outputs ... ok
+test infer::short_line_order::tests::fallback_failures_preserve_the_original ... ok
+test infer::short_line_order::tests::refuses_non_agreement_edits_low_scores_and_nonfinite_candidates ... ok
+test infer::short_line_order::tests::handles_duplicate_characters_and_geometry_boundaries ... ok
+test infer::short_line_order::tests::skips_ineligible_base_without_calling_models ... ok
+test infer::short_line_order::tests::accepted_output_is_a_real_candidate_with_the_same_character_counts ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 140 filtered out; finished in 0.01s
+
+mbx[cache]: 0 hits, 0 misses, 1 incremental; 0 B downloaded, 0 B uploaded, 0 B stored locally
+mbx[savings]: 58476 compilations. rustc did each once; mbx did the rest of the showing up.

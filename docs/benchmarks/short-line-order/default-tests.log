@@ -1,0 +1,1094 @@
+   Compiling ndlocr-lite-rs v0.1.0 (/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 7.67s
+     Running unittests src/lib.rs (target/debug/deps/ndlocr_lite_rs-c6da13c5479ca659)
+
+running 147 tests
+test cascade::tests::line_char_count_handles_zero_height ... ok
+test cascade::tests::line_char_count_returns_at_least_one ... ok
+test cascade::tests::bucket_routes_medium_lines_to_50_model ... ok
+test cascade::tests::line_char_count_scales_with_aspect_ratio ... ok
+test app::tests::estimate_pred_char_bucket_returns_30_class_for_short_lines ... ok
+test app::tests::estimate_pred_char_bucket_returns_100_class_for_long_lines ... ok
+test app::tests::estimate_pred_char_bucket_returns_50_class_for_medium_lines ... ok
+test cascade::tests::bucket_routes_long_lines_to_100_model ... ok
+test cascade::tests::bucket_uses_default_thresholds ... ok
+test cascade::tests::bucket_routes_short_lines_to_30_model ... ok
+test app::tests::quality_score_prefers_japanese_sentence_over_digit_noise ... ok
+test infer::short_line_order::tests::avoids_the_second_model_when_the_first_cannot_be_selected ... ok
+test infer::short_line_order::tests::skips_ineligible_base_without_calling_models ... ok
+test infer::short_line_order::tests::uses_only_two_high_confidence_agreeing_model_outputs ... ok
+test infer::short_line_order::tests::fallback_failures_preserve_the_original ... ok
+test infer::short_line_order::tests::handles_duplicate_characters_and_geometry_boundaries ... ok
+test infer::short_line_order::tests::refuses_non_agreement_edits_low_scores_and_nonfinite_candidates ... ok
+test pipeline::background::exterior::tests::nearwhite_threshold_and_diagonal_barriers ... ok
+test pipeline::background::exterior::tests::one_dimensional_edges ... ok
+test pipeline::clipped_components::tests::does_not_merge_two_band_owners ... ok
+test pipeline::clipped_components::tests::completes_diagonal_strokes_at_all_four_edges ... ok
+test pipeline::clipped_components::tests::honors_threshold_and_zero_band_inputs ... ok
+test pipeline::band_bounds::tests::does_not_capture_distant_margin_noise ... ok
+test pipeline::clipped_components::tests::leaves_detached_figures_and_long_connected_rules_unchanged ... ok
+test pipeline::clipped_components::tests::refuses_a_rectangle_that_would_capture_a_detached_figure ... ok
+test pipeline::band_bounds::tests::restores_thin_trailing_character ... ok
+test pipeline::band_bounds::tests::restores_thin_leading_character_discarded_by_upstream ... ok
+test pipeline::clipped_components::tests::refuses_new_rectangular_collisions_between_bands ... ok
+test pipeline::band_bounds::tests::sparse_recovery_rejects_non_glyph_shapes ... ok
+test pipeline::clipped_components::tests::rejects_invalid_inputs ... ok
+test pipeline::component_bands::region_tests::region_keeps_diagonal_connectivity_and_absolute_coordinates ... ok
+test pipeline::component_bands::region_tests::region_preserves_the_component_limit ... ok
+test pipeline::component_bands::small_aligned_tests::small_height_range_reaches_the_full_height_fallback ... ok
+test pipeline::component_bands::small_aligned_tests::text_margin_and_gap_edges_bound_the_fallback ... ok
+test pipeline::component_bands::truncated_tests::a_component_touching_the_neighbor_is_rejected ... ok
+test pipeline::component_bands::truncated_tests::an_already_complete_short_glyph_is_unchanged ... ok
+test pipeline::component_bands::truncated_tests::no_scale_context_means_no_extension ... ok
+test infer::short_line_order::tests::accepted_output_is_a_real_candidate_with_the_same_character_counts ... ok
+test pipeline::background::exterior::tests::run_fill_matches_pixel_search ... ok
+test pipeline::fragment_bands::tests::distinct_rows_do_not_become_candidates ... ok
+test pipeline::component_bands::truncated_tests::heading_width_and_diagonal_offset_have_bounded_limits ... ok
+test pipeline::fragment_bands::tests::insufficient_page_context_leaves_fragments_untouched ... ok
+test pipeline::fragment_bands::tests::extra_padding_never_overlaps_neighboring_rows ... ok
+test pipeline::fragment_bands::tests::joined_horizontal_glyph_has_enough_side_bearing ... ok
+test pipeline::fragment_bands::tests::solid_blocks_cannot_bridge_fragments ... ok
+test pipeline::component_bands::truncated_tests::unrelated_or_non_glyph_ink_does_not_extend_a_band ... ok
+test pipeline::line_chunks::leading_marks::tests::slanted_mark_uses_component_top ... ok
+test pipeline::line_chunks::leading_marks::tests::small_leading_mark_keeps_pixels_with_vertical_context ... ok
+test pipeline::background::exterior::tests::nearwhite_run_fill_matches_pixel_search ... ok
+test pipeline::line_chunks::leading_marks::tests::unsupported_mark_preserves_image ... ok
+test pipeline::fragment_bands::tests::side_bearing_stays_inside_the_page ... ok
+test pipeline::line_chunks::leading_symbols::tests::leading_symbol_joins_fitting_body_context ... ok
+test pipeline::clipped_components::tests::horizontal_reflection_is_equivariant ... ok
+test pipeline::line_chunks::punctuation_tails::tests::separated_marks_rejoin_preceding_word ... ok
+test pipeline::line_chunks::leading_symbols::tests::unsupported_context_keeps_original_boundaries ... ok
+test pipeline::line_chunks::leading_marks::tests::leading_mark_context_preserves_scaled_pixels ... ok
+test pipeline::line_chunks::regular_advance::tests::unsupported_glyph_shapes_keep_the_existing_classifier ... ok
+test pipeline::line_chunks::punctuation_tails::tests::separated_marks_use_supported_original_gap_width ... ok
+test pipeline::clipped_components::tests::every_added_pixel_has_an_independent_connected_owner ... ok
+test pipeline::component_bands::truncated_tests::restored_glyph_stays_in_page ... ok
+test pipeline::line_chunks::punctuation_tails::tests::unsupported_marks_preserve_partition ... ok
+test pipeline::line_chunks::regular_advance::tests::consistent_advance_requires_six_pairs_and_preserves_real_spaces ... ok
+test pipeline::line_chunks::slanted_spaces::tests::upright_projection_preserves_existing_spaces ... ok
+test pipeline::line_chunks::slanted_spaces::tests::slanted_projection_recovers_only_supported_word_spaces ... ok
+test pipeline::line_chunks::style_transitions::tests::distinct_slant_adds_one_word_boundary ... ok
+test pipeline::line_chunks::style_transitions::tests::reverse_transition_requires_multiple_ink_runs ... ok
+test pipeline::line_chunks::leading_symbols::tests::scaled_context_respects_model_capacity ... ok
+test pipeline::line_chunks::style_transitions::tests::uniform_or_unsupported_spaces_keep_context ... ok
+test pipeline::line_chunks::style_transitions::tests::transition_preserves_geometry ... ok
+test pipeline::line_chunks::tests::avoids_internal_kana_gap_within_one_glyph_width ... ok
+test pipeline::line_chunks::tests::balances_chunks_instead_of_leaving_orphan_punctuation ... ok
+test pipeline::line_chunks::leading_symbols::tests::jma_bullets_keep_following_body_context ... ok
+test pipeline::line_chunks::tests::avoids_narrow_component_gap_near_balanced_boundary ... ok
+test pipeline::line_chunks::tests::compact_bearings_keep_latin_and_full_height_spaces ... ok
+test pipeline::line_chunks::tests::compact_glyph_side_bearings_are_not_word_spaces ... ok
+test pipeline::line_chunks::tests::curved_narrow_glyph_keeps_word_space ... ok
+test pipeline::line_chunks::tests::digit_bearing_is_not_a_word_space ... ok
+test pipeline::line_chunks::tests::internal_gap_without_wider_neighbor_keeps_safe_fallback ... ok
+test pipeline::line_chunks::slanted_spaces::tests::weak_slant_requires_six_confirmed_spaces ... ok
+test pipeline::line_chunks::tests::keeps_normal_bearings_and_does_not_seek_distant_gaps ... ok
+test pipeline::line_chunks::tests::japanese_glyph_bearings_do_not_create_word_spaces ... ok
+test pipeline::line_chunks::tests::latin_punctuation_bearing_excludes_full_height_stems ... ok
+test pipeline::line_chunks::tests::latin_single_and_paired_marks_obey_gap_boundaries ... ok
+test pipeline::line_chunks::tests::narrow_glyph_gap_does_not_invent_a_space ... ok
+test pipeline::line_chunks::punctuation_tails::tests::separated_mark_context_is_scale_and_translation_invariant ... ok
+test pipeline::line_chunks::tests::open_glyph_spaces_obey_shape_boundaries ... ok
+test pipeline::line_chunks::tests::punctuation_width_requires_short_and_body_support ... ok
+test pipeline::line_chunks::tests::narrow_side_bearings_are_not_word_spaces ... ok
+test pipeline::line_chunks::tests::rejects_wide_connected_ink_and_invalid_buffers ... ok
+test pipeline::line_chunks::tests::splits_at_word_spaces_without_losing_pixels ... ok
+test pipeline::line_chunks::tests::splits_dense_glyphs_even_below_aspect_limit ... ok
+test pipeline::line_chunks::tests::keeps_wider_gaps_and_separate_glyphs ... ok
+test pipeline::line_chunks::tests::tall_kana_side_bearings_obey_shape_and_space_boundaries ... ok
+test pipeline::line_chunks::tests::word_space_can_require_an_additional_feasible_chunk ... ok
+test pipeline::line_chunks::word_fragments::tests::fragment_context_preserves_scale_translation_and_reflection ... ok
+test pipeline::line_chunks::word_fragments::tests::short_tail_moves_to_next_word_space ... ok
+test pipeline::line_chunks::word_fragments::tests::short_tail_preserves_coverage ... ok
+test pipeline::line_chunks::word_fragments::tests::short_word_fragment_rejoins_horizontal_context ... ok
+test pipeline::line_chunks::word_fragments::tests::unsupported_fragment_preserves_partition ... ok
+test pipeline::line_chunks::word_fragments::tests::unsupported_short_tail_preserves_partition ... ok
+test pipeline::line_chunks::word_spaces::connected_population_tests::strong_population_requires_joined_ink_and_five_gaps ... ok
+test pipeline::line_chunks::word_spaces::connected_population_tests::strong_population_scales ... ok
+test pipeline::line_chunks::word_spaces::tests::joined_glyph_support_does_not_relax_wide_rows_without_evidence ... ok
+test pipeline::line_chunks::word_spaces::tests::mixed_format_gap_population_requires_six_retained_spaces ... ok
+test pipeline::line_chunks::word_spaces::tests::mixed_format_gap_support_survives_scale_and_permutation ... ok
+test pipeline::line_chunks::word_spaces::tests::proportional_gap_population_requires_separation_and_support ... ok
+test pipeline::line_chunks::word_spaces::tests::supported_word_gap_distribution_scales ... ok
+test pipeline::line_detections::tests::distinct_or_same_class_detections_are_retained ... ok
+test pipeline::line_detections::tests::overlap_threshold_and_extreme_coordinates_are_exact ... ok
+test pipeline::line_detections::tests::rejected_candidate_does_not_suppress_another_line ... ok
+test pipeline::line_detections::tests::tied_scores_and_non_line_classes_keep_input_priority ... ok
+test pipeline::line_detections::tests::winning_detection_is_invariant ... ok
+test pipeline::noisy_line_gaps::tests::component_limit_preserves_region ... ok
+test pipeline::band_bounds::tests::expanded_bounds_stay_inside_image ... ok
+test pipeline::line_chunks::tests::real_compact_bearings_are_reflection_and_translation_invariant ... ok
+test pipeline::reading_order::tests::empty_and_single_are_no_op ... ok
+test pipeline::reading_order::tests::horizontal_sorts_top_then_left ... ok
+test pipeline::reading_order::tests::mixed_orientation_puts_vertical_first ... ok
+test pipeline::reading_order::tests::vertical_sorts_right_to_left_then_top ... ok
+test postprocess::page_rules::tests::article_heading_drops_garbled_tail_after_bracket ... ok
+test postprocess::page_rules::tests::article_heading_normalizes_parenthesis ... ok
+test postprocess::page_rules::tests::article_heading_trims_trailing_noise ... ok
+test postprocess::page_rules::tests::collapses_duplicate_adjacent_lines ... ok
+test postprocess::page_rules::tests::drops_page_decoration_lines ... ok
+test postprocess::page_rules::tests::joins_latin_hyphenation_at_line_end ... ok
+test postprocess::page_rules::tests::joins_multiple_hyphenated_words_in_sequence ... ok
+test postprocess::page_rules::tests::keeps_trailing_hyphen_when_next_line_is_section_boundary ... ok
+test postprocess::page_rules::tests::keeps_trailing_hyphen_when_next_starts_non_alpha ... ok
+test postprocess::page_rules::tests::keeps_trailing_hyphen_when_prev_char_is_not_alpha ... ok
+test postprocess::page_rules::tests::merges_cjk_digit_split_pair ... ok
+test postprocess::page_rules::tests::numbered_item_prefix_is_normalized ... ok
+test postprocess::page_rules::tests::parenthetical_line_keeps_prose_after_label_when_kanji_follows ... ok
+test postprocess::page_rules::tests::parenthetical_line_trims_hiragana_only_noise_after_label ... ok
+test postprocess::page_rules::tests::structural_rules_drop_decoration_at_top ... ok
+test postprocess::page_rules::tests::trims_orphan_dai_at_section_boundary ... ok
+test postprocess::rule_pack::tests::apply_rule_pack_merges_and_replaces ... ok
+test pipeline::line_chunks::regular_advance::tests::regular_bearings_scale ... ok
+test pipeline::noisy_line_gaps::tests::tightly_spaced_jma_titles_are_separate_bands ... ok
+test pipeline::noisy_line_gaps::tests::single_row_valley_preserves_connected_glyphs ... ok
+test pipeline::line_chunks::tests::chunks_tile_the_image_without_cutting_ink ... ok
+test pipeline::line_chunks::tests::word_spaces_are_reflection_and_translation_invariant ... ok
+test pipeline::line_chunks::slanted_spaces::tests::weak_slant_preserves_pixel_geometry ... ok
+test pipeline::line_chunks::style_transitions::tests::italic_to_upright_word_boundary_is_retained ... ok
+test pipeline::line_chunks::slanted_spaces::tests::punctuation_space_requires_original_gap_support ... ok
+test pipeline::line_chunks::slanted_spaces::tests::punctuation_space_preserves_pixel_geometry ... ok
+test pipeline::line_chunks::tests::internal_kana_gap_survives_scale_reflection_and_translation ... ok
+mbx[progress]: 15s elapsed; 0 hits, 0 misses, 0 bypassed, 103 not looked up; ~0s compiler work saved
+test pipeline::line_chunks::slanted_spaces::tests::slanted_word_spaces_preserve_geometry ... ok
+
+test result: ok. 147 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 9.35s
+
+     Running unittests src/main.rs (target/debug/deps/ndlocr_lite_rs-7adba5ee04f3bbba)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/accuracy_followup_tests.rs (target/debug/deps/accuracy_followup_tests-d1ec58dd94fefa8c)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/ambiguous_stroke_rows_tests.rs (target/debug/deps/ambiguous_stroke_rows_tests-c5c520f0cd91df07)
+
+running 3 tests
+test merge_hypotheses_do_not_replace_ambiguous_stroke_rows ... ok
+test aligned_stroke_rows_keep_their_separate_regions ... ok
+test stroke_rows_preserve_scale_translation_and_coverage ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.74s
+
+     Running tests/app_e2e_tests.rs (target/debug/deps/app_e2e_tests-9415e47793c7cf71)
+
+running 11 tests
+test recognize_page_command_rejects_invalid_rule_pack_yaml ... ok
+test recognize_page_command_rejects_invalid_post_dict_yaml ... ok
+test mock_page_command_rejects_empty_output_stem ... ok
+test recognize_command_reports_feature_disabled_when_onnx_is_off ... ok
+test mock_page_command_writes_json_xml_and_txt ... ok
+test mock_page_command_uses_line_text_when_specified ... ok
+test mock_page_command_uses_line_confidence_when_specified ... ok
+test mock_page_command_uses_output_stem_when_specified ... ok
+test mock_page_command_uses_line_orientation_when_specified ... ok
+test mock_page_command_uses_line_count_for_multiple_outputs ... ok
+test recognize_page_command_reports_feature_disabled_when_onnx_is_off ... ok
+
+test result: ok. 11 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+     Running tests/app_layout_tests.rs (target/debug/deps/app_layout_tests-402460b3e31fdda9)
+
+running 7 tests
+test normalize_line_confidence_clamps_to_valid_range ... ok
+test normalize_line_count_clamps_to_valid_range ... ok
+test mock_line_detections_handle_tiny_images_safely ... ok
+test mock_line_detections_use_inner_margin_and_valid_boxes ... ok
+test prepare_line_crops_filters_invalid_boxes_and_preserves_metadata_order ... ok
+test fallback_line_detections_preserve_band_detection_metadata ... ok
+test normalize_line_confidence_is_always_in_unit_range ... ok
+
+test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/artifacts_output_tests.rs (target/debug/deps/artifacts_output_tests-b9ed10562fd160ee)
+
+running 1 test
+test save_page_artifacts_writes_json_xml_and_txt ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/candidate_export_tests.rs (target/debug/deps/candidate_export_tests-88271b5a0c952c62)
+
+running 3 tests
+test invalid_step_mapping_is_rejected ... ok
+test missing_line_keeps_empty_prediction ... ok
+test export_keeps_raw_steps_and_fixed_join_spaces ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+     Running tests/cascade_tests.rs (target/debug/deps/cascade_tests-8383f2075ca75844)
+
+running 1 test
+test cascade_routes_and_fallbacks ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/centered_footer_tests.rs (target/debug/deps/centered_footer_tests-0c2c00400bd8c9b1)
+
+running 6 tests
+test a_single_body_line_does_not_enable_footer_recovery ... ok
+test small_centered_footer_is_preserved ... ok
+test centered_noise_stays_excluded ... ok
+test small_glyphs_outside_the_footer_context_stay_excluded ... ok
+test footer_context_limits_are_inclusive_and_bounded ... ok
+test footer_coordinates_follow_page_translation ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 4.14s
+
+     Running tests/charset_tests.rs (target/debug/deps/charset_tests-ed6f1799fc82fb76)
+
+running 2 tests
+test load_charset_from_yaml_extracts_charset_train ... ok
+test load_charset_from_yaml_fails_without_charset_train ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/chromatic_panel_antialias_tests.rs (target/debug/deps/chromatic_panel_antialias_tests-97e427bb6c895af7)
+
+running 5 tests
+test sloped_antialiased_edges_leave_no_foreground ... ok
+test glyphs_and_thin_rules_remain_dark ... ok
+test black_and_colored_border_rules_are_retained ... ok
+test real_resampled_panel_has_safe_word_boundaries ... ok
+test edge_removal_survives_translation_and_blend_phase ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.45s
+
+     Running tests/chromatic_panel_edges_tests.rs (target/debug/deps/chromatic_panel_edges_tests-16e17ebbd212bea7)
+
+running 6 tests
+test minority_long_rows_still_remove_background ... ok
+test shorter_tail_keeps_outside_paper_and_inside_glyphs ... ok
+test adjacent_background_colors_keep_separate_glyph_rows ... ok
+test public_highlight_tail_remains_safely_splittable ... ok
+mbx[progress]: 30s elapsed; 0 hits, 0 misses, 0 bypassed, 103 not looked up; ~0s compiler work saved
+test ragged_edges_preserve_outside_pixels ... ok
+test public_adjacent_panels_preserve_all_text_rows ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 4.54s
+
+     Running tests/chromatic_panels_tests.rs (target/debug/deps/chromatic_panels_tests-3809c7ce9b11e9b0)
+
+running 7 tests
+test malformed_dimensions_are_rejected ... ok
+test colored_glyphs_and_thin_rule_are_unchanged ... ok
+test gradient_panel_preserves_both_text_polarities_and_outside_pixels ... ok
+test achromatic_pages_remain_borrowed ... ok
+test public_gradient_header_is_detected_at_glyph_height ... ok
+test gradient_header_chunks_do_not_isolate_last_heading_glyph ... ok
+test varied_chromatic_backgrounds_keep_black_and_white_glyphs ... ok
+
+test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 2.39s
+
+     Running tests/chromatic_text_contrast_tests.rs (target/debug/deps/chromatic_text_contrast_tests-162c89e1379364e2)
+
+running 8 tests
+test colored_text_outside_partial_panel_is_unchanged ... ok
+test full_height_border_is_removed_without_sampling_tall_glyph ... ok
+test equal_brightness_colored_glyph_is_preserved ... ok
+test dense_colored_strokes_do_not_split_off_thin_background_rows ... ok
+test tall_colored_glyph_does_not_invert_its_background_column ... ok
+test independent_green_panel_keeps_safe_blank_columns ... ok
+test public_mixed_formats_keep_all_splittable_rows ... ok
+test equal_brightness_contrast_survives_scale_and_translation ... ok
+
+test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.78s
+
+     Running tests/chunk_margins_tests.rs (target/debug/deps/chunk_margins_tests-d373a87339b188d5)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/chunk_word_omission_tests.rs (target/debug/deps/chunk_word_omission_tests-b2b412e63666f7b5)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/cli_tests.rs (target/debug/deps/cli_tests-0205a619f56cfa76)
+
+running 9 tests
+test default_parseq_models_track_ndlocr_lite_v1_2_handwriting_models ... ok
+test parse_detect_command ... ok
+test parse_recognize_command_uses_default_model_and_charset_paths ... ok
+test parse_recognize_command ... ok
+test parse_recognize_page_command_accepts_rule_pack ... ok
+test parse_recognize_page_command_keeps_quality_boost_off_with_model_override ... ok
+test parse_detect_command_uses_default_model_path ... ok
+test parse_recognize_page_command_accepts_line_crop_padding ... ok
+test parse_recognize_page_command_uses_defaults_and_optional_output ... ok
+
+test result: ok. 9 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/compact_horizontal_margins_tests.rs (target/debug/deps/compact_horizontal_margins_tests-31ac62b8d8656f84)
+
+running 4 tests
+test dense_input_is_exact_identity ... ok
+test equal_width_asymmetric_margin_is_identity ... ok
+test blank_and_invalid_inputs ... ok
+test contracts_only_and_keeps_pixel_mapping ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.03s
+
+     Running tests/crop_tests.rs (target/debug/deps/crop_tests-d872dbc832f63d6e)
+
+running 2 tests
+test expand_bbox_xyxy_clamped_adds_padding_and_clamps ... ok
+test crop_rgb_u8_extracts_requested_region ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/deim_component_probe_tests.rs (target/debug/deps/deim_component_probe_tests-5a89dd01a382fecd)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/deim_edge_glyph_tests.rs (target/debug/deps/deim_edge_glyph_tests-e36f49997e06be78)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/deim_extent_regression_tests.rs (target/debug/deps/deim_extent_regression_tests-c158a59565005166)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/detached_punctuation_tests.rs (target/debug/deps/detached_punctuation_tests-42d6be1405bc9918)
+
+running 9 tests
+test short_glyph_is_not_a_sentence_anchor ... ok
+test includes_sparse_period_below_the_trailing_body ... ok
+test sparse_margin_ink_is_not_a_body_anchor ... ok
+test does_not_cross_the_next_body ... ok
+test rejects_unrelated_marks_and_solid_noise ... ok
+test distant_speckle_does_not_disable_punctuation_recovery ... ok
+test prepared_handwriting_keeps_all_five_trailing_marks ... ok
+test translated_scaled_periods_remain_in_their_body ... ok
+test distant_noise_preserves_local_bands ... ok
+
+test result: ok. 9 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.88s
+
+     Running tests/detected_edge_bar_tests.rs (target/debug/deps/detected_edge_bar_tests-a3cc2d335a3ca881)
+
+running 5 tests
+test proposed_regions_cannot_collide_in_the_shared_margin ... ok
+test cascade_uses_the_same_completed_recognition_region ... ok
+test clipped_edge_bar_recovers_source_pixels_before_padding ... ok
+test tall_foreign_or_ambiguous_components_keep_original_bounds ... ok
+test completed_bar_follows_scale_shift_and_reflection ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.02s
+
+     Running tests/docx_output_tests.rs (target/debug/deps/docx_output_tests-2ba667c03c26b481)
+
+running 2 tests
+test save_text_as_docx_writes_valid_docx_package ... ok
+test save_string_as_docx_escapes_xml_text ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+     Running tests/duplicate_line_detections_tests.rs (target/debug/deps/duplicate_line_detections_tests-b5b1aa6e868fde9d)
+
+running 3 tests
+test out_of_image_candidate_cannot_suppress_valid_line ... ok
+test cli_crops_keep_the_winning_detection_metadata ... ok
+test competing_line_classes_are_recognized_once_per_physical_line ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/eval_fixture_tests.rs (target/debug/deps/eval_fixture_tests-3264e5c0485d06ac)
+
+running 2 tests
+test eval_scaned0_image_and_truth_exist ... ok
+test eval_ndl_logo_ja_image_and_truth_exist ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/exterior_panel_paper_tests.rs (target/debug/deps/exterior_panel_paper_tests-35c2f50dab7d5523)
+
+running 4 tests
+test keeps_enclosed_white_and_black_glyphs ... ok
+test diagonal_contact_is_not_exterior_connection ... ok
+test keeps_exterior_paper_in_concave_panel ... ok
+mbx[progress]: 45s elapsed; 0 hits, 0 misses, 0 bypassed, 103 not looked up; ~0s compiler work saved
+test varied_notches ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.89s
+
+     Running tests/font_emulation_context_tests.rs (target/debug/deps/font_emulation_context_tests-aa5c66f151431173)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/fragment_sanitize_tests.rs (target/debug/deps/fragment_sanitize_tests-d8778e18fd27db73)
+
+running 3 tests
+test closing_brackets_in_a_continuation_fragment_are_preserved ... ok
+test fragment_changes_only_the_bracket_deletion_policy ... ok
+test every_supported_closer_survives_without_an_opener ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+     Running tests/fragmented_glyph_tests.rs (target/debug/deps/fragmented_glyph_tests-df8c56e284d3d4a6)
+
+running 4 tests
+test a_connected_isolated_glyph_is_not_split_into_two_rows ... ok
+test separate_short_rows_stay_separate ... ok
+test a_rule_crossing_separate_rows_does_not_join_them ... ok
+test rejoined_bounds_follow_translation ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.70s
+
+     Running tests/framed_lines_tests.rs (target/debug/deps/framed_lines_tests-1210cc372916260f)
+
+running 5 tests
+test short_thick_single_or_sparse_rules_are_not_trimmed ... ok
+test paired_multiline_rules_stay_outside_text_bands ... ok
+test close_frame_preserves_known_correct_middle_dot_context ... ok
+test kobe_box_sides_do_not_become_text ... ok
+test frame_trimming_preserves_body_at_scale ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.43s
+
+     Running tests/horizontal_margins_tests.rs (target/debug/deps/horizontal_margins_tests-72730e39778079c6)
+
+running 4 tests
+test rejects_invalid_inputs ... ok
+test retains_near_white_internal_spaces_and_full_height ... ok
+test blank_is_identity ... ok
+test padding_invariant_and_preserves_every_nonwhite ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.03s
+
+     Running tests/infer_tests.rs (target/debug/deps/infer_tests-4c3b2b43d49ffceb)
+
+running 5 tests
+test parseq_decode_stops_at_eos ... ok
+test deim_scale_boxes_scales_to_original_image_space ... ok
+test smoke_recognize_reports_feature_disabled_message ... ok
+test parseq_decode_is_unchanged_by_suffix_after_eos ... ok
+test smoke_detect_reports_feature_disabled_message ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.02s
+
+     Running tests/integration_scanned0_tests.rs (target/debug/deps/integration_scanned0_tests-9dfd63121fd390a5)
+
+running 1 test
+test scanned0_fixture_can_be_loaded_and_segmented ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.17s
+
+     Running tests/internal_glyph_gap_tests.rs (target/debug/deps/internal_glyph_gap_tests-812e50c0544a54c9)
+
+running 1 test
+test kana_internal_gap_keeps_complete_glyph ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+     Running tests/io_tests.rs (target/debug/deps/io_tests-f07e574d88b71112)
+
+running 4 tests
+test reject_unknown_extensions ... ok
+test supports_known_extensions_case_insensitive ... ok
+test collect_input_images_from_sourceimg ... ok
+test extension_check_is_case_insensitive ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/isolated_latin_tests.rs (target/debug/deps/isolated_latin_tests-3f425ccb1932f228)
+
+running 6 tests
+test small_shapes_away_from_a_text_margin_are_not_promoted ... ok
+test aligned_noise_is_not_promoted ... ok
+test horizontal_padding_is_clamped_at_the_page_edge ... ok
+test lowercase_lines_include_all_ink_and_the_detached_dot ... ok
+test vertical_padding_stops_after_the_previous_line ... ok
+test lowercase_coordinates_follow_the_text_margin ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 4.05s
+
+     Running tests/isolated_short_line_tests.rs (target/debug/deps/isolated_short_line_tests-d14d79d3e5b0ffe7)
+
+running 7 tests
+test isolated_tail_does_not_absorb_distant_dots_or_other_rows ... ok
+test excessive_components_disable_the_fallback ... ok
+test all_sparse_glyph_seeds_on_the_same_line_are_kept ... ok
+test a_nearby_solid_block_is_not_attached_to_the_tail ... ok
+test isolated_noise_is_not_promoted_to_a_line ... ok
+test isolated_body_tail_is_preserved_at_page_scale ... ok
+test isolated_tail_coordinates_follow_translation ... ok
+
+test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.95s
+
+     Running tests/italic_boundary_spaces_tests.rs (target/debug/deps/italic_boundary_spaces_tests-578c46f3e543a98e)
+
+running 1 test
+mbx[progress]: 1m elapsed; 0 hits, 0 misses, 0 bypassed, 103 not looked up; ~0s compiler work saved
+test italic_punctuation_boundary_retains_word_space ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.29s
+
+     Running tests/json_output_tests.rs (target/debug/deps/json_output_tests-9bdad5996baf5a4f)
+
+running 2 tests
+test build_ocr_json_matches_expected_shape ... ok
+test save_ocr_json_writes_file ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/lateral_panel_fringe_tests.rs (target/debug/deps/lateral_panel_fringe_tests-c6d777e1ecd8ed70)
+
+running 8 tests
+test retains_enclosed_white_glyph ... ok
+test side_fringe_does_not_become_ink ... ok
+test rejects_paper_below_threshold ... ok
+test retains_thick_or_short_regions ... ok
+test preserves_exterior_paper_rgb ... ok
+test isolated_colored_ink_does_not_interrupt_panel_edge ... ok
+test retains_black_and_different_color_rules ... ok
+test side_fringe_survives_color_and_translation ... ok
+
+test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.66s
+
+     Running tests/latin_punctuation_spaces_tests.rs (target/debug/deps/latin_punctuation_spaces_tests-3058559292a65aba)
+
+running 2 tests
+test comma_word_gaps_remain_word_spaces ... ok
+test comma_spaces_survive_scaling ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 2.18s
+
+     Running tests/line_chunks_tests.rs (target/debug/deps/line_chunks_tests-effe605e54471aa0)
+
+running 1 test
+test public_chunking_covers_blank_line ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/line_merge_hypotheses_tests.rs (target/debug/deps/line_merge_hypotheses_tests-ded15e9c45904eb6)
+
+running 9 tests
+test empty_and_single_sources_need_no_candidates ... ok
+test cumulative_pixels_do_not_overflow ... ok
+test source_limit_is_not_silent_truncation ... ok
+test expensive_pair_does_not_block_later_small_pair ... ok
+test alternatives_preserve_sources_and_do_not_chain ... ok
+test rejects_invalid_bounds_order_and_dimensions ... ok
+test exact_and_zero_budgets_report_omissions ... ok
+test candidates_obey_resource_and_source_invariants ... ok
+test disconnected_heading_is_an_alternative_not_a_replacement ... ok
+
+test result: ok. 9 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.06s
+
+     Running tests/line_segment_tests.rs (target/debug/deps/line_segment_tests-2161d3f967e8f45e)
+
+running 5 tests
+test line_segment_returns_empty_for_blank_page ... ok
+test simple_detectors_keep_thin_edge_glyphs ... ok
+test line_segment_detects_two_horizontal_bands ... ok
+test fast_and_naive_segmentation_are_equivalent ... ok
+test fast_and_naive_segmentation_are_equivalent_for_sparse_noise ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.11s
+
+     Running tests/margin_candidates_tests.rs (target/debug/deps/margin_candidates_tests-98d210e8497d641b)
+
+running 7 tests
+test chooses_compact_and_preserves_both_outputs ... ok
+test invalid_inputs_do_not_infer ... ok
+test original_wins_ties_or_lower_compact_confidence ... ok
+test inference_failures_are_propagated ... ok
+test unchanged_or_narrow_images_use_one_call ... ok
+test invalid_confidences_are_rejected ... ok
+test confidence_selection_matches_oracle ... ok
+
+test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+     Running tests/margin_sensitivity_tests.rs (target/debug/deps/margin_sensitivity_tests-d1d116726089beef)
+
+running 1 test
+test original_chunks_preserve_rgb_but_change_resampling_only_when_contracting ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+     Running tests/model_context_chunks_tests.rs (target/debug/deps/model_context_chunks_tests-b0035ae2ae774878)
+
+running 5 tests
+test malformed_dimensions_are_rejected ... ok
+test fitting_short_line_preserves_context ... ok
+test actual_input_ratio_controls_the_boundary ... ok
+test long_or_dense_lines_keep_conservative_chunks ... ok
+test fitting_sparse_lines_remain_whole ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.14s
+
+     Running tests/multiline_duplicate_tests.rs (target/debug/deps/multiline_duplicate_tests-b3a8ce6c177ef966)
+
+running 6 tests
+test cascade_connection_recognizes_each_supported_row_once ... ok
+test two_strong_rows_remove_only_the_weak_multiline_region ... ok
+test suppressed_region_cannot_suppress_another_candidate ... ok
+test exact_confidence_and_line_gap_boundaries_are_respected ... ok
+test uncertain_or_incomplete_support_keeps_the_candidate ... ok
+test suppression_preserves_winners_at_scale ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.15s
+
+     Running tests/narrow_bearings_tests.rs (target/debug/deps/narrow_bearings_tests-e09597a9d4ab614a)
+
+running 1 test
+test fullwidth_narrow_stem_keeps_neighbor_context ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.02s
+
+     Running tests/nearwhite_panel_paper_tests.rs (target/debug/deps/nearwhite_panel_paper_tests-537a09cd071cdc14)
+
+running 3 tests
+test outer_fringe_keeps_protected_rgb ... ok
+test preserves_antialiased_exterior_paper ... ok
+test nearwhite_channels ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.16s
+
+     Running tests/noisy_line_gaps_tests.rs (target/debug/deps/noisy_line_gaps_tests-1dd5b77236efc25a)
+
+running 8 tests
+test no_reference_lines_keeps_original_region ... ok
+test connected_vertical_strokes_are_not_split_at_density_valleys ... ok
+test small_disconnected_gap_noise_does_not_merge_lines ... ok
+test mixed_font_height_preserves_existing_lower_region ... ok
+test scaled_connected_strokes_remain_connected ... ok
+test scanned_page_preserves_all_seven_physical_lines ... ok
+test short_glyph_fragment_does_not_become_a_new_line ... ok
+test scaled_noise_keeps_separate_lines ... ok
+
+test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 3.42s
+
+     Running tests/open_glyph_bearing_tests.rs (target/debug/deps/open_glyph_bearing_tests-302e4e3d38282c0e)
+
+running 2 tests
+test open_glyph_bearings_do_not_insert_word_spaces ... ok
+mbx[progress]: 1m 15s elapsed; 0 hits, 0 misses, 0 bypassed, 103 not looked up; ~0s compiler work saved
+test open_bearings_survive_geometry_changes ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 4.06s
+
+     Running tests/output_regression_tests.rs (target/debug/deps/output_regression_tests-6b78c52090103da7)
+
+running 1 test
+test output_builders_match_regression_fixtures ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/page_bracket_context_tests.rs (target/debug/deps/page_bracket_context_tests-b62d1287f531fed3)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/page_pool_tests.rs (target/debug/deps/page_pool_tests-d8fa6fd352bd0c64)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/paper_shading_model_tests.rs (target/debug/deps/paper_shading_model_tests-ab40d2864f396ca5)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/paper_shading_tests.rs (target/debug/deps/paper_shading_tests-6ba63461ebf515dd)
+
+running 7 tests
+test invalid_dimensions_are_rejected ... ok
+test brighter_colored_annotation_is_not_erased ... ok
+test equal_brightness_colored_annotation_is_not_erased ... ok
+test ordinary_paper_panels_and_dense_texture_remain_borrowed ... ok
+test upstream_handwriting_keeps_five_separate_body_regions ... ok
+test smooth_shadow_is_removed_without_losing_thin_ink ... ok
+test thin_strokes_survive_brightness_and_translation ... ok
+
+test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.94s
+
+     Running tests/parseq_candidates_tests.rs (target/debug/deps/parseq_candidates_tests-f2f9c3de05a5d65d)
+
+running 5 tests
+test low_confidence_step_is_visible_without_emitting_text ... ok
+test ties_limits_extreme_logits_and_exhaustion_are_defined ... ok
+test invalid_candidate_inputs_fail_before_decoding ... ok
+test candidates_keep_raw_text_full_softmax_and_eos ... ok
+test candidate_observation_preserves_legacy_decoding ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/parseq_output_validation_tests.rs (target/debug/deps/parseq_output_validation_tests-a519b45dd2f451ae)
+
+running 4 tests
+test rejects_charset_size_mismatch ... ok
+test rejects_nonfinite_logits_including_after_eos ... ok
+test shape_boundaries_and_ignored_tail_are_preserved ... ok
+test any_in_shape_nonfinite_value_is_rejected ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/parseq_session_unprocessed_tests.rs (target/debug/deps/parseq_session_unprocessed_tests-2cb52ec1f8791893)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/parseq_unprocessed_tests.rs (target/debug/deps/parseq_unprocessed_tests-ff38bf1206706100)
+
+running 2 tests
+test unprocessed_recognition_rejects_missing_files ... ok
+test unprocessed_recognition_reports_disabled_runtime ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/pipeline_connect_tests.rs (target/debug/deps/pipeline_connect_tests-1b13b0991a6300dd)
+
+running 1 test
+test connect_filters_non_line_and_runs_cascade ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/post_dict_tests.rs (target/debug/deps/post_dict_tests-8987d2d0eeb309b4)
+
+running 2 tests
+test post_dict_ignores_empty_from_rule ... ok
+test post_dict_loads_and_applies_replacements ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/postprocess_tests.rs (target/debug/deps/postprocess_tests-74a919ddb5f8a570)
+
+running 10 tests
+test parseq_argmax_and_decode_produces_text ... ok
+test deim_build_detections_filters_and_scales ... ok
+test parseq_flat_logits_and_nested_logits_match ... ok
+test parseq_flat_logits_stops_on_low_confidence_tail ... ok
+test parseq_sanitize_collapses_repeated_common_phrases ... ok
+test parseq_sanitize_applies_common_japanese_ocr_replacements ... ok
+test parseq_sanitize_collapses_repeated_phrases ... ok
+test parseq_sanitize_reduces_repeated_noise ... ok
+test parseq_sanitize_removes_unmatched_closing_brackets ... ok
+test parseq_argmax_is_invariant_to_constant_shift ... ok
+
+test result: ok. 10 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/preprocess_tests.rs (target/debug/deps/preprocess_tests-ae94a40b9c1ee57b)
+
+running 11 tests
+test deim_preprocess_pads_to_square_and_returns_metadata ... ok
+test deim_preprocess_matches_direct_formula_for_padding_and_pixels ... ok
+test parseq_preprocess_rotates_vertical_image_and_normalizes ... ok
+test parseq_preprocess_into_matches_allocating_output ... ok
+test parseq_preprocess_into_rejects_wrong_output_size ... ok
+test horizontal_preprocess_rejects_invalid_buffers ... ok
+test parseq_preprocess_rejects_zero_source_dimensions ... ok
+test parseq_rotates_nearly_square_crops_like_current_upstream ... ok
+test horizontal_preprocess_preserves_pixel_orientation ... ok
+test parseq_preprocess_normalized_values_are_in_range ... ok
+test horizontal_scratch_matches_allocating_after_dimension_changes ... ok
+
+test result: ok. 11 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.02s
+
+     Running tests/preprocess_validation_tests.rs (target/debug/deps/preprocess_validation_tests-cfd3f26556f93a54)
+
+running 5 tests
+test direct_preprocess_preserves_output_on_error_and_recovers ... ok
+test deim_rejects_empty_source_axes ... ok
+test allocating_preprocessors_reject_impossible_tensor_dimensions_without_panicking ... ok
+test invalid_source_is_rejected_before_allocating_output ... ok
+test overflow_dimension_neighborhood_is_rejected ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/proportional_word_spaces_tests.rs (target/debug/deps/proportional_word_spaces_tests-532568317fa5e7ca)
+
+running 3 tests
+test italic_boundaries_keep_spaces_without_separating_joined_letters ... ok
+test proportional_word_boundaries_keep_their_space_attribute ... ok
+test mixed_format_residual_boundaries_keep_their_space_attribute ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.29s
+
+     Running tests/punctuation_bearings_tests.rs (target/debug/deps/punctuation_bearings_tests-fc5986929c7bf924)
+
+running 2 tests
+test quoted_words_are_not_split_as_separate_words ... ok
+test quoted_word_gaps_survive_scaling ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.01s
+
+     Running tests/reading_order_tests.rs (target/debug/deps/reading_order_tests-da47a07e8f2693cc)
+
+running 3 tests
+test sort_lines_in_reading_order_sorts_vertical_by_x_desc_then_y ... ok
+test sort_lines_in_reading_order_prioritizes_vertical_over_horizontal_when_mixed ... ok
+test sort_lines_in_reading_order_sorts_horizontal_by_y_then_x ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/regular_glyph_advance_spaces_tests.rs (target/debug/deps/regular_glyph_advance_spaces_tests-f70339f61fb753b1)
+
+running 2 tests
+test chapter_heading_keeps_its_real_space ... ok
+test regular_advance_does_not_insert_spaces_inside_japanese_words ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.03s
+
+     Running tests/residual_model_context_tests.rs (target/debug/deps/residual_model_context_tests-a433a190c98eb072)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/residual_spaces_tests.rs (target/debug/deps/residual_spaces_tests-8928215c0ad77536)
+
+running 3 tests
+test heading_word_gap_survives_chunk_boundary ... ok
+test paragraph_comma_word_gap_survives_chunk_boundary ... ok
+mbx[progress]: 1m 30s elapsed; 0 hits, 0 misses, 0 bypassed, 103 not looked up; ~0s compiler work saved
+test residual_spaces_survive_scale_and_translation ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.18s
+
+     Running tests/run_page_tests.rs (target/debug/deps/run_page_tests-1f1e115b39ce79ef)
+
+running 2 tests
+test run_page_returns_counts_and_texts ... ok
+test run_page_sorts_texts_in_reading_order ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/scanned_page_model_tests.rs (target/debug/deps/scanned_page_model_tests-22abc0a7167dbc29)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/short_horizontal_line_tests.rs (target/debug/deps/short_horizontal_line_tests-fa26a5a13d153554)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/short_line_tests.rs (target/debug/deps/short_line_tests-4e33a2b8ff8aaf0f)
+
+running 5 tests
+test weak_noise_without_a_seed_is_rejected ... ok
+test sparse_glyph_rows_reach_the_strong_seed ... ok
+test sparse_lines_remain_separate_at_the_bottom_edge ... ok
+test real_short_headings_keep_their_glyph_height_on_a_wide_page ... ok
+test seeded_sparse_spans_keep_extent_and_gap_boundaries ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.18s
+
+     Running tests/small_kana_bearing_tests.rs (target/debug/deps/small_kana_bearing_tests-6787dae3932ba813)
+
+running 1 test
+test small_kana_bearings_do_not_insert_word_spaces ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+     Running tests/smoke_io_tests.rs (target/debug/deps/smoke_io_tests-5e2530923f9df5a1)
+
+running 3 tests
+test load_rgb_u8_reads_image_dimensions_and_data ... ok
+test smoke_recognize_returns_feature_error_when_onnx_is_disabled ... ok
+test smoke_detect_returns_feature_error_when_onnx_is_disabled ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.02s
+
+     Running tests/sparse_edge_glyph_tests.rs (target/debug/deps/sparse_edge_glyph_tests-bb70a4865c272050)
+
+running 4 tests
+test sparse_glyph_beyond_the_search_distance_is_ignored ... ok
+test sparse_trailing_glyph_pixels_are_retained ... ok
+test sparse_leading_glyph_pixels_are_retained ... ok
+test sparse_edge_bounds_translate ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.06s
+
+     Running tests/tall_kana_bearing_tests.rs (target/debug/deps/tall_kana_bearing_tests-d5ac4d34519c0091)
+
+running 2 tests
+test tall_kana_bearing_does_not_insert_word_space ... ok
+test kana_bearing_survives_geometry_changes ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.95s
+
+     Running tests/text_output_tests.rs (target/debug/deps/text_output_tests-d89e530e416e20a4)
+
+running 2 tests
+test build_text_joins_with_newline ... ok
+test save_text_writes_file ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/truncated_glyph_tests.rs (target/debug/deps/truncated_glyph_tests-33efb7d7485c52ed)
+
+running 4 tests
+test a_short_seed_preserves_the_connected_lower_strokes ... ok
+test diagonal_heading_retains_the_complete_leading_glyph ... ok
+test restored_bounds_follow_translation ... ok
+test diagonal_heading_translation_preserves_ink ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 2.10s
+
+     Running tests/underline_recognition_probe_tests.rs (target/debug/deps/underline_recognition_probe_tests-157122681df69b23)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/underlined_line_tests.rs (target/debug/deps/underlined_line_tests-618412b1ad0778bd)
+
+running 5 tests
+test unsupported_rules_keep_the_original_error ... ok
+test long_underline_allows_boundaries_without_changing_pixels ... ok
+test already_splittable_or_short_lines_keep_original_context ... ok
+test real_url_bands_are_splittable_in_both_detection_paths ... ok
+test underlined_splits_preserve_coverage_and_glyphs ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.19s
+
+     Running tests/vertical_chunk_tests.rs (target/debug/deps/vertical_chunk_tests-efacdb2c6a45c6be)
+
+running 7 tests
+test separate_single_strokes_still_obey_the_group_limit ... ok
+test preserves_short_vertical_context_and_rejects_unsplittable_columns ... ok
+test dense_stroke_chains_do_not_bypass_chunk_limits ... ok
+test long_rendered_columns_do_not_split_glyph_interiors ... ok
+test disconnected_strokes_stay_together ... ok
+test detected_long_columns_do_not_split_glyph_interiors ... ok
+test chunks_cover_all_pixels_without_inventing_word_spaces ... ok
+
+test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.12s
+
+     Running tests/vertical_font_tests.rs (target/debug/deps/vertical_font_tests-2f70378e48a4d249)
+
+running 2 tests
+test alternate_fonts_do_not_split_inside_glyphs ... ok
+test thick_strokes_preserve_glyph_boundaries ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.15s
+
+     Running tests/vertical_model_tests.rs (target/debug/deps/vertical_model_tests-2dfc756d904311d6)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/vertical_rotation_tests.rs (target/debug/deps/vertical_rotation_tests-47fcd5001eb1b201)
+
+running 4 tests
+test column_rotates_counterclockwise_without_resampling ... ok
+test invalid_column_is_rejected ... ok
+test four_turns_preserve_every_pixel ... ok
+test rotated_horizontal_matches_auto ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/vertical_segment_tests.rs (target/debug/deps/vertical_segment_tests-729ffa661183020e)
+
+running 20 tests
+test invalid_rgb_dimensions_are_rejected ... ok
+test includes_sparse_period_to_the_right_of_column_tail ... ok
+test single_column_keeps_large_internal_paragraph_gap ... ok
+test small_valid_pages_keep_bounds_in_image ... ok
+test local_column_gaps_do_not_create_page_blocks ... ok
+test synthetic_columns_use_original_coordinates_and_reading_order ... ok
+test truncated_rgb_is_rejected ... ok
+test internal_rule_keeps_original_detection ... ok
+test aligned_character_spaces_remain_one_block ... ok
+test white_page_has_no_columns ... ok
+test unsupported_single_column_block_keeps_original_detection ... ok
+test outer_margin_rule_does_not_join_stacked_body ... ok
+test three_blocks_ignore_outer_page_margins ... ok
+test stacked_blocks_preserve_reading_order_and_original_bounds ... ok
+test printed_body_has_two_blocks_and_forty_seven_columns ... ok
+test prepared_handwriting_separates_six_vertical_columns ... ok
+test vertical_handwriting_keeps_detached_first_period ... ok
+test scaling_and_translation_preserve_original_bounds ... ok
+test margin_rule_blocks_scale_and_translate ... ok
+test stacked_blocks_scale_and_translate ... ok
+
+test result: ok. 20 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.38s
+
+     Running tests/white_margin_crop_tests.rs (target/debug/deps/white_margin_crop_tests-81471dce30a56f7c)
+
+running 4 tests
+test white_region_stays_nonempty ... ok
+test only_exterior_white_columns_are_removed ... ok
+test invalid_inputs_are_rejected ... ok
+test padding_and_translation_preserve_pixels ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+     Running tests/wide_blank_gaps_tests.rs (target/debug/deps/wide_blank_gaps_tests-a6ed4d692c4de079)
+
+running 5 tests
+test unbreakable_group_still_rejects_the_whole_line ... ok
+test nearwhite_marks_are_never_omitted ... ok
+test widely_separated_groups_are_safe_recognition_chunks ... ok
+test six_upright_label_bands_keep_every_nonwhite_pixel ... ok
+test sparse_groups_preserve_pixels_and_spaces ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.07s
+
+     Running tests/word_boundary_crop_tests.rs (target/debug/deps/word_boundary_crop_tests-5e68fd0bfb7fd0ab)
+
+running 6 tests
+test glyph_boundaries_keep_context ... ok
+test sparse_marks_keep_context_at_support_boundary ... ok
+test horizontal_context_does_not_become_rotated ... ok
+test short_word_context_is_kept_at_aspect_boundary ... ok
+test tiny_margin_removal_keeps_context_at_boundary ... ok
+test margin_changes_preserve_rotation ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+     Running tests/word_tail_context_tests.rs (target/debug/deps/word_tail_context_tests-3240c5155fdb8783)
+
+running 4 tests
+test fitting_word_tail_preserves_context ... ok
+test word_tail_obeys_exact_model_capacity ... ok
+test dense_tails_and_absent_word_boundaries_keep_conservative_chunks ... ok
+test word_tail_survives_scale_and_translation ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.16s
+
+     Running tests/xml_output_tests.rs (target/debug/deps/xml_output_tests-8adbfc909600dc25)
+mbx[progress]: 1m 45s elapsed; 0 hits, 0 misses, 0 bypassed, 103 not looked up; ~0s compiler work saved
+
+running 3 tests
+test build_ocr_xml_contains_page_and_lines ... ok
+test build_ocr_xml_escapes_special_chars_in_text ... ok
+test save_ocr_xml_writes_file ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests ndlocr_lite_rs
+
+running 2 tests
+test src/pipeline/line_hypotheses.rs - pipeline::line_hypotheses::adjacent_line_merge_hypotheses (line 39) ... ok
+test src/pipeline/reading_order.rs - pipeline::reading_order::sort_bboxes_in_reading_order (line 35) ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+all doctests ran in 0.58s; merged doctests compilation took 0.29s
+mbx[cache]: 0 hits, 0 misses, 103 not looked up, 105 incremental, 1 bypassed; 0 B downloaded, 0 B uploaded, 0 B stored locally
+mbx[savings]: 58476 compilations old. not one compiled twice.

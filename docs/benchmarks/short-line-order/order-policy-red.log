@@ -1,0 +1,62 @@
+   Compiling ndlocr-lite-rs v0.1.0 (/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs)
+warning: unused import: `super::*`
+ --> src/infer/../../tests/short_line_order_policy_tests.rs:1:5
+  |
+1 | use super::*;
+  |     ^^^^^^^^
+  |
+  = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+
+error[E0425]: cannot find function `check_short_line_order` in this scope
+  --> src/infer/../../tests/short_line_order_policy_tests.rs:12:18
+   |
+12 |     let result = check_short_line_order(rec("昇上で",0.91),71,22,|| {calls.set(calls.get()+1);Ok(rec("で上昇",0.99))},|| {calls.set(...
+   |                  ^^^^^^^^^^^^^^^^^^^^^^ not found in this scope
+
+error[E0425]: cannot find function `check_short_line_order` in this scope
+  --> src/infer/../../tests/short_line_order_policy_tests.rs:21:20
+   |
+21 |         let result=check_short_line_order(rec(text,score),w,h,||panic!("50 must not run"),||panic!("100 must not run"));
+   |                    ^^^^^^^^^^^^^^^^^^^^^^ not found in this scope
+
+error[E0425]: cannot find function `check_short_line_order` in this scope
+  --> src/infer/../../tests/short_line_order_policy_tests.rs:29:20
+   |
+29 |         let result=check_short_line_order(rec("AB",0.91),60,20,||Ok(rec(a,s)),||Ok(rec(b,t)));
+   |                    ^^^^^^^^^^^^^^^^^^^^^^ not found in this scope
+
+error[E0425]: cannot find function `check_short_line_order` in this scope
+  --> src/infer/../../tests/short_line_order_policy_tests.rs:38:20
+   |
+38 |         let result=check_short_line_order(rec("AAB",0.94),width,20,||Ok(rec("ABA",0.98)),||Ok(rec("ABA",1.0)));
+   |                    ^^^^^^^^^^^^^^^^^^^^^^ not found in this scope
+
+error[E0425]: cannot find function `check_short_line_order` in this scope
+  --> src/infer/../../tests/short_line_order_policy_tests.rs:41:16
+   |
+41 |     assert_eq!(check_short_line_order(rec("AAB",0.9),60,20,||Ok(rec("ABB",1.0)),||Ok(rec("ABB",1.0))).text,"AAB");
+   |                ^^^^^^^^^^^^^^^^^^^^^^ not found in this scope
+
+error[E0425]: cannot find function `check_short_line_order` in this scope
+  --> src/infer/../../tests/short_line_order_policy_tests.rs:46:16
+   |
+46 |     let result=check_short_line_order(rec("AB",0.9),60,20,||Err(anyhow::anyhow!("model50 failure")),||panic!("100 unnecessary after ...
+   |                ^^^^^^^^^^^^^^^^^^^^^^ not found in this scope
+
+error[E0425]: cannot find function `check_short_line_order` in this scope
+  --> src/infer/../../tests/short_line_order_policy_tests.rs:48:16
+   |
+48 |     let result=check_short_line_order(rec("AB",0.9),60,20,||Ok(rec("BA",0.99)),||Err(anyhow::anyhow!("model100 failure")));
+   |                ^^^^^^^^^^^^^^^^^^^^^^ not found in this scope
+
+error[E0425]: cannot find function `check_short_line_order` in this scope
+  --> src/infer/../../tests/short_line_order_policy_tests.rs:58:17
+   |
+58 |         let out=check_short_line_order(rec(&base,0.9),60,20,||Ok(rec(&reversed,0.99)),||Ok(rec(&reversed,0.995)));
+   |                 ^^^^^^^^^^^^^^^^^^^^^^ not found in this scope
+
+For more information about this error, try `rustc --explain E0425`.
+warning: `ndlocr-lite-rs` (lib test) generated 1 warning
+error: could not compile `ndlocr-lite-rs` (lib test) due to 8 previous errors; 1 warning emitted
+mbx[cache]: 0 hits, 0 misses, 1 incremental; 0 B downloaded, 0 B uploaded, 0 B stored locally
+mbx[savings]: escorted 1.2 TiB logical of ownerless outputs off the premises.

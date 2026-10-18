@@ -1,0 +1,73 @@
+warning: methods `recognize_batch_indexed` and `run_chunk_on_session` are never used
+   --> src/infer/cached.rs:572:8
+    |
+410 | impl ParseqPool {
+    | --------------- methods in this implementation
+...
+572 |     fn recognize_batch_indexed(
+    |        ^^^^^^^^^^^^^^^^^^^^^^^
+...
+691 |     fn run_chunk_on_session(
+    |        ^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: `ndlocr-lite-rs` (lib) generated 1 warning
+   Compiling ndlocr-lite-rs v0.1.0 (/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.28s
+     Running tests/short_horizontal_line_tests.rs (target/debug/deps/short_horizontal_line_tests-c064f539fafed1df)
+
+running 1 test
+parseq-ndl-24x256-30-tiny-189epoch-tegaki3-r8data-202604.onnx [103, 824, 148, 845] Auto "進行"
+parseq-ndl-24x256-30-tiny-189epoch-tegaki3-r8data-202604.onnx [103, 824, 148, 845] Horizontal "進行"
+parseq-ndl-24x256-30-tiny-189epoch-tegaki3-r8data-202604.onnx [104, 902, 175, 924] Auto "昇上で"
+parseq-ndl-24x256-30-tiny-189epoch-tegaki3-r8data-202604.onnx [104, 902, 175, 924] Horizontal "昇上で"
+parseq-ndl-24x384-50-tiny-300epoch-tegaki3-r8data-202604.onnx [103, 824, 148, 845] Auto "進行"
+parseq-ndl-24x384-50-tiny-300epoch-tegaki3-r8data-202604.onnx [103, 824, 148, 845] Horizontal "進行"
+parseq-ndl-24x384-50-tiny-300epoch-tegaki3-r8data-202604.onnx [104, 902, 175, 924] Auto "で上昇"
+parseq-ndl-24x384-50-tiny-300epoch-tegaki3-r8data-202604.onnx [104, 902, 175, 924] Horizontal "で上昇"
+parseq-ndl-24x768-100-tiny-153epoch-tegaki3-r8data-202604.onnx [103, 824, 148, 845] Auto "進行"
+parseq-ndl-24x768-100-tiny-153epoch-tegaki3-r8data-202604.onnx [103, 824, 148, 845] Horizontal "進行"
+parseq-ndl-24x768-100-tiny-153epoch-tegaki3-r8data-202604.onnx [104, 902, 175, 924] Auto "で上昇"
+parseq-ndl-24x768-100-tiny-153epoch-tegaki3-r8data-202604.onnx [104, 902, 175, 924] Horizontal "で上昇"
+
+thread 'climate_short_horizontal_continuation_keeps_its_order' (39486982) panicked at tests/short_horizontal_line_tests.rs:72:5:
+『日本の気候変動2025』を公表しました
+文部科学省と気象庁は、日本の気候変動について、最新の観測結果や科学
+的知見をとり入れた『日本の気候変動2025-大気と陸・海洋に関する観
+測・予測評価報告書-』を公表しました。
+本報告書は、気候変動適応法に基づき環境省が概ね5年ごとに作成する
+『気候変動影響評価報告書』へ科学的知見を提供するなど、気候変動対策の
+根拠となることを目的に作成するものです
+文部科学省と気象庁は、共同で運営する「気候変動に関する懇談会」の助言に基
+づき、『日本の気候変動2025-大気と陸・海洋に関する観測・予測評価報告書-』を
+公表しました。
+本報告書は、『日本の気候変動2020』から次のような新たな情報や最新のデータ
+を掲載しています。
+●日本における極端な大雨の発生頻度や強度の変化(図1)
+工業化以前に100年に一回現れていた大雨は、世界平均気温が2上昇した場合
+100年に約2.8回、4上昇した場合100年に約5.3回に増えると予測(全国平均)
+●日本における極端な高温の発生頻度や強度の変化(図2)
+工業化以前に100年に一回現れていた高温は、世界平均気温が2上昇した場合
+100年に約67回、4上昇した場合100年に約99回に増えると予測(全国平均)
+●日本近海海域における地球温暖化の進行具合を示す溶存酸素量の長期変化
+溶存酸素量の長期的な減少が日本南方海域にて世界と同程度かそれ以上の速さで
+進行
+●日本における年平均気温が1898～2024年の間に100年当たり1.40の割合
+昇上で
+主なトピックについて、内容を解説する動画を作成しましたのでご活用ください。
+https://www.data.jma.gojp/cpdinfo/ccj/movie/index.html
+
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+test climate_short_horizontal_continuation_keeps_its_order ... FAILED
+
+failures:
+
+failures:
+    climate_short_horizontal_continuation_keeps_its_order
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 5.26s
+
+error: test failed, to rerun pass `--test short_horizontal_line_tests`
+mbx[cache]: 0 hits, 0 misses, 1 bypassed; 0 B downloaded, 0 B uploaded, 0 B stored locally
+mbx[savings]: 11h 2m refunded over 8992 builds. no receipt necessary.

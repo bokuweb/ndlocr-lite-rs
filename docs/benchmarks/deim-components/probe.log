@@ -1,0 +1,48 @@
+warning: methods `recognize_batch_indexed` and `run_chunk_on_session` are never used
+   --> src/infer/cached.rs:572:8
+    |
+410 | impl ParseqPool {
+    | --------------- methods in this implementation
+...
+572 |     fn recognize_batch_indexed(
+    |        ^^^^^^^^^^^^^^^^^^^^^^^
+...
+691 |     fn run_chunk_on_session(
+    |        ^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: `ndlocr-lite-rs` (lib) generated 1 warning
+   Compiling ndlocr-lite-rs v0.1.0 (/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.30s
+     Running tests/deim_component_probe_tests.rs (target/debug/deps/deim_component_probe_tests-7c4154731f5682a3)
+
+running 1 test
+docs/benchmarks/deim-edge/quality/images/jma_climate_2025_half.png: 16/25 changed crops
+docs/benchmarks/deim-edge/quality/images/jma_climate_2025_jpeg75.jpg: 13/25 changed crops
+docs/benchmarks/deim-edge/quality/images/jma_climate_2025_jpeg90.jpg: 13/25 changed crops
+docs/benchmarks/deim-edge/quality/images/jma_kobe_notice_half.png: 23/32 changed crops
+mbx[progress]: 15s elapsed; 0 hits, 0 misses, 1 bypassed, 0 not looked up; ~0s compiler work saved
+docs/benchmarks/deim-edge/quality/images/jma_kobe_notice_jpeg75.jpg: 20/33 changed crops
+docs/benchmarks/deim-edge/quality/images/jma_kobe_notice_jpeg90.jpg: 22/33 changed crops
+docs/benchmarks/deim-edge/quality/images/ndl_accessibility_p2_half.png: 14/26 changed crops
+docs/benchmarks/deim-edge/quality/images/ndl_accessibility_p2_jpeg75.jpg: 13/26 changed crops
+docs/benchmarks/deim-edge/quality/images/ndl_accessibility_p2_jpeg90.jpg: 17/26 changed crops
+docs/benchmarks/deim-edge/quality/images/ndl_logo_ja_half.png: 1/1 changed crops
+docs/benchmarks/deim-edge/quality/images/ndl_logo_ja_jpeg75.jpg: 1/1 changed crops
+docs/benchmarks/deim-edge/quality/images/ndl_logo_ja_jpeg90.jpg: 1/1 changed crops
+docs/benchmarks/deim-edge/quality/images/scaned0_half.png: 2/8 changed crops
+docs/benchmarks/deim-edge/quality/images/scaned0_jpeg75.jpg: 3/8 changed crops
+docs/benchmarks/deim-edge/quality/images/scaned0_jpeg90.jpg: 2/7 changed crops
+mbx[progress]: 30s elapsed; 0 hits, 0 misses, 1 bypassed, 0 not looked up; ~0s compiler work saved
+tests/fixtures/eval/images/jma_climate_2025.png: 13/25 changed crops
+tests/fixtures/eval/images/jma_kobe_notice.png: 24/32 changed crops
+tests/fixtures/eval/images/ndl_accessibility_p2.png: 18/26 changed crops
+tests/fixtures/eval/images/ndl_logo_ja.png: 1/1 changed crops
+tests/fixtures/eval/images/scaned0.png: 2/7 changed crops
+test compare_completed_components_on_frozen_images ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 37.54s
+
+mbx[cache]: 0 hits, 0 misses, 1 bypassed; 0 B downloaded, 0 B uploaded, 0 B stored locally
+mbx[savings]: 1.2 TiB logical of outputs had survived their checkouts. an unnatural state, now corrected.

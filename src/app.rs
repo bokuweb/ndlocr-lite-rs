@@ -223,6 +223,25 @@ impl CachedPageRecognizer {
     ) -> Result<Vec<parseq::RecognizeResult>> {
         let mut recognized = self.recognize_initial_batch(crops, args)?;
         for (line, result) in crops.iter().zip(recognized.iter_mut()) {
+            if args.enable_cascade
+                && self.pool30.is_some()
+                && normalize_pred_char_bucket(line.pred_char_count) == 3.0
+                && let Some(pool50) = self.pool50.as_ref()
+            {
+                *result = crate::infer::short_line_order::check_short_line_order(
+                    result.clone(),
+                    line.crop.width,
+                    line.crop.height,
+                    || pool50.recognize_rgb_u8(&line.crop.data, line.crop.width, line.crop.height),
+                    || {
+                        self.pool100.recognize_rgb_u8(
+                            &line.crop.data,
+                            line.crop.width,
+                            line.crop.height,
+                        )
+                    },
+                );
+            }
             let after_split = self.maybe_split_long_line_and_recognize(
                 result.clone(),
                 &line.crop.data,

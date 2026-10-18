@@ -1,0 +1,1250 @@
+[
+  {
+    "after": {
+      "confidence": 0.9733940958976746,
+      "text": "で上昇"
+    },
+    "before": {
+      "confidence": 0.9733940958976746,
+      "text": "で上昇"
+    },
+    "extra_inferences": 0,
+    "id": "gothic24_00",
+    "truth": "で上昇"
+  },
+  {
+    "after": {
+      "confidence": 0.999976634979248,
+      "text": "上昇で"
+    },
+    "before": {
+      "confidence": 0.999976634979248,
+      "text": "上昇で"
+    },
+    "extra_inferences": 0,
+    "id": "gothic24_01",
+    "truth": "上昇で"
+  },
+  {
+    "after": {
+      "confidence": 0.999991238117218,
+      "text": "進行"
+    },
+    "before": {
+      "confidence": 0.999991238117218,
+      "text": "進行"
+    },
+    "extra_inferences": 0,
+    "id": "gothic24_02",
+    "truth": "進行"
+  },
+  {
+    "after": {
+      "confidence": 0.9999914765357971,
+      "text": "行進"
+    },
+    "before": {
+      "confidence": 0.9999914765357971,
+      "text": "行進"
+    },
+    "extra_inferences": 0,
+    "id": "gothic24_03",
+    "truth": "行進"
+  },
+  {
+    "after": {
+      "confidence": 0.9945761561393738,
+      "text": "第1章"
+    },
+    "before": {
+      "confidence": 0.9945761561393738,
+      "text": "第1章"
+    },
+    "extra_inferences": 0,
+    "id": "gothic24_04",
+    "truth": "第１章"
+  },
+  {
+    "after": {
+      "confidence": 0.994219958782196,
+      "text": "第一章"
+    },
+    "before": {
+      "confidence": 0.994219958782196,
+      "text": "第一章"
+    },
+    "extra_inferences": 0,
+    "id": "gothic24_05",
+    "truth": "第一章"
+  },
+  {
+    "after": {
+      "confidence": 0.9994765520095825,
+      "text": "本日"
+    },
+    "before": {
+      "confidence": 0.9994765520095825,
+      "text": "本日"
+    },
+    "extra_inferences": 0,
+    "id": "gothic24_06",
+    "truth": "本日"
+  },
+  {
+    "after": {
+      "confidence": 0.9998703598976135,
+      "text": "日本"
+    },
+    "before": {
+      "confidence": 0.9998703598976135,
+      "text": "日本"
+    },
+    "extra_inferences": 0,
+    "id": "gothic24_07",
+    "truth": "日本"
+  },
+  {
+    "after": {
+      "confidence": 0.9998903870582581,
+      "text": "国会"
+    },
+    "before": {
+      "confidence": 0.9998903870582581,
+      "text": "国会"
+    },
+    "extra_inferences": 0,
+    "id": "gothic24_08",
+    "truth": "国会"
+  },
+  {
+    "after": {
+      "confidence": 0.9982459545135498,
+      "text": "会国"
+    },
+    "before": {
+      "confidence": 0.9982459545135498,
+      "text": "会国"
+    },
+    "extra_inferences": 0,
+    "id": "gothic24_09",
+    "truth": "会国"
+  },
+  {
+    "after": {
+      "confidence": 0.9999648332595825,
+      "text": "AB"
+    },
+    "before": {
+      "confidence": 0.9999648332595825,
+      "text": "AB"
+    },
+    "extra_inferences": 0,
+    "id": "gothic24_10",
+    "truth": "AB"
+  },
+  {
+    "after": {
+      "confidence": 0.9999727606773376,
+      "text": "BA"
+    },
+    "before": {
+      "confidence": 0.9999727606773376,
+      "text": "BA"
+    },
+    "extra_inferences": 0,
+    "id": "gothic24_11",
+    "truth": "BA"
+  },
+  {
+    "after": {
+      "confidence": 0.9999799132347107,
+      "text": "ABC"
+    },
+    "before": {
+      "confidence": 0.9999799132347107,
+      "text": "ABC"
+    },
+    "extra_inferences": 0,
+    "id": "gothic24_12",
+    "truth": "ABC"
+  },
+  {
+    "after": {
+      "confidence": 0.9999777674674988,
+      "text": "CBA"
+    },
+    "before": {
+      "confidence": 0.9999777674674988,
+      "text": "CBA"
+    },
+    "extra_inferences": 0,
+    "id": "gothic24_13",
+    "truth": "CBA"
+  },
+  {
+    "after": {
+      "confidence": 0.9998284578323364,
+      "text": "12"
+    },
+    "before": {
+      "confidence": 0.9998284578323364,
+      "text": "12"
+    },
+    "extra_inferences": 0,
+    "id": "gothic24_14",
+    "truth": "12"
+  },
+  {
+    "after": {
+      "confidence": 0.9960348606109619,
+      "text": "21"
+    },
+    "before": {
+      "confidence": 0.9960348606109619,
+      "text": "21"
+    },
+    "extra_inferences": 0,
+    "id": "gothic24_15",
+    "truth": "21"
+  },
+  {
+    "after": {
+      "confidence": 0.9999280571937561,
+      "text": "123"
+    },
+    "before": {
+      "confidence": 0.9999280571937561,
+      "text": "123"
+    },
+    "extra_inferences": 0,
+    "id": "gothic24_16",
+    "truth": "123"
+  },
+  {
+    "after": {
+      "confidence": 0.9976167678833008,
+      "text": "321"
+    },
+    "before": {
+      "confidence": 0.9976167678833008,
+      "text": "321"
+    },
+    "extra_inferences": 0,
+    "id": "gothic24_17",
+    "truth": "321"
+  },
+  {
+    "after": {
+      "confidence": 0.9999510645866394,
+      "text": "AAB"
+    },
+    "before": {
+      "confidence": 0.9999510645866394,
+      "text": "AAB"
+    },
+    "extra_inferences": 0,
+    "id": "gothic24_18",
+    "truth": "AAB"
+  },
+  {
+    "after": {
+      "confidence": 0.9999769330024719,
+      "text": "ABA"
+    },
+    "before": {
+      "confidence": 0.9999769330024719,
+      "text": "ABA"
+    },
+    "extra_inferences": 0,
+    "id": "gothic24_19",
+    "truth": "ABA"
+  },
+  {
+    "after": {
+      "confidence": 0.982911229133606,
+      "text": "BA"
+    },
+    "before": {
+      "confidence": 0.982911229133606,
+      "text": "BA"
+    },
+    "extra_inferences": 0,
+    "id": "gothic24_20",
+    "truth": "ＢＡ"
+  },
+  {
+    "after": {
+      "confidence": 0.9999141097068787,
+      "text": "AB"
+    },
+    "before": {
+      "confidence": 0.9999141097068787,
+      "text": "AB"
+    },
+    "extra_inferences": 0,
+    "id": "gothic24_21",
+    "truth": "ＡＢ"
+  },
+  {
+    "after": {
+      "confidence": 0.9382035732269287,
+      "text": "-二三"
+    },
+    "before": {
+      "confidence": 0.9382035732269287,
+      "text": "-二三"
+    },
+    "extra_inferences": 0,
+    "id": "gothic24_22",
+    "truth": "一二三"
+  },
+  {
+    "after": {
+      "confidence": 0.9866008162498474,
+      "text": "三二-"
+    },
+    "before": {
+      "confidence": 0.9866008162498474,
+      "text": "三二-"
+    },
+    "extra_inferences": 0,
+    "id": "gothic24_23",
+    "truth": "三二一"
+  },
+  {
+    "after": {
+      "confidence": 0.9991411566734314,
+      "text": "あいう"
+    },
+    "before": {
+      "confidence": 0.9991411566734314,
+      "text": "あいう"
+    },
+    "extra_inferences": 0,
+    "id": "gothic24_24",
+    "truth": "あいう"
+  },
+  {
+    "after": {
+      "confidence": 0.9995725750923157,
+      "text": "ういあ"
+    },
+    "before": {
+      "confidence": 0.9995725750923157,
+      "text": "ういあ"
+    },
+    "extra_inferences": 0,
+    "id": "gothic24_25",
+    "truth": "ういあ"
+  },
+  {
+    "after": {
+      "confidence": 0.9944777488708496,
+      "text": "カキク"
+    },
+    "before": {
+      "confidence": 0.9944777488708496,
+      "text": "カキク"
+    },
+    "extra_inferences": 0,
+    "id": "gothic24_26",
+    "truth": "カキク"
+  },
+  {
+    "after": {
+      "confidence": 0.9894461631774902,
+      "text": "クキカ"
+    },
+    "before": {
+      "confidence": 0.9894461631774902,
+      "text": "クキカ"
+    },
+    "extra_inferences": 0,
+    "id": "gothic24_27",
+    "truth": "クキカ"
+  },
+  {
+    "after": {
+      "confidence": 0.9999454617500305,
+      "text": "により"
+    },
+    "before": {
+      "confidence": 0.9999454617500305,
+      "text": "により"
+    },
+    "extra_inferences": 0,
+    "id": "gothic24_28",
+    "truth": "により"
+  },
+  {
+    "after": {
+      "confidence": 0.9995670318603516,
+      "text": "よりに"
+    },
+    "before": {
+      "confidence": 0.9995670318603516,
+      "text": "よりに"
+    },
+    "extra_inferences": 0,
+    "id": "gothic24_29",
+    "truth": "よりに"
+  },
+  {
+    "after": {
+      "confidence": 0.9221179485321045,
+      "text": "和令"
+    },
+    "before": {
+      "confidence": 0.9221179485321045,
+      "text": "和令"
+    },
+    "extra_inferences": 0,
+    "id": "gothic24_30",
+    "truth": "令和"
+  },
+  {
+    "after": {
+      "confidence": 0.9949276447296143,
+      "text": "和令"
+    },
+    "before": {
+      "confidence": 0.9949276447296143,
+      "text": "和令"
+    },
+    "extra_inferences": 0,
+    "id": "gothic24_31",
+    "truth": "和令"
+  },
+  {
+    "after": {
+      "confidence": 0.9999179244041443,
+      "text": "で上昇"
+    },
+    "before": {
+      "confidence": 0.9999179244041443,
+      "text": "で上昇"
+    },
+    "extra_inferences": 0,
+    "id": "mincho24_00",
+    "truth": "で上昇"
+  },
+  {
+    "after": {
+      "confidence": 0.9999642372131348,
+      "text": "上昇で"
+    },
+    "before": {
+      "confidence": 0.9999642372131348,
+      "text": "上昇で"
+    },
+    "extra_inferences": 0,
+    "id": "mincho24_01",
+    "truth": "上昇で"
+  },
+  {
+    "after": {
+      "confidence": 0.9998784065246582,
+      "text": "進行"
+    },
+    "before": {
+      "confidence": 0.9998784065246582,
+      "text": "進行"
+    },
+    "extra_inferences": 0,
+    "id": "mincho24_02",
+    "truth": "進行"
+  },
+  {
+    "after": {
+      "confidence": 0.9999432563781738,
+      "text": "行進"
+    },
+    "before": {
+      "confidence": 0.9999432563781738,
+      "text": "行進"
+    },
+    "extra_inferences": 0,
+    "id": "mincho24_03",
+    "truth": "行進"
+  },
+  {
+    "after": {
+      "confidence": 0.9954776167869568,
+      "text": "第1章"
+    },
+    "before": {
+      "confidence": 0.9954776167869568,
+      "text": "第1章"
+    },
+    "extra_inferences": 0,
+    "id": "mincho24_04",
+    "truth": "第１章"
+  },
+  {
+    "after": {
+      "confidence": 0.9977678656578064,
+      "text": "第一章"
+    },
+    "before": {
+      "confidence": 0.9977678656578064,
+      "text": "第一章"
+    },
+    "extra_inferences": 0,
+    "id": "mincho24_05",
+    "truth": "第一章"
+  },
+  {
+    "after": {
+      "confidence": 0.9975018501281738,
+      "text": "本日"
+    },
+    "before": {
+      "confidence": 0.9975018501281738,
+      "text": "本日"
+    },
+    "extra_inferences": 0,
+    "id": "mincho24_06",
+    "truth": "本日"
+  },
+  {
+    "after": {
+      "confidence": 0.999528169631958,
+      "text": "日本"
+    },
+    "before": {
+      "confidence": 0.999528169631958,
+      "text": "日本"
+    },
+    "extra_inferences": 0,
+    "id": "mincho24_07",
+    "truth": "日本"
+  },
+  {
+    "after": {
+      "confidence": 0.9998736381530762,
+      "text": "国会"
+    },
+    "before": {
+      "confidence": 0.9998736381530762,
+      "text": "国会"
+    },
+    "extra_inferences": 0,
+    "id": "mincho24_08",
+    "truth": "国会"
+  },
+  {
+    "after": {
+      "confidence": 0.9984098076820374,
+      "text": "会国"
+    },
+    "before": {
+      "confidence": 0.9984098076820374,
+      "text": "会国"
+    },
+    "extra_inferences": 0,
+    "id": "mincho24_09",
+    "truth": "会国"
+  },
+  {
+    "after": {
+      "confidence": 0.9999812245368958,
+      "text": "AB"
+    },
+    "before": {
+      "confidence": 0.9999812245368958,
+      "text": "AB"
+    },
+    "extra_inferences": 0,
+    "id": "mincho24_10",
+    "truth": "AB"
+  },
+  {
+    "after": {
+      "confidence": 0.9999745488166809,
+      "text": "BA"
+    },
+    "before": {
+      "confidence": 0.9999745488166809,
+      "text": "BA"
+    },
+    "extra_inferences": 0,
+    "id": "mincho24_11",
+    "truth": "BA"
+  },
+  {
+    "after": {
+      "confidence": 0.999981164932251,
+      "text": "ABC"
+    },
+    "before": {
+      "confidence": 0.999981164932251,
+      "text": "ABC"
+    },
+    "extra_inferences": 0,
+    "id": "mincho24_12",
+    "truth": "ABC"
+  },
+  {
+    "after": {
+      "confidence": 0.9999693036079407,
+      "text": "CBA"
+    },
+    "before": {
+      "confidence": 0.9999693036079407,
+      "text": "CBA"
+    },
+    "extra_inferences": 0,
+    "id": "mincho24_13",
+    "truth": "CBA"
+  },
+  {
+    "after": {
+      "confidence": 0.9999539852142334,
+      "text": "12"
+    },
+    "before": {
+      "confidence": 0.9999539852142334,
+      "text": "12"
+    },
+    "extra_inferences": 0,
+    "id": "mincho24_14",
+    "truth": "12"
+  },
+  {
+    "after": {
+      "confidence": 0.9991957545280457,
+      "text": "21"
+    },
+    "before": {
+      "confidence": 0.9991957545280457,
+      "text": "21"
+    },
+    "extra_inferences": 0,
+    "id": "mincho24_15",
+    "truth": "21"
+  },
+  {
+    "after": {
+      "confidence": 0.9999693036079407,
+      "text": "123"
+    },
+    "before": {
+      "confidence": 0.9999693036079407,
+      "text": "123"
+    },
+    "extra_inferences": 0,
+    "id": "mincho24_16",
+    "truth": "123"
+  },
+  {
+    "after": {
+      "confidence": 0.9999542832374573,
+      "text": "321"
+    },
+    "before": {
+      "confidence": 0.9999542832374573,
+      "text": "321"
+    },
+    "extra_inferences": 0,
+    "id": "mincho24_17",
+    "truth": "321"
+  },
+  {
+    "after": {
+      "confidence": 0.999950647354126,
+      "text": "AAB"
+    },
+    "before": {
+      "confidence": 0.999950647354126,
+      "text": "AAB"
+    },
+    "extra_inferences": 0,
+    "id": "mincho24_18",
+    "truth": "AAB"
+  },
+  {
+    "after": {
+      "confidence": 0.999962329864502,
+      "text": "ABA"
+    },
+    "before": {
+      "confidence": 0.999962329864502,
+      "text": "ABA"
+    },
+    "extra_inferences": 0,
+    "id": "mincho24_19",
+    "truth": "ABA"
+  },
+  {
+    "after": {
+      "confidence": 0.9923949241638184,
+      "text": "BA"
+    },
+    "before": {
+      "confidence": 0.9923949241638184,
+      "text": "BA"
+    },
+    "extra_inferences": 0,
+    "id": "mincho24_20",
+    "truth": "ＢＡ"
+  },
+  {
+    "after": {
+      "confidence": 0.9990379810333252,
+      "text": "AB"
+    },
+    "before": {
+      "confidence": 0.9990379810333252,
+      "text": "AB"
+    },
+    "extra_inferences": 0,
+    "id": "mincho24_21",
+    "truth": "ＡＢ"
+  },
+  {
+    "after": {
+      "confidence": 0.979363739490509,
+      "text": "一二三"
+    },
+    "before": {
+      "confidence": 0.979363739490509,
+      "text": "一二三"
+    },
+    "extra_inferences": 0,
+    "id": "mincho24_22",
+    "truth": "一二三"
+  },
+  {
+    "after": {
+      "confidence": 0.9389212131500244,
+      "text": "三二一"
+    },
+    "before": {
+      "confidence": 0.9389212131500244,
+      "text": "三二一"
+    },
+    "extra_inferences": 1,
+    "id": "mincho24_23",
+    "truth": "三二一"
+  },
+  {
+    "after": {
+      "confidence": 0.999671459197998,
+      "text": "あいう"
+    },
+    "before": {
+      "confidence": 0.999671459197998,
+      "text": "あいう"
+    },
+    "extra_inferences": 0,
+    "id": "mincho24_24",
+    "truth": "あいう"
+  },
+  {
+    "after": {
+      "confidence": 0.99982088804245,
+      "text": "ういあ"
+    },
+    "before": {
+      "confidence": 0.99982088804245,
+      "text": "ういあ"
+    },
+    "extra_inferences": 0,
+    "id": "mincho24_25",
+    "truth": "ういあ"
+  },
+  {
+    "after": {
+      "confidence": 0.9967504143714905,
+      "text": "カキク"
+    },
+    "before": {
+      "confidence": 0.9967504143714905,
+      "text": "カキク"
+    },
+    "extra_inferences": 0,
+    "id": "mincho24_26",
+    "truth": "カキク"
+  },
+  {
+    "after": {
+      "confidence": 0.9969832301139832,
+      "text": "クキカ"
+    },
+    "before": {
+      "confidence": 0.9969832301139832,
+      "text": "クキカ"
+    },
+    "extra_inferences": 0,
+    "id": "mincho24_27",
+    "truth": "クキカ"
+  },
+  {
+    "after": {
+      "confidence": 0.9998762607574463,
+      "text": "により"
+    },
+    "before": {
+      "confidence": 0.9998762607574463,
+      "text": "により"
+    },
+    "extra_inferences": 0,
+    "id": "mincho24_28",
+    "truth": "により"
+  },
+  {
+    "after": {
+      "confidence": 0.9998473525047302,
+      "text": "よりに"
+    },
+    "before": {
+      "confidence": 0.9998473525047302,
+      "text": "よりに"
+    },
+    "extra_inferences": 0,
+    "id": "mincho24_29",
+    "truth": "よりに"
+  },
+  {
+    "after": {
+      "confidence": 0.9885671138763428,
+      "text": "令和"
+    },
+    "before": {
+      "confidence": 0.9885671138763428,
+      "text": "令和"
+    },
+    "extra_inferences": 0,
+    "id": "mincho24_30",
+    "truth": "令和"
+  },
+  {
+    "after": {
+      "confidence": 0.9963883757591248,
+      "text": "和令"
+    },
+    "before": {
+      "confidence": 0.9963883757591248,
+      "text": "和令"
+    },
+    "extra_inferences": 0,
+    "id": "mincho24_31",
+    "truth": "和令"
+  },
+  {
+    "after": {
+      "confidence": 0.9996116757392883,
+      "text": "で上昇"
+    },
+    "before": {
+      "confidence": 0.9996116757392883,
+      "text": "で上昇"
+    },
+    "extra_inferences": 0,
+    "id": "gothic16_00",
+    "truth": "で上昇"
+  },
+  {
+    "after": {
+      "confidence": 0.9999726414680481,
+      "text": "上昇で"
+    },
+    "before": {
+      "confidence": 0.9999726414680481,
+      "text": "上昇で"
+    },
+    "extra_inferences": 0,
+    "id": "gothic16_01",
+    "truth": "上昇で"
+  },
+  {
+    "after": {
+      "confidence": 0.9999570250511169,
+      "text": "進行"
+    },
+    "before": {
+      "confidence": 0.9999570250511169,
+      "text": "進行"
+    },
+    "extra_inferences": 0,
+    "id": "gothic16_02",
+    "truth": "進行"
+  },
+  {
+    "after": {
+      "confidence": 0.9999808073043823,
+      "text": "行進"
+    },
+    "before": {
+      "confidence": 0.9999808073043823,
+      "text": "行進"
+    },
+    "extra_inferences": 0,
+    "id": "gothic16_03",
+    "truth": "行進"
+  },
+  {
+    "after": {
+      "confidence": 0.9875076413154602,
+      "text": "第1章"
+    },
+    "before": {
+      "confidence": 0.9875076413154602,
+      "text": "第1章"
+    },
+    "extra_inferences": 0,
+    "id": "gothic16_04",
+    "truth": "第１章"
+  },
+  {
+    "after": {
+      "confidence": 0.9939210414886475,
+      "text": "第一章"
+    },
+    "before": {
+      "confidence": 0.9939210414886475,
+      "text": "第一章"
+    },
+    "extra_inferences": 0,
+    "id": "gothic16_05",
+    "truth": "第一章"
+  },
+  {
+    "after": {
+      "confidence": 0.9994566440582275,
+      "text": "本日"
+    },
+    "before": {
+      "confidence": 0.9994566440582275,
+      "text": "本日"
+    },
+    "extra_inferences": 0,
+    "id": "gothic16_06",
+    "truth": "本日"
+  },
+  {
+    "after": {
+      "confidence": 0.9998674392700195,
+      "text": "日本"
+    },
+    "before": {
+      "confidence": 0.9998674392700195,
+      "text": "日本"
+    },
+    "extra_inferences": 0,
+    "id": "gothic16_07",
+    "truth": "日本"
+  },
+  {
+    "after": {
+      "confidence": 0.999936044216156,
+      "text": "国会"
+    },
+    "before": {
+      "confidence": 0.999936044216156,
+      "text": "国会"
+    },
+    "extra_inferences": 0,
+    "id": "gothic16_08",
+    "truth": "国会"
+  },
+  {
+    "after": {
+      "confidence": 0.9992125034332275,
+      "text": "会国"
+    },
+    "before": {
+      "confidence": 0.9992125034332275,
+      "text": "会国"
+    },
+    "extra_inferences": 0,
+    "id": "gothic16_09",
+    "truth": "会国"
+  },
+  {
+    "after": {
+      "confidence": 0.9999236464500427,
+      "text": "AB"
+    },
+    "before": {
+      "confidence": 0.9999236464500427,
+      "text": "AB"
+    },
+    "extra_inferences": 0,
+    "id": "gothic16_10",
+    "truth": "AB"
+  },
+  {
+    "after": {
+      "confidence": 0.9999743103981018,
+      "text": "BA"
+    },
+    "before": {
+      "confidence": 0.9999743103981018,
+      "text": "BA"
+    },
+    "extra_inferences": 0,
+    "id": "gothic16_11",
+    "truth": "BA"
+  },
+  {
+    "after": {
+      "confidence": 0.9999639987945557,
+      "text": "ABC"
+    },
+    "before": {
+      "confidence": 0.9999639987945557,
+      "text": "ABC"
+    },
+    "extra_inferences": 0,
+    "id": "gothic16_12",
+    "truth": "ABC"
+  },
+  {
+    "after": {
+      "confidence": 0.9999713897705078,
+      "text": "CBA"
+    },
+    "before": {
+      "confidence": 0.9999713897705078,
+      "text": "CBA"
+    },
+    "extra_inferences": 0,
+    "id": "gothic16_13",
+    "truth": "CBA"
+  },
+  {
+    "after": {
+      "confidence": 0.9998648166656494,
+      "text": "12"
+    },
+    "before": {
+      "confidence": 0.9998648166656494,
+      "text": "12"
+    },
+    "extra_inferences": 0,
+    "id": "gothic16_14",
+    "truth": "12"
+  },
+  {
+    "after": {
+      "confidence": 0.9965548515319824,
+      "text": "21"
+    },
+    "before": {
+      "confidence": 0.9965548515319824,
+      "text": "21"
+    },
+    "extra_inferences": 0,
+    "id": "gothic16_15",
+    "truth": "21"
+  },
+  {
+    "after": {
+      "confidence": 0.9999386668205261,
+      "text": "123"
+    },
+    "before": {
+      "confidence": 0.9999386668205261,
+      "text": "123"
+    },
+    "extra_inferences": 0,
+    "id": "gothic16_16",
+    "truth": "123"
+  },
+  {
+    "after": {
+      "confidence": 0.9992580413818359,
+      "text": "321"
+    },
+    "before": {
+      "confidence": 0.9992580413818359,
+      "text": "321"
+    },
+    "extra_inferences": 0,
+    "id": "gothic16_17",
+    "truth": "321"
+  },
+  {
+    "after": {
+      "confidence": 0.999960720539093,
+      "text": "AAB"
+    },
+    "before": {
+      "confidence": 0.999960720539093,
+      "text": "AAB"
+    },
+    "extra_inferences": 0,
+    "id": "gothic16_18",
+    "truth": "AAB"
+  },
+  {
+    "after": {
+      "confidence": 0.9999763369560242,
+      "text": "ABA"
+    },
+    "before": {
+      "confidence": 0.9999763369560242,
+      "text": "ABA"
+    },
+    "extra_inferences": 0,
+    "id": "gothic16_19",
+    "truth": "ABA"
+  },
+  {
+    "after": {
+      "confidence": 0.9982190132141113,
+      "text": "BA"
+    },
+    "before": {
+      "confidence": 0.9982190132141113,
+      "text": "BA"
+    },
+    "extra_inferences": 0,
+    "id": "gothic16_20",
+    "truth": "ＢＡ"
+  },
+  {
+    "after": {
+      "confidence": 0.9999582767486572,
+      "text": "AB"
+    },
+    "before": {
+      "confidence": 0.9999582767486572,
+      "text": "AB"
+    },
+    "extra_inferences": 0,
+    "id": "gothic16_21",
+    "truth": "ＡＢ"
+  },
+  {
+    "after": {
+      "confidence": 0.9468346238136292,
+      "text": "-二三"
+    },
+    "before": {
+      "confidence": 0.9468346238136292,
+      "text": "-二三"
+    },
+    "extra_inferences": 0,
+    "id": "gothic16_22",
+    "truth": "一二三"
+  },
+  {
+    "after": {
+      "confidence": 0.9866964221000671,
+      "text": "三二-"
+    },
+    "before": {
+      "confidence": 0.9866964221000671,
+      "text": "三二-"
+    },
+    "extra_inferences": 0,
+    "id": "gothic16_23",
+    "truth": "三二一"
+  },
+  {
+    "after": {
+      "confidence": 0.9968559741973877,
+      "text": "あいう"
+    },
+    "before": {
+      "confidence": 0.9968559741973877,
+      "text": "あいう"
+    },
+    "extra_inferences": 0,
+    "id": "gothic16_24",
+    "truth": "あいう"
+  },
+  {
+    "after": {
+      "confidence": 0.9982905983924866,
+      "text": "ういあ"
+    },
+    "before": {
+      "confidence": 0.9982905983924866,
+      "text": "ういあ"
+    },
+    "extra_inferences": 0,
+    "id": "gothic16_25",
+    "truth": "ういあ"
+  },
+  {
+    "after": {
+      "confidence": 0.9959922432899475,
+      "text": "カキク"
+    },
+    "before": {
+      "confidence": 0.9959922432899475,
+      "text": "カキク"
+    },
+    "extra_inferences": 0,
+    "id": "gothic16_26",
+    "truth": "カキク"
+  },
+  {
+    "after": {
+      "confidence": 0.9948227405548096,
+      "text": "クキカ"
+    },
+    "before": {
+      "confidence": 0.9948227405548096,
+      "text": "クキカ"
+    },
+    "extra_inferences": 0,
+    "id": "gothic16_27",
+    "truth": "クキカ"
+  },
+  {
+    "after": {
+      "confidence": 0.9999286532402039,
+      "text": "により"
+    },
+    "before": {
+      "confidence": 0.9999286532402039,
+      "text": "により"
+    },
+    "extra_inferences": 0,
+    "id": "gothic16_28",
+    "truth": "により"
+  },
+  {
+    "after": {
+      "confidence": 0.9995719790458679,
+      "text": "よりに"
+    },
+    "before": {
+      "confidence": 0.9995719790458679,
+      "text": "よりに"
+    },
+    "extra_inferences": 0,
+    "id": "gothic16_29",
+    "truth": "よりに"
+  },
+  {
+    "after": {
+      "confidence": 0.998245358467102,
+      "text": "令和"
+    },
+    "before": {
+      "confidence": 0.998245358467102,
+      "text": "令和"
+    },
+    "extra_inferences": 0,
+    "id": "gothic16_30",
+    "truth": "令和"
+  },
+  {
+    "after": {
+      "confidence": 0.9992119073867798,
+      "text": "和令"
+    },
+    "before": {
+      "confidence": 0.9992119073867798,
+      "text": "和令"
+    },
+    "extra_inferences": 0,
+    "id": "gothic16_31",
+    "truth": "和令"
+  }
+]
