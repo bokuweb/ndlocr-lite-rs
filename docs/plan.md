@@ -40,3 +40,9 @@
 - `docs/margin_sensitivity.md` と原RGB fixture欠落のRedを先行し、製品の全ページ出力を再現して6件を取得。非白RGB保持と前処理tensorの変化を検査する。
 - 右側の白列追加probeもRed→最小実装→Green。通常fixture1件・probe3件、全60条件×2推論の再現性を検証し、Ubuntu/macOSの実モデルCIにも同じprobeを追加。
 - 白2列で正読 `and culture.` が `Cand culture.` になる反例を固定。既知6件の信頼度選択0誤りは事後分析であり、精度改善・未知資料への汎化・本番採用を意味しない。次は選択条件を先に固定した別資料の全件非悪化評価。
+
+## 2026-10-18: 原/縮小候補の信頼度比較（明示opt-in）
+
+- `docs/confidence_margin_candidates.md` を先に固定し、7テスト中6件のRedを確認。有限信頼度比較PBT・不正RGB・推論失敗・同点・同一入力の1呼出しを7件Green化。
+- `infer::margin_candidates::recognize_horizontal_margin_candidates` は原画像を先に認識し、幅/高さ5倍以上のchunkだけ縮小限定余白を比較する。本文は変更せず、平均信頼度が厳密に高い場合だけ候補を選ぶ。
+- 通常pipelineは変更しない。未知資料6画像+既知8画像の製品接続検証・追加推論時間の測定はomo #79で実施する。精度改善・本番採用は未確認。
