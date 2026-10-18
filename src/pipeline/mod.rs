@@ -2,6 +2,8 @@
 pub mod background;
 mod band_bounds;
 pub mod cascade;
+/// 切り出し帯の境界をまたぐ連結画素を回収する明示API。
+pub mod clipped_components;
 mod component_bands;
 pub mod connect;
 pub mod crop;
