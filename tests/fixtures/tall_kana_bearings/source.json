@@ -1,0 +1,20 @@
+{
+  "source_repository": "jlsi/omo",
+  "source_pdf": "fixtures/input/pdf_parser/resources/word/simple.pdf",
+  "source_pdf_sha256": "fef165b821e1b0de847e82810a032d2fd6c4863d534bb2309e66c6be486c8b95",
+  "source_png_sha256": "a679356dee9fdc624085f3ab5941956be7d8350eb09fda9f069aa0b306101cde",
+  "page": 1,
+  "dpi": 300,
+  "crop": [
+    471,
+    1028,
+    2106,
+    1076
+  ],
+  "image_sha256": "173570c26fc5b342ca530dde06c8d1a66959d082192adf55f4c4e8b052cadbc8",
+  "truth": "(ア) Rust の豊かな型システムと所有権モデルによりメモリ安全性と",
+  "baseline_revision": "1295b43450ad5ade9bb6376e60c40dffdc84f1d4",
+  "baseline_raw": "(ア) Rust の豊かな型システムと所有権モデルによ りメモリ安全性と",
+  "threshold": 220,
+  "development_fixture": true
+}

@@ -1,0 +1,10 @@
+{
+  "source_repository": "https://github.com/jlsi/omo",
+  "source_path": "fixtures/input/pdf_parser/resources/grapecity/documents_for_pdf/document/analyze/extract-paragraphs.pdf",
+  "source_sha256": "a9a753f02250d86f15bea539efc92a60e2a5afe670679acfc4183f2f338c35cb",
+  "page": 1,
+  "dpi": 300,
+  "image_sha256": "666ac626bbfff9d653091f41a4a23cb427ab57202fbc1201492aa828d974a6da",
+  "purpose": "regression selected after first full-page inference; not holdout",
+  "expected_lines": 38
+}

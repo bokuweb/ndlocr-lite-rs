@@ -1,0 +1,36 @@
+      ┌─────────┐  mr boxington
+     ╱ ═══════ ╱│
+    ╱─────────╱ │
+    │ •    (◉)│≡│
+    │  ◟▄▄▄◞  │ ╱
+    │   ◀◆▶   │╱
+    └─────────┘
+    Blocking waiting for file lock on package cache
+    Blocking waiting for file lock on package cache
+    Blocking waiting for file lock on package cache
+   Compiling ndlocr-lite-rs v0.1.0 (/Volumes/X9/ghq/github.com/bokuweb/ndlocr-lite-rs)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 7.83s
+     Running tests/nearwhite_panel_paper_tests.rs (/Volumes/X9/omo-punctuation-locality/target/debug/deps/nearwhite_panel_paper_tests-582c72841f4e03ea)
+
+running 1 test
+test outer_fringe_keeps_protected_rgb ... FAILED
+
+failures:
+
+---- outer_fringe_keeps_protected_rgb stdout ----
+
+thread 'outer_fringe_keeps_protected_rgb' (11439593) panicked at tests/nearwhite_panel_paper_tests.rs:53:5:
+assertion `left == right` failed
+  left: [255, 255, 255]
+ right: [255, 254, 254]
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    outer_fringe_keeps_protected_rgb
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 2 filtered out; finished in 0.02s
+
+error: test failed, to rerun pass `--test nearwhite_panel_paper_tests`
+mbx[cache]: 0 hits, 0 misses, 3 incremental; 0 B downloaded, 0 B uploaded, 0 B stored locally
+mbx[savings]: 632234 compilations served from cache to date

@@ -22,9 +22,10 @@ use std::sync::atomic::{AtomicUsize, Ordering};
 
 use super::ort_init::{OrtAnyhow, auto_intra_threads, ensure_init};
 use super::parseq::{
-    PreprocessScratch, RecognizeResult, load_charset_from_yaml_str,
-    predict_text_from_flat_logits_with_confidence, preprocess_rgb_u8,
-    preprocess_rgb_u8_into_with_scratch, sanitize_recognized_text,
+    ParseqCandidateResult, ParseqOrientation, PreprocessScratch, RecognizeResult,
+    load_charset_from_yaml_str, predict_text_from_flat_logits_with_candidates,
+    predict_text_from_flat_logits_with_confidence, preprocess_rgb_u8_into_with_scratch,
+    preprocess_rgb_u8_with_orientation, sanitize_recognized_text,
 };
 
 pub fn default_parseq_parallelism() -> usize {
@@ -98,6 +99,11 @@ fn extract_input_meta(session: &Session) -> Result<(String, String, usize, usize
 }
 
 impl ParseqSession {
+    /// ロード済みONNXの入力画像寸法を幅・高さの順で返す。
+    pub fn input_dimensions(&self) -> (usize, usize) {
+        (self.input_w, self.input_h)
+    }
+
     pub fn load(model_path: &Path, charset_path: &Path) -> Result<Self> {
         if !model_path.is_file() {
             bail!("parseq model not found: {}", model_path.display());
@@ -133,13 +139,42 @@ impl ParseqSession {
         width: usize,
         height: usize,
     ) -> Result<RecognizeResult> {
+        let mut result = self.recognize_rgb_u8_unprocessed(rgb, width, height)?;
+        result.text = sanitize_recognized_text(&result.text);
+        Ok(result)
+    }
+
+    /// ロード済みモデルで推論し、反復文字や空白を後処理せず保持する。
+    /// 失敗した画像の部分結果を保存せず、同じセッションで次の画像を認識できる。
+    pub fn recognize_rgb_u8_unprocessed(
+        &self,
+        rgb: &[u8],
+        width: usize,
+        height: usize,
+    ) -> Result<RecognizeResult> {
+        self.recognize_rgb_u8_unprocessed_with_orientation(
+            rgb,
+            width,
+            height,
+            ParseqOrientation::Auto,
+        )
+    }
+
+    /// 入力方向を明示し、同じモデルで後処理前の本文と信頼度を返す。
+    pub fn recognize_rgb_u8_unprocessed_with_orientation(
+        &self,
+        rgb: &[u8],
+        width: usize,
+        height: usize,
+        orientation: ParseqOrientation,
+    ) -> Result<RecognizeResult> {
         let single = [(rgb, width, height)];
         let mut out = {
             let mut guard = self
                 .session
                 .lock()
                 .map_err(|_| anyhow!("parseq session mutex poisoned"))?;
-            run_batch_on_session(
+            run_batch_on_session_with_orientation(
                 &mut guard.0,
                 &self.input_name,
                 &self.output_name,
@@ -147,10 +182,45 @@ impl ParseqSession {
                 self.input_h,
                 &self.charset,
                 &single,
+                orientation,
             )?
         };
         let result = out.pop().ok_or_else(|| anyhow!("empty batch result"))?;
         Ok(result)
+    }
+
+    /// ロード済みモデルを一度推論し、方向指定と後処理前の文字候補を返す。
+    /// k=0は推論前に拒否する。画像や候補の検証が失敗しても再利用できる。
+    pub fn recognize_rgb_u8_candidates_with_orientation(
+        &self,
+        rgb: &[u8],
+        width: usize,
+        height: usize,
+        orientation: ParseqOrientation,
+        top_k: usize,
+    ) -> Result<ParseqCandidateResult> {
+        if top_k == 0 {
+            bail!("top_k must be > 0");
+        }
+        let single = [(rgb, width, height)];
+        let mut guard = self
+            .session
+            .lock()
+            .map_err(|_| anyhow!("parseq session mutex poisoned"))?;
+        let mut out = run_batch_on_session_with_decoder(
+            &mut guard.0,
+            &self.input_name,
+            &self.output_name,
+            self.input_w,
+            self.input_h,
+            &self.charset,
+            &single,
+            orientation,
+            |logits, t, c, charset| {
+                predict_text_from_flat_logits_with_candidates(logits, t, c, charset, top_k)
+            },
+        )?;
+        out.pop().ok_or_else(|| anyhow!("empty batch result"))
     }
 
     pub fn recognize_batch_rgb_u8(
@@ -193,6 +263,81 @@ fn run_batch_on_session(
     charset: &[char],
     items: &[(&[u8], usize, usize)],
 ) -> Result<Vec<RecognizeResult>> {
+    let mut results = run_batch_on_session_unprocessed(
+        session,
+        input_name,
+        output_name,
+        input_w,
+        input_h,
+        charset,
+        items,
+    )?;
+    for result in &mut results {
+        result.text = sanitize_recognized_text(&result.text);
+    }
+    Ok(results)
+}
+
+/// 共通の推論・デコード結果を、後処理を適用する前の状態で返す。
+fn run_batch_on_session_unprocessed(
+    session: &mut Session,
+    input_name: &str,
+    output_name: &str,
+    input_w: usize,
+    input_h: usize,
+    charset: &[char],
+    items: &[(&[u8], usize, usize)],
+) -> Result<Vec<RecognizeResult>> {
+    run_batch_on_session_with_orientation(
+        session,
+        input_name,
+        output_name,
+        input_w,
+        input_h,
+        charset,
+        items,
+        ParseqOrientation::Auto,
+    )
+}
+
+/// 方向指定を前処理に渡し、既存の推論・デコードを共用する。
+#[allow(clippy::too_many_arguments)]
+fn run_batch_on_session_with_orientation(
+    session: &mut Session,
+    input_name: &str,
+    output_name: &str,
+    input_w: usize,
+    input_h: usize,
+    charset: &[char],
+    items: &[(&[u8], usize, usize)],
+    orientation: ParseqOrientation,
+) -> Result<Vec<RecognizeResult>> {
+    run_batch_on_session_with_decoder(
+        session,
+        input_name,
+        output_name,
+        input_w,
+        input_h,
+        charset,
+        items,
+        orientation,
+        predict_text_from_flat_logits_with_confidence,
+    )
+}
+
+/// 同じ前処理と一回の推論を共用し、呼び出し元が必要なデコードだけを行う。
+#[allow(clippy::too_many_arguments)]
+fn run_batch_on_session_with_decoder<R>(
+    session: &mut Session,
+    input_name: &str,
+    output_name: &str,
+    input_w: usize,
+    input_h: usize,
+    charset: &[char],
+    items: &[(&[u8], usize, usize)],
+    orientation: ParseqOrientation,
+    decode: impl Fn(&[f32], usize, usize, &[char]) -> Result<R>,
+) -> Result<Vec<R>> {
     use rayon::prelude::*;
     let n = items.len();
     let plane = 3 * input_h * input_w;
@@ -207,7 +352,7 @@ fn run_batch_on_session(
         buf.par_chunks_mut(plane_local)
             .zip(items.par_iter())
             .try_for_each_init(
-                PreprocessScratch::new,
+                || PreprocessScratch::with_orientation(orientation),
                 |scratch, (slot, (rgb, w, h))| -> Result<()> {
                     preprocess_rgb_u8_into_with_scratch(
                         slot, rgb, *w, *h, input_w, input_h, scratch,
@@ -218,7 +363,8 @@ fn run_batch_on_session(
         buf.par_chunks_mut(plane_local)
             .zip(items.par_iter())
             .try_for_each(|(slot, (rgb, w, h))| -> Result<()> {
-                let tensor = preprocess_rgb_u8(rgb, *w, *h, input_w, input_h)?;
+                let tensor =
+                    preprocess_rgb_u8_with_orientation(rgb, *w, *h, input_w, input_h, orientation)?;
                 slot.copy_from_slice(&tensor);
                 Ok(())
             })
@@ -238,9 +384,7 @@ fn run_batch_on_session(
     let mut out = Vec::with_capacity(n);
     for i in 0..n {
         let off = i * t * c;
-        let mut r =
-            predict_text_from_flat_logits_with_confidence(&data[off..off + t * c], t, c, charset)?;
-        r.text = sanitize_recognized_text(&r.text);
+        let r = decode(&data[off..off + t * c], t, c, charset)?;
         out.push(r);
     }
     Ok(out)

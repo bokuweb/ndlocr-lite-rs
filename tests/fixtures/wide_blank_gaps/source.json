@@ -1,0 +1,74 @@
+[
+  {
+    "name": "latin_1_+0",
+    "source": "docs/benchmarks/ocr-2026-10-18-skew-recognition-gate/images/latin_1_+0.png",
+    "source_sha256": "b1da6a885eb18ae88f295999ff2f1b3b72d1f450960bf752c3f47893144bc20e",
+    "band": [
+      70,
+      95,
+      793,
+      120
+    ],
+    "crop_sha256": "7b1805dbfff024d4ba5bef6608b91ef89fd0790457fda5af59b8766000e1bfa3"
+  },
+  {
+    "name": "latin_2_+0",
+    "source": "docs/benchmarks/ocr-2026-10-18-skew-recognition-gate/images/latin_2_+0.png",
+    "source_sha256": "76b16fc31f4e4dec2e43b6d2ad1b0cb199cad4cca0dce56989f020cf131f191b",
+    "band": [
+      141,
+      191,
+      1585,
+      240
+    ],
+    "crop_sha256": "a2f9c299d17f16597067bbb9701aef05025dbb1a73ecff3e48bd91046e856ff9"
+  },
+  {
+    "name": "numeric_1_+0",
+    "source": "docs/benchmarks/ocr-2026-10-18-skew-recognition-gate/images/numeric_1_+0.png",
+    "source_sha256": "fad5afc2beab1750e25ec8697a673e74c27252055ae20fe2bcf410e60f34a942",
+    "band": [
+      71,
+      95,
+      792,
+      120
+    ],
+    "crop_sha256": "6d63ece5f418b4824f2c56529b556afe4be82fcb0142b2f0aef862ae9d931bdc"
+  },
+  {
+    "name": "numeric_2_+0",
+    "source": "docs/benchmarks/ocr-2026-10-18-skew-recognition-gate/images/numeric_2_+0.png",
+    "source_sha256": "139ab4c38424bdc30900d89454bd1e26bd9a27816cc91b1bf7c6623a2a925f17",
+    "band": [
+      146,
+      191,
+      1583,
+      240
+    ],
+    "crop_sha256": "7f17786ea8cf84a80d2471e45ede6a88478be981fd5bd5f1397ea6eaa1583402"
+  },
+  {
+    "name": "japanese_1_+0",
+    "source": "docs/benchmarks/ocr-2026-10-18-skew-recognition-gate/images/japanese_1_+0.png",
+    "source_sha256": "e4518e0f3c780db5eba600ac0d67ce142d50d6280e5a62a39c401cf994db8f56",
+    "band": [
+      71,
+      91,
+      848,
+      123
+    ],
+    "crop_sha256": "ff2937a0d4ed858a41a2cf9d689dd5e7837c1d63d28ddc0e89f9c3c453d8571e"
+  },
+  {
+    "name": "japanese_2_+0",
+    "source": "docs/benchmarks/ocr-2026-10-18-skew-recognition-gate/images/japanese_2_+0.png",
+    "source_sha256": "f913a8f7b0aac682596228928dd8e66693b8c230ae0ec14e8422016a5fc3cfcf",
+    "band": [
+      143,
+      182,
+      1692,
+      244
+    ],
+    "crop_sha256": "3fb5e936d6abc78444163e89c6f07458fbe818c5b4e9b4a9f00a4f5acd4e7a63"
+  }
+]

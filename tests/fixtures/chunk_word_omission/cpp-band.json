@@ -1,0 +1,13 @@
+{
+  "source": "jlsi/omo fixtures/input/ocr_small_mark_accuracy/article2.png",
+  "source_sha256": "9d94cd58fa9dfe192ffbf222ac2ece00fad33648713d5746c0f54747e00103ec",
+  "bbox_exclusive": [
+    354,
+    2527,
+    1258,
+    2571
+  ],
+  "crop_sha256": "adf7395d29f83d5e26cbfefaf35be3d89d043968491aefc54d8d5562cf4a7a93",
+  "truth_chunk": "to C/C++.[38]",
+  "legacy_chunk": "toC/C+++.[38]"
+}

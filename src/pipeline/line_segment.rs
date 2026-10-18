@@ -1,3 +1,10 @@
+use super::band_bounds::restore_edge_ink;
+use super::component_bands::{restore_isolated_bands, restore_truncated_bands};
+use super::fragment_bands::rejoin_fragmented_bands;
+use super::noisy_line_gaps::separate_noisy_line_gaps;
+use super::punctuation_bands::restore_trailing_punctuation;
+
+/// 行・列のインク密度で横書き行を検出し、細い行端字形を保持する。
 pub fn detect_textline_bands_naive(
     rgb: &[u8],
     width: usize,
@@ -16,8 +23,14 @@ pub fn detect_textline_bands_naive(
         }
         *row_count = count;
     }
-    let spans = detect_spans(&row_ink, width, height);
-    spans
+    let spans = separate_noisy_line_gaps(
+        rgb,
+        width,
+        &row_ink,
+        threshold,
+        detect_spans(&row_ink, width),
+    );
+    let mut bands = spans
         .into_iter()
         .map(|(y0, y1)| {
             let band_h = (y1 - y0).max(1);
@@ -34,16 +47,27 @@ pub fn detect_textline_bands_naive(
                 *col = c;
             }
             let (x0, x1) = refine_x_bounds(&col_ink, band_h, width);
-            [
-                x0,
-                y0.saturating_sub(1),
-                x1.max(x0 + 1),
-                (y1 + 1).min(height),
-            ]
+            restore_edge_ink(
+                rgb,
+                width,
+                [
+                    x0,
+                    y0.saturating_sub(1),
+                    x1.max(x0 + 1),
+                    (y1 + 1).min(height),
+                ],
+                threshold,
+            )
         })
-        .collect()
+        .collect();
+    rejoin_fragmented_bands(rgb, width, height, threshold, &mut bands);
+    restore_truncated_bands(rgb, width, height, threshold, &mut bands);
+    restore_isolated_bands(rgb, width, height, threshold, &mut bands);
+    restore_trailing_punctuation(rgb, width, height, threshold, &mut bands);
+    bands
 }
 
+/// インクマスクを共有して横書き行を検出し、細い行端字形を保持する。
 pub fn detect_textline_bands_fast(
     rgb: &[u8],
     width: usize,
@@ -68,12 +92,18 @@ pub fn detect_textline_bands_fast(
         *row_count = c;
     }
 
-    let spans = detect_spans(&row_ink, width, height);
+    let spans = separate_noisy_line_gaps(
+        rgb,
+        width,
+        &row_ink,
+        threshold,
+        detect_spans(&row_ink, width),
+    );
     if spans.is_empty() {
         return Vec::new();
     }
 
-    spans
+    let mut bands = spans
         .into_iter()
         .map(|(y0, y1)| {
             let band_h = (y1 - y0).max(1);
@@ -87,47 +117,62 @@ pub fn detect_textline_bands_fast(
                 }
             }
             let (x0, x1) = refine_x_bounds(&col_ink, band_h, width);
-            [
-                x0,
-                y0.saturating_sub(1),
-                x1.max(x0 + 1),
-                (y1 + 1).min(height),
-            ]
+            restore_edge_ink(
+                rgb,
+                width,
+                [
+                    x0,
+                    y0.saturating_sub(1),
+                    x1.max(x0 + 1),
+                    (y1 + 1).min(height),
+                ],
+                threshold,
+            )
         })
-        .collect()
+        .collect();
+    rejoin_fragmented_bands(rgb, width, height, threshold, &mut bands);
+    restore_truncated_bands(rgb, width, height, threshold, &mut bands);
+    restore_isolated_bands(rgb, width, height, threshold, &mut bands);
+    restore_trailing_punctuation(rgb, width, height, threshold, &mut bands);
+    bands
 }
 
-fn detect_spans(row_ink: &[usize], width: usize, height: usize) -> Vec<(usize, usize)> {
-    let row_threshold = (width / 80).max(8);
+/// 強い画素行を含む低密度の候補を保ち、短いノイズと行間を除く。
+fn detect_spans(row_ink: &[usize], width: usize) -> Vec<(usize, usize)> {
+    let strong_threshold = (width / 80).max(8);
     let mut spans = Vec::new();
     let mut start: Option<usize> = None;
+    let mut end = 0usize;
+    let mut seeded = false;
     let mut gap = 0usize;
     for (y, &ink) in row_ink.iter().enumerate() {
-        if ink >= row_threshold {
-            if start.is_none() {
-                start = Some(y);
-            }
+        if ink >= 8 {
+            start.get_or_insert(y);
+            end = y + 1;
+            seeded |= ink >= strong_threshold;
             gap = 0;
-        } else if start.is_some() {
+        } else if let Some(s) = start {
             gap += 1;
             if gap > 2 {
-                let s = start.take().unwrap_or(0);
-                let e = y.saturating_sub(gap).saturating_add(1);
-                if e > s + 6 {
-                    spans.push((s, e));
+                if seeded && end > s + 6 {
+                    spans.push((s, end));
                 }
+                start = None;
+                seeded = false;
                 gap = 0;
             }
         }
     }
     if let Some(s) = start
-        && height > s + 6
+        && seeded
+        && end > s + 6
     {
-        spans.push((s, height));
+        spans.push((s, end));
     }
     spans
 }
 
+/// 列のインク密度から左右の余白を決める。
 fn refine_x_bounds(col_ink: &[usize], band_h: usize, width: usize) -> (usize, usize) {
     let max_ink = col_ink.iter().copied().max().unwrap_or(0);
     if max_ink == 0 {

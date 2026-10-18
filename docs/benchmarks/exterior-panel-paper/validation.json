@@ -1,0 +1,12 @@
+{
+  "default_tests": {
+    "passed": 419,
+    "failed": 0,
+    "ignored": 0,
+    "includes_doctests": true
+  },
+  "normal_clippy_exit_code": 0,
+  "strict_clippy_exit_code": 101,
+  "strict_clippy_existing_diagnostics": 6,
+  "real_onnx": "running; final results recorded by downstream frozen evaluation"
+}

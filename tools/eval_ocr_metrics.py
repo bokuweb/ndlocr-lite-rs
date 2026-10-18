@@ -31,7 +31,7 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument(
         "--normalize",
-        choices=["none", "basic", "strict"],
+        choices=["none", "basic", "strict", "width"],
         default="basic",
         help="Text normalization level",
     )
@@ -102,6 +102,9 @@ class SystemMetrics:
 def normalize_text(text: str, level: str) -> str:
     if level == "none":
         return text
+    if level == "width":
+        # Fold only fullwidth ASCII; retain case, spacing and other compatibility forms.
+        return "".join(chr(ord(char) - 0xFEE0) if "\uFF01" <= char <= "\uFF5E" else char for char in text)
     t = text.replace("\r\n", "\n").replace("\r", "\n")
     # Keep line boundaries but fold internal whitespace.
     t = "\n".join(" ".join(line.split()) for line in t.split("\n"))

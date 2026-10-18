@@ -1,0 +1,151 @@
+use ndlocr_lite_rs::pipeline::background::normalize_chromatic_panels;
+use proptest::prelude::*;
+
+/// 同じ背景色と白の混合色を作る。
+fn blend(color: [u8; 3], white: u8) -> [u8; 3] {
+    color.map(|v| (u16::from(v) + (255 - u16::from(v)) * u16::from(white) / 255) as u8)
+}
+
+/// 左右に階段状の補間色を持つパネルを作る。
+fn fixture(offset: usize, color: [u8; 3], phase: usize) -> (Vec<u8>, usize, usize) {
+    let (w, h) = (400 + offset * 2, 160);
+    let mut rgb = vec![255; w * h * 3];
+    for y in 16..144 {
+        let step = y / 32;
+        for x in 32 + offset + step..368 + offset + step {
+            rgb[(y * w + x) * 3..(y * w + x) * 3 + 3].copy_from_slice(&color);
+        }
+        for x in [31 + offset + step, 368 + offset + step] {
+            rgb[(y * w + x) * 3..(y * w + x) * 3 + 3]
+                .copy_from_slice(&blend(color, ((y * 17 + phase) % 220) as u8));
+        }
+    }
+    (rgb, w, h)
+}
+
+#[test]
+/// 左右の補間外縁から行を結合する縦線を作らない。
+fn side_fringe_does_not_become_ink() {
+    let (rgb, w, h) = fixture(0, [255, 165, 0], 0);
+    let out = normalize_chromatic_panels(&rgb, w, h).unwrap();
+    for y in 18..142 {
+        for x in [31 + y / 32, 368 + y / 32] {
+            let i = (y * w + x) * 3;
+            assert!(
+                out[i..i + 3].iter().map(|&v| u16::from(v)).sum::<u16>() >= 660,
+                "side became ink at {x},{y}: {:?}",
+                &out[i..i + 3]
+            );
+        }
+    }
+}
+
+proptest! {
+    #![proptest_config(proptest::test_runner::Config::with_cases(32))]
+    #[test]
+    /// 色・混合率・平行移動を変えても左右外縁を字形にしない。
+    fn side_fringe_survives_color_and_translation(offset in 0usize..8, phase in 0usize..220, color in any::<[u8;3]>()) {
+        prop_assume!(*color.iter().max().unwrap()-*color.iter().min().unwrap() >= 24);
+        let (rgb,w,h)=fixture(offset,color,phase);
+        let out=normalize_chromatic_panels(&rgb,w,h).unwrap();
+        for y in 18..142 {
+            for x in [31+offset+y/32,368+offset+y/32] {
+                prop_assert!(out[(y*w+x)*3..(y*w+x)*3+3].iter().map(|&v|u16::from(v)).sum::<u16>()>=660,"{},{}",x,y);
+            }
+        }
+    }
+}
+
+/// 指定矩形の元RGBを塗る。
+fn paint(
+    rgb: &mut [u8],
+    w: usize,
+    xs: std::ops::Range<usize>,
+    ys: std::ops::Range<usize>,
+    color: [u8; 3],
+) {
+    for y in ys {
+        for x in xs.clone() {
+            rgb[(y * w + x) * 3..(y * w + x) * 3 + 3].copy_from_slice(&color);
+        }
+    }
+}
+
+#[test]
+/// 黒や異色の縦罫線は背景と白の混合として消さない。
+fn retains_black_and_different_color_rules() {
+    for color in [[0; 3], [20, 40, 240]] {
+        let (mut rgb, w, h) = fixture(0, [255, 165, 0], 0);
+        for y in 16..144 {
+            paint(&mut rgb, w, 31 + y / 32..32 + y / 32, y..y + 1, color);
+        }
+        let out = normalize_chromatic_panels(&rgb, w, h).unwrap();
+        for y in 20..140 {
+            let i = (y * w + 31 + y / 32) * 3;
+            assert!(out[i..i + 3].iter().map(|&v| u16::from(v)).sum::<u16>() < 660);
+        }
+    }
+}
+
+#[test]
+/// 三画素を超える混合帯と短い境界を保持する。
+fn retains_thick_or_short_regions() {
+    for (thickness, ys) in [(4, 16..144), (1, 48..96)] {
+        let (mut rgb, w, h) = fixture(0, [255, 165, 0], 0);
+        // 元fixtureの左右外縁を除き、固定した境界を追加する。
+        rgb.fill(255);
+        paint(&mut rgb, w, 40..360, ys.clone(), [255, 165, 0]);
+        paint(
+            &mut rgb,
+            w,
+            40 - thickness..40,
+            ys.clone(),
+            blend([255, 165, 0], 128),
+        );
+        let out = normalize_chromatic_panels(&rgb, w, h).unwrap();
+        let i = ((ys.start + ys.end) / 2 * w + 39) * 3;
+        assert!(out[i..i + 3].iter().map(|&v| u16::from(v)).sum::<u16>() < 660);
+    }
+}
+
+#[test]
+/// 囲まれた白い字形は外側紙として扱わない。
+fn retains_enclosed_white_glyph() {
+    let (mut rgb, w, h) = fixture(0, [255, 165, 0], 0);
+    paint(&mut rgb, w, 100..103, 32..128, [255; 3]);
+    let out = normalize_chromatic_panels(&rgb, w, h).unwrap();
+    assert_eq!(&out[(80 * w + 101) * 3..(80 * w + 101) * 3 + 3], &[0; 3]);
+}
+
+#[test]
+/// 外周近白紙のRGBを外縁除去で上書きしない。
+fn preserves_exterior_paper_rgb() {
+    let (mut rgb, w, h) = fixture(0, [255, 165, 0], 0);
+    for pixel in rgb.chunks_exact_mut(3) {
+        if pixel == [255; 3] {
+            pixel.copy_from_slice(&[255, 254, 253]);
+        }
+    }
+    let out = normalize_chromatic_panels(&rgb, w, h).unwrap();
+    for (before, after) in rgb.chunks_exact(3).zip(out.chunks_exact(3)) {
+        if before == [255, 254, 253] {
+            assert_eq!(before, after);
+        }
+    }
+}
+
+#[test]
+/// 外側が近白の閾値に届かない場合は外周の裏付けにしない。
+fn rejects_paper_below_threshold() {
+    let (mut rgb, w, h) = fixture(0, [255, 165, 0], 0);
+    for pixel in rgb.chunks_exact_mut(3) {
+        if pixel == [255; 3] {
+            pixel.copy_from_slice(&[255, 255, 249]);
+        }
+    }
+    let out = normalize_chromatic_panels(&rgb, w, h).unwrap();
+    let y = 80;
+    let x = 31 + y / 32;
+    let i = (y * w + x) * 3;
+    assert!(out[i..i + 3].iter().map(|&v| u16::from(v)).sum::<u16>() < 660);
+}

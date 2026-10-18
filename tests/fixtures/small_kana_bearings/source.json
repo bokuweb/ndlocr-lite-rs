@@ -1,0 +1,15 @@
+{
+  "source_pdf": "jlsi/omo fixtures/input/pdf_parser/resources/word/simple.pdf",
+  "source_pdf_sha256": "fef165b821e1b0de847e82810a032d2fd6c4863d534bb2309e66c6be486c8b95",
+  "page": 1,
+  "dpi": 300,
+  "source_png_sha256": "a679356dee9fdc624085f3ab5941956be7d8350eb09fda9f069aa0b306101cde",
+  "crop": [
+    560,
+    1104,
+    2087,
+    1151
+  ],
+  "truth": "スレッド安全性が保証されます。さらに様々な種類のバグをコンパイ",
+  "evaluation": "Development fixture after first independent inference found a space after the small kana. Original pixels, no scaling."
+}

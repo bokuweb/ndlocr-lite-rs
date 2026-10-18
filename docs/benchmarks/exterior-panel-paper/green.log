@@ -1,0 +1,22 @@
+      ┌─────────┐  mr boxington
+     ╱ ═══════ ╱│
+    ╱─────────╱ │
+    │ •    (◉)│≡│
+    │  ◟▄▄▄◞  │ ╱
+    │   ◀◆▶   │╱
+    └─────────┘
+   Compiling ndlocr-lite-rs v0.1.0 (/Volumes/X9/ghq/github.com/bokuweb/ndlocr-lite-rs)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 14.84s
+     Running tests/exterior_panel_paper_tests.rs (/Volumes/X9/omo-punctuation-locality/target/debug/deps/exterior_panel_paper_tests-667606f9388402f1)
+mbx[progress]: 15s elapsed; 0 hits, 0 misses, 0 bypassed, 0 not looked up; ~0s compiler work saved
+
+running 4 tests
+test diagonal_contact_is_not_exterior_connection ... ok
+test keeps_exterior_paper_in_concave_panel ... ok
+test keeps_enclosed_white_and_black_glyphs ... ok
+test varied_notches ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 2.41s
+
+mbx[cache]: 0 hits, 0 misses, 3 incremental; 0 B downloaded, 0 B uploaded, 0 B stored locally
+mbx[savings]: 8d 19h of compiler time avoided across 15396 builds

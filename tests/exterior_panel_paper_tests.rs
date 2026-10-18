@@ -1,0 +1,73 @@
+use ndlocr_lite_rs::pipeline::background::normalize_chromatic_panels;
+use proptest::prelude::*;
+
+/// 横へ開く白い凹部と、囲まれた白黒字形を含むパネルを作る。
+fn fixture(offset: usize, depth: usize, color: [u8; 3]) -> (Vec<u8>, usize, usize) {
+    let (w, h) = (400 + offset * 2, 96);
+    let mut rgb = vec![255; w * h * 3];
+    for y in 8..88 {
+        for x in offset + 16..offset + 384 {
+            if !(36..72).contains(&y) || x >= offset + depth || (y < 60 && x < offset + 32) {
+                rgb[(y * w + x) * 3..(y * w + x) * 3 + 3].copy_from_slice(&color);
+            }
+        }
+    }
+    for (x0, c) in [(offset + 260, 255), (offset + 300, 0)] {
+        for y in 40..56 {
+            for x in x0..x0 + 8 {
+                rgb[(y * w + x) * 3..(y * w + x) * 3 + 3].fill(c);
+            }
+        }
+    }
+    (rgb, w, h)
+}
+
+#[test]
+/// 背景の行区間の内側に入り込む白紙を黒へ反転しない。
+fn keeps_exterior_paper_in_concave_panel() {
+    let (rgb, w, h) = fixture(0, 140, [255, 165, 0]);
+    let out = normalize_chromatic_panels(&rgb, w, h).unwrap();
+    for y in 36..60 {
+        for x in 32..140 {
+            assert_eq!(
+                &out[(y * w + x) * 3..(y * w + x) * 3 + 3],
+                &[255; 3],
+                "paper at {x},{y}"
+            );
+        }
+    }
+}
+
+#[test]
+/// 周囲を色背景で囲まれた白字形は保持して暗くする。
+fn keeps_enclosed_white_and_black_glyphs() {
+    let (rgb, w, h) = fixture(0, 140, [255, 165, 0]);
+    let out = normalize_chromatic_panels(&rgb, w, h).unwrap();
+    for x in [263, 303] {
+        assert_eq!(&out[(48 * w + x) * 3..(48 * w + x) * 3 + 3], &[0; 3]);
+    }
+}
+
+#[test]
+/// 斜めだけの白接触で囲まれた白字形を外側と誤認しない。
+fn diagonal_contact_is_not_exterior_connection() {
+    let (mut rgb, w, h) = fixture(0, 140, [255, 165, 0]);
+    rgb[(35 * w + 140) * 3..(35 * w + 140) * 3 + 3].fill(255);
+    let out = normalize_chromatic_panels(&rgb, w, h).unwrap();
+    assert_eq!(&out[(35 * w + 140) * 3..(35 * w + 140) * 3 + 3], &[0; 3]);
+}
+
+proptest! {
+    #![proptest_config(ProptestConfig::with_cases(48))]
+    #[test]
+    /// 凹部の幅・位置・背景色が変わっても白紙と両極性の字形を保つ。
+    fn varied_notches(offset in 0usize..12, depth in 100usize..180, color in any::<[u8;3]>()) {
+        prop_assume!(color.iter().max().unwrap()-color.iter().min().unwrap()>=24);
+        let (rgb,w,h)=fixture(offset,depth,color);
+        let out=normalize_chromatic_panels(&rgb,w,h).unwrap();
+        for y in 36..60 { for x in offset+32..offset+depth {
+            prop_assert_eq!(&out[(y*w+x)*3..(y*w+x)*3+3],&[255;3]);
+        }}
+        for x in [offset+263,offset+303] { prop_assert_eq!(&out[(48*w+x)*3..(48*w+x)*3+3],&[0;3]); }
+    }
+}

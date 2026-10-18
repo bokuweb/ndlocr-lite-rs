@@ -138,6 +138,7 @@ tools/run_eval_rust_ab.sh \
 ## 5. 正規化モード
 
 - `none`: 正規化なし
+- `width`: U+FF01〜U+FF5Eの全角ASCIIだけを半角へ写像。空白・改行・大小文字は保持する補助指標。`ＡＩ` に対する `AI`→`Al` の退行を検出できる。`none` と併記する（[仕様](width-sensitive-evaluation.md)）。
 - `basic`: 改行統一 + 連続空白圧縮
 - `strict`: `basic` + ASCII句読点と空白を除去（文字認識性能を見やすくする）
 - `both`: `basic` と `strict` の両方を連続実行（`run_eval_rust_ab.sh` 専用）

@@ -1,0 +1,31 @@
+      ┌─────────┐  mr boxington
+     ╱ ═══════ ╱│
+    ╱─────────╱ │
+    │ •    (◉)│≡│
+    │  ◟▄▄▄◞  │ ╱
+    │   ◀◆▶   │╱
+    └─────────┘
+   Compiling ndlocr-lite-rs v0.1.0 (/Volumes/X9/ghq/github.com/bokuweb/ndlocr-lite-rs)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 6.07s
+     Running tests/lateral_panel_fringe_tests.rs (/Volumes/X9/omo-punctuation-locality/target/debug/deps/lateral_panel_fringe_tests-6a6d816481849d93)
+
+running 1 test
+test isolated_colored_ink_does_not_interrupt_panel_edge ... FAILED
+
+failures:
+
+---- isolated_colored_ink_does_not_interrupt_panel_edge stdout ----
+
+thread 'isolated_colored_ink_does_not_interrupt_panel_edge' (11537826) panicked at tests/lateral_panel_fringe_tests.rs:165:9:
+fringe at 33,72
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    isolated_colored_ink_does_not_interrupt_panel_edge
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 7 filtered out; finished in 0.07s
+
+error: test failed, to rerun pass `--test lateral_panel_fringe_tests`
+mbx[cache]: 0 hits, 0 misses, 1 incremental; 0 B downloaded, 0 B uploaded, 0 B stored locally
+mbx[savings]: 5.7 TiB logical of abandoned target directories removed

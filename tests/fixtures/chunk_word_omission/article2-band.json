@@ -1,0 +1,13 @@
+{
+  "source": "jlsi/omo fixtures/input/ocr_small_mark_accuracy/article2.png",
+  "source_sha256": "9d94cd58fa9dfe192ffbf222ac2ece00fad33648713d5746c0f54747e00103ec",
+  "bbox_exclusive": [
+    353,
+    2755,
+    2127,
+    2801
+  ],
+  "crop_sha256": "6f6639047287476a8c58446c83b0f641c1d990992ae88319f5696398246f8401",
+  "truth_chunk": "the Code of",
+  "legacy_chunk": "the of"
+}

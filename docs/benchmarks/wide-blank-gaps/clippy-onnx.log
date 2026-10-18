@@ -1,0 +1,162 @@
+      ┌─────────┐  mr boxington
+     ╱ ═══════ ╱│
+    ╱─────────╱ │
+    │ •    (◉)│≡│
+    │  ◟▄▄▄◞  │ ╱
+    │   ◀◆▶   │╱
+    └─────────┘
+    Checking ndlocr-lite-rs v0.1.0 (/Volumes/X9/ghq/github.com/bokuweb/ndlocr-lite-rs)
+warning: methods `recognize_batch_indexed` and `run_chunk_on_session` are never used
+   --> src/infer/cached.rs:559:8
+    |
+409 | impl ParseqPool {
+    | --------------- methods in this implementation
+...
+559 |     fn recognize_batch_indexed(
+    |        ^^^^^^^^^^^^^^^^^^^^^^^
+...
+694 |     fn run_chunk_on_session(
+    |        ^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: the loop variable `v` is used to index `out`
+  --> src/infer/deim.rs:91:18
+   |
+91 |         for v in 0..=255 {
+   |                  ^^^^^^^
+   |
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.97.0/index.html#needless_range_loop
+   = note: `#[warn(clippy::needless_range_loop)]` on by default
+help: consider using an iterator and enumerate()
+   |
+91 -         for v in 0..=255 {
+91 +         for (v, <item>) in out.iter_mut().enumerate() {
+   |
+
+warning: very complex type used. Consider factoring parts into `type` definitions
+   --> src/infer/cached.rs:896:6
+    |
+896 |   ) -> (
+    |  ______^
+897 | |     Result<Vec<(usize, RecognizeResult)>>,
+898 | |     Result<Vec<(usize, RecognizeResult)>>,
+899 | |     Result<Vec<(usize, RecognizeResult)>>,
+900 | | ) {
+    | |_^
+    |
+    = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.97.0/index.html#type_complexity
+    = note: `#[warn(clippy::type_complexity)]` on by default
+
+warning: very complex type used. Consider factoring parts into `type` definitions
+   --> src/infer/cached.rs:967:6
+    |
+967 |   ) -> (
+    |  ______^
+968 | |     Result<Vec<(usize, RecognizeResult)>>,
+969 | |     Result<Vec<(usize, RecognizeResult)>>,
+970 | | ) {
+    | |_^
+    |
+    = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.97.0/index.html#type_complexity
+
+warning: doc list item without indentation
+  --> src/infer/ort_init.rs:13:5
+   |
+13 | //! Apple ANE/GPU を使うには `with_static_input_shapes(true)` 化と batch=1 に
+   |     ^
+   |
+   = help: if this is supposed to be its own paragraph, add a blank line
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.97.0/index.html#doc_lazy_continuation
+   = note: `#[warn(clippy::doc_lazy_continuation)]` on by default
+help: indent this line
+   |
+13 | //!     Apple ANE/GPU を使うには `with_static_input_shapes(true)` 化と batch=1 に
+   |     ++++
+
+warning: doc list item without indentation
+  --> src/infer/ort_init.rs:14:5
+   |
+14 | //! 固定する変更がモデル側にも必要。CPU EP は ort 2.0 に同梱されている既定
+   |     ^
+   |
+   = help: if this is supposed to be its own paragraph, add a blank line
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.97.0/index.html#doc_lazy_continuation
+help: indent this line
+   |
+14 | //!     固定する変更がモデル側にも必要。CPU EP は ort 2.0 に同梱されている既定
+   |     ++++
+
+warning: doc list item without indentation
+  --> src/infer/ort_init.rs:15:5
+   |
+15 | //! 実装で、こちらは旧 `onnxruntime` 0.0.14 比 ~30-40% 速い。
+   |     ^
+   |
+   = help: if this is supposed to be its own paragraph, add a blank line
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.97.0/index.html#doc_lazy_continuation
+help: indent this line
+   |
+15 | //!     実装で、こちらは旧 `onnxruntime` 0.0.14 比 ~30-40% 速い。
+   |     ++++
+
+warning: this function has too many arguments (9/7)
+  --> src/output/artifacts.rs:9:1
+   |
+ 9 | / pub fn save_page_artifacts(
+10 | |     lines: &[RecognizedLine],
+11 | |     texts: &[String],
+12 | |     img_width: usize,
+...  |
+18 | |     out_txt_path: &Path,
+19 | | ) -> Result<()> {
+   | |_______________^
+   |
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.97.0/index.html#too_many_arguments
+   = note: `#[warn(clippy::too_many_arguments)]` on by default
+
+warning: this `if` statement can be collapsed
+  --> src/pipeline/background.rs:58:17
+   |
+58 | /                 if let Some(y0) = start.take() {
+59 | |                     if seeded && y - y0 >= 8 {
+60 | |                         normalize_panel(rgb, width, y0, y, &mut output);
+61 | |                     }
+62 | |                 }
+   | |_________________^
+   |
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.97.0/index.html#collapsible_if
+   = note: `#[warn(clippy::collapsible_if)]` on by default
+help: collapse nested if block
+   |
+58 ~                 if let Some(y0) = start.take()
+59 ~                     && seeded && y - y0 >= 8 {
+60 |                         normalize_panel(rgb, width, y0, y, &mut output);
+61 ~                     }
+   |
+
+warning: `ndlocr-lite-rs` (lib) generated 9 warnings (run `cargo clippy --fix --lib -p ndlocr-lite-rs -- --no-deps` to apply 1 suggestion)
+warning: `ndlocr-lite-rs` (lib test) generated 9 warnings (9 duplicates)
+warning: manual `RangeInclusive::contains` implementation
+  --> tests/preprocess_tests.rs:71:39
+   |
+71 |         for &v in &out { prop_assert!(v >= -1.0 && v <= 1.0); }
+   |                                       ^^^^^^^^^^^^^^^^^^^^^ help: use: `(-1.0..=1.0).contains(&v)`
+   |
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.97.0/index.html#manual_range_contains
+   = note: `#[warn(clippy::manual_range_contains)]` on by default
+
+warning: `ndlocr-lite-rs` (test "preprocess_tests") generated 1 warning (run `cargo clippy --fix --test "preprocess_tests" -p ndlocr-lite-rs -- --no-deps` to apply 1 suggestion)
+warning: manual `RangeInclusive::contains` implementation
+   --> tests/app_layout_tests.rs:124:22
+    |
+124 |         prop_assert!(out >= 0.0 && out <= 1.0);
+    |                      ^^^^^^^^^^^^^^^^^^^^^^^^ help: use: `(0.0..=1.0).contains(&out)`
+    |
+    = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.97.0/index.html#manual_range_contains
+    = note: `#[warn(clippy::manual_range_contains)]` on by default
+
+warning: `ndlocr-lite-rs` (test "app_layout_tests") generated 1 warning (run `cargo clippy --fix --test "app_layout_tests" -p ndlocr-lite-rs -- --no-deps` to apply 1 suggestion)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 14.07s
+mbx[cache]: 0 hits, 0 misses, 91 bypassed; 0 B downloaded, 0 B uploaded, 0 B stored locally
+mbx[savings]: 5.7 TiB logical of abandoned target directories removed

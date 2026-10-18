@@ -1,3 +1,4 @@
+use super::preprocess::{checked_tensor_len, zeroed_tensor};
 use crate::io;
 use anyhow::{Result, bail};
 use std::path::Path;
@@ -23,6 +24,7 @@ pub struct Detection {
     pub class_name: String,
 }
 
+/// 元RGBと出力寸法を確保前に検証し、正方形padding済み入力テンソルを作る。
 pub fn preprocess_rgb_u8(
     rgb: &[u8],
     width: usize,
@@ -30,13 +32,7 @@ pub fn preprocess_rgb_u8(
     input_width: usize,
     input_height: usize,
 ) -> Result<DeimPreprocessOutput> {
-    let expected = width
-        .checked_mul(height)
-        .and_then(|v| v.checked_mul(3))
-        .ok_or_else(|| anyhow::anyhow!("image size overflow"))?;
-    if rgb.len() != expected || input_width == 0 || input_height == 0 {
-        bail!("invalid input");
-    }
+    let output_len = checked_tensor_len(rgb, width, height, input_width, input_height)?;
     let max_wh = width.max(height);
     // pad_to_square 後 resize_nearest という 2 段構成は中間バッファ
     // (max_wh^2 * 3 byte; 2048x2048 で ~12MB) を取るのでヒープ圧が重い。
@@ -44,7 +40,7 @@ pub fn preprocess_rgb_u8(
     // ではなく、resize の補完計算上は元画像の範囲外を踏まないので、
     // 直接 padded coord → 元画像 → output に nearest で詰めれば中間バッファ
     // を完全に省ける。
-    let mut out = vec![0.0_f32; 3 * input_width * input_height];
+    let mut out = zeroed_tensor(output_len)?;
     let plane = input_width * input_height;
     let mean = [0.485_f32, 0.456_f32, 0.406_f32];
     let std = [0.229_f32, 0.224_f32, 0.225_f32];

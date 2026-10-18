@@ -1,0 +1,9 @@
+{
+  "utc": "2026-10-17T15:05:55.244027+00:00",
+  "files": {
+    "tests/fixtures/stacked_vertical/body.png": "a8b1d63800cad422dbb2f2dd7fed15176f2f38669a930d92465cdc2b740fd698",
+    "tests/fixtures/stacked_vertical/truth.txt": "50af222202747ec9657145dae9e24e41e8be725afe8bb127d08df69a190bd4db",
+    "tests/fixtures/stacked_vertical/manifest.json": "dc642cbdf697ec7f7122676a8f73bfd7da33b3a76157dea97fba8b6dd4210fd1",
+    "spec.md": "d8238361dc67853978a5d68ed0575243e6cf846115a68be1f79fc2daa40e14c9"
+  }
+}

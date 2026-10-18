@@ -1,0 +1,18 @@
+{
+  "source_repository": "https://github.com/jlsi/omo",
+  "source_revision": "6f35c4114537bfd6ae93e32e8e71e800457f085c",
+  "source_image": "fixtures/input/ocr_highlighted_accuracy/page1.png",
+  "source_sha256": "666ac626bbfff9d653091f41a4a23cb427ab57202fbc1201492aa828d974a6da",
+  "bbox_xyxy": [
+    153,
+    749,
+    982,
+    786
+  ],
+  "truth": "Introduction The Importance of Wetlands",
+  "crop_sha256": "e2f1154574bcad1d0d9789df33504519d897a59130cc31d02175d55f385056f4",
+  "status": "development data, fixed in previous full-page evaluation",
+  "normalized_crop_sha256": "33cd83ba706ee424ca9b026a6c7a78318ed8ff992b26e6488a45efdbb1b4a87e",
+  "normalization_revision": "ae0fe4322d737ab9bb49a2e579ffce10c8bfd47f",
+  "normalization": "normalize_chromatic_panels on full source page before native crop"
+}

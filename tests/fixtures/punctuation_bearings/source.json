@@ -1,0 +1,27 @@
+{
+  "source": "jlsi/omo fixtures/input/pdf_parser/resources/pdf/text_extract/ascii_insert_space.pdf",
+  "render": "300dpi pdftoppm, source truth frozen before first inference",
+  "page_sha256": "75f80560cbc8a101319d014aaba9a9a6fb16368511e03618209505eb5cb7dbdf",
+  "crops": [
+    {
+      "file": "quoted.png",
+      "bounds": [
+        173,
+        2098,
+        2322,
+        2139
+      ],
+      "sha256": "99d3257d0cc231042b67eb594d9a7bf2d424bf3cbca842a332b352f1e6cafee3"
+    },
+    {
+      "file": "quoted-tight.png",
+      "bounds": [
+        173,
+        2348,
+        2150,
+        2391
+      ],
+      "sha256": "da6b42745ebaa12b1e31a14578c48039732a208f6cac6633bcd88709f5e78900"
+    }
+  ]
+}

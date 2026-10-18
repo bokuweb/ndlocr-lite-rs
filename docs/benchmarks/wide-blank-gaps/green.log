@@ -1,0 +1,22 @@
+      ┌─────────┐  mr boxington
+     ╱ ═══════ ╱│
+    ╱─────────╱ │
+    │ •    (◉)│≡│
+    │  ◟▄▄▄◞  │ ╱
+    │   ◀◆▶   │╱
+    └─────────┘
+   Compiling ndlocr-lite-rs v0.1.0 (/Volumes/X9/ghq/github.com/bokuweb/ndlocr-lite-rs)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.39s
+     Running tests/wide_blank_gaps_tests.rs (target/debug/deps/wide_blank_gaps_tests-ce006f58fcf3c4d3)
+
+running 5 tests
+test unbreakable_group_still_rejects_the_whole_line ... ok
+test nearwhite_marks_are_never_omitted ... ok
+test widely_separated_groups_are_safe_recognition_chunks ... ok
+test six_upright_label_bands_keep_every_nonwhite_pixel ... ok
+test sparse_groups_preserve_pixels_and_spaces ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.09s
+
+mbx[cache]: 0 hits, 0 misses, 1 incremental; 0 B downloaded, 0 B uploaded, 0 B stored locally
+mbx[savings]: 7.0 TiB logical of files removed by collection so far

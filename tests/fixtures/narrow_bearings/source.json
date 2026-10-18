@@ -1,0 +1,15 @@
+{
+  "source_pdf": "fixtures/input/pdf_parser/resources/web/dennyu-unyoukijun210401r.pdf",
+  "source_pdf_sha256": "44b5d55191d5c617d7a79497f233124b4198379c38ab7239567aadb1a3702335",
+  "page": 2,
+  "dpi": 300,
+  "page_png_sha256": "39707627cab0b764a675d40b64c091c7ea21fdf2850bd2ec6d1cbb17a9eba89e",
+  "crop_xyxy": [
+    354,
+    1512,
+    2277,
+    1560
+  ],
+  "truth": "という。）にて発行した電子証明書を格納したカード（以下「ＩＣカード」という。）",
+  "evaluation": "Development crop from omo second-page truth frozen before first OCR; preserve fullwidth characters and spaces in full-page CER."
+}

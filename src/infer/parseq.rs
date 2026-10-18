@@ -1,7 +1,15 @@
+use super::preprocess::{checked_tensor_len, zeroed_tensor};
 use crate::io;
 use anyhow::{Context, Result, bail};
 use std::fs;
 use std::path::Path;
+
+mod candidates;
+use candidates::DecodeStep;
+pub use candidates::{
+    ParseqCandidate, ParseqCandidateResult, ParseqStepCandidates, ParseqStopReason,
+    predict_text_from_flat_logits_with_candidates,
+};
 
 #[derive(Debug, Clone)]
 pub struct RecognizeResult {
@@ -9,9 +17,19 @@ pub struct RecognizeResult {
     pub mean_confidence: f32,
 }
 
+/// PARSeq入力画像の方向。既存APIはAutoを使用する。
+#[derive(Debug, Clone, Copy, Default, PartialEq, Eq)]
+pub enum ParseqOrientation {
+    /// 公式upstreamと同じアスペクト比による自動回転。
+    #[default]
+    Auto,
+    /// 横書き行の切り出し。寸法にかかわらず回転しない。
+    Horizontal,
+}
+
 /// PARSEQ 入力テンソルを作る（`ndlocr/src/parseq.py` と同じ方針）。
 ///
-/// - 縦長なら 90° 反時計回りに回転（`h > w` のとき `cv2.ROTATE_90_COUNTERCLOCKWISE` に相当）
+/// - 高さが幅の80%を超えたら 90° 反時計回りに回転（`h > w * 0.8` のとき `cv2.ROTATE_90_COUNTERCLOCKWISE` に相当）
 /// - `cv2.resize(..., INTER_LINEAR)` に相当する **バイリニア**で `(input_w, input_h)` へ **全面ストレッチ**
 /// - PIL RGB を `[:, :, ::-1]` したのと同じ **BGR 順**で NCHW（学習・Python 推論と整合）
 pub fn preprocess_rgb_u8(
@@ -21,8 +39,28 @@ pub fn preprocess_rgb_u8(
     input_width: usize,
     input_height: usize,
 ) -> Result<Vec<f32>> {
-    let mut out = vec![0.0_f32; 3 * input_width * input_height];
-    let mut scratch = PreprocessScratch::new();
+    preprocess_rgb_u8_with_orientation(
+        rgb,
+        width,
+        height,
+        input_width,
+        input_height,
+        ParseqOrientation::Auto,
+    )
+}
+
+/// 入力を確保前に検証し、方向を明示してBGR/NCHWテンソルを作る。
+pub fn preprocess_rgb_u8_with_orientation(
+    rgb: &[u8],
+    width: usize,
+    height: usize,
+    input_width: usize,
+    input_height: usize,
+    orientation: ParseqOrientation,
+) -> Result<Vec<f32>> {
+    let output_len = checked_tensor_len(rgb, width, height, input_width, input_height)?;
+    let mut out = zeroed_tensor(output_len)?;
+    let mut scratch = PreprocessScratch::with_orientation(orientation);
     preprocess_rgb_u8_into_with_scratch(
         &mut out,
         rgb,
@@ -35,8 +73,11 @@ pub fn preprocess_rgb_u8(
     Ok(out)
 }
 
+/// 再利用する補間座標と、入力に適用する方向指定。
 #[derive(Default)]
 pub struct PreprocessScratch {
+    /// 入力画像の方向。
+    orientation: ParseqOrientation,
     xs: Vec<SampleCoord>,
     ys: Vec<SampleCoord>,
     xs_key: Option<(usize, usize)>,
@@ -44,8 +85,17 @@ pub struct PreprocessScratch {
 }
 
 impl PreprocessScratch {
+    /// 従来どおり自動方向判定する作業領域を作る。
     pub fn new() -> Self {
         Self::default()
+    }
+
+    /// 入力方向を固定した作業領域を作る。座標キャッシュは寸法ごとに更新する。
+    pub fn with_orientation(orientation: ParseqOrientation) -> Self {
+        Self {
+            orientation,
+            ..Self::default()
+        }
     }
 }
 
@@ -69,6 +119,7 @@ pub fn preprocess_rgb_u8_into(
     )
 }
 
+/// 作業領域の方向指定と補間座標を使い、呼び出し元のバッファへ書き込む。
 pub fn preprocess_rgb_u8_into_with_scratch(
     out: &mut [f32],
     rgb: &[u8],
@@ -78,17 +129,7 @@ pub fn preprocess_rgb_u8_into_with_scratch(
     input_height: usize,
     scratch: &mut PreprocessScratch,
 ) -> Result<()> {
-    let expected = width
-        .checked_mul(height)
-        .and_then(|v| v.checked_mul(3))
-        .ok_or_else(|| anyhow::anyhow!("image size overflow"))?;
-    if rgb.len() != expected {
-        bail!("invalid RGB buffer length");
-    }
-    let output_len = input_width
-        .checked_mul(input_height)
-        .and_then(|v| v.checked_mul(3))
-        .ok_or_else(|| anyhow::anyhow!("output size overflow"))?;
+    let output_len = checked_tensor_len(rgb, width, height, input_width, input_height)?;
     if out.len() != output_len {
         bail!(
             "invalid output buffer length: expected {}, got {}",
@@ -96,15 +137,13 @@ pub fn preprocess_rgb_u8_into_with_scratch(
             out.len()
         );
     }
-    let rotated = height > width;
+    let rotated = scratch.orientation == ParseqOrientation::Auto
+        && (height as u128) * 5 > (width as u128) * 4;
     let (source_w, source_h) = if rotated {
         (height, width)
     } else {
         (width, height)
     };
-    if input_width == 0 || input_height == 0 {
-        bail!("invalid resize dimension");
-    }
     let plane = input_width * input_height;
     scratch.ensure_xs(input_width, source_w);
     scratch.ensure_ys(input_height, source_h);
@@ -329,6 +368,10 @@ pub fn sanitize_recognized_text(input: &str) -> String {
     apply_common_japanese_ocr_replacements(&out)
 }
 
+/// 平坦モデル出力を検証して本文を取得する。
+///
+/// # Errors
+/// 形状不正、EOSを含むクラス数と文字集合の不一致、形状内の非有限値を拒否する。
 pub fn predict_text_from_flat_logits(
     logits: &[f32],
     timesteps: usize,
@@ -338,11 +381,27 @@ pub fn predict_text_from_flat_logits(
     Ok(predict_text_from_flat_logits_with_confidence(logits, timesteps, classes, charset)?.text)
 }
 
+/// 平坦モデル出力を検証し、本文と平均信頼度を返す。
+///
+/// # Errors
+/// 形状不正、EOSを含むクラス数と文字集合の不一致、形状内の非有限値を拒否する。
+/// 停止後のステップも検証し、形状外の末尾データは無視する。
 pub fn predict_text_from_flat_logits_with_confidence(
     logits: &[f32],
     timesteps: usize,
     classes: usize,
     charset: &[char],
+) -> Result<RecognizeResult> {
+    decode_flat_logits_with_observer(logits, timesteps, classes, charset, |_| {})
+}
+
+/// 既存の演算順序を維持し、処理したステップを必要な呼び出し元だけに通知する。
+fn decode_flat_logits_with_observer(
+    logits: &[f32],
+    timesteps: usize,
+    classes: usize,
+    charset: &[char],
+    mut observe: impl FnMut(DecodeStep<'_>),
 ) -> Result<RecognizeResult> {
     if timesteps == 0 || classes == 0 {
         bail!("timesteps/classes must be > 0");
@@ -352,6 +411,16 @@ pub fn predict_text_from_flat_logits_with_confidence(
         .ok_or_else(|| anyhow::anyhow!("logits shape overflow"))?;
     if logits.len() < expected {
         bail!("flat logits length is shorter than shape");
+    }
+    if charset.len().checked_add(1) != Some(classes) {
+        bail!("logits classes and charset mismatch");
+    }
+    // 短絡しない集約で、全形状の検証を自動ベクトル化できるようにする。
+    if logits[..expected]
+        .iter()
+        .fold(false, |invalid, value| invalid | !value.is_finite())
+    {
+        bail!("logits must be finite");
     }
     let mut text = String::new();
     let mut conf_sum = 0.0f32;
@@ -374,16 +443,33 @@ pub fn predict_text_from_flat_logits_with_confidence(
         }
         let pmax = if exp_sum > 0.0 { 1.0 / exp_sum } else { 0.0 };
 
-        if bi == 0 {
-            break;
-        }
-        if conf_count >= min_tokens_before_low_conf_stop && pmax < low_confidence_threshold {
-            break;
-        }
-        if let Some(ch) = charset.get(bi - 1) {
+        let stop_reason = if bi == 0 {
+            Some(ParseqStopReason::EndOfSequence)
+        } else if conf_count >= min_tokens_before_low_conf_stop && pmax < low_confidence_threshold {
+            Some(ParseqStopReason::LowConfidence)
+        } else {
+            None
+        };
+        let mut text_range = None;
+        if stop_reason.is_none()
+            && let Some(ch) = charset.get(bi - 1)
+        {
+            let start = text.len();
             text.push(*ch);
+            text_range = Some(start..text.len());
             conf_sum += pmax;
             conf_count += 1;
+        }
+        observe(DecodeStep {
+            timestep: t,
+            row,
+            winner: bi,
+            probability: pmax,
+            text_range,
+            stop_reason,
+        });
+        if stop_reason.is_some() {
+            break;
         }
     }
     let mean_confidence = if conf_count > 0 {
@@ -478,6 +564,39 @@ pub fn recognize_rgb_u8_with_score(
     recognize_image_impl(model_path, rgb, width, height, &charset)
 }
 
+/// RGB画像のデコード本文と信頼度を、置換・反復除去・空白整理せずに返す。
+///
+/// EOSと低信頼度によるデコーダの停止条件は従来どおり適用する。
+/// 推論自体の誤認識や欠落を補正するAPIではない。
+pub fn recognize_rgb_u8_with_score_unprocessed(
+    model_path: &Path,
+    rgb: &[u8],
+    width: usize,
+    height: usize,
+    charset_path: &Path,
+) -> Result<RecognizeResult> {
+    if !model_path.is_file() || !charset_path.is_file() {
+        bail!("file not found");
+    }
+    let yaml_body = fs::read_to_string(charset_path)
+        .with_context(|| format!("failed to read {}", charset_path.display()))?;
+    let charset = load_charset_from_yaml_str(&yaml_body)?;
+    recognize_image_unprocessed_impl(model_path, rgb, width, height, &charset)
+}
+
+/// 従来の認識APIでは、共通のデコード結果に既存の後処理を適用する。
+fn recognize_image_impl(
+    model_path: &Path,
+    rgb: &[u8],
+    width: usize,
+    height: usize,
+    charset: &[char],
+) -> Result<RecognizeResult> {
+    let mut result = recognize_image_unprocessed_impl(model_path, rgb, width, height, charset)?;
+    result.text = sanitize_recognized_text(&result.text);
+    Ok(result)
+}
+
 #[cfg(feature = "onnx")]
 fn smoke_recognize_impl(model_path: &Path) -> Result<()> {
     use crate::infer::ort_init::OrtAnyhow;
@@ -496,7 +615,8 @@ fn smoke_recognize_impl(model_path: &Path) -> Result<()> {
 }
 
 #[cfg(feature = "onnx")]
-fn recognize_image_impl(
+/// RGB画像を推論し、文字単位のデコード結果を変更せず返す。
+fn recognize_image_unprocessed_impl(
     model_path: &Path,
     rgb: &[u8],
     width: usize,
@@ -556,7 +676,7 @@ fn recognize_image_impl(
         .try_extract_tensor::<f32>()
         .anyort()?;
     let shape: Vec<i64> = shape.to_vec();
-    let mut result = match shape.as_slice() {
+    let result = match shape.as_slice() {
         [1, t, c] => {
             predict_text_from_flat_logits_with_confidence(data, *t as usize, *c as usize, charset)
         }
@@ -565,7 +685,6 @@ fn recognize_image_impl(
         }
         _ => bail!("unsupported output shape: {:?}", shape),
     }?;
-    result.text = sanitize_recognized_text(&result.text);
     Ok(result)
 }
 
@@ -575,7 +694,8 @@ fn smoke_recognize_impl(_model_path: &Path) -> Result<()> {
 }
 
 #[cfg(not(feature = "onnx"))]
-fn recognize_image_impl(
+/// 推論runtimeを持たない構成は明示的に失敗する。
+fn recognize_image_unprocessed_impl(
     _model_path: &Path,
     _rgb: &[u8],
     _width: usize,

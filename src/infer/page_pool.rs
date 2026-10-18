@@ -192,20 +192,20 @@ fn recognize_one_page(
     let dets = deim.detect_rgb_u8(rgb, width, height, opts.det_conf_threshold)?;
 
     // 2) line_* クラスのみ拾って bbox 化、画像内に収める。
-    let mut bboxes: Vec<[i32; 4]> = dets
-        .into_iter()
-        .filter(|d| d.class_name.starts_with("line_"))
-        .filter_map(|d| {
-            let [x0, y0, x1, y1] = d.box_xyxy;
-            if x0 < 0 || y0 < 0 || x0 >= x1 || y0 >= y1 {
-                return None;
-            }
-            if (x1 as usize) > width || (y1 as usize) > height {
-                return None;
-            }
-            Some([x0, y0, x1, y1])
-        })
-        .collect();
+    let mut bboxes: Vec<[i32; 4]> =
+        crate::pipeline::line_detections::select_line_detections(&dets, width, height)
+            .into_iter()
+            .filter_map(|d| {
+                let [x0, y0, x1, y1] = d.box_xyxy;
+                if x0 < 0 || y0 < 0 || x0 >= x1 || y0 >= y1 {
+                    return None;
+                }
+                if (x1 as usize) > width || (y1 as usize) > height {
+                    return None;
+                }
+                Some([x0, y0, x1, y1])
+            })
+            .collect();
     sort_bboxes_in_reading_order(&mut bboxes);
 
     if bboxes.is_empty() {

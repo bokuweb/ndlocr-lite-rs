@@ -99,3 +99,24 @@ fn draw_black_band(
         }
     }
 }
+
+/// 行端の一が各列1画素でも、近傍の本文字形と一緒に切り出す。
+#[test]
+fn simple_detectors_keep_thin_edge_glyphs() {
+    let (width, height) = (180, 32);
+    let mut rgb = vec![255; width * height * 3];
+    for y in 5..27 {
+        for x in 70..120 {
+            rgb[(y * width + x) * 3..(y * width + x) * 3 + 3].fill(0);
+        }
+    }
+    for x in 38..56 {
+        rgb[(16 * width + x) * 3..(16 * width + x) * 3 + 3].fill(0);
+    }
+    for x in 64..70 {
+        rgb[(26 * width + x) * 3..(26 * width + x) * 3 + 3].fill(0);
+    }
+    for detect in [detect_textline_bands_naive, detect_textline_bands_fast] {
+        assert_eq!(detect(&rgb, width, height, 220), vec![[36, 4, 122, 28]]);
+    }
+}

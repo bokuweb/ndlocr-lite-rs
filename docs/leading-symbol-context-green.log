@@ -1,0 +1,12 @@
+   Compiling ndlocr-lite-rs v0.1.0 (/Volumes/X9/ghq/github.com/bokuweb/ndlocr-lite-rs)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 17.25s
+     Running unittests src/lib.rs (/tmp/omo-capacity-target/debug/deps/ndlocr_lite_rs-e8e1af844508bd27)
+
+running 4 tests
+test pipeline::line_chunks::leading_symbols::tests::unsupported_context_keeps_original_boundaries ... ok
+test pipeline::line_chunks::leading_symbols::tests::leading_symbol_joins_fitting_body_context ... ok
+test pipeline::line_chunks::leading_symbols::tests::scaled_context_respects_model_capacity ... ok
+test pipeline::line_chunks::leading_symbols::tests::jma_bullets_keep_following_body_context ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 136 filtered out; finished in 0.65s
+

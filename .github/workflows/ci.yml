@@ -31,3 +31,72 @@ jobs:
 
       - name: cargo test
         run: cargo test
+
+      - name: Asset fetcher regressions
+        run: python3 -m unittest discover -s tests -p test_fetch_upstream_assets.py
+
+      - name: Candidate coverage regressions
+        run: python3 -m unittest discover -s tests -p test_candidate_coverage.py
+
+      - name: OCR scoring regressions
+        run: python3 -m unittest discover -s tests -p test_eval_ocr_metrics.py
+
+  inference:
+    name: real PARSeq (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+        with:
+          key: onnx
+      - name: Fetch and verify pinned official assets
+        run: |
+          python3 tools/fetch_upstream_assets.py models
+          python3 tools/fetch_upstream_assets.py models --offline
+      - name: Real raw and reusable-session regressions
+        env:
+          NDLOCR_TEST_PARSEQ_MODEL: models/parseq-ndl-24x256-30-tiny-189epoch-tegaki3-r8data-202604.onnx
+          NDLOCR_TEST_CHARSET: models/NDLmoji.yaml
+          NDLOCR_TEST_DEIM_MODEL: models/deim-s-1024x1024.onnx
+          NDLOCR_TEST_REPEAT_IMAGE: tests/fixtures/parseq_unprocessed/repeated_digits.png
+        run: cargo test --features onnx --lib --test parseq_output_validation_tests --test preprocess_validation_tests --test preprocess_tests --test parseq_candidates_tests --test parseq_unprocessed_tests --test parseq_session_unprocessed_tests --test wide_blank_gaps_tests --test exterior_panel_paper_tests --test nearwhite_panel_paper_tests --test lateral_panel_fringe_tests --test chromatic_panels_tests --test chromatic_panel_edges_tests --test chromatic_panel_antialias_tests --test chromatic_text_contrast_tests --test short_line_tests --test model_context_chunks_tests --test isolated_short_line_tests --test centered_footer_tests --test sparse_edge_glyph_tests --test narrow_bearings_tests --test fragmented_glyph_tests --test truncated_glyph_tests --test small_kana_bearing_tests --test internal_glyph_gap_tests --test word_tail_context_tests --test tall_kana_bearing_tests --test open_glyph_bearing_tests --test isolated_latin_tests --test punctuation_bearings_tests --test latin_punctuation_spaces_tests --test white_margin_crop_tests --test word_boundary_crop_tests --test chunk_margins_tests --test chunk_word_omission_tests --test residual_spaces_tests --test proportional_word_spaces_tests --test residual_model_context_tests --test font_emulation_context_tests --test regular_glyph_advance_spaces_tests --test paper_shading_model_tests --test vertical_model_tests --test duplicate_line_detections_tests --test noisy_line_gaps_tests --test scanned_page_model_tests --test integration_scanned0_tests -- --include-ignored
+
+      - name: Real candidate export and coverage smoke
+        run: |
+          cargo test --locked --features onnx --example export_parseq_candidates
+          cargo run --features onnx --example export_parseq_candidates -- --image tests/fixtures/horizontal_digit/digit.png --model models/parseq-ndl-24x256-30-tiny-189epoch-tegaki3-r8data-202604.onnx --charset models/NDLmoji.yaml --manifest tests/fixtures/candidate_export/lines.json --output candidate-export.json
+          cargo run --features onnx --example export_parseq_candidates -- --image tests/fixtures/horizontal_digit/digit.png --model models/parseq-ndl-24x256-30-tiny-189epoch-tegaki3-r8data-202604.onnx --charset models/NDLmoji.yaml --manifest tests/fixtures/candidate_export/lines.json --output candidate-captured.json --chunk-input-dir candidate-inputs
+          python3 -c 'import json; from pathlib import Path; assert json.load(open("candidate-export.json")) == json.load(open("candidate-captured.json")); m=json.load(open("candidate-inputs/inputs.json")); assert m["model_input_dimensions"] == [256,24]; assert len(m["chunks"]) == len(list(Path("candidate-inputs").glob("*.png"))) == 1'
+          python3 tools/eval_candidate_coverage.py --manifest tests/fixtures/candidate_export/lines.json --predictions candidate-export.json --output candidate-coverage.json
+          python3 -c 'import json; r=json.load(open("candidate-coverage.json")); assert r["lines"] == 2; assert all(v["errors"] == v["oracle_errors"] == v["deletions"] == 1 for v in r["by_k"].values())'
+
+      - name: Real lossless chunk margin sensitivity
+        env:
+          NDLOCR_INTRA_THREADS: "1"
+        run: |
+          cargo test --locked --features onnx --example probe_margin_sensitivity --test margin_sensitivity_tests
+          cargo run --locked --features onnx --example probe_margin_sensitivity -- models/parseq-ndl-24x256-30-tiny-189epoch-tegaki3-r8data-202604.onnx models/NDLmoji.yaml tests/fixtures/margin_sensitivity margin-sensitivity.json
+
+      - name: Resampling comparison regressions and real baseline parity
+        run: |
+          cargo test --locked --features onnx --example compare_parseq_resampling
+          cargo run --locked --features onnx --example compare_parseq_resampling -- --manifest tests/fixtures/resampling_comparison/pages.json --model models/parseq-ndl-24x256-30-tiny-189epoch-tegaki3-r8data-202604.onnx --charset models/NDLmoji.yaml --output resampling-comparison.json
+          python3 -c 'import json,math; r=json.load(open("resampling-comparison.json")); assert r["model_dimensions"] == [256,24]; p=r["pages"]; assert len(p)==1 and len(p[0]["lines"])==1; line=p[0]["lines"][0]; assert line["bilinear"]==json.load(open("candidate-export.json"))[0]["text"]=="1"; assert len(line["chunks"])==1; c=line["chunks"][0]; assert all(c[m]["error"] is None and math.isfinite(c[m]["confidence"]) for m in ("bilinear","area"))'
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: OpenCV oracle pixel and real-model regressions
+        run: |
+          python -m pip install -r tools/opencv_probe_requirements.txt
+          python -m unittest discover -s tools -p test_opencv_worker.py -v
+          cargo test --locked --features onnx --example compare_parseq_opencv
+          export NDLOCR_DIAGNOSTIC_PYTHON="$(command -v python)"
+          cargo run --locked --features onnx --example compare_parseq_opencv -- --manifest tests/fixtures/resampling_comparison/pages.json --model models/parseq-ndl-24x256-30-tiny-189epoch-tegaki3-r8data-202604.onnx --charset models/NDLmoji.yaml --output opencv-comparison.json
+          python -c 'import json,math; r=json.load(open("opencv-comparison.json")); assert r["model_dimensions"]==[256,24]; assert len(r["pages"])==1; lines=r["pages"][0]["lines"]; assert len(lines)==1; line=lines[0]; assert line["bilinear"]==line["opencv"]=="1"; assert len(line["chunks"])==1; c=line["chunks"][0]; assert all(c[m]["error"] is None and math.isfinite(c[m]["confidence"]) for m in ("bilinear","opencv"))'

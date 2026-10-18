@@ -1,6 +1,14 @@
 use ndlocr_lite_rs::infer::{deim, parseq};
 use proptest::prelude::*;
 
+/// 空の軸を持つ入力は、補間座標を作る前に明示エラーにする。
+#[test]
+fn parseq_preprocess_rejects_zero_source_dimensions() {
+    for (width, height) in [(0, 0), (0, 8), (8, 0)] {
+        assert!(parseq::preprocess_rgb_u8(&[], width, height, 2, 2).is_err());
+    }
+}
+
 #[test]
 fn parseq_preprocess_rotates_vertical_image_and_normalizes() {
     let rgb = vec![255_u8, 0, 0, 0, 0, 255];
@@ -108,4 +116,104 @@ fn make_rgb(w: usize, h: usize) -> Vec<u8> {
         }
     }
     out
+}
+
+/// 公式1.3.1の方針に合わせ、ほぼ正方形の切り出しも反時計回りにする。
+#[test]
+fn parseq_rotates_nearly_square_crops_like_current_upstream() {
+    for (width, height, rotate) in [(5, 4, false), (5, 5, true), (10, 8, false), (10, 9, true)] {
+        let rgb = make_rgb(width, height);
+        let expected_rgb = if rotate {
+            let mut result = Vec::new();
+            for y in 0..width {
+                for x in 0..height {
+                    let i = (x * width + width - 1 - y) * 3;
+                    result.extend_from_slice(&rgb[i..i + 3]);
+                }
+            }
+            result
+        } else {
+            rgb.clone()
+        };
+        let (out_w, out_h) = if rotate {
+            (height, width)
+        } else {
+            (width, height)
+        };
+        let out = parseq::preprocess_rgb_u8(&rgb, width, height, out_w, out_h).unwrap();
+        let expected: Vec<f32> = [2, 1, 0]
+            .into_iter()
+            .flat_map(|c| {
+                expected_rgb
+                    .chunks_exact(3)
+                    .map(move |p| f32::from(p[c]) / 127.5 - 1.0)
+            })
+            .collect();
+        assert_eq!(out, expected, "{width}x{height}");
+    }
+}
+
+/// 横書き指定は正方形・縦長を含む全寸法で元画素の向きを保つ。
+#[test]
+fn horizontal_preprocess_preserves_pixel_orientation() {
+    for (w, h) in [(5, 4), (5, 5), (10, 9), (1, 4), (46, 48)] {
+        let rgb = make_rgb(w, h);
+        let out = parseq::preprocess_rgb_u8_with_orientation(
+            &rgb,
+            w,
+            h,
+            w,
+            h,
+            parseq::ParseqOrientation::Horizontal,
+        )
+        .unwrap();
+        let expected: Vec<f32> = [2, 1, 0]
+            .into_iter()
+            .flat_map(|c| {
+                rgb.chunks_exact(3)
+                    .map(move |p| f32::from(p[c]) / 127.5 - 1.0)
+            })
+            .collect();
+        assert_eq!(out, expected);
+    }
+}
+
+proptest! {
+    /// 寸法が交互に変わっても方向指定と補間座標キャッシュを保持する。
+    #[test]
+    fn horizontal_scratch_matches_allocating_after_dimension_changes(
+        dimensions in proptest::collection::vec((1usize..30, 1usize..30), 1..8),
+    ) {
+        let orientation = parseq::ParseqOrientation::Horizontal;
+        let mut scratch = parseq::PreprocessScratch::with_orientation(orientation);
+        for (w, h) in dimensions {
+            let rgb = make_rgb(w, h);
+            let expected = parseq::preprocess_rgb_u8_with_orientation(&rgb, w, h, 13, 3, orientation).unwrap();
+            let mut actual = vec![0.; expected.len()];
+            parseq::preprocess_rgb_u8_into_with_scratch(&mut actual, &rgb, w, h, 13, 3, &mut scratch).unwrap();
+            prop_assert_eq!(actual, expected);
+        }
+    }
+}
+
+/// 横書き指定でも入力と出力寸法の検証を省略しない。
+#[test]
+fn horizontal_preprocess_rejects_invalid_buffers() {
+    for (rgb, w, h, ow, oh) in [
+        (&[][..], 0, 0, 2, 2),
+        (&[0; 2][..], 1, 1, 2, 2),
+        (&[0; 3][..], 1, 1, 0, 2),
+    ] {
+        assert!(
+            parseq::preprocess_rgb_u8_with_orientation(
+                rgb,
+                w,
+                h,
+                ow,
+                oh,
+                parseq::ParseqOrientation::Horizontal
+            )
+            .is_err()
+        );
+    }
 }

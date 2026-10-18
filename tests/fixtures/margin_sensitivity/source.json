@@ -1,0 +1,184 @@
+{
+  "product_commit": "29b934ec69e2a9c09c761c5451ea9404973cb9b9",
+  "source_evidence_commit": "8b14cf06bb30aa9a9e30765c5c973a8dc3d6ce5d",
+  "source_corpus": [
+    {
+      "name": "nihon2026.pdf",
+      "url": "https://www.stat.go.jp/data/nihon/pdf/26nihon.pdf",
+      "sha256": "262f41649358092231d3fba9062a5e738e5abea6ec8ebdeac3b7f7072103844b",
+      "physical_page": 5,
+      "credit": "\u65e5\u672c\u306e\u7d71\u8a082026\u3001\u7dcf\u52d9\u7701\u7d71\u8a08\u5c40"
+    },
+    {
+      "name": "handbook2026.pdf",
+      "url": "https://www.stat.go.jp/english/data/handbook/pdf/2026all.pdf",
+      "sha256": "5d77cfcd6ec4ba6cd8b1257a440a8150067f9c22b36cc039b5fe47f64c3ca2e0",
+      "physical_page": 3,
+      "credit": "Statistical Handbook of Japan 2026, Statistics Bureau, Japan"
+    }
+  ],
+  "cases": [
+    {
+      "baseline": {
+        "confidence": 0.9514034390449524,
+        "error": null,
+        "input_dimensions": [
+          246,
+          43
+        ],
+        "output_dimensions": [
+          246,
+          43
+        ],
+        "text": "modern-day,"
+      },
+      "case": "en-200-png",
+      "chunk": 15,
+      "dimensions": [
+        246,
+        43
+      ],
+      "name": "modern_200",
+      "source_image": "docs/benchmarks/ocr-2026-10-18-product-margins/inputs/en-200.png",
+      "source_sha256": "f42a2fbf01cfdd7e1d742b57a6e8564c644ae357086c830a3d3cdd3e7b7e71cd",
+      "truth": "modern-day",
+      "rgb_sha256": "10c405b621f2b8586664e900d84659db85563d8eaaf3feaa5afdaa8103dddd25",
+      "png_sha256": "313aa75fdc4c0bbe68cc0bb57776241d6f7c2ffa58a17cfe093b8c4c43f76f77"
+    },
+    {
+      "baseline": {
+        "confidence": 0.9515741467475891,
+        "error": null,
+        "input_dimensions": [
+          185,
+          32
+        ],
+        "output_dimensions": [
+          185,
+          32
+        ],
+        "text": "modern-day,"
+      },
+      "case": "en-150-png",
+      "chunk": 16,
+      "dimensions": [
+        185,
+        32
+      ],
+      "name": "modern_150",
+      "source_image": "docs/benchmarks/ocr-2026-10-18-product-margins/inputs/en-150.png",
+      "source_sha256": "81710b8e474ffb2fe2e2b651ada9e662ae779435131fd39fd07206139b2eae2d",
+      "truth": "modern-day",
+      "rgb_sha256": "f00588d77e633bfe03f979f8ecf11de5422be2df588db9dcbfbfea1761dd754a",
+      "png_sha256": "0fe2ff031e16641356cc2e378678f56ac211d037786faa7cdf146677c10a789f"
+    },
+    {
+      "baseline": {
+        "confidence": 0.999359667301178,
+        "error": null,
+        "input_dimensions": [
+          203,
+          34
+        ],
+        "output_dimensions": [
+          203,
+          34
+        ],
+        "text": "comments"
+      },
+      "case": "en-200-jpg",
+      "chunk": 26,
+      "dimensions": [
+        203,
+        34
+      ],
+      "name": "comments",
+      "source_image": "docs/benchmarks/ocr-2026-10-18-product-margins/inputs/en-200.jpg",
+      "source_sha256": "4b274231a91200e9e44ef63e5a96d52dc18e4582b3ea339e82115ab7b2913bec",
+      "truth": "comments",
+      "rgb_sha256": "cbe855a42104fb784596f6cd24fcde586c92dcdbfb389795af7bb2091d8c30d7",
+      "png_sha256": "c87203fea20a4f86dbc73cf47d36559dfa79bb0065aaaffddecb0d767f8f9a87"
+    },
+    {
+      "baseline": {
+        "confidence": 0.9995825886726379,
+        "error": null,
+        "input_dimensions": [
+          341,
+          43
+        ],
+        "output_dimensions": [
+          341,
+          43
+        ],
+        "text": "about Japan. We"
+      },
+      "case": "en-200-jpg",
+      "chunk": 52,
+      "dimensions": [
+        341,
+        43
+      ],
+      "name": "japan_we",
+      "source_image": "docs/benchmarks/ocr-2026-10-18-product-margins/inputs/en-200.jpg",
+      "source_sha256": "4b274231a91200e9e44ef63e5a96d52dc18e4582b3ea339e82115ab7b2913bec",
+      "truth": "about Japan. We",
+      "rgb_sha256": "c70d4084f651ccff565cb5c4132c1a844873e213ad57f296b1e2c3bc387ff7b0",
+      "png_sha256": "f3dce100d10f81cfe8f6845d06d92d9837888b49ced18e5e3ad8abb3ef4c6e7b"
+    },
+    {
+      "baseline": {
+        "confidence": 0.999790370464325,
+        "error": null,
+        "input_dimensions": [
+          226,
+          34
+        ],
+        "output_dimensions": [
+          226,
+          34
+        ],
+        "text": "and culture."
+      },
+      "case": "en-200-jpg",
+      "chunk": 24,
+      "dimensions": [
+        226,
+        34
+      ],
+      "name": "culture",
+      "source_image": "docs/benchmarks/ocr-2026-10-18-product-margins/inputs/en-200.jpg",
+      "source_sha256": "4b274231a91200e9e44ef63e5a96d52dc18e4582b3ea339e82115ab7b2913bec",
+      "truth": "and culture.",
+      "rgb_sha256": "741562f6a3bb3bef733adc3a0b227aee58cbc58f3cb3e6e702b18dc933bdd177",
+      "png_sha256": "670aa4a2f9a115102e8816599dcf08a8fb98dd616f6ddbbff58d11faabad9417"
+    },
+    {
+      "baseline": {
+        "confidence": 0.9998970031738281,
+        "error": null,
+        "input_dimensions": [
+          393,
+          43
+        ],
+        "output_dimensions": [
+          393,
+          43
+        ],
+        "text": "other leading sources."
+      },
+      "case": "en-200-jpg",
+      "chunk": 37,
+      "dimensions": [
+        393,
+        43
+      ],
+      "name": "sources",
+      "source_image": "docs/benchmarks/ocr-2026-10-18-product-margins/inputs/en-200.jpg",
+      "source_sha256": "4b274231a91200e9e44ef63e5a96d52dc18e4582b3ea339e82115ab7b2913bec",
+      "truth": "other leading sources.",
+      "rgb_sha256": "185578fdce206a4c601f519b78aa32d35cb1c63edb1693d34f0a127c4d5e7d01",
+      "png_sha256": "6de21ba54ee7fcf094da25196e0b1839b0a7bac2c0b16434c064bcc41eced3af"
+    }
+  ]
+}

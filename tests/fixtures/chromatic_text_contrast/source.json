@@ -1,0 +1,16 @@
+{
+  "source": "fixtures/input/pdf_parser/resources/grapecity/documents_for_pdf/document/text/multi-formatted-text.pdf",
+  "page": 1,
+  "dpi": 300,
+  "truth_frozen_before_first_inference": "2026-10-16T20:21:08.313509+00:00",
+  "source_sha256": "53fba46fa3f510663f0d6b0e2d48825756e6c105c266f64ab4302045ab2387ab",
+  "image_sha256": "773c82238bfb969dfd733f05d4e00c8cfed69fef2dc31d8cefe02bfc4dd20ecd",
+  "truth_sha256": "eadd697f917c50768266d6614c1c8117c75c73d9ffdddad19d6aaf21c52a6a9a",
+  "truth_chars": 1032,
+  "truth_lines": 16,
+  "comparison": "Unicode edit distance, no normalization; preserve internal spaces and punctuation; remove page indentation/blank lines/form feed/final newline",
+  "visual_review": "Entire 1800px preview checked against extracted text before first inference; mixed 12/14/16/18/20pt roman/bold/italic, red text and orange background",
+  "baseline_library": "f7cda7986391b1929967d4066ec9761232ec6308",
+  "evaluation_status": "development data after first inference; truth unchanged",
+  "source_repository": "https://github.com/jlsi/omo"
+}

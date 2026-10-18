@@ -1,0 +1,20 @@
+{
+  "source": {
+    "yokogaki2026-04-24-103617.png": {
+      "url": "https://raw.githubusercontent.com/ndl-lab/ndlocr-lite/d001dad2013ceabb5736ff8d637474e443eb73c2/resource/yokogaki2026-04-24-103617.png",
+      "sha256": "4a1c63fe4bb36c03b01c024bdc4a831346c8d223e1eadf3f172e0de6b55a706a"
+    },
+    "yokogaki2026-04-24-103617.xml": {
+      "url": "https://raw.githubusercontent.com/ndl-lab/ndlocr-lite/d001dad2013ceabb5736ff8d637474e443eb73c2/resource/yokogaki2026-04-24-103617.xml",
+      "sha256": "3cb3f63af0748cf1b9aea99102a7fdc82c7107b0d5b25bf815c8456e0397df9f"
+    }
+  },
+  "attribution": "National Diet Library, ndl-lab/ndlocr-lite resource; repository CC BY 4.0, https://github.com/ndl-lab/ndlocr-lite/blob/d001dad2013ceabb5736ff8d637474e443eb73c2/LICENCE",
+  "image_modified": false,
+  "truth_method": "Manual visual transcription from original image before first inference; upstream XML is OCR output and was not copied as truth. Preserve handwritten 日くらし rather than canonical modernization 日ぐらし. Include visible end comma in row 3 and end period in row 5.",
+  "truth_sha256": "96c700d6d46135785adf382ff4659efa757f45d3d7ad7235ba116a7e3d2e283d",
+  "truth_characters_excluding_final_newline": 68,
+  "frozen_at_utc": "2026-10-17T07:05:21.616836+00:00",
+  "baseline_library_sha": "e4f74c075793ad9ccb4a7adf5ec7f1e4f18b1f39",
+  "evaluation": "Not previously used by this branch; public upstream example may overlap model training. Not an unseen-model claim. No text normalization. Initially evaluate without runtime changes."
+}

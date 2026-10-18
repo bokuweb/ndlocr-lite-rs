@@ -19,7 +19,7 @@ coreml = ["onnx", "ort/coreml"]
 anyhow = "1"
 clap = { version = "4", features = ["derive"] }
 image = "0.25.9"
-ort = { version = "2.0.0-rc.12", optional = true, default-features = false, features = [
+ort = { version = "=2.0.0-rc.13", optional = true, default-features = false, features = [
     "std",
     "ndarray",
     "download-binaries",
@@ -33,12 +33,24 @@ rayon = "1"
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
 serde_yaml = "0.9"
-zip = "2"
+zip = { version = "9.0.3", default-features = false, features = ["deflate"] }
 
 [dev-dependencies]
 criterion = "0.5"
 proptest = "1"
 tempfile = "3"
+
+[[example]]
+name = "probe_margin_sensitivity"
+required-features = ["onnx"]
+
+[[example]]
+name = "compare_parseq_resampling"
+required-features = ["onnx"]
+
+[[example]]
+name = "compare_parseq_opencv"
+required-features = ["onnx"]
 
 [[bench]]
 name = "line_segment_bench"

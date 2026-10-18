@@ -1,0 +1,17 @@
+{
+  "source": "omo/fixtures/input/ocr_financial_accuracy/page1.png",
+  "bounds": [
+    669,
+    865,
+    715,
+    913
+  ],
+  "expected_model_text": "1",
+  "truth_character": "１",
+  "orientation": "horizontal",
+  "note": "Existing frozen financial truth; no model retraining or substitution.",
+  "source_sha256": "ef03e9c709455aecca67937f63eab957267d83239e114ec52a0d8c0ef368241f",
+  "crop_sha256": "d1b4f360c3f7af2b6f1ead193a83f9de75318d3a99d3a136351fbf8c6e67b67f",
+  "truth_source": "https://github.com/jlsi/omo/blob/c54f9ab0109f2e6bb1b642244a2fb35d61ca1a93/fixtures/expected/ocr_financial_accuracy/truth.txt",
+  "source_url": "https://github.com/jlsi/omo/blob/c54f9ab0109f2e6bb1b642244a2fb35d61ca1a93/fixtures/input/ocr_financial_accuracy/page1.png"
+}

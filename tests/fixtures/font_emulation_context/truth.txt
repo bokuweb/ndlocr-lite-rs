@@ -1,0 +1,9 @@
+TextFormat.FontStyle allows to turn on Bold and/or Italic emulation
+on a regular (not a bold/italic) font.
+Regular Times font: Times New Roman
+Bold emulation using font: Times New Roman
+Italic emulation using font: Times New Roman
+Bold+Italic emulation using font: Times New Roman
+Using real bold font: Times New Roman Bold
+Using real italic font: Times New Roman Italic
+Using real bold italic font: Times New Roman Bold Italic
