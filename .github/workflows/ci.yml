@@ -38,6 +38,9 @@ jobs:
       - name: Candidate coverage regressions
         run: python3 -m unittest discover -s tests -p test_candidate_coverage.py
 
+      - name: OCR scoring regressions
+        run: python3 -m unittest discover -s tests -p test_eval_ocr_metrics.py
+
   inference:
     name: real PARSeq (${{ matrix.os }})
     runs-on: ${{ matrix.os }}

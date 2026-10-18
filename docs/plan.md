@@ -17,6 +17,12 @@
 - t_wada方式（Red->Green->Refactor）
 - 効果的な箇所で property-based testing
 
+## 2026-10-18: 全角ASCIIに隠れる字形退行
+
+- `docs/width-sensitive-evaluation.md` と5テストを先に固定し、4失敗を確認。
+- `eval_ocr_metrics.py --normalize width` は全角ASCII94文字だけを写像し、空白・大小文字・他の互換文字を保持する。既存の指標と併記する補助採点で、認識本文には適用しない。
+- 標準ライブラリのCLI/全範囲/既存互換テストを3OSのCIで実行する。モデル30/50/100の同一chunk比較はomo #79で行う。
+
 ## 2026-10-18: 外周近白紙
 
 - 仕様 `docs/nearwhite-panel-paper.md`、局所Red 2件と後段色縁処理のRed 1件を先に固定。
