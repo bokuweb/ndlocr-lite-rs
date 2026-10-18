@@ -71,3 +71,9 @@ CI設定変更を除いて公開する。`final-onnx-tests.log` は公開前の�
 `tools/eval_ocr_metrics.py --require-all` へ渡す。argv/binary hashは `cli/runs.json`、
 lock hashと18指標は `cli/audit.json`。初回の共用target衝突は除外し、再ビルド後の
 異なるhashとframe symbol有無を確認した固定binaryの結果だけを採用した。
+
+## 評価セット拡張後の再現
+
+本実験の正解を `truth/`（30文字APIの1件）と `cli/truth/`（CLIの3件）に凍結した。
+`truth-manifest.json` に元ファイル名とhashを保存。後から同梱evalに資料が増えても、
+再採点ではこの凍結ディレクトリを使い、`--require-all` で元の件数を再現する。

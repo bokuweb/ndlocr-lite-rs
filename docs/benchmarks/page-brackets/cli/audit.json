@@ -1,0 +1,212 @@
+[
+  {
+    "config": "deim",
+    "normalize": "none",
+    "file": "jma_climate_2025.txt",
+    "before": 61,
+    "after": 60
+  },
+  {
+    "config": "deim",
+    "normalize": "none",
+    "file": "jma_kobe_notice.txt",
+    "before": 75,
+    "after": 74
+  },
+  {
+    "config": "deim",
+    "normalize": "none",
+    "file": "ndl_accessibility_p2.txt",
+    "before": 60,
+    "after": 60
+  },
+  {
+    "config": "deim",
+    "normalize": "none",
+    "file": "ndl_logo_ja.txt",
+    "before": 1,
+    "after": 1
+  },
+  {
+    "config": "deim",
+    "normalize": "none",
+    "file": "scaned0.txt",
+    "before": 9,
+    "after": 9
+  },
+  {
+    "config": "deim",
+    "normalize": "width",
+    "file": "jma_climate_2025.txt",
+    "before": 50,
+    "after": 49
+  },
+  {
+    "config": "deim",
+    "normalize": "width",
+    "file": "jma_kobe_notice.txt",
+    "before": 28,
+    "after": 26
+  },
+  {
+    "config": "deim",
+    "normalize": "width",
+    "file": "ndl_accessibility_p2.txt",
+    "before": 55,
+    "after": 53
+  },
+  {
+    "config": "deim",
+    "normalize": "width",
+    "file": "ndl_logo_ja.txt",
+    "before": 1,
+    "after": 1
+  },
+  {
+    "config": "deim",
+    "normalize": "width",
+    "file": "scaned0.txt",
+    "before": 7,
+    "after": 7
+  },
+  {
+    "config": "deim",
+    "normalize": "strict",
+    "file": "jma_climate_2025.txt",
+    "before": 24,
+    "after": 23
+  },
+  {
+    "config": "deim",
+    "normalize": "strict",
+    "file": "jma_kobe_notice.txt",
+    "before": 59,
+    "after": 58
+  },
+  {
+    "config": "deim",
+    "normalize": "strict",
+    "file": "ndl_accessibility_p2.txt",
+    "before": 11,
+    "after": 11
+  },
+  {
+    "config": "deim",
+    "normalize": "strict",
+    "file": "ndl_logo_ja.txt",
+    "before": 0,
+    "after": 0
+  },
+  {
+    "config": "deim",
+    "normalize": "strict",
+    "file": "scaned0.txt",
+    "before": 8,
+    "after": 8
+  },
+  {
+    "config": "bands",
+    "normalize": "none",
+    "file": "jma_climate_2025.txt",
+    "before": 63,
+    "after": 62
+  },
+  {
+    "config": "bands",
+    "normalize": "none",
+    "file": "jma_kobe_notice.txt",
+    "before": 80,
+    "after": 78
+  },
+  {
+    "config": "bands",
+    "normalize": "none",
+    "file": "ndl_accessibility_p2.txt",
+    "before": 53,
+    "after": 53
+  },
+  {
+    "config": "bands",
+    "normalize": "none",
+    "file": "ndl_logo_ja.txt",
+    "before": 1,
+    "after": 1
+  },
+  {
+    "config": "bands",
+    "normalize": "none",
+    "file": "scaned0.txt",
+    "before": 9,
+    "after": 9
+  },
+  {
+    "config": "bands",
+    "normalize": "width",
+    "file": "jma_climate_2025.txt",
+    "before": 52,
+    "after": 51
+  },
+  {
+    "config": "bands",
+    "normalize": "width",
+    "file": "jma_kobe_notice.txt",
+    "before": 32,
+    "after": 29
+  },
+  {
+    "config": "bands",
+    "normalize": "width",
+    "file": "ndl_accessibility_p2.txt",
+    "before": 48,
+    "after": 46
+  },
+  {
+    "config": "bands",
+    "normalize": "width",
+    "file": "ndl_logo_ja.txt",
+    "before": 1,
+    "after": 1
+  },
+  {
+    "config": "bands",
+    "normalize": "width",
+    "file": "scaned0.txt",
+    "before": 7,
+    "after": 7
+  },
+  {
+    "config": "bands",
+    "normalize": "strict",
+    "file": "jma_climate_2025.txt",
+    "before": 23,
+    "after": 22
+  },
+  {
+    "config": "bands",
+    "normalize": "strict",
+    "file": "jma_kobe_notice.txt",
+    "before": 62,
+    "after": 60
+  },
+  {
+    "config": "bands",
+    "normalize": "strict",
+    "file": "ndl_accessibility_p2.txt",
+    "before": 9,
+    "after": 9
+  },
+  {
+    "config": "bands",
+    "normalize": "strict",
+    "file": "ndl_logo_ja.txt",
+    "before": 0,
+    "after": 0
+  },
+  {
+    "config": "bands",
+    "normalize": "strict",
+    "file": "scaned0.txt",
+    "before": 8,
+    "after": 8
+  }
+]

@@ -25,7 +25,7 @@ use super::parseq::{
     ParseqCandidateResult, ParseqOrientation, PreprocessScratch, RecognizeResult,
     load_charset_from_yaml_str, predict_text_from_flat_logits_with_candidates,
     predict_text_from_flat_logits_with_confidence, preprocess_rgb_u8_into_with_scratch,
-    preprocess_rgb_u8_with_orientation, sanitize_recognized_text,
+    preprocess_rgb_u8_with_orientation, sanitize_recognized_fragment, sanitize_recognized_text,
 };
 
 pub fn default_parseq_parallelism() -> usize {
@@ -404,6 +404,7 @@ pub struct ParseqPool {
     input_h: usize,
     batch_dim_dynamic: bool,
     charset: Vec<char>,
+    postprocess: fn(&str) -> String,
 }
 
 impl ParseqPool {
@@ -448,7 +449,43 @@ impl ParseqPool {
             input_h,
             batch_dim_dynamic,
             charset,
+            postprocess: sanitize_recognized_text,
         })
+    }
+
+    /// ページの行・chunkに、文の途中の閉じ括弧を保持する後処理を使う。
+    pub(crate) fn load_for_fragments(
+        model: &Path,
+        charset: &Path,
+        parallelism: usize,
+    ) -> Result<Self> {
+        Ok(Self::load(model, charset, parallelism)?.for_fragments())
+    }
+
+    pub(crate) fn for_fragments(mut self) -> Self {
+        self.postprocess = sanitize_recognized_fragment;
+        self
+    }
+
+    /// 同じ推論結果にだけ方針を適用し、session選択とconfidenceを変えない。
+    fn run_on_session(
+        &self,
+        session: &mut Session,
+        items: &[(&[u8], usize, usize)],
+    ) -> Result<Vec<RecognizeResult>> {
+        let mut results = run_batch_on_session_unprocessed(
+            session,
+            &self.input_name,
+            &self.output_name,
+            self.input_w,
+            self.input_h,
+            &self.charset,
+            items,
+        )?;
+        for result in &mut results {
+            result.text = (self.postprocess)(&result.text);
+        }
+        Ok(results)
     }
 
     pub fn parallelism(&self) -> usize {
@@ -482,15 +519,7 @@ impl ParseqPool {
                 .map_err(|_| anyhow!("parseq pool mutex poisoned"))?,
         };
         let single = [(rgb, width, height)];
-        let mut out = run_batch_on_session(
-            &mut guard.0,
-            &self.input_name,
-            &self.output_name,
-            self.input_w,
-            self.input_h,
-            &self.charset,
-            &single,
-        )?;
+        let mut out = self.run_on_session(&mut guard.0, &single)?;
         out.pop().ok_or_else(|| anyhow!("empty batch result"))
     }
 
@@ -529,28 +558,12 @@ impl ParseqPool {
                 .map_err(|_| anyhow!("parseq pool mutex poisoned"))?,
         };
         if self.batch_dim_dynamic {
-            run_batch_on_session(
-                &mut guard.0,
-                &self.input_name,
-                &self.output_name,
-                self.input_w,
-                self.input_h,
-                &self.charset,
-                items,
-            )
+            self.run_on_session(&mut guard.0, items)
         } else {
             let mut out = Vec::with_capacity(items.len());
             for it in items {
                 let single = [*it];
-                out.extend(run_batch_on_session(
-                    &mut guard.0,
-                    &self.input_name,
-                    &self.output_name,
-                    self.input_w,
-                    self.input_h,
-                    &self.charset,
-                    &single,
-                )?);
+                out.extend(self.run_on_session(&mut guard.0, &single)?);
             }
             Ok(out)
         }
@@ -656,28 +669,12 @@ impl ParseqPool {
         let payload: Vec<(&[u8], usize, usize)> =
             items.iter().map(|(_, r, w, hh)| (*r, *w, *hh)).collect();
         let recs = if self.batch_dim_dynamic {
-            run_batch_on_session(
-                session,
-                &self.input_name,
-                &self.output_name,
-                self.input_w,
-                self.input_h,
-                &self.charset,
-                &payload,
-            )?
+            self.run_on_session(session, &payload)?
         } else {
             let mut out = Vec::with_capacity(payload.len());
             for it in &payload {
                 let single = [*it];
-                out.extend(run_batch_on_session(
-                    session,
-                    &self.input_name,
-                    &self.output_name,
-                    self.input_w,
-                    self.input_h,
-                    &self.charset,
-                    &single,
-                )?);
+                out.extend(self.run_on_session(session, &single)?);
             }
             out
         };
@@ -704,28 +701,12 @@ impl ParseqPool {
         let payload: Vec<(&[u8], usize, usize)> =
             chunk.iter().map(|(_, r, w, hh)| (*r, *w, *hh)).collect();
         let recs = if self.batch_dim_dynamic {
-            run_batch_on_session(
-                session,
-                &self.input_name,
-                &self.output_name,
-                self.input_w,
-                self.input_h,
-                &self.charset,
-                &payload,
-            )?
+            self.run_on_session(session, &payload)?
         } else {
             let mut out = Vec::with_capacity(payload.len());
             for it in &payload {
                 let single = [*it];
-                out.extend(run_batch_on_session(
-                    session,
-                    &self.input_name,
-                    &self.output_name,
-                    self.input_w,
-                    self.input_h,
-                    &self.charset,
-                    &single,
-                )?);
+                out.extend(self.run_on_session(session, &single)?);
             }
             out
         };

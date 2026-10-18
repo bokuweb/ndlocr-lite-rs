@@ -1,0 +1,25 @@
+{
+  "source": "https://www.jma.go.jp/jma/press/2503/26a/ccj2025.pdf",
+  "terms": "https://www.jma.go.jp/jma/kishou/info/coment.html",
+  "license": "PDL1.0; processed crop excludes logos and thumbnail/photo",
+  "source_sha256": "55644eadd34a8bccddf0c4bfd2087045747cb72b7fab9b3e73b45cb8867f3046",
+  "page": 1,
+  "render": "pdftoppm -f 1 -l 1 -scale-to 1800 -png -singlefile",
+  "full_dimensions": [
+    1273,
+    1800
+  ],
+  "crop": [
+    140,
+    325,
+    1140,
+    1380
+  ],
+  "truth": "pdfplumber crop using exact pixel ratios, extract_text(x_tolerance=1); visually map Wingdings private-use U+F06C to U+25CF black circle; preserve remaining spaces and line breaks; whole render reviewed before inference",
+  "frozen_before_first_inference": "2026-10-18T15:10:04.825723+00:00",
+  "status": "first-use contrast for fixed bracket policy; same publisher as JMA notice; training overlap unknown",
+  "sha256": {
+    "tests/fixtures/eval/images/jma_climate_2025.png": "510f9d13c35771cf14a986ccfc6c1fe84674dc75ed21672cce0ac580f98abf2d",
+    "tests/fixtures/eval/truth/jma_climate_2025.txt": "141df98934af4904246d95d0faeae1ba258f203a145a37119fc911c540002f0a"
+  }
+}

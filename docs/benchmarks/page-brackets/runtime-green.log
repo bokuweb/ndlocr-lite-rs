@@ -1,0 +1,29 @@
+warning: methods `recognize_batch_indexed` and `run_chunk_on_session` are never used
+   --> src/infer/cached.rs:572:8
+    |
+410 | impl ParseqPool {
+    | --------------- methods in this implementation
+...
+572 |     fn recognize_batch_indexed(
+    |        ^^^^^^^^^^^^^^^^^^^^^^^
+...
+691 |     fn run_chunk_on_session(
+    |        ^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: `ndlocr-lite-rs` (lib) generated 1 warning
+   Compiling ndlocr-lite-rs v0.1.0 (/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.28s
+     Running tests/page_bracket_context_tests.rs (target/debug/deps/page_bracket_context_tests-bdbb2f7efa14663c)
+
+running 3 tests
+RAW "り1.2)。" LEGACY "り1.2。"
+test raw_continuation_contains_the_closing_bracket ... ok
+test page_runtime_constructors_preserve_closers_and_confidence ... ok
+test page_cli_preserves_the_literal_continuation_closer ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 3.29s
+
+mbx[cache]: 0 hits, 0 misses, 1 bypassed; 0 B downloaded, 0 B uploaded, 0 B stored locally
+mbx[savings]: 58476 compilations served. the monocle stays on.

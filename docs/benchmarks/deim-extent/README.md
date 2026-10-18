@@ -36,3 +36,8 @@ CLIのargv・binary hash・stderr・終了状態は `cli/runs.json`。truthは�
 `cli/{deim,bands}/{before,after}` を渡すと再採点できる。lock hashは `selection-audit.json`。
 CIのworkflow scope制約は前フェーズと同じ。新規構造テストは通常CIが実行し、追加の
 実モデル対象はローカルで実行した。既存CIそのものの設定は変更しない。
+
+## 評価セット拡張後の再現
+
+元の4件の正解を `cli/truth/` に凍結し、`cli/truth-manifest.json` に元ファイルとhashを保存。
+後から同梱evalが増えた場合も、再採点の `--truth-dir` にはこの凍結ディレクトリを指定する。

@@ -87,14 +87,18 @@ impl PageRecognizer {
     ) -> Result<Self> {
         let deim = DeimPool::load(det_model, parallelism)?;
         let parseq = ParseqPool::load(parseq_model, charset_path, parallelism)?;
-        Ok(Self { deim, parseq })
+        Ok(Self::from_pools(deim, parseq))
     }
 
     /// 既にロード済みの pool を所有してまとめる。consumer が cascade なら
     /// `from_pools` を使って独自構築 (例: 30/50/100 を別々に管理) もできる
     /// 余地を残しておく。
+    /// 行は文の断片として扱い、別行で開かれた閉じ括弧も保持する。
     pub fn from_pools(deim: DeimPool, parseq: ParseqPool) -> Self {
-        Self { deim, parseq }
+        Self {
+            deim,
+            parseq: parseq.for_fragments(),
+        }
     }
 
     /// 各プールの並列度。DeimPool と ParseqPool の小さい方を返す

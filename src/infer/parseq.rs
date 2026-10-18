@@ -331,6 +331,16 @@ pub fn predict_text_from_logits(logits: &[Vec<f32>], charset: &[char]) -> Result
 }
 
 pub fn sanitize_recognized_text(input: &str) -> String {
+    sanitize_with_bracket_policy(input, true)
+}
+
+/// 行やchunkの断片を整え、別の断片で開かれた閉じ括弧を保持する。
+/// 対応する括弧を推測・挿入せず、同じ入力内の不均衡だけでは削除しない。
+pub fn sanitize_recognized_fragment(input: &str) -> String {
+    sanitize_with_bracket_policy(input, false)
+}
+
+fn sanitize_with_bracket_policy(input: &str, remove_unmatched: bool) -> String {
     let mut out = String::with_capacity(input.len());
     let mut prev: Option<char> = None;
     let mut run = 0usize;
@@ -364,7 +374,11 @@ pub fn sanitize_recognized_text(input: &str) -> String {
     let out = out.trim().to_string();
     let out = collapse_repeated_chunks(&out, 2, 2, 10);
     let out = collapse_repeated_phrases(&out, &["という。", "このように, "], 1);
-    let out = remove_unmatched_closing_brackets(&out);
+    let out = if remove_unmatched {
+        remove_unmatched_closing_brackets(&out)
+    } else {
+        out
+    };
     apply_common_japanese_ocr_replacements(&out)
 }
 

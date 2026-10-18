@@ -1,0 +1,55 @@
+   Compiling ndlocr-lite-rs v0.1.0 (/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs)
+warning: methods `recognize_batch_indexed` and `run_chunk_on_session` are never used
+   --> src/infer/cached.rs:572:8
+    |
+410 | impl ParseqPool {
+    | --------------- methods in this implementation
+...
+572 |     fn recognize_batch_indexed(
+    |        ^^^^^^^^^^^^^^^^^^^^^^^
+...
+691 |     fn run_chunk_on_session(
+    |        ^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: `ndlocr-lite-rs` (lib) generated 1 warning
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.75s
+     Running tests/fragment_sanitize_tests.rs (target/debug/deps/fragment_sanitize_tests-535dfc8963bc7b80)
+
+running 3 tests
+test closing_brackets_in_a_continuation_fragment_are_preserved ... ok
+test fragment_changes_only_the_bracket_deletion_policy ... ok
+proptest: FileFailurePersistence::SourceParallel set, but failed to find lib.rs or main.rs
+test every_supported_closer_survives_without_an_opener ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+     Running tests/page_bracket_context_tests.rs (target/debug/deps/page_bracket_context_tests-bdbb2f7efa14663c)
+
+running 2 tests
+RAW "り1.2)。" LEGACY "り1.2。"
+test raw_continuation_contains_the_closing_bracket ... ok
+test page_cli_preserves_the_literal_continuation_closer ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 3.39s
+
+     Running tests/postprocess_tests.rs (target/debug/deps/postprocess_tests-3052c9fd327753d6)
+
+running 10 tests
+test parseq_argmax_and_decode_produces_text ... ok
+test deim_build_detections_filters_and_scales ... ok
+test parseq_flat_logits_stops_on_low_confidence_tail ... ok
+test parseq_flat_logits_and_nested_logits_match ... ok
+test parseq_sanitize_reduces_repeated_noise ... ok
+test parseq_sanitize_applies_common_japanese_ocr_replacements ... ok
+test parseq_sanitize_collapses_repeated_phrases ... ok
+test parseq_sanitize_collapses_repeated_common_phrases ... ok
+test parseq_sanitize_removes_unmatched_closing_brackets ... ok
+proptest: FileFailurePersistence::SourceParallel set, but failed to find lib.rs or main.rs
+test parseq_argmax_is_invariant_to_constant_shift ... ok
+
+test result: ok. 10 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+mbx[cache]: 0 hits, 0 misses, 5 bypassed; 0 B downloaded, 0 B uploaded, 0 B stored locally
+mbx[savings]: swept up 1.3 TiB logical so far. the broom is content-addressed.

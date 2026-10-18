@@ -190,14 +190,22 @@ struct CachedPageRecognizer {
 impl CachedPageRecognizer {
     fn load(args: &RecognizePageArgs) -> Result<Self> {
         let parallelism = default_parseq_parallelism();
-        let pool100 = ParseqPool::load(&args.model, &args.charset, parallelism)?;
+        let pool100 = ParseqPool::load_for_fragments(&args.model, &args.charset, parallelism)?;
         let pool30 = if args.model30.is_file() {
-            Some(ParseqPool::load(&args.model30, &args.charset, parallelism)?)
+            Some(ParseqPool::load_for_fragments(
+                &args.model30,
+                &args.charset,
+                parallelism,
+            )?)
         } else {
             None
         };
         let pool50 = if args.model50.is_file() {
-            Some(ParseqPool::load(&args.model50, &args.charset, parallelism)?)
+            Some(ParseqPool::load_for_fragments(
+                &args.model50,
+                &args.charset,
+                parallelism,
+            )?)
         } else {
             None
         };
