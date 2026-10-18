@@ -1,0 +1,15 @@
+   Compiling ndlocr-lite-rs v0.1.0 (/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.34s
+     Running tests/detected_edge_bar_tests.rs (target/debug/deps/detected_edge_bar_tests-a3cc2d335a3ca881)
+
+running 5 tests
+test proposed_regions_cannot_collide_in_the_shared_margin ... ok
+test clipped_edge_bar_recovers_source_pixels_before_padding ... ok
+test cascade_uses_the_same_completed_recognition_region ... ok
+test tall_foreign_or_ambiguous_components_keep_original_bounds ... ok
+test completed_bar_follows_scale_shift_and_reflection ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.04s
+
+mbx[cache]: 0 hits, 0 misses, 1 not looked up, 1 incremental; 0 B downloaded, 0 B uploaded, 0 B stored locally
+mbx[savings]: has saved 11h 2m across 8987 builds. this line is the only thanks it needs.

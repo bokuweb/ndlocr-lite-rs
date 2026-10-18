@@ -1,6 +1,20 @@
 use crate::infer::deim::Detection;
 
+mod edge_bars;
 mod multiline;
+
+/// 検出選択後の認識領域を返し、境界で切れた短い横画線だけを完結させる。
+pub(crate) fn line_recognition_regions<'a>(
+    detections: &'a [Detection],
+    rgb: &[u8],
+    width: usize,
+    height: usize,
+) -> Vec<(&'a Detection, [i32; 4])> {
+    let selected = select_line_detections_with_pixels(detections, rgb, width, height);
+    let bounds: Vec<_> = selected.iter().map(|d| d.box_xyxy).collect();
+    let completed = edge_bars::recognition_bounds(rgb, width, height, &bounds);
+    selected.into_iter().zip(completed).collect()
+}
 
 /// クラス競合の後、既存の強い2行に覆われる複数行候補だけを追加除外する。
 pub(crate) fn select_line_detections_with_pixels<'a>(

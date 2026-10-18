@@ -1,0 +1,28 @@
+   Compiling ndlocr-lite-rs v0.1.0 (/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs)
+warning: methods `recognize_batch_indexed` and `run_chunk_on_session` are never used
+   --> src/infer/cached.rs:572:8
+    |
+410 | impl ParseqPool {
+    | --------------- methods in this implementation
+...
+572 |     fn recognize_batch_indexed(
+    |        ^^^^^^^^^^^^^^^^^^^^^^^
+...
+691 |     fn run_chunk_on_session(
+    |        ^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: `ndlocr-lite-rs` (lib) generated 1 warning
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.87s
+     Running tests/deim_edge_glyph_tests.rs (target/debug/deps/deim_edge_glyph_tests-67427be9e8291c08)
+
+running 1 test
+MODEL parseq-ndl-24x384-50-tiny-300epoch-tegaki3-r8data-202604.onnx BOUNDS [30, 16, 1054, 40] RAW "一部から成る「図書館におけるアクセシブルな電子書籍サービスに関する検討会」(事務局:"
+MODEL parseq-ndl-24x768-100-tiny-153epoch-tegaki3-r8data-202604.onnx BOUNDS [30, 16, 1054, 40] RAW "一部から成る「図書館におけるアクセシブルな電子書籍サービスに関する検討会」(事務局:"
+test first_line_keeps_the_leading_horizontal_glyph ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 5.10s
+
+mbx[cache]: 0 hits, 0 misses, 3 bypassed; 0 B downloaded, 0 B uploaded, 0 B stored locally
+mbx[savings]: the checkouts are gone. their 1.2 TiB logical has gone to join them.

@@ -1,0 +1,43 @@
+[
+  {
+    "cohort": "cli",
+    "config": "deim",
+    "file": "ndl_accessibility_p2.txt",
+    "edits": [
+      {
+        "kind": "insert",
+        "before": "",
+        "after": "一"
+      }
+    ]
+  },
+  {
+    "cohort": "quality",
+    "config": "deim",
+    "file": "ndl_accessibility_p2_jpeg75.txt",
+    "edits": [
+      {
+        "kind": "insert",
+        "before": "",
+        "after": "一"
+      },
+      {
+        "kind": "replace",
+        "before": "箱",
+        "after": "籍"
+      }
+    ]
+  },
+  {
+    "cohort": "quality",
+    "config": "deim",
+    "file": "ndl_accessibility_p2_jpeg90.txt",
+    "edits": [
+      {
+        "kind": "insert",
+        "before": "",
+        "after": "一"
+      }
+    ]
+  }
+]

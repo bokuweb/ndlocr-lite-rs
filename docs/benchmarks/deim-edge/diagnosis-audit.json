@@ -1,0 +1,19 @@
+{
+  "raw_detections_equal": true,
+  "changed_first_bounds": [
+    [
+      49,
+      16,
+      1054,
+      40
+    ],
+    [
+      30,
+      16,
+      1054,
+      40
+    ]
+  ],
+  "model_outputs_change_only_by_leading_glyph": true,
+  "cargo_lock_sha256": "c1d3ee306ca0548895437a8c618d828370a5fc4e7552d6fba5ae5160f13c9ab9"
+}

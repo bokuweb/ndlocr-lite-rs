@@ -197,21 +197,19 @@ fn recognize_one_page(
 
     // 2) line_* クラスのみ拾って bbox 化、画像内に収める。
     let mut bboxes: Vec<[i32; 4]> =
-        crate::pipeline::line_detections::select_line_detections_with_pixels(
-            &dets, rgb, width, height,
-        )
-        .into_iter()
-        .filter_map(|d| {
-            let [x0, y0, x1, y1] = d.box_xyxy;
-            if x0 < 0 || y0 < 0 || x0 >= x1 || y0 >= y1 {
-                return None;
-            }
-            if (x1 as usize) > width || (y1 as usize) > height {
-                return None;
-            }
-            Some([x0, y0, x1, y1])
-        })
-        .collect();
+        crate::pipeline::line_detections::line_recognition_regions(&dets, rgb, width, height)
+            .into_iter()
+            .filter_map(|(_, bounds)| {
+                let [x0, y0, x1, y1] = bounds;
+                if x0 < 0 || y0 < 0 || x0 >= x1 || y0 >= y1 {
+                    return None;
+                }
+                if (x1 as usize) > width || (y1 as usize) > height {
+                    return None;
+                }
+                Some([x0, y0, x1, y1])
+            })
+            .collect();
     sort_bboxes_in_reading_order(&mut bboxes);
 
     if bboxes.is_empty() {

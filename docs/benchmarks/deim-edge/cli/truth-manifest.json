@@ -1,0 +1,22 @@
+{
+  "jma_climate_2025.txt": {
+    "source": "tests/fixtures/eval/truth/jma_climate_2025.txt",
+    "sha256": "141df98934af4904246d95d0faeae1ba258f203a145a37119fc911c540002f0a"
+  },
+  "jma_kobe_notice.txt": {
+    "source": "tests/fixtures/eval/truth/jma_kobe_notice.txt",
+    "sha256": "9759bf8c14a2a4bb4c09cc4fa9d89da6b1273c3b60b25c136ddbe9b6126fc839"
+  },
+  "ndl_accessibility_p2.txt": {
+    "source": "tests/fixtures/eval/truth/ndl_accessibility_p2.txt",
+    "sha256": "e43426f86c2bde33369a6ff88ea8a18510fcacf03219d11a1de2ac771b071659"
+  },
+  "ndl_logo_ja.txt": {
+    "source": "tests/fixtures/eval/truth/ndl_logo_ja.txt",
+    "sha256": "9fa80f1b267c9efaf3812a1a53b501b2ee0bbe7ac4c3f91f43685922b9b9f740"
+  },
+  "scaned0.txt": {
+    "source": "tests/fixtures/eval/truth/scaned0.txt",
+    "sha256": "b5328ef4a7e9376456b2fb66233662d58f62c806b6cae343559ddb78c89fce30"
+  }
+}
