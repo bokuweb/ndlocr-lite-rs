@@ -1,0 +1,52 @@
+{
+  "deim": {
+    "images": 127,
+    "raw_char_improved": 1,
+    "text_byte_equal": 126,
+    "changed_same_char_error": []
+  },
+  "bands": {
+    "images": 127,
+    "raw_char_improved": 1,
+    "text_byte_equal": 126,
+    "changed_same_char_error": []
+  },
+  "runtime30_eval": {
+    "images": 127,
+    "raw_char_improved": 22,
+    "text_byte_equal": 103,
+    "changed_same_char_error": [
+      "fallback_repeated_digits_gothic_jpeg75.txt",
+      "fallback_repeated_digits_gothic_png.txt"
+    ],
+    "existing_nonempty_metadata_equal": 86,
+    "added_pages": 24
+  },
+  "runtime30_default": {
+    "images": 127,
+    "raw_char_improved": 29,
+    "text_byte_equal": 96,
+    "changed_same_char_error": [
+      "fallback_repeated_digits_gothic_jpeg75.txt",
+      "fallback_repeated_digits_gothic_png.txt"
+    ],
+    "existing_nonempty_metadata_equal": 79,
+    "added_pages": 31
+  },
+  "runtime100_eval": {
+    "images": 127,
+    "raw_char_improved": 22,
+    "text_byte_equal": 105,
+    "changed_same_char_error": [],
+    "existing_nonempty_metadata_equal": 86,
+    "added_pages": 22
+  },
+  "runtime100_default": {
+    "images": 127,
+    "raw_char_improved": 29,
+    "text_byte_equal": 98,
+    "changed_same_char_error": [],
+    "existing_nonempty_metadata_equal": 79,
+    "added_pages": 29
+  }
+}

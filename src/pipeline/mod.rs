@@ -28,3 +28,5 @@ pub mod vertical_segment;
 
 /// 複数行の本文を囲む縦罫線を切り出し範囲から外す。
 mod framed_lines;
+
+pub(crate) mod band_text_support;

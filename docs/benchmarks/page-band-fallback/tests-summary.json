@@ -1,0 +1,12 @@
+{
+  "native-default-tests.log": {
+    "passed": 553,
+    "targets": 111,
+    "sha256": "09546c2f10279402acb59cd74268ac71f9e32871131e9b6e3de649c18e31c9be"
+  },
+  "native-onnx-tests.log": {
+    "passed": 489,
+    "targets": 64,
+    "sha256": "805da84ddfc4d4ae4542cfabd7529ff7e944cc7fc3dd909c6a4379b0b7a8b969"
+  }
+}

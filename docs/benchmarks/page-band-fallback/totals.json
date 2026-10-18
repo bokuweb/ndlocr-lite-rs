@@ -1,0 +1,86 @@
+{
+  "deim": {
+    "before": {
+      "char_errors": 4874,
+      "char_total": 22839,
+      "word_errors": 880,
+      "word_total": 1465
+    },
+    "after": {
+      "char_errors": 4820,
+      "char_total": 22839,
+      "word_errors": 868,
+      "word_total": 1465
+    }
+  },
+  "bands": {
+    "before": {
+      "char_errors": 2210,
+      "char_total": 22839,
+      "word_errors": 709,
+      "word_total": 1465
+    },
+    "after": {
+      "char_errors": 2156,
+      "char_total": 22839,
+      "word_errors": 697,
+      "word_total": 1465
+    }
+  },
+  "runtime30_eval": {
+    "before": {
+      "char_errors": 11549,
+      "char_total": 22839,
+      "word_errors": 1158,
+      "word_total": 1465
+    },
+    "after": {
+      "char_errors": 9302,
+      "char_total": 22839,
+      "word_errors": 1046,
+      "word_total": 1465
+    }
+  },
+  "runtime30_default": {
+    "before": {
+      "char_errors": 11793,
+      "char_total": 22839,
+      "word_errors": 1197,
+      "word_total": 1465
+    },
+    "after": {
+      "char_errors": 8246,
+      "char_total": 22839,
+      "word_errors": 944,
+      "word_total": 1465
+    }
+  },
+  "runtime100_eval": {
+    "before": {
+      "char_errors": 7274,
+      "char_total": 22839,
+      "word_errors": 975,
+      "word_total": 1465
+    },
+    "after": {
+      "char_errors": 4906,
+      "char_total": 22839,
+      "word_errors": 864,
+      "word_total": 1465
+    }
+  },
+  "runtime100_default": {
+    "before": {
+      "char_errors": 7679,
+      "char_total": 22839,
+      "word_errors": 1031,
+      "word_total": 1465
+    },
+    "after": {
+      "char_errors": 4014,
+      "char_total": 22839,
+      "word_errors": 781,
+      "word_total": 1465
+    }
+  }
+}

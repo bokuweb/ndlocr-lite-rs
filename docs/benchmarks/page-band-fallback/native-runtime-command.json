@@ -1,0 +1,13 @@
+{
+  "source": "source-sha256.json",
+  "binary_sha256": "8505c0570d4ecb540b28b2c91fec7680bd025c31aa920fecc3f47e8f4d8391b7",
+  "env": {
+    "NDLOCR_INTRA_THREADS": "1",
+    "NDLOCR_BAND_RUNTIME_OUTPUT": "tmp/page-band-fallback/native-api"
+  },
+  "argv": [
+    "record_page_band_runtime_matrix",
+    "--include-ignored"
+  ],
+  "output": "native-api"
+}

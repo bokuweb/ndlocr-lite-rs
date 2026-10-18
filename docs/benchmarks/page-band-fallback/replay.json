@@ -1,0 +1,26 @@
+{
+  "text_archive_sha256": "5c3af75b002c846628b69b7dc1bf099b501a8ac991f3403c081ab3d87f60c783",
+  "verified_members": 2167,
+  "audit_sha256": "04ae31154b89427db4c7f4d10aa61af77ac7bf81ef5efc51804f2d92bce31b09",
+  "csv_sha256": {
+    "runtime30_eval-none.csv": "2c3240e938b13b1928a98fda92de2ee009507eab5a6aaaab2e5bf1a1f31a48bb",
+    "deim-width.csv": "88e663d7618dd9e0092ae8d71c8a3b91d82bce7acc6fb6adf7d204ecc759089a",
+    "runtime100_default-none.csv": "7da423814388a4375d8ffb463dca672073a671f6cab4719d183333ebff219e65",
+    "runtime100_eval-strict.csv": "0b4843097f4805a8a7d17414b82b553f5326c7c94a2dcb1ac27c88847f409d28",
+    "bands-width.csv": "cb152781e9d77c2e04769db6e17808e7295024ffb6c72fd763d31d8aa047f823",
+    "runtime100_eval-width.csv": "8721bd22de419dd36e22188253b81ae5f2d36a959cfef3b02cacdc8f097b6f17",
+    "runtime30_default-width.csv": "f65cc777e391d6e131b3402df24f521cba7b302a9b106e5625901b3855b6d1ca",
+    "bands-none.csv": "1b1b9f30ff8b6b7f3a6ed596b244d3e18d6e7661648c9008c5a1b84898342152",
+    "runtime100_default-width.csv": "52fa2348e1b00735aa16c12e8fb5f2943ed3580fc09f1cbab4d19188a34b23fa",
+    "runtime30_default-none.csv": "194d316045578be56aa0e2dc703468bb4f0aadc42042f81ac31a2a1ae94e7f6b",
+    "deim-none.csv": "58502065f80b44bc26cd3c8a140523014f54315532ab03372b675daf25a31cbb",
+    "runtime30_eval-width.csv": "f8456ac25ab9ad3d4a2d568809b38d341c71a96a25ff029395689d26200669b5",
+    "runtime100_default-strict.csv": "c3c0e87739569d58f0af56ca5ba0efbbbc5b2425902bbc257b0554aa3d79b66b",
+    "runtime30_eval-strict.csv": "251490902443389ad9063d639eb6a80eef3923e3422dba9e0c8e7b04d9a71511",
+    "runtime100_eval-none.csv": "6df75200dd4c658479b8c523b8fb36eac51d0a46c1557b5e1aa7f1c4f4027e1d",
+    "deim-strict.csv": "2efbd427cff8600db0d9e327814ccf1c0b44c147760656ace77f701f36b8eba1",
+    "bands-strict.csv": "063f3ffd44fe90a4927c27cf5dbe67149d34fdd948bd7b26ecaf8899ff23c1c1",
+    "runtime30_default-strict.csv": "6fa2b845e26480ddc055ca20d1c8ae39ec2ab8c3bd2ba8178c925ef6f4b2368a"
+  },
+  "audit_and_all_csv_byte_equal": true
+}

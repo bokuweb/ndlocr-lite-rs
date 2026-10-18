@@ -565,6 +565,19 @@ pub fn run_cli(cli: Cli) -> Result<()> {
                     args.cascade_threshold_30_to_50,
                     args.cascade_threshold_50_to_100,
                 )
+                .into_iter()
+                .filter(|line| {
+                    // Keep feature-disabled errors reachable in builds without inference.
+                    !cfg!(feature = "onnx")
+                        || crate::pipeline::band_text_support::has_text_like_ink(
+                            &img.data,
+                            img.width,
+                            img.height,
+                            line.box_xyxy,
+                            args.binarize_threshold,
+                        )
+                })
+                .collect()
             } else {
                 deim_lines
             };

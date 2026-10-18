@@ -572,6 +572,21 @@ impl ParseqPool {
         &self,
         items: &[(&[u8], usize, usize)],
     ) -> Result<Vec<RecognizeResult>> {
+        self.recognize_batch_single_session_oriented(items, ParseqOrientation::Auto)
+    }
+
+    pub(crate) fn recognize_batch_single_session_horizontal_rgb_u8(
+        &self,
+        items: &[(&[u8], usize, usize)],
+    ) -> Result<Vec<RecognizeResult>> {
+        self.recognize_batch_single_session_oriented(items, ParseqOrientation::Horizontal)
+    }
+
+    fn recognize_batch_single_session_oriented(
+        &self,
+        items: &[(&[u8], usize, usize)],
+        orientation: ParseqOrientation,
+    ) -> Result<Vec<RecognizeResult>> {
         if items.is_empty() {
             return Ok(vec![]);
         }
@@ -592,12 +607,12 @@ impl ParseqPool {
                 .map_err(|_| anyhow!("parseq pool mutex poisoned"))?,
         };
         if self.batch_dim_dynamic {
-            self.run_on_session(&mut guard.0, items)
+            self.run_on_session_oriented(&mut guard.0, items, orientation)
         } else {
             let mut out = Vec::with_capacity(items.len());
             for it in items {
                 let single = [*it];
-                out.extend(self.run_on_session(&mut guard.0, &single)?);
+                out.extend(self.run_on_session_oriented(&mut guard.0, &single, orientation)?);
             }
             Ok(out)
         }

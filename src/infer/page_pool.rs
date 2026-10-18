@@ -17,6 +17,13 @@
 //! も `PageRecognizer` 側に閉じ込めるので、consumer は `OnceLock` 等で 1 個
 //! 持つだけでよくなる。
 //!
+//! 有効なDEIM行がない場合は、色背景を整えた横書き帯検出を試す。
+//! 単純な塗り図形だけの帯は除き、供給された同じモデルへHorizontalで渡す。
+//! 追加する認識はconfidence 0.9〜1を要求し、呼出側optionsでも絞り込む。
+//! 検出/元認識のエラーはErrのまま返す。大きい空白による情報圧縮は、
+//! 元画素を保持する区間の再認識と、必要なら同モデルの全体文脈確認で補う。
+//! native入力比率を超える帯は、この確認に成功した場合のみ追加する。
+//!
 //! 認識精度に関わる post-processing (構造ルール、辞書、cascade fallback)
 //! は本モジュールには含めない。極端に横長で文字密度が高い行の短すぎる結果だけ、
 //! 同じ供給モデルで安全な部分画像を追加認識する。全ての部分が高信頼度で
@@ -57,6 +64,7 @@ pub struct PageRecognizerOptions {
     /// DEIM 行検出の信頼度しきい値。
     pub det_conf_threshold: f32,
     /// 行認識の信頼度しきい値。これ未満は捨てる。
+    /// DEIM未検出時に追加する帯は、別途0.9以上の認識支持も必要。
     pub min_line_confidence: f32,
     /// 認識テキストが空白のみの行を捨てるかどうか。
     pub drop_empty_text: bool,
@@ -185,6 +193,10 @@ impl PageRecognizer {
     }
 }
 
+fn supported_fallback_confidence(confidence: f32) -> bool {
+    (0.9..=1.0).contains(&confidence)
+}
+
 fn recognize_one_page(
     deim: &DeimPool,
     parseq: &ParseqPool,
@@ -212,6 +224,37 @@ fn recognize_one_page(
                 Some([x0, y0, x1, y1])
             })
             .collect();
+    let using_bands = bboxes.is_empty();
+    let fallback_rgb = if using_bands {
+        crate::pipeline::background::normalize_chromatic_panels(rgb, width, height)
+            .map_err(anyhow::Error::msg)?
+    } else {
+        std::borrow::Cow::Borrowed(rgb)
+    };
+    let rgb = fallback_rgb.as_ref();
+    if bboxes.is_empty() {
+        let bands = if width.saturating_mul(height) >= 1_000_000 {
+            crate::pipeline::line_segment::detect_textline_bands_fast(rgb, width, height, 220)
+        } else {
+            crate::pipeline::line_segment::detect_textline_bands_naive(rgb, width, height, 220)
+        };
+        bboxes = bands
+            .into_iter()
+            .filter_map(|[x0, y0, x1, y1]| {
+                Some([
+                    i32::try_from(x0).ok()?,
+                    i32::try_from(y0).ok()?,
+                    i32::try_from(x1).ok()?,
+                    i32::try_from(y1).ok()?,
+                ])
+            })
+            .filter(|bounds| {
+                crate::pipeline::band_text_support::has_text_like_ink(
+                    rgb, width, height, *bounds, 220,
+                )
+            })
+            .collect();
+    }
     sort_bboxes_in_reading_order(&mut bboxes);
 
     if bboxes.is_empty() {
@@ -243,7 +286,11 @@ fn recognize_one_page(
         .collect();
     // 各ページのバッチは「1 Session 専有」で投げる。複数ワーカーが同時に
     // ここに来ても、それぞれ別 Session を掴むので Parseq プールが詰まらない。
-    let recs = parseq.recognize_batch_single_session_rgb_u8(&inputs)?;
+    let recs = if using_bands {
+        parseq.recognize_batch_single_session_horizontal_rgb_u8(&inputs)?
+    } else {
+        parseq.recognize_batch_single_session_rgb_u8(&inputs)?
+    };
     if recs.len() != crops.len() {
         return Err(anyhow!(
             "parseq batch returned {} for {} crops",
@@ -257,7 +304,23 @@ fn recognize_one_page(
     let bounds: Vec<_> = crops.iter().map(|(bbox, _)| *bbox).collect();
     let isolated = super::dense_line_recovery::isolated_recovery_regions(&bounds);
     for (((bbox, crop), rec), isolated) in crops.into_iter().zip(recs).zip(isolated) {
-        let rec = if isolated {
+        let (input_w, input_h) = parseq.input_dimensions();
+        let overwide = crop.width as u128 * input_h as u128 > crop.height as u128 * input_w as u128;
+        let rec = if using_bands && overwide {
+            let Some(recovered) = super::band_line_recovery::recover_overwide_band(
+                &crop.data,
+                crop.width,
+                crop.height,
+                parseq.input_dimensions(),
+                |data, w, h| parseq.recognize_horizontal_rgb_u8(data, w, h),
+            ) else {
+                continue;
+            };
+            recovered
+        } else {
+            rec
+        };
+        let rec = if isolated && !using_bands {
             super::dense_line_recovery::recover_dense_horizontal_line(
                 &rec,
                 &crop.data,
@@ -270,6 +333,10 @@ fn recognize_one_page(
         } else {
             rec
         };
+        // Fallback adds lines without a detector score; require model support first.
+        if using_bands && !supported_fallback_confidence(rec.mean_confidence) {
+            continue;
+        }
         if rec.mean_confidence < opts.min_line_confidence {
             continue;
         }
@@ -284,3 +351,7 @@ fn recognize_one_page(
     }
     Ok(PageResult { page_index, lines })
 }
+
+#[cfg(test)]
+#[path = "../../tests/support/page_band_fallback_model.rs"]
+mod band_fallback_tests;
