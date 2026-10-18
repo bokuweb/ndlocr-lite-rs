@@ -21,10 +21,11 @@ pub fn apply_structural_rules(lines: &[String]) -> Vec<String> {
 /// 例:
 ///   ["The implemen-", "tation is fast"] → ["The implementation is fast"]
 ///
-/// 結合する条件 (3 つすべて満たす):
+/// 結合する条件 (4 つすべて満たす):
 ///   1. 現在行が `[A-Za-z]-` で終わる (末尾の英字 + ハイフン)
 ///   2. 次行が英字で始まる
 ///   3. 次行が見出し境界 (`第` / `(` / `（` / `1.`) で始まらない
+///   4. 現在行の末尾tokenがURL/パス表記でない
 ///
 /// 「`-` で終わる ≠ ハイフネーション」のケース (`X-Y` 列挙、`A-1` 識別子など)
 /// は条件 1 で前 1 文字も英字を要求することで弾く。さらに次行が見出しっぽければ
@@ -66,6 +67,17 @@ fn is_latin_hyphenation_pair(current: &str, next: &str) -> bool {
         return false;
     }
     if !c.ends_with('-') {
+        return false;
+    }
+    // URL/パスのliteralなハイフンは、英文の印刷上の折返しとして削除しない。
+    // 同じ行のURLの後ろに続く普通の英文は、末尾tokenだけを見て従来どおり扱う。
+    if let Some(token) = c.split_whitespace().last()
+        && (token.contains('/')
+            || token.contains('\\')
+            || token
+                .get(..4)
+                .is_some_and(|prefix| prefix.eq_ignore_ascii_case("www.")))
+    {
         return false;
     }
     // `-` の直前の文字が ASCII 英字であること (= 単語末ハイフネーションを示唆)。

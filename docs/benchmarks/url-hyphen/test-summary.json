@@ -1,0 +1,11 @@
+{
+  "ordinary": 499,
+  "onnx_selected": 411,
+  "all_passed": true,
+  "synthetic_control": {
+    "unchanged_rows": 96,
+    "before": "docs/benchmarks/short-line-order/synthetic-results.json",
+    "before_sha256": "6da9408541b72ae21c291d506cc68090bca4580c97ca431d1b0bb2afb6cbdbaa",
+    "after_sha256": "6da9408541b72ae21c291d506cc68090bca4580c97ca431d1b0bb2afb6cbdbaa"
+  }
+}
