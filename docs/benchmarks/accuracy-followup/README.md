@@ -60,3 +60,14 @@ GitHubのOAuth tokenにworkflow scopeがなく、`.github/workflows/ci.yml` の�
 CI設定変更を除いて公開する。`final-onnx-tests.log` は公開前のローカル検証で、既存CIの対象に
 新規 `underlined_line_tests` / `framed_lines_tests` / `accuracy_followup_tests` を加えた373件。
 既存CIの通常 `cargo test` は新規構造テストを実行するが、新規実モデル回帰はローカル実行のみ。
+
+## CLI全体の追加比較
+
+`cli/` に同梱3画像×既定DEIM/明示bandsの2設定を保存。b490adeとbbaaca8を
+同じlock/debug profile/固定公式モデル/CPU intra thread=1でビルドし、全12プロセス成功。
+全6組の本文はbyte同一、公開scorerのnone/width/strict計18画像別比較も不変。
+今回の30文字chunk APIの改善を、既定CLIの改善とは主張しない。
+再採点は各 `cli/{deim,bands}/{before,after}` と `tests/fixtures/eval/truth/` を
+`tools/eval_ocr_metrics.py --require-all` へ渡す。argv/binary hashは `cli/runs.json`、
+lock hashと18指標は `cli/audit.json`。初回の共用target衝突は除外し、再ビルド後の
+異なるhashとframe symbol有無を確認した固定binaryの結果だけを採用した。

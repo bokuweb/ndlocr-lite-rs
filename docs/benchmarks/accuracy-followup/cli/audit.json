@@ -1,0 +1,134 @@
+{
+  "baseline_commit": "b490ade0a4b051b6a1649001f9a015ea376419d3",
+  "candidate_commit": "bbaaca8",
+  "cargo_lock_sha256": "c1d3ee306ca0548895437a8c618d828370a5fc4e7552d6fba5ae5160f13c9ab9",
+  "all_six_text_pairs_identical": true,
+  "metrics": [
+    {
+      "config": "deim",
+      "normalize": "none",
+      "file": "jma_kobe_notice.txt",
+      "before": 111,
+      "after": 111
+    },
+    {
+      "config": "deim",
+      "normalize": "none",
+      "file": "ndl_logo_ja.txt",
+      "before": 1,
+      "after": 1
+    },
+    {
+      "config": "deim",
+      "normalize": "none",
+      "file": "scaned0.txt",
+      "before": 9,
+      "after": 9
+    },
+    {
+      "config": "deim",
+      "normalize": "width",
+      "file": "jma_kobe_notice.txt",
+      "before": 64,
+      "after": 64
+    },
+    {
+      "config": "deim",
+      "normalize": "width",
+      "file": "ndl_logo_ja.txt",
+      "before": 1,
+      "after": 1
+    },
+    {
+      "config": "deim",
+      "normalize": "width",
+      "file": "scaned0.txt",
+      "before": 7,
+      "after": 7
+    },
+    {
+      "config": "deim",
+      "normalize": "strict",
+      "file": "jma_kobe_notice.txt",
+      "before": 95,
+      "after": 95
+    },
+    {
+      "config": "deim",
+      "normalize": "strict",
+      "file": "ndl_logo_ja.txt",
+      "before": 0,
+      "after": 0
+    },
+    {
+      "config": "deim",
+      "normalize": "strict",
+      "file": "scaned0.txt",
+      "before": 8,
+      "after": 8
+    },
+    {
+      "config": "bands",
+      "normalize": "none",
+      "file": "jma_kobe_notice.txt",
+      "before": 80,
+      "after": 80
+    },
+    {
+      "config": "bands",
+      "normalize": "none",
+      "file": "ndl_logo_ja.txt",
+      "before": 1,
+      "after": 1
+    },
+    {
+      "config": "bands",
+      "normalize": "none",
+      "file": "scaned0.txt",
+      "before": 9,
+      "after": 9
+    },
+    {
+      "config": "bands",
+      "normalize": "width",
+      "file": "jma_kobe_notice.txt",
+      "before": 32,
+      "after": 32
+    },
+    {
+      "config": "bands",
+      "normalize": "width",
+      "file": "ndl_logo_ja.txt",
+      "before": 1,
+      "after": 1
+    },
+    {
+      "config": "bands",
+      "normalize": "width",
+      "file": "scaned0.txt",
+      "before": 7,
+      "after": 7
+    },
+    {
+      "config": "bands",
+      "normalize": "strict",
+      "file": "jma_kobe_notice.txt",
+      "before": 62,
+      "after": 62
+    },
+    {
+      "config": "bands",
+      "normalize": "strict",
+      "file": "ndl_logo_ja.txt",
+      "before": 0,
+      "after": 0
+    },
+    {
+      "config": "bands",
+      "normalize": "strict",
+      "file": "scaned0.txt",
+      "before": 8,
+      "after": 8
+    }
+  ]
+}

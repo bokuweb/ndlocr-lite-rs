@@ -103,3 +103,22 @@ width33→27字へ改善し、基準から210→76 / 161→27となる。帯数3
 モデルへ渡すRGBの下線除去は採用しない。診断テストはこの改善と退行の両方を
 保護し、NDLOCR_UNDERLINE_PROBE_REQUIRE_EXACT=1 で未解決の完全一致Redを実行する。
 NDLOCR_UNDERLINE_PROBE_REMOVE_RULE=1 で下線除去候補へ切り替える。既定製品の変更なし。
+
+## CLI回帰の追加ゲート（推論前）
+
+局所APIの結果をCLIの改善と混同しないため、baseline b490adeのGit archiveと現在の
+コミットを同じCargo.lock・debug profile・公式モデル・CPU intra thread=1でビルドする。
+同梱evalの3画像を全件使用し、(1)CLI既定のDEIM/cascade/structure_rules、(2)同条件で
+--use-deim-detection false の2設定を比較する。モデル/charsetだけ取得先のmodels/へ明示する。
+全画像・各設定それぞれでnone/width/strictの文字距離が非悪化することを要求する。
+この評価は既知開発データで、速度測定・未知資料holdoutとは扱わない。
+
+### CLI回帰の結果
+
+3画像×2設定×2版の12プロセスが成功し、全6組の出力テキストはbyte単位で同一。
+none/width/strictの画像別18組も不変。CLI全体の精度改善は確認できなかった。
+`docs/benchmarks/accuracy-followup/cli/` に生本文、scorer出力、実行argv、終了状態、
+binary SHA256とlock SHA256を保存する。
+初回は共用targetの古い実行ファイルが残って両binaryが同じhashになったため棄却した。
+currentのlibrary/binを再ビルドし、baselineに枠関数symbolがなくcandidateにあることと
+異なるbinary hashを確認し、コピーした固定binaryで12件すべてを再実行した。

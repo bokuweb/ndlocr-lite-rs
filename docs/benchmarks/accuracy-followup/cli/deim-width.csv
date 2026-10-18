@@ -1,0 +1,7 @@
+system,file,cer,wer,char_errors,char_total,word_errors,word_total
+before,jma_kobe_notice.txt,0.061896,0.487805,64,1034,20,41
+before,ndl_logo_ja.txt,0.125000,0.000000,1,8,0,1
+before,scaned0.txt,0.030973,1.666667,7,226,5,3
+after,jma_kobe_notice.txt,0.061896,0.487805,64,1034,20,41
+after,ndl_logo_ja.txt,0.125000,0.000000,1,8,0,1
+after,scaned0.txt,0.030973,1.666667,7,226,5,3
