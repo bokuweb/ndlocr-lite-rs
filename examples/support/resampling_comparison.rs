@@ -89,7 +89,14 @@ struct Args {
 }
 
 /// CPU単一threadの同一sessionで順序を交互にして全chunkを推論する。
-pub fn run() -> Result<()> {
+pub fn run_with(
+    candidate_name: &str,
+    mut candidate: impl FnMut(&[u8], usize, usize, usize, usize) -> Result<Vec<f32>>,
+) -> Result<()> {
+    ensure!(
+        candidate_name != "bilinear" && !candidate_name.is_empty(),
+        "invalid candidate name"
+    );
     let args = Args::parse();
     let pages = parse_manifest(&std::fs::read(&args.manifest)?)?;
     let mut file = std::fs::OpenOptions::new()
@@ -163,13 +170,7 @@ pub fn run() -> Result<()> {
                             ParseqOrientation::Horizontal,
                         )
                     } else {
-                        super::area_resampling::preprocess(
-                            &crop.data,
-                            crop.width,
-                            crop.height,
-                            iw,
-                            ih,
-                        )
+                        candidate(&crop.data, crop.width, crop.height, iw, ih)
                     };
                     let prep_seconds = started.elapsed().as_secs_f64();
                     let started = Instant::now();
@@ -209,10 +210,10 @@ pub fn run() -> Result<()> {
                         "preprocess_seconds":prep_seconds, "inference_decode_seconds":seconds});
                 }
                 records.push(json!({"x_range":[chunk.x0,chunk.x1], "dimensions":[crop.width,crop.height],
-                    "bilinear":outputs[0], "area":outputs[1], "first":if counter % 2 == 0 {"bilinear"} else {"area"}}));
+                    "bilinear":outputs[0], (candidate_name):outputs[1], "first":if counter % 2 == 0 {"bilinear"} else {candidate_name}}));
                 counter += 1;
             }
-            lines.push(json!({"id":line.id,"bounds":line.bounds,"bilinear":text[0],"area":text[1],"chunks":records}));
+            lines.push(json!({"id":line.id,"bounds":line.bounds,"bilinear":text[0],(candidate_name):text[1],"chunks":records}));
         }
         eprintln!("completed {}", page.id);
         results.push(json!({"id":page.id,"lines":lines}));

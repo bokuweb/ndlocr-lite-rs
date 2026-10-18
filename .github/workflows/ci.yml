@@ -88,3 +88,15 @@ jobs:
           cargo test --locked --features onnx --example compare_parseq_resampling
           cargo run --locked --features onnx --example compare_parseq_resampling -- --manifest tests/fixtures/resampling_comparison/pages.json --model models/parseq-ndl-24x256-30-tiny-189epoch-tegaki3-r8data-202604.onnx --charset models/NDLmoji.yaml --output resampling-comparison.json
           python3 -c 'import json,math; r=json.load(open("resampling-comparison.json")); assert r["model_dimensions"] == [256,24]; p=r["pages"]; assert len(p)==1 and len(p[0]["lines"])==1; line=p[0]["lines"][0]; assert line["bilinear"]==json.load(open("candidate-export.json"))[0]["text"]=="1"; assert len(line["chunks"])==1; c=line["chunks"][0]; assert all(c[m]["error"] is None and math.isfinite(c[m]["confidence"]) for m in ("bilinear","area"))'
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: OpenCV oracle pixel and real-model regressions
+        run: |
+          python -m pip install -r tools/opencv_probe_requirements.txt
+          python -m unittest discover -s tools -p test_opencv_worker.py -v
+          cargo test --locked --features onnx --example compare_parseq_opencv
+          export NDLOCR_DIAGNOSTIC_PYTHON="$(command -v python)"
+          cargo run --locked --features onnx --example compare_parseq_opencv -- --manifest tests/fixtures/resampling_comparison/pages.json --model models/parseq-ndl-24x256-30-tiny-189epoch-tegaki3-r8data-202604.onnx --charset models/NDLmoji.yaml --output opencv-comparison.json
+          python -c 'import json,math; r=json.load(open("opencv-comparison.json")); assert r["model_dimensions"]==[256,24]; assert len(r["pages"])==1; lines=r["pages"][0]["lines"]; assert len(lines)==1; line=lines[0]; assert line["bilinear"]==line["opencv"]=="1"; assert len(line["chunks"])==1; c=line["chunks"][0]; assert all(c[m]["error"] is None and math.isfinite(c[m]["confidence"]) for m in ("bilinear","opencv"))'

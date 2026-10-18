@@ -71,3 +71,10 @@
 - `docs/area_resampling_probe.md` と細線の未実装Redを先行。最小Green後に分数境界・BGR・拡大互換・入力拒否・濃度保存PBTの4 Redを確認し、5件Green化。truth/重複ID/不正座標拒否のRedを追加し、example全6件Green。
 - `compare_parseq_resampling` は横書き同一RGBに既存bilinearと縮小軸の面積平均を適用し、同一CPU sessionで実行順を交互にする。全chunkの本文・信頼度・寸法・区間・前処理/推論時間・失敗を保存する。新規公開APIや製品pipelineの変更はない。
 - Ubuntu/macOSの実モデルCIへ6テストと既存candidate exportとのbaseline本文一致smokeを追加。omo #79で既知14画像、事前固定した合成36行、記号退行3帯×3モデルを比較する。合成対照は未知実文書holdoutではなく、実験だけで精度向上・本番採用を主張しない。
+
+## 2026-10-18: 本流 uint8 OpenCV 前処理の比較診断
+
+- `docs/opencv_preprocessing_probe.md` と通信境界の未実装 Red を先行。
+- 診断専用 Python oracle を接続し、既存 bilinear と同一 RGB・同一 session で比較する。製品 Rust・公開 API・通常依存は変更しない。
+- 不正入力・途中 EOF・応答長・非有限値を検査し、独立した6種類の画素 fixture で BGR/NCHW と丸めを照合。Ubuntu/macOS CI で実モデル経路も検査する。
+- omo #79 の既知14画像・既存合成36行・記号3帯に対し、推論前に固定した全件非悪化条件で評価する。未知実文書 holdout と pure Rust 実装は別途必要。
