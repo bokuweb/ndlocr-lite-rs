@@ -25,6 +25,9 @@ mod punctuation_tails;
 /// 分割不能な長い行から、広い完全白余白だけを認識対象の外へ分離する。
 mod wide_spaces;
 
+/// 下線だけが字間を接続する行の安全な分割。
+mod underlines;
+
 /// 回転した縦書き字形の文脈を保つ分割。
 mod vertical;
 pub use vertical::split_rotated_vertical_column_for_input;
@@ -34,6 +37,7 @@ use word_fragments::{merge_rotated_word_fragments, restore_short_word_tails};
 use word_spaces::{strong_connected_gap_threshold, word_gap_threshold};
 
 /// 横書き行から切り出す、非白画素の重複・欠落のない元座標の水平区間。
+/// 下線fallbackは、字形を避けて確認された細い水平画線だけを横切る場合がある。
 /// 認識用APIは広い完全白余白の中央を省く場合があり、区間が隣接するとは限らない。
 #[derive(Debug, PartialEq, Eq)]
 pub struct LineChunk {
@@ -146,7 +150,8 @@ pub const MAX_CHUNK_ASPECT: usize = 8;
 const MAX_CHUNK_INK_RUNS: usize = 20;
 
 /// モデルの入力寸法を指定し、収まる短い行の文脈を保持する。
-/// 通常分割が失敗したときは、広い完全白余白だけを省いて元座標の認識区間を返す。
+/// 通常分割が失敗したときは、細い下線を分割判定だけから除外するか、
+/// 広い完全白余白だけを省いて元座標の認識区間を返す。元RGBの下線は保持する。
 pub fn split_line_for_input(
     rgb: &[u8],
     width: usize,
@@ -183,6 +188,14 @@ pub fn split_line_for_input(
     let mut chunks = match split_line_at_preferred_gaps(&gaps, width, height, max_width) {
         Ok(chunks) => chunks,
         Err(error) => {
+            if let Some(chunks) = underlines::split_underlined_line(
+                rgb,
+                (width, height),
+                threshold,
+                (input_width, input_height),
+            ) {
+                return Ok(chunks);
+            }
             return wide_spaces::split_separated_groups(
                 rgb,
                 width,

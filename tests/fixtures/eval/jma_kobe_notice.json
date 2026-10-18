@@ -1,0 +1,33 @@
+{
+  "url": "https://www.jma.go.jp/jma/press/2603/13b/20260313_oshirase.pdf",
+  "terms": "https://www.jma.go.jp/jma/kishou/info/coment.html",
+  "source_sha256": "a1352236579dd59c64f5171b7821421f22a18eeec2318a3294325a11f2e3fcb9",
+  "render": "pdftoppm -scale-to 1800 -png -singlefile",
+  "full_dimensions": [
+    1391,
+    1800
+  ],
+  "crop": [
+    200,
+    210,
+    1190,
+    1740
+  ],
+  "truth": "pdfplumber extract_text(x_tolerance=1); remove typographic spaces from first 3 header rows; visual review before inference",
+  "frozen_before_first_inference": "2026-10-18T14:23:47.894429+00:00",
+  "sha256": {
+    "tests/fixtures/eval/images/jma_kobe_notice.png": "39fc07a08d60ce140055c885a8017673ae477da21a357429913ee5b615792e83",
+    "tests/fixtures/eval/truth/jma_kobe_notice.txt": "9759bf8c14a2a4bb4c09cc4fa9d89da6b1273c3b60b25c136ddbe9b6126fc839"
+  },
+  "initial_crop": [
+    200,
+    210,
+    1190,
+    1710
+  ],
+  "initial_sha256": {
+    "tests/fixtures/eval/images/jma_kobe_notice.png": "46286a763868a34c197d5c574e6309976b876dd03c5d0a2dce3763a973606c90",
+    "tests/fixtures/eval/truth/jma_kobe_notice.txt": "9759bf8c14a2a4bb4c09cc4fa9d89da6b1273c3b60b25c136ddbe9b6126fc839"
+  },
+  "fixture_correction": "After initial Red aborted at first URL: extend bottom from 1710 to 1740, because second URL descenders and underline were clipped. Truth unchanged. This is development data."
+}

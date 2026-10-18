@@ -25,3 +25,6 @@ pub mod reading_order;
 pub mod run_page;
 /// 既知の縦書きページを元座標の右から左の列へ分ける。
 pub mod vertical_segment;
+
+/// 複数行の本文を囲む縦罫線を切り出し範囲から外す。
+mod framed_lines;

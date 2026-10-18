@@ -1,0 +1,26 @@
+   Compiling ndlocr-lite-rs v0.1.0 (/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.26s
+     Running tests/framed_lines_tests.rs (target/debug/deps/framed_lines_tests-1210cc372916260f)
+
+running 1 test
+test close_frame_preserves_known_correct_middle_dot_context ... FAILED
+
+failures:
+
+---- close_frame_preserves_known_correct_middle_dot_context stdout ----
+
+thread 'close_frame_preserves_known_correct_middle_dot_context' (39307604) panicked at tests/framed_lines_tests.rs:101:5:
+assertion `left == right` failed
+  left: (42, 951)
+ right: (26, 965)
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    close_frame_preserves_known_correct_middle_dot_context
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 4 filtered out; finished in 0.14s
+
+error: test failed, to rerun pass `--test framed_lines_tests`
+mbx[cache]: 0 hits, 0 misses, 1 not looked up, 1 incremental; 0 B downloaded, 0 B uploaded, 0 B stored locally
+mbx[savings]: your deleted worktrees left 1.2 TiB logical behind. left. past tense.

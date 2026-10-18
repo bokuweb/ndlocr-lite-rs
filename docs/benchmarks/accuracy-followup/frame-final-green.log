@@ -1,0 +1,15 @@
+   Compiling ndlocr-lite-rs v0.1.0 (/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.75s
+     Running tests/framed_lines_tests.rs (target/debug/deps/framed_lines_tests-1210cc372916260f)
+
+running 5 tests
+test paired_multiline_rules_stay_outside_text_bands ... ok
+test short_thick_single_or_sparse_rules_are_not_trimmed ... ok
+test close_frame_preserves_known_correct_middle_dot_context ... ok
+test kobe_box_sides_do_not_become_text ... ok
+test frame_trimming_preserves_body_at_scale ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.33s
+
+mbx[cache]: 0 hits, 0 misses, 2 not looked up, 3 incremental; 0 B downloaded, 0 B uploaded, 0 B stored locally
+mbx[savings]: 58472 compilations on file. the box remembers.

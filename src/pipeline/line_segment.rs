@@ -64,6 +64,7 @@ pub fn detect_textline_bands_naive(
     restore_truncated_bands(rgb, width, height, threshold, &mut bands);
     restore_isolated_bands(rgb, width, height, threshold, &mut bands);
     restore_trailing_punctuation(rgb, width, height, threshold, &mut bands);
+    super::framed_lines::trim_frame_sides(rgb, width, height, threshold, &mut bands);
     bands
 }
 
@@ -134,6 +135,7 @@ pub fn detect_textline_bands_fast(
     restore_truncated_bands(rgb, width, height, threshold, &mut bands);
     restore_isolated_bands(rgb, width, height, threshold, &mut bands);
     restore_trailing_punctuation(rgb, width, height, threshold, &mut bands);
+    super::framed_lines::trim_frame_sides(rgb, width, height, threshold, &mut bands);
     bands
 }
 

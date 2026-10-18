@@ -1,0 +1,3 @@
+system,file,cer,wer,char_errors,char_total,word_errors,word_total
+before,jma_kobe_notice.txt,0.155706,0.756098,161,1034,31,41
+after,jma_kobe_notice.txt,0.031915,0.829268,33,1034,34,41

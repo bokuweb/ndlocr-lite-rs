@@ -1,0 +1,395 @@
+   Compiling proc-macro2 v1.0.107
+   Compiling quote v1.0.47
+   Compiling unicode-ident v1.0.27
+   Compiling autocfg v1.5.1
+    Checking cfg-if v1.0.5
+   Compiling libc v0.2.191
+   Compiling crossbeam-utils v0.8.23
+   Compiling rustix v1.1.5
+   Compiling crossbeam-epoch v0.9.21
+    Checking memchr v2.8.3
+   Compiling crossbeam-deque v0.8.8
+    Checking simd-adler32 v0.3.10
+   Compiling num-traits v0.2.19
+   Compiling rayon-core v1.13.0
+    Checking either v1.19.0
+   Compiling bitflags v2.13.2
+   Compiling zerocopy v0.8.63
+   Compiling getrandom v0.4.3
+   Compiling core-foundation-sys v0.8.7
+    Checking adler2 v2.0.1
+   Compiling httparse v1.10.1
+   Compiling serde_core v1.0.229
+   Compiling zeroize v1.9.1
+   Compiling crc32fast v1.5.2
+    Checking bytemuck v1.25.2
+    Checking num-integer v0.1.47
+   Compiling syn v2.0.119
+   Compiling syn v3.0.9
+   Compiling once_cell v1.21.4
+   Compiling equator-macro v0.4.2
+   Compiling zerocopy-derive v0.8.63
+   Compiling paste v1.0.15
+   Compiling errno v0.3.14
+   Compiling core-foundation v0.10.1
+    Checking equator v0.4.2
+   Compiling security-framework-sys v2.17.0
+   Compiling itoa v1.0.18
+    Checking log v0.4.34
+   Compiling native-tls v0.2.18
+   Compiling base64ct v1.8.3
+   Compiling fastrand v2.5.0
+   Compiling bytes v1.12.1
+   Compiling anyhow v1.0.104
+   Compiling pem-rfc7468 v1.0.0
+   Compiling http v1.5.0
+    Checking num-bigint v0.4.8
+   Compiling security-framework v3.7.0
+   Compiling rustls-pki-types v1.15.1
+   Compiling thiserror v2.0.21
+   Compiling base64 v0.23.1
+   Compiling serde v1.0.229
+    Checking arrayvec v0.7.8
+   Compiling byteorder v1.5.0
+    Checking rand_core v0.10.1
+    Checking stable_deref_trait v1.2.1
+   Compiling socks v0.3.4
+    Checking aligned-vec v0.6.4
+    Checking as-slice v0.2.1
+   Compiling ureq-proto v0.6.5
+   Compiling webpki-root-certs v1.0.9
+    Checking v_frame v0.3.9
+   Compiling der v0.8.2
+    Checking num-complex v0.4.6
+    Checking rayon v1.12.0
+   Compiling thiserror-impl v2.0.21
+   Compiling tempfile v3.27.0
+    Checking num-rational v0.4.2
+   Compiling serde_derive v1.0.229
+    Checking miniz_oxide v0.9.1
+   Compiling utf8-zero v0.8.1
+   Compiling libm v0.2.16
+    Checking zlib-rs v0.6.8
+   Compiling zmij v1.0.23
+   Compiling version_check v0.9.5
+   Compiling percent-encoding v2.3.2
+   Compiling built v0.8.1
+    Checking utf8parse v0.2.2
+   Compiling av-scenechange v0.14.1
+   Compiling rav1e v0.8.1
+   Compiling pulp v0.22.3
+    Checking anstyle-parse v1.0.0
+   Compiling ureq v3.4.2
+    Checking aligned v0.4.3
+   Compiling arg_enum_proc_macro v0.3.4
+   Compiling profiling-procmacros v1.0.18
+    Checking no_std_io2 v0.9.4
+    Checking nom v8.0.0
+   Compiling matrixmultiply v0.3.11
+   Compiling pastey v0.1.1
+   Compiling hmac-sha256 v1.1.15
+    Checking anstyle v1.0.14
+    Checking quick-error v2.0.1
+    Checking anstyle-query v1.1.5
+   Compiling serde_json v1.0.154
+    Checking y4m v0.8.0
+   Compiling lzma-rust2 v0.15.8
+    Checking is_terminal_polyfill v1.70.2
+   Compiling cfg_aliases v0.2.2
+    Checking colorchoice v1.0.5
+   Compiling nix v0.31.3
+    Checking bitstream-io v4.10.0
+    Checking anstream v1.0.0
+    Checking profiling v1.0.18
+    Checking flate2 v1.1.10
+   Compiling num-derive v0.4.2
+    Checking miniz_oxide v0.8.9
+   Compiling simd_helpers v0.1.0
+    Checking itertools v0.14.0
+    Checking imgref v1.12.3
+    Checking maybe-rayon v0.1.1
+    Checking regex-syntax v0.8.11
+    Checking zune-core v0.5.3
+   Compiling heck v0.5.0
+    Checking new_debug_unreachable v1.0.6
+    Checking clap_lex v1.1.1
+    Checking rawpointer v0.2.1
+    Checking hashbrown v0.17.1
+    Checking reborrow v0.5.5
+    Checking equivalent v1.0.3
+    Checking smallvec v1.16.3
+    Checking pulp-wasm-simd-flag v0.1.1
+   Compiling noop_proc_macro v0.3.0
+    Checking weezl v0.1.12
+    Checking strsim v0.11.1
+    Checking indexmap v2.14.2
+    Checking zune-jpeg v0.5.15
+   Compiling clap_derive v4.6.7
+    Checking loop9 v0.1.5
+    Checking clap_builder v4.6.7
+   Compiling ort-sys v2.0.0-rc.13
+    Checking avif-serialize v0.8.9
+    Checking fdeflate v0.3.7
+    Checking zune-inflate v0.2.54
+    Checking rgb v0.8.53
+    Checking bumpalo v3.20.3
+    Checking bit_field v0.10.3
+    Checking fax v0.2.7
+    Checking half v2.7.1
+    Checking lebe v0.5.3
+    Checking color_quant v1.1.0
+    Checking ciborium-io v0.2.2
+    Checking byteorder-lite v0.1.0
+    Checking av1-grain v0.2.5
+    Checking pxfm v0.1.30
+    Checking plotters-backend v0.3.7
+    Checking gif v0.14.2
+    Checking png v0.18.1
+    Checking ciborium-ll v0.2.2
+    Checking image-webp v0.2.4
+    Checking tiff v0.11.3
+    Checking plotters-svg v0.3.7
+    Checking zopfli v0.8.4
+    Checking ndarray v0.17.2
+    Checking regex-automata v0.4.18
+    Checking clap v4.6.7
+    Checking wait-timeout v0.2.1
+    Checking qoi v0.4.1
+    Checking itertools v0.10.5
+    Checking quick-error v1.2.3
+    Checking same-file v1.0.6
+    Checking bit-vec v0.10.1
+    Checking fnv v1.0.7
+    Checking typed-path v0.12.3
+    Checking unsafe-libyaml v0.2.11
+    Checking ryu v1.0.23
+    Checking cast v0.3.0
+    Checking bit-set v0.11.1
+    Checking walkdir v2.5.0
+    Checking rusty-fork v0.3.1
+    Checking plotters v0.3.7
+    Checking ciborium v0.2.2
+    Checking tinytemplate v1.2.1
+    Checking rand v0.10.3
+    Checking regex v1.13.1
+    Checking is-terminal v0.4.17
+    Checking chacha20 v0.10.2
+    Checking serde_yaml v0.9.34+deprecated
+    Checking rand_xorshift v0.5.0
+    Checking moxcms v0.8.1
+    Checking criterion-plot v0.5.0
+    Checking oorandom v11.1.5
+    Checking zip v9.0.5
+    Checking anes v0.1.6
+    Checking unarray v0.1.4
+    Checking core_detect v1.0.0
+    Checking proptest v1.12.0
+    Checking criterion v0.5.1
+    Checking ort v2.0.0-rc.13
+    Checking exr v1.74.2
+    Checking ravif v0.13.0
+    Checking image v0.25.10
+    Checking ndlocr-lite-rs v0.1.0 (/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs)
+warning: methods `recognize_batch_indexed` and `run_chunk_on_session` are never used
+   --> src/infer/cached.rs:559:8
+    |
+409 | impl ParseqPool {
+    | --------------- methods in this implementation
+...
+559 |     fn recognize_batch_indexed(
+    |        ^^^^^^^^^^^^^^^^^^^^^^^
+...
+694 |     fn run_chunk_on_session(
+    |        ^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: the loop variable `v` is used to index `out`
+  --> src/infer/deim.rs:91:18
+   |
+91 |         for v in 0..=255 {
+   |                  ^^^^^^^
+   |
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.99.0/index.html#needless_range_loop
+   = note: `#[warn(clippy::needless_range_loop)]` on by default
+help: consider using an iterator and enumerate()
+   |
+91 -         for v in 0..=255 {
+91 +         for (v, <item>) in out.iter_mut().enumerate() {
+   |
+
+warning: using `chunks_exact` with a constant chunk size
+   --> src/infer/deim.rs:266:26
+    |
+266 |     for ch in boxes_flat.chunks_exact(4) {
+    |                          ^^^^^^^^^^^^^^^ help: consider using `as_chunks` instead: `as_chunks::<4>().0`
+    |
+    = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.99.0/index.html#chunks_exact_to_as_chunks
+    = note: `#[warn(clippy::chunks_exact_to_as_chunks)]` on by default
+
+warning: very complex type used. Consider factoring parts into `type` definitions
+   --> src/infer/cached.rs:896:6
+    |
+896 |   ) -> (
+    |  ______^
+897 | |     Result<Vec<(usize, RecognizeResult)>>,
+898 | |     Result<Vec<(usize, RecognizeResult)>>,
+899 | |     Result<Vec<(usize, RecognizeResult)>>,
+900 | | ) {
+    | |_^
+    |
+    = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.99.0/index.html#type_complexity
+    = note: `#[warn(clippy::type_complexity)]` on by default
+
+warning: very complex type used. Consider factoring parts into `type` definitions
+   --> src/infer/cached.rs:967:6
+    |
+967 |   ) -> (
+    |  ______^
+968 | |     Result<Vec<(usize, RecognizeResult)>>,
+969 | |     Result<Vec<(usize, RecognizeResult)>>,
+970 | | ) {
+    | |_^
+    |
+    = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.99.0/index.html#type_complexity
+
+warning: using `chunks_exact` with a constant chunk size
+   --> src/infer/deim_cached.rs:146:26
+    |
+146 |     for ch in boxes_flat.chunks_exact(4) {
+    |                          ^^^^^^^^^^^^^^^ help: consider using `as_chunks` instead: `as_chunks::<4>().0`
+    |
+    = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.99.0/index.html#chunks_exact_to_as_chunks
+
+warning: doc list item without indentation
+  --> src/infer/ort_init.rs:13:5
+   |
+13 | //! Apple ANE/GPU を使うには `with_static_input_shapes(true)` 化と batch=1 に
+   |     ^
+   |
+   = help: if this is supposed to be its own paragraph, add a blank line
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.99.0/index.html#doc_lazy_continuation
+   = note: `#[warn(clippy::doc_lazy_continuation)]` on by default
+help: indent this line
+   |
+13 | //!     Apple ANE/GPU を使うには `with_static_input_shapes(true)` 化と batch=1 に
+   |     ++++
+
+warning: doc list item without indentation
+  --> src/infer/ort_init.rs:14:5
+   |
+14 | //! 固定する変更がモデル側にも必要。CPU EP は ort 2.0 に同梱されている既定
+   |     ^
+   |
+   = help: if this is supposed to be its own paragraph, add a blank line
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.99.0/index.html#doc_lazy_continuation
+help: indent this line
+   |
+14 | //!     固定する変更がモデル側にも必要。CPU EP は ort 2.0 に同梱されている既定
+   |     ++++
+
+warning: doc list item without indentation
+  --> src/infer/ort_init.rs:15:5
+   |
+15 | //! 実装で、こちらは旧 `onnxruntime` 0.0.14 比 ~30-40% 速い。
+   |     ^
+   |
+   = help: if this is supposed to be its own paragraph, add a blank line
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.99.0/index.html#doc_lazy_continuation
+help: indent this line
+   |
+15 | //!     実装で、こちらは旧 `onnxruntime` 0.0.14 比 ~30-40% 速い。
+   |     ++++
+
+warning: this function has too many arguments (9/7)
+  --> src/output/artifacts.rs:9:1
+   |
+ 9 | / pub fn save_page_artifacts(
+10 | |     lines: &[RecognizedLine],
+11 | |     texts: &[String],
+12 | |     img_width: usize,
+...  |
+18 | |     out_txt_path: &Path,
+19 | | ) -> Result<()> {
+   | |_______________^
+   |
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.99.0/index.html#too_many_arguments
+   = note: `#[warn(clippy::too_many_arguments)]` on by default
+
+warning: using `chunks_exact` with a constant chunk size
+  --> src/pipeline/background.rs:38:30
+   |
+38 |             for pixel in row.chunks_exact(3).filter(|pixel| chromatic(pixel)) {
+   |                              ^^^^^^^^^^^^^^^ help: consider using `as_chunks` instead: `as_chunks::<3>().0.iter()`
+   |
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.99.0/index.html#chunks_exact_to_as_chunks
+
+warning: this `if` statement can be collapsed
+  --> src/pipeline/background.rs:62:17
+   |
+62 | /                 if let Some(y0) = start.take() {
+63 | |                     if seeded && y - y0 >= 8 {
+64 | |                         normalize_panel(rgb, width, y0, y, &mut output, &mut exterior);
+65 | |                     }
+66 | |                 }
+   | |_________________^
+   |
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.99.0/index.html#collapsible_if
+   = note: `#[warn(clippy::collapsible_if)]` on by default
+help: collapse nested if block
+   |
+62 ~                 if let Some(y0) = start.take()
+63 ~                     && seeded && y - y0 >= 8 {
+64 |                         normalize_panel(rgb, width, y0, y, &mut output, &mut exterior);
+65 ~                     }
+   |
+
+warning: using `chunks_exact` with a constant chunk size
+   --> src/pipeline/component_bands.rs:284:55
+    |
+284 |             .zip(rgb[start..start + region_width * 3].chunks_exact(3))
+    |                                                       ^^^^^^^^^^^^^^^
+    |
+help: consider using `as_chunks::<3>()` instead
+   --> src/pipeline/component_bands.rs:284:55
+    |
+284 |             .zip(rgb[start..start + region_width * 3].chunks_exact(3))
+    |                                                       ^^^^^^^^^^^^^^^
+    = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.99.0/index.html#chunks_exact_to_as_chunks
+
+warning: using `chunks_exact` with a constant chunk size
+  --> src/pipeline/crop.rs:64:31
+   |
+64 |         for (x, pixel) in row.chunks_exact(3).enumerate() {
+   |                               ^^^^^^^^^^^^^^^ help: consider using `as_chunks` instead: `as_chunks::<3>().0.iter()`
+   |
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.99.0/index.html#chunks_exact_to_as_chunks
+
+warning: using `chunks_exact` with a constant chunk size
+  --> src/pipeline/horizontal_margins.rs:41:27
+   |
+41 |     for (i, pixel) in rgb.chunks_exact(3).enumerate() {
+   |                           ^^^^^^^^^^^^^^^ help: consider using `as_chunks` instead: `as_chunks::<3>().0.iter()`
+   |
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.99.0/index.html#chunks_exact_to_as_chunks
+
+warning: using `chunks_exact` with a constant chunk size
+  --> src/pipeline/line_chunks/slanted_spaces.rs:15:10
+   |
+15 |         .chunks_exact(3)
+   |          ^^^^^^^^^^^^^^^ help: consider using `as_chunks` instead: `as_chunks::<3>().0.iter()`
+   |
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.99.0/index.html#chunks_exact_to_as_chunks
+
+warning: using `chunks_exact` with a constant chunk size
+  --> src/pipeline/vertical_segment.rs:70:14
+   |
+70 |             .chunks_exact(3)
+   |              ^^^^^^^^^^^^^^^ help: consider using `as_chunks` instead: `as_chunks::<3>().0.iter()`
+   |
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.99.0/index.html#chunks_exact_to_as_chunks
+
+warning: `ndlocr-lite-rs` (lib) generated 17 warnings (run `cargo clippy --fix --lib -p ndlocr-lite-rs -- --no-deps` to apply 8 suggestions)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 6.60s
+mbx[cache]: 110 hits, 14 misses, 136 not looked up, 5 bypassed; 0 B downloaded, 0 B uploaded, 117.8 MiB stored locally
+mbx[savings]: your deleted worktrees left 1.2 TiB logical behind. left. past tense.

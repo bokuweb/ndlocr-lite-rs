@@ -16,6 +16,7 @@
 
 | ファイル | 出典 | ライセンス |
 |----------|------|------------|
+| `jma_kobe_notice.png` | [気象庁 2026-03-13 神戸市発表区域変更のお知らせ](https://www.jma.go.jp/jma/press/2603/13b/20260313_oshirase.pdf) 本文 | [公共データ利用規約](https://www.jma.go.jp/jma/kishou/info/coment.html)（加工済み） |
 | `ndl_logo_ja.png` | [Wikimedia Commons: National Diet Library, Japan text logo (Japanese).png](https://commons.wikimedia.org/wiki/File:National_Diet_Library,_Japan_text_logo_(Japanese).png) | **CC BY 4.0**（国立国会図書館。表示・派生条件に従うこと） |
 
 正解テキスト `truth/ndl_logo_ja.txt` はロゴに含まれる表記に合わせた **1行** です。
@@ -34,6 +35,10 @@
 
 ## 精度評価の拡張（メモ）
 
-- 同梱は **scaned0** に加え、短いロゴ画像 **ndl_logo_ja**（上表参照）。CER/WER の回帰をさらに厚くするには、上記の手順で画像・正解を増やす。
+- 同梱は **scaned0**、短いロゴ画像 **ndl_logo_ja**、公開お知らせ本文 **jma_kobe_notice**（上表参照）。CER/WER の回帰をさらに厚くするには、上記の手順で画像・正解を増やす。
 - 手順・指標の説明は `docs/evaluation.md`。Rust と original の比較や rule-pack A/B は `docs/examples.md` の評価セクションも参照。
 - 文書固有の誤り修正はコアではなく `--rule-pack` / `--post-dict`（`AGENTS.md`）。
+
+## 神戸市お知らせの追加（2026-10-18）
+
+`jma_kobe_notice.json` に出典・PDF/RGB/真値のhash・描画条件・切り抜き範囲・真値の作成方法を記録。PDF抽出後、画像を目視確認してから初回推論を実施。初回Red後に下端のクリップを修正し、その履歴も同JSONへ保存した。奈良市と同じ様式なので独立様式のholdoutではなく、現在は開発回帰。本文の数字はPDFの幅表記を保持し、none/width/strictで評価する。
