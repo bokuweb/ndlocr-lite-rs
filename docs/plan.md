@@ -34,3 +34,9 @@
 - `docs/clipped-band-components.md` と失敗する境界回復・不正入力テストを先に追加し、明示呼出しの汎用APIでGreen化。
 - 四辺・斜め連結・独立図形・接続罫線・複数帯・新規矩形衝突を例示と独立探索oracleのPBTで検査（9テスト）。
 - 既定検出経路は変更しない。固定80画像の画素保存と28画像の全文認識をomo #79で比較中。離れて欠落した文字・同形図形の意味分類・production readyは保証しない。
+
+## 2026-10-18: 原chunkの余白感度
+
+- `docs/margin_sensitivity.md` と原RGB fixture欠落のRedを先行し、製品の全ページ出力を再現して6件を取得。非白RGB保持と前処理tensorの変化を検査する。
+- 右側の白列追加probeもRed→最小実装→Green。通常fixture1件・probe3件、全60条件×2推論の再現性を検証し、Ubuntu/macOSの実モデルCIにも同じprobeを追加。
+- 白2列で正読 `and culture.` が `Cand culture.` になる反例を固定。既知6件の信頼度選択0誤りは事後分析であり、精度改善・未知資料への汎化・本番採用を意味しない。次は選択条件を先に固定した別資料の全件非悪化評価。

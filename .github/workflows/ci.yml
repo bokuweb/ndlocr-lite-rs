@@ -69,3 +69,8 @@ jobs:
           cargo run --features onnx --example export_parseq_candidates -- --image tests/fixtures/horizontal_digit/digit.png --model models/parseq-ndl-24x256-30-tiny-189epoch-tegaki3-r8data-202604.onnx --charset models/NDLmoji.yaml --manifest tests/fixtures/candidate_export/lines.json --output candidate-export.json
           python3 tools/eval_candidate_coverage.py --manifest tests/fixtures/candidate_export/lines.json --predictions candidate-export.json --output candidate-coverage.json
           python3 -c 'import json; r=json.load(open("candidate-coverage.json")); assert r["lines"] == 2; assert all(v["errors"] == v["oracle_errors"] == v["deletions"] == 1 for v in r["by_k"].values())'
+
+      - name: Real lossless chunk margin sensitivity
+        env:
+          NDLOCR_INTRA_THREADS: "1"
+        run: cargo run --locked --features onnx --example probe_margin_sensitivity -- models/parseq-ndl-24x256-30-tiny-189epoch-tegaki3-r8data-202604.onnx models/NDLmoji.yaml tests/fixtures/margin_sensitivity margin-sensitivity.json
