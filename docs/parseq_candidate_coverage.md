@@ -11,6 +11,9 @@ OCR本文の自動補正を導入する前に、固定した画像・行座標�
 `normalize_chromatic_panels` を適用し、行と区間のcropは既存の
 `split_line_for_input` / `crop_line_chunk_rgb_u8` と閾値220を使用し、横書き方向を
 明示する。区間ごとに一回推論し、本文・候補・停止理由をJSONに保存する。
+`--chunk-input-dir NEW_DIRECTORY` を指定すると、同じ認識直前RGBを可逆PNGと
+対応表へ保存する。既存ディレクトリは拒否する。仕様は
+[`candidate_input_capture.md`](candidate_input_capture.md)。モデル内部のtensorとは異なる。
 区間連結で補った空白は固定文字として記録し、モデル候補を捏造しない。
 Unicode正規化、全半角変換、本文の置換をしない。入力manifestのtruthは推論に使わない。
 行検出で欠落した原文行は `bounds: null` で明示し、空の予測・候補として返す。

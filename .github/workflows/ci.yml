@@ -69,7 +69,10 @@ jobs:
 
       - name: Real candidate export and coverage smoke
         run: |
+          cargo test --locked --features onnx --example export_parseq_candidates
           cargo run --features onnx --example export_parseq_candidates -- --image tests/fixtures/horizontal_digit/digit.png --model models/parseq-ndl-24x256-30-tiny-189epoch-tegaki3-r8data-202604.onnx --charset models/NDLmoji.yaml --manifest tests/fixtures/candidate_export/lines.json --output candidate-export.json
+          cargo run --features onnx --example export_parseq_candidates -- --image tests/fixtures/horizontal_digit/digit.png --model models/parseq-ndl-24x256-30-tiny-189epoch-tegaki3-r8data-202604.onnx --charset models/NDLmoji.yaml --manifest tests/fixtures/candidate_export/lines.json --output candidate-captured.json --chunk-input-dir candidate-inputs
+          python3 -c 'import json; from pathlib import Path; assert json.load(open("candidate-export.json")) == json.load(open("candidate-captured.json")); m=json.load(open("candidate-inputs/inputs.json")); assert m["model_input_dimensions"] == [256,24]; assert len(m["chunks"]) == len(list(Path("candidate-inputs").glob("*.png"))) == 1'
           python3 tools/eval_candidate_coverage.py --manifest tests/fixtures/candidate_export/lines.json --predictions candidate-export.json --output candidate-coverage.json
           python3 -c 'import json; r=json.load(open("candidate-coverage.json")); assert r["lines"] == 2; assert all(v["errors"] == v["oracle_errors"] == v["deletions"] == 1 for v in r["by_k"].values())'
 

@@ -2,6 +2,9 @@
 #[cfg(feature = "onnx")]
 #[path = "support/candidate_export.rs"]
 mod candidate_export;
+#[cfg(feature = "onnx")]
+#[path = "support/chunk_capture.rs"]
+mod chunk_capture;
 
 /// onnxなしでは推論を始めず、必要なfeatureを示す。
 #[cfg(not(feature = "onnx"))]
@@ -57,6 +60,9 @@ fn main() -> anyhow::Result<()> {
         /// EOSを含む取得候補数。
         #[arg(long, default_value_t = 10)]
         top_k: usize,
+        /// 認識直前のRGBを保存する新規ディレクトリ。指定時だけ可逆PNGを作る。
+        #[arg(long)]
+        chunk_input_dir: Option<PathBuf>,
     }
 
     let args = Args::parse();
@@ -79,6 +85,11 @@ fn main() -> anyhow::Result<()> {
     }
     let session = ParseqSession::load(&args.model, &args.charset)?;
     let (input_width, input_height) = session.input_dimensions();
+    let mut capture = args
+        .chunk_input_dir
+        .as_deref()
+        .map(|directory| chunk_capture::InputCapture::new(directory, (input_width, input_height)))
+        .transpose()?;
     let mut exported = Vec::new();
     for line in lines {
         let Some(bounds) = line.bounds else {
@@ -101,9 +112,12 @@ fn main() -> anyhow::Result<()> {
             input_height,
         )
         .map_err(anyhow::Error::msg)?;
-        let mut output = ExportLine::new(line.id, bounds);
+        let mut output = ExportLine::new(line.id.clone(), bounds);
         for (index, chunk) in chunks.iter().enumerate() {
             let crop = crop_line_chunk_rgb_u8(&band.data, band.width, band.height, &chunks, index)?;
+            if let Some(capture) = capture.as_mut() {
+                capture.push(&line.id, index, [chunk.x0, chunk.x1], &crop)?;
+            }
             let result = session.recognize_rgb_u8_candidates_with_orientation(
                 &crop.data,
                 crop.width,
@@ -118,5 +132,8 @@ fn main() -> anyhow::Result<()> {
         exported.push(output);
     }
     std::fs::write(args.output, serde_json::to_vec_pretty(&exported)?)?;
+    if let Some(capture) = capture {
+        capture.finish()?;
+    }
     Ok(())
 }
