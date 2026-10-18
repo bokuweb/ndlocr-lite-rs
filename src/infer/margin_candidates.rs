@@ -21,6 +21,10 @@ impl MarginCandidates {
         self.compact.as_ref()
     }
     /// 平均信頼度が厳密に高い場合だけ縮小候補を返す。同点は元画像。
+    ///
+    /// 平均信頼度は校正済みの正答確率ではなく、この選択は精度改善を保証しない。
+    /// 実画像では信頼度上昇を伴う `AI` → `Al` の退行が確認されている。
+    /// 採用判断には [`Self::original`] と [`Self::compact`] の両結果を保持して評価する。
     pub fn selected(&self) -> &RecognizeResult {
         self.compact
             .as_ref()
