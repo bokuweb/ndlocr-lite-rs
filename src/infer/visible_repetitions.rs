@@ -21,18 +21,22 @@ pub(crate) fn sanitize_visible_single_line(
     let fragment =
         sanitize_visible_with_bracket_policy(raw, rgb, width, height, orientation, false);
     if fragment.chars().count() > current.chars().count()
-        && !fragment.chars().any(char::is_whitespace)
         && (orientation == ParseqOrientation::Horizontal || height as u128 * 5 <= width as u128 * 4)
         && width > 0
         && height > 0
         && width.checked_mul(height).and_then(|n| n.checked_mul(3)) == Some(rgb.len())
-        && (supports_glyph_count(rgb, width, height, fragment.chars().count())
-            || supports_closer_body(rgb, width, height, &fragment))
     {
-        fragment
-    } else {
-        current
+        if let Some(spaced) = supported_trailing_space(&fragment, rgb, width, height) {
+            return spaced;
+        }
+        if !fragment.chars().any(char::is_whitespace)
+            && (supports_glyph_count(rgb, width, height, fragment.chars().count())
+                || supports_closer_body(rgb, width, height, &fragment))
+        {
+            return fragment;
+        }
     }
+    current
 }
 
 #[cfg(any(feature = "onnx", test))]
@@ -99,18 +103,25 @@ fn supports_glyphs(
     count: usize,
     closer_text: Option<&str>,
 ) -> bool {
+    let Some((components, body_height)) = collect_components(rgb, width, height) else {
+        return false;
+    };
+    supports_collected(&components, body_height, count, closer_text)
+}
+
+struct Component {
+    x0: usize,
+    y0: usize,
+    x1: usize,
+    y1: usize,
+    area: usize,
+}
+fn collect_components(rgb: &[u8], width: usize, height: usize) -> Option<(Vec<Component>, usize)> {
     if width == 0
         || height == 0
         || width.checked_mul(height).and_then(|n| n.checked_mul(3)) != Some(rgb.len())
     {
-        return false;
-    }
-    struct Component {
-        x0: usize,
-        y0: usize,
-        x1: usize,
-        y1: usize,
-        area: usize,
+        return None;
     }
     let mut mask: Vec<bool> = rgb
         .chunks_exact(3)
@@ -150,15 +161,22 @@ fn supports_glyphs(
             components.push(c);
         }
     }
-    let Some(body_height) = components.iter().map(|c| c.y1 - c.y0).max() else {
-        return false;
-    };
+    let body_height = components.iter().map(|c| c.y1 - c.y0).max()?;
     let min_area = body_height.div_ceil(2).max(3);
     components.retain(|c| c.area >= min_area);
+    components.sort_by_key(|c| c.x0);
+    Some((components, body_height))
+}
+
+fn supports_collected(
+    components: &[Component],
+    body_height: usize,
+    count: usize,
+    closer_text: Option<&str>,
+) -> bool {
     if components.len() != count {
         return false;
     }
-    components.sort_by_key(|c| c.x0);
     if components.windows(2).any(|p| p[0].x1 > p[1].x0) {
         return false;
     }
@@ -205,6 +223,82 @@ fn supports_glyphs(
             .all(|c| (c.x1 - c.x0) as u128 <= body_height as u128 * 2)
 }
 
+// Only an isolated trailing closer can supply a word-space hypothesis. Two
+// compact body gaps provide a local reference; thin rules and distant marks do not.
+fn supported_trailing_space(
+    fragment: &str,
+    rgb: &[u8],
+    width: usize,
+    height: usize,
+) -> Option<String> {
+    // Check text before scanning pixels. Unsupported forms keep the existing policy.
+    let closer = fragment.chars().last()?;
+    if !matches!(closer, ')' | '）' | '」' | '』' | '】') {
+        return None;
+    }
+    let prefix = &fragment[..fragment.len() - closer.len_utf8()];
+    let body = prefix.strip_suffix(' ').unwrap_or(prefix);
+    if body.chars().count() < 3
+        || body
+            .chars()
+            .any(|c| c.is_whitespace() || matches!(c, ')' | '）' | '」' | '』' | '】'))
+    {
+        return None;
+    }
+    let compact = format!("{body}{closer}");
+    let (components, body_height) = collect_components(rgb, width, height)?;
+    let count = compact.chars().count();
+    if !(supports_collected(&components, body_height, count, None)
+        || supports_collected(&components, body_height, count, Some(&compact)))
+    {
+        return None;
+    }
+    let boxes: Vec<_> = components
+        .iter()
+        .map(|c| (c.x0, c.x1, c.y0, c.y1))
+        .collect();
+    trailing_space_from_boxes(fragment, &boxes)
+}
+
+fn trailing_space_from_boxes(
+    fragment: &str,
+    boxes: &[(usize, usize, usize, usize)],
+) -> Option<String> {
+    let closer = fragment.chars().last()?;
+    let is_closer = |c| matches!(c, ')' | '）' | '」' | '』' | '】');
+    if !is_closer(closer) {
+        return None;
+    }
+    let prefix = &fragment[..fragment.len() - closer.len_utf8()];
+    let body = prefix.strip_suffix(' ').unwrap_or(prefix);
+    if body.chars().count() < 3
+        || body.chars().any(|c| char::is_whitespace(c) || is_closer(c))
+        || boxes.len() != body.chars().count() + 1
+        || boxes.iter().any(|&(x0, x1, y0, y1)| x0 >= x1 || y0 >= y1)
+        || boxes.windows(2).any(|p| p[0].1 > p[1].0)
+    {
+        return None;
+    }
+    let body_boxes = &boxes[..boxes.len() - 1];
+    let h = body_boxes.iter().map(|g| g.3 - g.2).max()?;
+    let gaps: Vec<_> = body_boxes.windows(2).map(|p| p[1].0 - p[0].1).collect();
+    let max_gap = *gaps.iter().max()?;
+    if gaps.contains(&0) || max_gap as u128 * 4 > h as u128 {
+        return None;
+    }
+    let close = boxes.last()?;
+    let gap = close.0 - body_boxes.last()?.1;
+    let threshold = (max_gap * 2 + h.div_ceil(8)).max(h.div_ceil(3));
+    if close.1 - close.0 < h.div_ceil(4)
+        || (close.3 - close.2) as u128 > h as u128 * 2
+        || gap < threshold
+        || gap > h
+    {
+        return None;
+    }
+    Some(format!("{body} {closer}"))
+}
+
 #[cfg(test)]
 #[path = "../../tests/support/visible_repetitions_policy.rs"]
 mod tests;
@@ -220,3 +314,7 @@ mod geometry_probe;
 #[cfg(all(test, feature = "onnx"))]
 #[path = "../../tests/support/body_closer_recovery.rs"]
 mod body_closer_tests;
+
+#[cfg(test)]
+#[path = "../../tests/support/closer_word_spaces_probe.rs"]
+mod word_spaces_probe;

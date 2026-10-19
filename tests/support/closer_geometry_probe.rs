@@ -541,7 +541,6 @@ pub(super) fn supports_frozen_closer_body(
     closer_body(&collect_glyphs(rgb, width, height), text)
 }
 
-#[cfg(feature = "onnx")]
 pub(super) fn frozen_glyph_boxes(
     rgb: &[u8],
     width: usize,

@@ -262,3 +262,15 @@
 - 通常は全586+境界1の587件、ONNXは全539+境界1+再生1の541件、example18件が成功。実モデルscalar/Pool/batch/単一Session batch/cascade・raw/候補・confidence/RGB・エラー再利用と、幾何/位置/拡大/明度PBT64例を検査。fmt/diff/対象Clippy成功、新規警告0（既存本体18、lib test28/うち18重複などは保存）。前段9f6a5e2の全5CIも成功。
 - `docs/benchmarks/body-closer-recovery/` に実行前凍結binary/source/driver、原raw/画像・全API/CLI・実dispatch source/patch・全18 CSV/MD・失敗/再生ログを保存。別rootで同梱採点toolによる全表+監査のbyte一致と、3813製品/reference/従来支持/fragment/confidenceおよび境界成分の再生一致を確認した。元forwardとportable検証・隔離計測を区別する。
 - ページ287×6の今回の全再実行、未知実資料の汎化、速度は主張しない。次は接触/複数成分と空白・文字種、特に低いcloserに隣接する明示的な単語空白とモデルの空白省略を追加対照で診断する。目的全体は継続する。
+
+## 2026-10-19: 末尾閉じ括弧の前の単語空白を画線から回復
+
+- 先行仕様 `docs/closer_word_spaces_probe.md` / `docs/trailing_closer_word_space.md`。固定したABCの80対照で、fc22d35が旧厳密支持版より7本文組・14単語指標を悪化させることを発見した。文字距離の改善だけでは空白省略の退行を防げない。40joined画像は旧対照とRGB/rawが同じで、独立新規材料に数えない。
+- 純粋Redと実モデル公開Sessionの `ABC』` → `ABC 』` のRedを先行。末尾closer1個・本文3字以上・従来/本文の成分支持、本文内2個以上の小gapに対する明確な末尾gapが揃った場合にだけASCII空白1個を支持する。薄罫線/極端な高さ/遠すぎる画線・複数closer・語中空白などは元方針へ戻す。追加推論・語句やcloser種の置換はない。
+- 候補評価前にDEF・2font・20/40px・PNG/JPEGと細/高い罫線の176対照を追加固定しfixture Red→Green。全1527×3×3=13743の文字/単語指標がfc22d35比・旧厳密支持比とも非悪化、発見した14単語退行も解消した。4581本文組は56生距離改善・うち38完全一致、4525byte同一。旧1271の3813本文は全て同一。未知実資料holdoutとは扱わない。
+- 旧3813 rawを親SHA/全本文照合で再利用し、新80と176はraw/processed各768 forwardを新規実行。afterは全4581を公開Sessionで再推論し、全本文が候補とbyte一致、confidenceがrawとbit一致した。変更全件と新176対照の和集合190画像×3モデルの570 CLIを前後とも新規実行し、全APIと厳密1LF抽出の本文が一致。最初の80にも旧厳密支持/比較元CLI各240を保存した。
+- 閉じたgap/幅/高さ境界・RGB/方向・PBT64例と、3モデルのstateless/Session/Pool/batch/単一Session batch/fragment・Cascade開始3/2/1・エラー再利用を検査。純粋22/23/24/42/43/44字は空白込みの字数を確認する。最初の境界テストは長い同字反復自体が短縮される誤ったfixtureだったため、異なる文字の巡回へ直して検査した。実画像で新たに25/45字の再認識先が変わる精度まで確認したとは主張しない。
+- `docs/benchmarks/trailing-closer-space/` に原画像/decoded RGB・全本文/真値・確率/停止理由・API/CLI・正式18表・失敗/成功ログ・source/binary/input/model SHAを保存する。全API/CLIのlint前sourceと、等価な `?` へ整えた最終sourceのモデル不要4581選択/fragment再生を区別した。直接pathの予備API実行は中断し、copy済みbinaryで全件やり直した。
+- 元の未回復289に加え、新対照を含むraw正読の未回復は330組。次はprefix空白、複数成分/接触、文字種・復旧bboxの余白を診断する。ページ全件の新規再測定・速度・未知資料汎化は未確認で、目的全体は継続する。fc22d35の全5CIは成功した。
+- 通常595件＋追加境界1件、ONNX CI対象488件と明示rootの再生1件、example18件が成功。fmt/diff/対象Clippy成功、新規警告0（既存本体18・lib test28/うち18重複）。最初のignored全実行はmodel/charset環境変数不足で停止し、CIと同じ明示設定で再検査した。
+- 別rootでarchiveと全memberのSHAを検証し、同梱toolの18表＋監査と、最終製品sourceの4581選択/fragment再生が一致した。環境変数を明示した既存実資料1件も成功。
