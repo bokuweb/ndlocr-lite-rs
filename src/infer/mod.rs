@@ -29,4 +29,23 @@ pub(crate) mod band_line_recovery;
 pub(crate) mod visible_repetitions;
 
 #[cfg(any(feature = "onnx", test))]
+mod punctuation_context;
+
+#[cfg(any(feature = "onnx", test))]
 pub(crate) mod missing_line_context;
+
+#[cfg(test)]
+#[path = "../../tests/support/ink_height_space.rs"]
+mod ink_height_space_tests;
+
+#[cfg(test)]
+#[path = "../../tests/support/punctuation_space_components.rs"]
+mod punctuation_space_component_tests;
+
+#[cfg(test)]
+#[path = "../../tests/support/punctuation_space_width.rs"]
+mod punctuation_space_width_tests;
+
+#[cfg(test)]
+#[path = "../../tests/support/punctuation_space_advance.rs"]
+mod punctuation_space_advance_tests;

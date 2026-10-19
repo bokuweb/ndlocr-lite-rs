@@ -175,6 +175,55 @@ fn collect_components(rgb: &[u8], width: usize, height: usize) -> Option<(Vec<Co
     Some((components, body_height))
 }
 
+/// 本文高と、既に読んだ文字数に対する画線全幅が狭い白列を支持するときだけ再認識する。
+#[cfg(any(feature = "onnx", test))]
+pub(super) fn supports_punctuation_space_context(
+    rgb: &[u8],
+    width: usize,
+    height: usize,
+    count: usize,
+) -> bool {
+    if !(6..=12).contains(&count) {
+        return false;
+    }
+    let Some((components, body_height)) = collect_components(rgb, width, height) else {
+        return false;
+    };
+    let mut columns = vec![false; width];
+    for c in components {
+        columns[c.x0..c.x1].fill(true);
+    }
+    let Some(left) = columns.iter().position(|&v| v) else {
+        return false;
+    };
+    let right = columns.iter().rposition(|&v| v).unwrap() + 1;
+    let gap = columns[left..right]
+        .split(|&v| v)
+        .map(<[bool]>::len)
+        .max()
+        .unwrap_or(0);
+    gap > 0
+        && gap as u128 * 4 <= body_height as u128 * 3
+        && gap as u128 * 4 * count as u128 <= (right - left) as u128 * 3
+}
+
+/// 新しい画像支持の診断だけに、既存collectorの読み取り結果を渡す。
+#[cfg(test)]
+pub(super) fn probe_space_components(
+    rgb: &[u8],
+    width: usize,
+    height: usize,
+) -> Option<(Vec<[usize; 5]>, usize)> {
+    let (components, body_height) = collect_components(rgb, width, height)?;
+    Some((
+        components
+            .iter()
+            .map(|c| [c.x0, c.y0, c.x1, c.y1, c.area])
+            .collect(),
+        body_height,
+    ))
+}
+
 fn supports_collected(
     components: &[Component],
     body_height: usize,

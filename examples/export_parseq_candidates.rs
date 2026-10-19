@@ -6,6 +6,10 @@ mod candidate_export;
 #[path = "support/chunk_capture.rs"]
 mod chunk_capture;
 
+#[cfg(any(test, feature = "onnx"))]
+#[path = "support/candidate_regions.rs"]
+mod candidate_regions;
+
 /// onnxなしでは推論を始めず、必要なfeatureを示す。
 #[cfg(not(feature = "onnx"))]
 fn main() -> anyhow::Result<()> {
@@ -63,6 +67,9 @@ fn main() -> anyhow::Result<()> {
         /// 認識直前のRGBを保存する新規ディレクトリ。指定時だけ可逆PNGを作る。
         #[arg(long)]
         chunk_input_dir: Option<PathBuf>,
+        /// 各bboxのRGB全体を、一回のHorizontal forwardへ渡す診断用指定。
+        #[arg(long)]
+        whole_roi: bool,
     }
 
     let args = Args::parse();
@@ -103,15 +110,17 @@ fn main() -> anyhow::Result<()> {
             image.height,
             BBox::new(x0, y0, x1, y1),
         )?;
-        let chunks = split_line_for_input(
-            &band.data,
-            band.width,
-            band.height,
-            220,
-            input_width,
-            input_height,
-        )
-        .map_err(anyhow::Error::msg)?;
+        let chunks = candidate_regions::choose_regions(args.whole_roi, band.width, || {
+            split_line_for_input(
+                &band.data,
+                band.width,
+                band.height,
+                220,
+                input_width,
+                input_height,
+            )
+            .map_err(anyhow::Error::msg)
+        })?;
         let mut output = ExportLine::new(line.id.clone(), bounds);
         for (index, chunk) in chunks.iter().enumerate() {
             let crop = crop_line_chunk_rgb_u8(&band.data, band.width, band.height, &chunks, index)?;

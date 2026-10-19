@@ -181,3 +181,14 @@ tools/run_eval_rust_ab.sh \
 `recognize-page` の **wall-clock** と **CER/WER** を同一の Markdown に出すには `docs/evaluation_report.md`（`tools/report_rust_ocr_eval.py`）を参照してください。
 
 **NDLOCR-Lite（`ocr.py`）と並べて比較**する場合は `tools/compare_rust_original_eval.py`（手順は同じく `docs/evaluation_report.md`）。
+
+## 10. 句読点の誤空白と原RGB文脈の比較
+
+[実験・再現手順](benchmarks/punctuation-space-context/README.md) に、紙余白・ノイズ・横縮尺・
+実空白を区別した開発対照を保存する。採用候補Fは同じ供給モデルの3候補合意に加え、
+成分高と水平被覆幅/文字数によるgap支持を要求する。
+3,446入力×3モデルの診断では114本文組の文字距離改善、うち70完全一致回復、
+31,014文字/単語指標の退行0。Rust製品選択の全件replayと、影響する全入力を含む
+158対照の8単行経路の実NN測定は区別して記録する。
+途中の候補C/Dの失敗も同じデータ群に残し、成功例だけを抜き出さない。
+追加対照は固定フォントの合成開発材料であり、未知実資料の精度を保証するものではない。
