@@ -227,3 +227,15 @@
 - 通常574件・ONNX対象521件・example18件、fmt/diff/対象Clippyが成功（既存本体18+example1、新規警告なし）。証拠は `docs/benchmarks/missing-line-context/`。元API推論binary SHAの未取得を明示し、検証binaryとdriver/source/model/input/output・全候補応答の根拠を区別する。
 - 追加のCLI det=.3は構造補正false/trueの前後4実行を検査し、15→4 / 8→4文字誤り、各正規化の単語指標も非悪化。
 - 次は単行画像で物理的に存在する閉じ括弧の欠落、複数成分の反復文字、文字種、復旧bboxの余白を診断する。追加推論の統制速度/未知資料汎化は未確認。
+
+## 2026-10-19: 印字された閉じ括弧を単行APIでも画線支持で保持
+
+- 先行仕様 `docs/literal_closers_probe.md` / `docs/literal_closers.md`。5括弧種・4配置・単独/連続と対照の320画像をOCR前に固定し、既存263と全583画像のrawを30/50/100で捕捉。正しかったraw184組が単行の未対応括弧削除で崩れていた。
+- 一律保持は73文字指標・108単語指標で退行。捕捉後に探索した .5/.7/.9/.99 の確率案も退行するため棄却し、全候補本文・step確率・停止理由・正式評価表を保存する。高確率の幅違い/挿入空白を正解と扱わない。
+- 7画線を6字へ落とす純粋Redと凍結比較元CLIの `ABC)` → `ABC` の実モデルRedを先行。元fragment候補が長く、空白なし・実効横書き・有効RGB・既存の独立成分数支持を満たす場合だけ保持する。追加推論なし。text-only/raw/候補APIとconfidence・RGB、ページfragmentと全caller sourceは維持する。
+- d6a67fe比、全583×3モデル×3正規化=5247の文字・単語指標が非悪化。1749本文組は104完全一致改善・1622byte同一・23生距離同値変更。既存263の全789本文は同一。raw正読の未回復80組は共通高さ44・成分数36の条件で残る。
+- before新960 CLIを実行し、旧789は前段SHAと今回raw由来の全byteを確認して再利用。after全1749 CLIを新規実行し、raw/RGBによる製品再生と全一致。公開stateless/Session/Pool、batch/単一Session batch/cascade、raw/候補、エラー後の再利用、RGB/confidenceも実モデルで検査した。
+- 通常576件・ONNX対象526件・example18件、fmt/diff/対象Clippy成功（既存本体18+example1、新規警告なし）。ONNX件数には明示環境変数がないとno-opの診断2件を含む。既存幾何PBT48例も成功した。
+- `docs/benchmarks/literal-closers/` に凍結binary/source/driver/model/input SHA、全本文・stdout・失敗案・9組の実CLI表と9組の診断表を保存。別rootへ全SHA検証展開した実CLI9 CSV/MD＋監査のbyte一致と、モデル不要の1749製品/fragment再生も確認した。元forwardとportable検証のbinaryを区別する。
+- PRのファイル数を抑えるため旧dense-lineの939 memberをSHA付きZIPへ固定。別rootの全24 CSV/MD＋監査一致を確認してから重複before/truthだけを外し、後続scriptが読むafterは維持した。前段d6a67feの全5CI成功も確認済み。
+- 次は残る複雑な成分・背の低い括弧、幅/空白・文字種誤読を診断する。全ページの今回の新規再測定、未知実資料の汎化、速度改善は主張しない。目的全体は継続する。

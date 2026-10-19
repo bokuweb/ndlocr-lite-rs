@@ -1,4 +1,4 @@
-//! ページの反復文字を、同じ入力の独立した画線群で支持する。
+//! モデルが読んだ反復や閉じ括弧を、同じ入力の独立した画線群で支持する。
 use crate::infer::parseq::{
     ParseqOrientation, sanitize_fragment_preserving_repetitions,
     sanitize_line_preserving_repetitions, sanitize_recognized_fragment, sanitize_recognized_text,
@@ -11,7 +11,27 @@ pub(crate) fn sanitize_visible_single_line(
     height: usize,
     orientation: ParseqOrientation,
 ) -> String {
-    sanitize_visible_with_bracket_policy(raw, rgb, width, height, orientation, true)
+    let current = sanitize_visible_with_bracket_policy(raw, rgb, width, height, orientation, true);
+    if !raw
+        .chars()
+        .any(|c| matches!(c, ')' | '）' | '」' | '』' | '】'))
+    {
+        return current;
+    }
+    let fragment =
+        sanitize_visible_with_bracket_policy(raw, rgb, width, height, orientation, false);
+    if fragment.chars().count() > current.chars().count()
+        && !fragment.chars().any(char::is_whitespace)
+        && (orientation == ParseqOrientation::Horizontal || height as u128 * 5 <= width as u128 * 4)
+        && width > 0
+        && height > 0
+        && width.checked_mul(height).and_then(|n| n.checked_mul(3)) == Some(rgb.len())
+        && supports_glyph_count(rgb, width, height, fragment.chars().count())
+    {
+        fragment
+    } else {
+        current
+    }
 }
 
 #[cfg(any(feature = "onnx", test))]
@@ -131,3 +151,7 @@ fn supports_glyph_count(rgb: &[u8], width: usize, height: usize, count: usize) -
 #[cfg(test)]
 #[path = "../../tests/support/visible_repetitions_policy.rs"]
 mod tests;
+
+#[cfg(all(test, feature = "onnx"))]
+#[path = "../../tests/support/literal_closer_probe.rs"]
+mod closer_probe;

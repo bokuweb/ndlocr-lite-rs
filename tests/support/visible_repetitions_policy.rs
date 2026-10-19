@@ -253,12 +253,12 @@ fn replay_visible_repetition_policy_on_frozen_raw_outputs() {
 }
 
 #[test]
-fn standalone_bracket_policy_checks_all_visible_glyphs_before_removing_closers() {
+fn standalone_keeps_closers_when_all_visible_glyphs_support_the_fragment() {
     for raw in ["111111)", ")111111"] {
         let (rgb, w, h) = row(7);
         assert_eq!(
             sanitize_visible_single_line(raw, &rgb, w, h, ParseqOrientation::Horizontal),
-            "111111"
+            raw
         );
         assert_eq!(sanitize_recognized_text(raw), "1111");
         assert_eq!(
@@ -309,4 +309,52 @@ fn minimum_component_area_and_luminance_threshold_are_exact() {
             }
         );
     }
+}
+
+#[test]
+fn single_line_closer_retention_requires_count_orientation_rgb_and_no_ambiguous_spaces() {
+    let (rgb, w, h) = row(5);
+    for close in [')', '）', '」', '』', '】'] {
+        for raw in [
+            format!("ABCD{close}"),
+            format!("{close}ABCD"),
+            format!("AB{close}CD"),
+        ] {
+            assert_eq!(
+                sanitize_visible_single_line(&raw, &rgb, w, h, ParseqOrientation::Auto),
+                raw
+            );
+        }
+    }
+    for raw in ["AB) CD", "ABCD)"] {
+        let (bad, bw, bh) = row(4);
+        assert_eq!(
+            sanitize_visible_single_line(raw, &bad, bw, bh, ParseqOrientation::Horizontal),
+            sanitize_recognized_text(raw)
+        );
+    }
+    for orientation in [ParseqOrientation::Auto, ParseqOrientation::Horizontal] {
+        assert_eq!(
+            sanitize_visible_single_line("ABCD)", &[], 0, 0, orientation),
+            "ABCD"
+        );
+    }
+    // Isolate whitespace and orientation from count disagreement.
+    let (spaces, sw, sh) = row(6);
+    assert!(supports_glyph_count(&spaces, sw, sh, 6));
+    assert_eq!(
+        sanitize_visible_single_line("AB) CD", &spaces, sw, sh, ParseqOrientation::Horizontal),
+        "AB CD"
+    );
+    let mut tall = rgb.clone();
+    tall.resize(w * 60 * 3, 255);
+    assert!(supports_glyph_count(&tall, w, 60, 5));
+    assert_eq!(
+        sanitize_visible_single_line("ABCD)", &tall, w, 60, ParseqOrientation::Auto),
+        "ABCD"
+    );
+    assert_eq!(
+        sanitize_visible_single_line("ABCD)", &tall, w, 60, ParseqOrientation::Horizontal),
+        "ABCD)"
+    );
 }

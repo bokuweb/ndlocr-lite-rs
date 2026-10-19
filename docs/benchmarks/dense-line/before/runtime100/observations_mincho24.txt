@@ -1,1 +1,0 @@
-h observation includes the station name, measurement time, instrument setings, a short note describi

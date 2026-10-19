@@ -61,7 +61,7 @@ repo rootからPython標準ライブラリのみで実行する。モデルの�
 
 ```sh
 mkdir -p tmp/dense-line
-cp -R docs/benchmarks/dense-line/before docs/benchmarks/dense-line/after docs/benchmarks/dense-line/truth docs/benchmarks/dense-line/evaluation-manifest.json tmp/dense-line/
+python3 docs/benchmarks/dense-line/unpack_evidence.py --output tmp/dense-line
 python3 docs/benchmarks/dense-line/evaluate.py score
 ```
 
@@ -80,3 +80,11 @@ runtime結果は先に `NDLOCR_DENSE_MANIFEST=docs/benchmarks/dense-line/evaluat
 libに含めた方針・4実画像・Pool方向互換は既存のONNX CIでも自動選択される。
 外部の`dense_line_regression_tests`3件はローカルの全件コマンドに明示追加した。
 fmt/diff/対象Clippyは成功（変更箇所以外の既存の本体17警告＋example 1警告）。
+
+## 2026-10-19: 比較証拠の転送形式
+
+追加改善のコードをレビューできるよう、前後本文・truthの全939ファイルをSHA付き
+`text-evidence.zip` にも固定する。全memberのSHAと、別rootから再採点した24 CSV/MD・
+`audit.json`のbyte一致を確認してから、重複する `before/` と `truth/` の展開済みファイルを外す。
+`after/` は後続の歴史的評価scriptが直接参照するため維持する。比較内容・真値は変更しない。
+`unpack_evidence.py --output tmp/dense-line` が全939ファイルとmanifestを検証して展開する。
