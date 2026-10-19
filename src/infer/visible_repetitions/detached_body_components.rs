@@ -107,7 +107,7 @@ fn component_view(
     Some((if leading { [mark, l, r] } else { [l, r, mark] }, h))
 }
 
-fn group_view(parts: &[&Component], height: usize, max_gap: usize) -> Option<Component> {
+pub(super) fn group_view(parts: &[&Component], height: usize, max_gap: usize) -> Option<Component> {
     let primary = primary_part(parts)?;
     if height == 0 || (primary.y1 - primary.y0) as u128 * 4 < height as u128 * 3 {
         return None;
@@ -139,14 +139,18 @@ fn group_view(parts: &[&Component], height: usize, max_gap: usize) -> Option<Com
     Some(view)
 }
 
-fn primary_part<'a>(parts: &[&'a Component]) -> Option<&'a Component> {
+pub(super) fn primary_part<'a>(parts: &[&'a Component]) -> Option<&'a Component> {
     parts
         .iter()
         .copied()
         .max_by_key(|c| (c.y1 - c.y0, c.area, std::cmp::Reverse(c.x0)))
 }
 
-fn edge_shared_large_child(parent: &Component, child: &Component, height: usize) -> bool {
+pub(super) fn edge_shared_large_child(
+    parent: &Component,
+    child: &Component,
+    height: usize,
+) -> bool {
     if height == 0
         || child.x0 >= child.x1
         || child.y0 >= child.y1

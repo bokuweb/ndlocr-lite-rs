@@ -386,3 +386,16 @@
 - 製品全件replayが凍結方針と一致、実公開API1,882組のraw/本文/mean bitと実単行CLI682プロセスも全件一致した。今回は新規ページNNなし。fragment経路と関係関数のbyte一致を確認し、前段287×8の実測とは区別する。
 - 通常655件・ONNX CI対象582件・example23件、新規Clippy警告0。証拠とモデル不要の再現は `docs/benchmarks/detached-body-components/`。
   内側closer、Auto方向の紙依存、別の接触字形、Latin高さの課題が残り、目的全体を継続する。
+
+## 2026-10-20: 保存Auto方向比較と語中closerの支持
+
+- 横組み192画像×3モデルの既存rawをAuto/元Horizontalで対にした。生完全一致388回復だが、strictでは100モデルの文字距離が2組悪化したため、一律Horizontal変更は採用しない。
+  新規NNは0、正式36表と192原RGB/真値を独立再現した。`docs/benchmarks/auto-orientation-saved/` に反例も保存する。
+- 次は `docs/internal_detached_closer.md` の中央mark/左右部品の固定支持案をtest-onlyで先行した。純粋Red→Green、6テスト/PBT64と旧99,591組で文字/単語退行0、旧9組を生完全一致へ回復した。
+  新対照5,088画像と元Horizontal56画像の15,432全ROI forwardは全件正常終了し、全群/全正規化の文字/単語指標が非悪化だった。
+- 最後の単行fallbackへ接続し、純粋/実SessionのRed→Greenを確認した。本文変更136組のうち、生完全一致89組・width完全一致121組を回復し、5組は全指標同点。旧raw正読後損失520→511。
+  分離部品の既知字形を用いた適用対照であり、未知資料の改善率とは扱わない。
+- 製品115,023組の保存raw再生が凍結案と一致。実API2,176組のraw/本文/mean bitと実CLI712件も全件一致し、通常661件・ONNX593件・example23件、新規Clippy警告0。
+  今回の新規ページNNは0、fragment経路のsource不変性を確認した。証拠とモデル不要再現は `docs/benchmarks/internal-detached-closer/`。
+- 負例生成で白列がなく停止した入力も保持し、NN前に中央cutの合成方法を仕様へ追記した。支持条件は追加結果に合わせず、全元画素/非重複を384 pre-JPEG組で独立再構成した。
+  combined接触部品やLatin高さ、真縦組みを含むAuto方向の新対照などが残るため、目的全体を継続する。
