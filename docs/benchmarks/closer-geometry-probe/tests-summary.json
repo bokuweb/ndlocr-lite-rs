@@ -1,0 +1,41 @@
+{
+  "default-tests.log": {
+    "passed": 583,
+    "sha256": "488ce7b1b8f1cc6cf86cd0d7f277e206e62e9ff65368e82ee2a589fc2ce4f492"
+  },
+  "onnx-lib-tests.log": {
+    "passed": 263,
+    "sha256": "e441bd51f8e33cf75a28c8a5f8d07190f19f16b74d1845fa9bdcbcc0fec7e737"
+  },
+  "post-refactor-replay.log": {
+    "passed": 7,
+    "sha256": "6de14b7cc49bcdce4ade9a17f1b6ee69ae199fef4799d867410e8c9c302f0619"
+  },
+  "probe.log": {
+    "passed": 1,
+    "sha256": "926be0fa6e27a52b5a23f6f30a2b41541642d4348288dd31dc3ac220b0c92a67"
+  },
+  "fixture-green.log": {
+    "passed": 1,
+    "sha256": "2a6718efc8b60522804f77ee461661d7a0debb87c034309101b64b2466ea7550"
+  },
+  "clippy": {
+    "exit_code": 0,
+    "new_file_warnings": 0,
+    "library_warnings": 18,
+    "library_test_warnings_including_duplicates": 28,
+    "log_sha256": "01b378b2958718402ccd4b6b83c6112f8e4b32af44d65b21db93e05071a56a5c"
+  },
+  "fresh_forwards": 1968,
+  "reused_raw": 1749,
+  "default_pbt_cases": 64,
+  "production_code_changed": false,
+  "portable_transport": {
+    "csv_md_byte_equal": 18,
+    "audit_byte_equal": true,
+    "replayed_rows": 3717,
+    "component_boxes_and_all_choices_equal": true,
+    "no_probe_models_or_original_images_in_score_workspace": true,
+    "log_sha256": "ddd63e3c7e83602cf1307f69cdcc87f1b29edbd12d7e6a62dd72852ef2bb4122"
+  }
+}

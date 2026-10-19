@@ -155,3 +155,7 @@ mod tests;
 #[cfg(all(test, feature = "onnx"))]
 #[path = "../../tests/support/literal_closer_probe.rs"]
 mod closer_probe;
+
+#[cfg(test)]
+#[path = "../../tests/support/closer_geometry_probe.rs"]
+mod geometry_probe;

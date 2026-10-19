@@ -239,3 +239,14 @@
 - `docs/benchmarks/literal-closers/` に凍結binary/source/driver/model/input SHA、全本文・stdout・失敗案・9組の実CLI表と9組の診断表を保存。別rootへ全SHA検証展開した実CLI9 CSV/MD＋監査のbyte一致と、モデル不要の1749製品/fragment再生も確認した。元forwardとportable検証のbinaryを区別する。
 - PRのファイル数を抑えるため旧dense-lineの939 memberをSHA付きZIPへ固定。別rootの全24 CSV/MD＋監査一致を確認してから重複before/truthだけを外し、後続scriptが読むafterは維持した。前段d6a67feの全5CI成功も確認済み。
 - 次は残る複雑な成分・背の低い括弧、幅/空白・文字種誤読を診断する。全ページの今回の新規再測定、未知実資料の汎化、速度改善は主張しない。目的全体は継続する。
+
+## 2026-10-19: 閉じ括弧と本文の高さを分ける診断
+
+- 先行仕様 `docs/closer_geometry_probe.md`。丸ゴシック/明朝・20/40px・PNG/JPEG75の640文字画像と図形16画像をOCR前に固定し、656 fixtureの通常テストをRed→Green。既存583と全1239画像を30/50/100で診断した。
+- test-onlyで成分の最小高さを使う案と、本文の共通高さ3/4を維持しcloserを個別に確認する案を、純粋Red→Green・閉じた境界/負例・拡大/移動/位置PBT64例で先行。本文の整列を弱める反例を独立に検査する。製品の関数・callerは変更しない。
+- 既存1749 rawは前段archive/source/model/RGBと現在baselineの全CLI byteを確認して再利用。新1968 forwardからraw・上位2確率・停止理由を捕捉し、元RGBのPNG保存/再decodeの全画素一致と全3717の既存成分支持との一致を検査した。
+- 全1239×3×3=11151の文字/単語指標で両高さ案は非悪化、raw正読64組を回復できる。元の未回復80組中44と新対照20を含む。本文整列案は64完全一致改善・3626byte同一・27生距離同値変更で、単純緩和の誤字種の同値変更1組を追加しない。次の製品/API検証対象にする。
+- 空白なし一律保持も6文字・32単語指標で退行し、一律fragment保持は213文字・338単語指標で退行する。`情）報` にraw `報告)報`、`情報）` にraw `情報){` 等の反例を全件保存した。真値や確率を選択に使わない。
+- 通常583件、ONNX lib263件、純粋6+保存raw/RGB再生1件が成功。Clippy testsの新規成分走査警告を直し、前後全3717の枠/全方針を再生一致。対象Clippy成功、新規ファイル警告0（本体既存18、lib test既存28/うち18重複などをログに残す）。fmt/diffも成功。
+- `docs/benchmarks/closer-geometry-probe/` に全6方針本文・9 CSV/MD・原raw/RGB・成分・失敗案・元forward/portable別binary/source/driver/spec/入力SHAを保存。別rootでモデル/原画像/probeなしに全表+監査をbyte再現し、凍結binaryの3717成分/選択再生も一致した。前段02ad642の全5CIも成功。
+- これは診断で、64組を製品で回復済みとは主張しない。元rawの正読を壊す329組中265組（成分数216、x区間重複47、eligible除外2）が残り、元80組の残り36も含む。次は本文整列案の製品適用/API・CLI検証と、複数成分/接触・空白の診断を進める。未知資料の汎化/速度は未確認で、目的全体は継続する。
