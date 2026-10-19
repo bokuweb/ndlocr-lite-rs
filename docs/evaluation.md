@@ -192,3 +192,8 @@ tools/run_eval_rust_ab.sh \
 158対照の8単行経路の実NN測定は区別して記録する。
 途中の候補C/Dの失敗も同じデータ群に残し、成功例だけを抜き出さない。
 追加対照は固定フォントの合成開発材料であり、未知実資料の精度を保証するものではない。
+
+その後、比例組版の576対照を追加した4,022入力ではFが11本文組の実空白を消し、
+22文字/22単語指標が退行したため採用判断を撤回した。
+[比例組版の結果](punctuation_space_proportional_controls.md) と
+[同じ文字集合のconfidenceを比較するGの先行仕様](punctuation_space_matched_confidence.md)を参照する。

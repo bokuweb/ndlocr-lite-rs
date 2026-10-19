@@ -1,5 +1,14 @@
 # 句読点の余白候補の回帰画像
 
+F/Gは比例組版の実空白を消すため棄却し、自動余白再認識を製品経路から外した。
+`proportional_real_space30/50/100.png` は実際の失敗例で、`rejection-manifest.json` に
+source ID・画像/RGB SHA・真値・元/候補・非空白平均を保存する。
+公開APIのテストでは正しい空白と元のconfidenceを全経路で維持することを要求する。
+フォントファイルは同梱せず、描画画像は固定済みなのでテスト時のfont依存はない。
+
+以下の `joined*` は棄却したFの回復例の履歴で、現在の製品に自動回復を要求するpinではない。
+誤空白を含むrawを別の推測で書き換えない対照としても使用する。
+
 `docs/punctuation_space_component_context.md` の追加認識前仕様で生成した576対照からの回帰pin。
 追加の学習/評価用holdoutとは数えない。PNGはJPEG75保存後のRGBを可逆で保持する。
 生成仕様・font SHA・全候補は句読点空白ベンチマークを参照。manifestに出典ID/画像SHA/真値と

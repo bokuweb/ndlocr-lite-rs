@@ -143,24 +143,6 @@ impl ParseqSession {
         height: usize,
     ) -> Result<RecognizeResult> {
         let mut result = self.recognize_rgb_u8_unprocessed(rgb, width, height)?;
-        if let Some(candidate) = super::punctuation_context::select(
-            &result,
-            rgb,
-            width,
-            height,
-            (self.input_w, self.input_h),
-            ParseqOrientation::Auto,
-            |p, w, h| {
-                self.recognize_rgb_u8_unprocessed_with_orientation(
-                    p,
-                    w,
-                    h,
-                    ParseqOrientation::Horizontal,
-                )
-            },
-        ) {
-            result = candidate;
-        }
         result.text = super::visible_repetitions::sanitize_visible_single_line(
             &result.text,
             rgb,
@@ -300,17 +282,6 @@ fn run_batch_on_session(
         items,
     )?;
     for (result, &(rgb, width, height)) in results.iter_mut().zip(items) {
-        if let Some(candidate) = select_context_on_session(
-            session,
-            (input_name, output_name),
-            (input_w, input_h),
-            charset,
-            result,
-            (rgb, width, height),
-            ParseqOrientation::Auto,
-        ) {
-            *result = candidate;
-        }
         result.text = super::visible_repetitions::sanitize_visible_single_line(
             &result.text,
             rgb,
@@ -320,40 +291,6 @@ fn run_batch_on_session(
         );
     }
     Ok(results)
-}
-
-/// 呼出元が借りている同じsessionで確認し、mutexを再取得しない。
-fn select_context_on_session(
-    session: &mut Session,
-    names: (&str, &str),
-    model: (usize, usize),
-    charset: &[char],
-    raw: &RecognizeResult,
-    image: (&[u8], usize, usize),
-    orientation: ParseqOrientation,
-) -> Option<RecognizeResult> {
-    super::punctuation_context::select(
-        raw,
-        image.0,
-        image.1,
-        image.2,
-        model,
-        orientation,
-        |p, w, h| {
-            run_batch_on_session_with_orientation(
-                session,
-                names.0,
-                names.1,
-                model.0,
-                model.1,
-                charset,
-                &[(p, w, h)],
-                ParseqOrientation::Horizontal,
-            )?
-            .pop()
-            .ok_or_else(|| anyhow!("empty context result"))
-        },
-    )
 }
 
 /// 共通の推論・デコード結果を、後処理を適用する前の状態で返す。
@@ -552,7 +489,7 @@ impl ParseqPool {
         self
     }
 
-    /// 借用中の同じsessionで余白を確認し、画像に対応する本文方針を適用する。
+    /// 同じ推論結果にだけ方針を適用し、session選択とconfidenceを変えない。
     fn run_on_session(
         &self,
         session: &mut Session,
@@ -578,17 +515,6 @@ impl ParseqPool {
             orientation,
         )?;
         for (result, &(rgb, width, height)) in results.iter_mut().zip(items) {
-            if let Some(candidate) = select_context_on_session(
-                session,
-                (&self.input_name, &self.output_name),
-                (self.input_w, self.input_h),
-                &self.charset,
-                result,
-                (rgb, width, height),
-                orientation,
-            ) {
-                *result = candidate;
-            }
             result.text = match self.postprocess {
                 ParseqTextPolicy::SingleLine => {
                     super::visible_repetitions::sanitize_visible_single_line(

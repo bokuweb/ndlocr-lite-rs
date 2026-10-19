@@ -337,3 +337,19 @@
   `docs/benchmarks/punctuation-space-context/` に保存する。新規NN測定と製品replayを区別する。
 - 固定fontの開発対照で、未知資料/速度は未検証。丸字体36pxの誤空白などは残る。
   次は `docs/punctuation_space_proportional_controls.md` に先行固定した比例送りの実空白対照を検査し、目的全体を継続する。
+
+## 2026-10-20: 比例組版でF/Gを棄却し、自動空白削除を撤去
+
+- 比例送りの先行仕様に従い、CoreTextの同じ実font file・glyph・空白advanceと `palt=0/1` を確認して新576入力を固定した。
+  Fは累積4,022入力で11本文組・22文字/22単語指標を壊した。Rust選択の両本文方針でも退行を再現し、前段の採用判断を撤回した。
+- Gは元のASCII空白を除いた本文平均を全3候補が厳密に上回る条件を、解析/追加認識前に別仕様へ固定した。
+  既存4,022入力の12,066元結果を再取得し、全本文/f32平均が一致。新576入力を含む全18,978 forwardも正常終了した。
+  累積4,598入力では旧6・新26本文組、64文字/64単語指標が退行したためGも棄却し、Rust製品へ未実装とした。
+- 先行撤去仕様 `docs/punctuation_space_rejection.md` と実モデルの4 Red→5 Greenを経て、FのSession/Pool/batch/断片/standaloneへの接続を削除した。
+  `parseq.rs` は9fcとbyte同一、`cached.rs` もtest-only import以外はbyte同一。Fのselector/画像支持はcfg(test)だけに限定した。
+- F/撤去後/9fc基準の実CLI計21プロセスで、比例空白3退行を解消し、旧Fの3回復も撤回した。撤去後の全7本文は9fcとbyte同一。
+  通常639件・ONNXスイート556件・example23件、fmt/Clippy成功、新規警告0。前段3b47552のCI5ジョブも全成功した。
+- F/Gの全画像・真値・候補/確率・成功/失敗・元NN再取得のbit一致・凍結source/model/binary/input SHAと撤去のRed/Greenは
+  `docs/benchmarks/punctuation-space-context/` に保存する。異なる母集団の退行数や、NN forward数とRust選択replayの指標数を混同しない。
+- この段階の最終製品は9fcと同じ動作で、新しい精度改善とは主張しない。ページの誤空白回復も撤回され、以前の未解決箇所は残る。
+  confidenceと余白合意だけで空白を削る方法を既定経路へ追加せず、他の画線/検出/分割の改善を継続する。目的全体は未完了。

@@ -176,7 +176,7 @@ fn collect_components(rgb: &[u8], width: usize, height: usize) -> Option<(Vec<Co
 }
 
 /// 本文高と、既に読んだ文字数に対する画線全幅が狭い白列を支持するときだけ再認識する。
-#[cfg(any(feature = "onnx", test))]
+#[cfg(test)]
 pub(super) fn supports_punctuation_space_context(
     rgb: &[u8],
     width: usize,

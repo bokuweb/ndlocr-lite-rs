@@ -210,6 +210,96 @@ def materialize(root):
         for x in read(d/'results.json'):(d/(x['id']+'.txt')).write_bytes(x['text'].encode('utf-8'))
     for p,h in spec.get('actual_body_sha256',{}).items():assert digest((root/safe(p)).read_bytes())==h
 
+def inherit_corpus(stage,parent,count):
+    m=read(stage/'evaluation-manifest.json');assert len(m['inputs'])==count
+    assert digest((parent/'evaluation-manifest.json').read_bytes())==m['parent_manifest_sha256']
+    for x in m['inputs']:
+        for kind,folder,suffix in [('image','png','.png'),('rgb','rgb','.rgb'),('truth','truth','.txt')]:
+            p=stage/'corpus'/folder/(x['id']+suffix)
+            if x['cohort']!='new_control':p.parent.mkdir(parents=True,exist_ok=True);p.write_bytes((parent/'corpus'/folder/p.name).read_bytes())
+            assert digest(p.read_bytes())==x[kind+'_sha256']
+    gm={x['id']:x for x in read(stage/'geometry-advance.json')};assert len(gm)==count
+    for x in m['inputs']:
+        body,gap,_,span,_,_=geometry((stage/'corpus/rgb'/(x['id']+'.rgb')).read_bytes(),x['width'],x['height'],True,True);g=gm[x['id']]
+        assert(body,gap,span)==(g['body_height'],g['max_blank_gap'],g['foreground_width'])
+        for n in range(6,13):assert g['support_by_length'][str(n)]==(0<4*gap<=3*body and 4*gap*n<=3*span)
+    for p,h in read(stage/'geometry-command.json')['source_sha256'].items():assert digest((stage/'geometry-source'/p).read_bytes())==h
+    for p,h in read(stage/'parent-raw-capture.json')['source_sha256'].items():assert digest((stage/'whole-roi-source'/p).read_bytes())==h
+    verify_variants(stage)
+    for x in read(stage/'new/data/evaluation-manifest.json')['native_render_commands']:
+        p=stage/'new/data/native-render'/(x['id']+'.png');trace=stage/'new/data/native-render'/(x['id']+'.json')
+        assert digest(p.read_bytes())==x['rendered_sha256']and digest(trace.read_bytes())==x['trace_sha256']and x['exit_code']==0
+        t=read(trace);assert all(run['font']==t['font']and 0 not in run['glyphs']for run in t['runs'])
+        assert sorted(i for run in t['runs']for i in run['string_indices'])==list(range(len(t['text'])))
+    return m,gm
+
+def replay_f_records(stage,count,gm):
+    f32=lambda x:struct.unpack('<f',struct.pack('<f',x))[0]
+    native={(x['id'],x['model']):x for x in read(stage/'native-rows.json')};images={x['id']:x for x in read(stage/'evaluation-manifest.json')['inputs']};records=read(stage/'production-replay/records.json');assert len(records)==count*3
+    for row in records:
+        x=native[row['id'],row['model']];im=images[row['id']];base=x['base'];text=base['text'];left,sep,right=text.partition(' ');n=len(text.replace(' ',''));g=gm[row['id']]
+        body=lambda c:any(lo<=ord(c)<=hi for lo,hi in [(0x3040,0x30ff),(0x3400,0x4dbf),(0x4e00,0x9fff),(0xf900,0xfaff)])
+        eligible=text.count(' ')==1 and not text.startswith(' ')and not text.endswith(' ')and 6<=n<=12 and all(body(c)or c in '、。'for c in text.replace(' ',''))and left[-1:]in ['、','。']and bool(right)and body(right[0])and math.isfinite(base['mean_confidence'])and 0<=base['mean_confidence']<=1 and g['support_by_length'].get(str(n),False)
+        assert 5*im['height']<=4*im['width'];eligible=eligible and(im['width']+4)*24<=im['height']*{'30':256,'50':384,'100':768}[row['model']]
+        calls=0;selected=False
+        if eligible:
+            for i,alt in enumerate(x['candidates']):
+                calls+=1
+                if alt['text']!=text.replace(' ','')or not math.isfinite(alt['mean_confidence'])or not .98<=alt['mean_confidence']<=1 or(i==0 and alt['mean_confidence']<=base['mean_confidence']):break
+            else:selected=True
+        assert(row['calls'],row['selected'])==(calls,selected)
+        chosen=x['candidates'][0]if selected else base
+        for name,expected in [('raw',base),('result',chosen)]:assert row[name]['text']==expected['text']and f32(row[name]['mean_confidence'])==f32(expected['mean_confidence'])
+        for policy in ['single','fragment']:
+            for phase in ['before','after']:
+                p=stage/'production-replay'/row['model']/policy/phase/(row['id']+'.txt');p.parent.mkdir(parents=True,exist_ok=True);p.write_bytes(row['policies'][policy][phase].encode())
+
+def replay_proportional(stage,parent):
+    m,gm=inherit_corpus(stage,parent,4022);assert read(stage/'frozen-native.json')==read(parent/'native-rows.json')
+    proof=read(stage/'shared-raw-replay.json');variants={x['id']:x for x in read(stage/'new/data/evaluation-manifest.json')['variants']};assert len(variants)==len(proof['captured_rgb'])==2304
+    for x in proof['captured_rgb']:assert x['rgb_sha256']==variants[x['id']]['rgb_sha256']
+    for model in ['30','50','100']:
+        assert read(stage/'new'/(model+'-command.json'))['exit_code']==0
+        rows=read(stage/'new'/(model+'-export.json'));assert len(rows)==2304 and all(len(x['chunks'])==1 for x in rows)
+    fn=lambda p:p.read_text(encoding='utf-8').split('def japanese')[1].split('native=json')[0]
+    assert fn(stage/'evaluate-advance.py')==fn(parent/'evaluate-advance.py')
+    expected={name:(stage/name).read_bytes()for name in ['native-rows.json','decisions-advance.json','audit-advance.json']};tables={p.name:p.read_bytes()for p in(stage/'scores-advance').iterdir()}
+    for driver in ['assemble.py','evaluate-advance.py']:subprocess.run([sys.executable,str(stage/driver),str(stage)],check=True,capture_output=True,env=os.environ|{'PYTHONUTF8':'1'})
+    for name,b in expected.items():assert(stage/name).read_bytes()==b
+    for name,b in tables.items():assert(stage/'scores-advance'/name).read_bytes()==b
+    replay_f_records(stage,4022,gm)
+    expected=(stage/'production-replay/audit.json').read_bytes();tables={p.name:p.read_bytes()for p in(stage/'production-replay/scores').iterdir()};(stage/'production-replay/scores').rename(stage/'production-replay/expected-scores');command=(stage/'production-score-command.json').read_bytes()
+    code=(stage/'score_production_replay.py').read_text(encoding='utf-8').replace("r=Path('tmp/punct-proportional')","r=Path(sys.argv[1])").replace("scorer=Path('tools/eval_ocr_metrics.py')","scorer=Path(sys.argv[2])");driver=stage/'replay-production.py';driver.write_text(code,encoding='utf-8');subprocess.run([sys.executable,str(driver),str(stage),str(stage/'source/eval_ocr_metrics.py')],check=True,env=os.environ|{'PYTHONUTF8':'1'})
+    assert(stage/'production-replay/audit.json').read_bytes()==expected
+    for name,b in tables.items():assert(stage/'production-replay/scores'/name).read_bytes()==b
+    (stage/'production-score-command.json').write_bytes(command)
+    print('F proportional4022 geometries,18 diagnostic/36 historical production tables and failures reproduced',flush=True)
+
+def replay_matched(stage,parent):
+    inherit_corpus(stage,parent,4598);assert read(stage/'frozen-native.json')==read(parent/'native-rows.json')
+    assert read(stage/'frozen-f-selection.json')==read(parent/'production-replay/records.json')
+    variants_by_dataset={}
+    for label,count in [('base',4022),('new',2304)]:
+        variants={x['id']:x for x in read(stage/label/'data/evaluation-manifest.json')['variants']};assert len(variants)==count;variants_by_dataset[label]=variants
+        for model in ['30','50','100']:
+            assert read(stage/label/(model+'-command.json'))['exit_code']==0
+            rows=read(stage/label/(model+'-export.json'));assert len(rows)==count and all(len(x['chunks'])==1 for x in rows)
+    proof=read(stage/'actual-input-proof.json');assert len(proof['captured_rgb'])==6326
+    for x in proof['captured_rgb']:
+        v=variants_by_dataset[x['dataset']][x['id']];assert x['rgb_sha256']==v['rgb_sha256']
+    old_inputs={x['id']:x for x in read(parent/'evaluation-manifest.json')['inputs']}
+    for v in variants_by_dataset['base'].values():
+        x=old_inputs[v['base_id']];assert v['rgb_sha256']==x['rgb_sha256']and v['dimensions']==[x['width'],x['height']]
+    expected={name:(stage/name).read_bytes()for name in ['native-rows.json','base-parity.json','decisions.json','audit.json']};tables={p.name:p.read_bytes()for p in(stage/'scores').iterdir()}
+    # The archived assembler's original root is a capture path; adapt only that root.
+    code=(stage/'assemble.py').read_text(encoding='utf-8').replace("r=Path('tmp/punct-matched')","r=Path(sys.argv[1])").replace('import json,struct,hashlib','import json,struct,hashlib,sys');driver=stage/'replay-assemble.py';driver.write_text(code,encoding='utf-8');subprocess.run([sys.executable,str(driver),str(stage)],check=True,capture_output=True,env=os.environ|{'PYTHONUTF8':'1'})
+    assert(stage/'native-rows.json').read_bytes()==expected['native-rows.json']
+    parity=read(stage/'base-parity.json');old=json.loads(expected['base-parity.json']);assert all(parity[k]==v for k,v in old.items()if k!='driver_sha256');assert parity['original_pairs']==12066 and parity['all_text_and_f32_original_means_bit_equal'];(stage/'base-parity.json').write_bytes(expected['base-parity.json'])
+    subprocess.run([sys.executable,str(stage/'evaluate.py'),str(stage),str(stage/'source/eval_ocr_metrics.py')],check=True,capture_output=True,env=os.environ|{'PYTHONUTF8':'1'})
+    for name,b in expected.items():assert(stage/name).read_bytes()==b
+    for name,b in tables.items():assert(stage/'scores'/name).read_bytes()==b
+    print('G4598 geometries,12066 original mean parity and18 diagnostic tables/failures reproduced',flush=True)
+
 def replay_validation(stage,advance):
     materialize(stage)
     manifest=read(stage/'native-manifest.json');assert len(manifest['inputs'])==158
@@ -255,6 +345,35 @@ def replay_validation(stage,advance):
         assert x['exit_code']==0 and body[-1:]==b'\n'and body[:-1]==x['text'].encode('utf-8')
     print('F7584 real text/f32 records match production replay;14 CLI witnesses checked',flush=True)
 
+def replay_retirement(stage):
+    for phase in ['red','green']:
+        meta=read(stage/(phase+'-source.json'))
+        for p,h in meta['sha256'].items():assert digest((stage/(phase+'-source')/p).read_bytes())==h
+    assert read(stage/'red-command.json')['exit_code']==101 and read(stage/'green-command.json')['exit_code']==0
+    assert '1 passed; 4 failed;'in(stage/'red-tests.stdout').read_text(encoding='utf-8')
+    assert '5 passed; 0 failed;'in(stage/'green-tests.stdout').read_text(encoding='utf-8')
+    base=stage/'baseline-source/src/infer';green=stage/'green-source/src/infer'
+    assert(green/'parseq.rs').read_bytes()==(base/'parseq.rs').read_bytes()
+    tail=b'\n#[cfg(test)]\n#[path = "../../tests/support/punctuation_context_model.rs"]\nmod punctuation_context_model_tests;\n\n#[cfg(test)]\n#[path = "../../tests/support/punctuation_context_capture.rs"]\nmod punctuation_context_capture;\n'
+    assert(green/'cached.rs').read_bytes()==(base/'cached.rs').read_bytes()+tail
+    assert '#[cfg(test)]\nmod punctuation_context;'in(green/'mod.rs').read_text(encoding='utf-8')
+    assert '#[cfg(test)]\npub(super) fn supports_punctuation_space_context'in(green/'visible_repetitions.rs').read_text(encoding='utf-8')
+    audit=read(stage/'cli-audit.json');assert audit['processes']==21 and audit['all7_after_bodies_equal_9fc_baseline']and audit['proportional_recoveries_vs_F']==3 and audit['F_positive_gains_withdrawn']==3 and audit['condensed_unchanged']==1
+    for x in audit['records']:
+        case=x['case'];name=x['phase']+'-'+case['file'][:-4];body=(stage/'cli'/(name+'.stdout')).read_bytes()
+        assert x['exit_code']==0 and x['removed_exactly_one_terminal_LF']and body[-1:]==b'\n'and body[:-1]==x['text'].encode('utf-8')
+        assert digest((stage/'fixtures'/case['file']).read_bytes())==case['image_sha256']
+    for case in read(stage/'cli-command.json')['cases']:
+        before,f,after=[next(x['text']for x in audit['records']if x['phase']==phase and x['case']['file']==case['file'])for phase in ['baseline','F','after']]
+        assert before==after
+        if case['kind']=='proportional':assert after==case['truth']and f!=case['truth']
+        elif case['kind']=='withdrawn_positive':assert f==case['truth']and after!=case['truth']
+        else:assert f==after==case['truth']
+    summary=read(stage/'check-summary.json')
+    for name,n in [('default',639),('native',556),('examples',23)]:assert summary['tests'][name]['passed']==n and summary['tests'][name]['failed']==0 and read(stage/(name+'-exit.json'))['exit_code']==0
+    assert summary['new_clippy_warnings']==summary['clippy_exit_code']==0
+    print('retirement4 Red/5 Green,21 actual CLI bodies,source equivalence and check witnesses verified',flush=True)
+
 def main():
     p=argparse.ArgumentParser(description=__doc__);p.add_argument('destination',type=Path);p.add_argument('--raw-only',action='store_true');args=p.parse_args();root=args.destination.resolve();root.mkdir(parents=True);here=Path(__file__).resolve().parent
     extract(here,'raw',root/'raw');replay_raw(root/'raw')
@@ -264,6 +383,10 @@ def main():
             stage=root/name;extract(here,name,stage);replay_extension(stage,parent,root/'raw/D',name,count,new);parent=stage
     if(here/'advance.zip').exists():
         stage=root/'advance';extract(here,'advance',stage);replay_advance(stage,parent)
+    if(here/'proportional.zip').exists():
+        stage=root/'proportional';extract(here,'proportional',stage);replay_proportional(stage,root/'advance')
+    if(here/'matched.zip').exists():
+        stage=root/'matched';extract(here,'matched',stage);replay_matched(stage,root/'proportional')
     if args.raw_only:return
     for name in ['native','page']:
         stage=root/name;extract(here,name,stage);materialize(stage);expected=(stage/(name+'-audit.json')).read_bytes();tables={p.name:p.read_bytes()for p in(stage/(name+'-scores')).iterdir()}
@@ -274,12 +397,14 @@ def main():
         print(name,len(tables),'tables and audit reproduced',flush=True)
     if(here/'validation.zip').exists():
         stage=root/'validation';extract(here,'validation',stage);replay_validation(stage,root/'advance')
-    folders=['raw/C/scores','raw/D/scores','noise/scores','aspect/scores','advance/scores-width','advance/scores-advance','advance/production-replay/scores','native/native-scores','page/page-scores','validation/native-scores','validation/page-scores']
+    if(here/'retirement.zip').exists():
+        stage=root/'retirement';extract(here,'retirement',stage);replay_retirement(stage)
+    folders=['raw/C/scores','raw/D/scores','noise/scores','aspect/scores','advance/scores-width','advance/scores-advance','advance/production-replay/scores','native/native-scores','page/page-scores','validation/native-scores','validation/page-scores','proportional/scores-advance','proportional/production-replay/scores','matched/scores']
     tables={str(p.relative_to(root)):digest(p.read_bytes())for folder in folders for p in(root/folder).iterdir()if p.suffix in ['.csv','.md']}
-    assert len(tables)==528 and sum(p.endswith('.csv')for p in tables)==264
-    archives={name:read(here/(name+'.json'))['sha256']for name in ['raw','noise','aspect','advance','native','page','validation']}
+    assert len(tables)==600 and sum(p.endswith('.csv')for p in tables)==300
+    archives={name:read(here/(name+'.json'))['sha256']for name in ['raw','noise','aspect','advance','native','page','validation','proportional','matched','retirement']}
     report={'archive_sha256':archives,'verified_table_files':len(tables),'table_sha256':tables,'all_archive_member_sha256_checked':True,'all_original_body_sha256_checked':True,'replayer_sha256':digest(Path(__file__).read_bytes())}
     (root/'verification.json').write_text(json.dumps(report,indent=2)+'\n',encoding='utf-8')
-    print('all7 archives and528 CSV/Markdown files reproduced',flush=True)
+    print('all10 archives and600 CSV/Markdown files reproduced',flush=True)
 
 if __name__=='__main__':main()

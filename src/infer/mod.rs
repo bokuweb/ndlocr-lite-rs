@@ -28,7 +28,7 @@ pub(crate) mod band_line_recovery;
 
 pub(crate) mod visible_repetitions;
 
-#[cfg(any(feature = "onnx", test))]
+#[cfg(test)]
 mod punctuation_context;
 
 #[cfg(any(feature = "onnx", test))]

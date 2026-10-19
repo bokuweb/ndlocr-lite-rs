@@ -614,7 +614,7 @@ pub fn recognize_rgb_u8_with_score_unprocessed(
     recognize_image_unprocessed_impl(model_path, rgb, width, height, &charset)
 }
 
-/// 同じモデルの余白確認後に、同じRGBによる既存の画像支持方針を適用する。
+/// 画像を持つ認識APIでは、共通のデコード結果の反復数を同じRGBで確認する。
 fn recognize_image_impl(
     model_path: &Path,
     rgb: &[u8],
@@ -622,10 +622,6 @@ fn recognize_image_impl(
     height: usize,
     charset: &[char],
 ) -> Result<RecognizeResult> {
-    #[cfg(feature = "onnx")]
-    let mut result =
-        recognize_image_with_context_impl(model_path, rgb, width, height, charset, true)?;
-    #[cfg(not(feature = "onnx"))]
     let mut result = recognize_image_unprocessed_impl(model_path, rgb, width, height, charset)?;
     result.text = super::visible_repetitions::sanitize_visible_single_line(
         &result.text,
@@ -663,23 +659,13 @@ fn recognize_image_unprocessed_impl(
     height: usize,
     charset: &[char],
 ) -> Result<RecognizeResult> {
-    recognize_image_with_context_impl(model_path, rgb, width, height, charset, false)
-}
-
-#[cfg(feature = "onnx")]
-/// 単発APIの元推論と追加候補で、同じthread=1のsessionを共用する。
-fn recognize_image_with_context_impl(
-    model_path: &Path,
-    rgb: &[u8],
-    width: usize,
-    height: usize,
-    charset: &[char],
-    select_context: bool,
-) -> Result<RecognizeResult> {
     use crate::infer::ort_init::OrtAnyhow;
     use anyhow::anyhow;
+    use ndarray::Array4;
+    use ort::inputs;
     use ort::session::Session;
     use ort::session::builder::GraphOptimizationLevel;
+    use ort::value::TensorRef;
 
     crate::infer::ort_init::ensure_init();
     let mut session = Session::builder()
@@ -718,65 +704,13 @@ fn recognize_image_with_context_impl(
     let _ = outputs_meta;
     let _ = inputs_meta;
 
-    let names = (input_name.as_str(), output_name.as_str());
-    let model = (input_w, input_h);
-    let mut result = recognize_on_loaded_session(
-        &mut session,
-        names,
-        model,
-        charset,
-        (rgb, width, height),
-        ParseqOrientation::Auto,
-    )?;
-    if select_context
-        && let Some(candidate) = super::punctuation_context::select(
-            &result,
-            rgb,
-            width,
-            height,
-            model,
-            ParseqOrientation::Auto,
-            |p, w, h| {
-                recognize_on_loaded_session(
-                    &mut session,
-                    names,
-                    model,
-                    charset,
-                    (p, w, h),
-                    ParseqOrientation::Horizontal,
-                )
-            },
-        )
-    {
-        result = candidate;
-    }
-    Ok(result)
-}
-
-#[cfg(feature = "onnx")]
-fn recognize_on_loaded_session(
-    session: &mut ort::session::Session,
-    names: (&str, &str),
-    model: (usize, usize),
-    charset: &[char],
-    image: (&[u8], usize, usize),
-    orientation: ParseqOrientation,
-) -> Result<RecognizeResult> {
-    use crate::infer::ort_init::OrtAnyhow;
-    use ndarray::Array4;
-    use ort::{inputs, value::TensorRef};
-    let tensor = preprocess_rgb_u8_with_orientation(
-        image.0,
-        image.1,
-        image.2,
-        model.0,
-        model.1,
-        orientation,
-    )?;
-    let input_array: Array4<f32> = Array4::from_shape_vec((1, 3, model.1, model.0), tensor)?;
+    let tensor = preprocess_rgb_u8(rgb, width, height, input_w, input_h)?;
+    let input_array: Array4<f32> = Array4::from_shape_vec((1, 3, input_h, input_w), tensor)?;
     let tref = TensorRef::from_array_view(input_array.view()).anyort()?;
-    let outputs = session.run(inputs![names.0 => tref]).anyort()?;
-    let (shape, data) = outputs[names.1].try_extract_tensor::<f32>().anyort()?;
+    let outputs = session.run(inputs![input_name.as_str() => tref]).anyort()?;
+    let (shape, data) = outputs[output_name.as_str()]
+        .try_extract_tensor::<f32>()
+        .anyort()?;
     let shape: Vec<i64> = shape.to_vec();
     let result = match shape.as_slice() {
         [1, t, c] => {

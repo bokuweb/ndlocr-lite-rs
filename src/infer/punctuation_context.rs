@@ -1,4 +1,4 @@
-//! 句読点の字形余白を、同じモデルの独立した純白余白候補で確認する。
+//! 棄却した空白支持Fのtest-only診断。製品経路からは呼び出さない。
 use super::parseq::{ParseqOrientation, RecognizeResult};
 use anyhow::Result;
 
