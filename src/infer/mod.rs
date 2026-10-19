@@ -27,3 +27,6 @@ pub(crate) mod dense_line_recovery;
 pub(crate) mod band_line_recovery;
 
 pub(crate) mod visible_repetitions;
+
+#[cfg(any(feature = "onnx", test))]
+pub(crate) mod missing_line_context;

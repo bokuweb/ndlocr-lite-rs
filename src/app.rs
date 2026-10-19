@@ -688,6 +688,38 @@ pub fn run_cli(cli: Cli) -> Result<()> {
                     })
                     .collect();
             }
+            #[cfg(feature = "onnx")]
+            {
+                let scored: Vec<_> = recognized_lines
+                    .iter()
+                    .map(|line| crate::pipeline::line_context::ScoredRegion {
+                        bounds: line.bbox_xyxy,
+                        text: &line.text,
+                        mean_confidence: line.confidence,
+                    })
+                    .collect();
+                if let Some(context) =
+                    crate::infer::missing_line_context::recover_missing_line_context(
+                        &scored,
+                        &img.data,
+                        img.width,
+                        img.height,
+                        cached_parseq.pool100.input_dimensions(),
+                        |data, w, h| {
+                            cached_parseq
+                                .pool100
+                                .recognize_horizontal_rgb_u8(data, w, h)
+                        },
+                    )
+                {
+                    recognized_lines = vec![RecognizedLine {
+                        bbox_xyxy: context.bounds,
+                        text: context.recognized.text,
+                        confidence: context.recognized.mean_confidence,
+                        is_vertical: false,
+                    }];
+                }
+            }
             if let Some(dict) = post_dict.as_ref() {
                 for line in &mut recognized_lines {
                     line.text = dict.apply(&line.text);

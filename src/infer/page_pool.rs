@@ -24,8 +24,12 @@
 //! 元画素を保持する区間の再認識と、必要なら同モデルの全体文脈確認で補う。
 //! native入力比率を超える帯は、この確認に成功した場合のみ追加する。
 //!
-//! 認識精度に関わる post-processing (構造ルール、辞書、cascade fallback)
-//! は本モジュールには含めない。極端に横長で文字密度が高い行の短すぎる結果だけ、
+//! 元枠が覆わない画線を持つ単一横書き帯は、同じpoolで全体文脈を確認する。
+//! native比率内の原画像/全文被覆帯だけを認識し、元結果の文字数加重平均confidenceを
+//! 厳密に上回る候補を選ぶ。空出力から追加せず、追加確認の失敗時は元結果を保つ。
+//!
+//! 文書依存の構造ルール、辞書、複数モデルのcascadeはconsumer側で適用する。
+//! 極端に横長で文字密度が高い行の短すぎる結果は、
 //! 同じ供給モデルで安全な部分画像を追加認識する。全ての部分が高信頼度で
 //! 十分な文字量を説明できた場合に採用する。consumer 側で必要に応じて
 //! [`crate::postprocess::page_rules::apply_structural_rules`] を呼ぶ。
@@ -359,7 +363,7 @@ fn recognize_one_page(
         .collect();
     let keep = crate::pipeline::line_context::select_contexts(&scored, parseq.input_dimensions());
     let mut keep = keep.into_iter().peekable();
-    let lines = lines
+    let mut lines: Vec<PageLine> = lines
         .into_iter()
         .enumerate()
         .filter_map(|(i, line)| {
@@ -371,6 +375,28 @@ fn recognize_one_page(
             }
         })
         .collect();
+    let scored: Vec<_> = lines
+        .iter()
+        .map(|line| crate::pipeline::line_context::ScoredRegion {
+            bounds: line.bbox_xyxy,
+            text: &line.text,
+            mean_confidence: line.confidence,
+        })
+        .collect();
+    if let Some(context) = super::missing_line_context::recover_missing_line_context(
+        &scored,
+        rgb,
+        width,
+        height,
+        parseq.input_dimensions(),
+        |data, w, h| parseq.recognize_horizontal_rgb_u8(data, w, h),
+    ) {
+        lines = vec![PageLine {
+            bbox_xyxy: context.bounds,
+            text: context.recognized.text,
+            confidence: context.recognized.mean_confidence,
+        }];
+    }
     Ok(PageResult { page_index, lines })
 }
 
@@ -381,3 +407,7 @@ mod band_fallback_tests;
 #[cfg(test)]
 #[path = "../../tests/support/contained_line_context_model.rs"]
 mod contained_context_tests;
+
+#[cfg(test)]
+#[path = "../../tests/support/missing_line_context_model.rs"]
+mod missing_context_tests;

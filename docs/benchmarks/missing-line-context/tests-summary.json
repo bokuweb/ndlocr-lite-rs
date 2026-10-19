@@ -1,0 +1,36 @@
+{
+  "default-tests.log": {
+    "passed": 573,
+    "sha256": "36ac5af2a85ad83b1e621ae570d111470823cdb7dfc204d6d144dc570f7d68b9"
+  },
+  "default-lib-final.log": {
+    "passed": 215,
+    "sha256": "f8c355f5beebcc7377697f07170591f4055d0d82e40d7ea6e66c4395bf9c949e"
+  },
+  "onnx-tests.log": {
+    "passed": 521,
+    "sha256": "db8cf5e92d7c5958f7a3f18e61fc87ea11d3fcd6524c8c0481a6b23c29fcb5ca"
+  },
+  "example-tests.log": {
+    "passed": 18,
+    "sha256": "5f31ea0f79de734b565a77b1f6383d3eebd13bbf49c58f7ff50e45b106d1bf0b"
+  },
+  "policy-replay.log": {
+    "passed": 1,
+    "sha256": "c8f1f1b8b86eabb267ef1e2cf704a3cd9a8a6d5d1264d1b13934eb7a597da6dc"
+  },
+  "final-cli-parity.log": {
+    "passed": 0,
+    "sha256": "9d8665d92774821cfc79a8bde45387ff7391fba9600da2144a9de55329dd734c"
+  },
+  "default_distinct_passed": 574,
+  "final_cli_fresh_checks": 41,
+  "single_fresh_checks": 30,
+  "policy_replayed_pages": 1148,
+  "clippy": {
+    "library_warnings": 18,
+    "example_warnings": 1,
+    "new_warnings": 0,
+    "sha256": "312f0ef0770978c6c151ff81115b19b95f499b75fd442a830c10090268582e0d"
+  }
+}
