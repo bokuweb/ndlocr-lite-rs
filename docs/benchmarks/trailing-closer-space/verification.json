@@ -7,5 +7,12 @@
   "replay_binary_sha256": "45ced2c4d4f3cf725db637f55b59b1fca5ab97ae847c5684274bb332ca0c921d",
   "production_source_sha256": "ae24edb5b7574e14cf57f37ba6c74fd8d06245023914642c81da40c71ece696c",
   "portable_log": "all archive/member SHA verified;18 metric files and audit reproduced byte-for-byte\n",
-  "replay_log": "\nrunning 1 test\ntest infer::visible_repetitions::word_spaces_probe::verify_trailing_space_actual_api_and_frozen_replay ... ok\n\ntest result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 277 filtered out; finished in 7.12s\n\n"
+  "replay_log": "\nrunning 1 test\ntest infer::visible_repetitions::word_spaces_probe::verify_trailing_space_actual_api_and_frozen_replay ... ok\n\ntest result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 277 filtered out; finished in 7.12s\n\n",
+  "completed_onnx_ci_target_suite": {
+    "passed": 493,
+    "groups": 46,
+    "log_member": "logs/tests-onnx-ci-targets.log",
+    "log_sha256": "211019a38ec292833f477568d98aa4d16f88007152df74cae8e0c85616cfc61b",
+    "note": "The archived validation.json snapshot counted488 before the final5-test group completed. The complete archived log proves493."
+  }
 }

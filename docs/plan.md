@@ -272,5 +272,16 @@
 - 閉じたgap/幅/高さ境界・RGB/方向・PBT64例と、3モデルのstateless/Session/Pool/batch/単一Session batch/fragment・Cascade開始3/2/1・エラー再利用を検査。純粋22/23/24/42/43/44字は空白込みの字数を確認する。最初の境界テストは長い同字反復自体が短縮される誤ったfixtureだったため、異なる文字の巡回へ直して検査した。実画像で新たに25/45字の再認識先が変わる精度まで確認したとは主張しない。
 - `docs/benchmarks/trailing-closer-space/` に原画像/decoded RGB・全本文/真値・確率/停止理由・API/CLI・正式18表・失敗/成功ログ・source/binary/input/model SHAを保存する。全API/CLIのlint前sourceと、等価な `?` へ整えた最終sourceのモデル不要4581選択/fragment再生を区別した。直接pathの予備API実行は中断し、copy済みbinaryで全件やり直した。
 - 元の未回復289に加え、新対照を含むraw正読の未回復は330組。次はprefix空白、複数成分/接触、文字種・復旧bboxの余白を診断する。ページ全件の新規再測定・速度・未知資料汎化は未確認で、目的全体は継続する。fc22d35の全5CIは成功した。
-- 通常595件＋追加境界1件、ONNX CI対象488件と明示rootの再生1件、example18件が成功。fmt/diff/対象Clippy成功、新規警告0（既存本体18・lib test28/うち18重複）。最初のignored全実行はmodel/charset環境変数不足で停止し、CIと同じ明示設定で再検査した。
+- 通常595件＋追加境界1件、ONNX CI対象493件と明示rootの再生1件、example18件が成功。fmt/diff/対象Clippy成功、新規警告0（既存本体18・lib test28/うち18重複）。最初のignored全実行はmodel/charset環境変数不足で停止し、CIと同じ明示設定で再検査した。
 - 別rootでarchiveと全memberのSHAを検証し、同梱toolの18表＋監査と、最終製品sourceの4581選択/fragment再生が一致した。環境変数を明示した既存実資料1件も成功。
+
+## 2026-10-19: 狭いadvanceで先頭閉じ括弧の後ろの単語空白を回復
+
+- 先行仕様 `docs/leading_closer_word_space.md`。前段の新しい未回復41組が全て先頭closer＋空白だった。KLM・24/36px・2font・PNG/JPEGと左罫線176対照をOCR前に固定しfixture Red→Green。末尾のgap条件を先頭へ対称化するtest-only案は185本文変更・108文字/262単語指標退行で棄却した。`）ABC` →raw `) ABC` の全角字幅の余白を空白と扱う反例を全件保存する。
+- 第2候補の評価前にPQR・18/32pxと左罫線の176対照をさらに固定。closerの画線幅＋先頭gapが本文最大高さ以内に収まる追加支持を仕様化した。閾値探索や語句/closer種類の置換はせず、不確かな場合はae42fceを維持する。純粋Redと公開Sessionの `) ABC` → ` ABC` のRedを先行して製品Greenにした。追加推論なし。
+- 全1879×3×3=16911文字/単語指標がae42fce比で非悪化。5637本文組は78生文字/単語距離改善・うち77完全一致、5559byte同一。65はraw正読の後処理損失の回復、12はモデル省略空白の補完で完全一致、1は `)POR` → `) POR` の空白だけ改善しO/Qは維持した。変更はABC12・DEF24・KLM18・PQR24、元1271の3813本文は全て同一。
+- 元1527の4581 rawを親archive SHAと全before/fragment/実API照合で再利用し、KLM/PQRはraw/processed各1056 forwardを新規実行。after公開Sessionを全5637入力で新規実行し、全本文が候補とbyte一致、confidenceがrawとbit一致した。全変更＋新PQR176の和集合194画像×3モデルの582 CLIを前後とも新規実行し、全APIと厳密1LF抽出で本文が一致した。
+- gap/幅/高さ/advanceの閉じた境界・全角字幅反例・語中/複数/二重/非ASCII空白・RGB/方向・PBT64例、3モデルのstateless/Session/Pool/batch/単一Session batch/fragment/raw/候補・エラー再利用・Cascade開始3/2/1を検査。純粋22/23/24/42/43/44字は空白込みの字数を確認するが、今回の実画像が25/45字の再認識先を変える精度まで検証したとは主張しない。
+- 通常603件、ONNX CI対象503件と明示rootの5637再生1件、example18件が成功。fmt/diff/対象Clippy成功、新規警告0（既存本体18・lib test28/18重複）。ae42fceの全5CIも成功。前段のONNX集計は最後の5件完了前の488だったため、既存archiveの完了ログSHAを検証し493へ文書を訂正した。archiveと評価表/SHAは変更せずverificationへ根拠を追記した。
+- `docs/benchmarks/leading-closer-space/` に原画像/decoded RGB・raw/成分/確率/停止理由・全方針本文JSON・実API/CLI・36表・失敗/成功監査・source/binary/input/model SHAを保存。方針別TXTは同梱scriptで再生し重複を省く。別rootで全SHAと成功/失敗案36表＋両監査のbyte一致、同じ製品executableで全5637選択/fragmentの再生一致を確認する。
+- 最初の41組中35回復・全角側の6未回復。新対照込みではraw正読の損失400→335、元1271の289も残る。追加画像は既知fontの合成開発対照で、未知実資料holdoutではない。次は全角closer側の空白と複数成分/接触、文字種の誤読を切り分ける。全ページ新規再測定・速度・未知資料汎化は未確認で、目的全体は継続する。

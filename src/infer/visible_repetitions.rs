@@ -26,7 +26,9 @@ pub(crate) fn sanitize_visible_single_line(
         && height > 0
         && width.checked_mul(height).and_then(|n| n.checked_mul(3)) == Some(rgb.len())
     {
-        if let Some(spaced) = supported_trailing_space(&fragment, rgb, width, height) {
+        if let Some(spaced) = supported_trailing_space(&fragment, rgb, width, height)
+            .or_else(|| supported_leading_space(&fragment, rgb, width, height))
+        {
             return spaced;
         }
         if !fragment.chars().any(char::is_whitespace)
@@ -299,6 +301,82 @@ fn trailing_space_from_boxes(
     Some(format!("{body} {closer}"))
 }
 
+fn supported_leading_space(
+    fragment: &str,
+    rgb: &[u8],
+    width: usize,
+    height: usize,
+) -> Option<String> {
+    // Check text before scanning pixels. Unsupported forms keep the existing policy.
+    let closer = fragment.chars().next()?;
+    if !matches!(closer, ')' | '）' | '」' | '』' | '】') {
+        return None;
+    }
+    let suffix = &fragment[closer.len_utf8()..];
+    let body = suffix.strip_prefix(' ').unwrap_or(suffix);
+    if body.chars().count() < 3
+        || body
+            .chars()
+            .any(|c| c.is_whitespace() || matches!(c, ')' | '）' | '」' | '』' | '】'))
+    {
+        return None;
+    }
+    let compact = format!("{closer}{body}");
+    let (components, body_height) = collect_components(rgb, width, height)?;
+    let count = compact.chars().count();
+    if !(supports_collected(&components, body_height, count, None)
+        || supports_collected(&components, body_height, count, Some(&compact)))
+    {
+        return None;
+    }
+    let boxes: Vec<_> = components
+        .iter()
+        .map(|c| (c.x0, c.x1, c.y0, c.y1))
+        .collect();
+    compact_leading_space_from_boxes(fragment, &boxes)
+}
+
+fn compact_leading_space_from_boxes(
+    fragment: &str,
+    boxes: &[(usize, usize, usize, usize)],
+) -> Option<String> {
+    let closer = fragment.chars().next()?;
+    let is_closer = |c| matches!(c, ')' | '）' | '」' | '』' | '】');
+    if !is_closer(closer) {
+        return None;
+    }
+    let suffix = &fragment[closer.len_utf8()..];
+    let body = suffix.strip_prefix(' ').unwrap_or(suffix);
+    if body.chars().count() < 3
+        || body.chars().any(|c| c.is_whitespace() || is_closer(c))
+        || boxes.len() != body.chars().count() + 1
+        || boxes.iter().any(|&(x0, x1, y0, y1)| x0 >= x1 || y0 >= y1)
+        || boxes.windows(2).any(|p| p[0].1 > p[1].0)
+    {
+        return None;
+    }
+    let body_boxes = &boxes[1..];
+    let h = body_boxes.iter().map(|g| g.3 - g.2).max()?;
+    let gaps: Vec<_> = body_boxes.windows(2).map(|p| p[1].0 - p[0].1).collect();
+    let max_gap = *gaps.iter().max()?;
+    // A fullwidth closer can leave a large bearing without a word space.
+    // Require its ink and following gap to fit within one body height.
+    if gaps.contains(&0) || max_gap as u128 * 4 > h as u128 || boxes[1].0 - boxes[0].0 > h {
+        return None;
+    }
+    let close = boxes.first()?;
+    let gap = body_boxes.first()?.0 - close.1;
+    let threshold = (max_gap * 2 + h.div_ceil(8)).max(h.div_ceil(3));
+    if close.1 - close.0 < h.div_ceil(4)
+        || (close.3 - close.2) as u128 > h as u128 * 2
+        || gap < threshold
+        || gap > h
+    {
+        return None;
+    }
+    Some(format!("{closer} {body}"))
+}
+
 #[cfg(test)]
 #[path = "../../tests/support/visible_repetitions_policy.rs"]
 mod tests;
@@ -318,3 +396,7 @@ mod body_closer_tests;
 #[cfg(test)]
 #[path = "../../tests/support/closer_word_spaces_probe.rs"]
 mod word_spaces_probe;
+
+#[cfg(test)]
+#[path = "../../tests/support/leading_closer_space.rs"]
+mod leading_space_probe;

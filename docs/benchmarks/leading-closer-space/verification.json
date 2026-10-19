@@ -1,0 +1,11 @@
+{
+  "archive_sha256": "23a43dd431cf35c7b56eba287bd56c208753cd5e369ad0205332c467ca1fb7f3",
+  "verified_members": 10945,
+  "metric_files_reproduced": 36,
+  "both_audits_reproduced": true,
+  "offline_product_and_fragment_replays": 5637,
+  "replay_binary_sha256": "e8cae1cb0cc517cdd6757fd73dfd408298fc1d7fadded967e7201717d3dd3704",
+  "production_source_sha256": "250d9c57545f5c817ea8c42fe7232e658f5e6cabe5d0b39ca1c0708f2cd70bef",
+  "portable_log": "all archive/member SHA verified;36 metric files and both audits reproduced byte-for-byte\n",
+  "replay_log": "\nrunning 1 test\nverified 1879 rows for \"single30\" (offline)\nverified 1879 rows for \"single50\" (offline)\nverified 1879 rows for \"single100\" (offline)\ntest infer::visible_repetitions::leading_space_probe::verify_compact_leading_space_actual_api_and_frozen_replay ... ok\n\ntest result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 289 filtered out; finished in 4.37s\n\n"
+}

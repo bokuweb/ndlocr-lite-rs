@@ -37,7 +37,7 @@ ABC80はraw/processed各240 forward、DEF等176は各528 forwardを新規実行�
 CLIでは終端LFを厳密に1個だけ取り除き、元からある空白をstripしない。
 最初のABC80にも旧厳密支持版/比較元CLI各240プロセスの独立照合を保存する。
 
-通常全595件＋追加境界1件、ONNXのCI対象488件と明示rootでの全件再生1件、example18件が成功。
+通常全595件＋追加境界1件、ONNXのCI対象493件と明示rootでの全件再生1件、example18件が成功。
 対象Clippyは本体既存18・lib test28警告（18重複）で新規警告0、fmt/diffも成功した。
 環境変数なしでno-opの診断をONNX件数に含む。最初の全ignored実行は既存テストが要求するmodel/charset環境変数不足で停止し、
 CIと同じ明示設定の対象を再実行した。
@@ -67,3 +67,7 @@ python3 docs/benchmarks/trailing-closer-space/reproduce.py --output tmp/trailing
 Rustでdecoded PNGから再生する場合は、凍結した検証executableに
 `NDLOCR_TRAILING_SPACE_VERIFY_ROOT` と `NDLOCR_TRAILING_SPACE_OFFLINE=1` を与えて
 `verify_trailing_space_actual_api_and_frozen_replay` のignored testを実行する。
+
+ONNX件数の訂正: archive内の `validation.json` は最後の5件が終わる前の488件という中間集計だった。
+同梱の完了ログは493件成功を示すため本文を訂正し、`verification.json` にログSHAと完了集計を追記した。
+archive・既存の本文/数値評価表・SHAは変更していない。
