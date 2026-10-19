@@ -1,0 +1,20 @@
+{
+  "archives_sha256": {
+    "images": "6633d41f6beda57fcae15f8eb62edc437a58a2fb6216b5ac21e6067611b0e8ac",
+    "diagnostics": "724521a3df4b4ade0cd5a5f7daa2fd2865c842e9310c857cbc076dfc16bfddfe",
+    "text": "d26e5359aadfea0d30cc7073e3541d60fb66d6652d5a336e37ec1da2e03d1191"
+  },
+  "verified_members": 23819,
+  "metric_files_reproduced": 54,
+  "audits_reproduced": 3,
+  "offline_product_original_components_legacy_and_fragment_replays": 8613,
+  "replay_binary_sha256": "00c75190072d3f539aeb0f1bb98aa81237c0f0922ec95df794740ddfcc78b3a0",
+  "production_source_sha256": {
+    "src/infer/visible_repetitions.rs": "e576155f94a2aa4a2218442d89487a12cedafbc281568618f7236834e489899c",
+    "src/infer/visible_repetitions/contained_components.rs": "14c84c7ce34c9aaf4ed83a81d4bc28ee82ae52571cbff445a5ba1b169ef0124d",
+    "Cargo.toml": "7f57841dc78fc33bdcd06cdd652cd4bd7e5fe0d6b0aa0eb790b8ff75ecac8c44"
+  },
+  "portable_log": "all archive/member SHA verified;54 metric files, three audits, and distance-change summary reproduced\n",
+  "replay_log": "\nrunning 1 test\nverified 2871 rows for \"single30\" (offline)\nverified 2871 rows for \"single50\" (offline)\nverified 2871 rows for \"single100\" (offline)\ntest infer::visible_repetitions::contained_closer_probe::verify_contained_closer_actual_api_and_replay ... ok\n\ntest result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 305 filtered out; finished in 19.92s\n\n",
+  "distance_change_summary_reproduced": true
+}

@@ -1,4 +1,6 @@
 //! モデルが読んだ反復や閉じ括弧を、同じ入力の独立した画線群で支持する。
+mod contained_components;
+
 use crate::infer::parseq::{
     ParseqOrientation, sanitize_fragment_preserving_repetitions,
     sanitize_line_preserving_repetitions, sanitize_recognized_fragment, sanitize_recognized_text,
@@ -36,6 +38,9 @@ pub(crate) fn sanitize_visible_single_line(
                 || supports_closer_body(rgb, width, height, &fragment))
         {
             return fragment;
+        }
+        if let Some(candidate) = contained_components::candidate(&fragment, rgb, width, height) {
+            return candidate;
         }
     }
     current
@@ -400,3 +405,7 @@ mod word_spaces_probe;
 #[cfg(test)]
 #[path = "../../tests/support/leading_closer_space.rs"]
 mod leading_space_probe;
+
+#[cfg(test)]
+#[path = "../../tests/support/contained_closer_components.rs"]
+mod contained_closer_probe;

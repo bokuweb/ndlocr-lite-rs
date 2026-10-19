@@ -16,6 +16,7 @@ onnx = ["dep:ort", "dep:ndarray"]
 coreml = ["onnx", "ort/coreml"]
 
 [dependencies]
+unicode-width = { version = "=0.2.2", default-features = false }
 anyhow = "1"
 clap = { version = "4", features = ["derive"] }
 image = "0.25.9"

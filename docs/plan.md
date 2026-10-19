@@ -285,3 +285,17 @@
 - 通常603件、ONNX CI対象503件と明示rootの5637再生1件、example18件が成功。fmt/diff/対象Clippy成功、新規警告0（既存本体18・lib test28/18重複）。ae42fceの全5CIも成功。前段のONNX集計は最後の5件完了前の488だったため、既存archiveの完了ログSHAを検証し493へ文書を訂正した。archiveと評価表/SHAは変更せずverificationへ根拠を追記した。
 - `docs/benchmarks/leading-closer-space/` に原画像/decoded RGB・raw/成分/確率/停止理由・全方針本文JSON・実API/CLI・36表・失敗/成功監査・source/binary/input/model SHAを保存。方針別TXTは同梱scriptで再生し重複を省く。別rootで全SHAと成功/失敗案36表＋両監査のbyte一致、同じ製品executableで全5637選択/fragmentの再生一致を確認する。
 - 最初の41組中35回復・全角側の6未回復。新対照込みではraw正読の損失400→335、元1271の289も残る。追加画像は既知fontの合成開発対照で、未知実資料holdoutではない。次は全角closer側の空白と複数成分/接触、文字種の誤読を切り分ける。全ページ新規再測定・速度・未知資料汎化は未確認で、目的全体は継続する。
+
+## 2026-10-19: 文字内部の分離成分と閉じ括弧・空白の支持
+
+- 先行仕様 `docs/contained_closer_components.md`。未回復335組は成分過多177・不足92・x重複47・空白/advance19。`資料)` の料は大きいbbox内に分離画線があり、3字を4成分と数えていた。元RGB/8近傍/area閾値は維持し、他bboxの4辺すべての厳密な内側の成分だけをcloser用viewで除く。ページfragmentと反復の従来count gateは元成分を維持する。
+- 候補出力を見る前に、料金/回路/ijI/2048の240字形、回路図の空白80、全体枠32の352対照を固定しfixture Red→Green。包含だけの案は419本文変更・238完全一致改善だが、空白を省いたrawの括弧だけ戻して64単語指標が退行し棄却した。
+- 第2案評価前に結果表/図面/回A図/XYZ・24pxの320対照を固定。Unicode幅2のpitch支持を試したが、包含のない既存正読も再解釈して16文字/108単語指標退行で棄却した。第3案前に経路図/図画/回B図/UVW・40pxの320対照をさらに固定し、元fixture/truthを変更していない。全追加992は既知fontの合成開発対照で未知実資料holdoutとは扱わない。
+- 採用案は包含でviewが実際に変わる場合だけ適用する。幅2本文が2字以上ある全角/混合では、幅2の最大bbox幅＋本文最大gapをセル幅とし、字高・pitch・先頭advanceを確認して1個のASCII空白を支持する。全角1セル付近を狭い空白と扱わず、細い実括弧にはこのセル支持内だけ字高/5の幅を要求する。新runtime依存は固定 `unicode-width 0.2.2` の表示幅のみ。語句/closer種類を置換せず追加forwardなし。
+- 全2871×3×3=25839文字/単語指標がed453b9比で非悪化。8613本文組は727byte変更・7886byte同一。664はいずれかの指標/正規化で改善、63は全指標同値で改善に数えない。生文字距離では524改善・203同値変更。470完全一致改善のうち359はraw正読の後処理損失回復、111はモデル省略ASCII空白だけを補って完全一致。既存1879の未回復335は299へ、36組回復した。
+- 元5637 rawを親archive全SHAとbefore/fragment/実API照合で再利用し、新992画像はraw/processed各2976 forwardを新規捕捉。after全8613を実Sessionで新規実行し、全本文が候補とbyte一致、confidenceがrawとbit一致。元bbox/area・従来count gate・fragmentの全8613再生も一致。全変更＋新320の和集合570画像×3モデルの1710 CLIを前後とも新規実行し、厳密1LF抽出後の本文が全APIと一致した。
+- 純粋画線と公開Sessionの `資料)` → `資料` のRedを先行し製品Greenにした。4辺/同bbox/入れ子/部分重複/dotとgap/advance/セル幅の境界、4種類のPBT各64例、3モデルのstateless/Session/Pool/batch/単一Session batch/raw/候補/fragment・RGB/confidence・エラー再利用・Cascade開始3/2/1を検査。通常616件、ONNX CI対象519件と明示rootの8613再生1件、example18件が成功。fmt/diff/対象Clippy成功、新規警告0（既存本体18・lib test28/18重複）。ed453b9の全5CIも成功した。
+- 保存native字数では25/45字の新しい閾値跨ぎ0・字数減少0。これは実dispatch履歴と区別する。今回の復元で再認識先が変わる実画像の精度、全ページの新規再測定・速度・未知資料汎化は未確認。以前の未検出行復旧で記録した単語12指標退行は別baselineで、最新実装での再評価は次段とする。
+- `docs/benchmarks/contained-closer-components/` に3段階の原画像/decoded RGB・真値・全方針本文/成分/確率/停止理由JSON・実API/CLI・54表/3監査・全ログ・実行前凍結source/binary/Cargo/input/model SHAを保存する。画像/診断/本文を3archiveに分け、方針別TXTは同梱scriptで生成して重複を省く。別rootで全member SHAと54表＋3監査のbyte一致を確認した。
+- 新対照込みのraw正読損失は930→571。包含でまとまらない部品・接触・字種・空白は残る。次は以前記録したページ評価の単語退行12指標を最新実装で再評価し、原因を確認する。単行の未回復も継続する。目的全体は継続する。
+- 別rootで3archiveの全23819 member SHA、54表＋3監査のbyte一致と、同じ製品executableの8613件の原bbox/area・従来支持・fragment・製品選択の再生一致を確認した。
