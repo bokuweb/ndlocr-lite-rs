@@ -1124,3 +1124,7 @@ mod punctuation_context_model_tests;
 #[cfg(test)]
 #[path = "../../tests/support/punctuation_context_capture.rs"]
 mod punctuation_context_capture;
+
+#[cfg(test)]
+#[path = "../../tests/support/owned_parts_bridge_model.rs"]
+mod owned_parts_bridge_model_tests;

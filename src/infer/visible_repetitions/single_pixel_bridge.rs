@@ -99,7 +99,7 @@ fn component_view(
     ))
 }
 
-fn split_body(mask: &[bool], width: usize, height: usize) -> Option<[Component; 2]> {
+pub(super) fn split_body(mask: &[bool], width: usize, height: usize) -> Option<[Component; 2]> {
     if width < 3
         || height == 0
         || width.checked_mul(height) != Some(mask.len())
@@ -134,7 +134,7 @@ fn split_body(mask: &[bool], width: usize, height: usize) -> Option<[Component; 
     Some([left, right])
 }
 
-fn take_region(
+pub(super) fn take_region(
     mask: &mut [bool],
     width: usize,
     height: usize,

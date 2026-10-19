@@ -2,6 +2,7 @@
 mod contained_components;
 mod detached_body_components;
 mod internal_detached_closer;
+mod owned_parts_body_bridge;
 mod single_pixel_bridge;
 
 use crate::infer::parseq::{
@@ -52,6 +53,9 @@ pub(crate) fn sanitize_visible_single_line(
             return fragment;
         }
         if internal_detached_closer::supports(&fragment, rgb, width, height) {
+            return fragment;
+        }
+        if owned_parts_body_bridge::supports(&fragment, rgb, width, height) {
             return fragment;
         }
     }

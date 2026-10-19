@@ -399,3 +399,13 @@
   今回の新規ページNNは0、fragment経路のsource不変性を確認した。証拠とモデル不要再現は `docs/benchmarks/internal-detached-closer/`。
 - 負例生成で白列がなく停止した入力も保持し、NN前に中央cutの合成方法を仕様へ追記した。支持条件は追加結果に合わせず、全元画素/非重複を384 pre-JPEG組で独立再構成した。
   combined接触部品やLatin高さ、真縦組みを含むAuto方向の新対照などが残るため、目的全体を継続する。
+
+## 2026-10-20: 接触主成分と分離した本文部品を同時に支持する
+
+- 先行仕様 `docs/owned_parts_body_bridge.md`。正読 `情報」` の本文主成分が1画素で接触し、情の大部品も分離していたため、既存2案ではcloserを支持できなかった。主成分の回収と支持maskだけの同じ1画素cut/中心距離/全画素所属/左右groupで救済する。文書別置換や元RGB/NNの変更はない。
+- 純粋Red→Green/PBT64を先行した。CoreText10,944+16画像とFreeType10画像は固定案の幾何到達性0でNNを実行せず、全対照を保存した。原seedのPillow/FreeType BASICをRGB同一で再現し、palt/RAQMを捏造せず既知の情報/報情と非文字対照7,632画像を認識前に固定した。
+- 22原画像は旧RGBと重複し、7,610画像は未重複。全3形状の元Auto/有効Horizontal tensor bit照合、実1,116描画/576 pre-JPEG合成/72目視の後、全22,896 raw forwardと元Horizontal24×3を正常に測定した。既知字形の条件検査であり、未知資料のholdoutとは扱わない。
+- 旧新137,991組の全正規化に文字/単語退行0。変更82組のうち生完全一致51組・width完全一致70組、8組は全指標同点だった。生回復は旧14、新37（未重複RGB30/既存RGB7）。条件/modelの組を独立標本と数えない。旧raw正読後損失511→497、新noise1,152画像の変更0。
+- 全3モデルの公開Session Redを先行し、最後の単行fallback接続後にGreenにした。未使用import整理後も条件を保ち、最終sourceの全製品再生・API2,602組・CLI946件が一致、通常671件/ONNX608件/example23件、新規Clippy警告0。新規ページNNは0でfragment関係source不変性を検査した。
+- 証拠とモデル不要の独立再現は `docs/benchmarks/owned-parts-body-bridge/`。狭い丸括弧・Latin・複数closer、真縦組みを含むAuto方向の対照などが残るため、目的全体を継続する。
+- 独立復元の初回は容量不足で終了し、検証済みの前段復元コピーだけを整理して同じpacketから再実行した。正式306表と3監査、元画素/実入力/描画/API/CLI/meanが一致し、復元後の実Rust137,991組と7,632×3形状tensor bit照合も成功した。失敗も含む終了記録と全SHAを保存した。
