@@ -1,5 +1,6 @@
 //! モデルが読んだ反復や閉じ括弧を、同じ入力の独立した画線群で支持する。
 mod contained_components;
+mod single_pixel_bridge;
 
 use crate::infer::parseq::{
     ParseqOrientation, sanitize_fragment_preserving_repetitions,
@@ -41,6 +42,9 @@ pub(crate) fn sanitize_visible_single_line(
         }
         if let Some(candidate) = contained_components::candidate(&fragment, rgb, width, height) {
             return candidate;
+        }
+        if single_pixel_bridge::supports(&fragment, rgb, width, height) {
+            return fragment;
         }
     }
     current

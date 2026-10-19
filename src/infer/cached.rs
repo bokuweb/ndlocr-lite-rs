@@ -1106,6 +1106,10 @@ mod tests {
 mod visible_repetition_model_tests;
 
 #[cfg(test)]
+#[path = "../../tests/support/single_pixel_bridge_model.rs"]
+mod single_pixel_bridge_model_tests;
+
+#[cfg(test)]
 #[path = "../../tests/support/punctuation_context_model.rs"]
 mod punctuation_context_model_tests;
 
