@@ -26,7 +26,8 @@ pub(crate) fn sanitize_visible_single_line(
         && width > 0
         && height > 0
         && width.checked_mul(height).and_then(|n| n.checked_mul(3)) == Some(rgb.len())
-        && supports_glyph_count(rgb, width, height, fragment.chars().count())
+        && (supports_glyph_count(rgb, width, height, fragment.chars().count())
+            || supports_closer_body(rgb, width, height, &fragment))
     {
         fragment
     } else {
@@ -82,6 +83,28 @@ fn sanitize_visible_with_bracket_policy(
 }
 
 fn supports_glyph_count(rgb: &[u8], width: usize, height: usize, count: usize) -> bool {
+    supports_glyphs(rgb, width, height, count, None)
+}
+
+fn supports_closer_body(rgb: &[u8], width: usize, height: usize, text: &str) -> bool {
+    supports_glyphs(rgb, width, height, text.chars().count(), Some(text))
+}
+
+// Page fragments keep the original common-height test. Only the single-line
+// closer fallback supplies text and separates the body from shorter closers.
+fn supports_glyphs(
+    rgb: &[u8],
+    width: usize,
+    height: usize,
+    count: usize,
+    closer_text: Option<&str>,
+) -> bool {
+    if width == 0
+        || height == 0
+        || width.checked_mul(height).and_then(|n| n.checked_mul(3)) != Some(rgb.len())
+    {
+        return false;
+    }
     struct Component {
         x0: usize,
         y0: usize,
@@ -135,17 +158,51 @@ fn supports_glyph_count(rgb: &[u8], width: usize, height: usize, count: usize) -
     if components.len() != count {
         return false;
     }
-    let common_top = components.iter().map(|c| c.y0).max().unwrap();
-    let common_bottom = components.iter().map(|c| c.y1).min().unwrap();
-    if common_bottom.saturating_sub(common_top) as u128 * 4 < body_height as u128 * 3
-        || components
-            .iter()
-            .any(|c| (c.x1 - c.x0) as u128 > body_height as u128 * 2)
-    {
+    components.sort_by_key(|c| c.x0);
+    if components.windows(2).any(|p| p[0].x1 > p[1].x0) {
         return false;
     }
-    components.sort_by_key(|c| c.x0);
-    components.windows(2).all(|p| p[0].x1 <= p[1].x0)
+    if let Some(text) = closer_text {
+        let is_closer = |c: char| matches!(c, ')' | '）' | '」' | '』' | '】');
+        if text.chars().any(char::is_whitespace) || !text.chars().any(is_closer) {
+            return false;
+        }
+        let body: Vec<_> = components
+            .iter()
+            .zip(text.chars())
+            .filter(|(_, c)| !is_closer(*c))
+            .map(|(c, _)| c)
+            .collect();
+        if body.len() < 2 {
+            return false;
+        }
+        let body_h = body.iter().map(|c| c.y1 - c.y0).max().unwrap();
+        let top = body.iter().map(|c| c.y0).max().unwrap();
+        let bottom = body.iter().map(|c| c.y1).min().unwrap();
+        if bottom.saturating_sub(top) as u128 * 4 < body_h as u128 * 3
+            || components
+                .iter()
+                .any(|c| (c.x1 - c.x0) as u128 > body_h as u128 * 2)
+        {
+            return false;
+        }
+        return components
+            .iter()
+            .zip(text.chars())
+            .filter(|(_, c)| is_closer(*c))
+            .all(|(g, _)| {
+                let h = g.y1 - g.y0;
+                h as u128 * 2 >= body_h as u128
+                    && g.y1.min(bottom).saturating_sub(g.y0.max(top)) as u128 * 4
+                        >= h.min(body_h) as u128 * 3
+            });
+    }
+    let common_top = components.iter().map(|c| c.y0).max().unwrap();
+    let common_bottom = components.iter().map(|c| c.y1).min().unwrap();
+    common_bottom.saturating_sub(common_top) as u128 * 4 >= body_height as u128 * 3
+        && components
+            .iter()
+            .all(|c| (c.x1 - c.x0) as u128 <= body_height as u128 * 2)
 }
 
 #[cfg(test)]
@@ -159,3 +216,7 @@ mod closer_probe;
 #[cfg(test)]
 #[path = "../../tests/support/closer_geometry_probe.rs"]
 mod geometry_probe;
+
+#[cfg(all(test, feature = "onnx"))]
+#[path = "../../tests/support/body_closer_recovery.rs"]
+mod body_closer_tests;

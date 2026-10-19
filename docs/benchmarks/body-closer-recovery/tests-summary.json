@@ -1,0 +1,53 @@
+{
+  "default-tests.log": {
+    "passed": 586,
+    "sha256": "f97bc555d1128cce2fc617801cd6a5bd236ad6c83722d2aa145dd94dc4061a56"
+  },
+  "onnx-tests.log": {
+    "passed": 539,
+    "sha256": "fa8f99072fff5f1a17df96a3d77f7df4c2c7940d8a33fd5fb911704f004a2ecf"
+  },
+  "boundary-count-default.log": {
+    "passed": 1,
+    "sha256": "501e2481ac79d535a6a2f23175bb71b28904ee6b851dc65d602e6d172e1b397a"
+  },
+  "boundary-count-onnx.log": {
+    "passed": 1,
+    "sha256": "bcb17d05c6c600e00d95653263d39f05f04038e5bc07ba9973ed755899e08d52"
+  },
+  "model-green.log": {
+    "passed": 1,
+    "sha256": "fad690cf3826ee7b9dd4004552da54178da69322752b9659ed9c1912fe06b765"
+  },
+  "example-tests.log": {
+    "passed": 18,
+    "sha256": "25b39e76dee6136217a3066188319d12aa5618ef967a2f6462223b2b10e5616a"
+  },
+  "replay.log": {
+    "passed": 1,
+    "sha256": "d77fed2876817da42d3ef99f3eab7b6c339be7660564bcee4d0752f7bf81c349"
+  },
+  "default_distinct_passed": 587,
+  "onnx_distinct_passed": 541,
+  "clippy": {
+    "library_warnings": 18,
+    "library_test_warnings": 28,
+    "new_warnings": 0,
+    "sha256": "222765006d5a5eeaa47ca4fc807ed4851f432e67b3634eaba65f3c9a1622135d"
+  },
+  "actual_native_inputs_each_phase": 3813,
+  "actual_cascade_inputs_each_phase": 96,
+  "actual_cli_inputs_each_phase": 257,
+  "cascade_dispatch_observed_inputs_each_phase": 96,
+  "cascade_dispatch_changed_histories": 0,
+  "portable_transport": {
+    "csv_md_byte_equal": 36,
+    "audit_byte_equal": true,
+    "replayed_native_rows": 3813,
+    "all_actual_after_texts_and_confidence_bits_equal": true,
+    "all_reference_and_fragment_and_legacy_support_equal": true,
+    "boundary_boxes_equal": true,
+    "frozen_score_tool_used": true,
+    "log_sha256": "3920c81eace86a7ccdc8ec5d86176cd2eff5f15375fa7b6f15549c500e86ac27"
+  }
+}

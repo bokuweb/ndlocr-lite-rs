@@ -530,3 +530,25 @@ fn replay_closer_geometry_from_frozen_pixels() {
     )
     .unwrap();
 }
+
+#[cfg(feature = "onnx")]
+pub(super) fn supports_frozen_closer_body(
+    rgb: &[u8],
+    width: usize,
+    height: usize,
+    text: &str,
+) -> bool {
+    closer_body(&collect_glyphs(rgb, width, height), text)
+}
+
+#[cfg(feature = "onnx")]
+pub(super) fn frozen_glyph_boxes(
+    rgb: &[u8],
+    width: usize,
+    height: usize,
+) -> Vec<(usize, usize, usize, usize)> {
+    collect_glyphs(rgb, width, height)
+        .into_iter()
+        .map(|g| (g.x0, g.x1, g.y0, g.y1))
+        .collect()
+}

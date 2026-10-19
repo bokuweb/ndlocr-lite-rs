@@ -250,3 +250,15 @@
 - 通常583件、ONNX lib263件、純粋6+保存raw/RGB再生1件が成功。Clippy testsの新規成分走査警告を直し、前後全3717の枠/全方針を再生一致。対象Clippy成功、新規ファイル警告0（本体既存18、lib test既存28/うち18重複などをログに残す）。fmt/diffも成功。
 - `docs/benchmarks/closer-geometry-probe/` に全6方針本文・9 CSV/MD・原raw/RGB・成分・失敗案・元forward/portable別binary/source/driver/spec/入力SHAを保存。別rootでモデル/原画像/probeなしに全表+監査をbyte再現し、凍結binaryの3717成分/選択再生も一致した。前段02ad642の全5CIも成功。
 - これは診断で、64組を製品で回復済みとは主張しない。元rawの正読を壊す329組中265組（成分数216、x区間重複47、eligible除外2）が残り、元80組の残り36も含む。次は本文整列案の製品適用/API・CLI検証と、複数成分/接触・空白の診断を進める。未知資料の汎化/速度は未確認で、目的全体は継続する。
+
+## 2026-10-19: 低い閉じ括弧を本文整列の支持で単行APIへ回復
+
+- 先行仕様 `docs/body_closer_recovery.md`。純粋Redと公開APIの `資料」` → `資料` の実モデルRedを先行し、本文の共通高さ3/4・closer高さ1/2と交差3/4、字数/x区間/幅・空白/方向/RGBの支持を満たす場合に元fragmentを保持する。追加推論や文書語句の置換はない。
+- 既存の成分抽出を共用するが、ページfragment/反復の厳密な共通高さ条件は維持する。全3813の従来支持/fragmentと保存値が一致し、新body条件も別の凍結referenceと全件一致。parseq/cached/page/app caller sourceはbyte同一で、既存実ページ回帰も成功した。
+- 呼出sourceから25/45字のCascade境界を確認し、OCR前に32画像を追加固定してfixture Red→Green。全1271×3単行と32×3開始bucketの3909本文組を、before/afterとも実APIで新規実行した。新境界96 rawだけ追加捕捉し、単行confidenceは全3813で元rawと前後bit一致した。
+- 9f6a5e2比、全11727文字/単語指標は非悪化、64完全一致改善・3818byte同一・27生距離同値変更。改善は旧1239の64組（元の80残差中44と前段新対照20）で、境界は同一。全変更91と境界/不採用反例/系統対照を含む257 CLIを前後とも新規実行し、実APIと全本文/厳密1LF抽出が一致した。
+- native字数からのモデル再構成と実観測を区別し、隔離sourceでpool結果受取にtest-only観測を追加。getter未実装の0/96 Redから前後各96履歴を実観測し、全本文/confidenceが元の実APIとも一致した。履歴は19[30]・13[30,50]・32[50]・32[100]で変更0。観測hookを製品へ含めない。
+- 実境界で新しく復旧したcloserが再認識先を変えるケースの精度まで確認したとは主張しない。純粋画線23/24/43/44字では+1復旧を別テストした。境界のraw正読24組も未回復で、全体の353組中64回復・289未回復（成分数240、x重複47、eligible除外2）を記録する。
+- 通常は全586+境界1の587件、ONNXは全539+境界1+再生1の541件、example18件が成功。実モデルscalar/Pool/batch/単一Session batch/cascade・raw/候補・confidence/RGB・エラー再利用と、幾何/位置/拡大/明度PBT64例を検査。fmt/diff/対象Clippy成功、新規警告0（既存本体18、lib test28/うち18重複などは保存）。前段9f6a5e2の全5CIも成功。
+- `docs/benchmarks/body-closer-recovery/` に実行前凍結binary/source/driver、原raw/画像・全API/CLI・実dispatch source/patch・全18 CSV/MD・失敗/再生ログを保存。別rootで同梱採点toolによる全表+監査のbyte一致と、3813製品/reference/従来支持/fragment/confidenceおよび境界成分の再生一致を確認した。元forwardとportable検証・隔離計測を区別する。
+- ページ287×6の今回の全再実行、未知実資料の汎化、速度は主張しない。次は接触/複数成分と空白・文字種、特に低いcloserに隣接する明示的な単語空白とモデルの空白省略を追加対照で診断する。目的全体は継続する。

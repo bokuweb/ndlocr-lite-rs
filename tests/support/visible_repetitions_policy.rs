@@ -358,3 +358,115 @@ fn single_line_closer_retention_requires_count_orientation_rgb_and_no_ambiguous_
         "ABCD)"
     );
 }
+
+fn lower_closer_row(
+    body_shift: usize,
+    closer_at: usize,
+    closer_y: usize,
+    closer_h: usize,
+) -> (Vec<u8>, usize, usize) {
+    let (w, h) = (90, 80);
+    let mut rgb = vec![255; w * h * 3];
+    for i in 0..4 {
+        let (x0, cw, y0, ch) = if i == closer_at {
+            (8 + i * 20, 5, closer_y, closer_h)
+        } else {
+            (8 + i * 20, 12, 8, 22)
+        };
+        let shift = if i == 1 { body_shift } else { 0 };
+        for y in y0 + shift..y0 + ch + shift {
+            for x in x0..x0 + cw {
+                rgb[(y * w + x) * 3..(y * w + x + 1) * 3].fill(0);
+            }
+        }
+    }
+    (rgb, w, h)
+}
+#[test]
+fn single_line_keeps_lower_closers_only_with_a_supported_body_baseline() {
+    for (raw, at) in [
+        ("ABC」", 3),
+        ("ABC』", 3),
+        ("ABC）", 3),
+        ("」ABC", 0),
+        ("AB」C", 2),
+    ] {
+        let (rgb, w, h) = lower_closer_row(0, at, 17, 15);
+        let original = rgb.clone();
+        assert_eq!(
+            sanitize_visible_single_line(raw, &rgb, w, h, ParseqOrientation::Horizontal),
+            raw
+        );
+        assert_eq!(rgb, original);
+        assert!(!supports_glyph_count(&rgb, w, h, 4));
+    }
+    for (shift, y, ch) in [(6, 17, 15), (0, 26, 15), (0, 20, 10)] {
+        let (bad, bw, bh) = lower_closer_row(shift, 3, y, ch);
+        assert_eq!(
+            sanitize_visible_single_line("ABC」", &bad, bw, bh, ParseqOrientation::Horizontal),
+            "ABC"
+        );
+    }
+    let (rgb, w, h) = lower_closer_row(0, 3, 17, 15);
+    assert_eq!(
+        sanitize_visible_single_line("ABC」", &rgb, w, h, ParseqOrientation::Auto),
+        "ABC"
+    );
+    assert_eq!(
+        sanitize_visible_single_line(
+            "ABC」",
+            &rgb[..rgb.len() - 1],
+            w,
+            h,
+            ParseqOrientation::Horizontal
+        ),
+        "ABC"
+    );
+    assert_eq!(
+        sanitize_visible_single_line("AB 」", &rgb, w, h, ParseqOrientation::Horizontal),
+        "AB "
+    );
+}
+
+proptest! {
+ #![proptest_config(proptest::test_runner::Config::with_cases(64))]
+ #[test]
+ fn lower_closer_single_line_retention_preserves_scale_position_tone_and_rgb(at in 0usize..4,kind in 0usize..5,scale in 1usize..4,dx in 0usize..13,dy in 0usize..13,tone in 0u8..220) {
+    let (base,bw,bh)=lower_closer_row(0,at,17,15);let(w,h)=(bw*scale+dx+5,bh*scale+dy+5);let mut rgb=vec![255;w*h*3];
+    for y in 0..bh*scale{for x in 0..bw*scale{if base[((y/scale)*bw+x/scale)*3]==0{rgb[((y+dy)*w+x+dx)*3..((y+dy)*w+x+dx+1)*3].fill(tone);}}}
+    let mut chars=vec!['A','B','C'];chars.insert(at,[')','）','」','』','】'][kind]);let raw:String=chars.into_iter().collect();let original=rgb.clone();
+    prop_assert_eq!(sanitize_visible_single_line(&raw,&rgb,w,h,ParseqOrientation::Horizontal),raw);
+    prop_assert!(!supports_glyph_count(&rgb,w,h,4));prop_assert_eq!(rgb,original);
+ }
+}
+
+#[test]
+fn restored_closers_preserve_raw_counts_near_cascade_thresholds() {
+    // Geometry/count invariant; real model routing is measured separately.
+    for n in [23usize, 24, 43, 44] {
+        let (w, h) = ((n + 1) * 20 + 16, 50);
+        let mut rgb = vec![255; w * h * 3];
+        for i in 0..=n {
+            let (y0, y1, cw) = if i == n { (17, 32, 5) } else { (8, 30, 12) };
+            for y in y0..y1 {
+                for x in 8 + i * 20..8 + i * 20 + cw {
+                    rgb[(y * w + x) * 3..(y * w + x + 1) * 3].fill(0);
+                }
+            }
+        }
+        let body: String = (0..n).map(|i| (b'A' + (i % 26) as u8) as char).collect();
+        let raw = format!("{body}」");
+        let old = sanitize_visible_with_bracket_policy(
+            &raw,
+            &rgb,
+            w,
+            h,
+            ParseqOrientation::Horizontal,
+            true,
+        );
+        let actual = sanitize_visible_single_line(&raw, &rgb, w, h, ParseqOrientation::Horizontal);
+        assert_eq!(old, body);
+        assert_eq!(actual, raw);
+        assert_eq!((old.chars().count(), actual.chars().count()), (n, n + 1));
+    }
+}
