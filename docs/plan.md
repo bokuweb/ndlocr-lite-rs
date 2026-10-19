@@ -374,3 +374,15 @@
   比較前値はsource/input SHA照合済み9fc保存値を再利用した。
 - 通常648件、ONNXスイート570件、example23件が成功、新規Clippy警告0。
   証拠とモデル不要の再現手順は `docs/benchmarks/single-pixel-body-bridge/`。目的全体は継続する。
+
+## 2026-10-20: 分離した本文部品と端closerの支持
+
+- 先行仕様 `docs/detached_body_components.md`。情の大部品が外側成分と下端だけを共有し、正読 `情報)` が後処理で `情報` になる損失を、支持用の部品groupで解消した。
+  3辺が厳密内側/1辺だけ一致、白列・所属・幅/高さ/gapを検査し、空白なし3字の最後の単行fallbackだけを扱う。元RGB/NN/fragment/raw/confidenceを保持する。
+- 小さな純粋テスト、実画像、公開SessionのRed→Greenと64例PBTを実施した。稲穂/樹枝10,944入力は適用0だったため、条件を変えず情人/情理10,944入力の仕様を別途先行した。
+  64 Auto回転も保持し、元Horizontal192 forwardと全3形状tensor bit検査を追加した。新規65,856 forwardは全件正常終了。
+- 全99,591組のnone/width/strict文字/単語指標は非悪化。本文変更394組のうち生完全一致308、width完全一致384組を回復し、10組は全指標同点だった。旧raw正読後の損失546→520。
+  既知の情部品を用いた適用対照であり、未知資料の改善率とは扱わない。前段1画素案の別基準監査28回復とも合算しない。
+- 製品全件replayが凍結方針と一致、実公開API1,882組のraw/本文/mean bitと実単行CLI682プロセスも全件一致した。今回は新規ページNNなし。fragment経路と関係関数のbyte一致を確認し、前段287×8の実測とは区別する。
+- 通常655件・ONNX CI対象582件・example23件、新規Clippy警告0。証拠とモデル不要の再現は `docs/benchmarks/detached-body-components/`。
+  内側closer、Auto方向の紙依存、別の接触字形、Latin高さの課題が残り、目的全体を継続する。

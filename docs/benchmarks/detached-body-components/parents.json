@@ -1,0 +1,10 @@
+{
+  "baseline_commit": "0127fe8ab78930cdd93a5b24b40bdd59a16f1bdc",
+  "packet": "single-pixel-body-bridge",
+  "archives": {
+    "data": "805c6df3c52efab01d98ea067d6c64c9d33d7439212dab3ae641522cac72b3be",
+    "diagnostics": "123bb4ecbe0d671a9efe8b2f8149dad243b195afb45bf959ad5a6a4c4e7caee7",
+    "text": "bb28a253d9b200bb807b18d37b661f427b9e6e0a1e588e571bec8dbc9cb0d216"
+  },
+  "reproducer_sha256": "a6b5dd1db7497aeca6b20eb13d9d61c80ffe60fe5f2692def1dbd12e16cca45e"
+}

@@ -1110,6 +1110,10 @@ mod visible_repetition_model_tests;
 mod single_pixel_bridge_model_tests;
 
 #[cfg(test)]
+#[path = "../../tests/support/detached_body_model.rs"]
+mod detached_body_model_tests;
+
+#[cfg(test)]
 #[path = "../../tests/support/punctuation_context_model.rs"]
 mod punctuation_context_model_tests;
 
