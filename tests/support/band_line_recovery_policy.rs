@@ -258,3 +258,220 @@ fn native_overflow_dense_text_requires_the_same_safe_chunk_verification() {
     assert_eq!(seen, rgb.chunks_exact(3).filter(|p| *p != [255; 3]).count());
     assert_eq!(rgb, original);
 }
+
+/// 末尾2文字だけが不確かな場合、前半を保持した実モデル候補を選ぶ。
+#[test]
+fn short_tail_recheck_preserves_prefix_and_original_rgb() {
+    use crate::pipeline::line_chunks::LineChunk;
+    let width = 400;
+    let height = 40;
+    let rgb: Vec<_> = (0..width * height * 3).map(|i| (i % 251) as u8).collect();
+    let original = rgb.clone();
+    let chunks = vec![
+        LineChunk {
+            x0: 20,
+            x1: 280,
+            space_before: false,
+            gap_before: 0,
+        },
+        LineChunk {
+            x0: 280,
+            x1: 340,
+            space_before: false,
+            gap_before: 3,
+        },
+        LineChunk {
+            x0: 340,
+            x1: 400,
+            space_before: true,
+            gap_before: 24,
+        },
+    ];
+    let pair = TailPair {
+        rgb: &rgb,
+        size: (width, height),
+        input: (768, 24),
+        chunks: &chunks,
+        index: 1,
+    };
+    let mut calls = 0;
+    let out = pair
+        .recheck(
+            &rec("本文の続き", 0.99),
+            &rec("5.", 0.91),
+            &mut |data, w, h| {
+                calls += 1;
+                assert_eq!((w, h), (320, 40));
+                let expected: Vec<_> = (0..height)
+                    .flat_map(|y| {
+                        rgb[(y * width + 20) * 3..(y * width + 340) * 3]
+                            .iter()
+                            .copied()
+                    })
+                    .collect();
+                assert_eq!(data, expected);
+                Ok(rec("本文の続きら、", 0.999))
+            },
+        )
+        .expect("prefix-preserving context");
+    assert_eq!(out.text, "本文の続きら、");
+    assert_eq!(out.mean_confidence, 0.999);
+    assert_eq!(calls, 1);
+    assert_eq!(rgb, original);
+}
+
+/// 不十分な文脈・境界・容量は追加forwardせず、候補の不整合/失敗は採用しない。
+#[test]
+fn short_tail_recheck_requires_independent_support() {
+    use crate::pipeline::line_chunks::LineChunk;
+    for case in 0..15 {
+        let rgb = vec![255; 400 * 40 * 3];
+        let mut chunks = vec![
+            LineChunk {
+                x0: 20,
+                x1: 280,
+                space_before: false,
+                gap_before: 0,
+            },
+            LineChunk {
+                x0: 280,
+                x1: 340,
+                space_before: false,
+                gap_before: 3,
+            },
+            LineChunk {
+                x0: 340,
+                x1: 400,
+                space_before: true,
+                gap_before: 24,
+            },
+        ];
+        let mut previous = rec("本文の続き", 0.99);
+        let mut current = rec("5.", 0.91);
+        let mut input = (768, 24);
+        match case {
+            0 => chunks[1].space_before = true,
+            1 => chunks[2].space_before = false,
+            2 => chunks[1].x0 += 1,
+            3 => {
+                chunks[1].x1 = 361;
+                chunks[2].x0 = 361;
+            }
+            4 => chunks[0].x0 = 170,
+            5 => input = (191, 24),
+            6 => previous.mean_confidence = 0.979,
+            7 => current.mean_confidence = 0.95,
+            8 => current.mean_confidence = 0.899,
+            9 => current.text = "長い末尾".into(),
+            10 => current.text = " ".into(),
+            11 => current.mean_confidence = f32::NAN,
+            12 => previous.mean_confidence = f32::INFINITY,
+            13 => input = (0, 24),
+            14 => input = (768, 0),
+            _ => unreachable!(),
+        }
+        let pair = TailPair {
+            rgb: &rgb,
+            size: (400, 40),
+            input,
+            chunks: &chunks,
+            index: 1,
+        };
+        assert!(
+            pair.recheck(&previous, &current, &mut |_, _, _| panic!(
+                "ineligible case {case}"
+            ))
+            .is_none()
+        );
+    }
+    let rgb = vec![255; 400 * 40 * 3];
+    let chunks = vec![
+        LineChunk {
+            x0: 20,
+            x1: 280,
+            space_before: false,
+            gap_before: 0,
+        },
+        LineChunk {
+            x0: 280,
+            x1: 340,
+            space_before: false,
+            gap_before: 3,
+        },
+    ];
+    let pair = TailPair {
+        rgb: &rgb,
+        size: (400, 40),
+        input: (192, 24),
+        chunks: &chunks,
+        index: 1,
+    };
+    for (text, score) in [
+        ("前半を変更ら、", 0.999),
+        ("本文の続きら", 0.999),
+        ("本文の続きら、。", 0.999),
+        ("本文の続き 、", 0.999),
+        ("本文の続きら、", 0.97),
+        ("本文の続きら、", f32::NAN),
+        ("本文の続きら、", 1.01),
+        ("本文の続きら、", f32::INFINITY),
+    ] {
+        assert!(
+            pair.recheck(
+                &rec("本文の続き", 0.99),
+                &rec("5.", 0.91),
+                &mut |_, _, _| Ok(rec(text, score))
+            )
+            .is_none(),
+            "{text}/{score}"
+        );
+    }
+    assert!(
+        pair.recheck(
+            &rec("本文の続き", 0.99),
+            &rec("5.", 0.91),
+            &mut |_, _, _| Err(anyhow::anyhow!("failed"))
+        )
+        .is_none()
+    );
+    // 容量境界は等号を含み、元の文字数加重confidenceとの同点は採用しない。
+    assert!(
+        pair.recheck(
+            &rec("本文の続き", 0.99),
+            &rec("5.", 0.91),
+            &mut |_, _, _| Ok(rec("本文の続きら、", 0.999))
+        )
+        .is_some()
+    );
+    assert!(
+        pair.recheck(
+            &rec("A".repeat(30).as_str(), 1.0),
+            &rec("5.", 0.9375),
+            &mut |_, _, _| Ok(rec(&("A".repeat(30) + "ら、"), 0.99609375))
+        )
+        .is_none()
+    );
+}
+
+proptest! {
+    #![proptest_config(ProptestConfig::with_cases(32))]
+    /// 画素の整数拡大と移動でも、同じ容量境界・モデル候補を保持する。
+    #[test]
+    fn short_tail_recheck_scales_with_original_coordinates(scale in 1usize..6, margin in 0usize..20, tone in 0u8..220) {
+        use crate::pipeline::line_chunks::LineChunk;
+        let width=400*scale+margin;let height=40*scale;
+        let rgb=vec![tone;width*height*3];
+        let chunks=vec![
+            LineChunk{x0:20*scale+margin,x1:280*scale+margin,space_before:false,gap_before:0},
+            LineChunk{x0:280*scale+margin,x1:340*scale+margin,space_before:false,gap_before:3*scale},
+        ];
+        for (iw,eligible) in [(191,false),(192,true)] {
+            let pair=TailPair{rgb:&rgb,size:(width,height),input:(iw,24),chunks:&chunks,index:1};
+            let mut calls=0;
+            let out=pair.recheck(&rec("本文の続き",0.99),&rec("5.",0.91),&mut |data,w,h|{
+                calls+=1;assert_eq!((w,h),(320*scale,40*scale));assert!(data.iter().all(|&x|x==tone));Ok(rec("本文の続きら、",0.999))
+            });
+            prop_assert_eq!(out.is_some(),eligible);prop_assert_eq!(calls,usize::from(eligible));
+        }
+    }
+}

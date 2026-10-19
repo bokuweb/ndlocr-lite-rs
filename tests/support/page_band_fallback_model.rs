@@ -347,3 +347,34 @@ fn page_band_fallback_recovers_native_overflow_uri_with_the_supplied_model() {
         assert_eq!(page.lines[0].text, truth, "{model}");
     }
 }
+
+/// 安全分割の途中で孤立した短い語尾は、直前の原画素文脈で確認する。
+#[test]
+#[ignore = "requires pinned DEIM/PARSeq models"]
+fn page_band_fallback_rechecks_uncertain_short_tail_in_context() {
+    let image = crate::io::load_rgb_u8(Path::new(
+        "tests/fixtures/dense_crop/images/ja_heavy40_pad6.png",
+    ))
+    .unwrap();
+    let runtime = primary100(1);
+    for opts in [
+        PageRecognizerOptions::default(),
+        PageRecognizerOptions {
+            det_conf_threshold: 0.25,
+            min_line_confidence: 0.3,
+            drop_empty_text: true,
+        },
+    ] {
+        let page = runtime
+            .recognize_page_rgb_u8(&image.data, image.width, image.height, opts)
+            .unwrap();
+        assert_eq!(page.lines.len(), 1);
+        assert!(
+            page.lines[0]
+                .text
+                .contains("作業が終わったら、変更したファイル"),
+            "{}",
+            page.lines[0].text
+        );
+    }
+}

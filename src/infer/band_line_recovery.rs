@@ -1,5 +1,76 @@
 //! 実入力比率を超える横書き代替帯を、安全な区間で確認する。
 use crate::infer::parseq::RecognizeResult;
+
+/// 既存の安全区間をまたぐ、短い不確かな語尾の原画素文脈。
+struct TailPair<'a> {
+    rgb: &'a [u8],
+    size: (usize, usize),
+    input: (usize, usize),
+    chunks: &'a [crate::pipeline::line_chunks::LineChunk],
+    index: usize,
+}
+
+impl TailPair<'_> {
+    fn recheck<F>(
+        &self,
+        previous: &RecognizeResult,
+        current: &RecognizeResult,
+        recognize: &mut F,
+    ) -> Option<RecognizeResult>
+    where
+        F: FnMut(&[u8], usize, usize) -> anyhow::Result<RecognizeResult>,
+    {
+        let (width, height) = self.size;
+        let (iw, ih) = self.input;
+        let left = self.chunks.get(self.index.checked_sub(1)?)?;
+        let right = self.chunks.get(self.index)?;
+        let previous_count = previous.text.chars().count();
+        let current_count = current.text.chars().count();
+        if height == 0
+            || iw == 0
+            || ih == 0
+            || width.checked_mul(height)?.checked_mul(3)? != self.rgb.len()
+            || left.x0 >= left.x1
+            || left.x1 != right.x0
+            || right.x0 >= right.x1
+            || right.x1 > width
+            || right.space_before
+            || self
+                .chunks
+                .get(self.index + 1)
+                .is_some_and(|next| !next.space_before)
+            || right.x1 - right.x0 > height.saturating_mul(2)
+            || left.x1 - left.x0 < height.saturating_mul(3)
+            || previous_count < 2
+            || !(1..=2).contains(&current_count)
+            || current.text.chars().any(char::is_whitespace)
+            || !(0.98..=1.0).contains(&previous.mean_confidence)
+            || !(0.9..0.95).contains(&current.mean_confidence)
+            || (right.x1 - left.x0) as u128 * ih as u128 > height as u128 * iw as u128
+        {
+            return None;
+        }
+        let crop = crate::pipeline::crop::crop_rgb_u8(
+            self.rgb,
+            width,
+            height,
+            crate::pipeline::crop::BBox::new(left.x0, 0, right.x1, height),
+        )
+        .ok()?;
+        let candidate = recognize(&crop.data, crop.width, crop.height).ok()?;
+        let suffix = candidate.text.strip_prefix(&previous.text)?;
+        let mean = (f64::from(previous.mean_confidence) * previous_count as f64
+            + f64::from(current.mean_confidence) * current_count as f64)
+            / (previous_count + current_count) as f64;
+        ((0.98..=1.0).contains(&candidate.mean_confidence)
+            && f64::from(candidate.mean_confidence) > mean
+            && suffix.chars().count() == current_count
+            && suffix != current.text
+            && !suffix.chars().any(char::is_whitespace))
+        .then_some(candidate)
+    }
+}
+
 pub(crate) fn recover_overwide_band<F>(
     rgb: &[u8],
     w: usize,
@@ -28,6 +99,7 @@ where
     let separated = chunks.windows(2).any(|pair| pair[0].x1 < pair[1].x0);
     let mut pieces = Vec::new();
     let mut words = Vec::new();
+    let mut scores = Vec::new();
     let mut all_small = true;
     let mut needs_context = false;
     let mut count = 0;
@@ -61,6 +133,7 @@ where
         let chars = result.text.chars().count();
         count += chars;
         confidence_sum += f64::from(result.mean_confidence) * chars as f64;
+        scores.push(result.mean_confidence);
         words.push(result.text);
         pieces.push(crop);
     }
@@ -75,6 +148,38 @@ where
         text
     };
     if !needs_context {
+        let mut recovered = false;
+        for index in 1..chunks.len() {
+            let pair = TailPair {
+                rgb,
+                size: (w, h),
+                input,
+                chunks: &chunks,
+                index,
+            };
+            let previous = RecognizeResult {
+                text: words[index - 1].clone(),
+                mean_confidence: scores[index - 1],
+            };
+            let current = RecognizeResult {
+                text: words[index].clone(),
+                mean_confidence: scores[index],
+            };
+            if let Some(candidate) = pair.recheck(&previous, &current, &mut recognize) {
+                words[index] = candidate.text[previous.text.len()..].to_owned();
+                scores[index - 1] = candidate.mean_confidence;
+                scores[index] = candidate.mean_confidence;
+                recovered = true;
+                // 次区間はspace_before=trueなので、採用した組とは重ならない。
+            }
+        }
+        if recovered {
+            confidence_sum = words
+                .iter()
+                .zip(&scores)
+                .map(|(text, &score)| text.chars().count() as f64 * f64::from(score))
+                .sum();
+        }
         return Some(RecognizeResult {
             text: join(&words),
             mean_confidence: (confidence_sum / count as f64) as f32,
