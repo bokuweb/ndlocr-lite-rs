@@ -1,0 +1,11 @@
+{
+  "id": "fvb_vertical_arial_36_121_pad2",
+  "image": "arial121.png",
+  "truth": "truth.txt",
+  "expected": "雨上がりの朝に丘の図書館を訪ねると玄関には小さな時計が置かれていました。窓際の席で新聞を読み終えた後、湖畔の売店まで並木の歩道を進みました。そこで温かいお茶を買い、明日の予定を記した封筒を遠方の友人へ送りました。午後には広場の噴水を眺めなが",
+  "image_sha256": "2cd41eff2352031aac1639969a811377008534fb95d3784ffb85d16f7a640ce7",
+  "truth_sha256": "85ef56510109586ef9f65f03fc463ba91c38a3def2cab3048fb9dbddf9234b2b",
+  "expected_sha256": "eab34e4d24b1beff4400075e3c651b530cc8ddf7dc0a4fd8430a38ffb89c17b9",
+  "development_known_font": true,
+  "known_raw_error": "one U+3000 in GT is absent in the literal expected output"
+}

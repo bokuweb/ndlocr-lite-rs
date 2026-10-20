@@ -1,0 +1,113 @@
+name: Frozen vertical Page Red Green
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/vertical-page-regression.yml'
+      - 'tests/vertical_fallback_page_tests.rs'
+      - 'tests/fixtures/vertical_fallback_page/**'
+      - 'docs/vertical_page_supported_page_regression.md'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  regression:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - run: git fetch --depth=1 origin 1f240be66f71dc1819a99c89095ad9fdf8953695
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Fetch pinned official models
+        run: |
+          python tools/fetch_upstream_assets.py models
+          python tools/fetch_upstream_assets.py models --offline
+      - name: Execute the same public regression against both frozen sources
+        shell: python
+        run: |
+          import json, os, shutil, subprocess, sys
+          from pathlib import Path
+          sys.path.insert(0, str(Path('tools').resolve()))
+          from vertical_page_matrix import Bundle, build_variant, run_command, sha, write_json
+          repository = Path.cwd()
+          bundle = Bundle(repository / 'docs/benchmarks/vertical-page-fallback')
+          output = repository / 'regression-out'
+          evidence = output / 'evidence'
+          evidence.mkdir(parents=True)
+          work = output / 'work'
+          bundle.materialize(work)
+          target = output / 'cargo-target'
+          models = repository / 'models'
+          for asset in bundle.index['assets'].values():
+              assert sha((models / asset['name']).read_bytes()) == asset['sha256']
+          fixture = repository / 'tests/fixtures/vertical_fallback_page'
+          case = json.loads((fixture / 'case.json').read_text())
+          physical = next(x for x in bundle.index['physical_inputs'] if x['id'] == case['id'])
+          scoring = next(x for x in bundle.index['scoring_inputs'] if x['physical_id'] == case['id'])
+          assert (fixture / case['image']).read_bytes() == bundle.read('data.zip', physical['image'])
+          assert (fixture / case['truth']).read_bytes() == bundle.read('data.zip', scoring['truth'])
+          assert sha(case['expected'].encode()) == case['expected_sha256']
+          meta = {'bundle_sha256': sha((bundle.folder / 'bundle.json').read_bytes()),
+                  'builds': {}, 'commands': [], 'results': {}, 'complete': False,
+                  'test_file_sha256': sha((repository / 'tests/vertical_fallback_page_tests.rs').read_bytes()),
+                  'fixture_sha256': {p.name: sha(p.read_bytes()) for p in fixture.iterdir() if p.is_file()}}
+          write_json(evidence / 'regression.json', meta)
+          test_name = 'supported_vertical_fallback_restores_body_and_reuses_session'
+          for variant in ['baseline', 'candidate']:
+              source = work / variant
+              shutil.copyfile(repository / 'tests/vertical_fallback_page_tests.rs', source / 'tests/vertical_fallback_page_tests.rs')
+              shutil.copytree(fixture, source / 'tests/fixtures/vertical_fallback_page')
+              build_variant(bundle, variant, work, evidence, target, models, repository, meta)
+              env = {'CARGO_TARGET_DIR': str(target), 'CARGO_BUILD_JOBS': '2', 'CARGO_PROFILE_RELEASE_DEBUG': '0'}
+              run_command(['cargo', 'test', '--locked', '--release', '--manifest-path', source / 'Cargo.toml',
+                           '--features', 'onnx', '--test', 'vertical_fallback_page_tests', '--no-run', '--message-format=json'],
+                          variant + '-test-build', evidence, meta, env)
+              events = [json.loads(x) for x in (evidence / 'commands' / (variant + '-test-build.stdout')).read_text().splitlines()]
+              tests = [x for x in events if x.get('reason') == 'compiler-artifact'
+                       and x['target']['name'] == 'vertical_fallback_page_tests']
+              assert len(tests) == 1 and tests[0]['fresh'] is False and tests[0]['profile']['test'] is True
+              binary = work / 'binaries' / (variant + '-regression')
+              shutil.copyfile(tests[0]['executable'], binary)
+              binary.chmod(0o755)
+              directories = [target / 'release', target / 'release/deps']
+              directories += list((target / 'release/build').glob('ort-sys-*/out/onnxruntime/lib'))
+              runtime_env = os.environ | {'NDLOCR_INTRA_THREADS': '1', 'LD_LIBRARY_PATH': os.pathsep.join(map(str, directories)),
+                  'NDLOCR_TEST_PARSEQ_MODEL': str(models / bundle.index['assets']['30']['name']),
+                  'NDLOCR_TEST_DEIM_MODEL': str(models / bundle.index['assets']['deim']['name']),
+                  'NDLOCR_TEST_CHARSET': str(models / bundle.index['assets']['charset']['name'])}
+              argv = [str(binary), '--ignored', '--exact', test_name, '--nocapture']
+              result = subprocess.run(argv, env=runtime_env, capture_output=True)
+              (evidence / (variant + '.stdout')).write_bytes(result.stdout)
+              (evidence / (variant + '.stderr')).write_bytes(result.stderr)
+              record = {'argv': argv, 'exit_code': result.returncode, 'binary_sha256': sha(binary.read_bytes()),
+                        'artifact': tests[0], 'runtime_env': {k: v for k, v in runtime_env.items() if k.startswith('NDLOCR_') or k == 'LD_LIBRARY_PATH'}}
+              meta['results'][variant] = record
+              write_json(evidence / 'regression.json', meta)
+              if variant == 'baseline':
+                  assert result.returncode == 101
+                  assert b'supported vertical fallback must restore the literal body' in result.stderr
+                  assert b'test result: FAILED. 0 passed; 1 failed; 0 ignored;' in result.stdout
+              else:
+                  assert result.returncode == 0
+                  assert b'test result: ok. 1 passed; 0 failed; 0 ignored;' in result.stdout
+              for name, digest in bundle.index['source_files'][variant].items():
+                  assert sha((source / name).read_bytes()) == digest
+              print(variant, result.returncode, result.stdout.decode(), flush=True)
+          assert meta['results']['baseline']['binary_sha256'] != meta['results']['candidate']['binary_sha256']
+          meta['complete'] = True
+          write_json(evidence / 'regression.json', meta)
+      - name: Preserve actual Red and Green output
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: vertical-fallback-page-red-green
+          path: regression-out/evidence
+          if-no-files-found: error
+          retention-days: 30
