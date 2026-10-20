@@ -1,0 +1,32 @@
+{
+  "archives": {
+    "inputs": "4debbf24b74319191955b5a11bb453100b82ef5263bde75804a07e86dba6371b",
+    "evidence": "6fc97b5dafd0d2356ffde8c9ff3cda2a1ddf33233fa2a8e088c4a4d8be4ec2b7"
+  },
+  "restored_paths": 14839,
+  "page_inputs": 293,
+  "additional_known_vertical_inputs": 7,
+  "old_and_new_real_columns": 18,
+  "fixed_margin_figure_controls": 24,
+  "independent_fraction_masks": 42,
+  "h1_h2_geometrical_chunks": 153,
+  "actual_raw_chunk_coordinates": 81,
+  "accepted_pairs": 2,
+  "native_api_pairs": 630,
+  "negative_fragment_route_pairs": 216,
+  "actual_rust_selector_replay_pairs": 126,
+  "stored_raw_callbacks": 81,
+  "matrix_input_normalization_comparisons": 7200,
+  "cli_process_boundaries_verified": 1200,
+  "csv_markdown_files_recreated_byte_equal": 48,
+  "formal_csv_rows_recreated": 33528,
+  "independent_main_csv_rows": 14064,
+  "independent_vertical_csv_rows": 336,
+  "independent_full_api_csv_rows": 10548,
+  "new_nn_calls": 0,
+  "models_required": false,
+  "internal_nn_forward_count_in_recorded_page_calls": null,
+  "actual_rust_replayed_pairs": 126,
+  "callbacks_using_saved_raw_parts": 81,
+  "models_loaded": 0
+}

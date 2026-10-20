@@ -515,6 +515,34 @@ impl ParseqPool {
             orientation,
         )?;
         for (result, &(rgb, width, height)) in results.iter_mut().zip(items) {
+            // Preserve the original raw whitespace when deciding whether a vertical
+            // page fragment supports recovery. Chunks reuse this borrowed session.
+            if matches!(self.postprocess, ParseqTextPolicy::Fragment)
+                && matches!(orientation, ParseqOrientation::Auto)
+                && let Some(recovered) = super::vertical_capacity::recover(
+                    result,
+                    rgb,
+                    (width, height),
+                    self.input_dimensions(),
+                    |pixels, w, h| {
+                        let mut parts = run_batch_on_session_with_orientation(
+                            session,
+                            &self.input_name,
+                            &self.output_name,
+                            self.input_w,
+                            self.input_h,
+                            &self.charset,
+                            &[(pixels, w, h)],
+                            ParseqOrientation::Horizontal,
+                        )?;
+                        parts
+                            .pop()
+                            .ok_or_else(|| anyhow!("empty vertical chunk result"))
+                    },
+                )
+            {
+                *result = recovered;
+            }
             result.text = match self.postprocess {
                 ParseqTextPolicy::SingleLine => {
                     super::visible_repetitions::sanitize_visible_single_line(

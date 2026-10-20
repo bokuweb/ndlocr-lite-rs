@@ -49,3 +49,6 @@ mod punctuation_space_width_tests;
 #[cfg(test)]
 #[path = "../../tests/support/punctuation_space_advance.rs"]
 mod punctuation_space_advance_tests;
+
+#[cfg(any(feature = "onnx", test))]
+mod vertical_capacity;
