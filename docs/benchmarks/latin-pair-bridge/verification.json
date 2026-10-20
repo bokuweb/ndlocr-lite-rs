@@ -76,7 +76,10 @@
     "final-format/format-native-green.stdout.gz": "06094833d0b97092bf5aebc52535225dda53534b49def1d7b72c52dbd8b5966e",
     "final-format/format-pure-green.stderr.gz": "3049e106b7c558a69334a29342e318b07a9215a382183271ca5cb0c64f25102a",
     "final-format/format-pure-green.stdout.gz": "56f794a49d2ce9eaeeae88bf827a5dc9130142baf31f3f490b0c6d88a5c7206b",
-    "final-format/initial-ci-snapshot.json": "2afd10d4084712a4727b71c9856db92a287391c91f9b81dd1c1f1ea5bc2964a8"
+    "final-format/initial-ci-snapshot.json": "2afd10d4084712a4727b71c9856db92a287391c91f9b81dd1c1f1ea5bc2964a8",
+    "initial-ci-final.json": "2bcd2437e177b569012c68e0852677e48513911d7e6295672ec8d58b1707cc47",
+    "final-ci.json": "09379dee0943063c176ded628fabb20a0da3568786938019f7cb25c332682b4a",
+    "initial-ci-failed.log.gz": "1a9718f2f6d06b904903bffed98c17ee0a1be22200679dfa0573faa087fc0cb9"
   },
   "uncompressed_stdout_sha256": {
     "restored-product.stdout.gz": "d2a1daa5d34380f80176782c2cb81932c9ba7e9fe3db337d8c92ecfabb68b1fd",
@@ -148,5 +151,11 @@
     "initial_ci_run": 39373776001,
     "initial_ci_head": "9b6070271bd56c56b359fa98328801f65b91ed5a",
     "driver_sha256": "98c57e6473dda59654960132a1d0944fc43c73c7a80604a2e2bb5af9ba9bd16e"
+  },
+  "ci": {
+    "head_sha": "e42eb19a049bf7c0f0f50a804b35c6e843b2f76c",
+    "run_id": 39374618726,
+    "jobs": 5,
+    "conclusion": "success"
   }
 }
