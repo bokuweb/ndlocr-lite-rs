@@ -1,5 +1,13 @@
 # ndlocr Python→Rust移植（ONNX）計画
 
+## 2026-10-20: 狭い丸括弧の元画素profile
+
+- 先行仕様は `docs/narrow_round_marker_profile.md` / `docs/narrow_round_marker_body.md`。幅・画線連続性・上下端・中央帯の例示とPBTをRed→Greenで固定し、本文の既存所有関係を共有した。文書・単語の置換は追加しない。
+- 条件を凍結して旧137,991組と追加24,924 raw forwardを比較し、62モデル/条件/方向組でnone/width完全一致を回復。全群・全正規化の入力別文字/単語退行0。変わった元RGBは19種類、追加で変わる未重複RGBは6種類で、独立標本や未知資料の改善率とは扱わない。
+- 公開APIの3モデルRedを先行し、最後の単行fallbackだけに接続。実製品162,915保存raw再生、公開API8,564組、CLI3,500件が凍結案と一致した。通常685件・ONNX対象627件・example23件が成功。
+- 新規Clippy警告をテスト内の2つの反復呼出しだけで解消し、境界テスト・全13profileテスト・Clippyを再確認。計測snapshotと最終sourceのruntime部分はbyte同一である。
+- 新規ページ精度測定は行っていない。Latinのx-height、長い本文、複数closer、真縦組みを含む残差の改善を続ける。
+
 ## 目的
 - `ndlocr/src/ocr.py` を中心に Rust 移植する。
 - ONNX Runtime で CPU 推論を先に安定化する。

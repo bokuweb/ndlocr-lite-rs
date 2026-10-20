@@ -1,5 +1,10 @@
 //! Diagnostic support for a raster bridge together with large detached body parts.
 
+enum MarkerProfile {
+    Strict,
+    NarrowRound,
+}
+
 fn primary_support_mask(
     mask: &[bool],
     width: usize,
@@ -106,6 +111,16 @@ fn component_view(
     width: usize,
     height: usize,
 ) -> Option<([super::Component; 3], usize)> {
+    component_view_with_profile(text, rgb, width, height, MarkerProfile::Strict)
+}
+
+fn component_view_with_profile(
+    text: &str,
+    rgb: &[u8],
+    width: usize,
+    height: usize,
+    profile: MarkerProfile,
+) -> Option<([super::Component; 3], usize)> {
     use unicode_width::UnicodeWidthChar;
     let chars: Vec<_> = text.chars().take(4).collect();
     let closer = |c| matches!(c, ')' | '）' | '」' | '』' | '】');
@@ -148,11 +163,17 @@ fn component_view(
     };
     let mw = mark.x1 - mark.x0;
     let mh = mark.y1 - mark.y0;
+    let width_supported = match profile {
+        MarkerProfile::Strict => mw >= bh.div_ceil(4),
+        MarkerProfile::NarrowRound => {
+            super::narrow_round_marker::supports_mark(&mark, rgb, width, height, bh)
+        }
+    };
     if bh == 0
         || bw < 3
         || bw as u128 > bh as u128 * 3 + 1
         || gap > 1
-        || mw < bh.div_ceil(4)
+        || !width_supported
         || mw as u128 * 2 > bh as u128
         || mh as u128 * 2 < bh as u128
         || mh as u128 * 2 > bh as u128 * 3
@@ -193,6 +214,18 @@ fn component_view(
         },
         h,
     ))
+}
+
+pub(super) fn supports_narrow_round(text: &str, rgb: &[u8], width: usize, height: usize) -> bool {
+    if !text.chars().any(|c| matches!(c, ')' | '）')) {
+        return false;
+    }
+    let Some((view, h)) =
+        component_view_with_profile(text, rgb, width, height, MarkerProfile::NarrowRound)
+    else {
+        return false;
+    };
+    super::supports_collected(&view, h, 3, Some(text))
 }
 
 #[cfg(test)]
@@ -422,6 +455,43 @@ mod tests {
         ))
         .unwrap();
         assert!(!supports(")情報", &im.data, im.width, im.height));
+    }
+
+    #[test]
+    fn narrow_round_body_support_keeps_the_strict_family_unchanged() {
+        let image = crate::io::load_rgb_u8(std::path::Path::new(
+            "tests/fixtures/owned_parts_body_bridge/narrow_round_prefix_mincho20.png",
+        ))
+        .unwrap();
+        let (rgb, w, h) = (&image.data, image.width, image.height);
+        let before = rgb.clone();
+        assert!(
+            !supports(")情報", rgb, w, h),
+            "the strict family keeps its original width floor"
+        );
+        assert_eq!(
+            sanitize_visible_single_line(")情報", rgb, w, h, ParseqOrientation::Auto),
+            ")情報"
+        );
+        for text in [")情報", "）情報"] {
+            assert!(supports_narrow_round(text, rgb, w, h), "{text}");
+        }
+        for text in [
+            "情報)",
+            "情報）",
+            "情)報",
+            "情報」",
+            "」情報",
+            "))情",
+            ")情報)",
+            "AB)",
+            "情報",
+            "情 )",
+            " 情報)",
+        ] {
+            assert!(!supports_narrow_round(text, rgb, w, h), "{text}");
+        }
+        assert_eq!(*rgb, before);
     }
 
     proptest::proptest! {
