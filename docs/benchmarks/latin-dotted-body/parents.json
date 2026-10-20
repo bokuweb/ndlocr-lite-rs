@@ -1,0 +1,22 @@
+{
+  "packet": "latin-pair-bridge",
+  "archives_sha256": {
+    "inputs-mincho.zip": "6f3bcc672b3ff99ef952f05e5ff21f048ec9dbb8814d852f8d72d6a458f3304a",
+    "pixels-atlases.zip": "c1f55ea662542eeb6274121ada4ed79072b64285bcacaa02a56df158f18f9f43",
+    "inputs-maru.zip": "60c807ebea4a80f54ec39e4c0aaa97aa1beb0f08484081a26686ba79b05932bc",
+    "inputs-metadata.zip": "8c99bba2b8169e7244483c0859338af81a20f7db9e4a01191cf10988833d5a2a",
+    "pixels-mincho.zip": "9e813bf2acab0947a122033a9c51367676a681cb57abee76e7dcd197f52308f4",
+    "decoded.zip": "c2459a45c391c19383d05f2954b4cde7343b599d6bcab1cab0611ab7b62859e3",
+    "diagnostics-2.zip": "7cb6cc303abc759ad51235b2af326663b0a9d988b41fdf0c5a6fa1f1a1fe27bf",
+    "native.zip": "918c749d249403f3ef7897a56803d095a97db8ee57a7dbb678b62314715a45fa",
+    "diagnostics-1.zip": "45067f98b1ea81b8a499c61cb4b52e050b1799f9f5b2e04c19f2580fc526d638",
+    "diagnostics-0.zip": "5680b96c8e0cf0232e7b8138eb3d1dc7c03bacfaedb1d0e9458e00018ce34976",
+    "pixels-gothic.zip": "043b69091cb2b3ce390020c6a66a7f2ac37dcd43919c5231e88807327d116d31",
+    "text-0.zip": "89dcfc2a52740d40224ab36e7e1edbb7580db7aef88c46403ad7159e590af8e2",
+    "inputs-gothic.zip": "651dd98ea68601c973a1ea6d710eff9aff0e90937a9841d47a767fc65e18e9df",
+    "pixels-maru.zip": "426ee8e0d84b5a595265131bb8c55b468c86f5c4808979672535496de21fc834",
+    "originals.zip": "489ab68cbcd1e1d82de5b998a55b3cec66750f3212a56bbc528b0e0ab9324270"
+  },
+  "verification_sha256": "66c464c587beb15d2d03018c0c6755db7a42b40eae238046ab919da7d6fa58b7",
+  "full_parent_recomputation_in_this_phase": false
+}

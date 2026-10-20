@@ -1,6 +1,7 @@
 //! モデルが読んだ反復や閉じ括弧を、同じ入力の独立した画線群で支持する。
 mod contained_components;
 mod detached_body_components;
+mod dotted_body;
 mod internal_detached_closer;
 mod latin_pair_bridge;
 mod latin_pair_policy;
@@ -65,6 +66,9 @@ pub(crate) fn sanitize_visible_single_line(
             return fragment;
         }
         if latin_pair_policy::supports(&fragment, rgb, width, height) {
+            return fragment;
+        }
+        if dotted_body::supports(&fragment, rgb, width, height) {
             return fragment;
         }
     }

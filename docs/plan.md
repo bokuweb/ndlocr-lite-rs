@@ -1,5 +1,15 @@
 # ndlocr Python→Rust移植（ONNX）計画
 
+## 2026-10-20: 点付き英字の構造支持
+
+- 先行仕様はdocs/latin_dotted_body_kernel.md / docs/latin_dotted_body_policy.md / docs/latin_dotted_body_controls.md。上部の点をi/jのstemへ一意に所属させ、全前景・本文位置・round profileを確認し、モデルが既に読んだfragmentを最後の単行fallbackだけで保持する。単語/font照合・文字置換・追加NNはない。
+- 純粋30テスト、4つの64例PBT、実画像、実Session/Poolの3モデルRed→Greenを先行。追加NN前にowner/policyの数値を固定し、旧223,143組と新59,322 raw forwardを比較した。全282,465組のnone/width/strictで入力別文字・単語退行0。102変更組でnone完全一致45、width完全一致91を回復し、strictは同点だった。
+- 102組は23種類の元RGB、追加分は未重複19種類。既存1組などには字種誤読が残る。旧2,871画像×3モデルのraw正読後の損失は467→456。既知3書体・6本文の開発対照で、未知書体/資料の改善率や独立標本数とは扱わない。
+- 全19,440条件をNN前に固定し、1,854独立再描画・126裸本文の成分照合・4,536図形PNGの再構成と108条件の事前目視を確認した。実NN入力19,774件と元Auto/effective Horizontalの3形状tensor bitも一致した。図形条件のbody-only真値は診断上の規約であり、意味が一意な非文字GTとはしない。
+- 実製品282,465保存組、実API426組、CLI426件が保存期待値と一致した。CLIにHorizontal指定がないため、方向指定26組はPool APIで検査し、CLIでは同じ元画像のAuto26組を別期待値で検査した。通常740件、実モデルCI対象692件、example等24件が成功し、新規Clippy警告0。
+- docs/benchmarks/latin-dotted-body/ の空ディレクトリへの独立復元で153 CSV/153 Markdown・711群集計、全画像/raw/確率/API/CLIを再照合した。復元sourceの新規default buildでもRust282,465組と19,440×3形状tensor bit照合が成功した。親Cの全履歴は今回再実行せず、公開archiveと既存成功receiptをSHAで固定している。
+- 今回の追加ページ精度測定は0で、実モデル回帰の既存ページNNは実行済み。NN/ページ断片経路は比較元とbyte同一。実資料の残差、Latin以外・長い本文・複数closer・真縦組みなどを引き続き調べる。目的全体は継続する。
+
 ## 2026-10-20: Latin追加対照の保存方向比較
 
 - 先行仕様 docs/latin_auto_orientation_saved_audit.md。既知横組みのAuto回転636元画像を全3モデルの保存rawで対にした。追加NNは0、製品処理の変更もない。

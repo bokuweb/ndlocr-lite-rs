@@ -1,0 +1,1 @@
+固定した既存RGBのlossless PNG。画素変更なし。Agjp40pxの前後は点の所有を調べる適用対照、Agjp20pxとqjp40pxは本文接触を含む不成立対照。全参照とSHAはprovenance.json。未知資料や追加NNではない。

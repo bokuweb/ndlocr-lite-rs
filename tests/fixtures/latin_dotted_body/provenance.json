@@ -1,0 +1,58 @@
+{
+  "source_manifest_sha256": "c5c502190e4f35f43401bc0f7328d3f419f84cbc0de2ce86dddde16a756d03f9",
+  "encoding": "lossless PNG copied from frozen measured RGB; no raster edits",
+  "inputs": [
+    {
+      "file": "agjp_round_prefix_maru40.png",
+      "source_id": "geometry_round_latin_prefix_maru40_png",
+      "source_rgb": "tmp/closer-bridge/data/old-rgb/geometry_round_latin_prefix_maru40_png.rgb",
+      "rgb_sha256": "c88bf15e5ad48fcc5b3f22a3c8f7b3a4617bb7cc206c8280f38e46ee752a0b59",
+      "png_sha256": "1765195a43fe9c211f2bae7689a4f7de33569082fceca588b2d0e201cf21966a",
+      "width": 122,
+      "height": 57,
+      "raw": ")Agjp",
+      "truth": ")Agjp",
+      "baseline_output": "Agjp",
+      "corpus": "old"
+    },
+    {
+      "file": "agjp_round_suffix_maru40.png",
+      "source_id": "geometry_round_latin_suffix_maru40_png",
+      "source_rgb": "tmp/closer-bridge/data/old-rgb/geometry_round_latin_suffix_maru40_png.rgb",
+      "rgb_sha256": "8ba086f2289885705cff5e75e8d2d6e89503e1eb7b1d69d5d50a572dad7f8e65",
+      "png_sha256": "e85ec7f774042e724562dccb14a05d2d792882e66b0ae13922705820c88050ce",
+      "width": 122,
+      "height": 57,
+      "raw": "Agjp)",
+      "truth": "Agjp)",
+      "baseline_output": "Agjp",
+      "corpus": "old"
+    },
+    {
+      "file": "agjp_round_suffix_joined_maru20.png",
+      "source_id": "geometry_round_latin_suffix_maru20_png",
+      "source_rgb": "tmp/closer-bridge/data/old-rgb/geometry_round_latin_suffix_maru20_png.rgb",
+      "rgb_sha256": "763ca5aade5308c0ef52df9aa25a266c52e7cc0f97627e391474a0ef646b33b6",
+      "png_sha256": "3fbc6e4dd9a8713d3e1ef680e56f2bad6b9309e24e2b647ad11baa97a6943444",
+      "width": 68,
+      "height": 37,
+      "raw": "Agjp)",
+      "truth": "Agjp)",
+      "baseline_output": "Agjp",
+      "corpus": "old"
+    },
+    {
+      "file": "qjp_round_suffix_joined_maru40.png",
+      "source_id": "r_freetype_pNone_b5_maru_40_bs0_c0_lead0_sp0_paper0_png",
+      "source_rgb": "tmp/latin-pair-policy/fresh/rgb/r_freetype_pNone_b5_maru_40_bs0_c0_lead0_sp0_paper0_png.rgb",
+      "rgb_sha256": "16e30ef2fa0cf94152a5a8e6369633981daa1c59c2c1b063c3e2da981a8774ce",
+      "png_sha256": "a7d9c550779af84f99997f63bd7e13a34cfb448ae21bad5db60b5bbcde9a40dc",
+      "width": 76,
+      "height": 45,
+      "raw": "qjp)",
+      "truth": "qjp)",
+      "baseline_output": "qjp",
+      "corpus": "latin-fresh"
+    }
+  ]
+}

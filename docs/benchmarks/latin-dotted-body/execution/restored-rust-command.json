@@ -1,0 +1,14 @@
+{
+  "binary_sha256": "8f45acc5589843482aa361c4d297c9ad16575b1296deb0e44cc6a6418c4fd7d3",
+  "restored_build_sha256": "09bf3dd8057572bd865f5251e75e73b67241844511fe80bc21116bc5fb54ebd8",
+  "verification_sha256": "d78ff4da078b0d79bc7005e79dc2fdbce37da85ba8ab43ad35be468d129709cc",
+  "restored_product_manifest_sha256": "d5d0bcdc39005066ab24ba59342c1b590bef32ef18dae281051b14fcb0bf2e52",
+  "tensor_manifest_sha256": "3e8e0ddf854df0eaa06eb92b37e48d10b601eeb1d79e0216334158bcda96ba55",
+  "driver_sha256": "2ac4df64ebecb6884975340979592106385f61f238fca4f64f214f24434a7392",
+  "new_nn_forwards": 0,
+  "exit_code": 0,
+  "restored_actual_product_pairs": 282465,
+  "restored_actual_tensor_conditions": 19440,
+  "restored_actual_tensor_model_shapes": 3,
+  "all_source_unchanged_after": true
+}

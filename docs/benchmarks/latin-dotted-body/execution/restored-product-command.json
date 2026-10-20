@@ -1,0 +1,15 @@
+{
+  "argv": [
+    "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/latin-dotted-body/restored-rust-binary",
+    "infer::visible_repetitions::dotted_body::tests::product_matches_all_frozen_outputs",
+    "--exact",
+    "--ignored",
+    "--nocapture"
+  ],
+  "env": {
+    "NDLOCR_DOTTED_PRODUCT_MANIFEST": "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/latin-dotted-body/final-restored/product-manifest.json"
+  },
+  "cwd": "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/latin-dotted-body/final-restored",
+  "exit_code": 0,
+  "seconds": 144.058643125
+}

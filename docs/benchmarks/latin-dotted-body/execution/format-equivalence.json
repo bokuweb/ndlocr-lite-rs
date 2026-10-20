@@ -1,0 +1,8 @@
+{
+  "only_test_module_formatted": true,
+  "runtime_prefix_byte_equal": true,
+  "owner_frozen_hash_equal": true,
+  "policy_body_byte_equal_except_first_doc_comment": true,
+  "before_sha256": "c3fcf36bdcda4338170e6290fb70d0599b5363b9f81e748278023f5b252e0ea7",
+  "after_sha256": "484783b70a38ab7e3f8cb15f8198c869663ae2e312a105a1670a439bde4d4c27"
+}

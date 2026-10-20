@@ -1,0 +1,15 @@
+{
+  "baseline_git_commit": "f31a87d1b6d0eb426847eec3770307896353539f",
+  "tracked_rust_changed": [
+    "src/infer/cached.rs",
+    "src/infer/visible_repetitions.rs"
+  ],
+  "cached_only_test_module_added": true,
+  "visible_single_line_only_module_and_last_fallback_added": true,
+  "nn_and_page_fragment_paths_source_byte_unchanged": true,
+  "owner_frozen_sha256_equal": true,
+  "policy_body_byte_equal_except_first_doc_comment": true,
+  "reader_style_equivalence_record_sha256": "4cf73cf99d37830fdef12668b99ead3db92dc2168038e42c71411e41e254d471",
+  "test_format_equivalence_record_sha256": "27647fee324903d01bd43bf9d52e3849a3e53b30217c7be6e70568c003f76e67",
+  "driver_sha256": "9ebe8bc7f63effa824cb153aa8804d8000d30b7c097fc347aa5586a2a4ae7a33"
+}
