@@ -65,10 +65,17 @@
     "reproduce.stdout": "7c43c78a54b767c49832213e559312c242270eb163c39705f6292e6c00bee3b7",
     "package.stdout": "226b1d595889ecbacdc548d95a10a06a6df26bc4e4d44069a08ba59150c6b317",
     "format-equivalence.json": "27647fee324903d01bd43bf9d52e3849a3e53b30217c7be6e70568c003f76e67",
-    "restored-tensor-proof.json": "9a30130cd97e7208e82671e9ea832fb9b722886b3c46ddaa05d35ae59e23a481"
+    "restored-tensor-proof.json": "9a30130cd97e7208e82671e9ea832fb9b722886b3c46ddaa05d35ae59e23a481",
+    "ci-b9b64ef.json": "79f95235c1c1eed65482864aa0d1d0578b77e3a307c8e9900ef740ff2e46739d"
   },
   "restored_actual_product_pairs": 282465,
   "restored_actual_tensor_conditions": 19440,
   "restored_actual_tensor_model_shapes": 3,
-  "restored_rust_command_sha256": "5121aa12103ec0e3c5c038ed1c3d2cd005c2c77ba6f659a576559e3024ac9a88"
+  "restored_rust_command_sha256": "5121aa12103ec0e3c5c038ed1c3d2cd005c2c77ba6f659a576559e3024ac9a88",
+  "ci": {
+    "head_sha": "b9b64efd9555a0e6b38085784691d9602c5d29a0",
+    "run_id": 39391132274,
+    "all_five_jobs_success": true,
+    "url": "https://github.com/bokuweb/ndlocr-lite-rs/actions/runs/39391132274"
+  }
 }

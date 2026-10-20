@@ -1,0 +1,21 @@
+{
+  "archive_sha256": {
+    "evidence": "b85ce02a54d61b1b88237d37558ddc1c367ff410a4cbf93b6411060139e1efd4"
+  },
+  "baseline_commit": "b9b64efd9555a0e6b38085784691d9602c5d29a0",
+  "original_canvases": 3,
+  "page_excerpt_inputs": 3,
+  "gt_characters_including_column_lf": 392,
+  "page_text_pairs_verified": 24,
+  "line_api_pairs_verified": 216,
+  "raw_page_pairs_verified": 27,
+  "raw_page_text_byte_equal": 25,
+  "raw_page_confidence_bit_equal": 27,
+  "table_files_byte_equal": 12,
+  "new_product_changes": 0,
+  "unprocessed_raw_calls_verified": 27,
+  "api_page_calls_verified": 18,
+  "cli_processes_verified": 6,
+  "model_internal_forward_count": null,
+  "full_spread_accuracy_measured": false
+}

@@ -1,5 +1,13 @@
 # ndlocr Python→Rust移植（ONNX）計画
 
+## 2026-10-20: 縦組み実スキャンの初回残差監査
+
+- 先行仕様docs/real_vertical_scan_audit.md。NDLのPDM表示を確認した『坊つちやん』（PID1884801）の3コマから、各冒頭本文3列をNN前に選び、元JPEG/crop/RGB/旧字の手転記を固定した。全見開き評価ではなく、9列・列間LF込み392 scalarの開発対照である。ルビは画像に残し、本文GTから除く規約を明示した。モデル学習との重複は不明。
+- 全24ページ本文組を取得。none/width文字距離はCLI DEIM=13、bands=380、PageRecognizer30=269、50=14、100=13（eval/default各）。全モデルの9矩形は同一だった。製品変更や新たな精度改善はまだない。
+- 全9検出列の8単行経路×3モデル、計216組を追加取得した。raw/ページ27組は全mean bit一致・25本文byte同一で、残る2本文は末尾ASCII空白1個だけの差だった。主な欠落がrawに存在することを切り分けた。
+- docs/benchmarks/real-vertical-scan/ に全原画像/真値/source/raw/矩形/confidence/API/CLI/正式表と、取得・crop修正・パッケージ失敗履歴を保存した。別の空ディレクトリでモデル不要の12 CSV/Markdownと27対応の再現が成功した。ページ/API呼出し数を内部NN forward数と同一視しない。
+- DEIM縦列は既存の明示縦列分割へ接続されておらず、入力容量が欠落の原因候補である。次のtest-only支持案をdocs/vertical_model_capacity_recovery.mdへ先行固定した。元RGBを認識へ使い、支持用maskと既存分割を先に純粋テストする。分割による回復は未測定で、目的全体を継続する。
+
 ## 2026-10-20: 点付き英字の構造支持
 
 - 先行仕様はdocs/latin_dotted_body_kernel.md / docs/latin_dotted_body_policy.md / docs/latin_dotted_body_controls.md。上部の点をi/jのstemへ一意に所属させ、全前景・本文位置・round profileを確認し、モデルが既に読んだfragmentを最後の単行fallbackだけで保持する。単語/font照合・文字置換・追加NNはない。

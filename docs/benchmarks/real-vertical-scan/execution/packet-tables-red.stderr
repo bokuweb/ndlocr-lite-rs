@@ -1,0 +1,19 @@
+F
+======================================================================
+FAIL: test_all_formal_csv_and_markdown_are_restorable (test_packet_tables.TableCoverage)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/real-vertical-scan/test_packet_tables.py", line 9, in test_all_formal_csv_and_markdown_are_restorable
+    expected={str(p)for folder in ['initial-scores','line-scores']for p in(r/folder).iterdir()if p.suffix in ['.csv','.md']};self.assertEqual(len(expected),12);self.assertEqual(expected-keys,set())
+AssertionError: Items in the first set but not the second:
+'tmp/real-vertical-scan/line-scores/strict.csv'
+'tmp/real-vertical-scan/initial-scores/none.csv'
+'tmp/real-vertical-scan/line-scores/width.csv'
+'tmp/real-vertical-scan/initial-scores/width.csv'
+'tmp/real-vertical-scan/line-scores/none.csv'
+'tmp/real-vertical-scan/initial-scores/strict.csv'
+
+----------------------------------------------------------------------
+Ran 1 test in 0.002s
+
+FAILED (failures=1)
