@@ -1,0 +1,9 @@
+{
+  "sha256": "8c99bba2b8169e7244483c0859338af81a20f7db9e4a01191cf10988833d5a2a",
+  "members": {
+    "data/fresh/whole-rgb-capture/inputs.json": "61a2984d3f56a549b639a10c78c095f7595ae7854c56d4bcc97394b9c443ad75",
+    "data/horizontal/whole-rgb-capture/inputs.json": "9492c319d682710559a63c71ae420de1568c95c1dc032b90ee468e909c571760",
+    "diagnostics/nn-capture-audit.json": "586515cd3ac45b5213e69cb210e04e1375dd102d0f334bd4e583935fb02f7091",
+    "inputs-metadata-aliases.json": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356"
+  }
+}

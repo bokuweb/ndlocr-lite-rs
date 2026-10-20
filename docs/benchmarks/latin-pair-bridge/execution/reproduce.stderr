@@ -1,0 +1,2 @@
+/Users/bokuweb/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/PIL/Image.py:3578: DecompressionBombWarning: Image size (108559800 pixels) exceeds limit of 89478485 pixels, could be decompression bomb DOS attack.
+  warnings.warn(

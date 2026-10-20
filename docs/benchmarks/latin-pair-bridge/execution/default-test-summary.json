@@ -1,0 +1,10 @@
+{
+  "passed": 710,
+  "ignored": 29,
+  "reports": 124,
+  "command": [
+    "cargo",
+    "test"
+  ],
+  "exit_code": 0
+}

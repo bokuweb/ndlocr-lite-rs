@@ -1,0 +1,8 @@
+{
+  "sha256": "c1f55ea662542eeb6274121ada4ed79072b64285bcacaa02a56df158f18f9f43",
+  "members": {
+    "data/fresh/atlas.png": "0dcf6d697748557bd665c0132180c6a578aad3dd23616fdf8fa0e4d369f36063",
+    "data/horizontal/atlas.png": "5330084c5ec72c99b200feb531983c80e2f01da147c8e83055b1e145b9929162",
+    "pixels-atlases-aliases.json": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356"
+  }
+}

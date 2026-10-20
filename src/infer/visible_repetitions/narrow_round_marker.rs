@@ -4,7 +4,7 @@ pub(super) fn supports_mark(
     rgb: &[u8],
     image_width: usize,
     image_height: usize,
-    body_height: usize,
+    reference_height: usize,
 ) -> bool {
     if image_width == 0
         || image_height == 0
@@ -21,10 +21,10 @@ pub(super) fn supports_mark(
     }
     let width = mark.x1.saturating_sub(mark.x0);
     let height = mark.y1.saturating_sub(mark.y0);
-    let dimensions_supported = width >= body_height.div_ceil(6).max(3)
-        && width < body_height.div_ceil(4)
-        && height as u128 * 4 >= body_height as u128 * 3
-        && height as u128 * 4 <= body_height as u128 * 5;
+    let dimensions_supported = width >= reference_height.div_ceil(6).max(3)
+        && width < reference_height.div_ceil(4)
+        && height as u128 * 4 >= reference_height as u128 * 3
+        && height as u128 * 4 <= reference_height as u128 * 5;
     if !dimensions_supported {
         return false;
     }

@@ -1,0 +1,10 @@
+{
+  "all_pairs": 223143,
+  "changes": 112,
+  "unique_changed_original_rgb": 48,
+  "old_pairs": 8613,
+  "old_raw_correct_pairs": 2357,
+  "old_raw_correct_before_loss": 485,
+  "old_raw_correct_after_loss": 467,
+  "changes_are_exact_original_closer_only": true
+}

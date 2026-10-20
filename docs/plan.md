@@ -1,5 +1,14 @@
 # ndlocr Python→Rust移植（ONNX）計画
 
+
+## 2026-10-20: 接触した英字の構造支持
+
+- 先行仕様は docs/latin_pair_bridge_kernel.md / docs/latin_pair_bridge_policy.md / docs/latin_pair_bridge_controls.md。元RGBを変えず、1画素接触の不均等な2 view・全前景所有・marker profileで、モデルが既に読んだ丸括弧を単行の最後のfallbackだけで保持する。単語・文書種別の置換や追加NNはない。
+- Red→Green/PBTを先行し数値条件を凍結。旧162,915組と追加60,228 raw forwardを比較し、112組でnone/width完全一致を回復した。全群・全正規化の入力別文字/単語退行0、strictは同点。112組は48種類の元RGB、追加94組は未重複42種類で、未知資料の改善率とは扱わない。
+- 実製品223,143組再生、公開API9,184組とCLI9,184件が一致。通常710件・実モデルCI対象657件・example等24件が成功し、新規Clippy警告0。ページ断片とNN経路は不変で、新規ページ精度測定は行っていない。
+- docs/benchmarks/latin-pair-bridge/ のモデル不要再現で親評価、1,188 CSV/MD、3監査、全画素/raw/mean/API/CLIを再照合した。復元sourceの新規default buildによるRust223,143組と19,440×3形状tensor照合も成功した。
+- Latin以外、長い本文、複数closer、真縦組みを含むAuto方向などの改善を継続する。
+
 ## 2026-10-20: 狭い丸括弧の元画素profile
 
 - 先行仕様は `docs/narrow_round_marker_profile.md` / `docs/narrow_round_marker_body.md`。幅・画線連続性・上下端・中央帯の例示とPBTをRed→Greenで固定し、本文の既存所有関係を共有した。文書・単語の置換は追加しない。

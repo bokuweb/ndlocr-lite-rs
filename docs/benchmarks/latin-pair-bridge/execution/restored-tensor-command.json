@@ -1,0 +1,18 @@
+{
+  "argv": [
+    "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/latin-pair-policy/restored-rust-binary",
+    "infer::visible_repetitions::latin_pair_policy::tests::verify_fresh_latin_pair_auto_tensors",
+    "--exact",
+    "--ignored",
+    "--nocapture"
+  ],
+  "env": {
+    "NDLOCR_INTRA_THREADS": "1",
+    "NDLOCR_LATIN_PAIR_POLICY_ROOT": "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/latin-pair-policy/final-restored/tensor"
+  },
+  "binary_sha256": "a4047e55aee62cb5f0d159fd351bf70816985eb45a4ec52aa3c2fb804cb3eddb",
+  "manifest_sha256": "46c66f8569386ef15de0b8ff39ee3321afd0009e6f97c11c4d71006fd37c38f2",
+  "source_build_record_sha256": "c32de642688638b9eb4de95a8f511bcdd0177d7d1de8046d64c2e11212890d83",
+  "no_nn_forwards": true,
+  "exit_code": 0
+}

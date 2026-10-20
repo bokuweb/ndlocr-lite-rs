@@ -1,0 +1,197 @@
+{
+  "baseline_commit": "d711eec30a4e4bd13decad496221f8c0613b482b",
+  "source_manifest_sha256": "856cd2bc95747eb359550d9ab879c3f678084c810d211f5f84cc12c303881980",
+  "driver_sha256": "1e0950fa81e85a6e15814ed6dfeea221084516bad8c2be2a6e4af52947fe4c2d",
+  "records": [
+    {
+      "fixture": "tests/fixtures/latin_pair_bridge/klm_round_suffix_mincho24.png",
+      "fixture_sha256": "f192487167072fc14e8036e37f13cef88fc845c688a8cbab33a58ce59c3ac7b9",
+      "source_rgb_sha256": "2186fd4252a952444bd44b81417105676305c5351da2eee1f9ef0caecae14cb0",
+      "source_rgb": "tmp/closer-bridge/data/old-rgb/leading_round_suffix_joined_mincho24_png.rgb",
+      "source_id": "leading_round_suffix_joined_mincho24_png",
+      "width": 78,
+      "height": 39,
+      "references": [
+        {
+          "corpus": "old",
+          "model": "30",
+          "id": "leading_round_suffix_joined_mincho24_png",
+          "orientation": "auto",
+          "raw": "KLM)",
+          "truth": "KLM)",
+          "expected_after": "KLM"
+        },
+        {
+          "corpus": "old",
+          "model": "50",
+          "id": "leading_round_suffix_joined_mincho24_png",
+          "orientation": "auto",
+          "raw": "KLM)",
+          "truth": "KLM)",
+          "expected_after": "KLM"
+        },
+        {
+          "corpus": "old",
+          "model": "100",
+          "id": "leading_round_suffix_joined_mincho24_png",
+          "orientation": "auto",
+          "raw": "KLM)",
+          "truth": "KLM)",
+          "expected_after": "KLM"
+        }
+      ]
+    },
+    {
+      "fixture": "tests/fixtures/latin_pair_bridge/klm_round_prefix_mincho24.png",
+      "fixture_sha256": "78a42ca42d6d8baadb8f5c6b21424ce52c70897ab225bff6814527bd2a01f992",
+      "source_rgb_sha256": "0a904f796e97291d50bf385f7fdfa4171cc517a544edec826a155d5ea825db5e",
+      "source_rgb": "tmp/closer-bridge/data/old-rgb/leading_round_prefix_joined_mincho24_png.rgb",
+      "source_id": "leading_round_prefix_joined_mincho24_png",
+      "width": 78,
+      "height": 39,
+      "references": [
+        {
+          "corpus": "old",
+          "model": "30",
+          "id": "leading_round_prefix_joined_mincho24_png",
+          "orientation": "auto",
+          "raw": ")KLM",
+          "truth": ")KLM",
+          "expected_after": "KLM"
+        },
+        {
+          "corpus": "old",
+          "model": "50",
+          "id": "leading_round_prefix_joined_mincho24_png",
+          "orientation": "auto",
+          "raw": ")KLM",
+          "truth": ")KLM",
+          "expected_after": "KLM"
+        },
+        {
+          "corpus": "old",
+          "model": "100",
+          "id": "leading_round_prefix_joined_mincho24_png",
+          "orientation": "auto",
+          "raw": ")KLM",
+          "truth": ")KLM",
+          "expected_after": "KLM"
+        }
+      ]
+    },
+    {
+      "fixture": "tests/fixtures/latin_pair_bridge/xyz_round_suffix_mincho.png",
+      "fixture_sha256": "8e0093dd7f3f0c7fe0fc5da99952075bcc49e045f34c5d156f928afd17e39901",
+      "source_rgb_sha256": "078aadbe3edc403540bf936c17a5bcad8230d18522cf9d55db24d369b86c86b1",
+      "source_rgb": "tmp/closer-bridge/data/old-rgb/widecell_latin_round_suffix_joined_mincho_png.rgb",
+      "source_id": "widecell_latin_round_suffix_joined_mincho_png",
+      "width": 78,
+      "height": 39,
+      "references": [
+        {
+          "corpus": "old",
+          "model": "30",
+          "id": "widecell_latin_round_suffix_joined_mincho_png",
+          "orientation": "auto",
+          "raw": "XYZ)",
+          "truth": "XYZ)",
+          "expected_after": "XYZ"
+        },
+        {
+          "corpus": "old",
+          "model": "50",
+          "id": "widecell_latin_round_suffix_joined_mincho_png",
+          "orientation": "auto",
+          "raw": "XYZ)",
+          "truth": "XYZ)",
+          "expected_after": "XYZ"
+        },
+        {
+          "corpus": "old",
+          "model": "100",
+          "id": "widecell_latin_round_suffix_joined_mincho_png",
+          "orientation": "auto",
+          "raw": "XYZ)",
+          "truth": "XYZ)",
+          "expected_after": "XYZ"
+        }
+      ]
+    },
+    {
+      "fixture": "tests/fixtures/latin_pair_bridge/xyz_round_thick_jpeg.png",
+      "fixture_sha256": "e6df5cb9bdc4029ab6073517a149b9cfe8ec999cc9af88c13a2826f5ceaa7da6",
+      "source_rgb_sha256": "86ebdea0d0b596aee222b2606bcd2ca852a1f85f190589d5eb5ca818377ac04a",
+      "source_rgb": "tmp/closer-bridge/data/old-rgb/widecell_latin_round_suffix_joined_mincho_jpeg75.rgb",
+      "source_id": "widecell_latin_round_suffix_joined_mincho_jpeg75",
+      "width": 78,
+      "height": 39,
+      "references": [
+        {
+          "corpus": "old",
+          "model": "30",
+          "id": "widecell_latin_round_suffix_joined_mincho_jpeg75",
+          "orientation": "auto",
+          "raw": "XYZ)",
+          "truth": "XYZ)",
+          "expected_after": "XYZ"
+        },
+        {
+          "corpus": "old",
+          "model": "50",
+          "id": "widecell_latin_round_suffix_joined_mincho_jpeg75",
+          "orientation": "auto",
+          "raw": "XYZ)",
+          "truth": "XYZ)",
+          "expected_after": "XYZ"
+        },
+        {
+          "corpus": "old",
+          "model": "100",
+          "id": "widecell_latin_round_suffix_joined_mincho_jpeg75",
+          "orientation": "auto",
+          "raw": "XYZ)",
+          "truth": "XYZ)",
+          "expected_after": "XYZ"
+        }
+      ]
+    },
+    {
+      "fixture": "tests/fixtures/latin_pair_bridge/xyz_round_overlapping_gothic_jpeg.png",
+      "fixture_sha256": "c902b088c4aa1a959e983ff8738e435c838dcbeed619f5016b6454baf412b8fe",
+      "source_rgb_sha256": "d7c7b09684dab7ea6b2e3bb06e3df67a94cb43f0ffdeb2d51f24d2e5b1e6140a",
+      "source_rgb": "tmp/closer-bridge/data/old-rgb/widecell_latin_round_suffix_joined_gothic_jpeg75.rgb",
+      "source_id": "widecell_latin_round_suffix_joined_gothic_jpeg75",
+      "width": 80,
+      "height": 40,
+      "references": [
+        {
+          "corpus": "old",
+          "model": "30",
+          "id": "widecell_latin_round_suffix_joined_gothic_jpeg75",
+          "orientation": "auto",
+          "raw": "XYZ)",
+          "truth": "XYZ)",
+          "expected_after": "XYZ"
+        },
+        {
+          "corpus": "old",
+          "model": "50",
+          "id": "widecell_latin_round_suffix_joined_gothic_jpeg75",
+          "orientation": "auto",
+          "raw": "XYZ)",
+          "truth": "XYZ)",
+          "expected_after": "XYZ"
+        },
+        {
+          "corpus": "old",
+          "model": "100",
+          "id": "widecell_latin_round_suffix_joined_gothic_jpeg75",
+          "orientation": "auto",
+          "raw": "XYZ)",
+          "truth": "XYZ)",
+          "expected_after": "XYZ"
+        }
+      ]
+    }
+  ]
+}
