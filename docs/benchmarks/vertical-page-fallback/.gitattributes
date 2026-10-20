@@ -1,0 +1,2 @@
+*.zip binary -text
+*.json -text -diff

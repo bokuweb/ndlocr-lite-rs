@@ -1,5 +1,16 @@
 # ndlocr Python→Rust移植（ONNX）計画
 
+## 2026-10-21: FVAを非文字への幻字と本文悪化で保留、FVBを別検証
+
+- FVAは全240入力×Page API6経路で47入力/経路組の本文を変えた。公式/独立CSV8,640行は一致したが、10入力・19経路組（3正規化で57件）で悪化したため全案を保留する。悪化を伴わない28組の改善で相殺しない。詳細は`docs/vertical_page_fallback_results.md`。
+- 非文字に高信頼の「AAAA」「NNNN」「the the ...」が生じ、本文1組も文字誤り97→98へ悪化した。幾何の字形欠損0やconfidenceだけでは方向fallbackの採用根拠にならなかった。本体推論は1f240beのまま。
+- `docs/vertical_page_supported_output_proposal.md`のFVBを別案として固定した。画像anchor数に対する非空白scalar支持と4種類のUnicode alphanumeric支持を追加し、3 Red→13 Green、refactor後13 Green、通常lib439件・ONNX nonignored451件・実Page既存回帰1件を通した。ignored件数は別記する。
+- 新規108対照（多様本文60/繰返し12/縦長横書き12/図形24）を認識前に固定。全918 ID/917 unique RGB×raw/preparedの1,836ケースで920候補を選択し、独立crop/anchor数・全非白画素・glyph検査が一致、字形欠損0・横書き誤昇格0だった。これは幾何だけの成功。
+- FVBの348入力×6 Page API先行比較が完了した。新規baseline108とcandidate348の計2,736 API結果を測り、O baseline既知240の1,440結果を再利用した。公式/独立12,528 CSV行が一致し、全3正規化の文字/語で入力単位の悪化0、新規本文5画像・raw7経路組が改善した。既知font合成対照での開発結果として扱う。
+- ローカル全件比較は容量枯渇時に中断し、324件の部分本文を成功全件に数えず保存した。`docs/vertical_page_remote_matrix.md`を先に固定し、全921 NN入力/922採点ID/920 unique RGB×8経路をLinux/releaseの4独立CI jobsで前後とも再測定する。Macの予測を流用しない。NDL『羅生門』1頁の3列も含み、曖昧字のGT二表記は両方で非悪化を必要とする。
+- `docs/benchmarks/vertical-page-fallback/`に凍結入力/source/開発記録/幾何を保存した。モデル不要11試験と既存採点5試験が成功した。全44,256公式CSV行の独立照合、入力単位の回帰0、新規本文改善、CLI本文不変を必要とする。全件gate、実Page新規回帰のRed/Green、必要suite/CIが揃うまで本体推論へ接続しない。改善全体は継続する。
+
+
 ## 2026-10-21: Oのfresh Page比較が成立、方向fallbackを次候補へ
 
 - 実行物取り違えの旧「全件不変」は撤回したまま保存した。freshな73e9ab4の全444 ID/443 unique RGB×8経路を再測定し、公式/独立21,312文字・語比較で退行0を確認した。model30のeval/defaultで各9入力が改善し、各設定・各正規化の文字誤り13/語誤り9減。50/100とCLI両経路は不変。行数/矩形は不変、平均bitsは改善した18組で変化した。
