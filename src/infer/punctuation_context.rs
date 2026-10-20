@@ -356,11 +356,85 @@ mod tests {
         assert_eq!(raw.mean_confidence, 0.99);
     }
 
+    fn confidence_values() -> impl proptest::strategy::Strategy<Value = (f32, f32)> {
+        use proptest::prelude::*;
+        let base = prop_oneof![
+            (0u32..1.05f32.to_bits()).prop_map(f32::from_bits),
+            (0u32..=0.05f32.to_bits()).prop_map(|bits| -f32::from_bits(bits)),
+            proptest::sample::select(vec![
+                -0.05,
+                -0.0,
+                0.0,
+                0.98,
+                f32::from_bits(0.98f32.to_bits() + 1),
+                1.0,
+                f32::from_bits(1.0f32.to_bits() + 1)
+            ]),
+        ];
+        let candidate = prop_oneof![
+            (0.95f32.to_bits()..1.05f32.to_bits()).prop_map(f32::from_bits),
+            proptest::sample::select(vec![
+                0.95,
+                f32::from_bits(0.98f32.to_bits() - 1),
+                0.98,
+                f32::from_bits(0.98f32.to_bits() + 1),
+                1.0,
+                f32::from_bits(1.0f32.to_bits() + 1)
+            ]),
+        ];
+        (base, candidate)
+    }
+
+    #[test]
+    fn confidence_boundaries_and_adjacent_values_obey_the_same_contract() {
+        let scores = [
+            -0.05,
+            -0.0,
+            0.0,
+            f32::from_bits(0.98f32.to_bits() - 1),
+            0.98,
+            f32::from_bits(0.98f32.to_bits() + 1),
+            1.0,
+            f32::from_bits(1.0f32.to_bits() + 1),
+        ];
+        for base in scores {
+            for candidate in scores {
+                let (rgb, w, h) = image();
+                let mut calls = 0;
+                let selected = select(
+                    &result("資料確認、 次回連絡", base),
+                    &rgb,
+                    w,
+                    h,
+                    (256, 24),
+                    ParseqOrientation::Auto,
+                    |_, _, _| {
+                        calls += 1;
+                        Ok(result("資料確認、次回連絡", candidate))
+                    },
+                );
+                let valid = (0.0..=1.0).contains(&base);
+                let accepted = valid && (0.98..=1.0).contains(&candidate) && candidate > base;
+                assert_eq!(selected.is_some(), accepted, "{base:?}/{candidate:?}");
+                assert_eq!(
+                    calls,
+                    if !valid {
+                        0
+                    } else if accepted {
+                        3
+                    } else {
+                        1
+                    }
+                );
+            }
+        }
+    }
+
     proptest::proptest! {
         #![proptest_config(proptest::test_runner::Config::with_cases(64))]
         #[test]
         fn finite_confidence_selection_obeys_closed_threshold_and_strict_gain(
-            base in -0.05f32..1.05,candidate in 0.95f32..1.05
+            (base,candidate) in confidence_values()
         ) {
             let (rgb,w,h)=image();let mut calls=0;
             let selected=select(&result("資料確認、 次回連絡",base),&rgb,w,h,(256,24),ParseqOrientation::Auto,|_,_,_|{

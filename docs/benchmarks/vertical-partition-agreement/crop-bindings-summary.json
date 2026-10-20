@@ -1,0 +1,9 @@
+{
+  "raw_Horizontal_bindings": 3190,
+  "unique_actual_RGB_members": 1653,
+  "all_actual_RGB_independently_equal_PIL_rotated_original_crop": true,
+  "RGB_or_GT_not_modified": true,
+  "new_NN_calls": 0,
+  "new_model_loads": 0,
+  "sha256": "0e0ab064a7deba6694b65342d05457e1e3bfed7ce79889383589d21c8ddc0088"
+}

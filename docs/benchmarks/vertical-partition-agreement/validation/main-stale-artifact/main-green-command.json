@@ -1,0 +1,17 @@
+{
+  "argv": [
+    "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/vertical-strict-prefix/main-green-binary",
+    "infer::vertical_capacity",
+    "--include-ignored"
+  ],
+  "env": {
+    "NDLOCR_INTRA_THREADS": "1"
+  },
+  "exit_code": 101,
+  "seconds": 1.690133709,
+  "binary_sha256": "9e1eb05c46753260129a52f765c2f37cf3d4c442952fe824e97bf0c923e391c4",
+  "features": [
+    "default",
+    "onnx"
+  ]
+}

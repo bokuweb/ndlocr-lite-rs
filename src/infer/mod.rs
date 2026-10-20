@@ -53,5 +53,5 @@ mod punctuation_space_advance_tests;
 #[cfg(any(feature = "onnx", test))]
 mod vertical_capacity;
 
-#[cfg(test)]
+#[cfg(any(feature = "onnx", test))]
 mod output_capacity;

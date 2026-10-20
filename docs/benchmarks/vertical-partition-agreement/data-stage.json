@@ -1,0 +1,30 @@
+{
+  "utc": "2026-10-20T17:28:39.384836+00:00",
+  "status": "immutable data stage; final matrix/Page/suite/public reproduction gates pending",
+  "original_RGB": 414,
+  "glyph_annotated": 270,
+  "nonempty_truth": 300,
+  "empty_diagnostic_truth": 114,
+  "recorded_raw_results": 4432,
+  "raw_results_by_orientation": {
+    "Auto": 1242,
+    "Horizontal": 3190
+  },
+  "unique_actual_horizontal_RGB": 1653,
+  "new_NN_calls_this_step": 0,
+  "new_model_loads_this_step": 0,
+  "internal_session_run_calls": null,
+  "archive_sha256": {
+    "horizontal-inputs.json": "e489228c64e0e61ff808399a527ec1c6d2e1ff88ecb9d72b6594b52f7db4b3c6",
+    "raw-traces.jsonl.gz": "21619406e2ccf4e223306f559821838d6b771ecf064a998b2b966eb7246b7a6e",
+    "combine-manifest.json.gz": "cd4eb9f0fb2458d442ef7aaf2d831a79c5c6a0226c3203caa94e8bd015620cbb",
+    "metadata.json": "c3ab83f3c525445368da0f0ba8ecfc9bcf0fd0f000d7bf39300c0d55d3187a38",
+    "horizontal-inputs.zip": "95746b484d5b39efaa8be88464082f88439fa3040dcfce38a03ea52a18267e6e",
+    "charset.yaml": "f6ad5a2de444b495155866af811cf1a98309dcae3225db802767ea531a2dc529",
+    "inputs.json": "9d88f51d780260a418da54891cf6101096a92bd119e03fbc1602e1ece5ddf20b",
+    "inputs.zip": "5ce5bc10da313766566b2611560490dcf3cdc18e5ccf0517ef6d8f7fa31a5711",
+    "expected-decisions.json.gz": "f399a952dd8dc6bd76edaf116d4bbd14dad9fa862051ec3724ba68f28b51622d"
+  },
+  "all_actual_inputs_byte_verified": true,
+  "raw_decoder_and_preprocess_source_identity_verified": true
+}

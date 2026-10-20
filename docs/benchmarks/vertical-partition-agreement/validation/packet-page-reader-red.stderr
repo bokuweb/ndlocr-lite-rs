@@ -1,0 +1,14 @@
+E
+======================================================================
+ERROR: test_all_saved_page_routes_and_official_metrics_reproduce (test_reproduce_page.SavedPageEvidence.test_all_saved_page_routes_and_official_metrics_reproduce)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/vertical-strict-prefix/packet-stage/test_reproduce_page.py", line 16, in test_all_saved_page_routes_and_official_metrics_reproduce
+    result=reader.verify_page(packet,output,manifest.parent/'tools/eval_ocr_metrics.py')
+           ^^^^^^^^^^^^^^^^^^
+AttributeError: module 'page_packet_reader' has no attribute 'verify_page'. Did you mean: 'verify_native'?
+
+----------------------------------------------------------------------
+Ran 1 test in 0.163s
+
+FAILED (errors=1)

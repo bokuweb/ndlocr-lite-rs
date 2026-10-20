@@ -1,4 +1,4 @@
-//! Metadata-only bounds for diagnostics; never guesses a dynamic time axis.
+//! Fixed output bounds; dynamic or incompatible outputs remain unsupported.
 pub(super) fn static_frame_limit(shape: &[i64], charset_len: usize) -> Option<usize> {
     let expected_classes = i64::try_from(charset_len.checked_add(1)?).ok()?;
     let (batch, time, classes) = match shape {
@@ -12,6 +12,15 @@ pub(super) fn static_frame_limit(shape: &[i64], charset_len: usize) -> Option<us
     let time = usize::try_from(time).ok()?;
     time.checked_mul(charset_len.checked_add(1)?)?;
     Some(time)
+}
+
+pub(super) fn selected_frame_limit<'a>(
+    outputs: impl IntoIterator<Item = (&'a str, Option<&'a [i64]>)>,
+    selected: &str,
+    charset_len: usize,
+) -> Option<usize> {
+    let (_, shape) = outputs.into_iter().find(|(name, _)| *name == selected)?;
+    static_frame_limit(shape?, charset_len)
 }
 
 #[cfg(test)]
@@ -45,6 +54,56 @@ mod tests {
         assert_eq!(static_frame_limit(&[1, i64::MAX, 7], 6), None);
         assert_eq!(static_frame_limit(&[1, 31, 7], usize::MAX), None);
         assert_eq!(static_frame_limit(&[1, 31, 7], i64::MAX as usize), None);
+    }
+
+    #[test]
+    fn selected_output_name_controls_the_fixed_frame_limit() {
+        let (short, long) = ([1, 31, 7], [1, 51, 7]);
+        let outputs = [
+            ("aux", Some(short.as_slice())),
+            ("main", Some(long.as_slice())),
+        ];
+        assert_eq!(selected_frame_limit(outputs, "main", 6), Some(51));
+        assert_eq!(selected_frame_limit(outputs, "aux", 6), Some(31));
+    }
+
+    #[test]
+    fn selected_dynamic_invalid_or_missing_shape_never_falls_back_to_another_output() {
+        let fixed = [1, 31, 7];
+        for invalid in [
+            vec![],
+            vec![1, -1, 7],
+            vec![1, 0, 7],
+            vec![1, 31, 8],
+            vec![0, 31, 7],
+        ] {
+            let outputs = [
+                ("aux", Some(fixed.as_slice())),
+                ("main", Some(invalid.as_slice())),
+            ];
+            assert_eq!(selected_frame_limit(outputs, "main", 6), None);
+        }
+        assert_eq!(
+            selected_frame_limit([("main", None), ("aux", Some(fixed.as_slice()))], "main", 6),
+            None
+        );
+        assert_eq!(
+            selected_frame_limit([("aux", Some(fixed.as_slice()))], "missing", 6),
+            None
+        );
+    }
+
+    #[test]
+    fn a_duplicate_selected_name_cannot_hide_the_first_missing_shape() {
+        let fixed = [1, 31, 7];
+        assert_eq!(
+            selected_frame_limit(
+                [("main", None), ("main", Some(fixed.as_slice()))],
+                "main",
+                6
+            ),
+            None
+        );
     }
 
     proptest! {

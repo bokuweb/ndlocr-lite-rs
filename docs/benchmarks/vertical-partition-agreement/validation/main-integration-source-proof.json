@@ -1,0 +1,78 @@
+{
+  "exact_validated_candidate_Rust_files": [
+    {
+      "path": "src/pipeline/line_chunks.rs",
+      "baseline_sha256": "ad3eb78d95f13e0523b3d42059d6761919fbc5248ec26458b237e36637208437",
+      "candidate_sha256": "b35327db308df0586a137081729210bf038b92fdeb05304ce5d22b940fbbe1e2"
+    },
+    {
+      "path": "src/pipeline/line_chunks/vertical.rs",
+      "baseline_sha256": "a0c39a3d99f584106eb944a8b8843d2e74c13040739ac9c41ff1308b32ce4b79",
+      "candidate_sha256": "c37a057129333ab35a3805ce805ebc87a60b5f125b94512c74f0d1605455a44c"
+    },
+    {
+      "path": "src/infer/cached.rs",
+      "baseline_sha256": "6530ec761aa57b319d8c32f2aa027c98abeec70ac4db48fc1ad45fe4fb805fd4",
+      "candidate_sha256": "0e7dc66da6e94fef1f3e0653b15a776b3cbc6631885efb78e5a9ce63b6094044"
+    },
+    {
+      "path": "src/infer/vertical_capacity.rs",
+      "baseline_sha256": "f63ec584cd278ba8e14fa2e9030d116fba34008c3c0268a1894bbff46856fcf5",
+      "candidate_sha256": "9d580c8f982716eb154fc0abbb9a1e1a788d186cc7182512e23250de9abf465a"
+    },
+    {
+      "path": "src/infer/punctuation_context.rs",
+      "baseline_sha256": "c6b8dcb3894ed2771922946fab6c9df68382cd54c07fb2826654c2127ee79be0",
+      "candidate_sha256": "dc2fe60719e3929b27ce1b7ad6f018208eeab7b76569acc438216684f53331fc"
+    },
+    {
+      "path": "src/infer/mod.rs",
+      "baseline_sha256": "95561aeaf2b447f4a8a5e848757c643ad2b25e6a89a40d84771b01c57256ec43",
+      "candidate_sha256": "8cba29d9a722dfb89d9ab8ac26a16121583afcddb9c99a1d9f91a1045779834a"
+    },
+    {
+      "path": "src/infer/output_capacity.rs",
+      "baseline_sha256": "0c9563cbab2cd2559b555cf8e1a3680ef3710124173f7c0872cede341a5b5de1",
+      "candidate_sha256": "93bd50452ad91130f08605eecfffb05a3ad7e4461785dd96a60fd9771f074e84"
+    },
+    {
+      "path": "src/infer/vertical_capacity/native.rs",
+      "baseline_sha256": "e1fbcc87b1f759da46498af6ca5c8544f0f50416e097260c63ca4ec861ee853e",
+      "candidate_sha256": "7e67ae3742e0d12a3594ee455371f9d00a150bfbe962ded42370fbc0abe5b99c"
+    },
+    {
+      "path": "src/infer/vertical_capacity/prefix.rs",
+      "baseline_sha256": "f23a6d44feb4e202d2448bed804ba006f673b1660f6d96cc182d81b0cc08ba23",
+      "candidate_sha256": "662e2e48757d3a3f1b7d403f0d6995eeb5ec8eb2ac0f0d47851fd439aed97725"
+    },
+    {
+      "path": "tests/support/vertical_prefix_geometry.rs",
+      "baseline_sha256": "006cc4e11e87b1cd31c5ca7dd34b8ede1b4febaf4f1734fdef651e0d3b4f3118",
+      "candidate_sha256": "2c61ab8ceac386f1d6f803b6a10b9c0001df981470647cfdac08cc20052e4714"
+    },
+    {
+      "path": "tests/support/vertical_uncertain_matrix.rs",
+      "baseline_sha256": null,
+      "candidate_sha256": "68dec305bce62f1b8838adbfc3994f90e01dc4278416b2ff1d94c80623ccd632"
+    },
+    {
+      "path": "tests/support/ink_scan_contract.rs",
+      "baseline_sha256": null,
+      "candidate_sha256": "04ecc3890fc7c1a47266986f607b8b365a6d1dc8a5a07ba89aeb2e963e2815cc"
+    },
+    {
+      "path": "tests/support/vertical_prefix_native.rs",
+      "baseline_sha256": null,
+      "candidate_sha256": "938208b76caad0679537c5f480e74f194d32e1ad42f1ed9ae84f77c207d5e1f1"
+    },
+    {
+      "path": "tests/support/supported_vertical_contract.rs",
+      "baseline_sha256": null,
+      "candidate_sha256": "7ebfa954a6a4c175507d34710147966c7c78867d52fe281bbdcb9ff09a563b0b"
+    }
+  ],
+  "all_policy_source_hashes_match": true,
+  "H_unchanged": true,
+  "Cargo_lock_ignored_unchanged": true,
+  "N_scalar_correction_not_included": true
+}

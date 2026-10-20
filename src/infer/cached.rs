@@ -504,17 +504,58 @@ impl ParseqPool {
         items: &[(&[u8], usize, usize)],
         orientation: ParseqOrientation,
     ) -> Result<Vec<RecognizeResult>> {
-        let mut results = run_batch_on_session_with_orientation(
-            session,
-            &self.input_name,
-            &self.output_name,
-            self.input_w,
-            self.input_h,
-            &self.charset,
-            items,
-            orientation,
-        )?;
-        for (result, &(rgb, width, height)) in results.iter_mut().zip(items) {
+        let fragment_auto = matches!(self.postprocess, ParseqTextPolicy::Fragment)
+            && matches!(orientation, ParseqOrientation::Auto);
+        let frame_limit = if fragment_auto {
+            super::output_capacity::selected_frame_limit(
+                session.outputs().iter().map(|output| {
+                    let shape = output.dtype().tensor_shape().map(|shape| {
+                        let dimensions: &[i64] = shape;
+                        dimensions
+                    });
+                    (output.name(), shape)
+                }),
+                &self.output_name,
+                self.charset.len(),
+            )
+        } else {
+            None
+        };
+        let (mut results, matching_frames): (Vec<RecognizeResult>, Vec<bool>) = if let Some(limit) =
+            frame_limit
+        {
+            let decoded = run_batch_on_session_with_decoder(
+                session,
+                &self.input_name,
+                &self.output_name,
+                self.input_w,
+                self.input_h,
+                &self.charset,
+                items,
+                orientation,
+                |logits, t, c, charset| {
+                    let raw = predict_text_from_flat_logits_with_confidence(logits, t, c, charset)?;
+                    Ok((raw, t == limit))
+                },
+            )?;
+            decoded.into_iter().unzip()
+        } else {
+            (
+                run_batch_on_session_with_orientation(
+                    session,
+                    &self.input_name,
+                    &self.output_name,
+                    self.input_w,
+                    self.input_h,
+                    &self.charset,
+                    items,
+                    orientation,
+                )?,
+                Vec::new(),
+            )
+        };
+        for (index, (result, &(rgb, width, height))) in results.iter_mut().zip(items).enumerate() {
+            let mut recovered_by_h = false;
             // Preserve the original raw whitespace when deciding whether a vertical
             // page fragment supports recovery. Chunks reuse this borrowed session.
             if matches!(self.postprocess, ParseqTextPolicy::Fragment)
@@ -538,6 +579,35 @@ impl ParseqPool {
                         parts
                             .pop()
                             .ok_or_else(|| anyhow!("empty vertical chunk result"))
+                    },
+                )
+            {
+                *result = recovered;
+                recovered_by_h = true;
+            }
+            if !recovered_by_h
+                && fragment_auto
+                && matching_frames.get(index).copied().unwrap_or(false)
+                && let Some(recovered) = super::vertical_capacity::recover_prefix(
+                    result,
+                    rgb,
+                    (width, height),
+                    self.input_dimensions(),
+                    frame_limit,
+                    |pixels, w, h| {
+                        let mut parts = run_batch_on_session_with_orientation(
+                            session,
+                            &self.input_name,
+                            &self.output_name,
+                            self.input_w,
+                            self.input_h,
+                            &self.charset,
+                            &[(pixels, w, h)],
+                            ParseqOrientation::Horizontal,
+                        )?;
+                        parts
+                            .pop()
+                            .ok_or_else(|| anyhow!("empty prefix vertical chunk result"))
                     },
                 )
             {

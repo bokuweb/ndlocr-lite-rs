@@ -1,0 +1,79 @@
+{
+  "utc": "2026-10-20T18:49:43.923919+00:00",
+  "status": "O source integrated; local validation passed; exact-head remote CI is tracked on PR22",
+  "baseline_commit": "e5b11b412b8c7278ac5ee6688af6af474852bb57",
+  "candidate": "O fixed M strict whole-prefix extension",
+  "native_verification": {
+    "Page_input_IDs": 444,
+    "Page_unique_RGB": 443,
+    "Page_recorded_image_results": 7104,
+    "Page_text_changes": 0,
+    "Page_independently_verified_CSV_rows": 21312,
+    "Page_old293_baseline_source_replayed": true,
+    "native_independently_verified_CSV_rows": 7452,
+    "native_independent_error_and_denominator_fields": 29808,
+    "native_route_fields_compared": 9936,
+    "native_changed_pairs": 9,
+    "native_five_untouched_routes": 6210,
+    "native_official_char_and_word_comparisons": 7452,
+    "native_per_input_regressions": 0,
+    "source_mode": "frozen source restored under output",
+    "Rust_binary_sha256": "6f723602218b94ca042e69166242e3167541484e7f44a2bf04fe9c2e7bdadcfc",
+    "original_RGB": 414,
+    "literal_traces_verified": 4432,
+    "all_actual_horizontal_crop_bindings": 3190,
+    "Rust_decisions_verified": 1242,
+    "Rust_plans_verified": 1242,
+    "adoptions": 9,
+    "new_NN_calls": 0,
+    "new_model_loads": 0,
+    "internal_session_run_calls": 0,
+    "commands": [
+      {
+        "argv": [
+          "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/target/debug/deps/ndlocr_lite_rs-885b13320b245d30",
+          "infer::vertical_capacity::prefix::capture::combine_all_saved_real_plans_without_nn",
+          "--exact",
+          "--ignored",
+          "--nocapture"
+        ],
+        "exit_code": 0
+      },
+      {
+        "argv": [
+          "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/target/debug/deps/ndlocr_lite_rs-885b13320b245d30",
+          "infer::vertical_capacity::prefix::capture::record_real_raw_plans_without_nn",
+          "--exact",
+          "--ignored",
+          "--nocapture"
+        ],
+        "exit_code": 0
+      }
+    ]
+  },
+  "local_default_tests": {
+    "targets": 124,
+    "passed": 797,
+    "ignored": 39
+  },
+  "local_onnx_lib_passed": 549,
+  "local_onnx_CI_integrations": {
+    "targets": 45,
+    "passed": 213
+  },
+  "examples_and_margin": {
+    "targets": 11,
+    "passed": 24
+  },
+  "Python_and_pinned_OpenCV_tests": 15,
+  "packet_tests": 15,
+  "Clippy_new_warnings": 0,
+  "Clippy_existing_default": 13,
+  "Clippy_existing_onnx_lib": 18,
+  "fmt_and_diff_check": true,
+  "local_smokes": "all required real example smokes passed; initial missing worker in partial snapshot fixed with exact unchanged root Python asset",
+  "Page_gain_claim": false,
+  "next_measure": "inspect detector-crop geometry and original recovery rejection reasons; seven direct gains still have Page errors",
+  "native_weights_and_fonts_not_shipped": true,
+  "integration_receipt": "integration.json"
+}

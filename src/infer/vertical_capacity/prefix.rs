@@ -1,6 +1,7 @@
-//! Test-only proposal; never connected to a production recognition route.
+//! Fixed-capacity vertical recovery preserving the entire original raw prefix.
 use crate::infer::parseq::RecognizeResult;
 
+#[cfg(test)]
 #[path = "../../../tests/support/vertical_prefix_geometry.rs"]
 mod capture;
 
@@ -22,8 +23,11 @@ fn plans(
         || width < 12
         || iw == 0
         || ih == 0
-        || iw % 2 != 0
-        || ih % 2 != 0
+        || base
+            .text
+            .chars()
+            .next_back()
+            .is_some_and(char::is_whitespace)
         || iw.checked_mul(ih).is_none()
         || width.checked_mul(height)?.checked_mul(3)? != rgb.len()
         || height as u128 * 5 <= width as u128 * 4
@@ -54,18 +58,19 @@ fn plans(
     if columns < w.div_ceil(3) || bottom.saturating_sub(top) < h.div_ceil(2) {
         return None;
     }
-    let split = |input_width| {
-        crate::pipeline::line_chunks::split_rotated_vertical_column_for_input(
+    let split = |span_divisor| {
+        crate::pipeline::line_chunks::split_supported_vertical_column_for_input(
             &column.support,
             w,
             h,
             220,
-            input_width,
+            iw,
             ih,
+            span_divisor,
         )
         .ok()
     };
-    let routes = [split(iw)?, split(iw / 2)?];
+    let routes = [split(1)?, split(2)?];
     if routes.iter().any(|route| route.len() < 2)
         || routes[0]
             .iter()
@@ -77,7 +82,7 @@ fn plans(
     Some(Plans { column, routes })
 }
 
-fn recover<F>(
+pub(super) fn recover<F>(
     base: &RecognizeResult,
     rgb: &[u8],
     dimensions: (usize, usize),
@@ -114,7 +119,10 @@ fn combine(
     secondary: &[RecognizeResult],
 ) -> Option<RecognizeResult> {
     let base_count = base.chars().count();
-    if limit < 3 || !(limit - 1..=limit).contains(&base_count) {
+    if limit < 3
+        || !(limit - 1..=limit).contains(&base_count)
+        || base.chars().next_back().is_some_and(char::is_whitespace)
+    {
         return None;
     }
     let join = |parts: &[RecognizeResult]| {
@@ -173,9 +181,13 @@ mod tests {
     }
 
     fn column() -> (Vec<u8>, usize, usize) {
-        let (w, h) = (14, 43 * 14 + 16);
+        column_groups(43)
+    }
+
+    fn column_groups(groups: usize) -> (Vec<u8>, usize, usize) {
+        let (w, h) = (14, groups * 14 + 16);
         let mut rgb = vec![255; w * h * 3];
-        for group in 0..43 {
+        for group in 0..groups {
             for y in 8 + group * 14..18 + group * 14 {
                 for x in 2..12 {
                     let p = (y * w + x) * 3;
@@ -219,14 +231,66 @@ mod tests {
     }
 
     #[test]
+    fn full_and_half_budgets_support_model100_and_odd_input_dimensions() {
+        for (groups, input, limit) in [
+            (107, (768, 24), 101),
+            (107, (767, 25), 101),
+            (43, (255, 23), 31),
+            (43, (256, 23), 31),
+            (43, (255, 24), 31),
+        ] {
+            let (rgb, w, h) = column_groups(groups);
+            let base = part(&"A".repeat(limit - 1), 1.0);
+            let plan = plans(&base, &rgb, (w, h), input, Some(limit)).unwrap();
+            assert!(plan.routes.iter().all(|route| route.len() >= 2));
+            assert_ne!(
+                plan.routes[0]
+                    .iter()
+                    .map(|c| (c.x0, c.x1))
+                    .collect::<Vec<_>>(),
+                plan.routes[1]
+                    .iter()
+                    .map(|c| (c.x0, c.x1))
+                    .collect::<Vec<_>>()
+            );
+        }
+    }
+
+    #[test]
+    fn trailing_unicode_whitespace_cannot_become_an_internal_boundary() {
+        let (rgb, w, h) = column();
+        for space in [' ', '\u{3000}', '\n', '\t', '\u{a0}'] {
+            let base = format!("ABCDE{space}");
+            assert!(
+                recover(
+                    &part(&base, 1.0),
+                    &rgb,
+                    (w, h),
+                    (256, 24),
+                    Some(7),
+                    |_, _, _| panic!("trailing whitespace must skip before recognition")
+                )
+                .is_none()
+            );
+        }
+    }
+
+    #[test]
+    fn agreement_rejects_a_trailing_base_space_even_when_both_routes_preserve_it() {
+        for space in [' ', '\u{3000}', '\n', '\t', '\u{a0}'] {
+            let base = format!("ABCDE{space}");
+            let parts = [part("ABCD", 1.0), part(&format!("E{space}FGH"), 1.0)];
+            assert!(combine(&base, 7, &parts, &parts).is_none());
+        }
+    }
+
+    #[test]
     fn unsupported_capacity_and_geometry_never_call_recognition() {
         let (rgb, w, h) = column();
         for (text, limit, dimensions, input) in [
             ("ABCDEF", None, (w, h), (256, 24)),
             ("ABCDE", Some(7), (w, h), (256, 24)),
             ("ABCDEFGH", Some(7), (w, h), (256, 24)),
-            ("ABCDEF", Some(7), (w, h), (255, 24)),
-            ("ABCDEF", Some(7), (w, h), (256, 23)),
             ("ABCDEF", Some(7), (w, h), (0, 24)),
             ("ABCDEF", Some(7), (w - 1, h), (256, 24)),
             ("AB", Some(2), (w, h), (256, 24)),

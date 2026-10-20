@@ -51,3 +51,9 @@ fn fragment_auto_recovers_supported_columns_and_preserves_rejected_candidates() 
         assert_eq!(image.data, original);
     }
 }
+
+#[path = "../../../tests/support/vertical_prefix_native.rs"]
+mod prefix_agreement;
+
+#[path = "../../../tests/support/vertical_uncertain_matrix.rs"]
+mod matrix;

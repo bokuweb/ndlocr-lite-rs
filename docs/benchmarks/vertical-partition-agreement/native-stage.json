@@ -1,0 +1,21 @@
+{
+  "files_sha256": {
+    "native-records.json.gz": "9db600f3584d9ea469969976e7d9c79628d97d51eae01d89d906f88e0917a07d",
+    "native-summary.json": "9e8f9076283a4b8c6f0d0631d3a34c552040de2354e6a9dde7731548bbe6700d",
+    "native-metrics/model30-none.csv": "57a6fa158f301806ebec6a518a3bd12c53231b8f85e3809d903d88f77dd91a6a",
+    "native-metrics/model50-none.csv": "b87b20ad61c09684344df047dd0e9c9f3ac370a17df1ed804943d62c40698f3a",
+    "native-metrics/all-input-pairs.csv": "8f15a44d8b53a9e4b666570ed55efd1134aaa1aae7e328cd027049b742ec601c",
+    "native-metrics/model100-none.csv": "886cb90cdc2b2fb14c4ec088c9b489771cf59c559e3effda6356c894939d6b1b",
+    "native-metrics/model50-width.csv": "b87b20ad61c09684344df047dd0e9c9f3ac370a17df1ed804943d62c40698f3a",
+    "native-metrics/model30-width.csv": "57a6fa158f301806ebec6a518a3bd12c53231b8f85e3809d903d88f77dd91a6a",
+    "native-metrics/model100-strict.csv": "fa658a9daa94e1013dacd171d47a64df63d2f6568756f0f616e7e909862ac14a",
+    "native-metrics/model30-strict.csv": "57ebba4b347ec8dcf04ccb3c05b6bf2540e75d0945528b8c12986d9fa3f6e8c2",
+    "native-metrics/model100-width.csv": "886cb90cdc2b2fb14c4ec088c9b489771cf59c559e3effda6356c894939d6b1b",
+    "native-metrics/model50-strict.csv": "105d219ac71ad8b7efd239db35e24e0dea188d1aff161494ffaacdb452f18c21"
+  },
+  "scorer_sha256": "26da0e34f77eda05f77d928803964e82be73123958fbded85a49980ff8c7a7f7",
+  "status": "O candidate: full414 native matrix passed; Page/API/CLI and publication pending",
+  "new_NN_calls_this_step": 0,
+  "new_model_loads_this_step": 0,
+  "internal_session_run_calls": null
+}

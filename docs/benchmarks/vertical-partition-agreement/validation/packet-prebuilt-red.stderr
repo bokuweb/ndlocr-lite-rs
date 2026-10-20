@@ -1,0 +1,32 @@
+....EEE
+======================================================================
+ERROR: test_additional_verified_pure_binary_is_allowed (test_reproduce.PrebuiltReplay.test_additional_verified_pure_binary_is_allowed)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/vertical-strict-prefix/packet-stage/test_reproduce.py", line 64, in test_additional_verified_pure_binary_is_allowed
+    self.assertEqual(reader.select_prebuilt_binary(root,binary),binary.resolve())
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'vertical_partition_reader' has no attribute 'select_prebuilt_binary'
+
+======================================================================
+ERROR: test_primary_recorded_binary_is_allowed (test_reproduce.PrebuiltReplay.test_primary_recorded_binary_is_allowed)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/vertical-strict-prefix/packet-stage/test_reproduce.py", line 59, in test_primary_recorded_binary_is_allowed
+    self.assertEqual(reader.select_prebuilt_binary(root,binary),binary.resolve())
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'vertical_partition_reader' has no attribute 'select_prebuilt_binary'
+
+======================================================================
+ERROR: test_unknown_binary_is_rejected_without_running_it (test_reproduce.PrebuiltReplay.test_unknown_binary_is_rejected_without_running_it)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/vertical-strict-prefix/packet-stage/test_reproduce.py", line 69, in test_unknown_binary_is_rejected_without_running_it
+    with self.assertRaises(AssertionError):reader.select_prebuilt_binary(root,binary)
+                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'vertical_partition_reader' has no attribute 'select_prebuilt_binary'
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.005s
+
+FAILED (errors=3)

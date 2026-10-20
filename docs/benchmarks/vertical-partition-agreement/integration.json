@@ -1,0 +1,12 @@
+{
+  "utc": "2026-10-20T19:00:19.638922+00:00",
+  "main_Rust_source_matches_validated_candidate": true,
+  "Rust_files_verified": 275,
+  "main_real_model_lib_tests_passed": 549,
+  "main_fresh_binary_sha256": "0cce298bca2fedcf266ef7da40e6596960b013d476642aec052065e81a3cd5aa",
+  "main_red_binary_sha256": "9e1eb05c46753260129a52f765c2f37cf3d4c442952fe824e97bf0c923e391c4",
+  "stale_Cargo_artifact_failure_preserved": true,
+  "H_policy_unchanged": true,
+  "Cargo_lock_ignored_unchanged": true,
+  "remote_CI": "tracked on PR22 after publication; this receipt records local integration"
+}

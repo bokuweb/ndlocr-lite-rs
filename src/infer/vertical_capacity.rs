@@ -6,7 +6,7 @@ mod capture;
 mod native;
 mod otsu;
 mod policy;
-#[cfg(test)]
+#[cfg(any(feature = "onnx", test))]
 mod prefix;
 
 struct PreparedColumn {
@@ -62,6 +62,21 @@ where
     F: FnMut(&[u8], usize, usize) -> anyhow::Result<crate::infer::parseq::RecognizeResult>,
 {
     policy::recover(base, rgb, dimensions, input, recognize)
+}
+
+#[cfg(feature = "onnx")]
+pub(super) fn recover_prefix<F>(
+    base: &crate::infer::parseq::RecognizeResult,
+    rgb: &[u8],
+    dimensions: (usize, usize),
+    input: (usize, usize),
+    limit: Option<usize>,
+    recognize: F,
+) -> Option<crate::infer::parseq::RecognizeResult>
+where
+    F: FnMut(&[u8], usize, usize) -> anyhow::Result<crate::infer::parseq::RecognizeResult>,
+{
+    prefix::recover(base, rgb, dimensions, input, limit, recognize)
 }
 
 #[cfg(test)]

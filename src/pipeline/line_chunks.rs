@@ -38,6 +38,8 @@ pub(crate) use long_split::split_long_line_near_center;
 /// 回転した縦書き字形の文脈を保つ分割。
 mod vertical;
 pub use vertical::split_rotated_vertical_column_for_input;
+#[cfg(any(feature = "onnx", test))]
+pub(crate) use vertical::split_supported_vertical_column_for_input;
 
 use slanted_spaces::restore_slanted_word_spaces;
 use word_fragments::{merge_rotated_word_fragments, restore_short_word_tails};
@@ -430,15 +432,14 @@ fn blank_gaps_with_word_gap_limit(
     blank_gaps_with_geometry(rgb, width, height, threshold, word_gap_limit, false)
 }
 
-/// 書字方向ごとの分類を行い、一度の画素走査でインク群と白帯を調べる。
-fn blank_gaps_with_geometry(
-    rgb: &[u8],
-    width: usize,
-    height: usize,
-    threshold: u8,
-    word_gap_limit: usize,
-    vertical: bool,
-) -> Vec<BlankGap> {
+struct InkRunScan {
+    gaps: Vec<BlankGap>,
+    widths: Vec<usize>,
+    heights: Vec<usize>,
+    extents: Vec<usize>,
+}
+
+fn scan_ink_runs(rgb: &[u8], width: usize, height: usize, threshold: u8) -> InkRunScan {
     let mut gaps = Vec::new();
     let mut blank_start = None;
     let mut seen_ink = false;
@@ -495,6 +496,33 @@ fn blank_gaps_with_geometry(
         ink_heights.push(peak_height);
         ink_extents.push(ink_bottom - ink_top);
     }
+    InkRunScan {
+        gaps,
+        widths: ink_widths,
+        heights: ink_heights,
+        extents: ink_extents,
+    }
+}
+
+#[cfg(test)]
+#[path = "../../tests/support/ink_scan_contract.rs"]
+mod scan_contract;
+
+/// 書字方向ごとの分類を行い、一度の画素走査でインク群と白帯を調べる。
+fn blank_gaps_with_geometry(
+    rgb: &[u8],
+    width: usize,
+    height: usize,
+    threshold: u8,
+    word_gap_limit: usize,
+    vertical: bool,
+) -> Vec<BlankGap> {
+    let InkRunScan {
+        mut gaps,
+        widths: ink_widths,
+        heights: ink_heights,
+        extents: ink_extents,
+    } = scan_ink_runs(rgb, width, height, threshold);
     if vertical {
         return vertical::retain_glyph_boundaries(gaps, &ink_widths, &ink_extents, height);
     }

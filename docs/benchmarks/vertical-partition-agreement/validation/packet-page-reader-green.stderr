@@ -1,0 +1,23 @@
+/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/vertical-strict-prefix/packet-stage/reproduce.py:175: ResourceWarning: unclosed file <_io.TextIOWrapper name='/var/folders/5f/tq6b_pvn5rg_229hj88pngnr0000gn/T/tmpon42_vzx/page-metrics/none.csv' mode='r' encoding='UTF-8'>
+  actual=list(csv.DictReader(table.open()));fixed={(x['system'],x['file']):x for x in csv.DictReader((packet/'page-metrics'/table.name).open())};assert len(actual)==len(fixed)==444*16
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/vertical-strict-prefix/packet-stage/reproduce.py:175: ResourceWarning: unclosed file <_io.TextIOWrapper name='/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/vertical-strict-prefix/packet-stage/page-metrics/none.csv' mode='r' encoding='UTF-8'>
+  actual=list(csv.DictReader(table.open()));fixed={(x['system'],x['file']):x for x in csv.DictReader((packet/'page-metrics'/table.name).open())};assert len(actual)==len(fixed)==444*16
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/vertical-strict-prefix/packet-stage/reproduce.py:175: ResourceWarning: unclosed file <_io.TextIOWrapper name='/var/folders/5f/tq6b_pvn5rg_229hj88pngnr0000gn/T/tmpon42_vzx/page-metrics/width.csv' mode='r' encoding='UTF-8'>
+  actual=list(csv.DictReader(table.open()));fixed={(x['system'],x['file']):x for x in csv.DictReader((packet/'page-metrics'/table.name).open())};assert len(actual)==len(fixed)==444*16
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/vertical-strict-prefix/packet-stage/reproduce.py:175: ResourceWarning: unclosed file <_io.TextIOWrapper name='/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/vertical-strict-prefix/packet-stage/page-metrics/width.csv' mode='r' encoding='UTF-8'>
+  actual=list(csv.DictReader(table.open()));fixed={(x['system'],x['file']):x for x in csv.DictReader((packet/'page-metrics'/table.name).open())};assert len(actual)==len(fixed)==444*16
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/vertical-strict-prefix/packet-stage/reproduce.py:175: ResourceWarning: unclosed file <_io.TextIOWrapper name='/var/folders/5f/tq6b_pvn5rg_229hj88pngnr0000gn/T/tmpon42_vzx/page-metrics/strict.csv' mode='r' encoding='UTF-8'>
+  actual=list(csv.DictReader(table.open()));fixed={(x['system'],x['file']):x for x in csv.DictReader((packet/'page-metrics'/table.name).open())};assert len(actual)==len(fixed)==444*16
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/vertical-strict-prefix/packet-stage/reproduce.py:175: ResourceWarning: unclosed file <_io.TextIOWrapper name='/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/vertical-strict-prefix/packet-stage/page-metrics/strict.csv' mode='r' encoding='UTF-8'>
+  actual=list(csv.DictReader(table.open()));fixed={(x['system'],x['file']):x for x in csv.DictReader((packet/'page-metrics'/table.name).open())};assert len(actual)==len(fixed)==444*16
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+.
+----------------------------------------------------------------------
+Ran 1 test in 52.204s
+
+OK

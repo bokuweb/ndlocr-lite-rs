@@ -1,5 +1,56 @@
 # ndlocr Python→Rust移植（ONNX）計画
 
+## 2026-10-21: 固定した完全prefix延長Oを本体へ接続する
+
+- Nの342画像native比較は退行0だったが、新規7改善はすべて完全prefix延長だった。先行仕様`docs/vertical_uncertain_scalar_validation.md`で追加72画像を固定し、全414×3modelを検査した。新Auto216/Horizontal181 API・load5、全7,452文字/語比較で退行0だったが、新規の一文字訂正改善は0。事前条件に従いN全体を採用保留とし、既知4訂正を本体へ入れない。
+- Oは`docs/vertical_strict_prefix_native.md`を実装前に固定し、Mのplans/combineを変更せず接続する。選択outputのT/C/charsetと実logitsのT、raw長T−1/T、原画素、異なる二分割の全文一致、元raw全文prefix、空白列/非空/非飽和/0.9..1 confidenceを要求する。旧H優先・同じ借用Session・既存sanitizeの位置を保つ。Lの支持はprivate候補だけで使い、旧公開splitterは維持する。
+- 実Rust1,242採否と独立検算は一致。全414×3×8経路で9入力model組（既知2/N新規7）を改善、model30のnone/width/strictは文字誤り21・語誤り9減、50/100は不変。6,210の他5経路組とFragment単件/batch/専有batchの一致、完全文54・空GT診断114の不変を確認した。新規のnative測定は画像結果11,664/外側API8,760/load18で、旧baseline8,208結果の再利用と内部forward未計測nullを区別する。
+- `docs/vertical_strict_prefix_page_gate.md`の444入力ID/443 unique RGB（旧paragraph2対照は同じRGB/GT）を前後8経路で比較した。旧293baselineのruntime同一性を3つのcfg(test)宣言差から検査して再利用し、他151baselineと全444candidateは新規測定。新Page API3,570・CLI1,190プロセスを保存した。全本文/行数/矩形/平均bitsは不変、21,312文字/語比較は退行0で、独立距離計算も全21,312 CSV行と一致した。Page精度改善とは主張しない。
+- 通常124対象797成功/39ignored、ONNX lib549・CI対象integration45本213件・examples等24件、Python/OpenCV15件が通過。fmt/diffとClippyは新規警告0（default既存13/ONNX lib既存18）。実モデルCIには公開PNGの31/35字回復と既知一文字訂正の拒否、raw/通常保持・不正入力後再利用の回帰を追加する。
+- `docs/benchmarks/vertical-partition-agreement/`へ、全414 PNG/RGB/GT/bbox、4,432 literal記録、全3,190 crop対応、採否/全native/Page結果、K/L/M/N/N2の反例・source・失敗履歴を保存した。別CWDで凍結sourceから再コンパイルし、モデル/フォント不要で実Rust1,242採否/plan・公式/独立スコアを再現した。reader15試験と内容アドレス履歴の全byte SHA検査も通過。weights/font/native binaryはGitへ入れず、Cargo.lockはarchive内snapshotだけでrootはignoredのまま。
+- 本体でも先に公開API回帰をRedにした。コピーがmtimeを保持した初回はCargoが旧binaryを再利用し、同じSHA/欠落を再現した。失敗を残し、内容を変えずmtimeを更新して再ビルドし、本体ONNX lib549件が通過した。検証済み候補と14 Rust差分のbyte一致、H policyと依存lockの不変を確認した。全275 Rustファイルは検証済み候補とbyte同一で、本体の最終検査を追加した。正確headのremote CIもPR22で確認する。
+- 目的全体は継続中。直接Fragmentで改善した新7画像も、DEIM cropを使うPage30には1..7文字の誤りが残る。次は実crop原画素とOのplan/棄却理由を先に記録し、crop依存の分割/支持を別仕様・Red/Green・新対照で検査する。
+
+
+## 2026-10-21: 縦列の低信頼一文字Nの実モデル通過とnative接続検査
+
+- `docs/vertical_uncertain_scalar_recovery.md` の固定案を変更せず、新Auto216/Horizontal284の計500画像API（load5、内部forwardは未計測null）を測定した。過去Auto810/Horizontal674は同じRGB・寸法・model・方向・decoder sourceであることを照合して再利用した。全新APIは成功し、literal範囲/停止/確率/mean bitsを検算した。
+- 全342×3モデルの実plan120組を保存し、実Rustと別実装の全1,026採否/mean bitsが一致した。13本文組（既知6/N新規RGB7）を改善し、全3,078入力正規化組・6,156文字/語指標で退行0、非文字変更0、完全文36対照の誤変更0。native採用前の候補評価であり、公開本体はe5b11b4のままとする。
+- `docs/vertical_uncertain_scalar_native.md` を接続前に固定した。output選択1 Red/5成功→6 Green、元RGB/trace/失敗callback2 Red/10成功→21 Green（既存prefix/uncertain testsを含む）。別native sourceでmodel30/50の実Fragment欠落を各Redにし、元raw/通常経路が基準と一致することも確認した。
+- 同じ元logitsから必要時だけtop-1 traceを追加decodeし、追加の元NN/再load/再帰lockを避ける。静的output名/T/Cと実Tを確認し、H優先/既存sanitizerの位置を保つhookを別sourceへ接続した。実nativeの全13正例と不正入力後の再利用がGreen、raw/通常経路の本文とmean bitsも一致した。実native65 outer APIには意図した不正入力13件を含み、内部forward数とは区別する。本体へは未反映。
+
+### 次のnative全件比較の先行仕様
+
+- baselineはroot e5b11b4のsrc/test/Cargoを別コピーし、追加はcfg(test)の記録器だけとする。candidateは現在のnative sourceへ同じ記録器だけを追加する。全342画像×全3modelを除外せず比較する。
+- 8経路はraw Session Auto/Horizontal、通常Pool Auto/Horizontal、Fragment Pool Auto/Horizontal、Fragment batch Auto、Fragment専有session batch Autoとする。各modelでraw/通常/Fragmentを1loadずつ使う。
+- 6単件経路×342と2batch APIで、1variant/modelあたり外側API呼出しは2,054、画像結果は2,736。全3model/両variantの画像結果16,416を保存する。static batchの内部forwardやN chunk再認識数はこのAPI数から推定しない。
+- 原RGB/model/charset/Cargo/source/SHAと方向を前後で固定する。GTを入力や採否へ渡さず、失敗もliteral errorで保存する。元Hを含むbaseline Fragmentを実測し、rawだけの値をH込み基準として扱わない。
+- 変更を許すのはFragment Autoの3経路だけで、採用13組のliteral本文/meanは固定N結果、それ以外はbaselineの値を期待する。他5経路はbaselineと全件完全一致を必要とする。両variant内のFragment単件/batch/専有batchも全件一致させる。
+- この比較、旧H/293ページ/既知縦書き7ページ/新対照API・CLIと必要suiteが終わるまで採用完了とはしない。反例・失敗・sourceとK/L/M/Nの公開再現packetもPR22へ保存する。目的全体を継続する。
+
+
+## 2026-10-20: prefix回復Mの非採用と低信頼一文字の検査
+
+- `docs/vertical_verified_prefix_recovery.md`を先行固定し、Lの支持をprivate候補内だけへ分離した。共有画素走査をbyte同一で抽出し、旧198画像の2,376幾何記録が完全一致した。支持15件とprefixの3 Red→9 Green、default library423件/36ignoredが通過した。
+- 新72RGBを先に固定し、全270RGB/注釈162本文の6,480幾何記録を保存した。旧分割の134切断eventに対し新支持は0、26,533 raw chunkは独立PIL CCW/cropとbyte一致した。副spanを厳しくした12組の新split失敗は候補なしとして保ち、通常分割を変えない。
+- 既存raw Auto162組をsource/RGB/model/charset一致で再利用し、新Auto648 APIを正常測定した。実容量近傍から84組がplanに進み、141 Horizontal結果を同一RGB/寸法/model/方向で再利用、追加529 APIも全件成功した。Mの新APIは計1,177、load15。内部forwardは未計測null。
+- 実Rustの全810判定とmean bitsを別実装で照合した。全2,430入力正規化組/4,860文字・語比較の退行0、非文字変更0、完全文18対照の誤延長0。既知2画像だけがmodel30で各1文字を回復し、新72RGBの改善0で採用条件未達だった。Mは本体へ未接続で、native/Page/CLI採用検査は未実施。
+- scan抽出時にproptest内部のfloat sampler assertionが発生した。再現stream試験では同assertionを再現できず、別コピーのcfg(test) strategyだけ整数bit生成へ変更し元propertyを保った。自分で追加した無entropy stream試験のhangは対象PIDだけ終了し失敗source/logを保持、境界の直積試験へ直して7件成功した。製品処理や依存versionは変更していない。
+- 全source/入力/GT/確率/失敗/正式9表とSHAは `tmp/vertical-verified-prefix/` に保持する。K/L/Mの公開パケットは後続と合わせる。公開本体はe5b11b4のまま、目的全体を継続する。
+- 次は `docs/vertical_uncertain_scalar_recovery.md` のN。容量近傍の低信頼な1文字を、異なる二分割の文字別高信頼一致で検証する。Mを後から緩めず別候補としてtest-firstで始め、新72RGBを別途固定する。
+- Nは別コピーの5 Red/4成功→9 Green（64例PBT）、default library432件/39ignoredが成功した。実literal traceの保存再生810組で既知6本文組を改善、全4,860文字・語指標の退行0/非文字変更0/完全文18対照の誤変更0だった。Nの新NNは0で、M新72もNにとって既知回帰とする。N新72RGB（54本文/18図形）をGT/描画条件/SHA付きで生成前固定し、旧270との重複0を確認、合計342RGB/注釈216本文が揃った。新N72の1,728幾何記録と旧270の6,480記録で計8,208を揃え、支持字形の切断0を確認した。新7,395 cropも独立PILとbyte一致した。新Auto216 API（load3/内部forward未計測null）は全件成功し、全1,026元結果を検算した。実planは120組。追加Horizontal認識と新N72の採用検査、native/Page/CLIは未実施で、本体へ未接続。
+
+
+## 縦列境界K/Lの不採用と合意付きprefix回復の継続
+
+- 先行仕様`docs/vertical_composite_boundary_proposal.md`のKは別sourceコピーで3失敗/3成功→6成功（64例PBT）へ進めた。新36RGBを含む全150RGBで、切断116→36イベントに減ったが7原RGBで残り、候補全体をNN前に棄却した。default library406件と既存縦組み幾何33件成功。製品sourceは不変。
+- 次のLは`docs/vertical_advance_boundary_proposal.md`を先行固定し、隣接anchorの送り幅と独立細線の保護を別コピーで検査した。新6テスト4失敗/2成功→全12成功（2つの64例PBT）。default library412件/36ignored・縦組み幾何33件成功。
+- Lの新48RGB（変動字間本文36/図形12）と既知150RGBを合わせ、全198RGB/注釈108本文を固定した。全2,376幾何組で切断124→0、新分割エラー0。旧baseline1,800組の再利用を新規実行に数えず、新baseline576と候補2,376を収録。17,372 RGB chunkは独立PIL回転/cropとbyte一致した。
+- raw Horizontal候補APIは各model732・計2,196回、全件正常。実入力RGB/寸法と全step/平均bitsを独立照合した。全1,188本文・594入力model組・3正規化の文字/語3,564比較と公式9 CSV/MDを保存した。両側の分割失敗111組はraw nullのまま残し、宣言済み空proxyでのみ採点した。新規/解消失敗0。
+- Lは認識18入力model組（正規化別42行、strictでも6組）に退行があり不採用。none文字誤り総数9,322→9,322、語1,030→1,049で、幾何成功を精度改善とは数えない。負例出力変更0。条件未達のため製品接続・後段Page/CLI A/Bを実行済みとはしない。
+- 仕様追記と比較元driverが重なったSHA検証失敗、容量対策の検証済み復元cache整理、全source/GT/raw/ZIP/失敗は`tmp/vertical-composite-capacity/`と`tmp/vertical-advance-capacity/`に保持する。公開パケットは後続と合わせる。現在公開e5b11b4のCI39423666923は全5ジョブ成功、正確なPR本文も確認した。
+- 次は`docs/vertical_verified_prefix_recovery.md`。Lを旧公開splitterへ一律適用せず、新しいFragment+Auto回復候補内だけで安全な支持を使う。実output metadataのT近傍で、元raw全文を保持し二分割の全文一致/空白列一致を満たした延長だけを調べる。完全な30/50/100文字本文を含む未生成72RGBを先に固定する。目的全体は継続する。
+
 ## 2026-10-20: 縦列prefix延長候補の事前棄却
 
 - `docs/vertical_prefix_capacity_proposal.md`へ、元raw prefixを保持し異なる二分割の全文一致を要求するtest-only候補を先行固定した。Hの既存条件は変更しない。小さい結合/幾何Red→Greenと64例PBTを先行し、純粋6テストが成功した。
