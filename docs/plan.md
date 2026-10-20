@@ -1,5 +1,13 @@
 # ndlocr Python→Rust移植（ONNX）計画
 
+## 2026-10-20: 縦列prefix延長候補の事前棄却
+
+- `docs/vertical_prefix_capacity_proposal.md`へ、元raw prefixを保持し異なる二分割の全文一致を要求するtest-only候補を先行固定した。Hの既存条件は変更しない。小さい結合/幾何Red→Greenと64例PBTを先行し、純粋6テストが成功した。
+- 新36本文/24図形を先行固定し、既知54RGBも残した。575個の旧index/fixtureからの312,538 SHAと新RGB/PNGは未重複。既知3書体の合成開発対照で、独立holdoutとは数えない。
+- 文字数gateだけdummyで開いた全114×3形状342組の幾何検査で、5元RGB・12個のmodel/route/glyph切断（両chunk端のイベント24）を検出。固定済み全件gateに従い候補全体を追加NN前に棄却した。モデルload/Session.run/baseline/chunk APIはすべて0。実rawに対する到達数や精度改善ではない。
+- 全1,151 chunkのRGBは独立PIL CCW回転/cropとbyte一致。342行CSVと24切断イベントも独立再現した。default library400件成功/35ignored、新規Clippy警告0。`docs/benchmarks/vertical-prefix-capacity/`へ全入力/GT/glyph bbox/source/失敗を保存する。
+- 製品経路は変更していない。分割境界の離れた画線保護を別の仕様と未認識対照で調べる。目的全体は継続する。
+
 ## 2026-10-20: 縦列のraw停止理由と出力容量の監査
 
 - `docs/vertical_output_capacity_audit.md`をメタデータ/追加NN前に先行固定し、静的上限抽出をRed→Greenと64例PBTで検査した。実モデル3個の出力はT=31/51/101。画像を渡さずmetadataを読み、Session.runは0回。

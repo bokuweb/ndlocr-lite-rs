@@ -6,6 +6,8 @@ mod capture;
 mod native;
 mod otsu;
 mod policy;
+#[cfg(test)]
+mod prefix;
 
 struct PreparedColumn {
     original: Vec<u8>,

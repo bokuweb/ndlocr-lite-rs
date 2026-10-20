@@ -1,0 +1,22 @@
+{
+  "utc": "2026-10-20T12:36:36.884709+00:00",
+  "command": "/Users/bokuweb/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3 docs/benchmarks/vertical-prefix-capacity/reproduce.py --output tmp/vertical-prefix-capacity-restored-after-cleanup",
+  "exit_code": 0,
+  "result": {
+    "restored_files": 1841,
+    "geometry_pairs": 342,
+    "crop_rgb_byte_verified": 1151,
+    "glyph_cut_events": 24,
+    "distinct_model_route_glyph_cuts": 12,
+    "csv_data_rows": 342,
+    "reports_byte_equal": true,
+    "new_nn_calls": 0,
+    "models_loaded": 0
+  },
+  "archive_index_sha256": "0f9f6c4e87ad97a589a8519a00ed6dde6b9351a780a5aff5da72cd3bf17545ae",
+  "reader_sha256": "bf0e6349fa56711177a295dafe586c5a75ced15e453c46b974156b80f08f7b1d",
+  "reader_tests_sha256": "112c24d431fcebed828d2d69441ec5271e6674f7924cce415f2c02dd41d9d232",
+  "stdout_sha256": "5ed724ada304dfa367ebb111ca7caffbb062249cf890bd02b2be914db9fa0f65",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "failed_restore_history": "reproduction-history inside audit.zip; ENOSPC and SHA-verified generated cache cleanup retained"
+}
