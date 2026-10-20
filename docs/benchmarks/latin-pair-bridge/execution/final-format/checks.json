@@ -1,0 +1,39 @@
+{
+  "fmt_check_exit_code": 0,
+  "pure_tests": {
+    "passed": 25,
+    "ignored": 4,
+    "exit_code": 0
+  },
+  "native_tests": {
+    "passed": 1,
+    "models": 3,
+    "public_api_calls": 9,
+    "exit_code": 0
+  },
+  "commands": [
+    [
+      "cargo",
+      "fmt",
+      "--check"
+    ],
+    [
+      "cargo",
+      "test",
+      "--lib",
+      "infer::visible_repetitions::latin_pair"
+    ],
+    [
+      "cargo",
+      "test",
+      "--features",
+      "onnx",
+      "--lib",
+      "infer::cached::latin_pair_model_tests::latin_pair_keeps_the_owned_round_closer_in_session_and_horizontal_pool",
+      "--",
+      "--exact",
+      "--ignored",
+      "--nocapture"
+    ]
+  ]
+}

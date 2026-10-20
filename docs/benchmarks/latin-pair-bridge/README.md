@@ -69,3 +69,9 @@ Node22の強制clone APIは私的testでENOSYSとなり実データには使わ�
 単一pixels ZIPがサイズ制限を超えた初回も保存し、入力を変えずfont別とatlasへ分割した。
 
 Latin以外、長い本文、複数closer、真縦組みを含むAuto方向などの改善を継続する。
+
+初回CIの標準3ジョブは cargo fmt で失敗した。評価後の修正はテストコード2ファイルの
+rustfmt整形だけで、実行時Rust全体と数値条件は評価時とbyte同一である。
+execution/final-format/ に前後source・比較監査・失敗/成功ログを保存する。
+整形後の純粋25件と3モデルの公開API回帰（1テスト/9呼出し）も成功した。
+ZIP内sourceは測定時の版で、最終整形版との対応は同監査で確認できる。

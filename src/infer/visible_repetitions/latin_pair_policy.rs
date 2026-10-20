@@ -549,16 +549,21 @@ mod tests {
                 None | Some("auto") => ParseqOrientation::Auto,
                 other => panic!("invalid orientation {other:?}"),
             };
-            let actual = sanitize_visible_single_line(
-                x["raw"].as_str().unwrap(), &rgb, w, h, orientation,
-            );
+            let actual =
+                sanitize_visible_single_line(x["raw"].as_str().unwrap(), &rgb, w, h, orientation);
             assert_eq!(
-                actual, x["expected_after"].as_str().unwrap(),
-                "{}/{}/{}", x["corpus"], x["model"], x["id"]
+                actual,
+                x["expected_after"].as_str().unwrap(),
+                "{}/{}/{}",
+                x["corpus"],
+                x["model"],
+                x["id"]
             );
             assert_eq!(rgb, before);
         }
-        println!("{} frozen raw pairs match the actual product; no NN", cases.len());
+        println!(
+            "{} frozen raw pairs match the actual product; no NN",
+            cases.len()
+        );
     }
-
 }

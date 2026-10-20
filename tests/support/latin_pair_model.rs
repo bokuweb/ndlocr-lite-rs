@@ -29,7 +29,10 @@ fn latin_pair_keeps_the_owned_round_closer_in_session_and_horizontal_pool() {
         let horizontal = pool
             .recognize_horizontal_rgb_u8(&image.data, image.width, image.height)
             .unwrap();
-        assert_eq!(raw.mean_confidence.to_bits(), actual.mean_confidence.to_bits());
+        assert_eq!(
+            raw.mean_confidence.to_bits(),
+            actual.mean_confidence.to_bits()
+        );
         assert_eq!(
             raw.mean_confidence.to_bits(),
             horizontal.mean_confidence.to_bits()
