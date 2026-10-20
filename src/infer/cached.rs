@@ -1168,3 +1168,7 @@ mod latin_pair_model_tests;
 #[cfg(test)]
 #[path = "../../tests/support/latin_dotted_model.rs"]
 mod latin_dotted_model_tests;
+
+#[cfg(test)]
+#[path = "../../tests/support/output_capacity_metadata.rs"]
+mod output_capacity_metadata;

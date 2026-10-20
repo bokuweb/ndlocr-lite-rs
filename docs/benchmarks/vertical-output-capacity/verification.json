@@ -1,0 +1,20 @@
+{
+  "utc": "2026-10-20T12:15:58.316091+00:00",
+  "command": "python3 docs/benchmarks/vertical-output-capacity/reproduce.py --output tmp/vertical-output-capacity/restored-public",
+  "exit_code": 0,
+  "result": {
+    "restored_files": 693,
+    "verified_raw_pairs": 162,
+    "prior_raw_exact_pairs": 126,
+    "page_f32_pairs": 36,
+    "csv_data_rows": 162,
+    "reports_byte_equal": true,
+    "new_nn_calls": 0,
+    "models_loaded": 0
+  },
+  "archive_index_sha256": "0efb8b5cb9ce0eb6d71a5e47d2137bb1a3a1fafb2400992cb85059b0009432e5",
+  "reader_sha256": "16776eb302b361b847f40e149bdcd7cd518ce1da1152ae2be81905b60f123e69",
+  "reader_tests_sha256": "112c24d431fcebed828d2d69441ec5271e6674f7924cce415f2c02dd41d9d232",
+  "stdout_sha256": "2e3d814fd7e2f08a70ff185e73df74940b8605bfaf0c1f506b426ae4747b6257",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

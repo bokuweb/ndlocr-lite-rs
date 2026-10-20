@@ -1,5 +1,13 @@
 # ndlocr Python→Rust移植（ONNX）計画
 
+## 2026-10-20: 縦列のraw停止理由と出力容量の監査
+
+- `docs/vertical_output_capacity_audit.md`をメタデータ/追加NN前に先行固定し、静的上限抽出をRed→Greenと64例PBTで検査した。実モデル3個の出力はT=31/51/101。画像を渡さずmetadataを読み、Session.runは0回。
+- H全42RGBと既知7ページの全12 DEIM cropを結果で選別せず固定し、raw候補API162呼出しを記録。EOSは27/38/36、低confidenceは27/16/18、全frame消費は0。余白/図形も最終frameで停止し得るため、上限付近という条件だけで回復を採用しない。
+- 旧raw126組は本文/f32平均bits完全一致、Page36組の平均bitsも一致。162組のstep/range/停止条件とf32逐次平均を独立照合した。Page本文との差は30 numeralsの末尾space1個だけで、既存後処理の差だった。
+- `docs/benchmarks/vertical-output-capacity/`に全raw/GT/crop/metadata/source/失敗ログを保存。空の復元先でモデルなしに162行CSVとanalysis.jsonのbyte一致を再現した。静的上限3・候補5・準備3・復元2テスト成功、新規Clippy警告0。
+- 製品認識処理は変更していない。既知データの原因監査であり、新規holdoutや精度改善とは数えない。既存縦列分割の安全なページ経路への接続、crop境界や紙の損失を引き続き調べる。目的全体は継続する。
+
 ## 2026-10-20: 検出された長い縦列の分割回復
 
 - 先行仕様 `docs/vertical_model_capacity_recovery.md`。色背景準備だけのH1は9列すべて支持group40未満で、追加NN前に棄却した。H2は元RGBを保ち、支持用maskだけへ有理数Otsuを適用する。小さいRed→GreenとPBTを先行し、数値条件は追加NN前に固定した。
