@@ -1,0 +1,48 @@
+{
+  "Page_input_IDs": 444,
+  "Page_unique_RGB": 443,
+  "Page_recorded_image_results": 7104,
+  "Page_text_changes": 0,
+  "Page_independently_verified_CSV_rows": 21312,
+  "Page_old293_baseline_source_replayed": true,
+  "native_independently_verified_CSV_rows": 7452,
+  "native_independent_error_and_denominator_fields": 29808,
+  "native_route_fields_compared": 9936,
+  "native_changed_pairs": 9,
+  "native_five_untouched_routes": 6210,
+  "native_official_char_and_word_comparisons": 7452,
+  "native_per_input_regressions": 0,
+  "source_mode": "frozen source restored under output",
+  "Rust_binary_sha256": "6f723602218b94ca042e69166242e3167541484e7f44a2bf04fe9c2e7bdadcfc",
+  "original_RGB": 414,
+  "literal_traces_verified": 4432,
+  "all_actual_horizontal_crop_bindings": 3190,
+  "Rust_decisions_verified": 1242,
+  "Rust_plans_verified": 1242,
+  "adoptions": 9,
+  "new_NN_calls": 0,
+  "new_model_loads": 0,
+  "internal_session_run_calls": 0,
+  "commands": [
+    {
+      "argv": [
+        "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/target/debug/deps/ndlocr_lite_rs-885b13320b245d30",
+        "infer::vertical_capacity::prefix::capture::combine_all_saved_real_plans_without_nn",
+        "--exact",
+        "--ignored",
+        "--nocapture"
+      ],
+      "exit_code": 0
+    },
+    {
+      "argv": [
+        "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/target/debug/deps/ndlocr_lite_rs-885b13320b245d30",
+        "infer::vertical_capacity::prefix::capture::record_real_raw_plans_without_nn",
+        "--exact",
+        "--ignored",
+        "--nocapture"
+      ],
+      "exit_code": 0
+    }
+  ]
+}

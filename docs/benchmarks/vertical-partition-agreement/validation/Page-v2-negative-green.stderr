@@ -1,0 +1,7 @@
+test_same_binary_is_rejected_even_if_manifest_declares_distinct (page_tests.SavedPageEvidence.test_same_binary_is_rejected_even_if_manifest_declares_distinct) ... ok
+test_fresh_cache_artifact_is_rejected_even_if_manifest_declares_rebuild (page_tests.SavedPageEvidence.test_fresh_cache_artifact_is_rejected_even_if_manifest_declares_rebuild) ... ok
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.002s
+
+OK

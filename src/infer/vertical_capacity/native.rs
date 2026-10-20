@@ -57,3 +57,6 @@ mod prefix_agreement;
 
 #[path = "../../../tests/support/vertical_uncertain_matrix.rs"]
 mod matrix;
+
+#[path = "../../../tests/support/vertical_prefix_page_native.rs"]
+mod page_prefix_regression;

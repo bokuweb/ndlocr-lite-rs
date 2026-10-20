@@ -1,5 +1,22 @@
 # ndlocr Python→Rust移植（ONNX）計画
 
+## 2026-10-21: Oのfresh Page比較が成立、方向fallbackを次候補へ
+
+- 実行物取り違えの旧「全件不変」は撤回したまま保存した。freshな73e9ab4の全444 ID/443 unique RGB×8経路を再測定し、公式/独立21,312文字・語比較で退行0を確認した。model30のeval/defaultで各9入力が改善し、各設定・各正規化の文字誤り13/語誤り9減。50/100とCLI両経路は不変。行数/矩形は不変、平均bitsは改善した18組で変化した。
+- Pageの9改善は既知long_vertical2・N6・N2の1で、すべて既知fontの合成開発画像。独立実資料の追加改善とは主張しない。Nの一文字訂正は引き続き保留し、Oの政策は変更しなかった。
+- P1の864 API出力はfresh通常版と本文/矩形/平均bitsが一致。実primary16,806とO part928は独立PILとbyte一致、PARSeq forward18,838試行/成功を記録した。P2は実cropのインク損失と損失なし誤認の双方を確認。P3は成立117中注釈98の内側BBox切断0、未注釈19は別扱いとした。
+- Page経路の公開PNG回帰は隔離e5で末字「た」の欠落Red、変更していないOでeval/default・不正入力後再利用Green。本体へテスト/fixtureのみ接続し、実際に測定した推論sourceは凍結して保持した。
+- 次はDEIM欠落時の方向fallback。注釈付き111ケース（6経路での重複回数）が水平band101..146個へ分割され、Horizontal認識に固定されていた。既存縦列検出を自動接続してよいとはまだ仮定せず、新しい方向選択の仕様・Red/Green/PBT・未測定対照と全Page/CLI gateを必要とする。改善全体は継続する。
+
+
+## 2026-10-21: OのPage比較を撤回し実行物から再測定
+
+- P1の実入力記録でOのPage採用を確認した一方、旧Page候補とbaselineのCLI/exampleバイナリSHAが同一だった。旧「444 ID全8経路不変」はOの検証になっておらず撤回する。旧本文/CSV/source/freezeは失敗履歴として保持する。
+- `docs/vertical_page_artifact_revalidation.md`を先に固定した。73e9ab4の全Rust mtimeだけを更新しbyte不変を確認し、non-test lib/CLI/exampleのfresh=falseとbaselineと異なる二つのbinary SHAを確認した。既知positiveはfreshなuntraced PageとP1のtraceで一致した。
+- baseline151入力のsourceはe5の90ファイルへ再結合でき、差はcfg(test)のnative.rsへの診断モジュール宣言だけだった。旧293再利用の別証明も維持する。全444候補の3model×2設定とCLI DEIM/bandsを新しいディレクトリへ再測定中。完了・公式/独立採点・無回帰確認までPage gateは未成立とする。
+- 最新73e9ab4のCI39480288507は全5ジョブ成功。CI成功は旧Page比較の実行物取り違えを正当化しない。公開packetとPRも訂正する。改善施策の探索は継続する。
+
+
 ## 2026-10-21: 固定した完全prefix延長Oを本体へ接続する
 
 - Nの342画像native比較は退行0だったが、新規7改善はすべて完全prefix延長だった。先行仕様`docs/vertical_uncertain_scalar_validation.md`で追加72画像を固定し、全414×3modelを検査した。新Auto216/Horizontal181 API・load5、全7,452文字/語比較で退行0だったが、新規の一文字訂正改善は0。事前条件に従いN全体を採用保留とし、既知4訂正を本体へ入れない。

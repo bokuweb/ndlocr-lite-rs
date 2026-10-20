@@ -94,6 +94,16 @@ def verify_page(packet,output,scorer):
     from fast_distance import distance
     import string
     stage=json.loads((packet/'page-stage.json').read_text());assert sha(scorer.read_bytes())==stage['scorer_sha256']
+    assert stage['fresh_candidate_artifacts_verified']
+    binding=json.loads((packet/'page-artifact-binding.json').read_text())
+    assert binding['all_primary_artifacts_fresh_false'] and binding['both_binaries_differ_from_baseline']
+    for name in ('ndlocr-lite-rs','capture_page_matrix'):
+        assert binding['candidate'][name]['fresh'] is False
+        assert binding['baseline'][name]['sha256']!=binding['candidate'][name]['sha256']
+    source_index=json.loads((packet/'source-overlay.json').read_text())['members']
+    for name,h in binding['candidate_Rust_source_sha256'].items():assert source_index[name]['sha256']==h,name
+    summary=json.loads((packet/'page-summary.json').read_text());assert summary['page_gate_pass']
+
     for name,h in stage['files_sha256'].items():assert sha((packet/name).read_bytes())==h,name
     index=json.loads((packet/'page-inputs.json').read_text());inputs=index['inputs'];assert len(inputs)==444
     truth={};dimensions={};pixel_ids=set()
@@ -145,15 +155,19 @@ def verify_page(packet,output,scorer):
                     for line in row['lines']:
                         assert math.isfinite(line['confidence'])and 0<=line['confidence']<=1
                         x0,y0,x1,y1=line['bbox'];assert 0<=x0<x1<=w and 0<=y0<y1<=h
+    text_changes=[];metadata=[]
     for route in routes:
         for ident in truth:
             a,b=[mapping[v][route][ident]for v in ('baseline','candidate')]
-            changes+=a['text']!=b['text']
+            if a['text']!=b['text']:text_changes.append(dict(id=ident,route=route,before=a['text'],after=b['text']))
             if not route.startswith('cli_'):
-                assert a['page_index']==b['page_index']and len(a['lines'])==len(b['lines'])
-                assert [x['bbox']for x in a['lines']]==[x['bbox']for x in b['lines']]
-                assert [bits(x['confidence'])for x in a['lines']]==[bits(x['confidence'])for x in b['lines']]
-    assert changes==0
+                model,mode=route.split('_')
+                metadata.append(dict(id=ident,model=model,mode=mode,page_index_equal=a['page_index']==b['page_index'],line_count_equal=len(a['lines'])==len(b['lines']),bbox_equal=[x['bbox']for x in a['lines']]==[x['bbox']for x in b['lines']],confidence_bits_equal=[bits(x['confidence'])for x in a['lines']]==[bits(x['confidence'])for x in b['lines']],line_texts_equal=[x['text']for x in a['lines']]==[x['text']for x in b['lines']]))
+    ordered=lambda rows:sorted(rows,key=lambda x:json.dumps(x,sort_keys=True))
+    assert ordered(text_changes)==ordered(summary['text_changes'])
+    assert ordered(metadata)==ordered(summary['metadata'])
+    changes=len(text_changes)
+
     directory=output/'page-metrics';directory.mkdir();gt=directory/'truth';gt.mkdir()
     for ident,data in truth.items():(gt/(ident+'.txt')).write_bytes(data)
     for variant,systems in mapping.items():
@@ -165,7 +179,7 @@ def verify_page(packet,output,scorer):
         if level=='width':return ''.join(chr(ord(c)-65248)if 65281<=ord(c)<=65374 else c for c in text)
         folded='\n'.join(' '.join(line.split())for line in text.replace('\r\n','\n').replace('\r','\n').split('\n'))
         return ''.join(c for c in folded if c not in string.punctuation and c!=' ').strip()
-    count=0
+    count=0;regressions=[];improvements=[];cohorts={x['id']:x['cohort']for x in inputs}
     for norm in ('none','width','strict'):
         table=directory/(norm+'.csv');argv=[os.sys.executable,str(scorer),'--truth-dir',str(gt)]
         for variant in ('baseline','candidate'):
@@ -176,8 +190,18 @@ def verify_page(packet,output,scorer):
         for x in actual:
             a=normal((gt/x['file']).read_text(),norm);b=normal((directory/x['system']/x['file']).read_text(),norm);values=dict(char_errors=distance(a,b),char_total=max(1,len(a)),word_errors=distance(a.split(),b.split()),word_total=max(1,len(a.split())))
             assert all(int(x[k])==v and x[k]==fixed[x['system'],x['file']][k]for k,v in values.items()),(norm,x,values);count+=1
+        metric_index={(x['system'],x['file']):x for x in actual}
+        for route in routes:
+            for ident in truth:
+                before,after=[metric_index[v+'_'+route,ident+'.txt']for v in ('baseline','candidate')]
+                assert before['char_total']==after['char_total']and before['word_total']==after['word_total']
+                pair=dict(id=ident,cohort=cohorts[ident],route=route,normalization=norm,baseline_char_errors=int(before['char_errors']),candidate_char_errors=int(after['char_errors']),char_total=int(before['char_total']),baseline_word_errors=int(before['word_errors']),candidate_word_errors=int(after['word_errors']),word_total=int(before['word_total']))
+                if pair['candidate_char_errors']>pair['baseline_char_errors']or pair['candidate_word_errors']>pair['baseline_word_errors']:regressions.append(pair)
+                if pair['candidate_char_errors']<pair['baseline_char_errors']or pair['candidate_word_errors']<pair['baseline_word_errors']:improvements.append(pair)
     assert count==21312
-    return dict(Page_input_IDs=444,Page_unique_RGB=443,Page_recorded_image_results=444*8*2,Page_text_changes=0,Page_independently_verified_CSV_rows=count,Page_old293_baseline_source_replayed=True)
+    assert ordered(regressions)==ordered(summary['per_input_regressions'])and ordered(improvements)==ordered(summary['per_input_improvements'])
+    assert not regressions
+    return dict(Page_input_IDs=444,Page_unique_RGB=443,Page_recorded_image_results=444*8*2,Page_text_changes=changes,Page_per_input_regressions=0,Page_independently_verified_CSV_rows=count,Page_old293_baseline_source_replayed=True,Page_fresh_candidate_artifacts_verified=True)
 
 
 

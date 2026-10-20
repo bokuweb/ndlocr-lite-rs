@@ -1,0 +1,11 @@
+{
+  "e5_rebound_files": 90,
+  "baseline_differences": [
+    {
+      "path": "src/infer/vertical_capacity/native.rs",
+      "e5_sha256": "e1fbcc87b1f759da46498af6ca5c8544f0f50416e097260c63ca4ec861ee853e",
+      "baseline_sha256": "ac43138546b0b37ae4110e5db9c3c4529a1925d40966ddb671c7c4d9380aa58b",
+      "diff": "--- e5/src/infer/vertical_capacity/native.rs\n+++ baseline/src/infer/vertical_capacity/native.rs\n@@ -51,3 +51,6 @@\n         assert_eq!(image.data, original);\n     }\n }\n+\n+#[path = \"../../../tests/support/vertical_uncertain_matrix.rs\"]\n+mod matrix;\n"
+    }
+  ]
+}

@@ -1,21 +1,24 @@
 {
   "files_sha256": {
-    "page-records.json.gz": "28d805a955e7c17cc1eaf707add76888e832ac57e8737af5a17fb7918918e931",
+    "page-records.json.gz": "78c6591ec87e74e8decc44de9b89d29bb8e2b8cfde7e4c59d9cafc7c768b4499",
     "page-inputs.json": "90c3abe91b45b580f2dbd9378928e3fe7dcd5c491f0fa6451fb25f946183614e",
     "page-inputs.zip": "ca26f93ff093f7a8797dcb9b4cbe551589c399472d66bed4eb9eb87477e8218d",
-    "page-summary.json": "2d12b9b3c8877e1f595a8839dfacfa7a98cfed107464f9890f514124590a0ff9",
-    "page-independent-metrics-audit.json": "6bf0a626ac55fd5b9d1557efa22333e60894f830a5a30b114ab74d84b041cc20",
+    "page-summary.json": "6eafc4fb6cb62dc545a9f81e93f1c001eb8ca650996072ecd5473451e3e2d9ae",
+    "page-independent-metrics-audit.json": "80a888d6cb15a34d16e7c1fdd87a70c8abfcf55535fcdc10bd6cd70afeb21c73",
     "page-baseline-reuse-proof.json": "0c4d19e695ba248d287af1b62d367d71b037668cde8cbb49f5d5087665b65bb7",
     "page-input-identity.json": "a9855367027b5aa38cc0b7c9e93926e753c1ce9b89e652a425f60de76fbdff7b",
-    "page-metrics/none.csv": "83143cbb4c195c907842b3bde87643bf7f3d0e694b57e83eb74b22b5b9178838",
-    "page-metrics/all-input-pairs.csv": "da22aac77ce1f66d297b4b40be38f8b7a84003407f6181d3e565bbe96c14cef6",
-    "page-metrics/strict.csv": "82c4ffdc44414de9c04789b0b8fddb2fcd2cce66190e9dbcbc0dd03325c270bf",
-    "page-metrics/width.csv": "3c6e68caa55806b23fa97549952c7b5a639e136860b9f8aa472c7bd6990d30b6"
+    "page-artifact-binding.json": "7d8536a978b539433cd17963aec2d4b2d2211aee161d38b3eb92b2d52a58c686",
+    "page-metrics/none.csv": "2cd775193ed9d7148a638d085c0a291cee16867561948a02f79a3bf278588ba5",
+    "page-metrics/all-input-pairs.csv": "10a7c17b05ee508203aaed1d311b0a11f5b5a8047ce19ca2ee0d02fdcf0000b4",
+    "page-metrics/strict.csv": "dd2ca23407d7c78bf8c7aa29afa7451cf80f9691c23f60dd6257eae79d837f89",
+    "page-metrics/width.csv": "7ad8d2081d85939ffd85a2522a806045db7445280b19a1a8312245c28c33ae16"
   },
   "scorer_sha256": "26da0e34f77eda05f77d928803964e82be73123958fbded85a49980ff8c7a7f7",
   "all444_inputs8routes_terminal": true,
-  "Page_text_changes": 0,
+  "Page_text_changes": 18,
   "Page_regressions": 0,
+  "fresh_candidate_artifacts_verified": true,
+  "withdrawn_previous_measurement": "withdrawn-page-v1",
   "new_NN_calls_this_packaging": 0,
   "new_model_loads_this_packaging": 0
 }

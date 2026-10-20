@@ -1,0 +1,13 @@
+{
+  "utc": "2026-10-20T19:19:47.182245+00:00",
+  "status": "O Page adoption gate WITHDRAWN: candidate binary equals baseline",
+  "policy_change": false,
+  "files": {
+    "page-evaluation/summary.json": "2d12b9b3c8877e1f595a8839dfacfa7a98cfed107464f9890f514124590a0ff9",
+    "product-baseline-freeze.json": "b936c62bd93506211fd2b33f2273100e9f6568d0a0f39164e6a17438a6e7dc73",
+    "product-candidate-freeze.json": "b598e8883e4fb89cb209aabae711b8d7d01f7ef59ae75314886ae83a3b833741",
+    "page-candidate-build.stderr": "4b395c9c76c7f7fb5221d30df7320c7a2387ff3842c426dbee6a59a54b5cffab",
+    "page-candidate-build.jsonl": "f5bec23a7c32f9a93031e45732fb65837637c7c9546b12b3c5a47296257f9a60"
+  },
+  "rerun_spec": "docs/vertical_page_artifact_revalidation.md"
+}
