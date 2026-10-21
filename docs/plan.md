@@ -1,5 +1,10 @@
 # ndlocr Python→Rust移植（ONNX）計画
 
+## 2026-10-21: 追加実資料の実停止理由を全36条件で照合
+
+- 6列×3モデル×2設定を18 model/RGBへdedupしてraw候補を再観測し、元Pageの全36本文/f32 mean bitsと一致した。EOS17、LowConfidence1。一葉30のcol1/2はEOS、col3だけ低信頼停止だった。停止理由を最終欠落から推測せず、実stepで確認した。
+- 補助処理3 Red→3 Green、packet reader未実装Red→4 Green。全RGB、36対応、全before binding、source/fresh build、f32逐次meanを公開packetから検証可能。これは原因診断で精度改善0。次は別分割の安定性を診断し、S/Q/H/Oの条件を既知GTで調整しない。詳細は`docs/real_vertical_additional_stop_probe_results.md`。
+
 ## 2026-10-21: FVC v2設定gate完了、拡張全件gateを開始
 
 - 非default384 CLI/1,152 CSV行/576比較は全件完了し、入力別文字/語悪化0、reject_allの64 processは空本文。公開ZIPの全argv/本文/採点コピー/GT/整数指標/比較一覧をreader未実装Red→6 packet tests Greenで独立再検証した。新規精度改善へは数えない。詳細は`docs/vertical_cli_fallback_v2_option_results.md`。
