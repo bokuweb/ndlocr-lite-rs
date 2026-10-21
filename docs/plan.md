@@ -1,5 +1,11 @@
 # ndlocr Python→Rust移植（ONNX）計画
 
+## 2026-10-21: 追加実資料の途中欠落をnative traceで切り分け
+
+- 追加6列を既存P5/O観測実行物で新たに36 Page測定し、FVB本体baselineの全本文/行数/bbox/f32 confidence bitsと一致した。全primaryはDEIM検出で、FVBとの差があるbands fallbackを通っていない。実PARSeq forward66試行/66成功、PageRecognizer load6/model session load12を区別する。
+- primary36/O part30の独立RGBと、全174捕捉RGB、before/traceの396 CSV行を検算した。一葉model30はraw23/22/11 scalarでH非採用・O容量条件外。Q/Sの既存適格条件にも届かず、容量上限より短い途中欠落への別案が必要。decoder/Hの具体的停止理由は未観測で断定しない。
+- 地獄変model30のO分割は空白差/不合意/raw文字変更で棄却された。GTを見た文字置換は行わない。全source/失敗/結果を内容address packetに保存し、未実装reader Red1→Green1、関連モデル不要11試験が成功した。詳細は`docs/real_vertical_additional_primary_trace_results.md`。本体FVBとC1/Q/S保留は不変で、FVC全件run39568828241は継続中。
+
 ## 2026-10-21: FVC新72が先行gate成功、C1新96は改善0で保留
 
 - FVC新72×CLI4経路の前後576 process/画像結果を完了。公式/独立1,728 CSV行・864採点比較が一致し、文字/語の入力別悪化0、14本文画像のraw30経路組が改善した（bands on/off各14、DEIM各1）。全文/argv/sourceとbefore-NN packetの対応をreaderでも再検算した。本体はFVBのまま。
