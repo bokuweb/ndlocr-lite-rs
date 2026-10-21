@@ -1,17 +1,21 @@
 """The full matrix must reject stale executables, partial output, and altered data."""
 import copy
 import hashlib
+import io
 import json
 from pathlib import Path
 import sys
 import tempfile
 import unittest
+from unittest import mock
 import zipfile
+from contextlib import redirect_stdout
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "tools"))
 from vertical_page_matrix import (
     Bundle, check_binary_pair, check_build_artifacts, check_job, cli_command, map_predictions,
     read_cli_result, read_page_results, verify_command, verify_matrix,
+    matrix_inputs_changed, main,
 )
 
 
@@ -20,9 +24,29 @@ def digest(data):
 
 
 class MatrixTests(unittest.TestCase):
+    def test_push_guard_cli_needs_no_bundle_models_or_inference(self):
+        for changes, expected in [(b"docs/plan.md\0", "run=false\n"),
+                                  (b"docs/benchmarks/vertical-page-fallback/data.zip\0", "run=true\n")]:
+            output = io.StringIO()
+            with mock.patch.object(sys, "argv", ["matrix", "--changes-from", "a" * 40]), \
+                    mock.patch("subprocess.check_output", return_value=changes), \
+                    mock.patch("vertical_page_matrix.Bundle", side_effect=AssertionError("no NN bundle needed")), \
+                    redirect_stdout(output):
+                main()
+            self.assertEqual(output.getvalue(), expected)
+
+    def test_matrix_changes_guard_uses_the_current_push_not_the_whole_pr(self):
+        self.assertFalse(matrix_inputs_changed([]))
+        self.assertFalse(matrix_inputs_changed(["docs/plan.md", "docs/benchmarks/vertical-page-fallback/README.md",
+                                               "tests/vertical_fallback_page_tests.rs", "src/infer/page_pool.rs"]))
+        for path in [".github/workflows/vertical-page-matrix.yml", "tools/vertical_page_matrix.py",
+                     "tests/test_vertical_page_matrix.py", "docs/benchmarks/vertical-page-fallback/bundle.json",
+                     "docs/benchmarks/vertical-page-fallback/data.zip", "docs/benchmarks/vertical-page-fallback/sources.zip"]:
+            self.assertTrue(matrix_inputs_changed(["docs/plan.md", path]), path)
+
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory()
-        self.root = Path(self.temp.name)
+        self.root = Path(self.temp.name).resolve()
 
     def tearDown(self):
         self.temp.cleanup()
@@ -113,6 +137,14 @@ class MatrixTests(unittest.TestCase):
                 altered[2]["profile"]["test"] = True
             with self.assertRaises(ValueError):
                 check_build_artifacts(altered, self.root / "Cargo.toml")
+
+    def test_foreign_build_paths_are_compared_without_filesystem_resolution(self):
+        events = self.artifacts()
+        foreign = "/home/runner/work/project/baseline/Cargo.toml"
+        for event in events:
+            event["manifest_path"] = foreign
+        with mock.patch.object(Path, "resolve", side_effect=OSError("foreign host path")):
+            self.assertEqual(set(check_build_artifacts(events, foreign)), {"lib", "cli", "page"})
 
     def test_equal_page_binary_cannot_be_presented_as_candidate(self):
         baseline = {"page": "a" * 64, "cli": "b" * 64}

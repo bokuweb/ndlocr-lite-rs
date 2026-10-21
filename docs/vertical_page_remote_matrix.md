@@ -20,6 +20,8 @@ candidate結果へ流用しない。全件のsource/data/model/charset/lockと�
   パケットへ入れない。Cargo.lockはsnapshot archive内に置き、rootのignored状態を保つ。
 - producer/readerを先にテストし、SHA不一致、重複/欠落ID、危険なmember名、モデル/出力結び付き、
   fresh=trueや同じPage実行物の取り違え、partial結果を拒否する。
+- 別hostのbuild artifactの絶対manifest pathは字句的に比較し、現在hostのfilesystemでresolveしない。
+  Linuxの`/home/runner/...`をmacOSで検証してautofsへアクセスすることを避ける。
 - source snapshotからrelease/ONNXをbuildする。baseline完成後にcandidateのRust mtimesを更新し、
   source bytes不変、lib/CLI/Page exampleのfresh=falseを検査する。コピーした実行物SHAを固定する。
   Page exampleは前後で異なるSHAが必要。CLIは同じSHAでも全入力を両variantで測定する。
@@ -45,3 +47,6 @@ CLIは変更対象callgraph外なので本文の完全一致も要求し、差�
 全件gate、実PageのO Red/FVB Green、source対応、本体既存suite/CIが揃うまで本体へ採用しない。
 CI用workflowは読み取り権限と通常runnerを用い、入力/source/driverの変更時だけ起動する。
 結果だけの文書更新で長時間matrixを再実行しない。
+pull_requestのpaths判定はPR全体の差分を見るため、synchronize時はevent.beforeと現在headの差分も
+先に検査する。凍結bundle/data/source、driver/試験/workflowの変更時だけNN jobsへ進む。
+文書のみの更新はNNをskipし、初回/手動実行は全件を実行する。差分の検査失敗を成功skipにしない。

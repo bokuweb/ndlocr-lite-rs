@@ -21,6 +21,13 @@ predictions. Page30/50/100 and CLI run on separate CI runners, with one inferenc
 at a time on each runner. Local full attempts were interrupted when storage was exhausted;
 their partial output remains in `development.zip` and is not counted as complete evidence.
 
+The actual public Page regression passed its isolated
+[Linux Red/Green run](https://github.com/bokuweb/ndlocr-lite-rs/actions/runs/39514635451).
+`page-regression-linux-v1.zip` and its separate SHA manifest preserve all raw test/build
+output: O failed the body assertion (0 passed / 1 failed / 0 ignored), and FVB passed
+(1 passed / 0 failed / 0 ignored). The fixture, test, frozen inference source and bundle
+bindings were checked again locally. This evidence does not satisfy the full matrix gate.
+
 ## Frozen inputs and sources
 
 `bundle.json` authenticates every archive and member. It contains:
@@ -52,6 +59,11 @@ Integrity checks need Python 3.9+ only:
 python3 -m unittest discover -s tests -p test_vertical_page_matrix.py -v
 python3 tools/vertical_page_matrix.py --validate
 ```
+
+The 14 model-free tests also ensure foreign runner paths are compared lexically,
+without resolving `/home/runner/...` on the verification host's filesystem.
+The CI guard examines the current push on PR synchronization, because PR path filters
+alone include earlier commits. Documentation-only pushes skip the expensive NN jobs.
 
 For NN replay, use Rust stable and the pinned official assets. Each output directory must be
 new. Each kind builds both source snapshots, refreshes mtimes after the preceding build,

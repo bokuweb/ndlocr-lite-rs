@@ -7,6 +7,13 @@ import re
 import zipfile
 
 
+def matrix_inputs_changed(paths):
+    required = {".github/workflows/vertical-page-matrix.yml", "tools/vertical_page_matrix.py",
+                "tests/test_vertical_page_matrix.py", "docs/benchmarks/vertical-page-fallback/bundle.json",
+                "docs/benchmarks/vertical-page-fallback/data.zip", "docs/benchmarks/vertical-page-fallback/sources.zip"}
+    return not required.isdisjoint(paths)
+
+
 def sha(data):
     return hashlib.sha256(data).hexdigest()
 
@@ -115,11 +122,12 @@ def check_binary_pair(baseline, candidate):
 
 
 def check_build_artifacts(events, manifest):
+    import os
     found = {}
     wanted = {("lib", "ndlocr_lite_rs"): "lib", ("bin", "ndlocr-lite-rs"): "cli",
               ("example", "capture_page_matrix"): "page"}
     for event in events:
-        if event.get("reason") != "compiler-artifact" or Path(event["manifest_path"]).resolve() != Path(manifest).resolve():
+        if event.get("reason") != "compiler-artifact" or os.path.abspath(event["manifest_path"]) != os.path.abspath(manifest):
             continue
         target = event["target"]
         key = wanted.get((target["kind"][0], target["name"]))
@@ -548,7 +556,17 @@ def main():
     parser.add_argument("--models", type=Path, default=Path("models"))
     parser.add_argument("--artifacts", type=Path)
     parser.add_argument("--validate", action="store_true")
+    parser.add_argument("--changes-from", help="Check the current push without loading the NN bundle")
     args = parser.parse_args()
+    if args.changes_from:
+        import subprocess
+        if not re.fullmatch(r"[0-9a-f]{40}", args.changes_from):
+            parser.error("--changes-from requires a full commit SHA")
+        repository = Path(__file__).resolve().parents[1]
+        paths = subprocess.check_output(["git", "-C", str(repository), "diff", "--name-only", "-z",
+                                         args.changes_from, "HEAD", "--"]).decode().split("\0")
+        print("run=" + str(matrix_inputs_changed(paths)).lower())
+        return
     bundle = Bundle(args.bundle)
     if args.validate:
         print(json.dumps(bundle.index["expected"], indent=2))

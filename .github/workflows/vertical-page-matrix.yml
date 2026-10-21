@@ -15,7 +15,33 @@ permissions:
   contents: read
 
 jobs:
+  changes:
+    name: Check frozen matrix inputs
+    runs-on: ubuntu-latest
+    outputs:
+      run: ${{ steps.diff.outputs.run }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          sparse-checkout: tools
+      - id: diff
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          EVENT_ACTION: ${{ github.event.action }}
+          BEFORE: ${{ github.event.before }}
+        run: |
+          if [ "$EVENT_NAME" = pull_request ] && [ "$EVENT_ACTION" = synchronize ] && [ -n "$BEFORE" ]; then
+            git fetch --depth=1 origin "$BEFORE"
+            python3 tools/vertical_page_matrix.py --changes-from "$BEFORE" >> "$GITHUB_OUTPUT"
+          else
+            printf 'run=true\n' >> "$GITHUB_OUTPUT"
+          fi
+
   matrix:
+    needs: changes
+    if: needs.changes.outputs.run == 'true'
     name: frozen FVB (${{ matrix.kind }})
     runs-on: ubuntu-latest
     timeout-minutes: 180
@@ -54,8 +80,8 @@ jobs:
 
   compare:
     name: frozen FVB full gate
-    needs: matrix
-    if: always()
+    needs: [changes, matrix]
+    if: always() && needs.changes.outputs.run == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 90
     steps:

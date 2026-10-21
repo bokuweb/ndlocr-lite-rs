@@ -1,0 +1,34 @@
+{
+  "run": "https://github.com/bokuweb/ndlocr-lite-rs/actions/runs/39514635451",
+  "head": "06401d7c8a8ac9170da1e66e44f719e68a4f9659",
+  "verified": true,
+  "actual_baseline_tests_failed": 1,
+  "actual_candidate_tests_passed": 1,
+  "ignored_during_execution": 0,
+  "new_NN_calls_this_audit": 0,
+  "files": {
+    "regression.json": "9b296a66c642f44f1ef3f567f736b74a6cb457a9956cd497ad2099e842928788",
+    "candidate.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "job.json": "43792fae3c82674789dafdf122c708a02ff506e158d8a328225c6a1400bc754d",
+    "baseline.stdout": "d0737d3179fa243434665c9d164e4a3aa735b61d9137d47d4b9486adacb35683",
+    "baseline.stderr": "38d2c717d5bec54e58b21b04c931c42586bb6a55320f425261fc13e8cda8ac2a",
+    "candidate.stdout": "df15490a7e69f01a07a62754611ceb7719fb62f33c0e327919725d4b01cf7e3b",
+    "commands/baseline-test-build.stdout": "6bbda060228a4f06e33a505ca5b21b387ec7332fd04659efe4b8fa62051ece36",
+    "commands/candidate-build.json": "e376f0956beb7dbf650aadb2289e2fcb100d160d1364078c14e17adf3e75669d",
+    "commands/candidate-build.stdout": "c7de7e3ba17220062b0f48c248281b4ca60ddef35f97ec2776c5395fac7fd2fa",
+    "commands/candidate-build.stderr": "5abb3efe46f320c8f300d4f55d5f753d01313412a9502b5a9ed59f92066bc648",
+    "commands/baseline-build.json": "e81bf7a1d01ade7edc38a23ac60c395e6b195ca68a133557e6227c6a6811682f",
+    "commands/baseline-test-build.stderr": "ad828340caa5d7c1247991275ab570e11bac13f83aac224c85bb9a352e2aca00",
+    "commands/baseline-test-build.json": "ed7f721029d084b8adec52823b3894bae1c3abc0bcf46f2d5ae2ace1735b06f3",
+    "commands/candidate-test-build.stderr": "4a1f36feb91ad24eaecd0b2f5707f1fb7e05adaa22d49be14e741fb6687f9457",
+    "commands/baseline-build.stderr": "d8339cc123890e8efeffb53a1b2d6b8962d837af45916e0239772b237e39bb93",
+    "commands/candidate-test-build.json": "38c90f3558abd6ade6ec77ced10eed2fe8aaccf11847cad6c798ea6069378a34",
+    "commands/baseline-build.stdout": "e1d62fa56cdf575e32cce0f35bfb9fd63dad3f3c9f0fbc20f9ea16e3f1aedcd3",
+    "commands/candidate-test-build.stdout": "5c299c325d0ab844734d61a73823d2b328b272f891e52842ad39c0f99b581888"
+  },
+  "archive": {
+    "name": "page-regression-linux-v1.zip",
+    "bytes": 114878,
+    "sha256": "fbfd5ac540b08ec1422293afef17545181e8739260baa33f99f3bcb897b7a23f"
+  }
+}
