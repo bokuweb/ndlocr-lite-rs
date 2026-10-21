@@ -1,0 +1,14 @@
+# FVCの新72対照：認識前のcrop検査
+
+CLI接続・NNの前に、固定済み新72入力について共通helperの選択とcallback RGBを調べる。
+固定元は`docs/vertical_cli_fallback_proposal.md`と認識前manifestである。
+
+rawと既存background normalize後の2条件、padding 0/3/usize::MAXの3条件を使う。
+認識callbackは固定したダミー高信頼文字列のみを返し、モデルをloadしない。
+選択されたbounds内の元RGBがcallbackの全bytesと一致し、公開bounds・寸法も一致することを確認する。
+入力bytesを保持し、元画素の非白画素と事前glyph bboxを選択範囲が欠かさないことを確認する。
+不採用画像は無理に選択しない。非文字や横行群の選択だけでは精度の成否を判断しない。
+
+ゼロpaddingで旧Page helperと新helperのbounds/text/confidence bitsが一致することを全対象で確認する。
+実cropを圧縮保存し、Python/Pillowによる独立の矩形cropとも照合する。
+失敗・欠けがあれば全案を保留し、NNへ進まない。成功も精度改善・CLI接続済みを意味しない。

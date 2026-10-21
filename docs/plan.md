@@ -578,3 +578,21 @@
 - 全3モデルの公開Session Redを先行し、最後の単行fallback接続後にGreenにした。未使用import整理後も条件を保ち、最終sourceの全製品再生・API2,602組・CLI946件が一致、通常671件/ONNX608件/example23件、新規Clippy警告0。新規ページNNは0でfragment関係source不変性を検査した。
 - 証拠とモデル不要の独立再現は `docs/benchmarks/owned-parts-body-bridge/`。狭い丸括弧・Latin・複数closer、真縦組みを含むAuto方向の対照などが残るため、目的全体を継続する。
 - 独立復元の初回は容量不足で終了し、検証済みの前段復元コピーだけを整理して同じpacketから再実行した。正式306表と3監査、元画素/実入力/描画/API/CLI/meanが一致し、復元後の実Rust137,991組と7,632×3形状tensor bit照合も成功した。失敗も含む終了記録と全SHAを保存した。
+
+## 2026-10-21: FVB全件比較の継続と追加対照の認識前固定
+
+- 凍結FVBの原runはPage30/50を完了したが、Page100/CLIが180分で中断した。
+  完了分は各921入力・3,684 Page結果・11,064公式CSV行を独立照合し、各35入力/経路組がraw改善、悪化0。
+  同じ画像の別モデル/設定を独立改善へ合算しない。中断分はpartialとして保持し、gate成功に含めない。
+  `0c937c4`の分割retryはPage100/CLIを両sourceで再測定中。全44,256 CSV行と全経路の採否は未確定。
+- [追加実資料の事前仕様](real_vertical_additional_controls.md)に沿い、既存2冊以外の
+  一葉全集/地獄変の6画像・11採点表記を認識前に固定した。
+  [原画像・GT・取得記録](benchmarks/real-vertical-additional-controls/)を保存し、OCR/model loadは0。
+  傾き/退色で確定できなかった候補も残す。FVBの途中の比較へ入力を混ぜない。
+- [余白と容量guardの診断](vertical_padding_capacity_diagnostic.md)は保存Q/Sの432組だけを使い、追加NN0。
+  guard緩和を採用する証拠は得られず、本体へ変更していない。
+- [CLI縦列fallback案FVC](vertical_cli_fallback_proposal.md)の共通helperだけを隔離sourceでRed→Greenにした。
+  通常lib447成功/39ignored、padding/移動のPBT128例が通過。
+  新72対照を固定し、432 geometry条件/282cropを独立画素照合、文字範囲の欠け0を確認した。
+  [証拠一式](benchmarks/vertical-cli-fallback/)を保存した。CLI接続・実モデル認識はまだ行っていない。
+  FVB全件gateの整理後に、既知実CLI Red/Greenと新規比較へ進む。本体推論は引き続きO。
