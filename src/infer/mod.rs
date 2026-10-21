@@ -57,4 +57,4 @@ mod vertical_capacity;
 mod output_capacity;
 
 #[cfg(any(feature = "onnx", test))]
-mod vertical_fallback;
+pub(crate) mod vertical_fallback;

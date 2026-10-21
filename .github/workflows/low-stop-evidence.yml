@@ -24,6 +24,11 @@ on:
       - 'tools/verify_vertical_cli_fallback_v2.py'
       - 'tools/verify_vertical_cli_full_completed.py'
       - 'tests/test_vertical_cli_full_completed.py'
+      - 'tests/test_vertical_cli_fallback_v2_full_completed.py'
+      - 'tools/verify_vertical_cli_fallback_v2_root_completed.py'
+      - 'tests/test_vertical_cli_fallback_v2_root_completed.py'
+      - 'tools/root_source_coverage.py'
+      - 'tests/test_root_source_coverage.py'
       - 'docs/benchmarks/vertical-cli-fallback/full-matrix-v1/completed-linux-v1.*'
       - 'tests/test_vertical_cli_fallback_v2_packet.py'
       - 'tests/test_vertical_cli_fallback_v2_options.py'
@@ -90,12 +95,16 @@ jobs:
       - name: Replay all FVC new72 CLI results without models
         run: python -m unittest discover -s tests -p test_vertical_cli_fallback_packet.py -v
       - name: Replay all 56 completed FVC workers and every official score without models
-        run: python -m unittest discover -s tests -p test_vertical_cli_full_completed.py -v
+        run: |
+          python -m unittest discover -s tests -p test_vertical_cli_full_completed.py -v
+          python -m unittest discover -s tests -p test_vertical_cli_fallback_v2_full_completed.py -v
       - name: Authenticate isolated FVC v2 sources and fresh controls without models
         run: |
           python -m unittest discover -s tests -p test_vertical_cli_fallback_v2_packet.py -v
           python -m unittest discover -s tests -p test_vertical_cli_fallback_v2_options.py -v
           python -m unittest discover -s tests -p test_vertical_cli_fallback_v2_full_scope.py -v
           python -m unittest discover -s tests -p test_vertical_cli_fallback_v2_root_gate.py -v
+          python -m unittest discover -s tests -p test_vertical_cli_fallback_v2_root_completed.py -v
+          python -m unittest discover -s tests -p test_root_source_coverage.py -v
       - name: Verify saved metrics and reconstruct captured RGB hashes without NN
         run: python tools/verify_low_stop_evidence.py

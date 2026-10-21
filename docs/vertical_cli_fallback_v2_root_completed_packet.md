@@ -1,0 +1,21 @@
+# Root接続後の証跡を独立再検証する
+
+全件gateと独立再計算が成立した後に適用したRoot差分、fresh build、実CLI2件、
+known quality3設定、ONNX通常lib、feature無効の16条件をpacket化する。
+モデル・font・native実行物は含めず、元buildのfresh=falseと実行物SHA、全852 source/fixture/resourceの
+before/after橋渡しを検証する。src全92ファイルは凍結v2と照合し、既定のtest-only差分と
+既存の等価iterator保持だけを許す。
+
+Root CLIの本文/stdoutは固定literal120 scalar（GT121の既知空白欠落を含む）と一致させる。
+品質処理3設定は既存full pipelineと実際のfinish経路の全文/f32 bits/cropが一致し、
+強制quality設定がinitialを変えることも必要とする。不一致・不足・非有限confidence・
+finish省略を示す無効果な記録はsummaryが成功でも拒否する。
+
+初回quality回帰のcharset配置不足はNN前のRedとして保存し、test-onlyで全assetの絶対パスを
+明示したsource変更を区別する。推論runtimeは不変で、Rootの新実行物で再検証する。
+feature無効時は前後のexit/stdout/stderr/body全byteを8組比較し、NN0を要求する。
+必須CIの全5 jobs成功は、このローカル証跡とは別に確認してから次候補のruntimeへ進む。
+
+旧v1/v2 freezeの847件は、新規quality test/fixture4件と埋込ZIPを欠く不完全な記録として
+保持する。新集合は実ファイルとliteral includeから作り、Root v3の実行物を採用対象とする。
+詳細は `vertical_cli_fallback_v2_root_source_coverage.md`。

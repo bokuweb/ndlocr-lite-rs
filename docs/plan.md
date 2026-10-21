@@ -1,5 +1,12 @@
 # ndlocr Python→Rust移植（ONNX）計画
 
+## 2026-10-22: FVC v2全件gateとRoot回帰を完了し、必須CIへ
+
+- v2全件run39593424953は全59 jobs成功。26,220結果/79,020 CSV行/39,510比較を独立再計算し、入力別文字/語悪化0、Page本文/bbox/f32 bits変更0。820 raw採点経路gainは既知scopeで、新72の10本文画像/raw22改善を二重計上しない。元59 ZIPとnative以外のstageを公開した。`docs/vertical_cli_fallback_v2_full_results.md`。
+- guard後にRootへ接続し、src全92を凍結v2へ橋渡しした。初回qualityのcharset配置不足と、旧freeze847件が新test/fixtureを欠くことを独立readerが検出した。失敗を保持し、test-only asset指定と、literal include先も列挙するhelper（2 Red→2 Green）で修正。Root v3は852 file、own全fresh=false、runtime不変を確認した。
+- 完全ScopeでCLI2 Green/quality3設定一致、ONNX lib468成功/114 ignored、通常lib456成功/39 ignored、CLI parser10成功、feature無効16 process不変、fmt/両Clippy成功。packet reader2件もGreen。`docs/vertical_cli_fallback_v2_root_results.md`。次は本体headの必須CI全5成功を確認する。
+- Rの新72対照はNN0で公開済み。5,256 glyph、216 geometry入力/2,952 part/186,559,200画素を独立照合し字形途中cut0。helper/reader計5 testsとモデル不要CIは成功。R runtime/認識はまだ開始せず、FVC v2のRoot CI後に進む。`docs/vertical_moderate_prefix_preparation_results.md`。
+
 ## 2026-10-21: RootのCLI回帰2 Redとknown候補2 Greenを固定
 
 - 現在のFVB Rootからlib/CLI/testをfresh=falseでbuildし、844 source/fixtureを固定した。新CLI2テストは実CLIのexit0/本文生成後にliteral不一致で2 Red。凍結v2 CLIへ同じtest binaryを渡すknown precheckは2 Greenで、Root runtimeは未接続。

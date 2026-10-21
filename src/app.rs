@@ -234,7 +234,16 @@ impl CachedPageRecognizer {
         crops: &[PreparedLineCrop],
         args: &RecognizePageArgs,
     ) -> Result<Vec<parseq::RecognizeResult>> {
-        let mut recognized = self.recognize_initial_batch(crops, args)?;
+        let recognized = self.recognize_initial_batch(crops, args)?;
+        self.finish_for_page_batch(crops, recognized, args)
+    }
+
+    fn finish_for_page_batch(
+        &self,
+        crops: &[PreparedLineCrop],
+        mut recognized: Vec<parseq::RecognizeResult>,
+        args: &RecognizePageArgs,
+    ) -> Result<Vec<parseq::RecognizeResult>> {
         let bounds: Vec<_> = crops.iter().map(|line| line.bbox_xyxy).collect();
         let isolated = crate::infer::dense_line_recovery::isolated_recovery_regions(&bounds);
         for ((line, result), isolated) in crops.iter().zip(recognized.iter_mut()).zip(isolated) {
@@ -560,7 +569,8 @@ pub fn run_cli(cli: Cli) -> Result<()> {
             } else {
                 Vec::new()
             };
-            let line_detections = if deim_lines.is_empty() {
+            let using_fallback = deim_lines.is_empty();
+            if using_fallback {
                 // 検出と認識で同じ画素を使い、色背景だけを本文と取り違えない。
                 if let std::borrow::Cow::Owned(prepared) =
                     crate::pipeline::background::normalize_chromatic_panels(
@@ -570,37 +580,80 @@ pub fn run_cli(cli: Cli) -> Result<()> {
                 {
                     img.data = prepared;
                 }
-                fallback_line_detections_from_bands(
+            }
+            #[cfg(feature = "onnx")]
+            let cached_parseq = CachedPageRecognizer::load(&args)?;
+            #[cfg(feature = "onnx")]
+            let accepted_vertical = vertical_fallback::try_prepared_if_empty(
+                !using_fallback,
+                &img.data,
+                (img.width, img.height),
+                vertical_fallback::Options {
+                    minimum_confidence: args.min_line_confidence,
+                    padding: args.line_crop_padding as usize,
+                },
+                (
+                    args.cascade_threshold_30_to_50,
+                    args.cascade_threshold_50_to_100,
+                ),
+                |line| {
+                    let mut results =
+                        cached_parseq.recognize_initial_batch(std::slice::from_ref(line), &args)?;
+                    if results.len() != 1 {
+                        bail!(
+                            "vertical CLI fallback expected one result, got {}",
+                            results.len()
+                        );
+                    }
+                    Ok(results.remove(0))
+                },
+            );
+            let prepare_legacy = || -> Result<Vec<PreparedLineCrop>> {
+                let line_detections = if using_fallback {
+                    fallback_line_detections_from_bands(
+                        &img.data,
+                        img.width,
+                        img.height,
+                        args.binarize_threshold,
+                        args.cascade_threshold_30_to_50,
+                        args.cascade_threshold_50_to_100,
+                    )
+                    .into_iter()
+                    .filter(|line| {
+                        // Keep feature-disabled errors reachable in builds without inference.
+                        !cfg!(feature = "onnx")
+                            || crate::pipeline::band_text_support::has_text_like_ink(
+                                &img.data,
+                                img.width,
+                                img.height,
+                                line.box_xyxy,
+                                args.binarize_threshold,
+                            )
+                    })
+                    .collect()
+                } else {
+                    deim_lines
+                };
+                prepare_line_crops(
                     &img.data,
                     img.width,
                     img.height,
-                    args.binarize_threshold,
-                    args.cascade_threshold_30_to_50,
-                    args.cascade_threshold_50_to_100,
+                    line_detections,
+                    args.line_crop_padding as usize,
                 )
-                .into_iter()
-                .filter(|line| {
-                    // Keep feature-disabled errors reachable in builds without inference.
-                    !cfg!(feature = "onnx")
-                        || crate::pipeline::band_text_support::has_text_like_ink(
-                            &img.data,
-                            img.width,
-                            img.height,
-                            line.box_xyxy,
-                            args.binarize_threshold,
-                        )
-                })
-                .collect()
-            } else {
-                deim_lines
             };
             #[cfg(feature = "onnx")]
-            let cached_parseq = CachedPageRecognizer::load(&args)?;
-            let pad = args.line_crop_padding as usize;
-            let prepared =
-                prepare_line_crops(&img.data, img.width, img.height, line_detections, pad)?;
-            #[cfg(feature = "onnx")]
-            let recognized_results = cached_parseq.recognize_for_page_batch(&prepared, &args)?;
+            let (prepared, recognized_results) = vertical_fallback::reuse_or_legacy(
+                accepted_vertical,
+                |crops, results| cached_parseq.finish_for_page_batch(crops, results, &args),
+                || {
+                    let prepared = prepare_legacy()?;
+                    let recognized = cached_parseq.recognize_for_page_batch(&prepared, &args)?;
+                    Ok((prepared, recognized))
+                },
+            )?;
+            #[cfg(not(feature = "onnx"))]
+            let prepared = prepare_legacy()?;
             #[cfg(not(feature = "onnx"))]
             let recognized_results: Vec<parseq::RecognizeResult> = {
                 let mut out = Vec::with_capacity(prepared.len());
@@ -1112,3 +1165,10 @@ mod tests {
         assert!(jp > noisy);
     }
 }
+
+#[cfg(any(feature = "onnx", test))]
+mod vertical_fallback;
+
+#[cfg(all(test, feature = "onnx"))]
+#[path = "../tests/support/vertical_cli_finish_known.rs"]
+mod vertical_cli_finish_known;

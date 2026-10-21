@@ -96,7 +96,31 @@ pub(super) fn try_recognize<F>(
 where
     F: FnOnce(&[u8], usize, usize) -> anyhow::Result<crate::infer::parseq::RecognizeResult>,
 {
+    try_recognize_with_padding(rgb, width, height, minimum_confidence, 0, recognize)
+}
+
+pub(crate) fn try_recognize_with_padding<F>(
+    rgb: &[u8],
+    width: usize,
+    height: usize,
+    minimum_confidence: f32,
+    padding: usize,
+    recognize: F,
+) -> Option<([i32; 4], crate::infer::parseq::RecognizeResult)>
+where
+    F: FnOnce(&[u8], usize, usize) -> anyhow::Result<crate::infer::parseq::RecognizeResult>,
+{
     let (bounds, anchors) = supported_column(rgb, width, height)?;
+    let (x0, y0, x1, y1) = crate::pipeline::crop::expand_bbox_xyxy_clamped(
+        bounds[0] as usize,
+        bounds[1] as usize,
+        bounds[2] as usize,
+        bounds[3] as usize,
+        padding.min(width.max(height)),
+        width,
+        height,
+    );
+    let bounds = [x0 as i32, y0 as i32, x1 as i32, y1 as i32];
     let crop = crop_rgb_u8(
         rgb,
         width,
@@ -128,3 +152,7 @@ where
     }
     Some((bounds, result))
 }
+
+#[cfg(test)]
+#[path = "../../tests/support/vertical_fallback_padding.rs"]
+mod padding_tests;

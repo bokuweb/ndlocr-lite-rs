@@ -4,8 +4,19 @@ use clap::Parser;
 #[test]
 #[ignore = "frozen known image and pinned three models; preserves finishing options"]
 fn accepted_vertical_finishes_like_existing_page_batch_with_quality_options() {
-    let image_path = std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
-        .join("tests/fixtures/vertical_fallback_cli_finish/arial12.png");
+    let root = std::path::Path::new(env!("CARGO_MANIFEST_DIR"));
+    let image_path = root.join("tests/fixtures/vertical_fallback_cli_finish/arial12.png");
+    let model = root.join(crate::cli::DEFAULT_RECOGNIZE_MODEL_PATH);
+    let model30 = root.join(crate::cli::DEFAULT_RECOGNIZE_MODEL30_PATH);
+    let model50 = root.join(crate::cli::DEFAULT_RECOGNIZE_MODEL50_PATH);
+    let charset = root.join("models/NDLmoji.yaml");
+    for file in [&model, &model30, &model50, &charset] {
+        assert!(
+            file.is_file(),
+            "mandatory regression asset missing: {}",
+            file.display()
+        );
+    }
     let temporary = tempfile::tempdir().unwrap();
     let output = std::env::var_os("NDLOCR_TEST_FVC_FINISH_EVIDENCE")
         .map(std::path::PathBuf::from)
@@ -16,6 +27,14 @@ fn accepted_vertical_finishes_like_existing_page_batch_with_quality_options() {
         "recognize-page",
         "--image",
         image_path.to_str().unwrap(),
+        "--model",
+        model.to_str().unwrap(),
+        "--model30",
+        model30.to_str().unwrap(),
+        "--model50",
+        model50.to_str().unwrap(),
+        "--charset",
+        charset.to_str().unwrap(),
         "--use-deim-detection",
         "false",
         "--structure-rules",
