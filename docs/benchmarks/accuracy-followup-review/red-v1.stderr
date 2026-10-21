@@ -1,0 +1,41 @@
+test_otsu_floors_the_rgb_average_and_keeps_the_first_tie (test_additional_real_scan_support.ScanSupportTest.test_otsu_floors_the_rgb_average_and_keeps_the_first_tie) ... ERROR
+test_support_mask_separates_gray_paper_but_does_not_modify_the_pixels (test_additional_real_scan_support.ScanSupportTest.test_support_mask_separates_gray_paper_but_does_not_modify_the_pixels) ... ERROR
+test_the_frozen_real_six_do_not_support_the_mask_only_proposal (test_additional_real_scan_support.ScanSupportTest.test_the_frozen_real_six_do_not_support_the_mask_only_proposal) ... ERROR
+test_uniform_and_invalid_inputs_have_no_invented_threshold (test_additional_real_scan_support.ScanSupportTest.test_uniform_and_invalid_inputs_have_no_invented_threshold) ... ERROR
+
+======================================================================
+ERROR: test_otsu_floors_the_rgb_average_and_keeps_the_first_tie (test_additional_real_scan_support.ScanSupportTest.test_otsu_floors_the_rgb_average_and_keeps_the_first_tie)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tests/test_additional_real_scan_support.py", line 29, in test_otsu_floors_the_rgb_average_and_keeps_the_first_tie
+    from diagnose_vertical_scan_support import diagnose
+ModuleNotFoundError: No module named 'diagnose_vertical_scan_support'
+
+======================================================================
+ERROR: test_support_mask_separates_gray_paper_but_does_not_modify_the_pixels (test_additional_real_scan_support.ScanSupportTest.test_support_mask_separates_gray_paper_but_does_not_modify_the_pixels)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tests/test_additional_real_scan_support.py", line 16, in test_support_mask_separates_gray_paper_but_does_not_modify_the_pixels
+    from diagnose_vertical_scan_support import diagnose
+ModuleNotFoundError: No module named 'diagnose_vertical_scan_support'
+
+======================================================================
+ERROR: test_the_frozen_real_six_do_not_support_the_mask_only_proposal (test_additional_real_scan_support.ScanSupportTest.test_the_frozen_real_six_do_not_support_the_mask_only_proposal)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tests/test_additional_real_scan_support.py", line 33, in test_the_frozen_real_six_do_not_support_the_mask_only_proposal
+    from diagnose_vertical_scan_support import diagnose
+ModuleNotFoundError: No module named 'diagnose_vertical_scan_support'
+
+======================================================================
+ERROR: test_uniform_and_invalid_inputs_have_no_invented_threshold (test_additional_real_scan_support.ScanSupportTest.test_uniform_and_invalid_inputs_have_no_invented_threshold)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tests/test_additional_real_scan_support.py", line 9, in test_uniform_and_invalid_inputs_have_no_invented_threshold
+    from diagnose_vertical_scan_support import diagnose
+ModuleNotFoundError: No module named 'diagnose_vertical_scan_support'
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.001s
+
+FAILED (errors=4)

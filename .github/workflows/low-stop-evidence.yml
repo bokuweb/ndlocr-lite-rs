@@ -47,6 +47,8 @@ on:
       - 'tests/test_cli_cascade_trace_packet.py'
       - 'docs/benchmarks/vertical-cli-cascade-trace/**'
       - 'tools/additional_real_diagnostic.py'
+      - 'tools/diagnose_vertical_scan_support.py'
+      - 'docs/benchmarks/accuracy-followup-review/**'
       - 'tests/test_additional_real_*.py'
       - 'docs/benchmarks/real-vertical-additional-controls/**'
       - 'tools/low_stop_evidence_requirements.txt'

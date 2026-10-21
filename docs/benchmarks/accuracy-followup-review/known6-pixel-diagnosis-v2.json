@@ -1,0 +1,218 @@
+{
+  "controls_sha256": "7c4aa9bd2ebe72149eb5ff30f6a9222b69d69e770139e91db7feb09c816df2fc",
+  "new_NN_calls": 0,
+  "known_scope_only": true,
+  "Rust_adoption_trace": false,
+  "rows": [
+    {
+      "id": "ichiyo_1088069_06_column1",
+      "rgb_sha256": "cde2f85506e4c235a089f279183abdb2eed8cc82b6e8695db96e9a3017b1b0ce",
+      "dimensions": [
+        80,
+        1690
+      ],
+      "gray_range": [
+        25,
+        255
+      ],
+      "fixed220": {
+        "support_bounds": [
+          0,
+          0,
+          80,
+          1690
+        ],
+        "support_width": 80,
+        "runs": 23,
+        "anchors": 10
+      },
+      "otsu_threshold": 164,
+      "otsu": {
+        "support_bounds": [
+          7,
+          23,
+          73,
+          1671
+        ],
+        "support_width": 66,
+        "runs": 42,
+        "anchors": 3
+      }
+    },
+    {
+      "id": "ichiyo_1088069_06_column2",
+      "rgb_sha256": "dd6424f353fd8c3f67142a07ebfdbffc2dc133c026f8ce829b02af13494b2f85",
+      "dimensions": [
+        76,
+        1690
+      ],
+      "gray_range": [
+        21,
+        255
+      ],
+      "fixed220": {
+        "support_bounds": [
+          0,
+          0,
+          76,
+          1690
+        ],
+        "support_width": 76,
+        "runs": 23,
+        "anchors": 12
+      },
+      "otsu_threshold": 166,
+      "otsu": {
+        "support_bounds": [
+          8,
+          17,
+          72,
+          1671
+        ],
+        "support_width": 64,
+        "runs": 41,
+        "anchors": 4
+      }
+    },
+    {
+      "id": "ichiyo_1088069_06_column3",
+      "rgb_sha256": "dc20b927a0b3994ac1db79eb7c14bbc75e0a999107a338b1f1779d2560b457bb",
+      "dimensions": [
+        74,
+        1690
+      ],
+      "gray_range": [
+        24,
+        255
+      ],
+      "fixed220": {
+        "support_bounds": [
+          0,
+          0,
+          74,
+          1690
+        ],
+        "support_width": 74,
+        "runs": 10,
+        "anchors": 7
+      },
+      "otsu_threshold": 168,
+      "otsu": {
+        "support_bounds": [
+          0,
+          17,
+          74,
+          1670
+        ],
+        "support_width": 74,
+        "runs": 40,
+        "anchors": 2
+      }
+    },
+    {
+      "id": "jigoku_1908126_07_column1",
+      "rgb_sha256": "43c6b5bfce973fa4f9aca72e5f78aecd8cb51bb7cf936c34009caef1201ff9f8",
+      "dimensions": [
+        134,
+        2105
+      ],
+      "gray_range": [
+        20,
+        245
+      ],
+      "fixed220": {
+        "support_bounds": [
+          0,
+          0,
+          134,
+          2105
+        ],
+        "support_width": 134,
+        "runs": 2,
+        "anchors": 1
+      },
+      "otsu_threshold": 162,
+      "otsu": {
+        "support_bounds": [
+          7,
+          81,
+          122,
+          2070
+        ],
+        "support_width": 115,
+        "runs": 32,
+        "anchors": 0
+      }
+    },
+    {
+      "id": "jigoku_1908126_07_column2",
+      "rgb_sha256": "ca59e3b6d0b70008fca8fdf916a1834615d26386db2563e90b8e1bac1d88ed5b",
+      "dimensions": [
+        126,
+        2105
+      ],
+      "gray_range": [
+        22,
+        243
+      ],
+      "fixed220": {
+        "support_bounds": [
+          0,
+          0,
+          126,
+          2105
+        ],
+        "support_width": 126,
+        "runs": 2,
+        "anchors": 2
+      },
+      "otsu_threshold": 162,
+      "otsu": {
+        "support_bounds": [
+          9,
+          20,
+          106,
+          2067
+        ],
+        "support_width": 97,
+        "runs": 32,
+        "anchors": 3
+      }
+    },
+    {
+      "id": "jigoku_1908126_07_column3",
+      "rgb_sha256": "c413e10c419bbe92877e64c6589d2251733b8fda1b57238b88fd760618f6c6fa",
+      "dimensions": [
+        122,
+        2105
+      ],
+      "gray_range": [
+        20,
+        243
+      ],
+      "fixed220": {
+        "support_bounds": [
+          0,
+          0,
+          122,
+          2105
+        ],
+        "support_width": 122,
+        "runs": 1,
+        "anchors": 1
+      },
+      "otsu_threshold": 162,
+      "otsu": {
+        "support_bounds": [
+          10,
+          13,
+          122,
+          2066
+        ],
+        "support_width": 112,
+        "runs": 32,
+        "anchors": 1
+      }
+    }
+  ]
+}

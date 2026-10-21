@@ -1,5 +1,12 @@
 # ndlocr Python→Rust移植（ONNX）計画
 
+## 2026-10-22: 追加候補の採否と残差レビュー
+
+- FVC v2は本体へ接続済み。新72の10本文画像/raw22組改善と、全1,311物理入力の文字/語悪化0・Page metadata不変を確認した。Root本体CI全5 jobsと最新12386ef CIも成功。
+- Rは新72の全3,456出力/10,368 CSV行で改善0のため保留した。Q/S/C1/Nの保留も維持し、未評価の製品変更は残さない。
+- 公開packetを再確認し、既知実資料6列で50/100 rawとCLI DEIMがbyte一致、一葉3列のbands両設定はFVC v2で改善、地獄変3列は不変と確認した。背景のOtsu maskだけでは既存anchor支持に届かず、追加NNなしで単独案を閉じた。helperは4 Red→4 Green、関連モデル不要testsも成功。
+- 今回列挙・固定した案の採否と残る誤りを`docs/accuracy_followup_review.md`へ整理した。未知資料での改善率や将来の改善不可能性を主張せず、次の研究・追加注釈に必要な条件を明記する。
+
 ## 2026-10-22: FVC v2全件gateとRoot回帰を完了し、必須CIへ
 
 - v2全件run39593424953は全59 jobs成功。26,220結果/79,020 CSV行/39,510比較を独立再計算し、入力別文字/語悪化0、Page本文/bbox/f32 bits変更0。820 raw採点経路gainは既知scopeで、新72の10本文画像/raw22改善を二重計上しない。元59 ZIPとnative以外のstageを公開した。`docs/vertical_cli_fallback_v2_full_results.md`。
