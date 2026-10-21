@@ -1,5 +1,13 @@
 # ndlocr Python→Rust移植（ONNX）計画
 
+## 2026-10-21: FVC採用経路の既存後段を保持するv2
+
+- source監査でv1の採用経路がrecognize_initial_batchの後を再利用し、既存quality boost等のfinishを通らないことを確認した。default全件run39568828241はv1の凍結記録として継続し、それだけではv2や設定保持の成功へ数えない。本体はFVB。
+- `docs/vertical_cli_fallback_postprocessing.md`を先行し、finish呼出し/エラー保持の2 assertion Red→10 Green。既存loopをbyte同値（rustfmt後は空白を除き同値）で共通化し、initial batchはbyte不変。通常lib453成功/40ignored。compile fixture不足と2回のENOSPCも保存し、同じsourceを再試行した。
+- v2新72を追加NN前に固定し、4,392 glyphの独立描画と既知1,239入力とのPNG/RGB重複0を確認。公開packetは22,479,201 bytes。最初のarchive member絶対pathをreaderが拒否したため、入力/GT/source byteを変えずmember名だけを正規化し、元archive/hashも保持した。reader未実装Red→Greenで全member/fresh build/PNG/RGB/字形bboxを認証した。
+- 既知quality回帰はcharset不足1回と、設定効果を判別できない入力2回の失敗も保持した。既知12字列の3設定では既存full pipelineと全本文/mean bitsが一致し、delta=-100では初期から信頼度が変わりfinish省略を検出できた。DEIM off/onのliteral CLI回帰2 processも成功。9保存設定/9 RGBをreader Red→Greenで再検算し、新規精度改善へ数えない。
+- v2新72の前後576 CLI process/1,728 CSV行は別に測定中。全入力別文字/語非悪化と新本文改善が揃うまで次の全件gateへ進めない。root e5c3173の通常/実モデルCI全5 jobs、追加実資料のモデル不要reader CIも成功した。
+
 ## 2026-10-21: 追加実資料の途中欠落をnative traceで切り分け
 
 - 追加6列を既存P5/O観測実行物で新たに36 Page測定し、FVB本体baselineの全本文/行数/bbox/f32 confidence bitsと一致した。全primaryはDEIM検出で、FVBとの差があるbands fallbackを通っていない。実PARSeq forward66試行/66成功、PageRecognizer load6/model session load12を区別する。
