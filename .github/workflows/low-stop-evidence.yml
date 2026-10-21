@@ -11,6 +11,10 @@ on:
       - 'tools/additional_real_stop_probe.py'
       - 'tools/verify_additional_real_stop_probe.py'
       - 'tools/verify_additional_real_partition_probe.py'
+      - 'tools/moderate_prefix_controls.py'
+      - 'tools/verify_moderate_prefix_packet.py'
+      - 'tests/test_moderate_prefix_*.py'
+      - 'docs/benchmarks/vertical-moderate-prefix/**'
       - 'docs/benchmarks/real-vertical-additional-stop-probe/**'
       - 'docs/benchmarks/real-vertical-primary-partition-probe/**'
       - 'docs/benchmarks/real-vertical-additional-primary-trace/**'
@@ -79,6 +83,8 @@ jobs:
           python tools/verify_additional_real_baseline.py
       - name: Replay known CLI stage trace without recognition
         run: python -m unittest discover -s tests -p test_cli_cascade_trace_packet.py -v
+      - name: Replay R controls and all glyph-safe partitions before recognition
+        run: python -m unittest discover -s tests -p 'test_moderate_prefix_*.py' -v
       - name: Authenticate isolated C1 source and new controls without models
         run: python -m unittest discover -s tests -p test_vertical_cli_model_agreement_packet.py -v
       - name: Replay all FVC new72 CLI results without models
