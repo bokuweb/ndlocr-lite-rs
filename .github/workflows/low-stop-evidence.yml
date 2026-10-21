@@ -7,6 +7,9 @@ on:
       - 'tools/verify_low_stop_evidence.py'
       - 'tools/verify_additional_real_baseline.py'
       - 'tools/verify_cli_cascade_trace.py'
+      - 'tools/verify_vertical_cli_model_agreement.py'
+      - 'tests/test_vertical_cli_model_agreement_packet.py'
+      - 'docs/benchmarks/vertical-cli-model-agreement/**'
       - 'tests/test_cli_cascade_trace_packet.py'
       - 'docs/benchmarks/vertical-cli-cascade-trace/**'
       - 'tools/additional_real_diagnostic.py'
@@ -53,5 +56,7 @@ jobs:
           python tools/verify_additional_real_baseline.py
       - name: Replay known CLI stage trace without recognition
         run: python -m unittest discover -s tests -p test_cli_cascade_trace_packet.py -v
+      - name: Authenticate isolated C1 source and new controls without models
+        run: python -m unittest discover -s tests -p test_vertical_cli_model_agreement_packet.py -v
       - name: Verify saved metrics and reconstruct captured RGB hashes without NN
         run: python tools/verify_low_stop_evidence.py

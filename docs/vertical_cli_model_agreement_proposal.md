@@ -41,3 +41,19 @@ known fontの合成開発対照であり、未知資料・学習未重複を意�
 設定対照・必要suite/CIを必要とする。FVCを採用する場合は別に合成差分のgateを行う。
 source/lock/model/charset/input/GT/fresh実行物/実argvを固定し、failed/partialも保持する。
 外側process/pool batchと内部forward/sessionを分け、未計測はnull。本体接続は全gate後とする。
+
+描画前に追加固定: 反復の長さは77、patternは「光」「山川」。横書きrow_textは「午後の窓」「No.7」。
+新非文字はnotched_rhombus/paired_bracketsの二種としてgenerator内の点列を凍結する。
+新一般文の全文、font SHA、描画設定、generator SHAはgeneration-before-render.jsonへPNG作成前に保存する。
+既存FVC rendererの字形配置/独立mask検算を再利用し、C1では本文/対照設定だけを別に固定する。
+
+描画attempt1は横書き4字×28 rowsでheight>=8widthのassertionに達せず停止した（OCR0）。
+元source/config/部分画像を保存し、本文の配置は保持して横書き負例だけrow advance64を明示する。
+4字row_text・28/36 rowsは保持する。新96の固定完了前のデータ修正で、認識結果は未観測。
+
+純粋段階ではcallback1 Red→1 Green、棄却条件3 Red→4 Green、128例PBT/境界を含む6 Green、
+model shape/元RGB adapterの2 Red→8 Greenを確認した。隔離CLI接続後も初期cascade・後段・既存helperはbyte一致。
+全default suiteの初回はruntime fixture未同梱で416成功/32 missing-file失敗/38ignoredだったため、
+root f99e1feの561既存fixtureをSHA照合して両sourceへ複写した。推論は変えず、再実行448成功/38ignored。
+既知71字の実CLI試験は既存matrixと同じdefault引数/DEIM on、全3 PARSeq+DEIM/charset mandatory、
+凍結CLIをNDLOCR_TEST_CLI_BINARYで明示し、bodyとstdout LF1個と入力byte不変を確認する。

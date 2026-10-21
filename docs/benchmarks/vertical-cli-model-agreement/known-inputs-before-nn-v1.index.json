@@ -1,0 +1,7 @@
+{
+  "archive": "known-inputs-before-nn-v1.json.gz",
+  "bytes": 100692,
+  "sha256": "d769246f8814c7a343eee3d5f792b044cfd28e2c63569a2cabd10b54f80305b5",
+  "physical_inputs": 1143,
+  "C1_new_set_NN_calls": 0
+}

@@ -1,5 +1,12 @@
 # ndlocr Python→Rust移植（ONNX）計画
 
+## 2026-10-21: C1をNN前に固定、FVCと別の単列モデル合意案
+
+- `docs/vertical_cli_model_agreement_proposal.md`を先行し、initial100の支持不足だけを30/50全文一致・元全文prefix/空白保持・画像anchor/高confidenceで再確認するC1を隔離実装した。本体FVBや進行中FVCとは合成しない。callback1 Red→Green、棄却3 Red→Green、model shape/元crop2 Red→8 Green（128例PBTを含む）を確認。
+- 新96（本文48/反復12/横書き12/非文字24）をOCR前に固定し、PNG/RGBと4,860 glyphを独立照合した。既知1,143物理IDのheaderも別に固定し、hash重複0。初回描画の縦横比assertion失敗・source・部分画像は保持してから、横書き負例のrow advance64を明示した。OCR結果を見た調整ではない。
+- 隔離CLI接続後のdefault448成功/38ignored、ONNX lib Clippy既存18警告、両variantのown lib/CLI/test各fresh=falseを確認。全default初回のfixture不足32失敗も保持し、root f99の561fixtureをSHA照合して解消した。初期cascade・既存後段とFVB helper本体はbyte不変（helper/moduleの可視性だけ変更）。
+- 約16.6MBのbefore-NN packetとreaderを公開した。readerは未実装Red→96画像/全member/全字形/非重複/fresh buildをGreenにした。C1のモデル認識はpacket作成時0。実CLI既知例のRed/Greenと新96の全件gateは次であり、精度改善や採用とは数えない。
+
 ## 2026-10-21: CLI traceが完了、initial100の早い停止を確認
 
 - Linux run39552644890で既知3画像×3設定×2 sourceの18 CLI processを完了。通常/観測の本文・stdout・stderrがすべて一致し、27 crop RGBと54 CSV行を独立照合した。観測した非空pool batch9と、未計測の内部forward/sessionを区別する。

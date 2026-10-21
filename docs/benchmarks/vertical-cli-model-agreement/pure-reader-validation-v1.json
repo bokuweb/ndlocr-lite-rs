@@ -1,0 +1,14 @@
+{
+  "model_free_reader_Red_missing_module": 1,
+  "reader_Green": 1,
+  "logs": {
+    "packet-reader-red.stderr": "E\n======================================================================\nERROR: test_before_nn_packet_binds_sources_fresh_builds_and_all_96_new_controls (test_vertical_cli_model_agreement_packet.CliAgreementPacketTest)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tests/test_vertical_cli_model_agreement_packet.py\", line 9, in test_before_nn_packet_binds_sources_fresh_builds_and_all_96_new_controls\n    from verify_vertical_cli_model_agreement import verify\nModuleNotFoundError: No module named 'verify_vertical_cli_model_agreement'\n\n----------------------------------------------------------------------\nRan 1 test in 0.000s\n\nFAILED (errors=1)\n",
+    "packet-reader-green.stderr": ".\n----------------------------------------------------------------------\nRan 1 test in 0.331s\n\nOK\n"
+  },
+  "source_sha256": {
+    "tools/verify_vertical_cli_model_agreement.py": "6041397aa003ddaec2a5092e3f09ffc8fbac522d7a03fc9610cfff07773ab712",
+    "tests/test_vertical_cli_model_agreement_packet.py": "1b2a3dfd40c810f8aa9f3f777363fabe682f51dfe209ed6d76b50a1e47b3177d",
+    ".github/workflows/low-stop-evidence.yml": "c8a0fc75c14654369af6aaa459e0eddbef372e4c158aac051e00486a1fbf0945"
+  },
+  "C1_NN_calls_at_validation": 0
+}
