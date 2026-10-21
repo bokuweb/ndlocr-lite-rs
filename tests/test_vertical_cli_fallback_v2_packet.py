@@ -5,6 +5,18 @@ sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'tools'))
 
 
 class FVCv2PacketTest(unittest.TestCase):
+    def test_complete_options_replay_every_fixed_command_and_score_without_new_inference(self):
+        from verify_vertical_cli_fallback_v2 import verify_options
+        result=verify_options(Path(__file__).resolve().parents[1]/'docs/benchmarks/vertical-cli-fallback-v2')
+        self.assertEqual(result['CLI_processes'],384)
+        self.assertEqual(result['verified_CSV_rows'],1152)
+        self.assertEqual(result['comparisons'],576)
+        self.assertEqual(result['regressions'],0)
+        self.assertEqual(result['reject_all_empty_processes'],64)
+        self.assertTrue(result['option_gate_pass'])
+        self.assertFalse(result['new_accuracy_gain'])
+        self.assertEqual(result['new_model_calls_in_replay'],0)
+
     def test_new_controls_sources_and_both_fresh_build_receipts_authenticate_before_recognition(self):
         from verify_vertical_cli_fallback_v2 import verify_before
         result=verify_before(Path(__file__).resolve().parents[1]/'docs/benchmarks/vertical-cli-fallback-v2')

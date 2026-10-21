@@ -1,5 +1,11 @@
 # ndlocr Python→Rust移植（ONNX）計画
 
+## 2026-10-21: FVC v2設定gate完了、拡張全件gateを開始
+
+- 非default384 CLI/1,152 CSV行/576比較は全件完了し、入力別文字/語悪化0、reject_allの64 processは空本文。公開ZIPの全argv/本文/採点コピー/GT/整数指標/比較一覧をreader未実装Red→6 packet tests Greenで独立再検証した。新規精度改善へは数えない。詳細は`docs/vertical_cli_fallback_v2_option_results.md`。
+- v1全件run39568828241は成功し、74,700 CSV行・悪化0・Page本文/矩形/信頼度bits変化0。798 raw採点経路gainは既知scopeの値で新規798画像ではない。v1は既存finishを省略するため採用しない。
+- v2の1,311物理入力/1,317採点ID、26,220結果/79,020 CSV行はrun39593424953（fe0e359）で開始。初回39591981411はbuild checkout中、推論開始前に中止した。共通runner末尾の旧74,700固定assertをplan由来の件数完全一致へ変更し、2 Red→2 Green・旧/新契約計19件Green・推論処理不変のsource bridgeを保存した。本体はFVBのまま、全件成功とroot接続検証を待つ。
+
 ## 2026-10-21: FVC v2新72が成功、実CLI parserを設定gateへ追加
 
 - 再測定した新72は576 CLI結果/1,728 CSV行を完了し、独立距離と全誤り/分母が一致した。入力別文字/語悪化0、10本文画像のraw22経路組改善（bands各10、DEIM各1）。非本文36枚は全経路で不変。旧v1の14画像/30組は二重計上しない。本体はFVB。

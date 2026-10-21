@@ -267,6 +267,73 @@ def verify_parser_preflight(folder):
     return {'complete':True,'archive_sha256':index['sha256'],'parsed_argv':384,'successful_native_vectors':48,'preserved_failed_wrapper':1,'NN_calls':0,'model_loads':0,'new_model_calls_in_replay':0}
 
 
+def verify_options(folder):
+    from collections import Counter
+    from verify_low_stop_evidence import metric_values
+    folder=Path(folder);new72=verify_new72(folder);plan_result=verify_option_plan(folder);verify_parser_preflight(folder)
+    index,data=_packet(folder,'options-cli-matrix-v2.index.json')
+    before_index,frozen=_packet(folder,'before-nn-v1.index.json');plan_index,plan_data=_packet(folder,'options-plan-before-nn-v2.index.json');_,parser_data=_packet(folder,'option-parser-preflight-v2.index.json')
+    assert index['before_packet_sha256']==before_index['sha256'] and index['new72_packet_sha256']==new72['archive_sha256'] and index['plan_v2_sha256']==plan_index['sha256']
+    plans=json.loads(plan_data['evidence/option-plan-before-NN-v2.json']);job=json.loads(data['complete/job.json']);pre=json.loads(data['complete/before-NN.json']);summary=json.loads(data['complete/summary.json'])
+    before=json.loads(frozen['evidence/before-NN-v1.json']);original_root=Path(before['frozen_candidate_cli']['path']).parents[2]
+    assert job['complete'] and not pre['complete'] and not pre['commands'] and pre['executed_CLI_processes']==0
+    assert job['files_sha256']==pre['files_sha256'] and job['frozen_files_after_unchanged']
+    assert all(job['files_sha256'].get(n)==h for n,h in before['files_sha256'].items())
+    assert job['verified_new72_gate']==new72 and job['verified_option_plan']==plan_result
+    assert data['complete/plan.json']==plan_data['evidence/option-plan-before-NN-v2.json']
+    bindings={
+        'run_options_matrix_v2.py':data['evidence/run_options_matrix_v2.py'],
+        'options-preflight-reader-v2.py':data['evidence/options-preflight-reader-v2.py'],
+        'options-matrix-v2/plan.json':data['complete/plan.json'],
+        'option-parse-preflight-v3/job.json':parser_data['run/option-parse-preflight-v3/job.json'],
+        'run_option_parse_preflight_v3.py':parser_data['evidence/run_option_parse_preflight_v3.py'],
+    }
+    for name,raw in bindings.items():assert job['files_sha256'][str(original_root/'tmp/vertical-cli-fallback-v2'/name)]==sha(raw)
+    assert job['runtime_environment']['NDLOCR_INTRA_THREADS']==job['runtime_environment']['NDLOCR_PARSEQ_PARALLELISM']=='1'
+    assert job['internal_forward_calls'] is None and job['model_session_loads'] is None and job['new_accuracy_gain'] is False
+    assert summary=={k:v for k,v in job.items() if k not in ['files_sha256','commands']}
+    receipts=[json.loads(raw) for name,raw in data.items() if name.startswith('complete/commands/') and name.endswith('.json')]
+    assert len(receipts)==len(job['commands'])==387 and all(r['exit_code']==0 for r in receipts)
+    assert Counter(json.dumps(r,sort_keys=True) for r in receipts)==Counter(json.dumps(r,sort_keys=True) for r in job['commands'])
+    assert [r['argv'] for r in job['commands'][:384]]==[r['argv'] for r in plans]
+    predictions={};empty=0
+    for row in plans:
+        body=data['complete/predictions/'+row['label']+'.txt'];assert data['complete/commands/'+row['label']+'.stdout']==body+b'\n'
+        if row['profile']=='reject_all':assert body==b'';empty+=1
+        system='_'.join([row['variant'],row['profile'],'deim',str(row['deim']).lower(),'cascade',str(row['cascade']).lower()])
+        assert data[f"complete/metrics/{system}/{row['id']}.txt"]==body
+        predictions.setdefault(system,{})[row['id']]=body.decode()
+    inputs={r['id']:r for r in json.loads(frozen['evidence/new-manifest.json'])['inputs']};ids=list(dict.fromkeys(r['id'] for r in plans))
+    assert len(ids)==8 and len(predictions)==48 and all(set(v)==set(ids) for v in predictions.values())
+    for ident in ids:
+        row=inputs[ident];truth=data['complete/metrics/truth/'+ident+'.txt'];assert sha(truth)==row['truth_sha256']
+        assert truth==frozen[str(Path(row['truth']).relative_to(original_root))]
+    comparisons=[];regressions=[];verified=0
+    for normalization in ['none','width','strict']:
+        out=original_root/'tmp/vertical-cli-fallback-v2/options-matrix-v2'
+        command=job['commands'][384+['none','width','strict'].index(normalization)]['argv']
+        wanted=[command[0],str(original_root/'tools/eval_ocr_metrics.py'),'--truth-dir',str(out/'metrics/truth')]
+        for system in predictions:wanted+=['--system',system+'='+str(out/'metrics'/system)]
+        wanted+=['--normalize',normalization,'--require-all','--output-csv',str(out/'metrics'/(normalization+'.csv'))]
+        assert command==wanted
+        rows=list(csv.DictReader(io.StringIO(data['complete/metrics/'+normalization+'.csv'].decode())))
+        assert len(rows)==384 and {(r['system'],r['file']) for r in rows}=={(s,i+'.txt') for s in predictions for i in ids}
+        for row in rows:
+            expected=metric_values(data['complete/metrics/truth/'+row['file']].decode(),predictions[row['system']][row['file'][:-4]],normalization)
+            assert tuple(int(row[k]) for k in ['char_errors','char_total','word_errors','word_total'])==expected;verified+=1
+        indexed={(r['system'],r['file']):r for r in rows}
+        for row in plans:
+            if row['variant']!='baseline':continue
+            suffix='_'.join([row['profile'],'deim',str(row['deim']).lower(),'cascade',str(row['cascade']).lower()]);a=indexed['baseline_'+suffix,row['id']+'.txt'];b=indexed['candidate_'+suffix,row['id']+'.txt']
+            entry={k:row[k] for k in ['id','profile','deim','cascade']};entry.update({'normalization':normalization,'before':a,'after':b});comparisons.append(entry)
+            if any(int(b[k])>int(a[k]) for k in ['char_errors','word_errors']):regressions.append(entry)
+    assert comparisons==json.loads(data['complete/comparisons.json']) and regressions==json.loads(data['complete/regressions.json'])
+    assert verified==job['verified_CSV_rows']==1152 and len(comparisons)==job['comparisons']==576 and empty==64
+    assert job['executed_CLI_processes']==job['CLI_processes_planned']==384 and job['official_CSV_rows_planned']==1152
+    assert len(regressions)==job['regressions']==index['regressions'] and job['option_gate_pass']==(not regressions)
+    return {'complete':True,'archive_sha256':index['sha256'],'CLI_processes':384,'verified_CSV_rows':verified,'comparisons':len(comparisons),'regressions':len(regressions),'reject_all_empty_processes':empty,'option_gate_pass':not regressions,'new_accuracy_gain':False,'new_model_calls_in_replay':0}
+
+
 if __name__=='__main__':
     import argparse
-    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--folder',type=Path,default=Path(__file__).resolve().parents[1]/'docs/benchmarks/vertical-cli-fallback-v2');mode=parser.add_mutually_exclusive_group();mode.add_argument('--known',action='store_true');mode.add_argument('--options-plan',action='store_true');mode.add_argument('--disabled',action='store_true');mode.add_argument('--new72',action='store_true');mode.add_argument('--parser-preflight',action='store_true');args=parser.parse_args();verify=verify_parser_preflight if args.parser_preflight else verify_new72 if args.new72 else verify_disabled if args.disabled else verify_option_plan if args.options_plan else verify_known if args.known else verify_before;print(json.dumps(verify(args.folder),indent=2))
+    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--folder',type=Path,default=Path(__file__).resolve().parents[1]/'docs/benchmarks/vertical-cli-fallback-v2');mode=parser.add_mutually_exclusive_group();mode.add_argument('--known',action='store_true');mode.add_argument('--options-plan',action='store_true');mode.add_argument('--disabled',action='store_true');mode.add_argument('--new72',action='store_true');mode.add_argument('--parser-preflight',action='store_true');mode.add_argument('--options',action='store_true');args=parser.parse_args();verify=verify_options if args.options else verify_parser_preflight if args.parser_preflight else verify_new72 if args.new72 else verify_disabled if args.disabled else verify_option_plan if args.options_plan else verify_known if args.known else verify_before;print(json.dumps(verify(args.folder),indent=2))
