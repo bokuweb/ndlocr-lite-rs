@@ -9,6 +9,7 @@ on:
       - 'tests/test_vertical_cli_fallback_v2_full_scope.py'
       - 'tools/vertical_cli_fallback_v2_full_scope.py'
       - 'tools/vertical_cli_fallback_full_matrix.py'
+      - 'tests/test_vertical_full_metric_count.py'
       - 'tools/verify_vertical_cli_fallback_v2.py'
       - 'tools/vertical_cli_fallback_v2_option_runner.py'
       - 'tools/low_stop_evidence_requirements.txt'
@@ -35,6 +36,7 @@ jobs:
           python -m unittest discover -s tests -p test_vertical_cli_fallback_v2_full_bundle.py -v
           python -m unittest discover -s tests -p test_vertical_cli_fallback_v2_full_scope.py -v
           python -m unittest discover -s tests -p test_vertical_cli_fallback_full_matrix.py -v
+          python -m unittest discover -s tests -p test_vertical_full_metric_count.py -v
           python tools/vertical_cli_fallback_v2_full_matrix.py --validate
 
   build:

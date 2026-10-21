@@ -13,7 +13,7 @@ class FullBundleV2(runner.FullBundle):
     def __init__(self,folder):
         self.folder=Path(folder);self.index=json.loads((self.folder/'bundle.json').read_text())
         if self.index['schema']!=2:raise ValueError('unsupported v2 full-bundle schema')
-        assert sha((self.folder/'protocol-before-nn.md').read_bytes())==self.index['protocol_sha256']
+        assert sha((self.folder/safe_member(self.index.get('protocol_file','protocol-before-nn.md'))).read_bytes())==self.index['protocol_sha256']
         parent=self.folder.parent;previous_folder=parent.parent/'vertical-cli-fallback/full-matrix-v1'
         assert sha((previous_folder/'bundle.json').read_bytes())==self.index['previous_bundle_sha256']
         self.new72_gate=verify_new72(parent);require_new72_gate(self.new72_gate)

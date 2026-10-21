@@ -3,7 +3,7 @@
   "previous_bundle_sha256": "d4e3579749c8d310fa816937e1e8ef28fbe04959706587e52ecc642d28b7b1f2",
   "before_packet_sha256": "b2589bf2429c5c369659cf6c623674756925045b55834d2a567ef500c48ec23c",
   "new72_packet_sha256": "c910d1089a90858137676a034b49ff7c0736d5f14219fb479a2c96513a86d4f7",
-  "protocol_sha256": "d6e6577dd26430a9b9c7d417dd5cde082d0233c2cfc53fff63a5176d6c35c2f7",
+  "protocol_sha256": "299103cb5036a4a92eced62577099bdfbb59396570e175a596b162a208bbe5a6",
   "source_files": {
     "baseline": {
       "Cargo.toml": "7f57841dc78fc33bdcd06cdd652cd4bd7e5fe0d6b0aa0eb790b8ff75ecac8c44",
@@ -125096,5 +125096,6 @@
     "CSV_rows": 79020,
     "PageRecognizer_loads": 48,
     "explicit_Page_model_session_loads": 96
-  }
+  },
+  "protocol_file": "protocol-before-nn-v2.md"
 }

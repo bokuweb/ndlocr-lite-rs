@@ -23,3 +23,11 @@ wrapper自体とreaderもharness receiptへ追加する。rootの未確定source
 before-NNに全scope/source/planを凍結し、model-free union/alias/format/網羅契約をRed→Greenにする。
 新72 gateが未成立ならwrapperの認識/build dispatchへ進めない。
 全件成功後もrootへの最小source bridge、既存等価iterator整理との対応、必要suite/実モデルCIを確認してから本体接続する。
+
+## 最終件数検証の限定修正
+
+共通runnerに旧74,700行の固定assertが残っていたため、最初のv2 run39591981411をbuild段階で中止した。
+そのrunのmatrix/compareは未実行でNN0。`docs/vertical_cli_fallback_v2_metric_count.md`を先行し、
+現在の共通runnerの最終件数確認だけをplanとの完全一致へ一般化する。旧1f7 event/harnessは元のまま保存する。
+認識/採点/悪化判定の関数byteは不変、差は追加した件数validatorと末尾1呼出しだけと照合する。
+元protocol-before-nn.mdを保持し、再実行はprotocol-before-nn-v2.mdを別SHAで指定する。

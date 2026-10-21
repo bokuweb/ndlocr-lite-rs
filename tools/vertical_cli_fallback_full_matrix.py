@@ -68,6 +68,12 @@ def validate_complete_jobs(metas,plan,bundle_sha,build_sha):
     return images
 
 
+def require_complete_metric_count(actual,plan):
+    expected=plan.get('expected_CSV_rows')
+    if not isinstance(expected,int) or expected<=0 or actual!=expected:
+        raise ValueError('official metric rows do not cover the complete frozen plan')
+
+
 class FullBundle:
     def __init__(self,folder):
         import io
@@ -410,7 +416,7 @@ def compare_all(bundle,stage,artifacts,output):
                                'before':before,'after':after,'body_unchanged':systems[before_key][score['physical_id']]==systems[after_key][score['physical_id']]};pairs.append(entry)
                         if any(int(after[k])>int(before[k]) for k in ['char_errors','word_errors']):regressions.append(entry)
                         if mode=='none' and int(after['char_errors'])<int(before['char_errors']) and int(after['word_errors'])<=int(before['word_errors']):gains.append(entry)
-        assert verified==bundle.plan['expected_CSV_rows']==74700
+        require_complete_metric_count(verified,bundle.plan)
         meta.update(complete=True,image_results=image_results,verified_CSV_rows=verified,scoring_comparison_pairs=len(pairs),regression_pairs=len(regressions),
                     page_body_bbox_confidence_changes=len(page_changes),raw_gain_scoring_pairs=len(gains),gains_are_known_development_inputs=True,
                     full_gate_pass=not regressions and not page_changes,new72_gate_pass=True,
