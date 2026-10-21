@@ -47,9 +47,12 @@ body/repeatedの5,256 glyphを独立描画して全画素/字形bbox/欠落/重�
 
 Source/lock/model/charset/入力/GT/異なるfresh実行物を固定し、既存native collectorで
 3モデル×8 API×72入力×前後の3,456画像経路結果を完了する。公式3正規化の10,368 CSV行を独立距離で照合する。
-raw比較は1,728組、正規化込み5,184比較。raw/normal/horizontalの非対象6 APIは本文/mean bits完全一致、
+raw比較は1,728組、正規化込み5,184比較。raw/normal/horizontalの非対象5 APIは本文/mean bits完全一致、
 非本文36入力は全APIで本文不変、全入力の文字/語悪化0を必要とする。
-少なくとも新bodyのfragment Autoにraw文字改善・語非悪化を要求し、同じbodyのbatch Autoも整合させる。
+少なくとも新bodyのfragment Autoにraw文字改善・語非悪化を要求し、同じbodyのbatch/専有batch Autoも単件と一致させる。
+
+8 APIの対象3/非対象5と件数は`docs/vertical_moderate_prefix_api_scope.md`にNN前の訂正を明記した。
+既存NN0 packet内の旧仕様と入力/GTは保持し、72対照やthresholdは変更しない。
 
 新規body改善0または悪化ならR全体を保留し、この72へ閾値/条件を合わせ直さない。
 成功した場合だけ、同じ凍結sourceの全既知native APIとPage/CLIの全件計画を追加NN前に定義する。

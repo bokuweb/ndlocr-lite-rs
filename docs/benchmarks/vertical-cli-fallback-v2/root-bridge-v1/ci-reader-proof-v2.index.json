@@ -1,0 +1,26 @@
+{
+  "archive": "ci-reader-proof-v2.zip",
+  "bytes": 3725,
+  "sha256": "07fc478df0e551191dc8337f9e6dffad3280c0d5862f500f0e4673e6c7799969",
+  "members": {
+    "tools/verify_vertical_cli_fallback_v2_root_ci.py": {
+      "bytes": 4103,
+      "sha256": "553e7d36c481d79f47c4ea24c840d84383316199de57a46ce1ee03915890ccac"
+    },
+    "tests/test_vertical_cli_fallback_v2_root_ci.py": {
+      "bytes": 2681,
+      "sha256": "8ebae8315a4c0204dad77e52f6b813820b129895fa6cb3129532f39ee29b157e"
+    },
+    "TDD/root-ci-reader-final-green-v1.stdout": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "TDD/root-ci-reader-final-green-v1.stderr": {
+      "bytes": 365,
+      "sha256": "c75f355334e3f7d3df36b4c9ac94ee8e73c6bcace0c4bd7dadf3e1f5cb20fd46"
+    }
+  },
+  "completed_CI_packet_sha256": "d0b053b8e362729c3f02a46a27803869b461890e6e5fbe49fafe56a0c26f6a7d",
+  "negative_test_refinement": "remove only the quality-test line while retaining the commit head and all other log lines",
+  "NN_calls": 0
+}
