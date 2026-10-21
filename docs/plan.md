@@ -4,8 +4,8 @@
 
 - v2全件run39593424953は全59 jobs成功。26,220結果/79,020 CSV行/39,510比較を独立再計算し、入力別文字/語悪化0、Page本文/bbox/f32 bits変更0。820 raw採点経路gainは既知scopeで、新72の10本文画像/raw22改善を二重計上しない。元59 ZIPとnative以外のstageを公開した。`docs/vertical_cli_fallback_v2_full_results.md`。
 - guard後にRootへ接続し、src全92を凍結v2へ橋渡しした。初回qualityのcharset配置不足と、旧freeze847件が新test/fixtureを欠くことを独立readerが検出した。失敗を保持し、test-only asset指定と、literal include先も列挙するhelper（2 Red→2 Green）で修正。Root v3は852 file、own全fresh=false、runtime不変を確認した。
-- 完全ScopeでCLI2 Green/quality3設定一致、ONNX lib468成功/114 ignored、通常lib456成功/39 ignored、CLI parser10成功、feature無効16 process不変、fmt/両Clippy成功。packet reader2件もGreen。`docs/vertical_cli_fallback_v2_root_results.md`。次は本体headの必須CI全5成功を確認する。
-- Rの新72対照はNN0で公開済み。5,256 glyph、216 geometry入力/2,952 part/186,559,200画素を独立照合し字形途中cut0。helper/reader計5 testsとモデル不要CIは成功。R runtime/認識はまだ開始せず、FVC v2のRoot CI後に進む。`docs/vertical_moderate_prefix_preparation_results.md`。
+- 完全ScopeでCLI2 Green/quality3設定一致、ONNX lib468成功/114 ignored、通常lib456成功/39 ignored、CLI parser10成功、feature無効16 process不変、fmt/両Clippy成功。packet reader2件もGreen。`docs/vertical_cli_fallback_v2_root_results.md`。本体0a0の必須CI全5 jobsは再実行後に成功し、最新12386efのCIも成功した。`docs/vertical_cli_fallback_v2_root_ci.md`。
+- Rの新72 native比較を完了。隔離source/fresh実行物で3,456出力・10,368 CSV行・1,728 raw比較を独立検算し、文字/語悪化0・保護違反0だが、本文改善0・全mean bits不変。事前条件に従いR全体を保留し、条件を再調整せず全既知gate/本体接続へ進めない。完了readerは未実装Red→2 Green、Rのモデル不要計12 tests成功。`docs/vertical_moderate_prefix_results.md`。
 
 ## 2026-10-21: RootのCLI回帰2 Redとknown候補2 Greenを固定
 
