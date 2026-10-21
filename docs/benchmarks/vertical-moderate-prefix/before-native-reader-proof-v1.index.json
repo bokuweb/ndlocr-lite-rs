@@ -1,0 +1,73 @@
+{
+  "archive": "before-native-reader-proof-v1.zip",
+  "bytes": 9833,
+  "sha256": "ab21bd07719fc80680a37853d797383a37660fb486146ea42ee51726ccf23de2",
+  "members": {
+    "tools/verify_moderate_prefix_native_before.py": {
+      "bytes": 6051,
+      "sha256": "14dfc404920670a17acd15cd39ba5a7cddbf1362687b28b1f6ddd75cbe33d8ac"
+    },
+    "tests/test_moderate_prefix_native_before.py": {
+      "bytes": 775,
+      "sha256": "b6f7c583e4643592d8e11d25e3af0783196debe946143ec6437f96aa6a68fe1b"
+    },
+    "tools/moderate_prefix_native_metrics.py": {
+      "bytes": 1460,
+      "sha256": "7d8282844d7797f2e9fd8283ba6b591793fd753b79762736ddcd115821b7df08"
+    },
+    "tests/test_moderate_prefix_native_metrics.py": {
+      "bytes": 1912,
+      "sha256": "761d90d03eeafaae4f65fbf90fa51f3d7791d686981a851df2518e9ce5cd93a5"
+    },
+    "docs/vertical_moderate_prefix_before_native_packet.md": {
+      "bytes": 1037,
+      "sha256": "1881ee99db91dea1284f151497102f6fadff8aabdec430244574e6b15b44048f"
+    },
+    "TDD/native-before-reader-red-v1.stdout": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "TDD/native-before-reader-red-v1.stderr": {
+      "bytes": 764,
+      "sha256": "50e3c1596a843e1ef0455a9681275bc98a610ab3a843367c09db4dc414ba197a"
+    },
+    "TDD/native-before-reader-green-v1.stdout": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "TDD/native-before-reader-green-v1.stderr": {
+      "bytes": 316,
+      "sha256": "ab974b0587a98d39fd6fd7058a8d1de279316f063f4cc40144de2d27b85df786"
+    },
+    "TDD/native-metrics-red-v1.stdout": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "TDD/native-metrics-red-v1.stderr": {
+      "bytes": 1394,
+      "sha256": "af5189c3c32da4e6f8e1dc86e01517bc10d4629ead746a8ca2e44038a80439e7"
+    },
+    "TDD/native-metrics-green-v1.stdout": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "TDD/native-metrics-green-v1.stderr": {
+      "bytes": 380,
+      "sha256": "96eb266006656d0ff23da1e048090675cdafdc53c126feb71ca005ea75c2a8f8"
+    },
+    "TDD/all-before-native-tests-v1.stdout": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "TDD/all-before-native-tests-v1.stderr": {
+      "bytes": 2176,
+      "sha256": "bc7825a753d067f111f04fc6dd20c34b3515e942b2f4ce3068713d32e9b22701"
+    },
+    "TDD/pack_before_native_v1.py": {
+      "bytes": 3035,
+      "sha256": "52f97939af13ab4d2830a2e03b542d8d1f2f56b998a992d6b86d92557a3491ec"
+    }
+  },
+  "before_native_packet_sha256": "8e1ba8c8bd6a3f511bc79c4a0c1edf372789b641cfd7d6930cf854abd5a6a793",
+  "NN_calls": 0
+}
