@@ -11,3 +11,7 @@ ONNX Clippyで新しいwarningが消えたことを確認する。これはrefac
 
 all-targets Clippyは成功したが、既存のFVB境界テストの`1 * w`にも恒等演算警告があった。
 同じ座標`(w + 1) * 3`へ簡約する。製品の推論動作やテスト対象の画素は変えない。
+
+最終確認: 通常lib440成功/38ignored、FVB純粋14成功、fmt成功。ONNX all-targets Clippyも成功。
+lib18警告、lib-test30警告（17重複込み）を区別し、追加したFVB二ファイルのwarningは0だった。
+raw記録は`docs/benchmarks/vertical-page-fallback/iterator-refactor-final-QA-v1.*`へ保存した。

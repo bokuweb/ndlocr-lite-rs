@@ -1,5 +1,12 @@
 # ndlocr Python→Rust移植（ONNX）計画
 
+## 2026-10-21: CLI traceが完了、initial100の早い停止を確認
+
+- Linux run39552644890で既知3画像×3設定×2 sourceの18 CLI processを完了。通常/観測の本文・stdout・stderrがすべて一致し、27 crop RGBと54 CSV行を独立照合した。観測した非空pool batch9と、未計測の内部forward/sessionを区別する。
+- default3画像はinitial100だけを使い、promotionはなかった。30/50が同じ71字を返したbold例で100は24字だったが、他の2例では30が失敗し、50にも誤りが残った。新規改善の根拠にせず、一律のモデル切替は行わない。詳細は`docs/vertical_cli_cascade_trace_results.md`。
+- 初回は既存include_bytes!用PNGの同梱漏れでcompile停止/CLI0だった。元packet・失敗artifactを保持し、同じ基準commitのfixture追加をRed→Greenにした。推論Rust/モデル/3入力は不変。モデル不要readerも未実装Red→全件Greenになった。
+- refactorの最終通常lib440成功/38ignored、ONNX all-targets Clippy成功（lib18/lib-test30、17重複込み）を保存。1547b32のroot CIも全5 jobs成功。FVC新72比較は別runで継続し、その後の全件条件を`docs/vertical_cli_fallback_full_gate.md`に先行記述した。
+
 ## 2026-10-21: FVB本体の実モデルCI成功、追加実資料baselineとFVC実測
 
 - e559efbの全5 CI jobsが成功。Linux/macOSのONNX lib各563件と、必須モデルを使うPage回帰各1件も通過した。FVBの全921 NN入力/922採点ID×8経路gateは全44,256 CSV行・22,128前後比較を独立検算し、入力別悪化0/新本文raw7組改善/CLI不変で本体へ接続済み。

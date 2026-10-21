@@ -1,0 +1,17 @@
+{
+  "models_required": false,
+  "reader_Red_missing_module": 1,
+  "reader_Green": 1,
+  "verified_CSV_rows": 54,
+  "verified_crop_instances": 27,
+  "logs": {
+    "packet-reader-red.stderr": "E\n======================================================================\nERROR: test_saved_linux_observation_replays_without_models (test_cli_cascade_trace_packet.CliTracePacketTest)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tests/test_cli_cascade_trace_packet.py\", line 9, in test_saved_linux_observation_replays_without_models\n    from verify_cli_cascade_trace import verify\nModuleNotFoundError: No module named 'verify_cli_cascade_trace'\n\n----------------------------------------------------------------------\nRan 1 test in 0.000s\n\nFAILED (errors=1)\n",
+    "packet-reader-green.stderr": ".\n----------------------------------------------------------------------\nRan 1 test in 0.136s\n\nOK\n",
+    "local-model-free-replay-v1.json": "{\n  \"complete\": true,\n  \"CLI_processes\": 18,\n  \"verified_CSV_rows\": 54,\n  \"verified_crop_instances\": 27,\n  \"observed_nonempty_pool_batches\": 9,\n  \"default_nonempty_initial100\": 3,\n  \"default_nonempty_promotions\": 0,\n  \"adoption_comparison\": false\n}\n"
+  },
+  "source_sha256": {
+    "tools/verify_cli_cascade_trace.py": "da1f283efef423b8c918305e31b850a5c1ed98c3351c4b097234ca0fba4565bc",
+    "tests/test_cli_cascade_trace_packet.py": "80be53b7f40b6dca066bca45006d7dd4e86e2e87a3ca29f7b351a4b80afbd1ed",
+    ".github/workflows/low-stop-evidence.yml": "f3b8304899d67acba9ab2b90372f65e860f4728883ca241b0e155f44ede49827"
+  }
+}

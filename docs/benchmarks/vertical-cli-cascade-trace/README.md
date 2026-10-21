@@ -7,8 +7,10 @@ native executables are excluded. Production inference is unchanged.
 The observer wraps each existing cached batch once, records original RGB and
 result bits, and takes separate post-initial and final snapshots. The original
 batch method is byte-identical. Pool batches are not internal forward counts.
-Pure observer tests have passed; the connected CLI's real transparency check is
-still pending. This packet does not assert an accuracy improvement.
+Linux run39552644890 completed all 18 processes: every normal/observer output
+matched, 27 crop instances matched the original PNGs, and all 54 metric rows
+were independently verified. The first compile-fixture failure is retained.
+This packet does not assert an accuracy improvement.
 
 The Linux workflow builds fresh release executables and requires different CLI
 hashes; the unused Page example may be identical. It runs three configurations
@@ -26,3 +28,13 @@ python3 tools/cli_cascade_trace.py --output NEW_DIRECTORY
 
 See [the protocol](../../vertical_cli_cascade_trace.md). Any policy change needs
 its own specification, tests, new controls and complete regression gate.
+
+`complete-linux-trace-v1.zip/json` preserves all 164 raw artifact members with
+SHA-256 bindings. [Results](../../vertical_cli_cascade_trace_results.md) show
+that all three defaults selected initial100, with no nonempty promotions.
+Replay the completed evidence without models or fonts:
+
+```sh
+python3 tools/verify_cli_cascade_trace.py
+python3 -m unittest discover -s tests -p test_cli_cascade_trace_packet.py
+```

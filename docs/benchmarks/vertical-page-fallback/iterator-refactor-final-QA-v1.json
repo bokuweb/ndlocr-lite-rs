@@ -1,0 +1,52 @@
+{
+  "archive": "iterator-refactor-final-QA-v1.zip",
+  "bytes": 18737,
+  "sha256": "122bcbc7a53d1e9753f002573709edbe34082738d2e605c16599046d448ebec4",
+  "members": {
+    "envelope-refactor-final-clippy.stdout": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "envelope-refactor-final-clippy.stderr": {
+      "bytes": 29921,
+      "sha256": "a920d129a52e1b42f0e494b067af5cf785ee2a438664555a75a7a654d24ab2a1"
+    },
+    "envelope-refactor-final-default-lib.stdout": {
+      "bytes": 55520,
+      "sha256": "80a6c5a7375dd10a416740569eaf8ec8a57b7c4e2f35f1957d57862fa291846b"
+    },
+    "envelope-refactor-final-default-lib.stderr": {
+      "bytes": 1462,
+      "sha256": "fad5e501742579ba94a44eab397e48d4af52b3694f28f508a2df4e3c1b589430"
+    },
+    "envelope-refactor-final-tests.stdout": {
+      "bytes": 1670,
+      "sha256": "c0dfad6544f706d6c448e7cec35dbcd5b7050b39f9ef19916dfa8803f6540f24"
+    },
+    "envelope-refactor-final-tests.stderr": {
+      "bytes": 560,
+      "sha256": "328877ba61c8d2655a7491b83e1dfae165b23860d69b2190c07a74d025083023"
+    },
+    "envelope-refactor-final-fmt.stdout": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "envelope-refactor-final-fmt.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "runtime_refactor_commit": "32ef16d",
+  "tested_head": "e45db7a05b4af348016b70da7fa1d8e111f09165",
+  "source_files": {
+    "src/infer/vertical_fallback.rs": "cdac7db67f1369f8ab223cbeb7cd5477421929792a2778b8e4dedddf027b5f81",
+    "tests/support/vertical_fallback_geometry.rs": "59da6f9270d221b0ce9aa302f026ef5800b429c8ced9a7c5959a5dc4fa8f1f1f"
+  },
+  "default_lib_passed": 440,
+  "default_lib_ignored": 38,
+  "vertical_fallback_pure_passed": 14,
+  "onnx_lib_Clippy_warnings": 18,
+  "onnx_lib_test_Clippy_warnings_including_duplicates": 30,
+  "new_FVB_source_warning": 0,
+  "behavior_change": false
+}
