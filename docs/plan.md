@@ -1,5 +1,17 @@
 # ndlocr Python→Rust移植（ONNX）計画
 
+## 2026-10-21: FVB全件CI、Q保留と低信頼停止Sの隔離検証
+
+- 本体推論はO/1f240beから不変。PR22の06401d7は通常/実モデルの全5 CI jobs成功。FVBはfbd9896の凍結packetから921 NN入力/922採点ID×8経路をLinux/releaseで再測定中（run39514388558）。同じpacketの重複run39514635185は取り消し、未完了結果を成功へ数えない。
+- FVBの公開Page回帰は別Linux CI/run39514635451でOの本文assertion Red1件/FVB Green1件を実行した。source/fixture/test/bundle/fresh artifact対応を再検算し、raw build/test記録を別SHA付きarchiveへ保存した。全件gateはまだ必要。
+- P5は羅生門3列×6設定の18 Page結果を観測し、全本文/矩形/mean bitsが既存Oと一致した。18 primary/12 O part RGBは独立PILと一致、実PARSeq forward30試行/30成功。1列・model30の2設定だけO planが成立し、両分割が全文で合意したがraw途中欠落と空白差のため棄却した。他16は容量付近条件に不適格。個別glyph欠損は未注釈null。
+- `docs/vertical_unique_internal_insertion.md`のQを実装/新対照/追加NN前に固定した。O優先、既存plan/NN部分結果だけを再利用し、唯一の内部連続挿入で元rawの全字/空白を保つ。純粋helperは5 Red→9 Green、支持/meanは3 Red→5 Greenで計14試験（各512例の2 property）を通した。NNなしの既知部分結果105組のRust/独立採否・mean bitsは一致し、採用は既知羅生門1列/2設定のみ。これはcounterfactualであり実Page結果とは区別する。
+- 隔離Qを実Pageへ接続し、同じ既知例でO Red1件/Q Green1件を確認した。元ASCII空白・矩形・confidence bits、eval/default、不正入力後再利用を保持し、生文字距離6→1/語2→2。通常lib426成功/38ignored、ONNX nonignored438成功/112ignored。本体へは未接続。
+- 新Q72（本文54/図形18）をNN前に固定し、3,348 glyphの独立配置が一致した。旧198+新72の6,480幾何記録/26,506 cropを独立検算し、supported glyph切断0/legacy156を区別、旧198の4,752記録は公開canonicalと一致した。新72×3model×8 nativeの前後比較を完了し、3,456画像結果・10,368公式CSV行を独立検算した。全1,728前後組で本文/mean bits不変、新本文改善0のため全Qを保留した。既知1列だけの改善で採用しない。
+- R0は既知H残留誤り3組をGT選択した診断で、22 raw Horizontal cropを実測した。二分割合意で安全な挿入は成立せず、新しい方針を採用しなかった。S0はそのうちLowConfidence停止1組だけを細分化し、追加8認識・既存4再利用で両routeが同じ50 scalarを返した。元H43 scalarを残す7文字内部挿入が唯一になったが、既知例の診断として扱う。
+- Sの先行仕様`docs/vertical_low_stop_recovery.md`はH実採用・静的/実shape一致・実LowConfidenceを必要とし、divisor2/4のEOS・高信頼・非飽和・全一致から一意内部挿入だけを許す。隔離コピーで停止metadata wrapper、純粋採否、元RGB再認識呼出しを小さくRed/Greenし、24試験を通した。旧1/2 geometryの共有化前後も486 RGB×3 modelの1,458組で準備RGB/境界を完全照合した。追加NN前に新72を固定した。全558 RGB・注釈378枚・1,674条件の候補1,141条件で24,147 cropがPILと一致し、glyph内部切断0。実native既知例はRed1→Green1で7文字を回復、ONNX非ignored462成功/115 ignored。新72×3model×8経路の6コマンドを完了し、3,456画像結果と10,368公式CSV行を独立照合した。全1,728前後組が本文/mean bits不変、新規改善0で全Sを保留した。本体へ未接続。詳細は`docs/vertical_low_stop_results.md`。
+- 別OSのbuild記録のfilesystem resolveを避けるreader回帰と、PR全体のpathsに加えて今回pushの差分を見るCI guardをRed/Greenで追加した。モデル不要14試験が成功。改善全体は継続中。
+
 ## 2026-10-21: FVAを非文字への幻字と本文悪化で保留、FVBを別検証
 
 - FVAは全240入力×Page API6経路で47入力/経路組の本文を変えた。公式/独立CSV8,640行は一致したが、10入力・19経路組（3正規化で57件）で悪化したため全案を保留する。悪化を伴わない28組の改善で相殺しない。詳細は`docs/vertical_page_fallback_results.md`。

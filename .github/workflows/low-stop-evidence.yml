@@ -1,0 +1,30 @@
+name: Frozen low-stop development evidence
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/low-stop-evidence.yml'
+      - 'tools/verify_low_stop_evidence.py'
+      - 'tools/low_stop_evidence_requirements.txt'
+      - 'tests/test_vertical_low_stop_evidence.py'
+      - 'docs/benchmarks/vertical-low-stop-development/**'
+      - 'docs/benchmarks/vertical-partition-agreement/fast_distance.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r tools/low_stop_evidence_requirements.txt
+      - name: Integrity, completeness, normalization and glyph boundary regressions
+        run: python -m unittest discover -s tests -p test_vertical_low_stop_evidence.py -v
+      - name: Verify saved metrics and reconstruct captured RGB hashes without NN
+        run: python tools/verify_low_stop_evidence.py

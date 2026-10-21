@@ -1,0 +1,48 @@
+{
+  "index_sha256": "cf79c58224eb0777e3de6177ea7e6627044b0c12f89902e9ec3f1b18f8d68a97",
+  "verifier_sha256": "fc7c8b6348dc59c367042b2cff10ba12ffdbfa0699a2496c2a678503b58c37ea",
+  "test_sha256": "a088207950f7bc7abf672b929a1c4da543108a2c28a0ab6145352eabe956170d",
+  "Pillow": "12.3.0",
+  "verification": {
+    "logical_files": 11828,
+    "objects": 2837,
+    "all_archive_and_logical_bindings_verified": true,
+    "new_NN_calls": 0,
+    "native": {
+      "Q": {
+        "verified_CSV_rows": 10368,
+        "changed_input_routes": 0,
+        "regressions": 0,
+        "fresh_raw_gain_pairs": 0,
+        "decision": "HOLD_Q_NO_NEW_NATIVE_GAIN"
+      },
+      "S": {
+        "verified_CSV_rows": 10368,
+        "changed_input_routes": 0,
+        "regressions": 0,
+        "fresh_raw_gain_pairs": 0,
+        "decision": "HOLD_S_NO_NEW_NATIVE_GAIN"
+      }
+    },
+    "geometry": {
+      "Q": {
+        "independently_reconstructed_crop_RGB_hashes": 26506,
+        "glyph_cut_events": {
+          "legacy": 156,
+          "supported": 0
+        },
+        "geometry_is_not_actual_NN_eligibility": true
+      },
+      "S": {
+        "independently_reconstructed_crop_RGB_hashes": 24147,
+        "glyph_cut_events": {
+          "legacy": 0,
+          "supported": 0
+        },
+        "geometry_is_not_actual_NN_eligibility": true
+      }
+    }
+  },
+  "new_NN_calls": 0,
+  "native_executables_not_invoked": true
+}
