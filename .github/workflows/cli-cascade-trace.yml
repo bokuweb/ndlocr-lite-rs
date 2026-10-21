@@ -1,0 +1,71 @@
+name: Known CLI model-stage trace
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/cli-cascade-trace.yml'
+      - 'tools/cli_cascade_trace.py'
+      - 'tests/test_cli_cascade_trace.py'
+      - 'docs/benchmarks/vertical-cli-cascade-trace/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  changes:
+    runs-on: ubuntu-latest
+    outputs:
+      run: ${{ steps.diff.outputs.run }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          sparse-checkout: tools
+      - id: diff
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          EVENT_ACTION: ${{ github.event.action }}
+          BEFORE: ${{ github.event.before }}
+        run: |
+          if [ "$EVENT_NAME" = pull_request ] && [ "$EVENT_ACTION" = synchronize ] && [ -n "$BEFORE" ]; then
+            git fetch --depth=1 origin "$BEFORE"
+            python3 tools/cli_cascade_trace.py --changes-from "$BEFORE" >> "$GITHUB_OUTPUT"
+          else
+            printf 'run=true\n' >> "$GITHUB_OUTPUT"
+          fi
+  trace:
+    needs: changes
+    if: needs.changes.outputs.run == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - name: Fetch declared baseline
+        run: git fetch --depth=1 origin 1f240be66f71dc1819a99c89095ad9fdf8953695
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r tools/low_stop_evidence_requirements.txt
+      - name: Model-free command and bundle contracts
+        run: |
+          python -m unittest discover -s tests -p test_cli_cascade_trace.py -v
+          python tools/cli_cascade_trace.py --validate
+      - name: Fetch pinned official assets
+        run: |
+          python tools/fetch_upstream_assets.py models
+          python tools/fetch_upstream_assets.py models --offline
+      - name: Fresh frozen builds and exactly 18 CLI observations
+        run: python tools/cli_cascade_trace.py --output out/cli-stage-trace
+      - name: Keep raw observations and failures
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: known-cli-model-stage-trace
+          path: out/cli-stage-trace/evidence
+          if-no-files-found: error
+          retention-days: 30
