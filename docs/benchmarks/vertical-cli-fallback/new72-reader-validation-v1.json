@@ -1,0 +1,14 @@
+{
+  "reader_Red_missing_module": 1,
+  "reader_Green": 1,
+  "logs": {
+    "new72-reader-red.stderr": "E\n======================================================================\nERROR: test_all_saved_72_by_four_routes_replay_and_keep_the_full_gate_pending (test_vertical_cli_fallback_packet.FullFvcNewControlsPacketTest)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tests/test_vertical_cli_fallback_packet.py\", line 9, in test_all_saved_72_by_four_routes_replay_and_keep_the_full_gate_pending\n    from verify_vertical_cli_fallback import verify\nModuleNotFoundError: No module named 'verify_vertical_cli_fallback'\n\n----------------------------------------------------------------------\nRan 1 test in 0.001s\n\nFAILED (errors=1)\n",
+    "new72-reader-green.stderr": ".\n----------------------------------------------------------------------\nRan 1 test in 0.484s\n\nOK\n"
+  },
+  "source_sha256": {
+    "tools/verify_vertical_cli_fallback.py": "d512bc4f6233c900c795eea189fbb764aae2b2aef6dbfbf2530c22f38f5132e4",
+    "tests/test_vertical_cli_fallback_packet.py": "5953e1a00b76f5876b529b8d260142ddbb6d1dabb8990dc12cb5c658d5a47b5e"
+  },
+  "image_results": 576,
+  "verified_CSV_rows": 1728
+}

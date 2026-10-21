@@ -1,5 +1,12 @@
 # ndlocr Python→Rust移植（ONNX）計画
 
+## 2026-10-21: FVC新72が先行gate成功、C1新96は改善0で保留
+
+- FVC新72×CLI4経路の前後576 process/画像結果を完了。公式/独立1,728 CSV行・864採点比較が一致し、文字/語の入力別悪化0、14本文画像のraw30経路組が改善した（bands on/off各14、DEIM各1）。全文/argv/sourceとbefore-NN packetの対応をreaderでも再検算した。本体はFVBのまま。
+- FVC全件gateを1,239物理ID/1,245採点IDへ拡張固定した。C1新96は入力だけ追加し、C1方針は混ぜない。新72の改善を再度新規へ数えず、24,780画像結果/74,700公式CSV行とPage本文/矩形/confidence bits不変を必要とする。9 model-free契約テスト、56完全shard、認識前argv計画、partialを保持するretry選択を準備し、Linux dispatchへ進む。仕様は`docs/vertical_cli_fallback_full_gate.md`。
+- C1既知CLIは24→71字のliteral Red1→Green1だったが、新96前後768結果/2,304 CSV行は全384 raw本文組が不変。悪化0でも新本文改善0なので全C1を保留し、全既知比較や本体接続へ進めない。source/入力/失敗/全結果を保持した。詳細は`docs/vertical_cli_model_agreement_results.md`。
+- root 6fcbe76の通常/実モデルCIは全5 jobs成功。最新の本体推論はFVBと等価iterator整理のままで、FVC/C1の隔離sourceを本体へ入れた結果ではない。改善作業は継続する。
+
 ## 2026-10-21: C1をNN前に固定、FVCと別の単列モデル合意案
 
 - `docs/vertical_cli_model_agreement_proposal.md`を先行し、initial100の支持不足だけを30/50全文一致・元全文prefix/空白保持・画像anchor/高confidenceで再確認するC1を隔離実装した。本体FVBや進行中FVCとは合成しない。callback1 Red→Green、棄却3 Red→Green、model shape/元crop2 Red→8 Green（128例PBTを含む）を確認。

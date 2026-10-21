@@ -1,8 +1,8 @@
-# FVC pure stage and new controls (no OCR yet)
+# FVC controls, isolated CLI and accuracy evidence
 
 FVC proposes extending FVB's supported single-column direction fallback to the CLI's
-existing no-detection/bands branch. Production is unchanged. **CLI orchestration is
-not connected, no actual model was loaded, and no accuracy gate has passed.**
+existing no-detection/bands branch. Production remains FVB. At the initial pure packet’s creation, CLI orchestration
+was not connected and no model recognition had run. Later stages are recorded below.
 
 `pure-before-nn-v1.zip` contains the prior specs, Red/Green source snapshots and logs,
 the isolated green source, generation receipts, 72 fixed PNG/RGB/GT controls, and
@@ -45,8 +45,8 @@ unit tests are green; the full default library passed 451 tests / 40 ignored, an
 21 existing app-layout/argument/feature-disabled integration tests passed.
 
 Both ONNX CLI executables and the identical regression-test source were compiled
-with fresh own-crate artifacts and frozen separately by SHA. **Actual ONNX CLI
-Red/Green and new-control accuracy measurements have not run.** The pinned known
+with fresh own-crate artifacts and frozen separately by SHA. At this adapter packet’s creation, actual ONNX CLI
+Red/Green and new-control accuracy measurements had not run. The pinned known
 regression is a single model30 override with cascade off and DEIM off/on, checking
 literal body and stdout's one framing LF. It does not prove default100/cascade behavior.
 Use `NDLOCR_TEST_CLI_BINARY` to select each frozen executable explicitly.
@@ -65,3 +65,21 @@ fonts, and duplicate copies of the original 72 controls are excluded. The prior
 control index is bound by SHA. Cached-recognizer methods, the feature-disabled
 recognition block, and downstream context/dict/rule-pack/output code remain byte
 identical to frozen FVB; only the isolated orchestration and adapter changed.
+
+
+## Completed new72 comparison
+
+`new72-cli-matrix-v1.zip/json` preserves 576 CLI results and 1,728 official metric
+rows, all independently replayed without models. There were zero input-level
+character/word regressions and 30 raw gain routes across 14 body images; only body
+outputs changed. The known CLI regression also produced baseline Red/candidate
+Green, with candidate body/stdout framing passing in both DEIM modes.
+
+```sh
+python3 tools/verify_vertical_cli_fallback.py
+python3 -m unittest discover -s tests -p test_vertical_cli_fallback_packet.py
+```
+
+This is a preliminary development gate. Production remains FVB while the
+[complete 1,239-ID matrix](full-matrix-v1/README.md), option controls and required
+suites/CI are pending. See [results](../../vertical_cli_fallback_results.md).

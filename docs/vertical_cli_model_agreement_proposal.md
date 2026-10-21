@@ -57,3 +57,7 @@ model shape/元RGB adapterの2 Red→8 Greenを確認した。隔離CLI接続後
 root f99e1feの561既存fixtureをSHA照合して両sourceへ複写した。推論は変えず、再実行448成功/38ignored。
 既知71字の実CLI試験は既存matrixと同じdefault引数/DEIM on、全3 PARSeq+DEIM/charset mandatory、
 凍結CLIをNDLOCR_TEST_CLI_BINARYで明示し、bodyとstdout LF1個と入力byte不変を確認する。
+
+既知例の実CLIでは基準版の24字本文assertion Red1→候補の71字本文/stdout LF Green1を確認した。
+モデル/入力/sourceは前後一致。tempfileの候補raw bodyは保持されず、literal assertionによる検証であることを明記する。
+新規改善0として扱い、別runで新96×4経路の前後768 processを開始した。完了まで採用しない。

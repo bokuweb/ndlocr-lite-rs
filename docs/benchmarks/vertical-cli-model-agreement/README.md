@@ -39,3 +39,15 @@ Full Rust suite replay also needs the 561 fixtures from root commit f99e1fe;
 their hashes are recorded. The compile-time PNG and new CLI fixture are embedded.
 See [the protocol](../../vertical_cli_model_agreement_proposal.md). This packet
 proves preparation and pure behavior, not an accuracy gain or adoption.
+
+A later `known-cli-red-green-v1.zip/json` records the known CLI regression:
+the fresh baseline failed the literal body assertion (24 scalars), and the
+candidate passed the 71-scalar body and stdout-LF assertions. Both used default
+CLI settings and pinned mandatory models; source/data/assets stayed unchanged.
+The Rust test did not retain its temporary candidate body, so this is a literal
+assertion proof, not a raw candidate-body capture. It counts zero new-control
+gains. The separate 768-process new96 comparison completed with 2,304 verified CSV
+rows, zero regressions and zero new body gains. C1 is held in full; no adoption.
+
+`new96-cli-held-v1.zip/json` retains all raw results and exact comparisons.
+See [the hold decision](../../vertical_cli_model_agreement_results.md).

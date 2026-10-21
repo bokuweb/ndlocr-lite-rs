@@ -62,8 +62,44 @@ def verify(folder):
     return {'complete':True,'controls':len(rows),'glyphs':glyphs,'known_physical_inputs':len(known),'duplicate_hashes':duplicates,'fresh_own_artifacts':artifacts,'production_hook':False,'NN_calls_at_packet_creation':0}
 
 
+def verify_known(folder):
+    import ast
+    import re
+    folder=Path(folder);index=json.loads((folder/'known-cli-red-green-v1.json').read_text());archive=folder/safe_member(index['archive'])
+    raw=archive.read_bytes();assert len(raw)==index['bytes'] and sha(raw)==index['sha256']
+    assert index['source_data_packet_sha256']==sha((folder/'pure-before-nn-v1.zip').read_bytes())
+    with zipfile.ZipFile(archive) as z:
+        assert len(z.namelist())==len(set(z.namelist())) and set(z.namelist())==set(index['members'])
+        data={}
+        for name,expected in index['members'].items():
+            safe_member(name);raw=z.read(name);assert len(raw)==expected['bytes'] and sha(raw)==expected['sha256'];data[name]=raw
+    receipt=json.loads(data['known-regression-v1/receipt.json'])
+    assert receipt['complete'] and receipt['known_Red_Green'] and receipt['frozen_materials_after_unchanged']
+    assert receipt['known_case_only'] and receipt['new_controls_gain_count']==0 and receipt['candidate_raw_body_not_retained_by_test']
+    assert receipt['pre_NN_packet_sha256']==index['source_data_packet_sha256']
+    assert receipt['pre_NN_registry_sha256']==sha((folder/'known-inputs-before-nn-v1.json.gz').read_bytes())
+    assert sha(data['run_known_regression_v1.py'])==receipt['driver_sha256']
+    assert [r['variant'] for r in receipt['runs']]==['baseline','candidate'] and [r['exit_code'] for r in receipt['runs']]==[101,0]
+    pure_index=json.loads((folder/'pure-before-nn-v1.json').read_text())
+    with zipfile.ZipFile(folder/pure_index['archive']) as z:
+        for run in receipt['runs']:
+            variant=run['variant'];frozen=json.loads(z.read('evidence/'+variant+'-frozen.json'))
+            assert receipt['plans'][variant]==frozen and run['CLI_binary']==frozen['binaries']['cli']['path']
+            assert run['argv']==[frozen['binaries']['test']['path'],'--include-ignored','--nocapture']
+            for suffix in ['stdout','stderr']:assert sha(data['known-regression-v1/'+variant+'.'+suffix])==run[suffix+'_sha256']
+        case=json.loads(z.read('sources/candidate/tests/fixtures/vertical_model_agreement_cli/case.json'))
+    stderr=data['known-regression-v1/baseline.stderr'].decode();assert 'literal 71-scalar body' in stderr
+    match=re.search(r'left: (\[[0-9, ]+\])',stderr);assert match
+    baseline=bytes(ast.literal_eval(match.group(1)));assert baseline==data['known-regression-v1/baseline-body-from-assertion.txt']
+    expected=case['expected'];assert expected.startswith(baseline.decode()) and len(baseline.decode())==24 and len(expected)==71
+    assert b'1 passed; 0 failed' in data['known-regression-v1/candidate.stdout']
+    return {'complete':True,'CLI_processes':2,'baseline_body_scalars':len(baseline.decode()),
+            'candidate_body_scalars_verified_by_test':len(expected),'candidate_raw_body_retained':False,'new_control_gains':0}
+
+
 if __name__=='__main__':
     import argparse
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--folder',type=Path,default=Path(__file__).resolve().parents[1]/'docs/benchmarks/vertical-cli-model-agreement')
-    args=parser.parse_args();print(json.dumps(verify(args.folder),indent=2))
+    parser.add_argument('--known',action='store_true')
+    args=parser.parse_args();print(json.dumps((verify_known if args.known else verify)(args.folder),indent=2))
