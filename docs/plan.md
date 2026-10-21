@@ -596,3 +596,16 @@
   新72対照を固定し、432 geometry条件/282cropを独立画素照合、文字範囲の欠け0を確認した。
   [証拠一式](benchmarks/vertical-cli-fallback/)を保存した。CLI接続・実モデル認識はまだ行っていない。
   FVB全件gateの整理後に、既知実CLI Red/Greenと新規比較へ進む。本体推論は引き続きO。
+
+### FVC隔離CLI adapterの継続（追加モデル認識0）
+
+- [adapter仕様](vertical_cli_fallback_adapter.md)を先行し、prepared crop/bucketの2 Redと
+  結果再利用の1 Redを経て、関連8テストをGreenにした。隔離CLIへ接続後、通常lib451成功/40ignored、
+  既存app/引数/feature無効のintegration21件が成功し、ONNX CLI/testをno-runでfreshにコンパイルした。
+- feature無効の実CLIは本文/白×DEIM off/on×asset missing/dummy×前後の16 processで、
+  exit/stdout/stderr/bodyが一致した。最初の8 process比較ではmissing-fileよりfeature-errorを先と
+  仮定したtest期待が失敗したため、製品を変えず前提を分け、失敗と出力を保存した。
+- [追加packet](benchmarks/vertical-cli-fallback/adapter-before-nn-v1.json)へ両source・Red/Green・build・
+  実CLI出力を保存した。モデル・native実行物は配布しない。隔離したONNX CLIは前後別SHAで固定し、
+  実モデルRed/Green・新72精度比較は未実行。本体推論は引き続きO、FVB全件比較は継続中。
+- 先の`21f3626`は通常/実モデルを含むCI全5ジョブ成功。これは本体OのCIであり、隔離FVCのモデル検証ではない。
