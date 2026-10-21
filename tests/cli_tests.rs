@@ -1,11 +1,26 @@
 use clap::Parser;
+use ndlocr_lite_rs::cli::{
+    Cli, Command, DEFAULT_CHARSET_PATH, DEFAULT_DETECT_MODEL_PATH, DEFAULT_RECOGNIZE_MODEL_PATH,
+    DEFAULT_RECOGNIZE_MODEL30_PATH, DEFAULT_RECOGNIZE_MODEL50_PATH,
+};
 
 #[test]
 fn frozen_vertical_fallback_option_argv_parse_before_any_recognition() {
-    let rows: Vec<Vec<String>> =
-        serde_json::from_str(include_str!("fixtures/cli_options/v2-plan-argv.json")).unwrap();
+    use std::io::{Cursor, Read};
+    let mut archive = zip::ZipArchive::new(Cursor::new(include_bytes!(
+        "../docs/benchmarks/vertical-cli-fallback-v2/options-plan-before-nn-v2.zip"
+    )))
+    .unwrap();
+    let mut text = String::new();
+    archive
+        .by_name("evidence/option-plan-before-NN-v2.json")
+        .unwrap()
+        .read_to_string(&mut text)
+        .unwrap();
+    let rows: Vec<serde_json::Value> = serde_json::from_str(&text).unwrap();
     assert_eq!(rows.len(), 384);
-    for (index, argv) in rows.into_iter().enumerate() {
+    for (index, row) in rows.into_iter().enumerate() {
+        let argv: Vec<String> = serde_json::from_value(row["argv"].clone()).unwrap();
         let enabled = argv.iter().any(|value| value == "--quality-boost");
         let parsed = Cli::try_parse_from(argv)
             .unwrap_or_else(|error| panic!("option argv {index}: {error}"));
@@ -15,10 +30,6 @@ fn frozen_vertical_fallback_option_argv_parse_before_any_recognition() {
         }
     }
 }
-use ndlocr_lite_rs::cli::{
-    Cli, Command, DEFAULT_CHARSET_PATH, DEFAULT_DETECT_MODEL_PATH, DEFAULT_RECOGNIZE_MODEL_PATH,
-    DEFAULT_RECOGNIZE_MODEL30_PATH, DEFAULT_RECOGNIZE_MODEL50_PATH,
-};
 
 #[test]
 fn parse_detect_command() {
