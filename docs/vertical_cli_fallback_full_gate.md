@@ -48,3 +48,11 @@ baselineの281 bound filesが元FVB候補と一致し、追加差が実CLI test�
 
 Pageは不変を検証する経路なので、両own artifactがfresh=falseならPage実行物の同一SHAも許す。
 CLI変更案にPage用check_binary_pairを流用せず、Pageは前後とも実測して本文/矩形/confidence bitsを全件比較する。
+
+## 最初の全件runのformat修正
+
+run39565834405は、118 JPEGも.png名へ展開したharnessの不備でbaselineの画像decodeが失敗した。
+進行中runを中止し、46 workerのpartialとbuild/logを別archiveへ保存した。完了worker0で全件結果へ数えず、
+実際のpartial Page API/内部forward数は不明として保持する。画像/GT/source/モデルのbyteは変更しない。
+元の拡張子を展開・CLI計画・検算で保持する回帰を先に2 Redとし、修正後11 Green。
+全1,239ファイルでSHAとmagic signature（PNG1,121/JPEG118）が一致した。新しいrunで全56分割を再測定する。

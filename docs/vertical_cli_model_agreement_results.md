@@ -9,3 +9,6 @@ source/lock/model/charset/PNG/RGB/GT・fresh実行物のSHAは前後一致した
 
 FVCの全既知比較ではこの96も入力に含めるが、C1の方針やsource差分は混ぜない。
 C1の高コスト全既知matrixや本体接続は行わず、原source/全結果/失敗履歴を保持する。
+
+公開readerも未実装Red→全3試験Greenで、全2,304行と1,152比較をモデル不要で再現した。
+`python3 tools/verify_vertical_cli_model_agreement.py --held`で保留判断を再検算できる。

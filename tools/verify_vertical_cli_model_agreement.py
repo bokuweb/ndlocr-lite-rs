@@ -97,9 +97,73 @@ def verify_known(folder):
             'candidate_body_scalars_verified_by_test':len(expected),'candidate_raw_body_retained':False,'new_control_gains':0}
 
 
+def verify_new_controls(folder):
+    import csv
+    from vertical_page_matrix import cli_command
+    from verify_low_stop_evidence import metric_values
+    folder=Path(folder);index=json.loads((folder/'new96-cli-held-v1.json').read_text());archive=folder/safe_member(index['archive']);raw=archive.read_bytes()
+    assert len(raw)==index['bytes'] and sha(raw)==index['sha256']
+    with zipfile.ZipFile(archive) as z:
+        assert len(z.namelist())==len(set(z.namelist())) and set(z.namelist())==set(index['members'])
+        data={}
+        for name,h in index['members'].items():
+            safe_member(name);raw=z.read(name);assert len(raw)==h['bytes'] and sha(raw)==h['sha256'];data[name]=raw
+    pure_index=json.loads((folder/'pure-before-nn-v1.json').read_text());assert index['source_input_packet_sha256']==pure_index['sha256']==sha((folder/pure_index['archive']).read_bytes())
+    with zipfile.ZipFile(folder/pure_index['archive']) as z:
+        source={n:z.read(n) for n in z.namelist()}
+    assert all(len(source[n])==h['bytes'] and sha(source[n])==h['sha256'] for n,h in pure_index['members'].items())
+    known_index=json.loads((folder/'known-cli-red-green-v1.json').read_text());assert index['known_regression_packet_sha256']==known_index['sha256']
+    with zipfile.ZipFile(folder/known_index['archive']) as z:known_receipt=z.read('known-regression-v1/receipt.json')
+    job=json.loads(data['new96/job.json']);assert job['complete'] and job['frozen_materials_after_unchanged']
+    assert sha(data['evidence/run_new96_matrix_v1.py'])==job['driver_sha256'] and sha(known_receipt)==job['known_regression_receipt_sha256']
+    assert job['internal_forward_calls'] is None and job['model_session_loads'] is None
+    assert job['CI']['conclusion']=='success' and all(r['conclusion']=='success' for r in job['CI']['jobs'])
+    raw=source['evidence/new-manifest.json'];assert sha(raw)==job['manifest_sha256'];inputs=json.loads(raw)['inputs'];assert len(inputs)==96
+    for variant,plan in job['plans'].items():assert plan['frozen']==json.loads(source['evidence/'+variant+'-frozen.json'])
+    assert job['plans']['baseline']['frozen']['binaries']['cli']['sha256']!=job['plans']['candidate']['frozen']['binaries']['cli']['sha256']
+    for row in inputs:
+        for key in ['image','rgb','truth']:assert sha(source['controls/inputs/'+Path(row[key]).name])==row[key+'_sha256']
+        assert data['new96/metrics/truth/'+row['id']+'.txt']==source['controls/inputs/'+Path(row['truth']).name]
+    metadata={tuple(r['argv']):r for r in job['commands']};assert len(metadata)==771
+    for name,raw in data.items():
+        if name.startswith('new96/commands/') and name.endswith('.json'):
+            receipt=json.loads(raw);assert receipt['exit_code']==0 and receipt==metadata[tuple(receipt['argv'])]
+    predictions={};processes=0
+    for variant,plan in job['plans'].items():
+        for mode in ['deim','bands']:
+            for cascade in [True,False]:
+                route=mode+'_cascade_'+str(cascade).lower();key=variant+'_'+route;predictions[key]={}
+                for row in inputs:
+                    ident=row['id'];label=key+'_'+ident;body=data['new96/predictions/'+key+'/'+ident+'.txt'];assert data['new96/commands/'+label+'.stdout']==body+b'\n'
+                    receipt=json.loads(data['new96/commands/'+label+'.json']);argv=receipt['argv'];models=Path(argv[argv.index('--model')+1]).parent
+                    expected=cli_command(plan['frozen']['binaries']['cli']['path'],row['image'],models,job['assets'],mode,Path(argv[argv.index('--output-txt')+1]))+['--enable-cascade',str(cascade).lower()]
+                    assert argv==expected;predictions[key][ident]=body.decode();processes+=1
+    verified=0;pairs=[];gains=[];regressions=[]
+    for mode in ['none','width','strict']:
+        table=list(csv.DictReader(io.StringIO(data['new96/metrics/'+mode+'.csv'].decode())));assert len(table)==768 and len({(r['system'],r['file']) for r in table})==768
+        for row in table:
+            expected=metric_values(data['new96/metrics/truth/'+row['file']].decode(),data['new96/predictions/'+row['system']+'/'+row['file']].decode(),mode)
+            assert tuple(int(row[k]) for k in ['char_errors','char_total','word_errors','word_total'])==expected;verified+=1
+        metrics={(r['system'],r['file']):r for r in table}
+        for row in inputs:
+            for route in ['deim_cascade_true','deim_cascade_false','bands_cascade_true','bands_cascade_false']:
+                before=metrics['baseline_'+route,row['id']+'.txt'];after=metrics['candidate_'+route,row['id']+'.txt']
+                entry={'normalization':mode,'id':row['id'],'cohort':row['cohort'],'route':route,'before':before,'after':after,
+                       'body_unchanged':predictions['baseline_'+route][row['id']]==predictions['candidate_'+route][row['id']]};pairs.append(entry)
+                if any(int(after[k])>int(before[k]) for k in ['char_errors','word_errors']):regressions.append(entry)
+                if mode=='none' and row['cohort']=='new_c1_vertical_text' and int(after['char_errors'])<int(before['char_errors']) and int(after['word_errors'])<=int(before['word_errors']):gains.append(entry)
+    for name,expected in [('comparisons',pairs),('new-body-gains',gains),('regressions',regressions)]:assert json.loads(data['new96/'+name+'.json'])==expected
+    unchanged=sum(r['body_unchanged'] for r in pairs if r['normalization']=='none')
+    assert verified==2304 and processes==768 and unchanged==384 and not gains and not regressions
+    assert not json.loads(data['new96/summary.json'])['matrix_gate_pass']
+    return {'complete':True,'image_results':processes,'verified_CSV_rows':verified,'raw_body_unchanged_pairs':unchanged,
+            'new_body_raw_gain_pairs':len(gains),'regression_pairs':len(regressions),'decision':'HOLD_C1_NO_NEW_BODY_GAIN'}
+
+
 if __name__=='__main__':
     import argparse
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--folder',type=Path,default=Path(__file__).resolve().parents[1]/'docs/benchmarks/vertical-cli-model-agreement')
     parser.add_argument('--known',action='store_true')
-    args=parser.parse_args();print(json.dumps((verify_known if args.known else verify)(args.folder),indent=2))
+    parser.add_argument('--held',action='store_true')
+    args=parser.parse_args();print(json.dumps((verify_new_controls if args.held else verify_known if args.known else verify)(args.folder),indent=2))

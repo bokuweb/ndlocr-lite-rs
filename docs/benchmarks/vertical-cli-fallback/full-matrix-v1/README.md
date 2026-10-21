@@ -35,3 +35,10 @@ python3 tools/vertical_cli_fallback_full_matrix.py --validate
 Full recognition is started explicitly with the workflow dispatch. Ordinary PR
 changes run model-free contracts. See `protocol-before-nn.md` for the fixed scope.
 No fonts, model weights or native executables are stored in Git.
+
+The first dispatched run39565834405 was cancelled after JPEG bytes were incorrectly
+written with PNG suffixes. `wrong-extension-attempt-v1.*` preserves all downloaded
+46 partial worker records and build logs; zero worker completed. The source images,
+models, GT and inference source stayed unchanged. Two format regressions failed
+before the harness fix, and all 11 contracts now pass, checking all 1,121 PNG and
+118 JPEG signatures and hashes. The retry measures every shard again.

@@ -25,3 +25,14 @@ class CliAgreementKnownRegressionTest(unittest.TestCase):
         self.assertEqual(result['candidate_body_scalars_verified_by_test'],71)
         self.assertEqual(result['new_control_gains'],0)
         self.assertFalse(result['candidate_raw_body_retained'])
+
+class CliAgreementHeldControlsTest(unittest.TestCase):
+    def test_all_768_results_replay_and_keep_the_policy_held(self):
+        from verify_vertical_cli_model_agreement import verify_new_controls
+        result=verify_new_controls(Path(__file__).resolve().parents[1]/'docs/benchmarks/vertical-cli-model-agreement')
+        self.assertEqual(result['image_results'],768)
+        self.assertEqual(result['verified_CSV_rows'],2304)
+        self.assertEqual(result['raw_body_unchanged_pairs'],384)
+        self.assertEqual(result['new_body_raw_gain_pairs'],0)
+        self.assertEqual(result['regression_pairs'],0)
+        self.assertEqual(result['decision'],'HOLD_C1_NO_NEW_BODY_GAIN')

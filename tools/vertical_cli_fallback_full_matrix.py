@@ -9,6 +9,14 @@ HARNESS_FILES=('tools/vertical_cli_fallback_full_matrix.py','tools/vertical_page
                'docs/benchmarks/vertical-partition-agreement/fast_distance.py')
 
 
+def input_relative_path(row):
+    from pathlib import Path
+    ident=row['id'];suffix=Path(row['image']).suffix.lower()
+    if not re.fullmatch(r'[A-Za-z0-9_-]+',ident) or suffix not in {'.png','.jpg','.jpeg'}:
+        raise ValueError('invalid frozen image name or format')
+    return Path('inputs')/(ident+suffix)
+
+
 def merge_controls(groups):
     images=[];scores=[]
     valid=lambda value:isinstance(value,str) and re.fullmatch(r'[A-Za-z0-9_-]+',value)
@@ -70,6 +78,7 @@ class FullBundle:
         from verify_vertical_cli_fallback import packet,verify
         self.folder=Path(folder)
         self.index,self.extra=packet(self.folder,'bundle.json')
+        assert sha((self.folder/'protocol-before-nn.md').read_bytes())==self.index['protocol_sha256']
         self.base=Bundle(self.folder.parent.parent/'vertical-page-fallback')
         assert sha((self.base.folder/'bundle.json').read_bytes())==self.index['base_bundle_sha256']
         adapter_index,adapter=packet(self.folder.parent,'adapter-before-nn-v1.json')
@@ -120,7 +129,7 @@ class FullBundle:
         rows=[]
         for row in selected:
             assert re.fullmatch(r'[A-Za-z0-9_-]+',row['id'])
-            path=directory/(row['id']+'.png');path.write_bytes(self.read_image(row));rows.append({'id':row['id'],'image':str(path)})
+            path=work/input_relative_path(row);path.write_bytes(self.read_image(row));rows.append({'id':row['id'],'image':str(path)})
         return {'inputs':rows}
 
 
@@ -221,7 +230,7 @@ def worker_commands(assets,binaries,selected,kind,work,evidence,models):
         else:
             for row in selected:
                 ident=row['id'];body=evidence/'cli'/variant/(ident+'.txt')
-                argv=full_cli_command(binaries[variant]['cli'],work/'inputs'/(ident+'.png'),models,assets,kind,body)
+                argv=full_cli_command(binaries[variant]['cli'],work/input_relative_path(row),models,assets,kind,body)
                 commands.append({'variant':variant,'id':ident,'label':variant+'-'+kind+'-'+ident,'argv':[str(x) for x in argv],'target':str(body)})
     return commands
 
@@ -258,7 +267,7 @@ def run_shard(bundle,stage,kind,index,total,output,models):
         assert matrix.sha((bundle.folder/'bundle.json').read_bytes())==meta['bundle_sha256']
         assert matrix.sha(Path(__file__).read_bytes())==meta['producer_sha256']
         for a in bundle.index['assets'].values():assert matrix.sha((models/a['name']).read_bytes())==a['sha256']
-        for row in selected:assert matrix.sha((work/'inputs'/(row['id']+'.png')).read_bytes())==row['image_sha256']
+        for row in selected:assert matrix.sha((work/input_relative_path(row)).read_bytes())==row['image_sha256']
         for row in scoring:assert matrix.sha(bundle.read_truth(row))==row['truth_sha256']
         assert matrix.sha(manifest_path.read_bytes())==meta['manifest_sha256']
     matrix.write_json(evidence/'job.json',meta)
@@ -331,7 +340,7 @@ def compare_all(bundle,stage,artifacts,output):
         assert all(set(r)=={'id','image'} for r in manifest['inputs'])
         assert matrix.sha((json.dumps(manifest,ensure_ascii=False,indent=2)+'\n').encode())==meta['manifest_sha256']
         work=Path(manifest['inputs'][0]['image']).parent.parent
-        assert all(r['image']==str(work/'inputs'/(r['id']+'.png')) for r in manifest['inputs'])
+        assert all(actual['image']==str(work/input_relative_path(row)) for actual,row in zip(manifest['inputs'],selected))
         assert meta['runtime_environment']=={'NDLOCR_INTRA_THREADS':'1','NDLOCR_PARSEQ_PARALLELISM':'1','LD_LIBRARY_PATH':str(Path(meta['stage_directory'])/'runtime')}
         assert meta['planned_commands']==worker_commands(bundle.index['assets'],meta['binary_paths'],selected,kind,work,work.parent/'evidence',models)
         before_nn=json.loads((directory/'before-NN.json').read_text());assert before_nn['planned_commands']==meta['planned_commands']
@@ -353,7 +362,7 @@ def compare_all(bundle,stage,artifacts,output):
                 values={}
                 for row in selected:
                     ident=row['id'];label=variant+'-'+kind+'-'+ident;receipt=json.loads((directory/'commands'/(label+'.json')).read_text())
-                    argv=receipt['argv'];body=work.parent/'evidence/cli'/variant/(ident+'.txt');expected=full_cli_command(expected_binaries['cli'],work/'inputs'/(ident+'.png'),models,bundle.index['assets'],kind,body)
+                    argv=receipt['argv'];body=work.parent/'evidence/cli'/variant/(ident+'.txt');expected=full_cli_command(expected_binaries['cli'],work/input_relative_path(row),models,bundle.index['assets'],kind,body)
                     matrix.verify_command(directory/'commands'/(label+'.json'),expected)
                     values[ident]=matrix.read_cli_result(directory/'commands'/(label+'.stdout'),directory/'cli'/variant/(ident+'.txt'))
                 merge_unique(predictions[kind].setdefault(variant,{}),values)

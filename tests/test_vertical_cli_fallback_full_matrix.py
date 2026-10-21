@@ -106,7 +106,7 @@ class FullFvcBeforeNnCommandsTest(unittest.TestCase):
     def setUp(self):
         self.assets={k:{'name':k+'.onnx'} for k in ['deim','100','30','50','charset']}
         self.binaries={v:{'cli':'/frozen/'+v+'-cli','page':'/frozen/'+v+'-page'} for v in ['baseline','candidate']}
-        self.rows=[{'id':'a','truth':'NEVER_TO_NN'},{'id':'b','truth':'ALSO_SECRET'}]
+        self.rows=[{'id':'a','image':'archive/a.png','truth':'NEVER_TO_NN'},{'id':'b','image':'archive/b.jpg','truth':'ALSO_SECRET'}]
 
     def test_page_plan_declares_both_models_and_only_images_manifest(self):
         from vertical_cli_fallback_full_matrix import worker_commands
@@ -123,6 +123,36 @@ class FullFvcBeforeNnCommandsTest(unittest.TestCase):
         plans=worker_commands(self.assets,self.binaries,self.rows,'cli_bands_off',Path('/work'),Path('/evidence'),Path('/models'))
         self.assertEqual([(p['variant'],p['id']) for p in plans],[('baseline','a'),('baseline','b'),('candidate','a'),('candidate','b')])
         for p in plans:
-            self.assertEqual(p['argv'][p['argv'].index('--image')+1],'/work/inputs/'+p['id']+'.png')
+            self.assertEqual(p['argv'][p['argv'].index('--image')+1],{'a':'/work/inputs/a.png','b':'/work/inputs/b.jpg'}[p['id']])
             self.assertEqual(p['argv'][-2:],['--enable-cascade','false'])
             self.assertNotIn('SECRET',' '.join(p['argv']))
+
+
+class FullFvcImageFormatRegressionTest(unittest.TestCase):
+    def test_jpeg_and_png_bytes_keep_their_original_loader_extensions(self):
+        from vertical_cli_fallback_full_matrix import FullBundle
+        import tempfile
+        bundle=FullBundle(Path(__file__).resolve().parents[1]/'docs/benchmarks/vertical-cli-fallback/full-matrix-v1')
+        selected=[next(r for r in bundle.index['physical_inputs'] if Path(r['image']).suffix==extension) for extension in ['.png','.jpg']]
+        with tempfile.TemporaryDirectory() as directory:
+            manifest=bundle.materialize_inputs(Path(directory),selected)
+            for actual,original in zip(manifest['inputs'],selected):
+                path=Path(actual['image'])
+                self.assertEqual(path.suffix,Path(original['image']).suffix)
+                self.assertEqual(path.read_bytes(),bundle.read_image(original))
+
+    def test_every_staged_file_matches_its_frozen_hash_and_magic_signature(self):
+        from vertical_cli_fallback_full_matrix import FullBundle
+        from vertical_page_matrix import sha
+        import tempfile
+        bundle=FullBundle(Path(__file__).resolve().parents[1]/'docs/benchmarks/vertical-cli-fallback/full-matrix-v1')
+        with tempfile.TemporaryDirectory() as directory:
+            manifest=bundle.materialize_inputs(Path(directory),bundle.index['physical_inputs'])
+            signatures={'.png':b'\x89PNG\r\n\x1a\n','.jpg':b'\xff\xd8\xff'}
+            counts={'.png':0,'.jpg':0}
+            for actual,row in zip(manifest['inputs'],bundle.index['physical_inputs']):
+                path=Path(actual['image']);raw=path.read_bytes()
+                self.assertEqual(sha(raw),row['image_sha256'])
+                self.assertTrue(raw.startswith(signatures[path.suffix]),row['id'])
+                counts[path.suffix]+=1
+            self.assertEqual(counts,{'.png':1121,'.jpg':118})
