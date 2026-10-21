@@ -355,83 +355,121 @@ def run_kind(bundle, kind, output, models):
         write_json(evidence / "job.json", meta)
 
 
+def verify_job_artifact(bundle, path, inputs):
+    digest = sha((bundle.folder / "bundle.json").read_bytes())
+    meta = json.loads(path.read_text())
+    kind = meta["kind"]
+    if kind not in ["page30", "page50", "page100", "cli"]:
+        raise ValueError("extra or duplicate job artifact")
+    check_job(meta, digest, kind, len(inputs))
+    if not meta.get("all_frozen_materials_unchanged") or meta["assets"] != bundle.index["assets"]:
+        raise ValueError("changed inference assets")
+    folder = path.parent
+    nn_manifest = folder / "NN-images-only.json"
+    if sha(nn_manifest.read_bytes()) != meta["NN_manifest_sha256"]:
+        raise ValueError("NN manifest mismatch")
+    original_work = Path(meta["builds"]["baseline"]["source_manifest"]).parent.parent
+    expected_nn = {"inputs": [{"id": x["id"], "image": str(original_work / x["image"])} for x in inputs]}
+    if json.loads(nn_manifest.read_text()) != expected_nn:
+        raise ValueError("NN inputs differ from frozen pixels or include GT")
+    hashes = {}
+    for variant in ["baseline", "candidate"]:
+        build = meta["builds"][variant]
+        log = folder / "commands" / (variant + "-build.stdout")
+        if sha(log.read_bytes()) != build["build_stdout_sha256"] or build["source_files"] != bundle.index["source_files"][variant]:
+            raise ValueError("build evidence mismatch")
+        primary = check_build_artifacts([json.loads(x) for x in log.read_text().splitlines() if x.strip()], build["source_manifest"])
+        if primary != build["artifacts"]:
+            raise ValueError("changed primary build artifacts")
+        hashes[variant] = {k: x["sha256"] for k, x in build["binaries"].items()}
+    check_binary_pair(hashes["baseline"], hashes["candidate"])
+    expected_commands = 4 if kind.startswith("page") else len(inputs) * 4 + 2
+    if len(meta["commands"]) != expected_commands:
+        raise ValueError("missing command receipts")
+    if kind.startswith("page") and meta["Page_API_results"] != len(inputs) * 4:
+        raise ValueError("Page result count mismatch")
+    if kind == "cli" and meta["CLI_processes"] != len(inputs) * 4:
+        raise ValueError("CLI process count mismatch")
+    assets = bundle.index["assets"]
+    models = Path(meta["models_dir"])
+    original_evidence = original_work.parent / "evidence"
+    command_index = 2
+    for variant in ["baseline", "candidate"]:
+        if kind.startswith("page"):
+            model = kind[4:]
+            expected = [meta["builds"][variant]["binaries"]["page"]["path"], "--manifest", original_work / "NN-images-only.json",
+                        "--det-model", models / assets["deim"]["name"], "--parseq-model", models / assets[model]["name"],
+                        "--charset", models / assets["charset"]["name"], "--label", "runtime" + model,
+                        "--output-dir", original_evidence / "page" / variant]
+            receipt = verify_command(folder / "commands" / (variant + "-page" + model + ".json"), expected)
+            if meta["commands"][command_index] != receipt:
+                raise ValueError("Page receipt differs from job journal")
+            command_index += 1
+        else:
+            for mode in ["deim", "bands"]:
+                for row in inputs:
+                    name = variant + "-cli-" + mode + "-" + row["id"]
+                    expected = cli_command(meta["builds"][variant]["binaries"]["cli"]["path"],
+                                           original_work / row["image"], models, assets, mode,
+                                           original_evidence / "cli" / variant / mode / (row["id"] + ".txt"))
+                    receipt = verify_command(folder / "commands" / (name + ".json"), expected)
+                    if meta["commands"][command_index] != receipt:
+                        raise ValueError("CLI receipt differs from job journal")
+                    command_index += 1
+    return kind, folder
+
+
+def read_job_texts(kind, folder, variant, inputs):
+    if kind.startswith("page"):
+        routes = read_page_results(folder / "page" / variant, kind[4:], inputs)
+        texts = {route: {ident: row["text"] for ident, row in values.items()} for route, values in routes.items()}
+    else:
+        texts = {}
+        for mode in ["deim", "bands"]:
+            values = {}
+            for row in inputs:
+                ident = row["id"]
+                name = variant + "-cli-" + mode + "-" + ident
+                values[ident] = read_cli_result(folder / "commands" / (name + ".stdout"),
+                                               folder / "cli" / variant / mode / (ident + ".txt"))
+            texts["cli_" + mode] = values
+    return texts
+
+
 def verify_matrix(bundle, artifacts, output):
-    import csv
-    import importlib.util
-    import string
-    import subprocess
-    import sys
     output = Path(output).resolve()
     output.mkdir(parents=True, exist_ok=False)
     work = output / "work"
     bundle.materialize(work)
     inputs = bundle.index["physical_inputs"]
-    scoring = bundle.index["scoring_inputs"]
-    digest = sha((bundle.folder / "bundle.json").read_bytes())
     jobs = {}
     for path in Path(artifacts).rglob("job.json"):
-        meta = json.loads(path.read_text())
-        kind = meta["kind"]
-        if kind in jobs or kind not in ["page30", "page50", "page100", "cli"]:
+        kind, folder = verify_job_artifact(bundle, path, inputs)
+        if kind in jobs:
             raise ValueError("extra or duplicate job artifact")
-        check_job(meta, digest, kind, len(inputs))
-        if not meta.get("all_frozen_materials_unchanged") or meta["assets"] != bundle.index["assets"]:
-            raise ValueError("changed inference assets")
-        folder = path.parent
-        nn_manifest = folder / "NN-images-only.json"
-        if sha(nn_manifest.read_bytes()) != meta["NN_manifest_sha256"]:
-            raise ValueError("NN manifest mismatch")
-        original_work = Path(meta["builds"]["baseline"]["source_manifest"]).parent.parent
-        expected_nn = {"inputs": [{"id": x["id"], "image": str(original_work / x["image"])} for x in inputs]}
-        if json.loads(nn_manifest.read_text()) != expected_nn:
-            raise ValueError("NN inputs differ from frozen pixels or include GT")
-        hashes = {}
-        for variant in ["baseline", "candidate"]:
-            build = meta["builds"][variant]
-            log = folder / "commands" / (variant + "-build.stdout")
-            if sha(log.read_bytes()) != build["build_stdout_sha256"] or build["source_files"] != bundle.index["source_files"][variant]:
-                raise ValueError("build evidence mismatch")
-            primary = check_build_artifacts([json.loads(x) for x in log.read_text().splitlines() if x.strip()], build["source_manifest"])
-            if primary != build["artifacts"]:
-                raise ValueError("changed primary build artifacts")
-            hashes[variant] = {k: x["sha256"] for k, x in build["binaries"].items()}
-        check_binary_pair(hashes["baseline"], hashes["candidate"])
-        expected_commands = 4 if kind.startswith("page") else len(inputs) * 4 + 2
-        if len(meta["commands"]) != expected_commands:
-            raise ValueError("missing command receipts")
-        if kind.startswith("page") and meta["Page_API_results"] != len(inputs) * 4:
-            raise ValueError("Page result count mismatch")
-        if kind == "cli" and meta["CLI_processes"] != len(inputs) * 4:
-            raise ValueError("CLI process count mismatch")
-        assets = bundle.index["assets"]
-        models = Path(meta["models_dir"])
-        original_evidence = original_work.parent / "evidence"
-        command_index = 2
-        for variant in ["baseline", "candidate"]:
-            if kind.startswith("page"):
-                model = kind[4:]
-                expected = [meta["builds"][variant]["binaries"]["page"]["path"], "--manifest", original_work / "NN-images-only.json",
-                            "--det-model", models / assets["deim"]["name"], "--parseq-model", models / assets[model]["name"],
-                            "--charset", models / assets["charset"]["name"], "--label", "runtime" + model,
-                            "--output-dir", original_evidence / "page" / variant]
-                receipt = verify_command(folder / "commands" / (variant + "-page" + model + ".json"), expected)
-                if meta["commands"][command_index] != receipt:
-                    raise ValueError("Page receipt differs from job journal")
-                command_index += 1
-            else:
-                for mode in ["deim", "bands"]:
-                    for row in inputs:
-                        name = variant + "-cli-" + mode + "-" + row["id"]
-                        expected = cli_command(meta["builds"][variant]["binaries"]["cli"]["path"],
-                                               original_work / row["image"], models, assets, mode,
-                                               original_evidence / "cli" / variant / mode / (row["id"] + ".txt"))
-                        receipt = verify_command(folder / "commands" / (name + ".json"), expected)
-                        if meta["commands"][command_index] != receipt:
-                            raise ValueError("CLI receipt differs from job journal")
-                        command_index += 1
         jobs[kind] = folder
     if set(jobs) != {"page30", "page50", "page100", "cli"}:
         raise ValueError("full eight-route matrix is incomplete")
+    predictions = {}
+    for kind, folder in jobs.items():
+        for variant in ["baseline", "candidate"]:
+            for route, values in read_job_texts(kind, folder, variant, inputs).items():
+                predictions[variant, route] = values
+    score_predictions(bundle, predictions, output, work)
+
+
+def score_predictions(bundle, physical_predictions, output, work, job_statistics=None):
+    import csv
+    import importlib.util
+    import string
+    import subprocess
+    import sys
+    inputs = bundle.index["physical_inputs"]
+    scoring = bundle.index["scoring_inputs"]
+    digest = sha((bundle.folder / "bundle.json").read_bytes())
+    expected_routes = {"30_eval", "30_default", "50_eval", "50_default", "100_eval", "100_default", "cli_deim", "cli_bands"}
+    if set(physical_predictions) != {(variant, route) for variant in ["baseline", "candidate"] for route in expected_routes}:
+        raise ValueError("full eight-route predictions are incomplete")
     truth = output / "metrics/truth"
     truth.mkdir(parents=True)
     for row in scoring:
@@ -439,29 +477,14 @@ def verify_matrix(bundle, artifacts, output):
     systems = {}
     literal_changes = []
     all_text = {}
-    for kind, folder in jobs.items():
-        for variant in ["baseline", "candidate"]:
-            if kind.startswith("page"):
-                routes = read_page_results(folder / "page" / variant, kind[4:], inputs)
-                texts = {route: {ident: row["text"] for ident, row in values.items()} for route, values in routes.items()}
-            else:
-                texts = {}
-                for mode in ["deim", "bands"]:
-                    values = {}
-                    for row in inputs:
-                        ident = row["id"]
-                        name = variant + "-cli-" + mode + "-" + ident
-                        values[ident] = read_cli_result(folder / "commands" / (name + ".stdout"),
-                                                       folder / "cli" / variant / mode / (ident + ".txt"))
-                    texts["cli_" + mode] = values
-            for route, predictions in texts.items():
-                mapped = map_predictions(scoring, predictions)
-                directory = output / "metrics" / (variant + "_" + route)
-                directory.mkdir()
-                for ident, text in mapped.items():
-                    (directory / (ident + ".txt")).write_bytes(text.encode())
-                systems[variant + "_" + route] = directory
-                all_text[variant, route] = mapped
+    for (variant, route), predictions in physical_predictions.items():
+        mapped = map_predictions(scoring, predictions)
+        directory = output / "metrics" / (variant + "_" + route)
+        directory.mkdir()
+        for ident, text in mapped.items():
+            (directory / (ident + ".txt")).write_bytes(text.encode())
+        systems[variant + "_" + route] = directory
+        all_text[variant, route] = mapped
     routes = ["30_eval", "30_default", "50_eval", "50_default", "100_eval", "100_default", "cli_deim", "cli_bands"]
     for route in routes:
         for row in scoring:
@@ -540,6 +563,12 @@ def verify_matrix(bundle, artifacts, output):
                "totals": totals, "matrix_gate_pass": not regressions and bool(fresh) and not cli_changes,
                "root_inference_integrated": False, "new_NN_calls_this_audit": 0,
                "bundle_sha256": digest, "all_four_jobs_complete": True}
+    if job_statistics is not None:
+        if set(job_statistics) != {"successful_job_artifacts", "successful_PageRecognizer_loads", "successful_Page_model_session_loads", "successful_CLI_processes"}:
+            raise ValueError("unknown job statistics")
+        summary.update(job_statistics)
+        summary["all_four_jobs_complete"] = job_statistics["successful_job_artifacts"] == 4
+        summary["all_four_kinds_complete"] = True
     for name, value in [("summary", summary), ("all-input-pairs", comparisons), ("commands", commands)]:
         write_json(output / (name + ".json"), value)
     print(json.dumps({key: value for key, value in summary.items() if key not in ["per_input_regressions", "per_input_improvements", "fresh_raw_gain_pairs", "literal_text_changes", "CLI_text_changes", "totals"]}, indent=2))

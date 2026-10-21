@@ -1,5 +1,14 @@
 # ndlocr Python→Rust移植（ONNX）計画
 
+## 2026-10-21: FVB Page30の全件完了と、時間上限時の完全分割の準備
+
+- 本体推論はO/1f240beのまま。91e09ebの通常/実モデルCI全5 jobsも成功。91e09ebでQ/S保留のsource/入力/失敗/全結果を公開した。新しいNNを使わないUbuntu CI/run39529309504が成功し、全20,736公式CSV行・50,653捕捉crop RGB SHA・全packet/memberを独立検算した。
+- FVB原run39514388558のPage30が完了した。921物理/922採点ID・3,684 Page結果についてsource/fresh artifact/argvと全本文を確認し、公式11,064 CSV行の独立誤り/分母が一致した。生文字改善35入力/経路組、悪化0。50モデルの全件jobも完了したが独立採点はこれからで、100/CLIは実行中。全44,256行のgateは未成立。
+- Page30の前後認識が約2時間20分かかったため、未完了kindが180分を超えた場合に限る分割再実行を`docs/vertical_page_sharded_matrix.md`へ先行固定した。同じ921入力順の4分割で231/230/230/230件を前後とも新測定し、完了したkindの元binding付き結果と結合する。画像/経路/GT別表記や入力別非悪化条件を減らさない。
+- 分割/網羅4試験、producer/失敗保持2試験、NN前planの存在とSHA結び付き、欠落拒否と未分割同値をRed/Greenした。既存14契約を合わせ23試験が成功。4入力/GT5表記の13ジョブを結合し、全240 CSV行が未分割と一致、欠落shard/planを拒否した。成功load数も実行形態に合わせて合計する。
+- 元のNN producer/build/CLI/画素や本文reader主要関数はsource完全一致で、source/argv検証と採点だけを共有化した。共通化後も完了Page30の実artifact全3,684結果とbindingを再検査した。まだ追加NNを起動せず、原runの未完了kindを確定してから必要分だけ再測定する。
+
+
 ## 2026-10-21: FVB全件CI、Q保留と低信頼停止Sの隔離検証
 
 - 本体推論はO/1f240beから不変。PR22の06401d7は通常/実モデルの全5 CI jobs成功。FVBはfbd9896の凍結packetから921 NN入力/922採点ID×8経路をLinux/releaseで再測定中（run39514388558）。同じpacketの重複run39514635185は取り消し、未完了結果を成功へ数えない。
