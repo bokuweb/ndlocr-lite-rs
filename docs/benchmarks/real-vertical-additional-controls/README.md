@@ -15,9 +15,20 @@ See [the source-selection record](../../real_vertical_additional_control_sources
 Lemon and Haru remain unscored because of overlapping slanted columns and faded
 characters respectively. No guessed GT was added.
 
-**New-set OCR calls and model loads are zero.** Its production baseline has not yet
-been chosen; the separate FVB full matrix must be resolved first. This packet is
-not a new accuracy result and does not alter the frozen FVB inputs or gates.
+**At this input packet’s creation, new-set OCR calls and model loads were zero.**
+The original protocol and manifest retain that historical state.
+
+After the complete FVB gate and all five e559 CI jobs succeeded, the separate
+`FVB-baseline-real6-v1.zip` recorded 48 image results and 264 verified metric rows.
+Its `.index.json` authenticates every member and records the scope of source binding.
+This is a single production-baseline observation, not an adoption comparison.
+See [results](../../real_vertical_additional_results.md). The original inputs/GT
+remain unchanged. Replay without models or fonts:
+
+```sh
+python3 tools/verify_additional_real_baseline.py
+python3 -m unittest discover -s tests -p 'test_additional_real_*.py'
+```
 
 The archive also preserves a separate NN-free diagnosis of the existing public Q/S
 results: 432 raw input/model pairs, with five near-capacity, aspect-guard-rejected

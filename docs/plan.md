@@ -1,5 +1,13 @@
 # ndlocr Python→Rust移植（ONNX）計画
 
+## 2026-10-21: FVB本体の実モデルCI成功、追加実資料baselineとFVC実測
+
+- e559efbの全5 CI jobsが成功。Linux/macOSのONNX lib各563件と、必須モデルを使うPage回帰各1件も通過した。FVBの全921 NN入力/922採点ID×8経路gateは全44,256 CSV行・22,128前後比較を独立検算し、入力別悪化0/新本文raw7組改善/CLI不変で本体へ接続済み。
+- 追加実資料は事前固定した6物理列/11採点表記をe559のfresh実行物で測定し、48結果/264 CSV行が独立距離と一致した。1 baselineの観測であり新たな改善比較ではない。Page30の途中脱落、50/100/CLI DEIMの空白・字体・少数誤字、CLI bandsの構造的失敗が残る。生出力を保持し、NFCだけの別診断も公開する。詳細は`docs/real_vertical_additional_results.md`。
+- FVB新ファイルのONNX Clippy警告1件は、先に128例PBTを旧実装で通してから等価iteratorへ置換。既存13件を含む14件を再確認し、lib警告は既存18件へ戻った。推論の改善件数へ数えない。
+- 隔離FVCは既知CLI回帰で旧版のliteral本文Red1→候補Green1を確認し、候補はDEIM有無の本文/stdout framingを通過した。新72×CLI4経路の前後576 processを実測中で、完了・入力別悪化0・新本文改善が揃うまで採用しない。本体はFVBを維持し、Q/Sは保留、CLI model traceも別準備として継続する。
+
+
 ## 2026-10-21: FVB Page30の全件完了と、時間上限時の完全分割の準備
 
 - 本体推論はO/1f240beのまま。91e09ebの通常/実モデルCI全5 jobsも成功。91e09ebでQ/S保留のsource/入力/失敗/全結果を公開した。新しいNNを使わないUbuntu CI/run39529309504が成功し、全20,736公式CSV行・50,653捕捉crop RGB SHA・全packet/memberを独立検算した。

@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "models_required": false,
+  "verifier_Red_missing_module": 1,
+  "Green_tests": 7,
+  "verified_CSV_rows": 264,
+  "verified_raw_diagnoses": 88,
+  "logs": {
+    "packet-verifier-red.stderr": "E\n======================================================================\nERROR: test_public_packet_replays_all_alias_metrics_without_models_or_fonts (test_additional_real_baseline_packet.AdditionalRealPacketTest)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tests/test_additional_real_baseline_packet.py\", line 9, in test_public_packet_replays_all_alias_metrics_without_models_or_fonts\n    from verify_additional_real_baseline import verify\nModuleNotFoundError: No module named 'verify_additional_real_baseline'\n\n----------------------------------------------------------------------\nRan 1 test in 0.000s\n\nFAILED (errors=1)\n",
+    "packet-verifier-green.stderr": ".\n----------------------------------------------------------------------\nRan 1 test in 0.129s\n\nOK\n",
+    "all-packet-tests-v2.stderr": ".......\n----------------------------------------------------------------------\nRan 7 tests in 0.130s\n\nOK\n",
+    "packet-model-free-replay-v2.json": "{\n  \"complete\": true,\n  \"archive_sha256\": \"b5095d678c1695cc6f3e4d5214411d2037fff3c9ac5d797647f9ba93ff670c08\",\n  \"image_results\": 48,\n  \"verified_CSV_rows\": 264,\n  \"verified_raw_diagnoses\": 88,\n  \"adoption_comparison\": false\n}\n"
+  },
+  "source_sha256": {
+    "tools/verify_additional_real_baseline.py": "97cd94c0466a2bdd8413a7ee2f4fac4251b3860f3c29d1e28cd07aa22344fab2",
+    "tools/additional_real_diagnostic.py": "168a40ef7e5ecf282e426c01c65c0de50252658fe9033af64e1d79fa6530a88f",
+    "tests/test_additional_real_baseline_packet.py": "3c2d4a44618ed8b7052e43f83fa0c77e660a8039b7133db31e07abbc67bd838a",
+    "tests/test_additional_real_diagnostic.py": "015d946d217bc2d6f26eee67c56eabee78935265e92ced42af37eb6588a75d6c",
+    ".github/workflows/low-stop-evidence.yml": "178b3d1f935e4efd7936dfa26d20c514c3e12b21deb67613533888daf8f95e85"
+  }
+}

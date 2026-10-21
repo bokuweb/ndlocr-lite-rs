@@ -5,6 +5,10 @@ on:
     paths:
       - '.github/workflows/low-stop-evidence.yml'
       - 'tools/verify_low_stop_evidence.py'
+      - 'tools/verify_additional_real_baseline.py'
+      - 'tools/additional_real_diagnostic.py'
+      - 'tests/test_additional_real_*.py'
+      - 'docs/benchmarks/real-vertical-additional-controls/**'
       - 'tools/low_stop_evidence_requirements.txt'
       - 'tests/test_vertical_low_stop_evidence.py'
       - 'tools/vertical_page_model_choice.py'
@@ -40,5 +44,9 @@ jobs:
         run: python -m unittest discover -s tests -p test_vertical_page_model_choice.py -v
       - name: Replay complete Page kinds and every saved metric without models
         run: python -m unittest discover -s tests -p test_vertical_completed_page_evidence.py -v
+      - name: Frozen real controls, NFC diagnosis and all 264 saved metric rows
+        run: |
+          python -m unittest discover -s tests -p 'test_additional_real_*.py' -v
+          python tools/verify_additional_real_baseline.py
       - name: Verify saved metrics and reconstruct captured RGB hashes without NN
         run: python tools/verify_low_stop_evidence.py
