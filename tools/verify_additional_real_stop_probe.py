@@ -11,6 +11,22 @@ from verify_additional_real_primary_trace import verify as verify_trace
 from vertical_page_matrix import sha,safe_member
 
 
+def verify_decode_steps(row):
+    bits=lambda value:struct.unpack('!I',struct.pack('!f',value))[0];f32=lambda value:struct.unpack('!f',struct.pack('!f',value))[0]
+    emitted=bytearray();total=0.0;count=0
+    for ordinal,step in enumerate(row['steps']):
+        candidate,=step['candidates'];p=candidate['probability'];assert step['timestep']==ordinal and bits(p)==candidate['probability_bits'] and 0<=p<=1
+        if step['text_range'] is not None:
+            assert count<2 or p>=f32(.35)
+            encoded=candidate['character'].encode();assert candidate['token_id']>0 and step['text_range']==[len(emitted),len(emitted)+len(encoded)];emitted.extend(encoded);total=f32(total+p);count+=1
+        else:assert ordinal==len(row['steps'])-1
+    assert emitted.decode()==row['text'] and bits(f32(total/count if count else 0))==row['mean_bits']
+    last=row['steps'][-1];winner=last['candidates'][0];reason=row['stop_reason']
+    if reason=='EndOfSequence':assert winner['token_id']==0 and winner['character'] is None and last['text_range'] is None
+    elif reason=='LowConfidence':assert winner['token_id']>0 and winner['probability']<f32(.35) and count>=2 and last['text_range'] is None
+    else:assert reason=='TimestepsExhausted' and last['text_range'] is not None
+
+
 def verify(folder):
     folder=Path(folder);trace_folder=folder.parent/'real-vertical-additional-primary-trace';verify_trace(trace_folder)
     ti=json.loads((trace_folder/'trace-v1.index.json').read_text());trace={}
@@ -65,7 +81,6 @@ def verify(folder):
             for y in range(row['height']):
                 for x in range(row['width']):
                     a=(y*row['width']+x)*3;b=((row['width']-1-x)*row['height']+y)*3;assert rotated[b:b+3]==row['rgb'][a:a+3]
-    bits=lambda value:struct.unpack('!I',struct.pack('!f',value))[0];f32=lambda value:struct.unpack('!f',struct.pack('!f',value))[0]
     counts=Counter();matched=0;mismatches=0;actual_count=0
     for command,executed in zip(before['commands'],job['executed_commands'],strict=True):
         model=command['model'];assert all(executed[k]==v for k,v in command.items()) and executed['exit_code']==0 and executed['frozen_files_after_unchanged']
@@ -80,16 +95,7 @@ def verify(folder):
             for row,ref in zip(results,selected,strict=True):
                 assert sha(z.read(row['id']+'.rgb'))==row['expected_rgb_sha256']==ref['rotated_rgb_sha256'] and row['orientation']=='Horizontal' and row['top_k']==row['api_calls']==1
                 same=(row['text'],row['mean_bits'])==(ref['raw'],ref['mean_bits']);matched+=len(ref['origins']) if same else 0;mismatches+=not same;actual_count+=1
-                emitted=bytearray();total=0.0;count=0
-                for ordinal,step in enumerate(row['steps']):
-                    candidate,=step['candidates'];p=candidate['probability'];assert step['timestep']==ordinal and bits(p)==candidate['probability_bits'] and 0<=p<=1
-                    if step['text_range'] is not None:
-                        encoded=candidate['character'].encode();assert candidate['token_id']>0 and step['text_range']==[len(emitted),len(emitted)+len(encoded)];emitted.extend(encoded);total=f32(total+p);count+=1
-                assert emitted.decode()==row['text'] and bits(f32(total/count if count else 0))==row['mean_bits']
-                last=row['steps'][-1];winner=last['candidates'][0];reason=row['stop_reason'];counts[reason]+=1
-                if reason=='EndOfSequence':assert winner['token_id']==0 and winner['character'] is None and last['text_range'] is None
-                elif reason=='LowConfidence':assert winner['token_id']>0 and winner['probability']<f32(.35) and count>=2 and last['text_range'] is None
-                else:assert reason=='TimestepsExhausted' and last['text_range'] is not None
+                verify_decode_steps(row);counts[row['stop_reason']]+=1
     assert actual_count==before['unique_raw_API_calls_planned']==ri['raw_API_calls']==18 and len(job['executed_commands'])==3
     return {'raw_API_calls':actual_count,'original_routes_matched':matched,'raw_or_confidence_mismatches':mismatches,'stop_counts':dict(counts),'model_session_loads':3,'new_model_calls_in_replay':0,'new_accuracy_gain':False}
 

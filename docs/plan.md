@@ -1,5 +1,11 @@
 # ndlocr Python→Rust移植（ONNX）計画
 
+## 2026-10-21: 実primary分割の117 raw結果を検証し、raw保持条件の緩和を見送る
+
+- 元36条件に対応する18入力から2経路/117 partを生成し、全117 API成功、4,224,384画素の独立座標一致、297公式CSV行の独立検算を完了した。model30の両経路全文一致は3列だが、完全raw prefixを保持する延長は0列。一葉の途中欠落を読めても空白位置/字体が変わるため、合意を作る正解依存の補正は行わない。
+- Rootはtest-only geometry collectorだけを追加。未実装compile Red→2 pure Green、通常lib442成功/39ignored。全source/fresh build/入力/117 decoder step/297 CSVを公開readerで検証する。新規精度改善0で、H/O/Q/Sの製品条件は不変。詳細は`docs/real_vertical_primary_partition_results.md`。
+- ec9d276の通常/実モデルCIは全5 jobs成功。FVC v2の全件39593424953は継続中で14/56 worker成功、失敗0。本体はFVB。全件成功後に最小runtime差分を接続し、必要CIを通す。
+
 ## 2026-10-21: 追加実資料の実停止理由を全36条件で照合
 
 - 6列×3モデル×2設定を18 model/RGBへdedupしてraw候補を再観測し、元Pageの全36本文/f32 mean bitsと一致した。EOS17、LowConfidence1。一葉30のcol1/2はEOS、col3だけ低信頼停止だった。停止理由を最終欠落から推測せず、実stepで確認した。

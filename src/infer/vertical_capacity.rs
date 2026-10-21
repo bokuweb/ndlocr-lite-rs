@@ -9,6 +9,10 @@ mod policy;
 #[cfg(any(feature = "onnx", test))]
 mod prefix;
 
+#[cfg(test)]
+#[path = "../../tests/support/vertical_primary_partition_geometry.rs"]
+mod primary_partition_geometry;
+
 struct PreparedColumn {
     original: Vec<u8>,
     support: Vec<u8>,

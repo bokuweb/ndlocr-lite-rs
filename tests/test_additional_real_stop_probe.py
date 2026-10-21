@@ -1,10 +1,21 @@
 from pathlib import Path
 import sys
 import unittest
+import struct
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'tools'))
 
 
 class AdditionalStopProbeTest(unittest.TestCase):
+    def test_decoder_replay_rejects_emission_after_an_earlier_stop_condition(self):
+        from verify_additional_real_stop_probe import verify_decode_steps
+        bits=lambda p:struct.unpack('!I',struct.pack('!f',p))[0]
+        def step(i,character,p,start):
+            return {'timestep':i,'text_range':None if start is None else [start,start+len(character.encode())],'candidates':[{'token_id':0 if character is None else 1,'character':character,'probability':p,'probability_bits':bits(p)}]}
+        rows=[{'text':'甲','mean_bits':bits(1.0),'stop_reason':'EndOfSequence','steps':[step(0,None,1.0,None),step(1,'甲',1.0,0),step(2,None,1.0,None)]},
+              {'text':'甲乙丙','mean_bits':bits(.7),'stop_reason':'EndOfSequence','steps':[step(0,'甲',1.0,0),step(1,'乙',1.0,3),step(2,'丙',.1,6),step(3,None,1.0,None)]}]
+        for row in rows:
+            with self.subTest(row=row),self.assertRaises(AssertionError):verify_decode_steps(row)
+
     def test_saved_stop_probe_matches_all_original_raws_and_reports_actual_stop_events(self):
         from verify_additional_real_stop_probe import verify
         result=verify(Path(__file__).resolve().parents[1]/'docs/benchmarks/real-vertical-additional-stop-probe')
