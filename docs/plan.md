@@ -609,3 +609,19 @@
   実CLI出力を保存した。モデル・native実行物は配布しない。隔離したONNX CLIは前後別SHAで固定し、
   実モデルRed/Green・新72精度比較は未実行。本体推論は引き続きO、FVB全件比較は継続中。
 - 先の`21f3626`は通常/実モデルを含むCI全5ジョブ成功。これは本体OのCIであり、隔離FVCのモデル検証ではない。
+
+## 2026-10-21: Linux Page全3モデル完了とモデル選択差の診断
+
+- FVBの100モデル4 shardが完了。921入力・3,684 Page結果・11,064公式CSV行を独立照合し、
+  生8入力/経路組改善、全正規化の入力別文字/語悪化0。30/50各35組と独立画像の改善数へ合算しない。
+  [完了Page packet](benchmarks/vertical-page-fallback/completed-pages-linux-v1.json)に全6 Page jobを保存した。
+  [再検証仕様](vertical_completed_page_evidence.md)・実packet integration Red→Greenにより、
+  モデルなしで計11,052保存Page結果・全33,192 CSV行・悪化0を再検証。CLI4 shardは進行中。
+- [保存モデル選択差の仕様](vertical_page_model_choice_diagnostic.md)→分類4 Red→6 Green、
+  既存reader含む29件Green。7,368比較から99入力ID/99RGB・424観測を分類し、
+  モデルなし/実model SHA照合の両replayでcases全文が一致した。14prefix観測は既知合成3画像に重複する。
+  H/Oや実CLI内部traceではなく、新policy・閾値変更・追加NNは0。
+- 中断した旧CLI runの成功1 commandでは、71字入力が24字prefixとして出力されていた。
+  source/fresh build/argv/framingは照合したが、親jobの最終stampがないため診断専用とする。
+  完了artifactやgateへ含めず、後続の実CLI cascade traceを候補へ残す。
+- `76d4b37`はCI全5ジョブ成功。本体OのCIでありFVCのNN検証ではない。

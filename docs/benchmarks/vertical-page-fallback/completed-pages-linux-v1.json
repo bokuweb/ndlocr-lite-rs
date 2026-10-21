@@ -1,0 +1,40 @@
+{
+  "schema": 1,
+  "utc": "2026-10-21T04:09:19.688764+00:00",
+  "archive": "completed-pages-linux-v1.zip",
+  "bytes": 5826889,
+  "sha256": "8af949bbc71db40174a282bd4bae8163ffbf21334fcced4eb81e2f3651bed6cd",
+  "members_file": "completed-pages-linux-v1.members.json.gz",
+  "members_bytes": 346177,
+  "members_sha256": "088040a09f20abc81e8cd6a39787deabc2b9fee51ccd8d3d84fe7205cd681dbe",
+  "member_count": 11249,
+  "bundle_sha256": "7f372e72532c360f886d9101597e0c911ea2f5f815998b254071390e2c63868c",
+  "scope": "completePage30/50originalrun39514388558plusPage100fourshardsrun39532673209;CLIandfullgatepending",
+  "physical_NN_input_IDs": 921,
+  "unique_RGB": 920,
+  "scoring_IDs": 922,
+  "Page_image_results": 11052,
+  "PageRecognizer_loads": 12,
+  "Page_model_session_loads": 24,
+  "official_CSV_rows_independently_verified": 33192,
+  "per_model_raw_gain_pairs": {
+    "30": 35,
+    "50": 35,
+    "100": 8
+  },
+  "per_input_regressions": 0,
+  "full_gate_pass": false,
+  "new_NN_calls_this_packaging": 0,
+  "model_choice_diagnostic": {
+    "comparisons": 7368,
+    "observations": 424,
+    "physical_input_IDs": 99,
+    "unique_RGB": 99,
+    "prefix_observations": 14,
+    "prefix_input_IDs": 3,
+    "actual_CLI_internal_trace": false,
+    "runtime_policy_changed": false,
+    "GT_used_for_diagnosis_only": true
+  },
+  "incomplete_original_CLI_command": "onecompleted24scalarbodyobservationonly;separatedfromartifacts;neveracceptedintoFullgate"
+}

@@ -87,3 +87,41 @@ or word regression, requires a fresh raw body gain, and requires unchanged CLI t
 It does not infer internal forwards from Page calls. Models/fonts/binaries are excluded
 from the Git packet; root Cargo.lock remains ignored. The one-off CI workflow uses the
 same commands, and retains failures and raw artifacts for review.
+
+## Completed Linux Page kinds; CLI still pending
+
+`completed-pages-linux-v1.zip` preserves Page30/50 from run 39514388558 and all four
+Page100 shards from run 39532673209. The compact JSON index and compressed member
+index authenticate all 11,249 members. Original Page50's summary had a stale Page30
+scope label; its separately corrected label is retained, and model50 CSVs are checked directly.
+
+All **11,052 saved Page results / 33,192 official CSV rows** were revalidated, with
+zero per-input character/word regressions in none/width/strict. Raw gains were 35
+input/route pairs for model30, 35 for model50, and 8 for model100. Repeated models and
+settings must not be added into an independent-image benefit rate. Saved runs loaded
+12 PageRecognizers / 24 model sessions. **CLI and the full four-kind gate remain incomplete.**
+
+Replay without weights, fonts or native executables, using a fresh output directory:
+
+```sh
+python3 /path/to/repo/docs/benchmarks/vertical-page-fallback/verify_completed_pages.py --output /new/output/directory
+```
+
+The verifier authenticates/extracts the packet, validates complete Page source/build/argv,
+pre-NN plans and coverage, independently recalculates all CSV rows, and reproduces the
+model-choice diagnosis. It always reports `full_gate_pass: false` for this Page-only packet.
+The real-packet integration test failed before the verifier existed, then passed.
+Pure classification and existing reader contracts also passed (29 tests).
+
+The separate diagnosis classified 424 model/setting/source observations on 99 input IDs /
+99 RGB inputs, from 7,368 comparisons. A strong single portrait result from model30/50
+beats model100 against every fixed GT alias. Fourteen complete-prefix observations
+refer to only three known-font synthetic images. This is a raw-limit proxy and saved
+Page comparison, not a direct H/O or internal CLI trace; no selection policy changed.
+
+One successful old CLI command for `advance_bold_71_pad8` produced the same 24-scalar
+prefix, whereas saved model30/50 Page results contained 71 scalars. Its source/fresh
+build/argv/framing were checked, but its timed-out parent lacks the final materials
+stamp. It is kept only under `analysis/incomplete-cli-command`, outside complete
+`artifacts` and every adoption gate. Fresh complete CLI results and an internal
+cascade trace remain necessary before a new policy is proposed.

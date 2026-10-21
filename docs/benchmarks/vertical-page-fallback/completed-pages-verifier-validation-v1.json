@@ -1,0 +1,20 @@
+{
+  "verifier_sha256": "ca3dcdaf4349247cba3d194ecafcbb601f091d362fcb94f190c66d9fdcc48081",
+  "test_sha256": "a26d768ec61b00a163618f0688264aa6b714c8be288f30e4fc08fc956a5ccd8c",
+  "classifier_sha256": "7dd88cf705909e6e23dd41f7b7e6708a26c90e7d38032f2475f85aec05a639af",
+  "red": {
+    "stderr": "test_saved_page_packet_replays_without_models_and_never_claims_full_gate (test_vertical_completed_page_evidence.CompletedPageEvidenceTest) ... FAIL\n\n======================================================================\nFAIL: test_saved_page_packet_replays_without_models_and_never_claims_full_gate (test_vertical_completed_page_evidence.CompletedPageEvidenceTest)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tests/test_vertical_completed_page_evidence.py\", line 15, in test_saved_page_packet_replays_without_models_and_never_claims_full_gate\n    self.assertEqual(result.returncode,0,result.stderr)\nAssertionError: 2 != 0 : /Library/Developer/CommandLineTools/usr/bin/python3: can't open file '/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/docs/benchmarks/vertical-page-fallback/verify_completed_pages.py': [Errno 2] No such file or directory\n\n\n----------------------------------------------------------------------\nRan 1 test in 0.012s\n\nFAILED (failures=1)\n",
+    "stdout": "",
+    "expected_reason": "verifier did not exist before implementation"
+  },
+  "green": {
+    "stderr": "test_saved_page_packet_replays_without_models_and_never_claims_full_gate (test_vertical_completed_page_evidence.CompletedPageEvidenceTest) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 4.384s\n\nOK\n",
+    "stdout": ""
+  },
+  "reader_and_classifier_tests_passed": 29,
+  "page_CSV_rows_rechecked_by_real_packet_test": 33192,
+  "classified_cases_replayed_identically": 424,
+  "new_NN_calls": 0,
+  "new_model_loads": 0,
+  "full_gate_pass": false
+}
