@@ -18,7 +18,9 @@ P5の元Rust/source/lock・実行物・5 assets・6 PNG・NN manifest・driver�
 実PARSeq forward attempt/successはtrace eventから実測し、通常baselineの内部forward数は推定しない。
 failed/partialも保存し、完了batchだけで全36一致を主張しない。既存trace実行物を共有targetから取り違えない。
 
-actual primary cropとH/O part RGBを元PNGのbbox・回転/切出しと独立照合する。
+actual primary cropとO part RGBを元PNGのbbox・回転/切出しと独立照合する。
+P5にはH partのRGBや具体的停止理由のeventがなく、Hの採用フラグと前後本文だけが観測される。
+Hの詳細は不明として保持し、必要になった場合は別のobserverを仕様・test先行で追加する。
 raw復号、Hの採用/停止、Oのplan/棄却、sanitizer前、最終Page本文を分け、
 選択outputと実logits T・raw scalar長・停止理由が観測されていない箇所は不明とする。
 H/OのeligibilityをPage最終文字数だけから推測しない。字形ごとの欠損は未注釈ならnull。
