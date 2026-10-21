@@ -23,3 +23,11 @@ class FVCv2PacketTest(unittest.TestCase):
         self.assertEqual(result['preserved_failed_attempts'],3)
         self.assertTrue(result['quality_changes_initial'])
         self.assertFalse(result['new_accuracy_gain'])
+
+    def test_feature_disabled_preserves_all_exits_stdout_errors_and_body_without_models(self):
+        from verify_vertical_cli_fallback_v2 import verify_disabled
+        result=verify_disabled(Path(__file__).resolve().parents[1]/'docs/benchmarks/vertical-cli-fallback-v2')
+        self.assertEqual(result['CLI_processes'],16)
+        self.assertEqual(result['compared_cases'],8)
+        self.assertTrue(result['identical_exit_stdout_stderr_body'])
+        self.assertEqual(result['NN_calls'],0)

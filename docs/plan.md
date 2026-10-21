@@ -7,6 +7,9 @@
 - v2新72を追加NN前に固定し、4,392 glyphの独立描画と既知1,239入力とのPNG/RGB重複0を確認。公開packetは22,479,201 bytes。最初のarchive member絶対pathをreaderが拒否したため、入力/GT/source byteを変えずmember名だけを正規化し、元archive/hashも保持した。reader未実装Red→Greenで全member/fresh build/PNG/RGB/字形bboxを認証した。
 - 既知quality回帰はcharset不足1回と、設定効果を判別できない入力2回の失敗も保持した。既知12字列の3設定では既存full pipelineと全本文/mean bitsが一致し、delta=-100では初期から信頼度が変わりfinish省略を検出できた。DEIM off/onのliteral CLI回帰2 processも成功。9保存設定/9 RGBをreader Red→Greenで再検算し、新規精度改善へ数えない。
 - v2新72の前後576 CLI process/1,728 CSV行は別に測定中。全入力別文字/語非悪化と新本文改善が揃うまで次の全件gateへ進めない。root e5c3173の通常/実モデルCI全5 jobs、追加実資料のモデル不要reader CIも成功した。
+- 最初のv2新72 runは容量不足が起きた間にPython exit120で停止。129成功baseline receipt/stderr空を保存し、元例外は復元不能として0完了gate扱いにした。閉じた自分のRGBをSHA/復元台帳付きで可逆圧縮し、全元bindingの一致と1GiB以上の空きを確認して、出力先だけ変え全576を再測定している。partial予測は流用しない。
+- 非defaultは8入力×6profile×4経路×前後=384 argv/1,152 CSV行を設定NN前に固定した。plannerの網羅/未知入力拒否2 Red→2 Green、明示引数1 Red→3 Green、公開plan reader1 Red→4 Green。新72 gate成功前は設定認識を開始しない。
+- feature無効は新v2 default CLIのown lib/bin fresh=falseを確認し、元FVB default CLIをSHA完全一致で復元して16条件のexit/stdout/stderr/body不変を確認した。NN/model load0。readerは未実装Red→3 packet tests Green。これはONNX精度gateとは別である。
 
 ## 2026-10-21: 追加実資料の途中欠落をnative traceで切り分け
 

@@ -111,6 +111,67 @@ def verify_known(folder):
     return {'complete':True,'archive_sha256':index['sha256'],'successful_settings':3,'all_recorded_settings':all_settings,'independent_crop_RGBs':pixels_checked,'preserved_failed_attempts':failed,'quality_changes_initial':changed,'known_literal_CLI_processes':2,'new_accuracy_gain':False,'new_model_calls_in_replay':0}
 
 
+def verify_option_plan(folder):
+    from vertical_cli_fallback_v2_options import option_plan,option_command
+    folder=Path(folder);result=verify_before(folder)
+    index,data=_packet(folder,'options-plan-before-nn-v1.index.json');_,frozen=_packet(folder,'before-nn-v1.index.json')
+    meta=json.loads(data['evidence/option-plan-before-NN-v1.meta.json']);plans=json.loads(data['evidence/option-plan-before-NN-v1.json'])
+    assert sha(data['evidence/option-plan-before-NN-v1.json'])==meta['option_plan_sha256']
+    assert meta['source_before_NN_packet_sha256']==result['archive_sha256']
+    assert meta['option_matrix_NN_calls']==index['option_matrix_NN_calls']==0
+    for name,digest in meta['source_files_sha256'].items():assert sha(data[name])==digest
+    repo=Path(__file__).resolve().parents[1]
+    assert sha((repo/'tools/vertical_cli_fallback_v2_options.py').read_bytes())==meta['source_files_sha256']['tools/vertical_cli_fallback_v2_options.py']
+    before=json.loads(frozen['evidence/before-NN-v1.json']);manifest=frozen['evidence/new-manifest.json']
+    assert sha(manifest)==meta['input72_manifest_sha256']
+    expected=option_plan(json.loads(manifest)['inputs']);original_root=Path(before['frozen_candidate_cli']['path']).parents[2]
+    out=original_root/'tmp/vertical-cli-fallback-v2/options-matrix-v1'
+    assets=json.loads((repo/'docs/benchmarks/vertical-page-fallback/bundle.json').read_text())['assets']
+    for row in expected:
+        label='-'.join([row['variant'],row['profile'],row['id'],'deim'+str(row['deim']).lower(),'cascade'+str(row['cascade']).lower()]);body=out/'predictions'/(label+'.txt')
+        binary=before['reused_fresh_FVB_baseline']['cli']['path'] if row['variant']=='baseline' else before['frozen_candidate_cli']['path']
+        row.update({'label':label,'body':str(body),'argv':option_command(row,binary,original_root/'models',assets,body)})
+    assert plans==expected and len(plans)==384 and len({r['label'] for r in plans})==384
+    return {'complete':True,'archive_sha256':index['sha256'],'planned_commands':384,'planned_CSV_rows':1152,'option_matrix_NN_calls':0,'gate_required_before_execution':True}
+
+
+def verify_disabled(folder):
+    folder=Path(folder);before_result=verify_before(folder)
+    index,data=_packet(folder,'feature-disabled-v1.index.json');_,frozen=_packet(folder,'before-nn-v1.index.json')
+    assert index['source_before_NN_packet_sha256']==before_result['archive_sha256']
+    before=json.loads(frozen['evidence/before-NN-v1.json']);pre=json.loads(data['run/before.json']);summary=json.loads(data['run/summary.json']);commands=json.loads(data['run/commands.json'])
+    assert all(pre['files_sha256'].get(n)==h for n,h in before['files_sha256'].items())
+    assert sha(data['evidence/check_feature_disabled_cli_v1.py']) in pre['files_sha256'].values()
+    assert summary['new_NN_calls']==summary['model_loads']==0 and summary['frozen_bytes_after_unchanged']
+    binaries={variant:json.loads(data['evidence/default-cli-'+variant+'-frozen.json']) for variant in ['baseline','candidate']}
+    for variant,meta in binaries.items():
+        name='evidence/default-cli-build.jsonl' if variant=='candidate' else 'baseline-evidence/default-cli-baseline-build.jsonl'
+        events=[json.loads(line) for line in data[name].decode().splitlines() if line.startswith('{')]
+        event=meta['compiler_artifact'];assert event in events and event['fresh'] is False and 'onnx' not in event['features']
+        assert pre['files_sha256'][meta['path']]==meta['sha256']
+        if variant=='candidate':assert sha(data[name])==meta['build_stdout_sha256']
+    assert len(commands)==16 and len({(r['variant'],r['asset'],r['case'],r['deim']) for r in commands})==16
+    values={}
+    for row in commands:
+        variant,asset,case,deim=(row[k] for k in ['variant','asset','case','deim'])
+        assert variant in binaries and asset in ['missing','dummy'] and case in ['body','white'] and type(deim) is bool
+        label=f'{variant}-{asset}-{case}-{deim}';stdout=data['run/'+label+'.stdout'];stderr=data['run/'+label+'.stderr'];body=data.get('run/'+label+'.txt')
+        assert sha(stdout)==row['stdout_sha256'] and sha(stderr)==row['stderr_sha256']
+        assert (body is not None)==row['body_exists'] and (sha(body) if body is not None else None)==row['body_sha256']
+        assert row['binary_sha256']==binaries[variant]['sha256'] and row['argv'][0]==binaries[variant]['path']
+        assert row['argv'][1]=='recognize-page' and row['argv'][row['argv'].index('--use-deim-detection')+1]==str(deim).lower()
+        image=data['inputs/arial121.png'] if case=='body' else data['run/white.png'];assert sha(image)==row['image_sha256']
+        if case=='body':
+            assert row['exit_code']==1 and stdout==b'' and body is None
+            assert (b'Error: file not found' if asset=='missing' else b'Error: onnx feature is disabled') in stderr
+        else:assert row['exit_code']==0 and stdout==b'\n' and body==b''
+        values[variant,asset,case,deim]=(row['exit_code'],stdout,stderr,body)
+    for asset in ['missing','dummy']:
+        for case in ['body','white']:
+            for deim in [False,True]:assert values['baseline',asset,case,deim]==values['candidate',asset,case,deim]
+    return {'complete':True,'archive_sha256':index['sha256'],'CLI_processes':16,'compared_cases':8,'identical_exit_stdout_stderr_body':True,'NN_calls':0,'new_model_calls_in_replay':0}
+
+
 if __name__=='__main__':
     import argparse
-    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--folder',type=Path,default=Path(__file__).resolve().parents[1]/'docs/benchmarks/vertical-cli-fallback-v2');parser.add_argument('--known',action='store_true');args=parser.parse_args();print(json.dumps(verify_known(args.folder) if args.known else verify_before(args.folder),indent=2))
+    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--folder',type=Path,default=Path(__file__).resolve().parents[1]/'docs/benchmarks/vertical-cli-fallback-v2');mode=parser.add_mutually_exclusive_group();mode.add_argument('--known',action='store_true');mode.add_argument('--options-plan',action='store_true');mode.add_argument('--disabled',action='store_true');args=parser.parse_args();verify=verify_disabled if args.disabled else verify_option_plan if args.options_plan else verify_known if args.known else verify_before;print(json.dumps(verify(args.folder),indent=2))

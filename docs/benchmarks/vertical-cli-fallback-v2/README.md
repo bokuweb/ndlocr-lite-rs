@@ -33,3 +33,16 @@ All nine captured crop RGBs are independently checked against the input PNG/bbox
 The literal CLI check passes DEIM off/on with body/stdout assertions; its temporary body files are not separately retained.
 These are known regression checks, counted as zero new accuracy gains. Replay with `--known`.
 The new72 default accuracy comparison is a separate in-progress run and is not an adoption result.
+
+Its first attempt stopped with Python exit120 during disk exhaustion, leaving 129 successful baseline command receipts and no complete gate.
+stderr was empty, so the original exception is unavailable. All partial outputs remain private and are excluded from adoption.
+After lossless archival of closed experiment RGBs and a fresh check of every original binding, all 576 results are being remeasured in a new directory.
+Source, models, GT, images and executables are unchanged; no partial results are reused.
+
+`options-plan-before-nn-v1.zip` freezes 384 explicit argv for eight inputs and six nondefault profiles (1,152 planned metric rows).
+The model-free planner rejects incomplete/duplicate/unknown input sets and replays every argv with `--options-plan`.
+It runs zero recognition; execution requires the completed new72 nonregression/positive-gain gate first.
+
+`feature-disabled-v1.zip` records a newly compiled v2 default CLI and the restored exact FVB default CLI.
+All 16 missing/dummy-model × body/white × DEIM off/on × variant processes preserve exit/stdout/stderr/body bytes.
+No model loads or NN calls occur. The reader was added from missing-function Red to all three packet tests Green; replay with `--disabled`.
