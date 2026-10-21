@@ -55,3 +55,6 @@ mod vertical_capacity;
 
 #[cfg(any(feature = "onnx", test))]
 mod output_capacity;
+
+#[cfg(any(feature = "onnx", test))]
+mod vertical_fallback;

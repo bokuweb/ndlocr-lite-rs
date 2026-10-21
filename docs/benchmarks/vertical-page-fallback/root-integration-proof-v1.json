@@ -1,0 +1,100 @@
+{
+  "schema": 1,
+  "archive": "root-integration-proof-v1.zip",
+  "bytes": 64867,
+  "sha256": "2bd9bc0d4de17058ce56d2cbdd982570b8bb9a6dd6770e8c9db4b81592c08fa2",
+  "members": {
+    "root-source/.github/workflows/ci.yml": {
+      "bytes": 7608,
+      "sha256": "a7bbdc119b564d228f1add4648177fed612aae2d22abe10325a186b1726240ad"
+    },
+    "root-source/docs/vertical_page_fallback_integration.md": {
+      "bytes": 2098,
+      "sha256": "b8591b5bd6d879bdf4ca1fb2d59c39c4c26ea774cefb4b49e077fc738655cf98"
+    },
+    "root-source/src/infer/mod.rs": {
+      "bytes": 1321,
+      "sha256": "5393e2d95b416d207870c38f3a9fb03ebed5bef4d8c87c40ecc733d91ea58400"
+    },
+    "root-source/src/infer/page_pool.rs": {
+      "bytes": 17377,
+      "sha256": "7ac0548997a671c6532adeb6fd45a9913b64a895d73259be1bb69ee850304dd3"
+    },
+    "root-source/src/infer/vertical_fallback.rs": {
+      "bytes": 4108,
+      "sha256": "df6c04a4dc47e20f1f5f2c2bb0cec6b58948eacda4d50767cc23d2d7dd613abe"
+    },
+    "root-source/src/pipeline/line_chunks.rs": {
+      "bytes": 51165,
+      "sha256": "6f1a3d2cc91b9f98abf5b8d6a8093938a24828226c4277d5ec4f251b8132340e"
+    },
+    "root-source/src/pipeline/line_chunks/vertical.rs": {
+      "bytes": 8754,
+      "sha256": "ab894a9ff0af5b6918ff7c44d61d9a6760671254a4ec533f5db9d1a420d9aafb"
+    },
+    "root-source/tests/support/vertical_fallback_geometry.rs": {
+      "bytes": 11903,
+      "sha256": "1bb057597c56b04938f0ffec66d464e612b1c19ce6a7e0d92e25ef2d9c870657"
+    },
+    "root-source/tests/vertical_fallback_page_tests.rs": {
+      "bytes": 3278,
+      "sha256": "54aa971a274e798273926a9a5735977d5c5fa2b44f47b49d014eae3ebdb7347c"
+    },
+    "validation/root-FVB-default-QA.json": {
+      "bytes": 1601,
+      "sha256": "20a5289bcc423173374fefe7f84b8c5c79237ff1bc3444ff4471f1fe88639ab4"
+    },
+    "validation/root-FVB-default-clippy.stderr": {
+      "bytes": 10170,
+      "sha256": "1024c4ec58dee4ef26b5ceb74a441fc2c5f835bd84fe6b84d07feb1357e3cd8e"
+    },
+    "validation/root-FVB-default-clippy.stdout": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "validation/root-FVB-default-lib-capacity-attempt1.json": {
+      "bytes": 248,
+      "sha256": "6bdb1943ec6f09d5d547db541103246d9fe92d818f95e9118478712718349749"
+    },
+    "validation/root-FVB-default-lib-capacity-attempt1.stderr": {
+      "bytes": 1272,
+      "sha256": "a0043947540549f3766a3fb4b12c12ac46d7f34370daa099e70e997d5c098483"
+    },
+    "validation/root-FVB-default-lib-capacity-attempt1.stdout": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "validation/root-FVB-default-lib-v2.stderr": {
+      "bytes": 5879,
+      "sha256": "b4d20bae55f534db1ed072d8a0cd9dad233375c9fcf224f8b80120a2900bbfc2"
+    },
+    "validation/root-FVB-default-lib-v2.stdout": {
+      "bytes": 222003,
+      "sha256": "9a82982742dc907db4d928323f43f93165c7eb31f3fe36f7016dd98c3c160f8b"
+    },
+    "validation/root-FVB-fmt.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "validation/root-FVB-fmt.stdout": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "validation/root-FVB-integration-source-bridge.json": {
+      "bytes": 2738,
+      "sha256": "712a261ce215386c39ce81ef387f92ece6d8879d519b355a6971bde3bd088618"
+    }
+  },
+  "runtime_files": 5,
+  "new_root_unit_tests": 13,
+  "actual_root_default_lib": {
+    "passed": 439,
+    "ignored": 38,
+    "failed": 0
+  },
+  "default_Clippy_warnings": 13,
+  "full_frozen_matrix_gate_passed": true,
+  "root_ONNX_and_full_CI_pending": true,
+  "new_NN_calls_this_root_validation": 0,
+  "root_Cargo_lock_remains_ignored": true
+}

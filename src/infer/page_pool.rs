@@ -228,14 +228,39 @@ fn recognize_one_page(
                 Some([x0, y0, x1, y1])
             })
             .collect();
-    let using_bands = bboxes.is_empty();
-    let fallback_rgb = if using_bands {
+    let using_fallback = bboxes.is_empty();
+    let fallback_rgb = if using_fallback {
         crate::pipeline::background::normalize_chromatic_panels(rgb, width, height)
             .map_err(anyhow::Error::msg)?
     } else {
         std::borrow::Cow::Borrowed(rgb)
     };
     let rgb = fallback_rgb.as_ref();
+    // An unsupported vertical attempt leaves the original horizontal fallback intact.
+    let vertical_recognition = if using_fallback {
+        super::vertical_fallback::try_recognize(
+            rgb,
+            width,
+            height,
+            opts.min_line_confidence,
+            |pixels, w, h| {
+                let mut values = parseq.recognize_batch_single_session_rgb_u8(&[(pixels, w, h)])?;
+                if values.len() != 1 {
+                    return Err(anyhow!(
+                        "vertical fallback expected one recognition, got {}",
+                        values.len()
+                    ));
+                }
+                Ok(values.remove(0))
+            },
+        )
+    } else {
+        None
+    };
+    let using_horizontal_fallback = using_fallback && vertical_recognition.is_none();
+    if let Some((bounds, _)) = &vertical_recognition {
+        bboxes.push(*bounds);
+    }
     if bboxes.is_empty() {
         let bands = if width.saturating_mul(height) >= 1_000_000 {
             crate::pipeline::line_segment::detect_textline_bands_fast(rgb, width, height, 220)
@@ -290,7 +315,9 @@ fn recognize_one_page(
         .collect();
     // 各ページのバッチは「1 Session 専有」で投げる。複数ワーカーが同時に
     // ここに来ても、それぞれ別 Session を掴むので Parseq プールが詰まらない。
-    let recs = if using_bands {
+    let recs = if let Some((_, recognized)) = vertical_recognition {
+        vec![recognized]
+    } else if using_fallback {
         parseq.recognize_batch_single_session_horizontal_rgb_u8(&inputs)?
     } else {
         parseq.recognize_batch_single_session_rgb_u8(&inputs)?
@@ -310,7 +337,7 @@ fn recognize_one_page(
     for (((bbox, crop), rec), isolated) in crops.into_iter().zip(recs).zip(isolated) {
         let (input_w, input_h) = parseq.input_dimensions();
         let overwide = crop.width as u128 * input_h as u128 > crop.height as u128 * input_w as u128;
-        let rec = if using_bands && overwide {
+        let rec = if using_horizontal_fallback && overwide {
             let Some(recovered) = super::band_line_recovery::recover_overwide_band(
                 &crop.data,
                 crop.width,
@@ -324,7 +351,7 @@ fn recognize_one_page(
         } else {
             rec
         };
-        let rec = if isolated && !using_bands {
+        let rec = if isolated && !using_fallback {
             super::dense_line_recovery::recover_dense_horizontal_line(
                 &rec,
                 &crop.data,
@@ -338,7 +365,7 @@ fn recognize_one_page(
             rec
         };
         // Fallback adds lines without a detector score; require model support first.
-        if using_bands && !supported_fallback_confidence(rec.mean_confidence) {
+        if using_fallback && !supported_fallback_confidence(rec.mean_confidence) {
             continue;
         }
         if rec.mean_confidence < opts.min_line_confidence {

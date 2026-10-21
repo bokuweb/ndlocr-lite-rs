@@ -208,3 +208,33 @@ pub(super) fn retain_glyph_boundaries(
     });
     gaps
 }
+
+/// Direction evidence for a single fallback column, using the existing ink scan.
+#[cfg(test)]
+pub(crate) fn has_fallback_column_support(rgb: &[u8], width: usize, height: usize) -> bool {
+    fallback_column_anchor_count(rgb, width, height).is_some()
+}
+
+#[cfg(any(feature = "onnx", test))]
+pub(crate) fn fallback_column_anchor_count(
+    rgb: &[u8],
+    width: usize,
+    height: usize,
+) -> Option<usize> {
+    let length = width.checked_mul(height).and_then(|x| x.checked_mul(3));
+    if width == 0 || height == 0 || length != Some(rgb.len()) {
+        return None;
+    }
+    let scan = super::scan_ink_runs(rgb, width, height, 220);
+    let minimum_anchor = (height * 3).div_ceil(5);
+    let anchors = scan
+        .widths
+        .iter()
+        .zip(&scan.extents)
+        .filter(|&(&w, &e)| w >= minimum_anchor && e >= minimum_anchor)
+        .count();
+    (anchors >= 6
+        && (scan.widths.iter().sum::<usize>() as u128) * 3 >= width as u128
+        && scan.extents.iter().copied().max().unwrap_or(0) >= height.div_ceil(2))
+    .then_some(anchors)
+}

@@ -625,3 +625,17 @@
   source/fresh build/argv/framingは照合したが、親jobの最終stampがないため診断専用とする。
   完了artifactやgateへ含めず、後続の実CLI cascade traceを候補へ残す。
 - `76d4b37`はCI全5ジョブ成功。本体OのCIでありFVCのNN検証ではない。
+
+## 2026-10-21: FVB全8経路gate成功、本体統合
+
+- [完全run39532673209](https://github.com/bokuweb/ndlocr-lite-rs/actions/runs/39532673209)の
+  10完了artifact/4種類、全44,256CSV行・22,128比較行を手元でも検算しremoteと完全一致した。
+  入力別文字/語の悪化0、新FVB本文raw7経路組改善、CLI3,684 processの本文変更0。
+  CLI4 raw jobs・全CSV・全比較・独立検算を[完全gate packet](benchmarks/vertical-page-fallback/complete-cli-and-gate-linux-v1.json)へ保存した。
+- [統合前仕様](vertical_page_fallback_integration.md)に従い、現在の278 bound filesがO baselineと同じことを確認後、
+  FVB推論5ファイルと13 testsを移した。除去はcfg(test) captureだけで、残りはrustfmt後の凍結sourceと一致する。
+  Root fmt/default lib439成功・38ignored、default Clippyは既存13警告。
+- 最初のlocal test buildは容量不足で実行前に停止し、同じsourceをstrip noneで再buildして成功した。
+  [統合proof](benchmarks/vertical-page-fallback/root-integration-proof-v1.json)へ失敗/成功・source対応を保存した。
+  本体CIへ実vertical_fallback_page回帰とONNX Clippyを追加した。全Root CIの結果は追って確認する。
+- 次はこのFVB本体を基準に追加実資料6画像/11表記を測る。FVC新72と、Oの既知CLIモデル選択traceは独立gateを維持する。

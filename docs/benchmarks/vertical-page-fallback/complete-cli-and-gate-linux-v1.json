@@ -1,0 +1,31 @@
+{
+  "schema": 1,
+  "utc": "2026-10-21T04:54:42.860676+00:00",
+  "archive": "complete-cli-and-gate-linux-v1.zip",
+  "bytes": 7411023,
+  "sha256": "45fbf5b9c76e99de00a1f37e5468e64e41c29fa5154669e3f00ccd2a709ac265",
+  "members_file": "complete-cli-and-gate-linux-v1.members.json.gz",
+  "members_bytes": 440564,
+  "members_sha256": "a21e93ce53a240e52dcca5fd6d04a9c5c5035eb79ac015c5a3b901988019edfa",
+  "member_count": 14793,
+  "run": 39532673209,
+  "run_head": "0c937c468a522fd5da4ae198be943e1dc7e172e3",
+  "bundle_sha256": "7f372e72532c360f886d9101597e0c911ea2f5f815998b254071390e2c63868c",
+  "required_Page_packet": {
+    "file": "completed-pages-linux-v1.zip",
+    "sha256": "8af949bbc71db40174a282bd4bae8163ffbf21334fcced4eb81e2f3651bed6cd"
+  },
+  "full_gate_pass": true,
+  "independently_verified_CSV_rows": 44256,
+  "char_and_word_comparison_rows": 22128,
+  "per_input_regressions": 0,
+  "fresh_raw_gain_pairs": 7,
+  "CLI_text_changes": 0,
+  "complete_artifacts": 10,
+  "complete_kinds": 4,
+  "CLI_processes": 3684,
+  "PageRecognizer_loads": 12,
+  "Page_model_session_loads": 24,
+  "new_NN_calls_this_packaging": 0,
+  "root_inference_integrated_at_measurement": false
+}

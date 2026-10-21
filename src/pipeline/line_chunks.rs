@@ -37,6 +37,8 @@ pub(crate) use long_split::split_long_line_near_center;
 
 /// 回転した縦書き字形の文脈を保つ分割。
 mod vertical;
+#[cfg(test)]
+pub(crate) use vertical::has_fallback_column_support;
 pub use vertical::split_rotated_vertical_column_for_input;
 #[cfg(any(feature = "onnx", test))]
 pub(crate) use vertical::split_supported_vertical_column_for_input;
@@ -1260,3 +1262,6 @@ mod tests {
         }
     }
 }
+
+#[cfg(any(feature = "onnx", test))]
+pub(crate) use vertical::fallback_column_anchor_count;
