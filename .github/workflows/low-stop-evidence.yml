@@ -16,6 +16,8 @@ on:
       - 'tests/test_vertical_cli_fallback_v2_packet.py'
       - 'tests/test_vertical_cli_fallback_v2_options.py'
       - 'tools/vertical_cli_fallback_v2_options.py'
+      - 'tools/vertical_cli_fallback_v2_full_scope.py'
+      - 'tests/test_vertical_cli_fallback_v2_full_scope.py'
       - 'docs/benchmarks/vertical-cli-fallback-v2/**'
       - 'tests/test_vertical_cli_fallback_packet.py'
       - 'docs/benchmarks/vertical-cli-fallback/new72-cli-matrix-v1.*'
@@ -75,5 +77,6 @@ jobs:
         run: |
           python -m unittest discover -s tests -p test_vertical_cli_fallback_v2_packet.py -v
           python -m unittest discover -s tests -p test_vertical_cli_fallback_v2_options.py -v
+          python -m unittest discover -s tests -p test_vertical_cli_fallback_v2_full_scope.py -v
       - name: Verify saved metrics and reconstruct captured RGB hashes without NN
         run: python tools/verify_low_stop_evidence.py

@@ -46,3 +46,9 @@ It runs zero recognition; execution requires the completed new72 nonregression/p
 `feature-disabled-v1.zip` records a newly compiled v2 default CLI and the restored exact FVB default CLI.
 All 16 missing/dummy-model × body/white × DEIM off/on × variant processes preserve exit/stdout/stderr/body bytes.
 No model loads or NN calls occur. The reader was added from missing-function Red to all three packet tests Green; replay with `--disabled`.
+
+`QA-and-full-scope-v1.zip` retains the frozen ONNX lib run (465 passed / 115 ignored), successful all-targets Clippy logs,
+and the new complete-scope union's Red/Green proof. No warnings occur in the new FVC app/finish-test files;
+the frozen old FVB iterator/test-identity warnings remain in the logs and are already addressed by the equivalent root32ef cleanup.
+The proposed v2 full gate has 1,311 physical / 1,317 scoring IDs, 26,220 image results and 79,020 metric rows.
+This is preparation only: the new72 gate is still required before the v2 full run is dispatched.
