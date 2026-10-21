@@ -267,6 +267,65 @@ def verify_parser_preflight(folder):
     return {'complete':True,'archive_sha256':index['sha256'],'parsed_argv':384,'successful_native_vectors':48,'preserved_failed_wrapper':1,'NN_calls':0,'model_loads':0,'new_model_calls_in_replay':0}
 
 
+def verify_root_before(folder):
+    from verify_additional_real_partition_probe import verify as verify_partitions
+    folder=Path(folder);verify_partitions(folder.parent/'real-vertical-primary-partition-probe')
+    ri,data=_packet(folder/'root-bridge-v1','baseline-before-green-v1.index.json');di,default=_packet(folder/'root-bridge-v1','default-baseline-v1.index.json')
+    assert di['baseline_source_packet_sha256']==ri['sha256']
+    vi,v2=_packet(folder,'before-nn-v1.index.json');gi,geometry=_packet(folder.parent/'real-vertical-primary-partition-probe','before-nn-v1.index.json');si,stop=_packet(folder.parent/'real-vertical-additional-stop-probe','before-nn-v1.index.json')
+    assert ri['FVCv2_before_packet_sha256']==vi['sha256'] and ri['geometry_source_before_packet_sha256']==gi['sha256']
+    gbridge=json.loads(geometry['evidence/source-bridge-v1.json']);gsource={}
+    assert gbridge['packet_SHA256']=={'FVCv2':vi['sha256'],'stop':si['sha256']}
+    for name,meta in gbridge['source_files'].items():
+        raw={'FVCv2':v2,'stop':stop,'this':geometry}[meta['packet']][meta['member']];assert sha(raw)==meta['sha256'];gsource[name]=raw
+    bridge=json.loads(data['evidence/source-bridge-v1.json']);frozen=json.loads(data['evidence/root-baseline-frozen-v1.json']);source={}
+    assert bridge['geometry_before_packet_sha256']==gi['sha256'] and set(bridge['source_files'])==set(frozen['source_files'])
+    for name,meta in bridge['source_files'].items():
+        raw={'geometry':gsource,'this':data}[meta['packet']][meta['member']];assert sha(raw)==meta['sha256']==frozen['source_files'][name];source[name]=raw
+    assert 'vertical_fallback::try_prepared_if_empty(' not in source['src/app.rs'].decode()
+    events=[json.loads(line) for line in data['evidence/root-baseline-build-v1.jsonl'].decode().splitlines() if line.startswith('{')]
+    assert sha(data['evidence/root-baseline-build-v1.jsonl'])==frozen['build_stdout_sha256']
+    assert len(frozen['own_artifacts'])==3
+    for event in frozen['own_artifacts']:assert event in events and event['fresh'] is False and 'onnx' in event['features']
+    for key,meta in frozen['binaries'].items():assert meta['compiler_artifact'] in frozen['own_artifacts'] and meta['compiler_artifact']['executable'] is not None
+    root=Path(frozen['binaries']['bin']['path']).parents[2];pre=json.loads(data['baseline-red/before-NN.json']);run=json.loads(data['baseline-red/command.json'])
+    assert not pre['complete'] and run['complete'] and run['files_sha256']==pre['files_sha256'] and run['frozen_files_after_unchanged']
+    assert run['exit_code']==101 and run['expected_literal_failures']==run['successful_CLI_processes']==2 and b'2 failed;' in data['baseline-red/run.stdout']
+    vb=json.loads(v2['evidence/before-NN-v1.json'])
+    for name,digest in pre['files_sha256'].items():
+        rel=str(Path(name).relative_to(root))
+        if rel in source:raw=source[rel]
+        elif rel.startswith('models/'):assert vb['files_sha256'][name]==digest;continue
+        elif name in {m['path'] for m in frozen['binaries'].values()}:assert next(m['sha256'] for m in frozen['binaries'].values() if m['path']==name)==digest;continue
+        elif rel=='docs/vertical_cli_fallback_v2_root_bridge.md':raw=data['protocol/vertical_cli_fallback_v2_root_bridge.md']
+        else:raw=data['evidence/'+Path(rel).name]
+        assert sha(raw)==digest
+    expected_argv=[frozen['binaries']['test']['path'],'--ignored','--nocapture','--test-threads=1'];assert pre['argv']==run['argv']==expected_argv
+    candidate=json.loads(data['known-candidate-precheck/command.json'])
+    assert candidate['argv']==expected_argv and candidate['exit_code']==0 and candidate['CLI_processes']==2 and candidate['known_only'] and candidate['Root_runtime_integrated'] is False
+    assert candidate['candidate_sha256']==vb['frozen_candidate_cli']['sha256'] and candidate['test_sha256']==frozen['binaries']['test']['sha256']
+    assert b'2 passed; 0 failed;' in data['known-candidate-precheck/run.stdout']
+    case=json.loads(source['tests/fixtures/vertical_fallback_page/case.json']);expected_body=case['expected'].encode()
+    ground_truth=source['tests/fixtures/vertical_fallback_page/'+case['truth']]
+    assert len(case['expected'])==120 and len(ground_truth.decode())==121
+    assert sha(expected_body)==case['expected_sha256'] and sha(ground_truth)==case['truth_sha256']
+    assert ground_truth.decode().count('\u3000')==1 and ground_truth.decode().replace('\u3000','')==case['expected']
+    for label,binary,environment in [('baseline-red',frozen['binaries']['bin']['path'],pre['env']),('known-candidate-precheck',vb['frozen_candidate_cli']['path'],candidate['env'])]:
+        assert environment['NDLOCR_TEST_CLI_BINARY']==binary and environment['NDLOCR_INTRA_THREADS']==environment['NDLOCR_PARSEQ_PARALLELISM']=='1'
+        for deim in [False,True]:
+            prefix=f'{label}/evidence/deim-{str(deim).lower()}/';command=json.loads(data[prefix+'command.json']);argv=command['argv'];body=data[prefix+'body.txt']
+            assert command['binary']==binary and command['exit_code']==0 and command['deim']==deim
+            assert argv[:2]==['recognize-page','--image'] and argv[2]==str(root/'tests/fixtures/vertical_fallback_page'/case['image'])
+            assert argv[argv.index('--use-deim-detection')+1]==str(deim).lower() and argv[argv.index('--enable-cascade')+1]=='false' and argv[argv.index('--structure-rules')+1]=='false'
+            assert data[prefix+'stdout']==body+b'\n'
+            assert (body==expected_body)==(label=='known-candidate-precheck')
+    default_meta=json.loads(default['evidence/root-default-baseline-frozen-v1.json']);assert default_meta['source_files']==frozen['source_files'] and default_meta['NN_calls']==default_meta['model_loads']==0
+    raw=default['evidence/root-default-baseline-build-v1.jsonl'];assert sha(raw)==default_meta['build_stdout_sha256'];events=[json.loads(line) for line in raw.decode().splitlines() if line.startswith('{')]
+    assert len(default_meta['own_artifacts'])==2
+    for event in default_meta['own_artifacts']:assert event in events and event['fresh'] is False and 'onnx' not in event['features']
+    return {'baseline_literal_Red':2,'candidate_known_precheck_Green':2,'baseline_CLI_processes':2,'candidate_CLI_processes':2,'fixture_GT_scalars':121,'fixture_literal_scalars':120,'Root_runtime_integrated':False,'default_baseline_NN_calls':0,'new_model_calls_in_replay':0}
+
+
 def verify_options(folder):
     from collections import Counter
     from verify_low_stop_evidence import metric_values

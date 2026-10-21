@@ -5,6 +5,19 @@ sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'tools'))
 
 
 class FVCv2PacketTest(unittest.TestCase):
+    def test_current_root_baseline_red_and_frozen_candidate_precheck_share_one_literal_test(self):
+        from verify_vertical_cli_fallback_v2 import verify_root_before
+        result=verify_root_before(Path(__file__).resolve().parents[1]/'docs/benchmarks/vertical-cli-fallback-v2')
+        self.assertEqual(result['baseline_literal_Red'],2)
+        self.assertEqual(result['candidate_known_precheck_Green'],2)
+        self.assertEqual(result['baseline_CLI_processes'],2)
+        self.assertEqual(result['candidate_CLI_processes'],2)
+        self.assertEqual(result['fixture_GT_scalars'],121)
+        self.assertEqual(result['fixture_literal_scalars'],120)
+        self.assertFalse(result['Root_runtime_integrated'])
+        self.assertEqual(result['default_baseline_NN_calls'],0)
+        self.assertEqual(result['new_model_calls_in_replay'],0)
+
     def test_complete_options_replay_every_fixed_command_and_score_without_new_inference(self):
         from verify_vertical_cli_fallback_v2 import verify_options
         result=verify_options(Path(__file__).resolve().parents[1]/'docs/benchmarks/vertical-cli-fallback-v2')

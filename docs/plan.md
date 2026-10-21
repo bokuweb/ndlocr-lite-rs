@@ -1,5 +1,11 @@
 # ndlocr Python→Rust移植（ONNX）計画
 
+## 2026-10-21: RootのCLI回帰2 Redとknown候補2 Greenを固定
+
+- 現在のFVB Rootからlib/CLI/testをfresh=falseでbuildし、844 source/fixtureを固定した。新CLI2テストは実CLIのexit0/本文生成後にliteral不一致で2 Red。凍結v2 CLIへ同じtest binaryを渡すknown precheckは2 Greenで、Root runtimeは未接続。
+- 既知arial121はGT121字、固定raw期待値120字（U+3000欠落）だった。会話中の字数表記を訂正し、GT/期待値の内容・SHAを維持する検証を追加した。初回readerの字数assert失敗も保持し、最終7 packet tests Green。新72/全件の採点は元GTで変更なし。詳細は`docs/vertical_cli_known_literal_length_audit.md`。
+- feature無効Root基準もfresh lib/bin、NN0で固定した。known qualityの固定PNG/sourceを準備し、全件成功後に登録して必須モデルCIへ組み込む。接続仕様は`docs/vertical_cli_fallback_v2_root_bridge.md`、現状は`docs/vertical_cli_fallback_v2_root_preparation.md`。69bcc35のCIは全5 jobs成功。
+
 ## 2026-10-21: 実primary分割の117 raw結果を検証し、raw保持条件の緩和を見送る
 
 - 元36条件に対応する18入力から2経路/117 partを生成し、全117 API成功、4,224,384画素の独立座標一致、297公式CSV行の独立検算を完了した。model30の両経路全文一致は3列だが、完全raw prefixを保持する延長は0列。一葉の途中欠落を読めても空白位置/字体が変わるため、合意を作る正解依存の補正は行わない。
