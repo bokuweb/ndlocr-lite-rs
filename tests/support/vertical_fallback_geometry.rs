@@ -123,7 +123,7 @@ fn aspect_ratio_boundary_is_inclusive_and_faint_ink_remains_covered() {
     );
     assert_eq!(single_column(&rgb[..w * 159 * 3], w, 159), None);
     let (mut rgb, w, h) = column(12, 20, false);
-    let p = (1 * w + 1) * 3;
+    let p = (w + 1) * 3;
     rgb[p..p + 3].fill(254);
     let b = single_column(&rgb, w, h).expect("faint AA keeps complete envelope");
     assert!(b[0] <= 1 && b[1] <= 1);
@@ -338,4 +338,29 @@ proptest::proptest! {
    }
   }
  }
+}
+
+mod envelope_refactor_properties {
+    use super::*;
+    proptest! {
+        #![proptest_config(ProptestConfig::with_cases(128))]
+        #[test]
+        fn complete_rgb_triplets_preserve_coordinate_envelope(
+            width in 1usize..40, height in 1usize..50,
+            points in proptest::collection::vec((0usize..2000, any::<[u8;3]>()),0..40),
+        ) {
+            let mut rgb=vec![255; width*height*3];
+            for (offset,color) in points {let index=offset%(width*height);rgb[index*3..index*3+3].copy_from_slice(&color);}
+            let mut occupied=Vec::new();
+            for y in 0..height {for x in 0..width {
+                if rgb[(y*width+x)*3..(y*width+x+1)*3] != [255,255,255] {occupied.push((x,y));}
+            }}
+            let expected=if occupied.is_empty(){None}else{
+                let minx=occupied.iter().map(|p|p.0).min().unwrap();let maxx=occupied.iter().map(|p|p.0).max().unwrap();
+                let miny=occupied.iter().map(|p|p.1).min().unwrap();let maxy=occupied.iter().map(|p|p.1).max().unwrap();
+                Some(crate::pipeline::crop::BBox::new(minx.saturating_sub(1),miny.saturating_sub(1),(maxx+2).min(width),(maxy+2).min(height)))
+            };
+            prop_assert_eq!(nonwhite_envelope(&rgb,width,height),expected);
+        }
+    }
 }

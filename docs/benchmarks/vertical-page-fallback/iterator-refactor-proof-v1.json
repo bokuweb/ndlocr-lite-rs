@@ -1,0 +1,70 @@
+{
+  "schema": 1,
+  "archive": "iterator-refactor-proof-v1.zip",
+  "sha256": "3200926f50dd8b467e33197d86ee8aa3f07d55ce4d515a2f228f5fa1d1996c8b",
+  "bytes": 18891,
+  "members": {
+    "source/src/infer/vertical_fallback.rs": {
+      "sha256": "cdac7db67f1369f8ab223cbeb7cd5477421929792a2778b8e4dedddf027b5f81",
+      "bytes": 4118
+    },
+    "source/tests/support/vertical_fallback_geometry.rs": {
+      "sha256": "59da6f9270d221b0ce9aa302f026ef5800b429c8ced9a7c5959a5dc4fa8f1f1f",
+      "bytes": 13196
+    },
+    "source/docs/vertical_fallback_iterator_refactor.md": {
+      "sha256": "ea63baa063a5bda2382bbb9c94ad724c3916bef301b0f6557a13a6895958d44e",
+      "bytes": 1152
+    },
+    "evidence/envelope-property-before.stdout": {
+      "sha256": "e27a0ac982b920a7308cd3442117f1f9540755e5d0c9cdcecb246c3f9e706d4c",
+      "bytes": 240
+    },
+    "evidence/envelope-property-before.stderr": {
+      "sha256": "284c8e497641ad0b901a598fa65e50c39dbbbc2e971b033d264f0c98afc751fd",
+      "bytes": 1895
+    },
+    "evidence/envelope-property-after.stdout": {
+      "sha256": "7ad0e2ced0ee6d755c0c226d337d78431fbe3bc8302063cea0fe0913345cee3c",
+      "bytes": 1670
+    },
+    "evidence/envelope-property-after.stderr": {
+      "sha256": "c62f848c0a39f67e397e7760190bfa02bf8f83805eae236ce37c85a93448662a",
+      "bytes": 1204
+    },
+    "evidence/envelope-refactor-clippy.stdout": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "evidence/envelope-refactor-clippy.stderr": {
+      "sha256": "04dc434ea07b4714617c59b6d32442aa3ee9180f09c5d8ddb71e83a1138cbe9a",
+      "bytes": 33763
+    },
+    "evidence/envelope-refactor-final-tests.stdout": {
+      "sha256": "c0dfad6544f706d6c448e7cec35dbcd5b7050b39f9ef19916dfa8803f6540f24",
+      "bytes": 1670
+    },
+    "evidence/envelope-refactor-final-tests.stderr": {
+      "sha256": "328877ba61c8d2655a7491b83e1dfae165b23860d69b2190c07a74d025083023",
+      "bytes": 560
+    },
+    "evidence/envelope-refactor-final-fmt.stdout": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "evidence/envelope-refactor-final-fmt.stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "evidence/nonwhite-envelope-before-iterator-refactor.rs": {
+      "sha256": "df6c04a4dc47e20f1f5f2c2bb0cec6b58948eacda4d50767cc23d2d7dd613abe",
+      "bytes": 4108
+    }
+  },
+  "behavior_change": false,
+  "before_property_cases": 128,
+  "after_pure_tests": 14,
+  "onnx_library_warnings_before": 19,
+  "onnx_library_warnings_after": 18,
+  "all_targets_note": "Clippy all-targets completed successfully before the test identity-expression cleanup; lib-test reported 31 including duplicates. Do not describe all-targets warnings as 18. Only the library count is 18."
+}

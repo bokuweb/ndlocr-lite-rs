@@ -61,7 +61,7 @@ pub(super) fn single_column(rgb: &[u8], width: usize, height: usize) -> Option<[
 
 fn nonwhite_envelope(rgb: &[u8], width: usize, height: usize) -> Option<BBox> {
     let (mut x0, mut y0, mut x1, mut y1) = (width, height, 0usize, 0usize);
-    for (index, pixel) in rgb.chunks_exact(3).enumerate() {
+    for (index, pixel) in rgb.as_chunks::<3>().0.iter().enumerate() {
         if pixel.iter().map(|&x| u16::from(x)).sum::<u16>() < 765 {
             let (x, y) = (index % width, index / width);
             x0 = x0.min(x);
