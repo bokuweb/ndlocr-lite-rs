@@ -31,3 +31,8 @@ overrideでは任意30/50モデルに未存在pathを明示する。通常/trace
 評価時のthread環境は既存Linux matrixと同じ`NDLOCR_INTRA_THREADS=1`とし、
 `NDLOCR_PARSEQ_PARALLELISM=1`を明示する。設定は全18 process共通で、モデル・判定閾値は同じ。
 既定CLI argvは既存matrix.cli_commandと完全一致させ、単一モデルoverrideのargvだけを先に純粋テストする。
+
+最初のLinux attemptはobserver純粋testのコンパイルで停止し、CLI認識0だった。
+凍結sourceに含まれる既存include_bytes!が要求するjma-notice-body.pngをpacketへ入れていなかった。
+推論source・モデル・3入力は変えず、1f240beの同じcompile-time fixtureを両sourceへ追加してSHAを固定する。
+元bundle/source archiveと失敗ログは別名で保存し、欠けたfixtureを検知するreader回帰を先にRedにする。

@@ -6,8 +6,8 @@
       "sha256": "63c42c4b67731da1cb85e336dfa6ff0a643f7b6c8ea91a046cca3d39427f7553"
     },
     "sources.zip": {
-      "bytes": 1222416,
-      "sha256": "87f5806373172d64876d8e56d0df10f0ff14ffe97406c9943e702ebfc1b46580"
+      "bytes": 1928550,
+      "sha256": "6dc6724cd167d96c6f237d4b78201c3b3be0198589f3bba487e1a4d2ec6e79bc"
     }
   },
   "members": {
@@ -2269,6 +2269,14 @@
       "candidate/tests/xml_output_tests.rs": {
         "bytes": 1883,
         "sha256": "456dd0bf426c003a0ab38027a736fa7469b9849757a178e34a78039b726263cf"
+      },
+      "baseline/tests/fixtures/line_segment/jma-notice-body.png": {
+        "bytes": 386510,
+        "sha256": "c906f07dbecade29a0484032581a9e6690c3bc6a5c62fead73c57e7a669fc799"
+      },
+      "candidate/tests/fixtures/line_segment/jma-notice-body.png": {
+        "bytes": 386510,
+        "sha256": "c906f07dbecade29a0484032581a9e6690c3bc6a5c62fead73c57e7a669fc799"
       }
     }
   },
@@ -2551,7 +2559,8 @@
       "tests/wide_cell_closer_spaces_fixture_tests.rs": "5689a5941ff5281de21720a53692d3d447d1eb32e650845ca8869a9680551ee5",
       "tests/word_boundary_crop_tests.rs": "970d104f41c6d63ac18092dea32cce5d43c73c2cbf79b24916e0ec232f93d44b",
       "tests/word_tail_context_tests.rs": "40c07ce96cbcb1a7d2d300b99d373ed5b65d7204162ac7588c5a1be08535d775",
-      "tests/xml_output_tests.rs": "456dd0bf426c003a0ab38027a736fa7469b9849757a178e34a78039b726263cf"
+      "tests/xml_output_tests.rs": "456dd0bf426c003a0ab38027a736fa7469b9849757a178e34a78039b726263cf",
+      "tests/fixtures/line_segment/jma-notice-body.png": "c906f07dbecade29a0484032581a9e6690c3bc6a5c62fead73c57e7a669fc799"
     },
     "candidate": {
       "Cargo.lock": "862a213854cce3467b7d478e63f8d08854b7631219c12815a04bcdb71cb0ad65",
@@ -2833,7 +2842,8 @@
       "tests/wide_cell_closer_spaces_fixture_tests.rs": "5689a5941ff5281de21720a53692d3d447d1eb32e650845ca8869a9680551ee5",
       "tests/word_boundary_crop_tests.rs": "970d104f41c6d63ac18092dea32cce5d43c73c2cbf79b24916e0ec232f93d44b",
       "tests/word_tail_context_tests.rs": "40c07ce96cbcb1a7d2d300b99d373ed5b65d7204162ac7588c5a1be08535d775",
-      "tests/xml_output_tests.rs": "456dd0bf426c003a0ab38027a736fa7469b9849757a178e34a78039b726263cf"
+      "tests/xml_output_tests.rs": "456dd0bf426c003a0ab38027a736fa7469b9849757a178e34a78039b726263cf",
+      "tests/fixtures/line_segment/jma-notice-body.png": "c906f07dbecade29a0484032581a9e6690c3bc6a5c62fead73c57e7a669fc799"
     }
   },
   "physical_inputs": [
@@ -2917,7 +2927,7 @@
   },
   "baseline_ref": "1f240be66f71dc1819a99c89095ad9fdf8953695",
   "lock_sha256": "862a213854cce3467b7d478e63f8d08854b7631219c12815a04bcdb71cb0ad65",
-  "trace_protocol_sha256": "28228100d488ddcd7d3bfe2c1a4b63752cd62e60c256e5ef07e5b931a05d93e8",
+  "trace_protocol_sha256": "05e0bfa4fb85d8ec102635226881c9964e02eeae93d95430a0fd44c83232ede2",
   "pre_NN_calls": 0,
   "internal_forward_calls": null,
   "model_session_loads": null,
@@ -2927,5 +2937,7 @@
     "model50"
   ],
   "target_CLI_processes": 18,
-  "target_CSV_rows": 54
+  "target_CSV_rows": 54,
+  "original_trace_protocol_sha256": "28228100d488ddcd7d3bfe2c1a4b63752cd62e60c256e5ef07e5b931a05d93e8",
+  "compile_fixture_correction": "1f240be PNG included in both sources; all Rust/model/input bytes unchanged; first run stopped before NN"
 }

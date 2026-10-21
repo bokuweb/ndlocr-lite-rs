@@ -42,4 +42,13 @@ class TraceChangeGuardTest(unittest.TestCase):
                                                     'docs/benchmarks/vertical-cli-cascade-trace/results-v1.zip']))
 
 
+
+class TraceFrozenFixtureTest(unittest.TestCase):
+    def test_existing_compile_time_fixture_is_bound_in_both_frozen_sources(self):
+        from vertical_page_matrix import Bundle,sha
+        bundle=Bundle(Path(__file__).resolve().parents[1]/'docs/benchmarks/vertical-cli-cascade-trace')
+        for variant in ['baseline','candidate']:
+            self.assertEqual(sha(bundle.read('sources.zip',variant+'/tests/fixtures/line_segment/jma-notice-body.png')),
+                             'c906f07dbecade29a0484032581a9e6690c3bc6a5c62fead73c57e7a669fc799')
+
 if __name__=='__main__':unittest.main()
