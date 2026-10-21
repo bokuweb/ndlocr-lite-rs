@@ -1,0 +1,10 @@
+{
+  "complete": true,
+  "archive_sha256": "2784702415b9a71c0161e6a6ee2f260c7ac44d0b75bd5c37aa301f6cee394764",
+  "parsed_argv": 384,
+  "successful_native_vectors": 48,
+  "preserved_failed_wrapper": 1,
+  "NN_calls": 0,
+  "model_loads": 0,
+  "new_model_calls_in_replay": 0
+}

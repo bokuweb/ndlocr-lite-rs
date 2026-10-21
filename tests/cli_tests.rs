@@ -1,4 +1,20 @@
 use clap::Parser;
+
+#[test]
+fn frozen_vertical_fallback_option_argv_parse_before_any_recognition() {
+    let rows: Vec<Vec<String>> =
+        serde_json::from_str(include_str!("fixtures/cli_options/v2-plan-argv.json")).unwrap();
+    assert_eq!(rows.len(), 384);
+    for (index, argv) in rows.into_iter().enumerate() {
+        let enabled = argv.iter().any(|value| value == "--quality-boost");
+        let parsed = Cli::try_parse_from(argv)
+            .unwrap_or_else(|error| panic!("option argv {index}: {error}"));
+        match parsed.command {
+            Command::RecognizePage(args) => assert_eq!(args.quality_boost, enabled),
+            _ => panic!("page command required"),
+        }
+    }
+}
 use ndlocr_lite_rs::cli::{
     Cli, Command, DEFAULT_CHARSET_PATH, DEFAULT_DETECT_MODEL_PATH, DEFAULT_RECOGNIZE_MODEL_PATH,
     DEFAULT_RECOGNIZE_MODEL30_PATH, DEFAULT_RECOGNIZE_MODEL50_PATH,

@@ -1,0 +1,150 @@
+{
+  "archive": "options-plan-before-nn-v2.zip",
+  "bytes": 181516,
+  "sha256": "aa0a4150e0d04c8b6e83492f08748dc450ca8ceac7fcbf7791c498d1f90f5d04",
+  "members": {
+    "evidence/option-plan-before-NN-v2.json": {
+      "bytes": 991139,
+      "sha256": "9ca8486e837eb472bbe077a14e0afce5edd8b0fd07deaddecdbb4338f62a9221"
+    },
+    "evidence/option-plan-before-NN-v2.meta.json": {
+      "bytes": 1435,
+      "sha256": "f146e4d9c0e010dadb42c1e206c7033da7e1fd74c482845322c150b3fc7eb0df"
+    },
+    "evidence/freeze_option_plan_v2.py": {
+      "bytes": 3982,
+      "sha256": "f430ba6f5e310adb72898533a5d5fa0553deb5bd3c0db7dabdc5836a571e3208"
+    },
+    "evidence/options-plan-red.stdout": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "evidence/options-plan-red.stderr": {
+      "bytes": 1996,
+      "sha256": "c118d17efc38588d5ed35683246be70e44cd669372a47aa1a5cf363539caeb99"
+    },
+    "evidence/options-plan-green.stdout": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "evidence/options-plan-green.stderr": {
+      "bytes": 528,
+      "sha256": "cc521de0fb5ea52ed19d069c9a9b414ab5434548ced151bfe97c51a6a2e6099c"
+    },
+    "evidence/options-command-red.stdout": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "evidence/options-command-red.stderr": {
+      "bytes": 1531,
+      "sha256": "6107551d4750cfd4673e50203149218bef54d2797ca619a72e3cc231519f3d23"
+    },
+    "evidence/options-command-green.stdout": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "evidence/options-command-green.stderr": {
+      "bytes": 710,
+      "sha256": "1671ee3c813cf005a2696d000994c19df5154d6b282567e4f01df06510a72440"
+    },
+    "evidence/options-real-parser-red.stdout": {
+      "bytes": 290,
+      "sha256": "6fb45d0a1905dc7f9feb845ebfc1df0ea0cd8d77fb52b553f7d1b84293e2cd8a"
+    },
+    "evidence/options-real-parser-red.stderr": {
+      "bytes": 1812,
+      "sha256": "62ea4d39711f1e66fb344b8176a792c1c300c910248485b75449ad49aebcdebf"
+    },
+    "evidence/options-real-parser-green.stdout": {
+      "bytes": 754,
+      "sha256": "124125ec27ae2b5f5b31b1020f4c50752e08a2b48f2554e94a163d0c031da3ad"
+    },
+    "evidence/options-real-parser-green.stderr": {
+      "bytes": 814,
+      "sha256": "95370db2f8ed622c576e869d999bd6c2c1e7878951373df7ce1dd4b2a6e8441f"
+    },
+    "evidence/options-flag-red.stdout": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "evidence/options-flag-red.stderr": {
+      "bytes": 1736,
+      "sha256": "02e78feb7072156c6746c9201b9be6d265019b82bc64666d065876c80dab31ee"
+    },
+    "evidence/baseline-recognize-page-help-v1.stdout": {
+      "bytes": 2037,
+      "sha256": "9c87973691eaaf6c2365ac6888b2b8cedc51bbb5bcdad196514cc3d17f05ef7b"
+    },
+    "evidence/baseline-recognize-page-help-v1.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "evidence/run_options_matrix_v1.py": {
+      "bytes": 5593,
+      "sha256": "aaa481d8817fb5757e8abfcca0e00a9f4db0440bbea442a78468b5eaf798a18a"
+    },
+    "evidence/options-matrix-v1.stdout": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "evidence/options-matrix-v1.stderr": {
+      "bytes": 676,
+      "sha256": "1932340dd7eab24d6a78757e677cc356b5ad9d4811ff18b6c1080bdc0e3146c6"
+    },
+    "evidence/options-matrix-v1/before-NN.json": {
+      "bytes": 285515,
+      "sha256": "6fd84321ef39a6bbaddf6908c6c88de947363897948d7449eb6ab7213583f907"
+    },
+    "evidence/options-matrix-v1/job.json": {
+      "bytes": 287494,
+      "sha256": "facfd59d69898963b048af7a75c74181ce3711b456a56919e34b06937843bf28"
+    },
+    "evidence/options-matrix-v1/plan.json": {
+      "bytes": 1003171,
+      "sha256": "94d74459447d44599763c06897f36accb7581583d2470086165d852918453ede"
+    },
+    "evidence/options-matrix-v1/commands/baseline-padding5-fvc2_arial_49_pad6-deimtrue-cascadetrue.json": {
+      "bytes": 1675,
+      "sha256": "afb03720bb5bff21a560e60c0b61886c1871e215aa9a35d7039a21692d3fc98a"
+    },
+    "evidence/options-matrix-v1/commands/baseline-padding5-fvc2_arial_49_pad6-deimtrue-cascadetrue.stdout": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "evidence/options-matrix-v1/commands/baseline-padding5-fvc2_arial_49_pad6-deimtrue-cascadetrue.stderr": {
+      "bytes": 155,
+      "sha256": "0bb3bf3fef5061f0d4ec4801b6fa84f920f057520fe3f5dbf76fc329b1dc45ea"
+    },
+    "docs/vertical_cli_fallback_v2_option_controls.md": {
+      "bytes": 2257,
+      "sha256": "7f0dac1c55601a89645589751f5c2051b26b36e1f781d6ac1673aeb7dba01d94"
+    },
+    "tools/vertical_cli_fallback_v2_options.py": {
+      "bytes": 2657,
+      "sha256": "98259da5871d5d4e8bafd177a40201a09ae85a241244bd033f6bc52008b02b75"
+    },
+    "tests/test_vertical_cli_fallback_v2_options.py": {
+      "bytes": 3882,
+      "sha256": "67bf3580a811e1b0edc50b607c220e7e60d22773cfe2804ebd7a20f0eb349b58"
+    },
+    "tools/vertical_page_matrix.py": {
+      "bytes": 34030,
+      "sha256": "03f5e9e2db74aa53c8912df0490b96a64624a236b84a087cefb231bb2ffd7700"
+    },
+    "docs/vertical_cli_fallback_v2_option_parser.md": {
+      "bytes": 1407,
+      "sha256": "90029ae1a2c27c4708c9dcc75a0bde89fbbe7385d051067a469324358b9905cc"
+    },
+    "tests/cli_tests.rs": {
+      "bytes": 6724,
+      "sha256": "2902a47828aa59291465ca61920f7254190e4d091a076ce7e104725cc81e250f"
+    },
+    "tests/fixtures/cli_options/v2-plan-argv.json": {
+      "bytes": 611491,
+      "sha256": "4ff43484d2f185443fea79c9a3607ad562c34fed6215a731bc4f9fc29093297c"
+    }
+  },
+  "option_matrix_NN_calls": 0,
+  "CLI_processes_planned": 384,
+  "required_new72_gate": "new72 passed; native parser preflight required; option NN not yet run"
+}

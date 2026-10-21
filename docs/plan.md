@@ -1,5 +1,12 @@
 # ndlocr Python→Rust移植（ONNX）計画
 
+## 2026-10-21: FVC v2新72が成功、実CLI parserを設定gateへ追加
+
+- 再測定した新72は576 CLI結果/1,728 CSV行を完了し、独立距離と全誤り/分母が一致した。入力別文字/語悪化0、10本文画像のraw22経路組改善（bands各10、DEIM各1）。非本文36枚は全経路で不変。旧v1の14画像/30組は二重計上しない。本体はFVB。
+- 1.3MBの新72 packetへ全完了結果と停止129 receiptを併せて保存し、reader未実装Red→4 packet tests Greenで864比較/全argv/body framingも再計算した。停止分は採用数0。詳細は`docs/vertical_cli_fallback_v2_results.md`。
+- 設定384の最初のprocessはquality boostの値付きargvをCLIが拒否してexit2、画像認識/model load0だった。元計画/失敗を保持し、実Rust Cli::try_parse_fromへ全384を渡す回帰をRed→10 CLI tests Greenにした。quality trueだけ値なしflag、falseは既存defaultとして省略するv2計画へ修正。
+- 凍結前後CLIの48設定vectorは、存在しない画像でparser後の画像読込error/NN0を確認した。初回wrapperのerror文言期待失敗も保持し、再検算readerをRed→5 packet tests Greenにした。Python設定契約も5 Green。推論/GT/モデルを変えず、新計画/新出力先で384実画像processを実行中。
+
 ## 2026-10-21: FVC採用経路の既存後段を保持するv2
 
 - source監査でv1の採用経路がrecognize_initial_batchの後を再利用し、既存quality boost等のfinishを通らないことを確認した。default全件run39568828241はv1の凍結記録として継続し、それだけではv2や設定保持の成功へ数えない。本体はFVB。

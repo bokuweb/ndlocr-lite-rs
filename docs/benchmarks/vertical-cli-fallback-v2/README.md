@@ -14,7 +14,7 @@ The first archive transport used absolute input member paths and was rejected by
 PNG/RGB/GT/source bytes stayed unchanged, and the original archive hash is retained in the index. The original container remains private.
 Input path strings inside manifests still document the actual original paths.
 
-With Pillow installed, run:
+With Python 3.12+ and Pillow installed, run:
 
 ```sh
 python tools/verify_vertical_cli_fallback_v2.py
@@ -32,14 +32,17 @@ so omitting the finishing stage would fail that case. The ordinary delta0.03 cas
 All nine captured crop RGBs are independently checked against the input PNG/bbox. No GT is passed to these recognitions.
 The literal CLI check passes DEIM off/on with body/stdout assertions; its temporary body files are not separately retained.
 These are known regression checks, counted as zero new accuracy gains. Replay with `--known`.
-The new72 default accuracy comparison is a separate in-progress run and is not an adoption result.
+The new72 default comparison completed with 576 CLI results / 1,728 independently verified metric rows,
+zero per-input character/word regressions, and 22 raw gain pairs on ten body images. This is a preliminary gate, not an adoption result.
 
 Its first attempt stopped with Python exit120 during disk exhaustion, leaving 129 successful baseline command receipts and no complete gate.
-stderr was empty, so the original exception is unavailable. All partial outputs remain private and are excluded from adoption.
-After lossless archival of closed experiment RGBs and a fresh check of every original binding, all 576 results are being remeasured in a new directory.
+stderr was empty, so the original exception is unavailable. Partial outputs are retained in `new72-cli-matrix-v1.zip` and excluded from adoption.
+After lossless archival of closed experiment RGBs and a fresh check of every original binding, all 576 results were remeasured in a new directory.
 Source, models, GT, images and executables are unchanged; no partial results are reused.
 
-`options-plan-before-nn-v1.zip` freezes 384 explicit argv for eight inputs and six nondefault profiles (1,152 planned metric rows).
+`options-plan-before-nn-v1.zip` retains the initial 384-argv plan, whose quality-boost boolean value syntax was rejected before model loading.
+`options-plan-before-nn-v2.zip` corrects only the flag format and output directory, preserving all eight inputs/six profiles (1,152 planned metric rows).
+The actual Rust CLI parser checks all 384 argv; the compiled baseline/candidate CLIs also pass 48 missing-image setting vectors without loading models.
 The model-free planner rejects incomplete/duplicate/unknown input sets and replays every argv with `--options-plan`.
 It runs zero recognition; execution requires the completed new72 nonregression/positive-gain gate first.
 
@@ -51,4 +54,8 @@ No model loads or NN calls occur. The reader was added from missing-function Red
 and the new complete-scope union's Red/Green proof. No warnings occur in the new FVC app/finish-test files;
 the frozen old FVB iterator/test-identity warnings remain in the logs and are already addressed by the equivalent root32ef cleanup.
 The proposed v2 full gate has 1,311 physical / 1,317 scoring IDs, 26,220 image results and 79,020 metric rows.
-This is preparation only: the new72 gate is still required before the v2 full run is dispatched.
+The new72 gate is passed. The complete v2 runner still needs implementation/dispatch and full nonregression validation.
+
+`new72-cli-matrix-v1.zip` contains the complete run and the excluded 129-receipt attempt. Replay all 1,728 scores/864 comparisons with `--new72`.
+`option-parser-preflight-v2.zip` preserves the actual parser Red/Green and all native preflight logs, including the first validator wording failure.
+Replay that proof with `--parser-preflight`. The nondefault image matrix uses the corrected v2 plan and remains separate from these NN-free checks.

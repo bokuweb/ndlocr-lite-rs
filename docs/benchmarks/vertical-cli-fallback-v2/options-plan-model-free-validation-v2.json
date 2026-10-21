@@ -1,0 +1,8 @@
+{
+  "complete": true,
+  "archive_sha256": "aa0a4150e0d04c8b6e83492f08748dc450ca8ceac7fcbf7791c498d1f90f5d04",
+  "planned_commands": 384,
+  "planned_CSV_rows": 1152,
+  "option_matrix_NN_calls": 0,
+  "gate_required_before_execution": true
+}

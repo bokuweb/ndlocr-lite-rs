@@ -1,4 +1,5 @@
 """Authenticate FVC v2 sources and controls without model inference."""
+import csv
 import gzip
 import io
 import json
@@ -114,9 +115,10 @@ def verify_known(folder):
 def verify_option_plan(folder):
     from vertical_cli_fallback_v2_options import option_plan,option_command
     folder=Path(folder);result=verify_before(folder)
-    index,data=_packet(folder,'options-plan-before-nn-v1.index.json');_,frozen=_packet(folder,'before-nn-v1.index.json')
-    meta=json.loads(data['evidence/option-plan-before-NN-v1.meta.json']);plans=json.loads(data['evidence/option-plan-before-NN-v1.json'])
-    assert sha(data['evidence/option-plan-before-NN-v1.json'])==meta['option_plan_sha256']
+    revision=2 if (folder/'options-plan-before-nn-v2.index.json').is_file() else 1
+    index,data=_packet(folder,f'options-plan-before-nn-v{revision}.index.json');_,frozen=_packet(folder,'before-nn-v1.index.json')
+    meta=json.loads(data[f'evidence/option-plan-before-NN-v{revision}.meta.json']);plans=json.loads(data[f'evidence/option-plan-before-NN-v{revision}.json'])
+    assert sha(data[f'evidence/option-plan-before-NN-v{revision}.json'])==meta['option_plan_sha256']
     assert meta['source_before_NN_packet_sha256']==result['archive_sha256']
     assert meta['option_matrix_NN_calls']==index['option_matrix_NN_calls']==0
     for name,digest in meta['source_files_sha256'].items():assert sha(data[name])==digest
@@ -125,13 +127,14 @@ def verify_option_plan(folder):
     before=json.loads(frozen['evidence/before-NN-v1.json']);manifest=frozen['evidence/new-manifest.json']
     assert sha(manifest)==meta['input72_manifest_sha256']
     expected=option_plan(json.loads(manifest)['inputs']);original_root=Path(before['frozen_candidate_cli']['path']).parents[2]
-    out=original_root/'tmp/vertical-cli-fallback-v2/options-matrix-v1'
+    out=original_root/f'tmp/vertical-cli-fallback-v2/options-matrix-v{revision}'
     assets=json.loads((repo/'docs/benchmarks/vertical-page-fallback/bundle.json').read_text())['assets']
     for row in expected:
         label='-'.join([row['variant'],row['profile'],row['id'],'deim'+str(row['deim']).lower(),'cascade'+str(row['cascade']).lower()]);body=out/'predictions'/(label+'.txt')
         binary=before['reused_fresh_FVB_baseline']['cli']['path'] if row['variant']=='baseline' else before['frozen_candidate_cli']['path']
         row.update({'label':label,'body':str(body),'argv':option_command(row,binary,original_root/'models',assets,body)})
     assert plans==expected and len(plans)==384 and len({r['label'] for r in plans})==384
+    if revision==2:assert json.loads(data['tests/fixtures/cli_options/v2-plan-argv.json'])==[r['argv'] for r in plans]
     return {'complete':True,'archive_sha256':index['sha256'],'planned_commands':384,'planned_CSV_rows':1152,'option_matrix_NN_calls':0,'gate_required_before_execution':True}
 
 
@@ -172,6 +175,98 @@ def verify_disabled(folder):
     return {'complete':True,'archive_sha256':index['sha256'],'CLI_processes':16,'compared_cases':8,'identical_exit_stdout_stderr_body':True,'NN_calls':0,'new_model_calls_in_replay':0}
 
 
+def verify_new72(folder):
+    from collections import Counter
+    from vertical_page_matrix import cli_command
+    from verify_low_stop_evidence import metric_values
+    folder=Path(folder);before_result=verify_before(folder);known_result=verify_known(folder)
+    index,data=_packet(folder,'new72-cli-matrix-v1.index.json');_,frozen=_packet(folder,'before-nn-v1.index.json');_,known=_packet(folder,'known-finish-v1.index.json')
+    assert index['source_before_NN_packet_sha256']==before_result['archive_sha256'] and index['known_packet_sha256']==known_result['archive_sha256']
+    before=json.loads(frozen['evidence/before-NN-v1.json']);inputs=json.loads(frozen['evidence/new-manifest.json'])['inputs'];job=json.loads(data['complete/job.json']);summary=json.loads(data['complete/summary.json'])
+    assert job['complete'] and job['frozen_materials_after_unchanged'] and job['image_results']==576 and job['verified_CSV_rows']==1728
+    assert sha(data['evidence/run_new72_matrix_v2.py'])==job['driver_sha256'] and sha(frozen['evidence/new-manifest.json'])==job['manifest_sha256']
+    assert data['evidence/run_new72_matrix_v1.py'].replace(b"out=root/'new72-matrix-v1'",b"out=root/'new72-matrix-v2'")==data['evidence/run_new72_matrix_v2.py']
+    assert sha(known['run/known-finish-v4/command.json'])==job['known_regression_receipt_sha256']
+    assert job['plans']['baseline']['frozen']==before['reused_fresh_FVB_baseline']
+    assert job['plans']['candidate']['frozen']=={'cli':before['frozen_candidate_cli'],'test':before['frozen_candidate_test'],'source_files':before['source_files']}
+    original_root=Path(before['frozen_candidate_cli']['path']).parents[2];repo=Path(__file__).resolve().parents[1]
+    for name in ['tools/vertical_page_matrix.py','tools/verify_low_stop_evidence.py','tools/eval_ocr_metrics.py']:
+        assert sha((repo/name).read_bytes())==before['files_sha256'][str(original_root/name)]
+    assets=json.loads((repo/'docs/benchmarks/vertical-page-fallback/bundle.json').read_text())['assets'];assert job['assets']==assets
+    assert job['runtime_environment']['NDLOCR_INTRA_THREADS']==job['runtime_environment']['NDLOCR_PARSEQ_PARALLELISM']=='1'
+    assert job['internal_forward_calls'] is None and job['model_session_loads'] is None
+    receipts=[json.loads(raw) for name,raw in data.items() if name.startswith('complete/commands/') and name.endswith('.json')]
+    assert len(receipts)==len(job['commands'])==579 and all(r['exit_code']==0 for r in receipts)
+    assert Counter(tuple(r['argv']) for r in receipts)==Counter(tuple(r['argv']) for r in job['commands'])
+    first=job['commands'][0]['argv'];out=Path(first[first.index('--output-txt')+1]).parents[2]
+    assert out.parent==original_root/'tmp/vertical-cli-fallback-v2' and out.name=='new72-matrix-v2'
+    predictions={};wanted=[]
+    for variant in ['baseline','candidate']:
+        binary=job['plans'][variant]['frozen']['cli']['path']
+        for mode in ['deim','bands']:
+            for cascade in [True,False]:
+                route=mode+'_cascade_'+str(cascade).lower();key=variant+'_'+route;predictions[key]={}
+                for row in inputs:
+                    ident=row['id'];body=data[f'complete/predictions/{key}/{ident}.txt'];label=key+'_'+ident
+                    assert data['complete/commands/'+label+'.stdout']==body+b'\n'
+                    predictions[key][ident]=body.decode()
+                    wanted.append(cli_command(binary,row['image'],original_root/'models',assets,mode,out/'predictions'/key/(ident+'.txt'))+['--enable-cascade',str(cascade).lower()])
+    actual_cli=[r['argv'] for r in receipts if r['argv'][0] in {before['frozen_candidate_cli']['path'],before['reused_fresh_FVB_baseline']['cli']['path']}]
+    assert len(actual_cli)==576 and Counter(map(tuple,actual_cli))==Counter(map(tuple,wanted))
+    verified=0;comparisons=[];gains=[];regressions=[]
+    for normalization in ['none','width','strict']:
+        rows=list(csv.DictReader(io.StringIO(data['complete/metrics/'+normalization+'.csv'].decode())))
+        assert len(rows)==576 and {(r['system'],r['file']) for r in rows}=={(system,r['id']+'.txt') for system in predictions for r in inputs}
+        for row in inputs:
+            truth=data['complete/metrics/truth/'+row['id']+'.txt'];key=row['truth'][len(str(original_root))+1:]
+            assert truth==frozen[key] and sha(truth)==row['truth_sha256']
+        for row in rows:
+            ident=row['file'][:-4];truth=data['complete/metrics/truth/'+row['file']].decode();prediction=predictions[row['system']][ident]
+            expected=metric_values(truth,prediction,normalization)
+            assert tuple(int(row[k]) for k in ['char_errors','char_total','word_errors','word_total'])==expected;verified+=1
+        indexed={(r['system'],r['file']):r for r in rows}
+        for row in inputs:
+            for mode in ['deim','bands']:
+                for cascade in [True,False]:
+                    route=mode+'_cascade_'+str(cascade).lower();ident=row['id'];a=indexed['baseline_'+route,ident+'.txt'];b=indexed['candidate_'+route,ident+'.txt']
+                    entry={'normalization':normalization,'id':ident,'cohort':row['cohort'],'route':route,'before':a,'after':b,'body_unchanged':predictions['baseline_'+route][ident]==predictions['candidate_'+route][ident]};comparisons.append(entry)
+                    if any(int(b[k])>int(a[k]) for k in ['char_errors','word_errors']):regressions.append(entry)
+                    if normalization=='none' and row['cohort']=='new_fvc2_vertical_text' and int(b['char_errors'])<int(a['char_errors']) and int(b['word_errors'])<=int(a['word_errors']):gains.append(entry)
+    assert comparisons==json.loads(data['complete/comparisons.json']) and gains==json.loads(data['complete/new-body-gains.json']) and regressions==json.loads(data['complete/regressions.json'])
+    assert verified==1728 and summary['new_body_raw_gain_pairs']==job['new_body_raw_gain_pairs']==len(gains)
+    assert summary['regression_pairs']==job['regression_pairs']==len(regressions)
+    passed=not regressions and bool(gains);assert passed==job['matrix_gate_pass']==summary['matrix_gate_pass']
+    assert all(r['body_unchanged'] for r in comparisons if r['cohort']!='new_fvc2_vertical_text')
+    stopped=json.loads(data['stopped/job.json']);stop_meta=json.loads(data['evidence/new72-stopped-attempt-v1.json'])
+    assert not stopped['complete'] and len(stopped['commands'])==129 and all(r['exit_code']==0 for r in stopped['commands'])
+    assert stop_meta['process_exit_code']==120 and stop_meta['accepted_complete_results']==0 and data['evidence/new72-matrix-v1.stderr']==b''
+    return {'complete':True,'archive_sha256':index['sha256'],'CLI_processes':576,'verified_CSV_rows':verified,'raw_gain_pairs':len(gains),'unique_body_images_improved':len({r['id'] for r in gains}),'regressions':len(regressions),'accepted_stopped_results':0,'matrix_gate_pass':passed,'new_model_calls_in_replay':0}
+
+
+def verify_parser_preflight(folder):
+    folder=Path(folder);verify_option_plan(folder)
+    index,data=_packet(folder,'option-parser-preflight-v2.index.json');plan_index,plan_data=_packet(folder,'options-plan-before-nn-v2.index.json')
+    assert index['plan_v2_sha256']==plan_index['sha256']
+    plans=json.loads(plan_data['evidence/option-plan-before-NN-v2.json']);fixture=json.loads(data['tests/fixtures/cli_options/v2-plan-argv.json'])
+    assert fixture==[r['argv'] for r in plans] and len(fixture)==384
+    assert b'10 passed; 0 failed;' in data['evidence/options-real-parser-green.stdout']
+    unique={}
+    for row in plans:unique.setdefault((row['variant'],row['profile'],row['deim'],row['cascade']),row)
+    success=json.loads(data['run/option-parse-preflight-v3/job.json']);before=json.loads(data['run/option-parse-preflight-v3/before.json'])
+    assert success['complete'] and success['CLI_processes']==len(unique)==48 and success['frozen_files_after_unchanged']
+    assert success['files_sha256']==before['files_sha256'] and success['new_NN_calls']==success['model_loads']==0
+    assert sha(data['evidence/run_option_parse_preflight_v3.py']) in success['files_sha256'].values()
+    for index_,(row,command) in enumerate(zip(unique.values(),success['commands'],strict=True)):
+        argv=list(row['argv']);missing=command['argv'][command['argv'].index('--image')+1];assert Path(missing).name=='permanently-absent-input.png';argv[argv.index('--image')+1]=missing
+        assert command['argv']==argv and command['exit_code']==1
+        stdout=data[f'run/option-parse-preflight-v3/{index_}.stdout'];stderr=data[f'run/option-parse-preflight-v3/{index_}.stderr']
+        assert stdout==b'' and b'No such file or directory (os error 2)' in stderr
+        assert sha(stdout)==command['stdout_sha256'] and sha(stderr)==command['stderr_sha256']
+    failed=json.loads(data['run/option-parse-preflight-v2/job.json']);assert not failed['complete'] and len(failed['commands'])==1 and failed['commands'][0]['exit_code']==1
+    assert b'AssertionError' in data['run/option-parse-preflight-v2.stderr']
+    return {'complete':True,'archive_sha256':index['sha256'],'parsed_argv':384,'successful_native_vectors':48,'preserved_failed_wrapper':1,'NN_calls':0,'model_loads':0,'new_model_calls_in_replay':0}
+
+
 if __name__=='__main__':
     import argparse
-    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--folder',type=Path,default=Path(__file__).resolve().parents[1]/'docs/benchmarks/vertical-cli-fallback-v2');mode=parser.add_mutually_exclusive_group();mode.add_argument('--known',action='store_true');mode.add_argument('--options-plan',action='store_true');mode.add_argument('--disabled',action='store_true');args=parser.parse_args();verify=verify_disabled if args.disabled else verify_option_plan if args.options_plan else verify_known if args.known else verify_before;print(json.dumps(verify(args.folder),indent=2))
+    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--folder',type=Path,default=Path(__file__).resolve().parents[1]/'docs/benchmarks/vertical-cli-fallback-v2');mode=parser.add_mutually_exclusive_group();mode.add_argument('--known',action='store_true');mode.add_argument('--options-plan',action='store_true');mode.add_argument('--disabled',action='store_true');mode.add_argument('--new72',action='store_true');mode.add_argument('--parser-preflight',action='store_true');args=parser.parse_args();verify=verify_parser_preflight if args.parser_preflight else verify_new72 if args.new72 else verify_disabled if args.disabled else verify_option_plan if args.options_plan else verify_known if args.known else verify_before;print(json.dumps(verify(args.folder),indent=2))

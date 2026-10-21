@@ -31,3 +31,22 @@ class FVCv2PacketTest(unittest.TestCase):
         self.assertEqual(result['compared_cases'],8)
         self.assertTrue(result['identical_exit_stdout_stderr_body'])
         self.assertEqual(result['NN_calls'],0)
+
+    def test_complete_new72_replays_all_scores_and_excludes_the_stopped_attempt(self):
+        from verify_vertical_cli_fallback_v2 import verify_new72
+        result=verify_new72(Path(__file__).resolve().parents[1]/'docs/benchmarks/vertical-cli-fallback-v2')
+        self.assertEqual(result['CLI_processes'],576)
+        self.assertEqual(result['verified_CSV_rows'],1728)
+        self.assertEqual(result['raw_gain_pairs'],22)
+        self.assertEqual(result['unique_body_images_improved'],10)
+        self.assertEqual(result['regressions'],0)
+        self.assertEqual(result['accepted_stopped_results'],0)
+        self.assertTrue(result['matrix_gate_pass'])
+
+    def test_native_option_parser_preflight_keeps_its_failed_validator_and_runs_no_models(self):
+        from verify_vertical_cli_fallback_v2 import verify_parser_preflight
+        result=verify_parser_preflight(Path(__file__).resolve().parents[1]/'docs/benchmarks/vertical-cli-fallback-v2')
+        self.assertEqual(result['parsed_argv'],384)
+        self.assertEqual(result['successful_native_vectors'],48)
+        self.assertEqual(result['preserved_failed_wrapper'],1)
+        self.assertEqual(result['NN_calls'],0)

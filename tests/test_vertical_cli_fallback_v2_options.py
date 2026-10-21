@@ -39,6 +39,10 @@ class FVCv2OptionsTest(unittest.TestCase):
             self.assertEqual(argv[argv.index('--enable-cascade')+1],str(row['cascade']).lower())
             for name,value in row['options'].items():
                 option='--'+name.replace('_','-')
+                if name=='quality_boost':
+                    self.assertEqual(option in argv,value)
+                    if value:self.assertNotIn(argv[argv.index(option)+1],['true','false'])
+                    continue
                 self.assertEqual(argv.count(option),1)
                 self.assertEqual(argv[argv.index(option)+1],str(value).lower())
             self.assertEqual(argv[argv.index('--output-txt')+1],'/body.txt')
@@ -49,3 +53,10 @@ class FVCv2OptionsTest(unittest.TestCase):
         self.assertEqual(result['planned_commands'],384)
         self.assertEqual(result['planned_CSV_rows'],1152)
         self.assertEqual(result['option_matrix_NN_calls'],0)
+
+    def test_option_execution_requires_the_complete_positive_new72_gate(self):
+        from vertical_cli_fallback_v2_option_runner import require_new72_gate
+        valid={'complete':True,'matrix_gate_pass':True,'CLI_processes':576,'verified_CSV_rows':1728,'regressions':0,'raw_gain_pairs':1}
+        require_new72_gate(valid)
+        for field,value in [('complete',False),('matrix_gate_pass',False),('CLI_processes',575),('verified_CSV_rows',1727),('regressions',1),('raw_gain_pairs',0)]:
+            with self.subTest(field=field),self.assertRaises(ValueError):require_new72_gate(valid|{field:value})

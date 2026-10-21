@@ -27,5 +27,8 @@ def option_command(row,binary,models,assets,body):
     from vertical_page_matrix import cli_command
     argv=cli_command(binary,row['image'],models,assets,'deim' if row['deim'] else 'bands',body)
     argv+=['--enable-cascade',str(row['cascade']).lower()]
-    for name,value in row['options'].items():argv+=['--'+name.replace('_','-'),str(value).lower()]
+    for name,value in row['options'].items():
+        if name=='quality_boost':
+            if value:argv+=['--quality-boost']
+        else:argv+=['--'+name.replace('_','-'),str(value).lower()]
     return argv+['--structure-rules','true']

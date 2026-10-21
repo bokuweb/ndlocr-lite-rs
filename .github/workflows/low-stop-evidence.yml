@@ -16,6 +16,7 @@ on:
       - 'tests/test_vertical_cli_fallback_v2_packet.py'
       - 'tests/test_vertical_cli_fallback_v2_options.py'
       - 'tools/vertical_cli_fallback_v2_options.py'
+      - 'tools/vertical_cli_fallback_v2_option_runner.py'
       - 'tools/vertical_cli_fallback_v2_full_scope.py'
       - 'tests/test_vertical_cli_fallback_v2_full_scope.py'
       - 'docs/benchmarks/vertical-cli-fallback-v2/**'
