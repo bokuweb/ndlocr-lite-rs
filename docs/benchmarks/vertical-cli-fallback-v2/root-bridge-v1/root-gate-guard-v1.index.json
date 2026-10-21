@@ -1,0 +1,58 @@
+{
+  "archive": "root-gate-guard-v1.zip",
+  "bytes": 12456,
+  "sha256": "b0dcd86f7d32356b130fcbbe3a79526b00a1bd4c9784c529dfade0e58ae798eb",
+  "members": {
+    "evidence/root-gate-red.stdout": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "evidence/root-gate-red.stderr": {
+      "bytes": 2249,
+      "sha256": "6b00a14450edbe77d1a33fc1cfb502b564f2473fad0918886a61c8d102049a7f"
+    },
+    "evidence/root-gate-final-green.stdout": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "evidence/root-gate-final-green.stderr": {
+      "bytes": 502,
+      "sha256": "012fae913cfd978de5c56d9840978c85a4776a6a05790beda9fdff05aa8192f2"
+    },
+    "evidence/root-gate-old-options-green.stdout": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "evidence/root-gate-old-options-green.stderr": {
+      "bytes": 1104,
+      "sha256": "8658510654a285e34eff4c45ed5898aa0e2c410740c73a653fec91869d7cfd8c"
+    },
+    "evidence/apply_root_runtime_v1.py": {
+      "bytes": 1857,
+      "sha256": "6a7c865de490b453ca3c62ef31200709a1805a2fab7e71e4b4a51df305927a51"
+    },
+    "evidence/root-runtime-proposed-v1.patch": {
+      "bytes": 28290,
+      "sha256": "6f24190fecbff113a2bf534af54465dccc2dd147e938a4a34af76eb0cc07e55b"
+    },
+    "evidence/root-runtime-proposed-v1.json": {
+      "bytes": 1757,
+      "sha256": "9b95eddbbfd79d3cb9ec2ced532e3fe6b51112b4592675da9fe563beba305a5d"
+    },
+    "tools/vertical_cli_fallback_v2_option_runner.py": {
+      "bytes": 968,
+      "sha256": "e8d759735433922bf74a606e17879fca18d6099c1a66c66634d4890b17679698"
+    },
+    "tests/test_vertical_cli_fallback_v2_root_gate.py": {
+      "bytes": 1278,
+      "sha256": "bece0aec5e1b44ca08d07ff47248dedb7306ff36968cbbcf2d9850d05c394133"
+    },
+    "docs/vertical_cli_fallback_v2_root_gate_guard.md": {
+      "bytes": 801,
+      "sha256": "0ff2a93a1b2eaebe27e3efaffa8f4d7d25616fbac070e3a97e21a9e9e2e13d4f"
+    }
+  },
+  "new_NN_calls": 0,
+  "Runtime_patch_applied_to_Root": false,
+  "full_gate_required": 39593424953
+}
