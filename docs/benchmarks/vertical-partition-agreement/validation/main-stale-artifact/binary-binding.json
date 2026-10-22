@@ -1,0 +1,6 @@
+{
+  "actual_binary": "tmp/vertical-strict-prefix/main-red-binary",
+  "sha256": "9e1eb05c46753260129a52f765c2f37cf3d4c442952fe824e97bf0c923e391c4",
+  "same_bytes_as_stale_main_green": true,
+  "reason": "copy2 retained old source mtimes; Cargo reported fresh and did not compile the changed source"
+}

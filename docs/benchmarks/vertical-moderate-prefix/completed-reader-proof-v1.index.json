@@ -1,0 +1,53 @@
+{
+  "archive": "completed-reader-proof-v1.zip",
+  "bytes": 7113,
+  "sha256": "dc7fa04c18e3df846d9cd18a85a9a3a32cc34f3603f0cf28857538d0f6e03670",
+  "members": {
+    "TDD/all-completed-tests-v1.stderr": {
+      "bytes": 2590,
+      "sha256": "97ea15a140cba4e0d1b732c684787254f1d896db67628a4f180808272b0c688f"
+    },
+    "TDD/all-completed-tests-v1.stdout": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "TDD/native-completed-reader-final-green-v1.stderr": {
+      "bytes": 512,
+      "sha256": "43872ecee3985384b151a31b32b77ca9b97f10b40019325928f84d6bf946c5cf"
+    },
+    "TDD/native-completed-reader-final-green-v1.stdout": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "TDD/native-completed-reader-green-v1.stderr": {
+      "bytes": 320,
+      "sha256": "9d665406759959eafe8e7c7edabe51c3bfb99c403d70a9f43382dc09b58f73b6"
+    },
+    "TDD/native-completed-reader-green-v1.stdout": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "TDD/native-completed-reader-red-v1.stderr": {
+      "bytes": 777,
+      "sha256": "18d8bc456e5a2828eaf252212d366caad1511ce51e059af908c302c387b8648e"
+    },
+    "TDD/native-completed-reader-red-v1.stdout": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "docs/vertical_moderate_prefix_results.md": {
+      "bytes": 1587,
+      "sha256": "6a1e2557dd767798437602e29609302117ab8003290cf8e145137dde4efdb1a0"
+    },
+    "tests/test_moderate_prefix_native_completed.py": {
+      "bytes": 1875,
+      "sha256": "20d81799198b3c7321a9c824528f01adb19878ea416c56f915dbf3354edce45b"
+    },
+    "tools/verify_moderate_prefix_native_completed.py": {
+      "bytes": 6646,
+      "sha256": "9c4082dbb67a43ecdaee7b1daa31dea3a3572a2c236a4e05cf866f89416114f6"
+    }
+  },
+  "completed_native_packet_sha256": "8456d4e7c01be970f59ddd1cfb936d954eb50ad71ad24a73408173c3fe59d578",
+  "NN_calls": 0
+}

@@ -1,0 +1,14 @@
+{
+  "tests": {
+    "passed": 740,
+    "ignored": 33
+  },
+  "native-tests": {
+    "passed": 692,
+    "ignored": 0
+  },
+  "example-tests": {
+    "passed": 24,
+    "ignored": 0
+  }
+}

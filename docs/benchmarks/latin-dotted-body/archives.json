@@ -1,0 +1,17 @@
+{
+  "archives": {
+    "evidence-0": "c4b3509581784f17b944a29b91a7988853a06aab0bdda6b7f35148fd613cf099",
+    "evidence-1": "0d2f6e77e2150afa376d21b15d47bfd94986288b7cefe11cc65189a39e887cdf",
+    "evidence-2": "8508c7df739af88065c6eea1ecb7e70788067edad04b1aba52810f120aef9ff1",
+    "evidence-3": "fa0af0894010e113d3b5df0b02f8098f114ce48e36766fac3da190373eebce08",
+    "evidence-4": "a5f776ba3a111aaaf68c706881457031475da9a9f03162abbc86d046802d81f0",
+    "evidence-5": "e47c30b902ea85572e200d53840d9f444ae2c940c8aecd78462fe0309b74407a",
+    "evidence-6": "b0300d0150529bc35424e245092084f7a3a4e73fe9cb7c9ce1170f27a93fb26c",
+    "evidence-7": "9577cd416139c32f38a7a55507c92cf81c7b9dfcfaa481e0823b30d848e2c5dc",
+    "evidence-8": "1febf99fdbb35472a52b8e996e4b0c09bb3795b8c91dcb68751cf2c7fde8d5a8",
+    "evidence-9": "81b6b4d7ef99b1fa8492d69b806cb60e2358266f344d97c7e701383935cdef63"
+  },
+  "files": 202576,
+  "product_pairs": 282465,
+  "package_driver_sha256": "d5aad7cea3a0c2510207ef8c58c75f372f4df5713bdb39c975ee2bde55e017e0"
+}

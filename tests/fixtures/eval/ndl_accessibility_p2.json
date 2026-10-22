@@ -1,0 +1,24 @@
+{
+  "source": "https://www.ndl.go.jp/file/news/fy2025/250512_01/pr250512_01.pdf",
+  "terms": "https://www.ndl.go.jp/sitepolicy/terms",
+  "license": "PDL1.0; exclude logo and footer by crop",
+  "source_sha256": "e0d2ebad4c00ea53d51d785c0415401bed8c2aa2af4e8d5ecd8a297519c3847d",
+  "page": 2,
+  "render": "pdftoppm -f 2 -l 2 -scale-to 1800 -png -singlefile",
+  "dimensions": [
+    1273,
+    1800
+  ],
+  "crop": [
+    90,
+    180,
+    1180,
+    1600
+  ],
+  "truth": "pdfplumber crop(exact pixel ratios), extract_text(x_tolerance=1); physical newlines and spaces preserved; entire page visually reviewed before first inference",
+  "frozen_before_first_inference": "2026-10-18T14:48:21.087168+00:00",
+  "sha256": {
+    "tests/fixtures/eval/images/ndl_accessibility_p2.png": "c78d3792c550169925f44681d40f82c468b5e081d66004cee0a2d11851a4d30d",
+    "tests/fixtures/eval/truth/ndl_accessibility_p2.txt": "e43426f86c2bde33369a6ff88ea8a18510fcacf03219d11a1de2ac771b071659"
+  }
+}

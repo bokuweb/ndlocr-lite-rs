@@ -1,0 +1,2450 @@
+[
+  {
+    "id": "japanese_gothic36",
+    "model": "parseq-ndl-24x256-30-tiny-189epoch-tegaki3-r8data-202604.onnx",
+    "original_chunks": [
+      {
+        "bounds": [
+          0,
+          252
+        ],
+        "gap_before": 0,
+        "space_before": false
+      },
+      {
+        "bounds": [
+          252,
+          539
+        ],
+        "gap_before": 4,
+        "space_before": false
+      },
+      {
+        "bounds": [
+          539,
+          635
+        ],
+        "gap_before": 2,
+        "space_before": false
+      },
+      {
+        "bounds": [
+          635,
+          898
+        ],
+        "gap_before": 26,
+        "space_before": true
+      },
+      {
+        "bounds": [
+          898,
+          1186
+        ],
+        "gap_before": 4,
+        "space_before": false
+      },
+      {
+        "bounds": [
+          1186,
+          1475
+        ],
+        "gap_before": 11,
+        "space_before": false
+      },
+      {
+        "bounds": [
+          1475,
+          1608
+        ],
+        "gap_before": 9,
+        "space_before": false
+      },
+      {
+        "bounds": [
+          1608,
+          1872
+        ],
+        "gap_before": 24,
+        "space_before": true
+      },
+      {
+        "bounds": [
+          1872,
+          2158
+        ],
+        "gap_before": 5,
+        "space_before": false
+      },
+      {
+        "bounds": [
+          2158,
+          2183
+        ],
+        "gap_before": 5,
+        "space_before": false
+      },
+      {
+        "bounds": [
+          2183,
+          2471
+        ],
+        "gap_before": 26,
+        "space_before": true
+      },
+      {
+        "bounds": [
+          2471,
+          2687
+        ],
+        "gap_before": 27,
+        "space_before": true
+      },
+      {
+        "bounds": [
+          2687,
+          2867
+        ],
+        "gap_before": 26,
+        "space_before": true
+      },
+      {
+        "bounds": [
+          2867,
+          3095
+        ],
+        "gap_before": 26,
+        "space_before": true
+      },
+      {
+        "bounds": [
+          3095,
+          3371
+        ],
+        "gap_before": 3,
+        "space_before": false
+      },
+      {
+        "bounds": [
+          3371,
+          3600
+        ],
+        "gap_before": 27,
+        "space_before": true
+      },
+      {
+        "bounds": [
+          3600,
+          3815
+        ],
+        "gap_before": 4,
+        "space_before": false
+      },
+      {
+        "bounds": [
+          3815,
+          4067
+        ],
+        "gap_before": 5,
+        "space_before": false
+      },
+      {
+        "bounds": [
+          4067,
+          4297
+        ],
+        "gap_before": 6,
+        "space_before": false
+      }
+    ],
+    "parts": [
+      {
+        "bounds": [
+          0,
+          252
+        ],
+        "confidence": 0.999983012676239,
+        "text": "図書館では資料"
+      },
+      {
+        "bounds": [
+          252,
+          539
+        ],
+        "confidence": 0.9999935626983643,
+        "text": "の保存と公開を継"
+      },
+      {
+        "bounds": [
+          539,
+          635
+        ],
+        "confidence": 0.9998342394828796,
+        "text": "続し、"
+      },
+      {
+        "bounds": [
+          635,
+          898
+        ],
+        "confidence": 0.9999621510505676,
+        "text": "利用者が必要な"
+      },
+      {
+        "bounds": [
+          898,
+          1186
+        ],
+        "confidence": 0.9999895691871643,
+        "text": "情報を探せるよう"
+      },
+      {
+        "bounds": [
+          1186,
+          1475
+        ],
+        "confidence": 0.999995768070221,
+        "text": "に目録を整備して"
+      },
+      {
+        "bounds": [
+          1475,
+          1608
+        ],
+        "confidence": 0.9994167685508728,
+        "text": "います。"
+      },
+      {
+        "bounds": [
+          1608,
+          1872
+        ],
+        "confidence": 0.9999931454658508,
+        "text": "新しい電子資料"
+      },
+      {
+        "bounds": [
+          1872,
+          2183
+        ],
+        "confidence": 0.9999637603759766,
+        "text": "を追加するときは、"
+      },
+      {
+        "bounds": [
+          2183,
+          2471
+        ],
+        "confidence": 0.9999104142189026,
+        "text": "文字の読み上げ、"
+      },
+      {
+        "bounds": [
+          2471,
+          2687
+        ],
+        "confidence": 0.9989835619926453,
+        "text": "画面の拡大、"
+      },
+      {
+        "bounds": [
+          2687,
+          2867
+        ],
+        "confidence": 0.9999042749404907,
+        "text": "色の変更、"
+      },
+      {
+        "bounds": [
+          2867,
+          3095
+        ],
+        "confidence": 0.9999931454658508,
+        "text": "検索結果の表"
+      },
+      {
+        "bounds": [
+          3095,
+          3371
+        ],
+        "confidence": 0.9999828338623047,
+        "text": "示などを確認し、"
+      },
+      {
+        "bounds": [
+          3371,
+          3600
+        ],
+        "confidence": 0.9999482035636902,
+        "text": "担当者が検査"
+      },
+      {
+        "bounds": [
+          3600,
+          3815
+        ],
+        "confidence": 0.9987820982933044,
+        "text": "の記録と改善"
+      },
+      {
+        "bounds": [
+          3815,
+          4067
+        ],
+        "confidence": 0.999812126159668,
+        "text": "の内容をまとめ"
+      },
+      {
+        "bounds": [
+          4067,
+          4297
+        ],
+        "confidence": 0.9999635815620422,
+        "text": "て公開します。"
+      }
+    ],
+    "side": "left",
+    "text": "図書館では資料の保存と公開を継続し、利用者が必要な情報を探せるように目録を整備しています。新しい電子資料を追加するときは、文字の読み上げ、画面の拡大、色の変更、検索結果の表示などを確認し、担当者が検査の記録と改善の内容をまとめて公開します。"
+  },
+  {
+    "id": "japanese_gothic36",
+    "model": "parseq-ndl-24x256-30-tiny-189epoch-tegaki3-r8data-202604.onnx",
+    "original_chunks": [
+      {
+        "bounds": [
+          0,
+          252
+        ],
+        "gap_before": 0,
+        "space_before": false
+      },
+      {
+        "bounds": [
+          252,
+          539
+        ],
+        "gap_before": 4,
+        "space_before": false
+      },
+      {
+        "bounds": [
+          539,
+          635
+        ],
+        "gap_before": 2,
+        "space_before": false
+      },
+      {
+        "bounds": [
+          635,
+          898
+        ],
+        "gap_before": 26,
+        "space_before": true
+      },
+      {
+        "bounds": [
+          898,
+          1186
+        ],
+        "gap_before": 4,
+        "space_before": false
+      },
+      {
+        "bounds": [
+          1186,
+          1475
+        ],
+        "gap_before": 11,
+        "space_before": false
+      },
+      {
+        "bounds": [
+          1475,
+          1608
+        ],
+        "gap_before": 9,
+        "space_before": false
+      },
+      {
+        "bounds": [
+          1608,
+          1872
+        ],
+        "gap_before": 24,
+        "space_before": true
+      },
+      {
+        "bounds": [
+          1872,
+          2158
+        ],
+        "gap_before": 5,
+        "space_before": false
+      },
+      {
+        "bounds": [
+          2158,
+          2183
+        ],
+        "gap_before": 5,
+        "space_before": false
+      },
+      {
+        "bounds": [
+          2183,
+          2471
+        ],
+        "gap_before": 26,
+        "space_before": true
+      },
+      {
+        "bounds": [
+          2471,
+          2687
+        ],
+        "gap_before": 27,
+        "space_before": true
+      },
+      {
+        "bounds": [
+          2687,
+          2867
+        ],
+        "gap_before": 26,
+        "space_before": true
+      },
+      {
+        "bounds": [
+          2867,
+          3095
+        ],
+        "gap_before": 26,
+        "space_before": true
+      },
+      {
+        "bounds": [
+          3095,
+          3371
+        ],
+        "gap_before": 3,
+        "space_before": false
+      },
+      {
+        "bounds": [
+          3371,
+          3600
+        ],
+        "gap_before": 27,
+        "space_before": true
+      },
+      {
+        "bounds": [
+          3600,
+          3815
+        ],
+        "gap_before": 4,
+        "space_before": false
+      },
+      {
+        "bounds": [
+          3815,
+          4067
+        ],
+        "gap_before": 5,
+        "space_before": false
+      },
+      {
+        "bounds": [
+          4067,
+          4297
+        ],
+        "gap_before": 6,
+        "space_before": false
+      }
+    ],
+    "parts": [
+      {
+        "bounds": [
+          0,
+          252
+        ],
+        "confidence": 0.999983012676239,
+        "text": "図書館では資料"
+      },
+      {
+        "bounds": [
+          252,
+          539
+        ],
+        "confidence": 0.9999935626983643,
+        "text": "の保存と公開を継"
+      },
+      {
+        "bounds": [
+          539,
+          635
+        ],
+        "confidence": 0.9998342394828796,
+        "text": "続し、"
+      },
+      {
+        "bounds": [
+          635,
+          898
+        ],
+        "confidence": 0.9999621510505676,
+        "text": "利用者が必要な"
+      },
+      {
+        "bounds": [
+          898,
+          1186
+        ],
+        "confidence": 0.9999895691871643,
+        "text": "情報を探せるよう"
+      },
+      {
+        "bounds": [
+          1186,
+          1475
+        ],
+        "confidence": 0.999995768070221,
+        "text": "に目録を整備して"
+      },
+      {
+        "bounds": [
+          1475,
+          1608
+        ],
+        "confidence": 0.9994167685508728,
+        "text": "います。"
+      },
+      {
+        "bounds": [
+          1608,
+          1872
+        ],
+        "confidence": 0.9999931454658508,
+        "text": "新しい電子資料"
+      },
+      {
+        "bounds": [
+          1872,
+          2158
+        ],
+        "confidence": 0.9999772310256958,
+        "text": "を追加するときは"
+      },
+      {
+        "bounds": [
+          2158,
+          2471
+        ],
+        "confidence": 0.9995839595794678,
+        "text": "、文字の読み上げ、"
+      },
+      {
+        "bounds": [
+          2471,
+          2687
+        ],
+        "confidence": 0.9989835619926453,
+        "text": "画面の拡大、"
+      },
+      {
+        "bounds": [
+          2687,
+          2867
+        ],
+        "confidence": 0.9999042749404907,
+        "text": "色の変更、"
+      },
+      {
+        "bounds": [
+          2867,
+          3095
+        ],
+        "confidence": 0.9999931454658508,
+        "text": "検索結果の表"
+      },
+      {
+        "bounds": [
+          3095,
+          3371
+        ],
+        "confidence": 0.9999828338623047,
+        "text": "示などを確認し、"
+      },
+      {
+        "bounds": [
+          3371,
+          3600
+        ],
+        "confidence": 0.9999482035636902,
+        "text": "担当者が検査"
+      },
+      {
+        "bounds": [
+          3600,
+          3815
+        ],
+        "confidence": 0.9987820982933044,
+        "text": "の記録と改善"
+      },
+      {
+        "bounds": [
+          3815,
+          4067
+        ],
+        "confidence": 0.999812126159668,
+        "text": "の内容をまとめ"
+      },
+      {
+        "bounds": [
+          4067,
+          4297
+        ],
+        "confidence": 0.9999635815620422,
+        "text": "て公開します。"
+      }
+    ],
+    "side": "right",
+    "text": "図書館では資料の保存と公開を継続し、利用者が必要な情報を探せるように目録を整備しています。新しい電子資料を追加するときは、文字の読み上げ、画面の拡大、色の変更、検索結果の表示などを確認し、担当者が検査の記録と改善の内容をまとめて公開します。"
+  },
+  {
+    "id": "japanese_mincho36",
+    "model": "parseq-ndl-24x256-30-tiny-189epoch-tegaki3-r8data-202604.onnx",
+    "original_chunks": [
+      {
+        "bounds": [
+          0,
+          285
+        ],
+        "gap_before": 0,
+        "space_before": false
+      },
+      {
+        "bounds": [
+          285,
+          578
+        ],
+        "gap_before": 4,
+        "space_before": false
+      },
+      {
+        "bounds": [
+          578,
+          635
+        ],
+        "gap_before": 9,
+        "space_before": false
+      },
+      {
+        "bounds": [
+          635,
+          897
+        ],
+        "gap_before": 25,
+        "space_before": true
+      },
+      {
+        "bounds": [
+          897,
+          1184
+        ],
+        "gap_before": 5,
+        "space_before": false
+      },
+      {
+        "bounds": [
+          1184,
+          1475
+        ],
+        "gap_before": 15,
+        "space_before": false
+      },
+      {
+        "bounds": [
+          1475,
+          1607
+        ],
+        "gap_before": 8,
+        "space_before": false
+      },
+      {
+        "bounds": [
+          1607,
+          1873
+        ],
+        "gap_before": 25,
+        "space_before": true
+      },
+      {
+        "bounds": [
+          1873,
+          2158
+        ],
+        "gap_before": 5,
+        "space_before": false
+      },
+      {
+        "bounds": [
+          2158,
+          2183
+        ],
+        "gap_before": 6,
+        "space_before": false
+      },
+      {
+        "bounds": [
+          2183,
+          2471
+        ],
+        "gap_before": 25,
+        "space_before": true
+      },
+      {
+        "bounds": [
+          2471,
+          2687
+        ],
+        "gap_before": 25,
+        "space_before": true
+      },
+      {
+        "bounds": [
+          2687,
+          2867
+        ],
+        "gap_before": 25,
+        "space_before": true
+      },
+      {
+        "bounds": [
+          2867,
+          3169
+        ],
+        "gap_before": 25,
+        "space_before": true
+      },
+      {
+        "bounds": [
+          3169,
+          3371
+        ],
+        "gap_before": 12,
+        "space_before": false
+      },
+      {
+        "bounds": [
+          3371,
+          3600
+        ],
+        "gap_before": 25,
+        "space_before": true
+      },
+      {
+        "bounds": [
+          3600,
+          3816
+        ],
+        "gap_before": 4,
+        "space_before": false
+      },
+      {
+        "bounds": [
+          3816,
+          4066
+        ],
+        "gap_before": 4,
+        "space_before": false
+      },
+      {
+        "bounds": [
+          4066,
+          4296
+        ],
+        "gap_before": 7,
+        "space_before": false
+      }
+    ],
+    "parts": [
+      {
+        "bounds": [
+          0,
+          285
+        ],
+        "confidence": 0.9994090795516968,
+        "text": "図書館では資料の"
+      },
+      {
+        "bounds": [
+          285,
+          578
+        ],
+        "confidence": 0.9999840259552002,
+        "text": "保存と公開を継続"
+      },
+      {
+        "bounds": [
+          578,
+          635
+        ],
+        "confidence": 0.9997063875198364,
+        "text": "し、"
+      },
+      {
+        "bounds": [
+          635,
+          897
+        ],
+        "confidence": 0.9996333718299866,
+        "text": "利用者が必要な"
+      },
+      {
+        "bounds": [
+          897,
+          1184
+        ],
+        "confidence": 0.999984085559845,
+        "text": "情報を探せるよう"
+      },
+      {
+        "bounds": [
+          1184,
+          1475
+        ],
+        "confidence": 0.9988505244255066,
+        "text": "に目録を整備して"
+      },
+      {
+        "bounds": [
+          1475,
+          1607
+        ],
+        "confidence": 0.9999188184738159,
+        "text": "います。"
+      },
+      {
+        "bounds": [
+          1607,
+          1873
+        ],
+        "confidence": 0.9999837875366211,
+        "text": "新しい電子資料"
+      },
+      {
+        "bounds": [
+          1873,
+          2183
+        ],
+        "confidence": 0.9999204277992249,
+        "text": "を追加するときは、"
+      },
+      {
+        "bounds": [
+          2183,
+          2471
+        ],
+        "confidence": 0.9999553561210632,
+        "text": "文字の読み上げ、"
+      },
+      {
+        "bounds": [
+          2471,
+          2687
+        ],
+        "confidence": 0.9977162480354309,
+        "text": "画面の拡大、"
+      },
+      {
+        "bounds": [
+          2687,
+          2867
+        ],
+        "confidence": 0.999932587146759,
+        "text": "色の変更、"
+      },
+      {
+        "bounds": [
+          2867,
+          3169
+        ],
+        "confidence": 0.999418318271637,
+        "text": "検索結果の表示な"
+      },
+      {
+        "bounds": [
+          3169,
+          3371
+        ],
+        "confidence": 0.9999642372131348,
+        "text": "どを確認し、"
+      },
+      {
+        "bounds": [
+          3371,
+          3600
+        ],
+        "confidence": 0.9998790621757507,
+        "text": "担当者が検査"
+      },
+      {
+        "bounds": [
+          3600,
+          3816
+        ],
+        "confidence": 0.966062605381012,
+        "text": "の記録と改善"
+      },
+      {
+        "bounds": [
+          3816,
+          4066
+        ],
+        "confidence": 0.9989897608757019,
+        "text": "の内容をまとめ"
+      },
+      {
+        "bounds": [
+          4066,
+          4296
+        ],
+        "confidence": 0.9999433159828186,
+        "text": "て公開します。"
+      }
+    ],
+    "side": "left",
+    "text": "図書館では資料の保存と公開を継続し、利用者が必要な情報を探せるように目録を整備しています。新しい電子資料を追加するときは、文字の読み上げ、画面の拡大、色の変更、検索結果の表示などを確認し、担当者が検査の記録と改善の内容をまとめて公開します。"
+  },
+  {
+    "id": "japanese_mincho36",
+    "model": "parseq-ndl-24x256-30-tiny-189epoch-tegaki3-r8data-202604.onnx",
+    "original_chunks": [
+      {
+        "bounds": [
+          0,
+          285
+        ],
+        "gap_before": 0,
+        "space_before": false
+      },
+      {
+        "bounds": [
+          285,
+          578
+        ],
+        "gap_before": 4,
+        "space_before": false
+      },
+      {
+        "bounds": [
+          578,
+          635
+        ],
+        "gap_before": 9,
+        "space_before": false
+      },
+      {
+        "bounds": [
+          635,
+          897
+        ],
+        "gap_before": 25,
+        "space_before": true
+      },
+      {
+        "bounds": [
+          897,
+          1184
+        ],
+        "gap_before": 5,
+        "space_before": false
+      },
+      {
+        "bounds": [
+          1184,
+          1475
+        ],
+        "gap_before": 15,
+        "space_before": false
+      },
+      {
+        "bounds": [
+          1475,
+          1607
+        ],
+        "gap_before": 8,
+        "space_before": false
+      },
+      {
+        "bounds": [
+          1607,
+          1873
+        ],
+        "gap_before": 25,
+        "space_before": true
+      },
+      {
+        "bounds": [
+          1873,
+          2158
+        ],
+        "gap_before": 5,
+        "space_before": false
+      },
+      {
+        "bounds": [
+          2158,
+          2183
+        ],
+        "gap_before": 6,
+        "space_before": false
+      },
+      {
+        "bounds": [
+          2183,
+          2471
+        ],
+        "gap_before": 25,
+        "space_before": true
+      },
+      {
+        "bounds": [
+          2471,
+          2687
+        ],
+        "gap_before": 25,
+        "space_before": true
+      },
+      {
+        "bounds": [
+          2687,
+          2867
+        ],
+        "gap_before": 25,
+        "space_before": true
+      },
+      {
+        "bounds": [
+          2867,
+          3169
+        ],
+        "gap_before": 25,
+        "space_before": true
+      },
+      {
+        "bounds": [
+          3169,
+          3371
+        ],
+        "gap_before": 12,
+        "space_before": false
+      },
+      {
+        "bounds": [
+          3371,
+          3600
+        ],
+        "gap_before": 25,
+        "space_before": true
+      },
+      {
+        "bounds": [
+          3600,
+          3816
+        ],
+        "gap_before": 4,
+        "space_before": false
+      },
+      {
+        "bounds": [
+          3816,
+          4066
+        ],
+        "gap_before": 4,
+        "space_before": false
+      },
+      {
+        "bounds": [
+          4066,
+          4296
+        ],
+        "gap_before": 7,
+        "space_before": false
+      }
+    ],
+    "parts": [
+      {
+        "bounds": [
+          0,
+          285
+        ],
+        "confidence": 0.9994090795516968,
+        "text": "図書館では資料の"
+      },
+      {
+        "bounds": [
+          285,
+          578
+        ],
+        "confidence": 0.9999840259552002,
+        "text": "保存と公開を継続"
+      },
+      {
+        "bounds": [
+          578,
+          635
+        ],
+        "confidence": 0.9997063875198364,
+        "text": "し、"
+      },
+      {
+        "bounds": [
+          635,
+          897
+        ],
+        "confidence": 0.9996333718299866,
+        "text": "利用者が必要な"
+      },
+      {
+        "bounds": [
+          897,
+          1184
+        ],
+        "confidence": 0.999984085559845,
+        "text": "情報を探せるよう"
+      },
+      {
+        "bounds": [
+          1184,
+          1475
+        ],
+        "confidence": 0.9988505244255066,
+        "text": "に目録を整備して"
+      },
+      {
+        "bounds": [
+          1475,
+          1607
+        ],
+        "confidence": 0.9999188184738159,
+        "text": "います。"
+      },
+      {
+        "bounds": [
+          1607,
+          1873
+        ],
+        "confidence": 0.9999837875366211,
+        "text": "新しい電子資料"
+      },
+      {
+        "bounds": [
+          1873,
+          2158
+        ],
+        "confidence": 0.9999295473098755,
+        "text": "を追加するときは"
+      },
+      {
+        "bounds": [
+          2158,
+          2471
+        ],
+        "confidence": 0.9994814991950989,
+        "text": "、文字の読み上げ、"
+      },
+      {
+        "bounds": [
+          2471,
+          2687
+        ],
+        "confidence": 0.9977162480354309,
+        "text": "画面の拡大、"
+      },
+      {
+        "bounds": [
+          2687,
+          2867
+        ],
+        "confidence": 0.999932587146759,
+        "text": "色の変更、"
+      },
+      {
+        "bounds": [
+          2867,
+          3169
+        ],
+        "confidence": 0.999418318271637,
+        "text": "検索結果の表示な"
+      },
+      {
+        "bounds": [
+          3169,
+          3371
+        ],
+        "confidence": 0.9999642372131348,
+        "text": "どを確認し、"
+      },
+      {
+        "bounds": [
+          3371,
+          3600
+        ],
+        "confidence": 0.9998790621757507,
+        "text": "担当者が検査"
+      },
+      {
+        "bounds": [
+          3600,
+          3816
+        ],
+        "confidence": 0.966062605381012,
+        "text": "の記録と改善"
+      },
+      {
+        "bounds": [
+          3816,
+          4066
+        ],
+        "confidence": 0.9989897608757019,
+        "text": "の内容をまとめ"
+      },
+      {
+        "bounds": [
+          4066,
+          4296
+        ],
+        "confidence": 0.9999433159828186,
+        "text": "て公開します。"
+      }
+    ],
+    "side": "right",
+    "text": "図書館では資料の保存と公開を継続し、利用者が必要な情報を探せるように目録を整備しています。新しい電子資料を追加するときは、文字の読み上げ、画面の拡大、色の変更、検索結果の表示などを確認し、担当者が検査の記録と改善の内容をまとめて公開します。"
+  },
+  {
+    "id": "japanese_gothic36",
+    "model": "parseq-ndl-24x768-100-tiny-153epoch-tegaki3-r8data-202604.onnx",
+    "original_chunks": [
+      {
+        "bounds": [
+          0,
+          252
+        ],
+        "gap_before": 0,
+        "space_before": false
+      },
+      {
+        "bounds": [
+          252,
+          539
+        ],
+        "gap_before": 4,
+        "space_before": false
+      },
+      {
+        "bounds": [
+          539,
+          635
+        ],
+        "gap_before": 2,
+        "space_before": false
+      },
+      {
+        "bounds": [
+          635,
+          898
+        ],
+        "gap_before": 26,
+        "space_before": true
+      },
+      {
+        "bounds": [
+          898,
+          1186
+        ],
+        "gap_before": 4,
+        "space_before": false
+      },
+      {
+        "bounds": [
+          1186,
+          1475
+        ],
+        "gap_before": 11,
+        "space_before": false
+      },
+      {
+        "bounds": [
+          1475,
+          1608
+        ],
+        "gap_before": 9,
+        "space_before": false
+      },
+      {
+        "bounds": [
+          1608,
+          1872
+        ],
+        "gap_before": 24,
+        "space_before": true
+      },
+      {
+        "bounds": [
+          1872,
+          2158
+        ],
+        "gap_before": 5,
+        "space_before": false
+      },
+      {
+        "bounds": [
+          2158,
+          2183
+        ],
+        "gap_before": 5,
+        "space_before": false
+      },
+      {
+        "bounds": [
+          2183,
+          2471
+        ],
+        "gap_before": 26,
+        "space_before": true
+      },
+      {
+        "bounds": [
+          2471,
+          2687
+        ],
+        "gap_before": 27,
+        "space_before": true
+      },
+      {
+        "bounds": [
+          2687,
+          2867
+        ],
+        "gap_before": 26,
+        "space_before": true
+      },
+      {
+        "bounds": [
+          2867,
+          3095
+        ],
+        "gap_before": 26,
+        "space_before": true
+      },
+      {
+        "bounds": [
+          3095,
+          3371
+        ],
+        "gap_before": 3,
+        "space_before": false
+      },
+      {
+        "bounds": [
+          3371,
+          3600
+        ],
+        "gap_before": 27,
+        "space_before": true
+      },
+      {
+        "bounds": [
+          3600,
+          3815
+        ],
+        "gap_before": 4,
+        "space_before": false
+      },
+      {
+        "bounds": [
+          3815,
+          4067
+        ],
+        "gap_before": 5,
+        "space_before": false
+      },
+      {
+        "bounds": [
+          4067,
+          4297
+        ],
+        "gap_before": 6,
+        "space_before": false
+      }
+    ],
+    "parts": [
+      {
+        "bounds": [
+          0,
+          252
+        ],
+        "confidence": 0.9998675584793091,
+        "text": "図書館では資料"
+      },
+      {
+        "bounds": [
+          252,
+          539
+        ],
+        "confidence": 0.9999821186065674,
+        "text": "の保存と公開を継"
+      },
+      {
+        "bounds": [
+          539,
+          635
+        ],
+        "confidence": 0.9986111521720886,
+        "text": "続し、"
+      },
+      {
+        "bounds": [
+          635,
+          898
+        ],
+        "confidence": 0.9996176362037659,
+        "text": "利用者が必要な"
+      },
+      {
+        "bounds": [
+          898,
+          1186
+        ],
+        "confidence": 0.9999714493751526,
+        "text": "情報を探せるよう"
+      },
+      {
+        "bounds": [
+          1186,
+          1475
+        ],
+        "confidence": 0.9999405741691589,
+        "text": "に目録を整備して"
+      },
+      {
+        "bounds": [
+          1475,
+          1608
+        ],
+        "confidence": 0.9998860359191895,
+        "text": "います。"
+      },
+      {
+        "bounds": [
+          1608,
+          1872
+        ],
+        "confidence": 0.9999691843986511,
+        "text": "新しい電子資料"
+      },
+      {
+        "bounds": [
+          1872,
+          2183
+        ],
+        "confidence": 0.9999396800994873,
+        "text": "を追加するときは、"
+      },
+      {
+        "bounds": [
+          2183,
+          2471
+        ],
+        "confidence": 0.9999208450317383,
+        "text": "文字の読み上げ、"
+      },
+      {
+        "bounds": [
+          2471,
+          2687
+        ],
+        "confidence": 0.9998109936714172,
+        "text": "画面の拡大、"
+      },
+      {
+        "bounds": [
+          2687,
+          2867
+        ],
+        "confidence": 0.9996181726455688,
+        "text": "色の変更、"
+      },
+      {
+        "bounds": [
+          2867,
+          3095
+        ],
+        "confidence": 0.9999890327453613,
+        "text": "検索結果の表"
+      },
+      {
+        "bounds": [
+          3095,
+          3371
+        ],
+        "confidence": 0.9999175667762756,
+        "text": "示などを確認し、"
+      },
+      {
+        "bounds": [
+          3371,
+          3600
+        ],
+        "confidence": 0.9998771548271179,
+        "text": "担当者が検査"
+      },
+      {
+        "bounds": [
+          3600,
+          3815
+        ],
+        "confidence": 0.9998992085456848,
+        "text": "の記録と改善"
+      },
+      {
+        "bounds": [
+          3815,
+          4067
+        ],
+        "confidence": 0.9995142817497253,
+        "text": "の内容をまとめ"
+      },
+      {
+        "bounds": [
+          4067,
+          4297
+        ],
+        "confidence": 0.9999455213546753,
+        "text": "て公開します。"
+      }
+    ],
+    "side": "left",
+    "text": "図書館では資料の保存と公開を継続し、利用者が必要な情報を探せるように目録を整備しています。新しい電子資料を追加するときは、文字の読み上げ、画面の拡大、色の変更、検索結果の表示などを確認し、担当者が検査の記録と改善の内容をまとめて公開します。"
+  },
+  {
+    "id": "japanese_gothic36",
+    "model": "parseq-ndl-24x768-100-tiny-153epoch-tegaki3-r8data-202604.onnx",
+    "original_chunks": [
+      {
+        "bounds": [
+          0,
+          252
+        ],
+        "gap_before": 0,
+        "space_before": false
+      },
+      {
+        "bounds": [
+          252,
+          539
+        ],
+        "gap_before": 4,
+        "space_before": false
+      },
+      {
+        "bounds": [
+          539,
+          635
+        ],
+        "gap_before": 2,
+        "space_before": false
+      },
+      {
+        "bounds": [
+          635,
+          898
+        ],
+        "gap_before": 26,
+        "space_before": true
+      },
+      {
+        "bounds": [
+          898,
+          1186
+        ],
+        "gap_before": 4,
+        "space_before": false
+      },
+      {
+        "bounds": [
+          1186,
+          1475
+        ],
+        "gap_before": 11,
+        "space_before": false
+      },
+      {
+        "bounds": [
+          1475,
+          1608
+        ],
+        "gap_before": 9,
+        "space_before": false
+      },
+      {
+        "bounds": [
+          1608,
+          1872
+        ],
+        "gap_before": 24,
+        "space_before": true
+      },
+      {
+        "bounds": [
+          1872,
+          2158
+        ],
+        "gap_before": 5,
+        "space_before": false
+      },
+      {
+        "bounds": [
+          2158,
+          2183
+        ],
+        "gap_before": 5,
+        "space_before": false
+      },
+      {
+        "bounds": [
+          2183,
+          2471
+        ],
+        "gap_before": 26,
+        "space_before": true
+      },
+      {
+        "bounds": [
+          2471,
+          2687
+        ],
+        "gap_before": 27,
+        "space_before": true
+      },
+      {
+        "bounds": [
+          2687,
+          2867
+        ],
+        "gap_before": 26,
+        "space_before": true
+      },
+      {
+        "bounds": [
+          2867,
+          3095
+        ],
+        "gap_before": 26,
+        "space_before": true
+      },
+      {
+        "bounds": [
+          3095,
+          3371
+        ],
+        "gap_before": 3,
+        "space_before": false
+      },
+      {
+        "bounds": [
+          3371,
+          3600
+        ],
+        "gap_before": 27,
+        "space_before": true
+      },
+      {
+        "bounds": [
+          3600,
+          3815
+        ],
+        "gap_before": 4,
+        "space_before": false
+      },
+      {
+        "bounds": [
+          3815,
+          4067
+        ],
+        "gap_before": 5,
+        "space_before": false
+      },
+      {
+        "bounds": [
+          4067,
+          4297
+        ],
+        "gap_before": 6,
+        "space_before": false
+      }
+    ],
+    "parts": [
+      {
+        "bounds": [
+          0,
+          252
+        ],
+        "confidence": 0.9998675584793091,
+        "text": "図書館では資料"
+      },
+      {
+        "bounds": [
+          252,
+          539
+        ],
+        "confidence": 0.9999821186065674,
+        "text": "の保存と公開を継"
+      },
+      {
+        "bounds": [
+          539,
+          635
+        ],
+        "confidence": 0.9986111521720886,
+        "text": "続し、"
+      },
+      {
+        "bounds": [
+          635,
+          898
+        ],
+        "confidence": 0.9996176362037659,
+        "text": "利用者が必要な"
+      },
+      {
+        "bounds": [
+          898,
+          1186
+        ],
+        "confidence": 0.9999714493751526,
+        "text": "情報を探せるよう"
+      },
+      {
+        "bounds": [
+          1186,
+          1475
+        ],
+        "confidence": 0.9999405741691589,
+        "text": "に目録を整備して"
+      },
+      {
+        "bounds": [
+          1475,
+          1608
+        ],
+        "confidence": 0.9998860359191895,
+        "text": "います。"
+      },
+      {
+        "bounds": [
+          1608,
+          1872
+        ],
+        "confidence": 0.9999691843986511,
+        "text": "新しい電子資料"
+      },
+      {
+        "bounds": [
+          1872,
+          2158
+        ],
+        "confidence": 0.9999897480010986,
+        "text": "を追加するときは"
+      },
+      {
+        "bounds": [
+          2158,
+          2471
+        ],
+        "confidence": 0.9996896386146545,
+        "text": "、文字の読み上げ、"
+      },
+      {
+        "bounds": [
+          2471,
+          2687
+        ],
+        "confidence": 0.9998109936714172,
+        "text": "画面の拡大、"
+      },
+      {
+        "bounds": [
+          2687,
+          2867
+        ],
+        "confidence": 0.9996181726455688,
+        "text": "色の変更、"
+      },
+      {
+        "bounds": [
+          2867,
+          3095
+        ],
+        "confidence": 0.9999890327453613,
+        "text": "検索結果の表"
+      },
+      {
+        "bounds": [
+          3095,
+          3371
+        ],
+        "confidence": 0.9999175667762756,
+        "text": "示などを確認し、"
+      },
+      {
+        "bounds": [
+          3371,
+          3600
+        ],
+        "confidence": 0.9998771548271179,
+        "text": "担当者が検査"
+      },
+      {
+        "bounds": [
+          3600,
+          3815
+        ],
+        "confidence": 0.9998992085456848,
+        "text": "の記録と改善"
+      },
+      {
+        "bounds": [
+          3815,
+          4067
+        ],
+        "confidence": 0.9995142817497253,
+        "text": "の内容をまとめ"
+      },
+      {
+        "bounds": [
+          4067,
+          4297
+        ],
+        "confidence": 0.9999455213546753,
+        "text": "て公開します。"
+      }
+    ],
+    "side": "right",
+    "text": "図書館では資料の保存と公開を継続し、利用者が必要な情報を探せるように目録を整備しています。新しい電子資料を追加するときは、文字の読み上げ、画面の拡大、色の変更、検索結果の表示などを確認し、担当者が検査の記録と改善の内容をまとめて公開します。"
+  },
+  {
+    "id": "japanese_mincho36",
+    "model": "parseq-ndl-24x768-100-tiny-153epoch-tegaki3-r8data-202604.onnx",
+    "original_chunks": [
+      {
+        "bounds": [
+          0,
+          285
+        ],
+        "gap_before": 0,
+        "space_before": false
+      },
+      {
+        "bounds": [
+          285,
+          578
+        ],
+        "gap_before": 4,
+        "space_before": false
+      },
+      {
+        "bounds": [
+          578,
+          635
+        ],
+        "gap_before": 9,
+        "space_before": false
+      },
+      {
+        "bounds": [
+          635,
+          897
+        ],
+        "gap_before": 25,
+        "space_before": true
+      },
+      {
+        "bounds": [
+          897,
+          1184
+        ],
+        "gap_before": 5,
+        "space_before": false
+      },
+      {
+        "bounds": [
+          1184,
+          1475
+        ],
+        "gap_before": 15,
+        "space_before": false
+      },
+      {
+        "bounds": [
+          1475,
+          1607
+        ],
+        "gap_before": 8,
+        "space_before": false
+      },
+      {
+        "bounds": [
+          1607,
+          1873
+        ],
+        "gap_before": 25,
+        "space_before": true
+      },
+      {
+        "bounds": [
+          1873,
+          2158
+        ],
+        "gap_before": 5,
+        "space_before": false
+      },
+      {
+        "bounds": [
+          2158,
+          2183
+        ],
+        "gap_before": 6,
+        "space_before": false
+      },
+      {
+        "bounds": [
+          2183,
+          2471
+        ],
+        "gap_before": 25,
+        "space_before": true
+      },
+      {
+        "bounds": [
+          2471,
+          2687
+        ],
+        "gap_before": 25,
+        "space_before": true
+      },
+      {
+        "bounds": [
+          2687,
+          2867
+        ],
+        "gap_before": 25,
+        "space_before": true
+      },
+      {
+        "bounds": [
+          2867,
+          3169
+        ],
+        "gap_before": 25,
+        "space_before": true
+      },
+      {
+        "bounds": [
+          3169,
+          3371
+        ],
+        "gap_before": 12,
+        "space_before": false
+      },
+      {
+        "bounds": [
+          3371,
+          3600
+        ],
+        "gap_before": 25,
+        "space_before": true
+      },
+      {
+        "bounds": [
+          3600,
+          3816
+        ],
+        "gap_before": 4,
+        "space_before": false
+      },
+      {
+        "bounds": [
+          3816,
+          4066
+        ],
+        "gap_before": 4,
+        "space_before": false
+      },
+      {
+        "bounds": [
+          4066,
+          4296
+        ],
+        "gap_before": 7,
+        "space_before": false
+      }
+    ],
+    "parts": [
+      {
+        "bounds": [
+          0,
+          285
+        ],
+        "confidence": 0.9999030828475952,
+        "text": "図書館では資料の"
+      },
+      {
+        "bounds": [
+          285,
+          578
+        ],
+        "confidence": 0.9999721050262451,
+        "text": "保存と公開を継続"
+      },
+      {
+        "bounds": [
+          578,
+          635
+        ],
+        "confidence": 0.9984025955200195,
+        "text": "し、"
+      },
+      {
+        "bounds": [
+          635,
+          897
+        ],
+        "confidence": 0.9991912245750427,
+        "text": "利用者が必要な"
+      },
+      {
+        "bounds": [
+          897,
+          1184
+        ],
+        "confidence": 0.9998631477355957,
+        "text": "情報を探せるよう"
+      },
+      {
+        "bounds": [
+          1184,
+          1475
+        ],
+        "confidence": 0.9994033575057983,
+        "text": "に目録を整備して"
+      },
+      {
+        "bounds": [
+          1475,
+          1607
+        ],
+        "confidence": 0.9998750686645508,
+        "text": "います。"
+      },
+      {
+        "bounds": [
+          1607,
+          1873
+        ],
+        "confidence": 0.9999579787254333,
+        "text": "新しい電子資料"
+      },
+      {
+        "bounds": [
+          1873,
+          2183
+        ],
+        "confidence": 0.9999181032180786,
+        "text": "を追加するときは、"
+      },
+      {
+        "bounds": [
+          2183,
+          2471
+        ],
+        "confidence": 0.9999571442604065,
+        "text": "文字の読み上げ、"
+      },
+      {
+        "bounds": [
+          2471,
+          2687
+        ],
+        "confidence": 0.9998192191123962,
+        "text": "画面の拡大、"
+      },
+      {
+        "bounds": [
+          2687,
+          2867
+        ],
+        "confidence": 0.999809741973877,
+        "text": "色の変更、"
+      },
+      {
+        "bounds": [
+          2867,
+          3169
+        ],
+        "confidence": 0.9999717473983765,
+        "text": "検索結果の表示な"
+      },
+      {
+        "bounds": [
+          3169,
+          3371
+        ],
+        "confidence": 0.9998417496681213,
+        "text": "どを確認し、"
+      },
+      {
+        "bounds": [
+          3371,
+          3600
+        ],
+        "confidence": 0.9992371201515198,
+        "text": "担当者が検査"
+      },
+      {
+        "bounds": [
+          3600,
+          3816
+        ],
+        "confidence": 0.999485194683075,
+        "text": "の記録と改善"
+      },
+      {
+        "bounds": [
+          3816,
+          4066
+        ],
+        "confidence": 0.9975703358650208,
+        "text": "の内容をまとめ"
+      },
+      {
+        "bounds": [
+          4066,
+          4296
+        ],
+        "confidence": 0.9999312162399292,
+        "text": "て公開します。"
+      }
+    ],
+    "side": "left",
+    "text": "図書館では資料の保存と公開を継続し、利用者が必要な情報を探せるように目録を整備しています。新しい電子資料を追加するときは、文字の読み上げ、画面の拡大、色の変更、検索結果の表示などを確認し、担当者が検査の記録と改善の内容をまとめて公開します。"
+  },
+  {
+    "id": "japanese_mincho36",
+    "model": "parseq-ndl-24x768-100-tiny-153epoch-tegaki3-r8data-202604.onnx",
+    "original_chunks": [
+      {
+        "bounds": [
+          0,
+          285
+        ],
+        "gap_before": 0,
+        "space_before": false
+      },
+      {
+        "bounds": [
+          285,
+          578
+        ],
+        "gap_before": 4,
+        "space_before": false
+      },
+      {
+        "bounds": [
+          578,
+          635
+        ],
+        "gap_before": 9,
+        "space_before": false
+      },
+      {
+        "bounds": [
+          635,
+          897
+        ],
+        "gap_before": 25,
+        "space_before": true
+      },
+      {
+        "bounds": [
+          897,
+          1184
+        ],
+        "gap_before": 5,
+        "space_before": false
+      },
+      {
+        "bounds": [
+          1184,
+          1475
+        ],
+        "gap_before": 15,
+        "space_before": false
+      },
+      {
+        "bounds": [
+          1475,
+          1607
+        ],
+        "gap_before": 8,
+        "space_before": false
+      },
+      {
+        "bounds": [
+          1607,
+          1873
+        ],
+        "gap_before": 25,
+        "space_before": true
+      },
+      {
+        "bounds": [
+          1873,
+          2158
+        ],
+        "gap_before": 5,
+        "space_before": false
+      },
+      {
+        "bounds": [
+          2158,
+          2183
+        ],
+        "gap_before": 6,
+        "space_before": false
+      },
+      {
+        "bounds": [
+          2183,
+          2471
+        ],
+        "gap_before": 25,
+        "space_before": true
+      },
+      {
+        "bounds": [
+          2471,
+          2687
+        ],
+        "gap_before": 25,
+        "space_before": true
+      },
+      {
+        "bounds": [
+          2687,
+          2867
+        ],
+        "gap_before": 25,
+        "space_before": true
+      },
+      {
+        "bounds": [
+          2867,
+          3169
+        ],
+        "gap_before": 25,
+        "space_before": true
+      },
+      {
+        "bounds": [
+          3169,
+          3371
+        ],
+        "gap_before": 12,
+        "space_before": false
+      },
+      {
+        "bounds": [
+          3371,
+          3600
+        ],
+        "gap_before": 25,
+        "space_before": true
+      },
+      {
+        "bounds": [
+          3600,
+          3816
+        ],
+        "gap_before": 4,
+        "space_before": false
+      },
+      {
+        "bounds": [
+          3816,
+          4066
+        ],
+        "gap_before": 4,
+        "space_before": false
+      },
+      {
+        "bounds": [
+          4066,
+          4296
+        ],
+        "gap_before": 7,
+        "space_before": false
+      }
+    ],
+    "parts": [
+      {
+        "bounds": [
+          0,
+          285
+        ],
+        "confidence": 0.9999030828475952,
+        "text": "図書館では資料の"
+      },
+      {
+        "bounds": [
+          285,
+          578
+        ],
+        "confidence": 0.9999721050262451,
+        "text": "保存と公開を継続"
+      },
+      {
+        "bounds": [
+          578,
+          635
+        ],
+        "confidence": 0.9984025955200195,
+        "text": "し、"
+      },
+      {
+        "bounds": [
+          635,
+          897
+        ],
+        "confidence": 0.9991912245750427,
+        "text": "利用者が必要な"
+      },
+      {
+        "bounds": [
+          897,
+          1184
+        ],
+        "confidence": 0.9998631477355957,
+        "text": "情報を探せるよう"
+      },
+      {
+        "bounds": [
+          1184,
+          1475
+        ],
+        "confidence": 0.9994033575057983,
+        "text": "に目録を整備して"
+      },
+      {
+        "bounds": [
+          1475,
+          1607
+        ],
+        "confidence": 0.9998750686645508,
+        "text": "います。"
+      },
+      {
+        "bounds": [
+          1607,
+          1873
+        ],
+        "confidence": 0.9999579787254333,
+        "text": "新しい電子資料"
+      },
+      {
+        "bounds": [
+          1873,
+          2158
+        ],
+        "confidence": 0.9999513626098633,
+        "text": "を追加するときは"
+      },
+      {
+        "bounds": [
+          2158,
+          2471
+        ],
+        "confidence": 0.9979881644248962,
+        "text": "、文字の読み上げ、"
+      },
+      {
+        "bounds": [
+          2471,
+          2687
+        ],
+        "confidence": 0.9998192191123962,
+        "text": "画面の拡大、"
+      },
+      {
+        "bounds": [
+          2687,
+          2867
+        ],
+        "confidence": 0.999809741973877,
+        "text": "色の変更、"
+      },
+      {
+        "bounds": [
+          2867,
+          3169
+        ],
+        "confidence": 0.9999717473983765,
+        "text": "検索結果の表示な"
+      },
+      {
+        "bounds": [
+          3169,
+          3371
+        ],
+        "confidence": 0.9998417496681213,
+        "text": "どを確認し、"
+      },
+      {
+        "bounds": [
+          3371,
+          3600
+        ],
+        "confidence": 0.9992371201515198,
+        "text": "担当者が検査"
+      },
+      {
+        "bounds": [
+          3600,
+          3816
+        ],
+        "confidence": 0.999485194683075,
+        "text": "の記録と改善"
+      },
+      {
+        "bounds": [
+          3816,
+          4066
+        ],
+        "confidence": 0.9975703358650208,
+        "text": "の内容をまとめ"
+      },
+      {
+        "bounds": [
+          4066,
+          4296
+        ],
+        "confidence": 0.9999312162399292,
+        "text": "て公開します。"
+      }
+    ],
+    "side": "right",
+    "text": "図書館では資料の保存と公開を継続し、利用者が必要な情報を探せるように目録を整備しています。新しい電子資料を追加するときは、文字の読み上げ、画面の拡大、色の変更、検索結果の表示などを確認し、担当者が検査の記録と改善の内容をまとめて公開します。"
+  }
+]

@@ -1,0 +1,15 @@
+{
+  "normal_passed": 518,
+  "onnx_selected_passed": 435,
+  "comparisons": 276,
+  "regressions": 0,
+  "changed_text_pairs": 15,
+  "new_source_images": 26,
+  "existing_control_images": 20,
+  "existing_control_outputs_byte_identical": 40,
+  "baseline_is_independent_same_class_dedup_commit": "8edefcd",
+  "initial_failures": 4,
+  "refined_before_dedup_failures": 1,
+  "model_assets_unchanged": true,
+  "separate_detector_and_recognizer_confidence": true
+}

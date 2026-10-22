@@ -1,0 +1,407 @@
+{
+  "first_bounds": [
+    49,
+    16,
+    1054,
+    40
+  ],
+  "models": [
+    {
+      "confidence": 0.9958312511444092,
+      "model": "parseq-ndl-24x384-50-tiny-300epoch-tegaki3-r8data-202604.onnx",
+      "text": "部から成る「図書館におけるアクセシブルな電子書籍サービスに関する検討会」(事務局:"
+    },
+    {
+      "confidence": 0.9970710277557373,
+      "model": "parseq-ndl-24x768-100-tiny-153epoch-tegaki3-r8data-202604.onnx",
+      "text": "部から成る「図書館におけるアクセシブルな電子書籍サービスに関する検討会」(事務局:"
+    }
+  ],
+  "raw": [
+    {
+      "bounds": [
+        31,
+        370,
+        1064,
+        1190
+      ],
+      "class": "text_block",
+      "confidence": 0.9522838592529297,
+      "pred_char_count": 1.0
+    },
+    {
+      "bounds": [
+        33,
+        66,
+        413,
+        90
+      ],
+      "class": "line_main",
+      "confidence": 0.946094274520874,
+      "pred_char_count": 3.0
+    },
+    {
+      "bounds": [
+        34,
+        266,
+        987,
+        290
+      ],
+      "class": "line_main",
+      "confidence": 0.9439667463302612,
+      "pred_char_count": 2.0
+    },
+    {
+      "bounds": [
+        42,
+        466,
+        1057,
+        490
+      ],
+      "class": "line_main",
+      "confidence": 0.9393129348754883,
+      "pred_char_count": 2.0
+    },
+    {
+      "bounds": [
+        32,
+        216,
+        1063,
+        241
+      ],
+      "class": "line_main",
+      "confidence": 0.9367172718048096,
+      "pred_char_count": 2.0
+    },
+    {
+      "bounds": [
+        33,
+        916,
+        1046,
+        941
+      ],
+      "class": "line_main",
+      "confidence": 0.9361762404441833,
+      "pred_char_count": 2.0
+    },
+    {
+      "bounds": [
+        36,
+        1116,
+        1060,
+        1140
+      ],
+      "class": "line_main",
+      "confidence": 0.9360145330429077,
+      "pred_char_count": 2.0
+    },
+    {
+      "bounds": [
+        48,
+        1266,
+        984,
+        1291
+      ],
+      "class": "line_main",
+      "confidence": 0.935807466506958,
+      "pred_char_count": 2.0
+    },
+    {
+      "bounds": [
+        32,
+        367,
+        714,
+        390
+      ],
+      "class": "line_main",
+      "confidence": 0.9354386329650879,
+      "pred_char_count": 2.0
+    },
+    {
+      "bounds": [
+        33,
+        416,
+        531,
+        441
+      ],
+      "class": "line_main",
+      "confidence": 0.9350404143333435,
+      "pred_char_count": 3.0
+    },
+    {
+      "bounds": [
+        32,
+        166,
+        1063,
+        190
+      ],
+      "class": "line_main",
+      "confidence": 0.9345788955688477,
+      "pred_char_count": 2.0
+    },
+    {
+      "bounds": [
+        33,
+        616,
+        602,
+        639
+      ],
+      "class": "line_main",
+      "confidence": 0.9330460429191589,
+      "pred_char_count": 2.0
+    },
+    {
+      "bounds": [
+        32,
+        1166,
+        588,
+        1190
+      ],
+      "class": "line_main",
+      "confidence": 0.932502269744873,
+      "pred_char_count": 2.0
+    },
+    {
+      "bounds": [
+        33,
+        566,
+        513,
+        590
+      ],
+      "class": "line_main",
+      "confidence": 0.9323258996009827,
+      "pred_char_count": 2.0
+    },
+    {
+      "bounds": [
+        42,
+        1066,
+        1063,
+        1090
+      ],
+      "class": "line_main",
+      "confidence": 0.9292367100715637,
+      "pred_char_count": 2.0
+    },
+    {
+      "bounds": [
+        34,
+        866,
+        1045,
+        890
+      ],
+      "class": "line_main",
+      "confidence": 0.9275165796279907,
+      "pred_char_count": 2.0
+    },
+    {
+      "bounds": [
+        32,
+        767,
+        915,
+        790
+      ],
+      "class": "line_main",
+      "confidence": 0.9265986680984497,
+      "pred_char_count": 2.0
+    },
+    {
+      "bounds": [
+        43,
+        666,
+        1063,
+        690
+      ],
+      "class": "line_main",
+      "confidence": 0.9262118339538574,
+      "pred_char_count": 1.0
+    },
+    {
+      "bounds": [
+        33,
+        1016,
+        1056,
+        1040
+      ],
+      "class": "line_main",
+      "confidence": 0.9252642393112183,
+      "pred_char_count": 1.0
+    },
+    {
+      "bounds": [
+        34,
+        516,
+        1063,
+        541
+      ],
+      "class": "line_main",
+      "confidence": 0.9236150979995728,
+      "pred_char_count": 1.0
+    },
+    {
+      "bounds": [
+        49,
+        16,
+        1054,
+        40
+      ],
+      "class": "line_main",
+      "confidence": 0.9234917759895325,
+      "pred_char_count": 2.0
+    },
+    {
+      "bounds": [
+        54,
+        116,
+        1062,
+        141
+      ],
+      "class": "line_main",
+      "confidence": 0.9211632013320923,
+      "pred_char_count": 1.0
+    },
+    {
+      "bounds": [
+        32,
+        966,
+        549,
+        991
+      ],
+      "class": "line_main",
+      "confidence": 0.920452356338501,
+      "pred_char_count": 2.0
+    },
+    {
+      "bounds": [
+        34,
+        716,
+        1062,
+        740
+      ],
+      "class": "line_main",
+      "confidence": 0.9194772839546204,
+      "pred_char_count": 1.0
+    },
+    {
+      "bounds": [
+        34,
+        817,
+        1062,
+        840
+      ],
+      "class": "line_main",
+      "confidence": 0.9168664813041687,
+      "pred_char_count": 1.0
+    },
+    {
+      "bounds": [
+        32,
+        1366,
+        664,
+        1391
+      ],
+      "class": "line_main",
+      "confidence": 0.8800832033157349,
+      "pred_char_count": 2.0
+    },
+    {
+      "bounds": [
+        34,
+        1318,
+        696,
+        1343
+      ],
+      "class": "line_main",
+      "confidence": 0.8769242763519287,
+      "pred_char_count": 1.0
+    },
+    {
+      "bounds": [
+        31,
+        15,
+        1061,
+        291
+      ],
+      "class": "text_block",
+      "confidence": 0.7857315540313721,
+      "pred_char_count": 1.0
+    },
+    {
+      "bounds": [
+        35,
+        1267,
+        985,
+        1391
+      ],
+      "class": "text_block",
+      "confidence": 0.6287470459938049,
+      "pred_char_count": 1.0
+    },
+    {
+      "bounds": [
+        32,
+        1313,
+        697,
+        1391
+      ],
+      "class": "text_block",
+      "confidence": 0.41076216101646423,
+      "pred_char_count": 1.0
+    },
+    {
+      "bounds": [
+        40,
+        1267,
+        985,
+        1343
+      ],
+      "class": "text_block",
+      "confidence": 0.3701561689376831,
+      "pred_char_count": 1.0
+    },
+    {
+      "bounds": [
+        48,
+        1266,
+        985,
+        1291
+      ],
+      "class": "text_block",
+      "confidence": 0.3154754638671875,
+      "pred_char_count": 1.0
+    },
+    {
+      "bounds": [
+        32,
+        1366,
+        665,
+        1391
+      ],
+      "class": "text_block",
+      "confidence": 0.3139103651046753,
+      "pred_char_count": 1.0
+    },
+    {
+      "bounds": [
+        32,
+        1366,
+        664,
+        1391
+      ],
+      "class": "line_title",
+      "confidence": 0.308305561542511,
+      "pred_char_count": 2.0
+    },
+    {
+      "bounds": [
+        30,
+        366,
+        717,
+        442
+      ],
+      "class": "text_block",
+      "confidence": 0.29464268684387207,
+      "pred_char_count": 1.0
+    }
+  ]
+}

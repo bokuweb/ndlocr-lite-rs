@@ -17,8 +17,21 @@
 //! も `PageRecognizer` 側に閉じ込めるので、consumer は `OnceLock` 等で 1 個
 //! 持つだけでよくなる。
 //!
-//! 認識精度に関わる post-processing (構造ルール、辞書、cascade fallback)
-//! は本モジュールには含めない。consumer 側で必要に応じて
+//! 有効なDEIM行がない場合は、色背景を整えた横書き帯検出を試す。
+//! 単純な塗り図形だけの帯は除き、供給された同じモデルへHorizontalで渡す。
+//! 追加する認識はconfidence 0.9〜1を要求し、呼出側optionsでも絞り込む。
+//! 検出/元認識のエラーはErrのまま返す。大きい空白による情報圧縮は、
+//! 元画素を保持する区間の再認識と、必要なら同モデルの全体文脈確認で補う。
+//! native入力比率を超える帯は、この確認に成功した場合のみ追加する。
+//!
+//! 元枠が覆わない画線を持つ単一横書き帯は、同じpoolで全体文脈を確認する。
+//! native比率内の原画像/全文被覆帯だけを認識し、元結果の文字数加重平均confidenceを
+//! 厳密に上回る候補を選ぶ。空出力から追加せず、追加確認の失敗時は元結果を保つ。
+//!
+//! 文書依存の構造ルール、辞書、複数モデルのcascadeはconsumer側で適用する。
+//! 極端に横長で文字密度が高い行の短すぎる結果は、
+//! 同じ供給モデルで安全な部分画像を追加認識する。全ての部分が高信頼度で
+//! 十分な文字量を説明できた場合に採用する。consumer 側で必要に応じて
 //! [`crate::postprocess::page_rules::apply_structural_rules`] を呼ぶ。
 
 #![cfg(feature = "onnx")]
@@ -55,6 +68,7 @@ pub struct PageRecognizerOptions {
     /// DEIM 行検出の信頼度しきい値。
     pub det_conf_threshold: f32,
     /// 行認識の信頼度しきい値。これ未満は捨てる。
+    /// DEIM未検出時に追加する帯は、別途0.9以上の認識支持も必要。
     pub min_line_confidence: f32,
     /// 認識テキストが空白のみの行を捨てるかどうか。
     pub drop_empty_text: bool,
@@ -87,14 +101,18 @@ impl PageRecognizer {
     ) -> Result<Self> {
         let deim = DeimPool::load(det_model, parallelism)?;
         let parseq = ParseqPool::load(parseq_model, charset_path, parallelism)?;
-        Ok(Self { deim, parseq })
+        Ok(Self::from_pools(deim, parseq))
     }
 
     /// 既にロード済みの pool を所有してまとめる。consumer が cascade なら
     /// `from_pools` を使って独自構築 (例: 30/50/100 を別々に管理) もできる
     /// 余地を残しておく。
+    /// 行は文の断片として扱い、別行で開かれた閉じ括弧も保持する。
     pub fn from_pools(deim: DeimPool, parseq: ParseqPool) -> Self {
-        Self { deim, parseq }
+        Self {
+            deim,
+            parseq: parseq.for_fragments(),
+        }
     }
 
     /// 各プールの並列度。DeimPool と ParseqPool の小さい方を返す
@@ -179,6 +197,10 @@ impl PageRecognizer {
     }
 }
 
+fn supported_fallback_confidence(confidence: f32) -> bool {
+    (0.9..=1.0).contains(&confidence)
+}
+
 fn recognize_one_page(
     deim: &DeimPool,
     parseq: &ParseqPool,
@@ -193,10 +215,10 @@ fn recognize_one_page(
 
     // 2) line_* クラスのみ拾って bbox 化、画像内に収める。
     let mut bboxes: Vec<[i32; 4]> =
-        crate::pipeline::line_detections::select_line_detections(&dets, width, height)
+        crate::pipeline::line_detections::line_recognition_regions(&dets, rgb, width, height)
             .into_iter()
-            .filter_map(|d| {
-                let [x0, y0, x1, y1] = d.box_xyxy;
+            .filter_map(|(_, bounds)| {
+                let [x0, y0, x1, y1] = bounds;
                 if x0 < 0 || y0 < 0 || x0 >= x1 || y0 >= y1 {
                     return None;
                 }
@@ -206,6 +228,62 @@ fn recognize_one_page(
                 Some([x0, y0, x1, y1])
             })
             .collect();
+    let using_fallback = bboxes.is_empty();
+    let fallback_rgb = if using_fallback {
+        crate::pipeline::background::normalize_chromatic_panels(rgb, width, height)
+            .map_err(anyhow::Error::msg)?
+    } else {
+        std::borrow::Cow::Borrowed(rgb)
+    };
+    let rgb = fallback_rgb.as_ref();
+    // An unsupported vertical attempt leaves the original horizontal fallback intact.
+    let vertical_recognition = if using_fallback {
+        super::vertical_fallback::try_recognize(
+            rgb,
+            width,
+            height,
+            opts.min_line_confidence,
+            |pixels, w, h| {
+                let mut values = parseq.recognize_batch_single_session_rgb_u8(&[(pixels, w, h)])?;
+                if values.len() != 1 {
+                    return Err(anyhow!(
+                        "vertical fallback expected one recognition, got {}",
+                        values.len()
+                    ));
+                }
+                Ok(values.remove(0))
+            },
+        )
+    } else {
+        None
+    };
+    let using_horizontal_fallback = using_fallback && vertical_recognition.is_none();
+    if let Some((bounds, _)) = &vertical_recognition {
+        bboxes.push(*bounds);
+    }
+    if bboxes.is_empty() {
+        let bands = if width.saturating_mul(height) >= 1_000_000 {
+            crate::pipeline::line_segment::detect_textline_bands_fast(rgb, width, height, 220)
+        } else {
+            crate::pipeline::line_segment::detect_textline_bands_naive(rgb, width, height, 220)
+        };
+        bboxes = bands
+            .into_iter()
+            .filter_map(|[x0, y0, x1, y1]| {
+                Some([
+                    i32::try_from(x0).ok()?,
+                    i32::try_from(y0).ok()?,
+                    i32::try_from(x1).ok()?,
+                    i32::try_from(y1).ok()?,
+                ])
+            })
+            .filter(|bounds| {
+                crate::pipeline::band_text_support::has_text_like_ink(
+                    rgb, width, height, *bounds, 220,
+                )
+            })
+            .collect();
+    }
     sort_bboxes_in_reading_order(&mut bboxes);
 
     if bboxes.is_empty() {
@@ -237,7 +315,13 @@ fn recognize_one_page(
         .collect();
     // 各ページのバッチは「1 Session 専有」で投げる。複数ワーカーが同時に
     // ここに来ても、それぞれ別 Session を掴むので Parseq プールが詰まらない。
-    let recs = parseq.recognize_batch_single_session_rgb_u8(&inputs)?;
+    let recs = if let Some((_, recognized)) = vertical_recognition {
+        vec![recognized]
+    } else if using_fallback {
+        parseq.recognize_batch_single_session_horizontal_rgb_u8(&inputs)?
+    } else {
+        parseq.recognize_batch_single_session_rgb_u8(&inputs)?
+    };
     if recs.len() != crops.len() {
         return Err(anyhow!(
             "parseq batch returned {} for {} crops",
@@ -248,7 +332,42 @@ fn recognize_one_page(
 
     // 4) 信頼度フィルタ + 空文字フィルタ。
     let mut lines: Vec<PageLine> = Vec::with_capacity(recs.len());
-    for ((bbox, _), rec) in crops.into_iter().zip(recs) {
+    let bounds: Vec<_> = crops.iter().map(|(bbox, _)| *bbox).collect();
+    let isolated = super::dense_line_recovery::isolated_recovery_regions(&bounds);
+    for (((bbox, crop), rec), isolated) in crops.into_iter().zip(recs).zip(isolated) {
+        let (input_w, input_h) = parseq.input_dimensions();
+        let overwide = crop.width as u128 * input_h as u128 > crop.height as u128 * input_w as u128;
+        let rec = if using_horizontal_fallback && overwide {
+            let Some(recovered) = super::band_line_recovery::recover_overwide_band(
+                &crop.data,
+                crop.width,
+                crop.height,
+                parseq.input_dimensions(),
+                |data, w, h| parseq.recognize_horizontal_rgb_u8(data, w, h),
+            ) else {
+                continue;
+            };
+            recovered
+        } else {
+            rec
+        };
+        let rec = if isolated && !using_fallback {
+            super::dense_line_recovery::recover_dense_horizontal_line(
+                &rec,
+                &crop.data,
+                crop.width,
+                crop.height,
+                parseq.input_dimensions(),
+                |data, w, h| parseq.recognize_horizontal_rgb_u8(data, w, h),
+            )
+            .unwrap_or(rec)
+        } else {
+            rec
+        };
+        // Fallback adds lines without a detector score; require model support first.
+        if using_fallback && !supported_fallback_confidence(rec.mean_confidence) {
+            continue;
+        }
         if rec.mean_confidence < opts.min_line_confidence {
             continue;
         }
@@ -261,5 +380,61 @@ fn recognize_one_page(
             confidence: rec.mean_confidence,
         });
     }
+    let scored: Vec<_> = lines
+        .iter()
+        .map(|line| crate::pipeline::line_context::ScoredRegion {
+            bounds: line.bbox_xyxy,
+            text: &line.text,
+            mean_confidence: line.confidence,
+        })
+        .collect();
+    let keep = crate::pipeline::line_context::select_contexts(&scored, parseq.input_dimensions());
+    let mut keep = keep.into_iter().peekable();
+    let mut lines: Vec<PageLine> = lines
+        .into_iter()
+        .enumerate()
+        .filter_map(|(i, line)| {
+            if keep.peek() == Some(&i) {
+                keep.next();
+                Some(line)
+            } else {
+                None
+            }
+        })
+        .collect();
+    let scored: Vec<_> = lines
+        .iter()
+        .map(|line| crate::pipeline::line_context::ScoredRegion {
+            bounds: line.bbox_xyxy,
+            text: &line.text,
+            mean_confidence: line.confidence,
+        })
+        .collect();
+    if let Some(context) = super::missing_line_context::recover_missing_line_context(
+        &scored,
+        rgb,
+        width,
+        height,
+        parseq.input_dimensions(),
+        |data, w, h| parseq.recognize_horizontal_rgb_u8(data, w, h),
+    ) {
+        lines = vec![PageLine {
+            bbox_xyxy: context.bounds,
+            text: context.recognized.text,
+            confidence: context.recognized.mean_confidence,
+        }];
+    }
     Ok(PageResult { page_index, lines })
 }
+
+#[cfg(test)]
+#[path = "../../tests/support/page_band_fallback_model.rs"]
+mod band_fallback_tests;
+
+#[cfg(test)]
+#[path = "../../tests/support/contained_line_context_model.rs"]
+mod contained_context_tests;
+
+#[cfg(test)]
+#[path = "../../tests/support/missing_line_context_model.rs"]
+mod missing_context_tests;

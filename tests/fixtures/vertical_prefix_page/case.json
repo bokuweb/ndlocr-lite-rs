@@ -1,0 +1,8 @@
+{
+  "id": "uncertain_bold_31_pad0",
+  "image": "bold31.png",
+  "expected": "朝の公園を通り抜けると池のほとりで小さな鳥が水を飲んでいました",
+  "source_image_sha256": "a32e89297afbc81792af0232b1350d4ea36fe0b8ec3360bde582ac62f4e9b4e7",
+  "source_truth_sha256": "1577a4fe534c9dab6785ee50a6871d9d6ddaacf96f233cf9d81f209fa1a45e5f",
+  "development_known_font": true
+}

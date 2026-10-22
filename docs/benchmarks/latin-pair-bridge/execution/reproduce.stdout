@@ -1,0 +1,120 @@
+{
+  "inputs": 8064,
+  "seen_rgb_inputs": 288,
+  "unseen_rgb_inputs": 7776,
+  "unique_fresh_rgb": 5568,
+  "auto_rotated": 244,
+  "driver_sha256": "cb49d8c4e9711bfc1505cd324b1212046645f59d771446c95574050f3361b8ff"
+}
+648 native traces and white ROI crops verified
+2304 pre-JPEG nontext pairs reconstructed;all original nonwhite body pixels kept;overlap0
+{
+  "archive_sha256": {
+    "images": "7fa379bd54b9414376cf9418843e4d403e47574df85d17fec165df99dd5e0040",
+    "pixels": "6bc2e61126da46e4db54320172cc565e028c4cd8e80df9b7ca1d931a8987af1a",
+    "inputs": "788624f2a36948afa72f7b6a7fd290091d589c29b1e57c7c2a314e53f057144b",
+    "diagnostics": "c59c1a50630447d0bd3fe723324f8794c56c13933c7d247a1993de311b360ae5",
+    "text": "c7f24eb67184b787c862a2494463da2b3d2add489b37b289a3dbefdc73469d5b"
+  },
+  "parent_archives": {
+    "images": "631ee118afaaa341a5f493d91235fcdc9289e8fc08ac3f69d73fb36d9388c2e0",
+    "pixels": "7343c41592904ebacf319e6cce84a0126a6e30c1f7c972b69a8dbbe7aac261c1",
+    "geometry-images": "c3df9e7c0066ce82f7432b2d7dbcce3b9f394faec6b3940bfbfb47801605bf8d",
+    "geometry-pixels": "567d31ed29023147d129847d7bd7571affe485a0d8c308d517c11a2338eba747",
+    "screens": "3442c6c9a6e5540e906ae533657dbfdac138070ca088c8ab30ef84aae0e27288",
+    "inputs": "6d6e60752054a97d7bf5999feeae7f4248b44f199e5059b35eb7427d31918264",
+    "diagnostics": "04f2f9d4a0a298f1d13f1929bdeeab2fc7918c9c2a9a7ec81a730ad17e21db10",
+    "text": "fb21df27b094e3303b077e00a7a0f4b20ad84cfdc41d943d7ea704cc1ab3c5b8"
+  },
+  "nested_parent_archives": {
+    "internal": {
+      "images": "7aa2c4259a4255651befdf604324a401746c327a48fcb3d865b24c047860bc70",
+      "inputs": "af5df4ca012127fa4db1124ade5582a661da33063db16d48e11dd43361d60d9c",
+      "diagnostics": "45ca8e447a03e835619b54362463f60893828a60cfaede1de5f440dd83602550",
+      "text": "1254bc26d79599f624fa11a66e1ea433e82c668d6853df3beacfd40c8d032ce6"
+    },
+    "detached": {
+      "initial-images": "6073551dfd2bec1ba20e21cbcf62f01b377d43b37523b4a89efdc076c7351fa7",
+      "initial-inputs": "a49e527cf3f56abe46431681f959e29fd1bf5957c21742c28e7c32dbb3b37ca9",
+      "positive-images": "e26cf491e467221f16f95a679e3b5ade939cacfa6c0c0eca2e7275f6d3030bcb",
+      "positive-inputs": "b14731bafb9581bc925f62d29d0972f5cbea3f668b2cb261b7c577c07dfc5696",
+      "diagnostics": "a4a6a84b9e06e44bba0afccb21e2c4141c22dfa40cbeff68913d5a9217e743de",
+      "text": "2a576232090d68cfd0bcb6814a00c51b53e9212f37264a0e82ab92b32b8680da"
+    },
+    "bridge": {
+      "data": "805c6df3c52efab01d98ea067d6c64c9d33d7439212dab3ae641522cac72b3be",
+      "diagnostics": "123bb4ecbe0d671a9efe8b2f8149dad243b195afb45bf959ad5a6a4c4e7caee7",
+      "text": "bb28a253d9b200bb807b18d37b661f427b9e6e0a1e588e571bec8dbc9cb0d216"
+    }
+  },
+  "table_files_byte_equal": 450,
+  "audits_recomputed_equal": 3,
+  "product_pairs": 162915,
+  "changes": 62,
+  "unique_changed_original_rgb": 19,
+  "new_evaluation_raw_forwards": 24924,
+  "native_api_pairs": 8564,
+  "cli_processes": 3500,
+  "page_fragment_source_proof_verified": true,
+  "new_page_accuracy_evaluation_runs": 0,
+  "images": 8308,
+  "actual_captures": 8308,
+  "pre_jpeg_noise_pairs": 2304,
+  "native_records": 648,
+  "unique_fresh_rgb": 5568,
+  "unique_unseen_rgb": 5304
+}
+{
+  "inputs": 19440,
+  "seen_rgb_inputs": 0,
+  "unseen_rgb_inputs": 19440,
+  "unique_fresh_rgb": 13368,
+  "auto_rotated": 636,
+  "driver_sha256": "98459f70b709e35ffa26c5dec161be9cc435893d74338c3f58fe2563259b77f5"
+}
+1854 native traces and white ROI crops verified
+4536 pre-JPEG pairs independently reconstructed;body ink preserved;overlap0
+{
+  "archive_sha256": {
+    "native": "918c749d249403f3ef7897a56803d095a97db8ee57a7dbb678b62314715a45fa",
+    "originals": "489ab68cbcd1e1d82de5b998a55b3cec66750f3212a56bbc528b0e0ab9324270",
+    "decoded": "c2459a45c391c19383d05f2954b4cde7343b599d6bcab1cab0611ab7b62859e3",
+    "pixels-maru": "426ee8e0d84b5a595265131bb8c55b468c86f5c4808979672535496de21fc834",
+    "pixels-gothic": "043b69091cb2b3ce390020c6a66a7f2ac37dcd43919c5231e88807327d116d31",
+    "pixels-mincho": "9e813bf2acab0947a122033a9c51367676a681cb57abee76e7dcd197f52308f4",
+    "pixels-atlases": "c1f55ea662542eeb6274121ada4ed79072b64285bcacaa02a56df158f18f9f43",
+    "inputs-maru": "60c807ebea4a80f54ec39e4c0aaa97aa1beb0f08484081a26686ba79b05932bc",
+    "inputs-gothic": "651dd98ea68601c973a1ea6d710eff9aff0e90937a9841d47a767fc65e18e9df",
+    "inputs-mincho": "6f3bcc672b3ff99ef952f05e5ff21f048ec9dbb8814d852f8d72d6a458f3304a",
+    "inputs-metadata": "8c99bba2b8169e7244483c0859338af81a20f7db9e4a01191cf10988833d5a2a",
+    "diagnostics-0": "5680b96c8e0cf0232e7b8138eb3d1dc7c03bacfaedb1d0e9458e00018ce34976",
+    "diagnostics-1": "45067f98b1ea81b8a499c61cb4b52e050b1799f9f5b2e04c19f2580fc526d638",
+    "diagnostics-2": "7cb6cc303abc759ad51235b2af326663b0a9d988b41fdf0c5a6fa1f1a1fe27bf",
+    "text-0": "89dcfc2a52740d40224ab36e7e1edbb7580db7aef88c46403ad7159e590af8e2"
+  },
+  "parent_archive_sha256": {
+    "images": "7fa379bd54b9414376cf9418843e4d403e47574df85d17fec165df99dd5e0040",
+    "pixels": "6bc2e61126da46e4db54320172cc565e028c4cd8e80df9b7ca1d931a8987af1a",
+    "inputs": "788624f2a36948afa72f7b6a7fd290091d589c29b1e57c7c2a314e53f057144b",
+    "diagnostics": "c59c1a50630447d0bd3fe723324f8794c56c13933c7d247a1993de311b360ae5",
+    "text": "c7f24eb67184b787c862a2494463da2b3d2add489b37b289a3dbefdc73469d5b"
+  },
+  "parent_fully_reproduced": true,
+  "parent_verification_sha256": "224840201d2e4b9ee4e26008aebf3069ec74a839b1f2462d0f99522bda11fa2d",
+  "product_pairs": 223143,
+  "changes": 112,
+  "unique_changed_original_rgb": 48,
+  "table_files_byte_equal": 1188,
+  "audits_recomputed_equal": 3,
+  "new_evaluation_raw_forwards": 60228,
+  "native_api_pairs": 9184,
+  "cli_processes": 9184,
+  "fixed_numeric_source_verified": true,
+  "new_page_accuracy_evaluation_runs": 0,
+  "images": 20076,
+  "actual_captures": 20076,
+  "pre_jpeg_noise_pairs": 4536,
+  "native_records": 1854,
+  "unique_fresh_rgb": 13368,
+  "unique_unseen_rgb": 13368
+}

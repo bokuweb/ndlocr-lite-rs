@@ -1,0 +1,152 @@
+{
+  "utc": "2026-10-20T20:08:56.251493+00:00",
+  "status": "O fresh Page v2 validated; old same-binary Page validation withdrawn and retained; later root change is test/fixture only",
+  "baseline_commit": "e5b11b412b8c7278ac5ee6688af6af474852bb57",
+  "candidate": "O fixed M strict whole-prefix extension",
+  "native_verification": {
+    "native_independently_verified_CSV_rows": 7452,
+    "native_independent_error_and_denominator_fields": 29808,
+    "native_route_fields_compared": 9936,
+    "native_changed_pairs": 9,
+    "native_five_untouched_routes": 6210,
+    "native_official_char_and_word_comparisons": 7452,
+    "native_per_input_regressions": 0,
+    "source_mode": "frozen source restored under output",
+    "Rust_binary_sha256": "d8ad53490bab72dcc361d10e55ec7baf2aaed7fa423ea0b7df1c6f9064666023",
+    "original_RGB": 414,
+    "literal_traces_verified": 4432,
+    "all_actual_horizontal_crop_bindings": 3190,
+    "Rust_decisions_verified": 1242,
+    "Rust_plans_verified": 1242,
+    "adoptions": 9,
+    "new_NN_calls": 0,
+    "new_model_loads": 0,
+    "internal_session_run_calls": 0,
+    "commands": [
+      {
+        "argv": [
+          "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/vertical-strict-prefix/frozen-model-free-replay-binary",
+          "infer::vertical_capacity::prefix::capture::combine_all_saved_real_plans_without_nn",
+          "--exact",
+          "--ignored",
+          "--nocapture"
+        ],
+        "exit_code": 0
+      },
+      {
+        "argv": [
+          "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/vertical-strict-prefix/frozen-model-free-replay-binary",
+          "infer::vertical_capacity::prefix::capture::record_real_raw_plans_without_nn",
+          "--exact",
+          "--ignored",
+          "--nocapture"
+        ],
+        "exit_code": 0
+      }
+    ]
+  },
+  "local_default_tests": {
+    "targets": 124,
+    "passed": 797,
+    "ignored": 39
+  },
+  "local_onnx_lib_passed": 549,
+  "local_onnx_CI_integrations": {
+    "targets": 45,
+    "passed": 213
+  },
+  "examples_and_margin": {
+    "targets": 11,
+    "passed": 24
+  },
+  "Python_and_pinned_OpenCV_tests": 15,
+  "packet_tests": 18,
+  "Clippy_new_warnings": 0,
+  "Clippy_existing_default": 13,
+  "Clippy_existing_onnx_lib": 18,
+  "fmt_and_diff_check": true,
+  "local_smokes": "all required real example smokes passed; initial missing worker in partial snapshot fixed with exact unchanged root Python asset",
+  "Page_gain_claim": {
+    "scope": "known-font synthetic development inputs, not independent real-document holdout",
+    "images": 9,
+    "input_route_changes": 18,
+    "routes": [
+      "30_eval",
+      "30_default"
+    ],
+    "char_error_reduction_per_route_per_normalization": 13,
+    "word_error_reduction_per_route_per_normalization": 9,
+    "model50_model100_and_CLI": "unchanged"
+  },
+  "next_measure": "prospective vertical fallback direction selection after DEIM failure;111annotated case/route occurrences were recognized as101..146 Horizontal bands",
+  "native_weights_and_fonts_not_shipped": true,
+  "integration_receipt": "integration.json",
+  "withdrawn_Page_verification": {
+    "Page_input_IDs": 444,
+    "Page_unique_RGB": 443,
+    "Page_recorded_image_results": 7104,
+    "Page_text_changes": 0,
+    "Page_independently_verified_CSV_rows": 21312,
+    "Page_old293_baseline_source_replayed": true
+  },
+  "Page_validation_status": "fresh candidate-v2 complete; all444x8 per-input character/word comparisons show no regression",
+  "root_Page_regression": {
+    "selected_tests_passed": 1,
+    "isolated_baseline_Red_exit": 101,
+    "root_Green_exit": 0,
+    "source_files": 276,
+    "inference_code_unchanged_from_measured_73e9ab4": true
+  },
+  "local_onnx_lib_note": "549passed before later Page-only regression; later selected new root regression passes; new full count550 is checked by subsequent CI",
+  "replay_verification": {
+    "Page_input_IDs": 444,
+    "Page_unique_RGB": 443,
+    "Page_recorded_image_results": 7104,
+    "Page_text_changes": 18,
+    "Page_per_input_regressions": 0,
+    "Page_independently_verified_CSV_rows": 21312,
+    "Page_old293_baseline_source_replayed": true,
+    "Page_fresh_candidate_artifacts_verified": true,
+    "native_independently_verified_CSV_rows": 7452,
+    "native_independent_error_and_denominator_fields": 29808,
+    "native_route_fields_compared": 9936,
+    "native_changed_pairs": 9,
+    "native_five_untouched_routes": 6210,
+    "native_official_char_and_word_comparisons": 7452,
+    "native_per_input_regressions": 0,
+    "source_mode": "frozen source restored under output",
+    "Rust_binary_sha256": "d8ad53490bab72dcc361d10e55ec7baf2aaed7fa423ea0b7df1c6f9064666023",
+    "original_RGB": 414,
+    "literal_traces_verified": 4432,
+    "all_actual_horizontal_crop_bindings": 3190,
+    "Rust_decisions_verified": 1242,
+    "Rust_plans_verified": 1242,
+    "adoptions": 9,
+    "new_NN_calls": 0,
+    "new_model_loads": 0,
+    "internal_session_run_calls": 0,
+    "commands": [
+      {
+        "argv": [
+          "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/vertical-strict-prefix/frozen-model-free-replay-binary",
+          "infer::vertical_capacity::prefix::capture::combine_all_saved_real_plans_without_nn",
+          "--exact",
+          "--ignored",
+          "--nocapture"
+        ],
+        "exit_code": 0
+      },
+      {
+        "argv": [
+          "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/vertical-strict-prefix/frozen-model-free-replay-binary",
+          "infer::vertical_capacity::prefix::capture::record_real_raw_plans_without_nn",
+          "--exact",
+          "--ignored",
+          "--nocapture"
+        ],
+        "exit_code": 0
+      }
+    ]
+  },
+  "corrected_replay_mode": "different CWD; frozen source and SHA-allowlisted existing Rust binary; no new Cargo build or recognition"
+}

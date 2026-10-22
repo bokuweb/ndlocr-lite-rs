@@ -1,0 +1,97 @@
+{
+  "archive": "QA-and-full-scope-v1.zip",
+  "sha256": "0b733fff25af5f694894233ef3eede72eb12baf23ddb737053d37ac0c1eb585a",
+  "bytes": 174206,
+  "members": {
+    "evidence/QA-and-full-scope-v1.json": {
+      "bytes": 854,
+      "sha256": "d84dc88310b58871ce89d934ee70b8d0b14d049a912dc1206fc9f2561eae5912"
+    },
+    "evidence/onnx-nonignored-v1/before.json": {
+      "bytes": 283676,
+      "sha256": "1f5cceb69de19eff3dc37d11831f5e496e7e9c9368ada4bd07b641c00be90ba1"
+    },
+    "evidence/onnx-nonignored-v1/command.json": {
+      "bytes": 283738,
+      "sha256": "ba978e9df7bd19e44d597b13babb427367f5e4974aa3cd66d4d7f93c1d20e4e3"
+    },
+    "evidence/onnx-nonignored-v1/run.stdout": {
+      "bytes": 70712,
+      "sha256": "c930a39191614c8ea155cd665c721c737bae15044687e4cc88500aa8e2a103de"
+    },
+    "evidence/onnx-nonignored-v1/run.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "evidence/onnx-clippy-all-targets.jsonl": {
+      "bytes": 503173,
+      "sha256": "1189e93ed5763e0165b4f53dc8b2f73f82a77308812a5a99dc0c6129bbe6b9c5"
+    },
+    "evidence/onnx-clippy-all-targets.stderr": {
+      "bytes": 1285,
+      "sha256": "9180a795b7a8899ebf0490e1d6d327fb573635b90197307e63663e725b0f9705"
+    },
+    "evidence/full-scope-red.stdout": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "evidence/full-scope-red.stderr": {
+      "bytes": 1878,
+      "sha256": "5f2e2bd0b97a6528b0c07a1b9796127fc5fb8705627a078bc8e256c28d14a5dc"
+    },
+    "evidence/full-scope-green.stdout": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "evidence/full-scope-green.stderr": {
+      "bytes": 474,
+      "sha256": "fd293c2561b633dc75a8cb5652525a618e5aa615aab829c29d82e6aa012c25d5"
+    },
+    "evidence/full-scope-final-green.stdout": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "evidence/full-scope-final-green.stderr": {
+      "bytes": 687,
+      "sha256": "5f840be20d2a304c8f375c44d97bf28165b0b6e62fce21c1fad6e264446a90e9"
+    },
+    "evidence/pack_qa_and_scope_v1.py": {
+      "bytes": 3184,
+      "sha256": "8f14c22c183b840dcc5ec8ad6030ab420bbee969b5f6ae87d11cd37a4adcb7bf"
+    },
+    "docs/vertical_cli_fallback_v2_full_gate.md": {
+      "bytes": 2397,
+      "sha256": "d6e6577dd26430a9b9c7d417dd5cde082d0233c2cfc53fff63a5176d6c35c2f7"
+    },
+    "tools/vertical_cli_fallback_v2_full_scope.py": {
+      "bytes": 1756,
+      "sha256": "d0ce0be93b974ff164ed361df17db3bf929a85d438c344541e3b21c83c9771c6"
+    },
+    "tests/test_vertical_cli_fallback_v2_full_scope.py": {
+      "bytes": 3005,
+      "sha256": "b773c6c6b4cc6fe15b49470c95422fc6f66c2daf968e9539fa31cb297874ee4e"
+    }
+  },
+  "source_before_NN_packet_sha256": "b2589bf2429c5c369659cf6c623674756925045b55834d2a567ef500c48ec23c",
+  "ONNX_nonignored_lib": {
+    "passed": 465,
+    "failed": 0,
+    "ignored": 115,
+    "internal_forward_calls": null,
+    "not_an_accuracy_matrix": true
+  },
+  "onnx_all_targets_Clippy_success": true,
+  "FVC_app_and_new_finish_test_warning_messages": [],
+  "existing_frozen_FVB_iterator_and_test_identity_warnings": "preserved in logs; equivalent cleanup already in root32ef proof, do not edit running frozen candidate",
+  "all_original_frozen_files_after_same": true,
+  "full_scope": {
+    "physical": 1311,
+    "scoring": 1317,
+    "unique_RGB": 1310,
+    "planned_image_results": 26220,
+    "planned_CSV_rows": 79020,
+    "new_full_NN_calls": 0,
+    "tests_passed": 3,
+    "source_before_new72_gate": "preparation only; no full dispatch"
+  }
+}

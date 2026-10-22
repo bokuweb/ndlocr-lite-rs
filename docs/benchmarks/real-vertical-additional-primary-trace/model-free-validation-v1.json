@@ -1,0 +1,11 @@
+{
+  "complete": true,
+  "archive_sha256": "e7f69768c4883a742fa2b6ae051da94237c91886ddbe9851a43304dfef3558ff",
+  "root_FVB_signatures_exact": 36,
+  "all_trace_RGBs": 174,
+  "independent_primary_RGB_exact": 36,
+  "independent_O_part_RGB_exact": 30,
+  "verified_CSV_rows": 396,
+  "actual_PARSeq_forward_successes": 66,
+  "new_inference_policy": false
+}

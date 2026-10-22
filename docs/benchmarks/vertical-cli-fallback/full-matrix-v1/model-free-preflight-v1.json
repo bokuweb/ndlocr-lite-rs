@@ -1,0 +1,120 @@
+{
+  "archive": "model-free-preflight-v1.zip",
+  "bytes": 20303,
+  "sha256": "fd20bb383745e45b9e84fc9f8bf55ef118efc24477741e3b9681afd47c398665",
+  "members": {
+    "logs/full-before-NN-command-green.stderr": {
+      "bytes": 107,
+      "sha256": "147ea920bb45d664f04d822c7b511d6ecdddfcab1698834892aa26123f008dbf"
+    },
+    "logs/full-before-NN-command-green.stdout": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "logs/full-before-NN-command-red.stderr": {
+      "bytes": 1630,
+      "sha256": "6b2e00eb65314a4d67f220427fa086e042829aa586d895fa5eeb3386f3c86ce0"
+    },
+    "logs/full-before-NN-command-red.stdout": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "logs/full-bundle-green.stderr": {
+      "bytes": 104,
+      "sha256": "44743ecfe631c50d87dc9f2ff680e077d2ceb6603ab04920406257e33a9fc37a"
+    },
+    "logs/full-bundle-green.stdout": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "logs/full-bundle-red.stderr": {
+      "bytes": 867,
+      "sha256": "fc063ad88a48fa355a694bd15bf12e1c77c81c5b533d91299301cdb41333ddd8"
+    },
+    "logs/full-bundle-red.stdout": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "logs/full-contracts-green.stderr": {
+      "bytes": 102,
+      "sha256": "b6a161abed43b9a0dba9259cd451b39b20b10425ac13cc14786554c0e6fac7f1"
+    },
+    "logs/full-contracts-green.stdout": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "logs/full-contracts-red.stderr": {
+      "bytes": 2692,
+      "sha256": "b0b1cb8ba963892dd2e807d5ba8344f6c86fdc375731ceb181ae316b1cb1d939"
+    },
+    "logs/full-contracts-red.stdout": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "logs/full-coverage-green.stderr": {
+      "bytes": 103,
+      "sha256": "1f11b6e880045ee35de832b81b45d06257342e13b5c79bbf0034379d4ca220b9"
+    },
+    "logs/full-coverage-green.stdout": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "logs/full-coverage-red.stderr": {
+      "bytes": 838,
+      "sha256": "e3abb9e02bf1b13374831e1a5875ec3d3ae7f8e0a897596b34f0cf5d3f6a8c96"
+    },
+    "logs/full-coverage-red.stdout": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "logs/full-final-before-commit.stderr": {
+      "bytes": 107,
+      "sha256": "89e61303f2ce553c667185717b2517acef242398514497fc52b6c04c5ef1760d"
+    },
+    "logs/full-final-before-commit.stdout": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "logs/full-final-local-validation.json": {
+      "bytes": 173,
+      "sha256": "ea11c7bf99b2cd9b7102150b9a6e54b35dc488abb0f5945b3ab80b8c53d3bc8c"
+    },
+    "logs/full-retry-selection-green.stderr": {
+      "bytes": 105,
+      "sha256": "4f1f207dc3d74cb6c6b8fbe8f7941c5f4106647f7e0978e432c09cc8167a1a8e"
+    },
+    "logs/full-retry-selection-green.stdout": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "logs/full-retry-selection-red.stderr": {
+      "bytes": 924,
+      "sha256": "5047b263cd99e20042606887c21186db98e9adf8d7824def46c700d5d8685b4f"
+    },
+    "logs/full-retry-selection-red.stdout": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "source/.github/workflows/vertical-cli-fallback-full-matrix.yml": {
+      "bytes": 4539,
+      "sha256": "4072518d250c38c58fde11ed2f9738f557c7bf6ad8e8ba036a43ab15ef19a01b"
+    },
+    "source/docs/vertical_cli_fallback_full_gate.md": {
+      "bytes": 4427,
+      "sha256": "eff4e3ad6e7c3da96cc3b5474369739a38bbc15b4d2b8a1769b9680461fb697f"
+    },
+    "source/tests/test_vertical_cli_fallback_full_matrix.py": {
+      "bytes": 8847,
+      "sha256": "c440ac9ffb97d71220d4b0c431a88168120df6e2546d554d1d859cbc638c75a7"
+    },
+    "source/tools/vertical_cli_fallback_full_matrix.py": {
+      "bytes": 32733,
+      "sha256": "5542510fad6a82023cc3305fd4a90f3843c8936c6895a375387dacb4fbfa54ed"
+    }
+  },
+  "pure_contract_tests": 9,
+  "full_matrix_NN_calls_at_creation": 0,
+  "YAML_validation": "Ruby Psych parsed; PyYAML unavailable in local bundled Python",
+  "expected_image_results": 24780,
+  "expected_CSV_rows": 74700
+}

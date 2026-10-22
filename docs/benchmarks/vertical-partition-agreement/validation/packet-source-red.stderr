@@ -1,0 +1,59 @@
+EEEEEE
+======================================================================
+ERROR: test_default_source_and_scorer_are_restored_under_output_without_cwd_dependency (test_reproduce.FrozenSource.test_default_source_and_scorer_are_restored_under_output_without_cwd_dependency)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/vertical-strict-prefix/packet-stage/test_reproduce.py", line 27, in test_default_source_and_scorer_are_restored_under_output_without_cwd_dependency
+    manifest=reader.select_source(packet,output,None)
+             ^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'vertical_partition_reader' has no attribute 'select_source'
+
+======================================================================
+ERROR: test_explicit_manifest_does_not_restore_or_replace_source (test_reproduce.FrozenSource.test_explicit_manifest_does_not_restore_or_replace_source)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/vertical-strict-prefix/packet-stage/test_reproduce.py", line 35, in test_explicit_manifest_does_not_restore_or_replace_source
+    self.assertEqual(reader.select_source(packet,output,manifest),manifest.resolve())
+                     ^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'vertical_partition_reader' has no attribute 'select_source'
+
+======================================================================
+ERROR: test_hash_mismatch_is_rejected_before_any_extraction (test_reproduce.FrozenSource.test_hash_mismatch_is_rejected_before_any_extraction)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/vertical-strict-prefix/packet-stage/test_reproduce.py", line 49, in test_hash_mismatch_is_rejected_before_any_extraction
+    with self.assertRaises((AssertionError,ValueError)):reader.select_source(packet,output,None)
+                                                        ^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'vertical_partition_reader' has no attribute 'select_source'
+
+======================================================================
+ERROR: test_unsafe_members_are_rejected_before_any_extraction (test_reproduce.FrozenSource.test_unsafe_members_are_rejected_before_any_extraction) (name='../escape')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/vertical-strict-prefix/packet-stage/test_reproduce.py", line 43, in test_unsafe_members_are_rejected_before_any_extraction
+    with self.assertRaises((AssertionError,ValueError)):reader.select_source(packet,output,None)
+                                                        ^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'vertical_partition_reader' has no attribute 'select_source'
+
+======================================================================
+ERROR: test_unsafe_members_are_rejected_before_any_extraction (test_reproduce.FrozenSource.test_unsafe_members_are_rejected_before_any_extraction) (name='/absolute')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/vertical-strict-prefix/packet-stage/test_reproduce.py", line 43, in test_unsafe_members_are_rejected_before_any_extraction
+    with self.assertRaises((AssertionError,ValueError)):reader.select_source(packet,output,None)
+                                                        ^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'vertical_partition_reader' has no attribute 'select_source'
+
+======================================================================
+ERROR: test_unsafe_members_are_rejected_before_any_extraction (test_reproduce.FrozenSource.test_unsafe_members_are_rejected_before_any_extraction) (name='safe/../../escape')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/vertical-strict-prefix/packet-stage/test_reproduce.py", line 43, in test_unsafe_members_are_rejected_before_any_extraction
+    with self.assertRaises((AssertionError,ValueError)):reader.select_source(packet,output,None)
+                                                        ^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'vertical_partition_reader' has no attribute 'select_source'
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.006s
+
+FAILED (errors=6)

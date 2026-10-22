@@ -1,0 +1,88 @@
+{
+  "archive": "reader-proof-v1.zip",
+  "bytes": 17233,
+  "sha256": "c39b26675dfddc14f6a5183212e501f8616dd2c6954c1b9450b0e62b6bd2832b",
+  "members": {
+    "evidence/reader-red.stdout": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "evidence/reader-red.stderr": {
+      "bytes": 1412,
+      "sha256": "9327e13d4cadf235e52a55788117f1b3e8f7e51a2fbb5bca541a21a20c62c48d"
+    },
+    "evidence/reader-green.stdout": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "evidence/reader-green.stderr": {
+      "bytes": 544,
+      "sha256": "0dfe33f727ee8f037967e96378e3cfb0618dc6de9fba873dba87c902cc178f74"
+    },
+    "evidence/relation-red.stdout": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "evidence/relation-red.stderr": {
+      "bytes": 1076,
+      "sha256": "8b08b7bf3d20dd3dbd511d50c6e39954cb6a2368b5d02c8a1be3e86a03526b10"
+    },
+    "evidence/relation-green.stdout": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "evidence/relation-green.stderr": {
+      "bytes": 318,
+      "sha256": "00822144b9b4726abab024d0a092e3ff956ff79469e8b2c433852d579fc7662f"
+    },
+    "evidence/stop-reader-refactor-green.stdout": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "evidence/stop-reader-refactor-green.stderr": {
+      "bytes": 960,
+      "sha256": "52246eda7d0031e8f6b53f8d312f06e5676a545cc8f04b358c33273fce81351a"
+    },
+    "evidence/decode-replay-red.stdout": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "evidence/decode-replay-red.stderr": {
+      "bytes": 5486,
+      "sha256": "25ba3b9680d5d3c346e56e61b3fcd14b260b2687c2b9c136fe169fb87b370b52"
+    },
+    "evidence/all-additional-final-green.stdout": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "evidence/all-additional-final-green.stderr": {
+      "bytes": 3940,
+      "sha256": "6d0f4097126e154b09cfc4d9f2f76bf9bad2ff45fc00d4b8298450e436cf793f"
+    },
+    "evidence/reader-result-v1.json": {
+      "bytes": 314,
+      "sha256": "66f2815085def74939d492727ba048481f24decc3dcc560e83242eaa68f5ed14"
+    },
+    "tools/verify_additional_real_partition_probe.py": {
+      "bytes": 13492,
+      "sha256": "df1b48b418dd2fdb1657d51eac2a13b92eee3e937d156b80878558c8ffdc1d21"
+    },
+    "tools/verify_additional_real_stop_probe.py": {
+      "bytes": 9536,
+      "sha256": "7b824fe550062ea053c2036e42e57aedd8df4600d3c2d7a15fe9015f0dc03e54"
+    },
+    "tests/test_additional_real_partition_probe.py": {
+      "bytes": 1453,
+      "sha256": "41cfa453b3d605af618847537d6c5076fc649d347449a082bd50c49d8384a5a2"
+    },
+    "tests/test_additional_real_stop_probe.py": {
+      "bytes": 3699,
+      "sha256": "cce355739742dea90c83876e5366e049a72fb6d13d738730ad035db493ce7384"
+    },
+    "docs/real_vertical_primary_partition_results.md": {
+      "bytes": 2954,
+      "sha256": "107cd760302582683fdc30f3b99fc695815f39eaee5d789d901ca684b40e86b6"
+    }
+  },
+  "new_model_calls": 0
+}

@@ -1,0 +1,13 @@
+{
+  "page_char_regressions": 9,
+  "affected_images": [
+    "repeat_mixed_a1_n04_mincho_jpeg75"
+  ],
+  "affected_modes": [
+    "deim",
+    "runtime30_eval",
+    "runtime100_eval"
+  ],
+  "single_char_regressions": 0,
+  "single_word_regressions": 0
+}

@@ -1,0 +1,281 @@
+{
+  "pillow_version": "12.3.0",
+  "fonts": [
+    {
+      "label": "thin",
+      "name": "ヒラギノ角ゴシック W2.ttc",
+      "sha256": "f1ffcac07f76d1335d7171d39b8c52021603a1cccee8ce7d96f895fd85d80adb"
+    },
+    {
+      "label": "heavy",
+      "name": "ヒラギノ角ゴシック W8.ttc",
+      "sha256": "84d1c109700138505318704927cba8f2f877209fe800765391eed46b736714da"
+    }
+  ],
+  "rows": [
+    {
+      "id": "ja_thin20_pad0",
+      "image": "tests/fixtures/dense_crop/images/ja_thin20_pad0.png",
+      "truth": "公開前の資料は複数の担当者が読み、表と本文の番号、注記の位置、日付の表記などを照合します。画面で見つけにくい箇所は印刷して確認し、修正した内容と確認した時刻を記録します。作業が終わったら、変更したファイルを保存し、古い版との違いを説明した一覧を添えて担当部署へ送ります。",
+      "image_sha256": "62ee248729ffb2b5e19c537eefb9fee4abf44f3edc512e782c4830ebb97f3c02",
+      "truth_sha256": "c615ee48f5e1009f63d3f9876d0a0fae31b5821f281f2e91b9be3295572b8253",
+      "font": "thin",
+      "font_size": 20,
+      "vertical_margin": 0,
+      "format": "png"
+    },
+    {
+      "id": "ja_thin20_pad0_jpeg75",
+      "image": "tests/fixtures/dense_crop/images/ja_thin20_pad0_jpeg75.jpg",
+      "truth": "公開前の資料は複数の担当者が読み、表と本文の番号、注記の位置、日付の表記などを照合します。画面で見つけにくい箇所は印刷して確認し、修正した内容と確認した時刻を記録します。作業が終わったら、変更したファイルを保存し、古い版との違いを説明した一覧を添えて担当部署へ送ります。",
+      "image_sha256": "a39c495e1aa8a492169c66ea66b9055a791e21fd5cc07b2dcfb7dfeb65125de3",
+      "truth_sha256": "c615ee48f5e1009f63d3f9876d0a0fae31b5821f281f2e91b9be3295572b8253",
+      "font": "thin",
+      "font_size": 20,
+      "vertical_margin": 0,
+      "format": "jpg"
+    },
+    {
+      "id": "ja_thin20_pad6",
+      "image": "tests/fixtures/dense_crop/images/ja_thin20_pad6.png",
+      "truth": "公開前の資料は複数の担当者が読み、表と本文の番号、注記の位置、日付の表記などを照合します。画面で見つけにくい箇所は印刷して確認し、修正した内容と確認した時刻を記録します。作業が終わったら、変更したファイルを保存し、古い版との違いを説明した一覧を添えて担当部署へ送ります。",
+      "image_sha256": "40d0ea1f5c4ebf5eb0cdd260a6a24da564db83efdfce7161c62f93e1da1be2fc",
+      "truth_sha256": "c615ee48f5e1009f63d3f9876d0a0fae31b5821f281f2e91b9be3295572b8253",
+      "font": "thin",
+      "font_size": 20,
+      "vertical_margin": 6,
+      "format": "png"
+    },
+    {
+      "id": "en_thin20_pad0",
+      "image": "tests/fixtures/dense_crop/images/en_thin20_pad0.png",
+      "truth": "Before publication, several readers compare the table numbers, dates, notes, and references in each document. They record their findings, verify the revised files, and prepare a short description of the changes for the next team.",
+      "image_sha256": "76fa3b6777dd4e3016f168acd61672ce63b9d4d863bf72121d3edf02517bfe52",
+      "truth_sha256": "c7858be5aa393f2ed355dc581f578525ce9edd2608b67e2c961c81058dddff09",
+      "font": "thin",
+      "font_size": 20,
+      "vertical_margin": 0,
+      "format": "png"
+    },
+    {
+      "id": "en_thin20_pad0_jpeg75",
+      "image": "tests/fixtures/dense_crop/images/en_thin20_pad0_jpeg75.jpg",
+      "truth": "Before publication, several readers compare the table numbers, dates, notes, and references in each document. They record their findings, verify the revised files, and prepare a short description of the changes for the next team.",
+      "image_sha256": "da206f1d5d3b4648b1fc4547dbab66d74d1c3dc3924ab5a70205c2602d87fbaf",
+      "truth_sha256": "c7858be5aa393f2ed355dc581f578525ce9edd2608b67e2c961c81058dddff09",
+      "font": "thin",
+      "font_size": 20,
+      "vertical_margin": 0,
+      "format": "jpg"
+    },
+    {
+      "id": "en_thin20_pad6",
+      "image": "tests/fixtures/dense_crop/images/en_thin20_pad6.png",
+      "truth": "Before publication, several readers compare the table numbers, dates, notes, and references in each document. They record their findings, verify the revised files, and prepare a short description of the changes for the next team.",
+      "image_sha256": "1341695f6643a0d4c66d033b24d97fe209e54cbcca4b9ca795a65626d8dff8fe",
+      "truth_sha256": "c7858be5aa393f2ed355dc581f578525ce9edd2608b67e2c961c81058dddff09",
+      "font": "thin",
+      "font_size": 20,
+      "vertical_margin": 6,
+      "format": "png"
+    },
+    {
+      "id": "ja_thin40_pad0",
+      "image": "tests/fixtures/dense_crop/images/ja_thin40_pad0.png",
+      "truth": "公開前の資料は複数の担当者が読み、表と本文の番号、注記の位置、日付の表記などを照合します。画面で見つけにくい箇所は印刷して確認し、修正した内容と確認した時刻を記録します。作業が終わったら、変更したファイルを保存し、古い版との違いを説明した一覧を添えて担当部署へ送ります。",
+      "image_sha256": "d2fcdc4ca156f0b0b92bd778b1de964b6f749762e20025ae91d37b9cdfd0f208",
+      "truth_sha256": "c615ee48f5e1009f63d3f9876d0a0fae31b5821f281f2e91b9be3295572b8253",
+      "font": "thin",
+      "font_size": 40,
+      "vertical_margin": 0,
+      "format": "png"
+    },
+    {
+      "id": "ja_thin40_pad0_jpeg75",
+      "image": "tests/fixtures/dense_crop/images/ja_thin40_pad0_jpeg75.jpg",
+      "truth": "公開前の資料は複数の担当者が読み、表と本文の番号、注記の位置、日付の表記などを照合します。画面で見つけにくい箇所は印刷して確認し、修正した内容と確認した時刻を記録します。作業が終わったら、変更したファイルを保存し、古い版との違いを説明した一覧を添えて担当部署へ送ります。",
+      "image_sha256": "1b8db9fcdf0010f824a79908617ab65dd216d58e5a038eb50936da4d738f0f2c",
+      "truth_sha256": "c615ee48f5e1009f63d3f9876d0a0fae31b5821f281f2e91b9be3295572b8253",
+      "font": "thin",
+      "font_size": 40,
+      "vertical_margin": 0,
+      "format": "jpg"
+    },
+    {
+      "id": "ja_thin40_pad6",
+      "image": "tests/fixtures/dense_crop/images/ja_thin40_pad6.png",
+      "truth": "公開前の資料は複数の担当者が読み、表と本文の番号、注記の位置、日付の表記などを照合します。画面で見つけにくい箇所は印刷して確認し、修正した内容と確認した時刻を記録します。作業が終わったら、変更したファイルを保存し、古い版との違いを説明した一覧を添えて担当部署へ送ります。",
+      "image_sha256": "e68bf503471688610d4288a20ad52ab36496190b75e5486f1a34bf77b419ccf6",
+      "truth_sha256": "c615ee48f5e1009f63d3f9876d0a0fae31b5821f281f2e91b9be3295572b8253",
+      "font": "thin",
+      "font_size": 40,
+      "vertical_margin": 6,
+      "format": "png"
+    },
+    {
+      "id": "en_thin40_pad0",
+      "image": "tests/fixtures/dense_crop/images/en_thin40_pad0.png",
+      "truth": "Before publication, several readers compare the table numbers, dates, notes, and references in each document. They record their findings, verify the revised files, and prepare a short description of the changes for the next team.",
+      "image_sha256": "58514a5eddca19d59c5c963a68a1957e258564f6346a6e60f9e320e16e075cc1",
+      "truth_sha256": "c7858be5aa393f2ed355dc581f578525ce9edd2608b67e2c961c81058dddff09",
+      "font": "thin",
+      "font_size": 40,
+      "vertical_margin": 0,
+      "format": "png"
+    },
+    {
+      "id": "en_thin40_pad0_jpeg75",
+      "image": "tests/fixtures/dense_crop/images/en_thin40_pad0_jpeg75.jpg",
+      "truth": "Before publication, several readers compare the table numbers, dates, notes, and references in each document. They record their findings, verify the revised files, and prepare a short description of the changes for the next team.",
+      "image_sha256": "5c62b5bf9496e6d344bd3f1af00543da829c5cdc8fb44773fa2b60f810554bfc",
+      "truth_sha256": "c7858be5aa393f2ed355dc581f578525ce9edd2608b67e2c961c81058dddff09",
+      "font": "thin",
+      "font_size": 40,
+      "vertical_margin": 0,
+      "format": "jpg"
+    },
+    {
+      "id": "en_thin40_pad6",
+      "image": "tests/fixtures/dense_crop/images/en_thin40_pad6.png",
+      "truth": "Before publication, several readers compare the table numbers, dates, notes, and references in each document. They record their findings, verify the revised files, and prepare a short description of the changes for the next team.",
+      "image_sha256": "18a010417b5d162e66debe3395f81c11766e8b04cbed37203c5239e056f736b0",
+      "truth_sha256": "c7858be5aa393f2ed355dc581f578525ce9edd2608b67e2c961c81058dddff09",
+      "font": "thin",
+      "font_size": 40,
+      "vertical_margin": 6,
+      "format": "png"
+    },
+    {
+      "id": "ja_heavy20_pad0",
+      "image": "tests/fixtures/dense_crop/images/ja_heavy20_pad0.png",
+      "truth": "公開前の資料は複数の担当者が読み、表と本文の番号、注記の位置、日付の表記などを照合します。画面で見つけにくい箇所は印刷して確認し、修正した内容と確認した時刻を記録します。作業が終わったら、変更したファイルを保存し、古い版との違いを説明した一覧を添えて担当部署へ送ります。",
+      "image_sha256": "06e67f1b8308493323f2f7df25764bde995f4f8cc6df0acf022d1fd064651ff1",
+      "truth_sha256": "c615ee48f5e1009f63d3f9876d0a0fae31b5821f281f2e91b9be3295572b8253",
+      "font": "heavy",
+      "font_size": 20,
+      "vertical_margin": 0,
+      "format": "png"
+    },
+    {
+      "id": "ja_heavy20_pad0_jpeg75",
+      "image": "tests/fixtures/dense_crop/images/ja_heavy20_pad0_jpeg75.jpg",
+      "truth": "公開前の資料は複数の担当者が読み、表と本文の番号、注記の位置、日付の表記などを照合します。画面で見つけにくい箇所は印刷して確認し、修正した内容と確認した時刻を記録します。作業が終わったら、変更したファイルを保存し、古い版との違いを説明した一覧を添えて担当部署へ送ります。",
+      "image_sha256": "1e2dce3943694bca078e6f736c321eea0ebc13a4eb369616ffe35452d59743fa",
+      "truth_sha256": "c615ee48f5e1009f63d3f9876d0a0fae31b5821f281f2e91b9be3295572b8253",
+      "font": "heavy",
+      "font_size": 20,
+      "vertical_margin": 0,
+      "format": "jpg"
+    },
+    {
+      "id": "ja_heavy20_pad6",
+      "image": "tests/fixtures/dense_crop/images/ja_heavy20_pad6.png",
+      "truth": "公開前の資料は複数の担当者が読み、表と本文の番号、注記の位置、日付の表記などを照合します。画面で見つけにくい箇所は印刷して確認し、修正した内容と確認した時刻を記録します。作業が終わったら、変更したファイルを保存し、古い版との違いを説明した一覧を添えて担当部署へ送ります。",
+      "image_sha256": "fc41c317e97b8061e3f24d96f2a01d3fbe4d4e3c3ff9c69ce7db3335114885ae",
+      "truth_sha256": "c615ee48f5e1009f63d3f9876d0a0fae31b5821f281f2e91b9be3295572b8253",
+      "font": "heavy",
+      "font_size": 20,
+      "vertical_margin": 6,
+      "format": "png"
+    },
+    {
+      "id": "en_heavy20_pad0",
+      "image": "tests/fixtures/dense_crop/images/en_heavy20_pad0.png",
+      "truth": "Before publication, several readers compare the table numbers, dates, notes, and references in each document. They record their findings, verify the revised files, and prepare a short description of the changes for the next team.",
+      "image_sha256": "8d1fef9fcbf9f8ffb845eed205ab655af18f7a5f07ac631571130e7c93f9c113",
+      "truth_sha256": "c7858be5aa393f2ed355dc581f578525ce9edd2608b67e2c961c81058dddff09",
+      "font": "heavy",
+      "font_size": 20,
+      "vertical_margin": 0,
+      "format": "png"
+    },
+    {
+      "id": "en_heavy20_pad0_jpeg75",
+      "image": "tests/fixtures/dense_crop/images/en_heavy20_pad0_jpeg75.jpg",
+      "truth": "Before publication, several readers compare the table numbers, dates, notes, and references in each document. They record their findings, verify the revised files, and prepare a short description of the changes for the next team.",
+      "image_sha256": "9d0cbcb3b9a2802b1fcacd3ca9dc27ba27ae646bc61280b9adbea58d4e80c78a",
+      "truth_sha256": "c7858be5aa393f2ed355dc581f578525ce9edd2608b67e2c961c81058dddff09",
+      "font": "heavy",
+      "font_size": 20,
+      "vertical_margin": 0,
+      "format": "jpg"
+    },
+    {
+      "id": "en_heavy20_pad6",
+      "image": "tests/fixtures/dense_crop/images/en_heavy20_pad6.png",
+      "truth": "Before publication, several readers compare the table numbers, dates, notes, and references in each document. They record their findings, verify the revised files, and prepare a short description of the changes for the next team.",
+      "image_sha256": "3d4cb811d8b15466eba24d82cd783e6403a42990f53f4ea3ba79c024346d2e03",
+      "truth_sha256": "c7858be5aa393f2ed355dc581f578525ce9edd2608b67e2c961c81058dddff09",
+      "font": "heavy",
+      "font_size": 20,
+      "vertical_margin": 6,
+      "format": "png"
+    },
+    {
+      "id": "ja_heavy40_pad0",
+      "image": "tests/fixtures/dense_crop/images/ja_heavy40_pad0.png",
+      "truth": "公開前の資料は複数の担当者が読み、表と本文の番号、注記の位置、日付の表記などを照合します。画面で見つけにくい箇所は印刷して確認し、修正した内容と確認した時刻を記録します。作業が終わったら、変更したファイルを保存し、古い版との違いを説明した一覧を添えて担当部署へ送ります。",
+      "image_sha256": "ec0fe62cee39bc63156fcba03196d81f7dae09bacb7be2750fe284a67d4cd28e",
+      "truth_sha256": "c615ee48f5e1009f63d3f9876d0a0fae31b5821f281f2e91b9be3295572b8253",
+      "font": "heavy",
+      "font_size": 40,
+      "vertical_margin": 0,
+      "format": "png"
+    },
+    {
+      "id": "ja_heavy40_pad0_jpeg75",
+      "image": "tests/fixtures/dense_crop/images/ja_heavy40_pad0_jpeg75.jpg",
+      "truth": "公開前の資料は複数の担当者が読み、表と本文の番号、注記の位置、日付の表記などを照合します。画面で見つけにくい箇所は印刷して確認し、修正した内容と確認した時刻を記録します。作業が終わったら、変更したファイルを保存し、古い版との違いを説明した一覧を添えて担当部署へ送ります。",
+      "image_sha256": "8ffa1268a581388cd746be02a1e9df1a682cddcaeaeea51d031f325dd76b6e38",
+      "truth_sha256": "c615ee48f5e1009f63d3f9876d0a0fae31b5821f281f2e91b9be3295572b8253",
+      "font": "heavy",
+      "font_size": 40,
+      "vertical_margin": 0,
+      "format": "jpg"
+    },
+    {
+      "id": "ja_heavy40_pad6",
+      "image": "tests/fixtures/dense_crop/images/ja_heavy40_pad6.png",
+      "truth": "公開前の資料は複数の担当者が読み、表と本文の番号、注記の位置、日付の表記などを照合します。画面で見つけにくい箇所は印刷して確認し、修正した内容と確認した時刻を記録します。作業が終わったら、変更したファイルを保存し、古い版との違いを説明した一覧を添えて担当部署へ送ります。",
+      "image_sha256": "5b3395e1bea6e7fb6a961310c9cf1d99a56c0153ee46d4c356c81185ed396558",
+      "truth_sha256": "c615ee48f5e1009f63d3f9876d0a0fae31b5821f281f2e91b9be3295572b8253",
+      "font": "heavy",
+      "font_size": 40,
+      "vertical_margin": 6,
+      "format": "png"
+    },
+    {
+      "id": "en_heavy40_pad0",
+      "image": "tests/fixtures/dense_crop/images/en_heavy40_pad0.png",
+      "truth": "Before publication, several readers compare the table numbers, dates, notes, and references in each document. They record their findings, verify the revised files, and prepare a short description of the changes for the next team.",
+      "image_sha256": "b31cc5a2c50c97fa840396736b6faa50db1073978ff3059ee2fa5f1b299d16fc",
+      "truth_sha256": "c7858be5aa393f2ed355dc581f578525ce9edd2608b67e2c961c81058dddff09",
+      "font": "heavy",
+      "font_size": 40,
+      "vertical_margin": 0,
+      "format": "png"
+    },
+    {
+      "id": "en_heavy40_pad0_jpeg75",
+      "image": "tests/fixtures/dense_crop/images/en_heavy40_pad0_jpeg75.jpg",
+      "truth": "Before publication, several readers compare the table numbers, dates, notes, and references in each document. They record their findings, verify the revised files, and prepare a short description of the changes for the next team.",
+      "image_sha256": "beb726c2115434bc315bf12c29df79637d3e147bfafa2a2cef2a87553d4baf1d",
+      "truth_sha256": "c7858be5aa393f2ed355dc581f578525ce9edd2608b67e2c961c81058dddff09",
+      "font": "heavy",
+      "font_size": 40,
+      "vertical_margin": 0,
+      "format": "jpg"
+    },
+    {
+      "id": "en_heavy40_pad6",
+      "image": "tests/fixtures/dense_crop/images/en_heavy40_pad6.png",
+      "truth": "Before publication, several readers compare the table numbers, dates, notes, and references in each document. They record their findings, verify the revised files, and prepare a short description of the changes for the next team.",
+      "image_sha256": "46189c9c59854bbcf46ab1a9211c35d387304ae096e6a3df023ae3b2d6ef8858",
+      "truth_sha256": "c7858be5aa393f2ed355dc581f578525ce9edd2608b67e2c961c81058dddff09",
+      "font": "heavy",
+      "font_size": 40,
+      "vertical_margin": 6,
+      "format": "png"
+    }
+  ]
+}

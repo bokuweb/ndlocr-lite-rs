@@ -11,7 +11,7 @@ use crate::output::artifacts::save_page_artifacts;
 use crate::output::docx::save_text_as_docx;
 use crate::pipeline::connect::RecognizedLine;
 use crate::pipeline::crop::{BBox, crop_rgb_u8, expand_bbox_xyxy_clamped};
-use crate::pipeline::line_detections::select_line_detections;
+use crate::pipeline::line_detections::line_recognition_regions;
 use crate::pipeline::line_segment::{detect_textline_bands_fast, detect_textline_bands_naive};
 use crate::pipeline::reading_order::sort_lines_in_reading_order;
 use crate::pipeline::run_page::{PageInput, run_page};
@@ -36,12 +36,12 @@ pub fn prepare_line_crops(
     pad: usize,
 ) -> Result<Vec<PreparedLineCrop>> {
     let mut crops = Vec::new();
-    for det in select_line_detections(&detections, width, height) {
+    for (det, bounds) in line_recognition_regions(&detections, rgb, width, height) {
         let [x0, y0, x1, y1] = [
-            det.box_xyxy[0].max(0) as usize,
-            det.box_xyxy[1].max(0) as usize,
-            det.box_xyxy[2].max(0) as usize,
-            det.box_xyxy[3].max(0) as usize,
+            bounds[0].max(0) as usize,
+            bounds[1].max(0) as usize,
+            bounds[2].max(0) as usize,
+            bounds[3].max(0) as usize,
         ];
         if x0 >= x1 || y0 >= y1 || x1 > width || y1 > height {
             continue;
@@ -188,16 +188,37 @@ struct CachedPageRecognizer {
 
 #[cfg(feature = "onnx")]
 impl CachedPageRecognizer {
+    fn context_input_dimensions(&self) -> (usize, usize) {
+        [
+            Some(&self.pool100),
+            self.pool30.as_ref(),
+            self.pool50.as_ref(),
+        ]
+        .into_iter()
+        .flatten()
+        .map(|pool| pool.input_dimensions())
+        .min_by(|&(aw, ah), &(bw, bh)| (aw as u128 * bh as u128).cmp(&(bw as u128 * ah as u128)))
+        .unwrap()
+    }
+
     fn load(args: &RecognizePageArgs) -> Result<Self> {
         let parallelism = default_parseq_parallelism();
-        let pool100 = ParseqPool::load(&args.model, &args.charset, parallelism)?;
+        let pool100 = ParseqPool::load_for_fragments(&args.model, &args.charset, parallelism)?;
         let pool30 = if args.model30.is_file() {
-            Some(ParseqPool::load(&args.model30, &args.charset, parallelism)?)
+            Some(ParseqPool::load_for_fragments(
+                &args.model30,
+                &args.charset,
+                parallelism,
+            )?)
         } else {
             None
         };
         let pool50 = if args.model50.is_file() {
-            Some(ParseqPool::load(&args.model50, &args.charset, parallelism)?)
+            Some(ParseqPool::load_for_fragments(
+                &args.model50,
+                &args.charset,
+                parallelism,
+            )?)
         } else {
             None
         };
@@ -213,8 +234,38 @@ impl CachedPageRecognizer {
         crops: &[PreparedLineCrop],
         args: &RecognizePageArgs,
     ) -> Result<Vec<parseq::RecognizeResult>> {
-        let mut recognized = self.recognize_initial_batch(crops, args)?;
-        for (line, result) in crops.iter().zip(recognized.iter_mut()) {
+        let recognized = self.recognize_initial_batch(crops, args)?;
+        self.finish_for_page_batch(crops, recognized, args)
+    }
+
+    fn finish_for_page_batch(
+        &self,
+        crops: &[PreparedLineCrop],
+        mut recognized: Vec<parseq::RecognizeResult>,
+        args: &RecognizePageArgs,
+    ) -> Result<Vec<parseq::RecognizeResult>> {
+        let bounds: Vec<_> = crops.iter().map(|line| line.bbox_xyxy).collect();
+        let isolated = crate::infer::dense_line_recovery::isolated_recovery_regions(&bounds);
+        for ((line, result), isolated) in crops.iter().zip(recognized.iter_mut()).zip(isolated) {
+            if args.enable_cascade
+                && self.pool30.is_some()
+                && normalize_pred_char_bucket(line.pred_char_count) == 3.0
+                && let Some(pool50) = self.pool50.as_ref()
+            {
+                *result = crate::infer::short_line_order::check_short_line_order(
+                    result.clone(),
+                    line.crop.width,
+                    line.crop.height,
+                    || pool50.recognize_rgb_u8(&line.crop.data, line.crop.width, line.crop.height),
+                    || {
+                        self.pool100.recognize_rgb_u8(
+                            &line.crop.data,
+                            line.crop.width,
+                            line.crop.height,
+                        )
+                    },
+                );
+            }
             let after_split = self.maybe_split_long_line_and_recognize(
                 result.clone(),
                 &line.crop.data,
@@ -235,6 +286,20 @@ impl CachedPageRecognizer {
                 args.cascade_threshold_30_to_50,
                 args.cascade_threshold_50_to_100,
             )?;
+            if args.split_long_lines
+                && isolated
+                && let Some(recovered) =
+                    crate::infer::dense_line_recovery::recover_dense_horizontal_line(
+                        result,
+                        &line.crop.data,
+                        line.crop.width,
+                        line.crop.height,
+                        self.pool100.input_dimensions(),
+                        |rgb, w, h| self.pool100.recognize_horizontal_rgb_u8(rgb, w, h),
+                    )
+            {
+                *result = recovered;
+            }
         }
         Ok(recognized)
     }
@@ -346,10 +411,13 @@ impl CachedPageRecognizer {
         if char_count < split_long_line_char_threshold || width < height.saturating_mul(4) {
             return Ok(recognized);
         }
-        let mid = width / 2;
-        if mid == 0 || mid >= width {
+        let Some(chunks) =
+            crate::pipeline::line_chunks::split_long_line_near_center(rgb, width, height, 220)
+                .map_err(anyhow::Error::msg)?
+        else {
             return Ok(recognized);
-        }
+        };
+        let mid = chunks[0].x1;
         let left = crop_rgb_u8(rgb, width, height, BBox::new(0, 0, mid, height))?;
         let right = crop_rgb_u8(rgb, width, height, BBox::new(mid, 0, width, height))?;
         let left_rec = self
@@ -364,7 +432,15 @@ impl CachedPageRecognizer {
         if left_len == 0 && right_len == 0 {
             return Ok(recognized);
         }
-        let text = format!("{}{}", left_rec.text, right_rec.text);
+        let separator = if left_len > 0
+            && right_len > 0
+            && chunks[1].insert_space_before(&left_rec.text, &right_rec.text, height)
+        {
+            " "
+        } else {
+            ""
+        };
+        let text = format!("{}{}{}", left_rec.text, separator, right_rec.text);
         let total_len = (left_len + right_len) as f32;
         let mean_confidence = if total_len > 0.0 {
             (left_rec.mean_confidence * left_len as f32
@@ -493,7 +569,8 @@ pub fn run_cli(cli: Cli) -> Result<()> {
             } else {
                 Vec::new()
             };
-            let line_detections = if deim_lines.is_empty() {
+            let using_fallback = deim_lines.is_empty();
+            if using_fallback {
                 // 検出と認識で同じ画素を使い、色背景だけを本文と取り違えない。
                 if let std::borrow::Cow::Owned(prepared) =
                     crate::pipeline::background::normalize_chromatic_panels(
@@ -503,24 +580,80 @@ pub fn run_cli(cli: Cli) -> Result<()> {
                 {
                     img.data = prepared;
                 }
-                fallback_line_detections_from_bands(
+            }
+            #[cfg(feature = "onnx")]
+            let cached_parseq = CachedPageRecognizer::load(&args)?;
+            #[cfg(feature = "onnx")]
+            let accepted_vertical = vertical_fallback::try_prepared_if_empty(
+                !using_fallback,
+                &img.data,
+                (img.width, img.height),
+                vertical_fallback::Options {
+                    minimum_confidence: args.min_line_confidence,
+                    padding: args.line_crop_padding as usize,
+                },
+                (
+                    args.cascade_threshold_30_to_50,
+                    args.cascade_threshold_50_to_100,
+                ),
+                |line| {
+                    let mut results =
+                        cached_parseq.recognize_initial_batch(std::slice::from_ref(line), &args)?;
+                    if results.len() != 1 {
+                        bail!(
+                            "vertical CLI fallback expected one result, got {}",
+                            results.len()
+                        );
+                    }
+                    Ok(results.remove(0))
+                },
+            );
+            let prepare_legacy = || -> Result<Vec<PreparedLineCrop>> {
+                let line_detections = if using_fallback {
+                    fallback_line_detections_from_bands(
+                        &img.data,
+                        img.width,
+                        img.height,
+                        args.binarize_threshold,
+                        args.cascade_threshold_30_to_50,
+                        args.cascade_threshold_50_to_100,
+                    )
+                    .into_iter()
+                    .filter(|line| {
+                        // Keep feature-disabled errors reachable in builds without inference.
+                        !cfg!(feature = "onnx")
+                            || crate::pipeline::band_text_support::has_text_like_ink(
+                                &img.data,
+                                img.width,
+                                img.height,
+                                line.box_xyxy,
+                                args.binarize_threshold,
+                            )
+                    })
+                    .collect()
+                } else {
+                    deim_lines
+                };
+                prepare_line_crops(
                     &img.data,
                     img.width,
                     img.height,
-                    args.binarize_threshold,
-                    args.cascade_threshold_30_to_50,
-                    args.cascade_threshold_50_to_100,
+                    line_detections,
+                    args.line_crop_padding as usize,
                 )
-            } else {
-                deim_lines
             };
             #[cfg(feature = "onnx")]
-            let cached_parseq = CachedPageRecognizer::load(&args)?;
-            let pad = args.line_crop_padding as usize;
-            let prepared =
-                prepare_line_crops(&img.data, img.width, img.height, line_detections, pad)?;
-            #[cfg(feature = "onnx")]
-            let recognized_results = cached_parseq.recognize_for_page_batch(&prepared, &args)?;
+            let (prepared, recognized_results) = vertical_fallback::reuse_or_legacy(
+                accepted_vertical,
+                |crops, results| cached_parseq.finish_for_page_batch(crops, results, &args),
+                || {
+                    let prepared = prepare_legacy()?;
+                    let recognized = cached_parseq.recognize_for_page_batch(&prepared, &args)?;
+                    Ok((prepared, recognized))
+                },
+            )?;
+            #[cfg(not(feature = "onnx"))]
+            let prepared = prepare_legacy()?;
             #[cfg(not(feature = "onnx"))]
             let recognized_results: Vec<parseq::RecognizeResult> = {
                 let mut out = Vec::with_capacity(prepared.len());
@@ -572,17 +705,77 @@ pub fn run_cli(cli: Cli) -> Result<()> {
                 if recognized.mean_confidence >= args.min_line_confidence
                     && !recognized.text.trim().is_empty()
                 {
-                    let text = if let Some(dict) = post_dict.as_ref() {
-                        dict.apply(&recognized.text)
-                    } else {
-                        recognized.text
-                    };
                     recognized_lines.push(RecognizedLine {
                         bbox_xyxy: line.bbox_xyxy,
-                        text,
+                        text: recognized.text,
                         confidence: recognized.mean_confidence,
                         is_vertical: line.is_vertical,
                     });
+                }
+            }
+            #[cfg(feature = "onnx")]
+            {
+                let scored: Vec<_> = recognized_lines
+                    .iter()
+                    .map(|line| crate::pipeline::line_context::ScoredRegion {
+                        bounds: line.bbox_xyxy,
+                        text: &line.text,
+                        mean_confidence: line.confidence,
+                    })
+                    .collect();
+                let keep = crate::pipeline::line_context::select_contexts(
+                    &scored,
+                    cached_parseq.context_input_dimensions(),
+                );
+                let mut keep = keep.into_iter().peekable();
+                recognized_lines = recognized_lines
+                    .into_iter()
+                    .enumerate()
+                    .filter_map(|(i, line)| {
+                        if keep.peek() == Some(&i) {
+                            keep.next();
+                            Some(line)
+                        } else {
+                            None
+                        }
+                    })
+                    .collect();
+            }
+            #[cfg(feature = "onnx")]
+            {
+                let scored: Vec<_> = recognized_lines
+                    .iter()
+                    .map(|line| crate::pipeline::line_context::ScoredRegion {
+                        bounds: line.bbox_xyxy,
+                        text: &line.text,
+                        mean_confidence: line.confidence,
+                    })
+                    .collect();
+                if let Some(context) =
+                    crate::infer::missing_line_context::recover_missing_line_context(
+                        &scored,
+                        &img.data,
+                        img.width,
+                        img.height,
+                        cached_parseq.pool100.input_dimensions(),
+                        |data, w, h| {
+                            cached_parseq
+                                .pool100
+                                .recognize_horizontal_rgb_u8(data, w, h)
+                        },
+                    )
+                {
+                    recognized_lines = vec![RecognizedLine {
+                        bbox_xyxy: context.bounds,
+                        text: context.recognized.text,
+                        confidence: context.recognized.mean_confidence,
+                        is_vertical: false,
+                    }];
+                }
+            }
+            if let Some(dict) = post_dict.as_ref() {
+                for line in &mut recognized_lines {
+                    line.text = dict.apply(&line.text);
                 }
             }
             sort_lines_in_reading_order(&mut recognized_lines);
@@ -737,10 +930,13 @@ fn maybe_split_long_line_and_recognize(
     if char_count < split_long_line_char_threshold || width < height.saturating_mul(4) {
         return Ok(recognized);
     }
-    let mid = width / 2;
-    if mid == 0 || mid >= width {
+    let Some(chunks) =
+        crate::pipeline::line_chunks::split_long_line_near_center(rgb, width, height, 220)
+            .map_err(anyhow::Error::msg)?
+    else {
         return Ok(recognized);
-    }
+    };
+    let mid = chunks[0].x1;
     let left = crop_rgb_u8(rgb, width, height, BBox::new(0, 0, mid, height))?;
     let right = crop_rgb_u8(rgb, width, height, BBox::new(mid, 0, width, height))?;
     let left_rec = parseq::recognize_rgb_u8_with_score(
@@ -763,7 +959,15 @@ fn maybe_split_long_line_and_recognize(
     if left_len == 0 && right_len == 0 {
         return Ok(recognized);
     }
-    let text = format!("{}{}", left_rec.text, right_rec.text);
+    let separator = if left_len > 0
+        && right_len > 0
+        && chunks[1].insert_space_before(&left_rec.text, &right_rec.text, height)
+    {
+        " "
+    } else {
+        ""
+    };
+    let text = format!("{}{}{}", left_rec.text, separator, right_rec.text);
     let total_len = (left_len + right_len) as f32;
     let mean_confidence = if total_len > 0.0 {
         (left_rec.mean_confidence * left_len as f32 + right_rec.mean_confidence * right_len as f32)
@@ -961,3 +1165,10 @@ mod tests {
         assert!(jp > noisy);
     }
 }
+
+#[cfg(any(feature = "onnx", test))]
+mod vertical_fallback;
+
+#[cfg(all(test, feature = "onnx"))]
+#[path = "../tests/support/vertical_cli_finish_known.rs"]
+mod vertical_cli_finish_known;

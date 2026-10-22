@@ -1,0 +1,33 @@
+   Compiling ndlocr-lite-rs v0.1.0 (/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs)
+warning: methods `recognize_batch_indexed` and `run_chunk_on_session` are never used
+   --> src/infer/cached.rs:572:8
+    |
+410 | impl ParseqPool {
+    | --------------- methods in this implementation
+...
+572 |     fn recognize_batch_indexed(
+    |        ^^^^^^^^^^^^^^^^^^^^^^^
+...
+691 |     fn run_chunk_on_session(
+    |        ^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: `ndlocr-lite-rs` (lib test) generated 1 warning
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.78s
+     Running unittests src/lib.rs (target/debug/deps/ndlocr_lite_rs-419bfb34943ac7d0)
+
+running 8 tests
+test infer::short_line_order::tests::skips_ineligible_base_without_calling_models ... ok
+test infer::short_line_order::tests::avoids_the_second_model_when_the_first_cannot_be_selected ... ok
+test infer::short_line_order::tests::uses_only_two_high_confidence_agreeing_model_outputs ... ok
+test infer::short_line_order::tests::handles_duplicate_characters_and_geometry_boundaries ... ok
+test infer::short_line_order::tests::refuses_non_agreement_edits_low_scores_and_nonfinite_candidates ... ok
+test infer::short_line_order::tests::fallback_failures_preserve_the_original ... ok
+test infer::short_line_order::tests::accepted_output_is_a_real_candidate_with_the_same_character_counts ... ok
+test infer::short_line_order::tests::synthetic_short_order_corpus ... ok
+
+test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 149 filtered out; finished in 2.53s
+
+mbx[cache]: 0 hits, 0 misses, 1 bypassed; 0 B downloaded, 0 B uploaded, 0 B stored locally
+mbx[savings]: cleaned up 1.2 TiB logical after checkouts that left without saying goodbye.

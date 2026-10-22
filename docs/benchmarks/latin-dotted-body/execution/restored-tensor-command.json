@@ -1,0 +1,15 @@
+{
+  "argv": [
+    "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/latin-dotted-body/restored-rust-binary",
+    "infer::visible_repetitions::latin_pair_policy::tests::verify_fresh_latin_pair_auto_tensors",
+    "--exact",
+    "--ignored",
+    "--nocapture"
+  ],
+  "env": {
+    "NDLOCR_LATIN_PAIR_POLICY_ROOT": "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/latin-dotted-body/restored-tensor"
+  },
+  "cwd": "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/latin-dotted-body/final-restored",
+  "exit_code": 0,
+  "seconds": 108.450892667
+}

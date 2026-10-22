@@ -1,6 +1,56 @@
 use crate::infer::deim::Detection;
 
-/// ほぼ同じ領域に対する異クラス競合だけを除き、元順で認識行を選ぶ。
+mod edge_bars;
+mod multiline;
+
+/// 検出選択後の認識領域を返し、境界で切れた短い横画線だけを完結させる。
+pub(crate) fn line_recognition_regions<'a>(
+    detections: &'a [Detection],
+    rgb: &[u8],
+    width: usize,
+    height: usize,
+) -> Vec<(&'a Detection, [i32; 4])> {
+    let selected = select_line_detections_with_pixels(detections, rgb, width, height);
+    let bounds: Vec<_> = selected.iter().map(|d| d.box_xyxy).collect();
+    let completed = edge_bars::recognition_bounds(rgb, width, height, &bounds);
+    selected.into_iter().zip(completed).collect()
+}
+
+/// 近似同一領域の選択後、既存の強い2行に覆われる複数行候補だけを追加除外する。
+pub(crate) fn select_line_detections_with_pixels<'a>(
+    detections: &'a [Detection],
+    rgb: &[u8],
+    width: usize,
+    height: usize,
+) -> Vec<&'a Detection> {
+    let selected = select_line_detections(detections, width, height);
+    if selected.len() < 3
+        || width.checked_mul(height).and_then(|n| n.checked_mul(3)) != Some(rgb.len())
+    {
+        return selected;
+    }
+    let mut order: Vec<_> = selected.iter().copied().enumerate().collect();
+    order.sort_by(|a, b| {
+        b.1.confidence
+            .total_cmp(&a.1.confidence)
+            .then(a.0.cmp(&b.0))
+    });
+    let mut retained = vec![false; selected.len()];
+    let mut kept = Vec::new();
+    for (index, candidate) in order {
+        if !multiline::covered_by_two_lines(candidate, &kept, rgb, width, height) {
+            retained[index] = true;
+            kept.push(candidate);
+        }
+    }
+    selected
+        .into_iter()
+        .zip(retained)
+        .filter_map(|(d, keep)| keep.then_some(d))
+        .collect()
+}
+
+/// クラスを問わず近似同一領域の重複を除き、元順で認識行を選ぶ。
 pub(crate) fn select_line_detections(
     detections: &[Detection],
     width: usize,
@@ -19,8 +69,7 @@ pub(crate) fn select_line_detections(
     let mut selected: Vec<(usize, &Detection)> = Vec::with_capacity(candidates.len());
     for candidate in candidates {
         if !selected.iter().any(|(_, kept)| {
-            kept.class_name != candidate.1.class_name
-                && eligible(kept, width, height)
+            eligible(kept, width, height)
                 && eligible(candidate.1, width, height)
                 && nearly_same_box(kept.box_xyxy, candidate.1.box_xyxy)
         }) {
@@ -76,12 +125,11 @@ mod tests {
         }
     }
 
-    /// 別行・同クラス・部分重複・小領域の包含は削除しない。
+    /// 別行・部分重複・小領域の包含・不正候補は削除しない。
     #[test]
-    fn distinct_or_same_class_detections_are_retained() {
+    fn distinct_and_invalid_detections_are_retained() {
         let base = line("line_main", [0, 0, 100, 20], 0.9);
         for other in [
-            line("line_main", [0, 0, 100, 20], 0.8),
             line("line_title", [0, 21, 100, 41], 0.8),
             line("line_title", [0, 0, 89, 20], 0.8),
             line("line_title", [10, 5, 90, 15], 0.8),

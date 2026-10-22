@@ -1,0 +1,14 @@
+Traceback (most recent call last):
+  File "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/docs/benchmarks/real-vertical-scan/reproduce.py", line 78, in <module>
+    if __name__=='__main__':main()
+                            ^^^^^^
+  File "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/docs/benchmarks/real-vertical-scan/reproduce.py", line 69, in main
+    argv+=['--normalize',norm,'--require-all','--baseline-system',baseline,'--output-csv',str(table),'--output-md',str(table.with_suffix('.md'))];subprocess.run(argv,check=True,capture_output=True);assert table.read_bytes()==(r/name/(norm+'.csv')).read_bytes();assert table.with_suffix('.md').read_bytes()==(r/name/(norm+'.md')).read_bytes();table_count+=2;rows=list(csv.DictReader(table.open()))
+                                                                                                                                                                                                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/bokuweb/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/pathlib.py", line 1019, in read_bytes
+    with self.open(mode='rb') as f:
+         ^^^^^^^^^^^^^^^^^^^^
+  File "/Users/bokuweb/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/pathlib.py", line 1013, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/real-vertical-scan/restored/tmp/real-vertical-scan/initial-scores/none.csv'

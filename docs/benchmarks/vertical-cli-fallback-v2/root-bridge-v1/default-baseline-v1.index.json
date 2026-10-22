@@ -1,0 +1,22 @@
+{
+  "archive": "default-baseline-v1.zip",
+  "bytes": 47826,
+  "sha256": "3b6ce8d755549091d896b904da8f554ad334384171cd64663e14dfdf2098abc1",
+  "members": {
+    "evidence/root-default-baseline-frozen-v1.json": {
+      "bytes": 105687,
+      "sha256": "0cb37fed9aedc36d38755556ced735d6869cff52a1ca4f1c0bfee281aee5612e"
+    },
+    "evidence/root-default-baseline-build-v1.jsonl": {
+      "bytes": 133321,
+      "sha256": "c0296dc390cdcd7e2b1c338fc5186fef5627a1b0cf6552b27d25f9ffcbd30a62"
+    },
+    "evidence/root-default-baseline-build-v1.stderr": {
+      "bytes": 1340,
+      "sha256": "2822535c3e962e1b55985a8e5b0c47ac5261677b12b7868027967d562c956f50"
+    }
+  },
+  "baseline_source_packet_sha256": "05a1a813cb7fde8d00b2031823c1b48723af155cbbd39f1464f24ae39dd23fae",
+  "NN_calls": 0,
+  "model_loads": 0
+}

@@ -1,0 +1,38 @@
+[
+  {
+    "mode": "deim",
+    "before_char_errors": 4868,
+    "after_char_errors": 3191,
+    "before_word_errors": 699,
+    "after_word_errors": 698,
+    "truth_characters": 18223,
+    "truth_words": 997
+  },
+  {
+    "mode": "bands",
+    "before_char_errors": 4727,
+    "after_char_errors": 2000,
+    "before_word_errors": 655,
+    "after_word_errors": 646,
+    "truth_characters": 18223,
+    "truth_words": 997
+  },
+  {
+    "mode": "runtime30",
+    "before_char_errors": 10386,
+    "after_char_errors": 8321,
+    "before_word_errors": 974,
+    "after_word_errors": 863,
+    "truth_characters": 18223,
+    "truth_words": 997
+  },
+  {
+    "mode": "runtime100",
+    "before_char_errors": 5164,
+    "after_char_errors": 4384,
+    "before_word_errors": 690,
+    "after_word_errors": 691,
+    "truth_characters": 18223,
+    "truth_words": 997
+  }
+]

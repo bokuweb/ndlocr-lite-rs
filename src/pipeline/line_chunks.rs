@@ -19,21 +19,36 @@ mod leading_marks;
 /// 孤立した行頭小記号の認識文脈を維持する。
 mod leading_symbols;
 
+/// 分離された下側の小画線を直前の本文へ戻す。
+mod trailing_symbols;
+
 /// 孤立した上下の小画線だけを前の単語へ戻す。
 mod punctuation_tails;
 
 /// 分割不能な長い行から、広い完全白余白だけを認識対象の外へ分離する。
 mod wide_spaces;
 
+/// 下線だけが字間を接続する行の安全な分割。
+mod underlines;
+
+/// 長行の中央再認識で字形と単語空白を保持する。
+mod long_split;
+pub(crate) use long_split::split_long_line_near_center;
+
 /// 回転した縦書き字形の文脈を保つ分割。
 mod vertical;
+#[cfg(test)]
+pub(crate) use vertical::has_fallback_column_support;
 pub use vertical::split_rotated_vertical_column_for_input;
+#[cfg(any(feature = "onnx", test))]
+pub(crate) use vertical::split_supported_vertical_column_for_input;
 
 use slanted_spaces::restore_slanted_word_spaces;
 use word_fragments::{merge_rotated_word_fragments, restore_short_word_tails};
 use word_spaces::{strong_connected_gap_threshold, word_gap_threshold};
 
 /// 横書き行から切り出す、非白画素の重複・欠落のない元座標の水平区間。
+/// 下線fallbackは、字形を避けて確認された細い水平画線だけを横切る場合がある。
 /// 認識用APIは広い完全白余白の中央を省く場合があり、区間が隣接するとは限らない。
 #[derive(Debug, PartialEq, Eq)]
 pub struct LineChunk {
@@ -146,7 +161,8 @@ pub const MAX_CHUNK_ASPECT: usize = 8;
 const MAX_CHUNK_INK_RUNS: usize = 20;
 
 /// モデルの入力寸法を指定し、収まる短い行の文脈を保持する。
-/// 通常分割が失敗したときは、広い完全白余白だけを省いて元座標の認識区間を返す。
+/// 通常分割が失敗したときは、細い下線を分割判定だけから除外するか、
+/// 広い完全白余白だけを省いて元座標の認識区間を返す。元RGBの下線は保持する。
 pub fn split_line_for_input(
     rgb: &[u8],
     width: usize,
@@ -183,6 +199,14 @@ pub fn split_line_for_input(
     let mut chunks = match split_line_at_preferred_gaps(&gaps, width, height, max_width) {
         Ok(chunks) => chunks,
         Err(error) => {
+            if let Some(chunks) = underlines::split_underlined_line(
+                rgb,
+                (width, height),
+                threshold,
+                (input_width, input_height),
+            ) {
+                return Ok(chunks);
+            }
             return wide_spaces::split_separated_groups(
                 rgb,
                 width,
@@ -221,6 +245,14 @@ pub fn split_line_for_input(
     merge_rotated_word_fragments(&mut chunks, &gaps, height, input_width, input_height);
     style_transitions::split_style_transitions(rgb, width, height, threshold, &mut chunks, &gaps);
     leading_symbols::restore_leading_symbol(
+        rgb,
+        (width, height),
+        threshold,
+        &mut chunks,
+        &gaps,
+        (input_width, input_height),
+    );
+    trailing_symbols::restore_trailing_lower_mark(
         rgb,
         (width, height),
         threshold,
@@ -402,15 +434,14 @@ fn blank_gaps_with_word_gap_limit(
     blank_gaps_with_geometry(rgb, width, height, threshold, word_gap_limit, false)
 }
 
-/// 書字方向ごとの分類を行い、一度の画素走査でインク群と白帯を調べる。
-fn blank_gaps_with_geometry(
-    rgb: &[u8],
-    width: usize,
-    height: usize,
-    threshold: u8,
-    word_gap_limit: usize,
-    vertical: bool,
-) -> Vec<BlankGap> {
+struct InkRunScan {
+    gaps: Vec<BlankGap>,
+    widths: Vec<usize>,
+    heights: Vec<usize>,
+    extents: Vec<usize>,
+}
+
+fn scan_ink_runs(rgb: &[u8], width: usize, height: usize, threshold: u8) -> InkRunScan {
     let mut gaps = Vec::new();
     let mut blank_start = None;
     let mut seen_ink = false;
@@ -467,6 +498,33 @@ fn blank_gaps_with_geometry(
         ink_heights.push(peak_height);
         ink_extents.push(ink_bottom - ink_top);
     }
+    InkRunScan {
+        gaps,
+        widths: ink_widths,
+        heights: ink_heights,
+        extents: ink_extents,
+    }
+}
+
+#[cfg(test)]
+#[path = "../../tests/support/ink_scan_contract.rs"]
+mod scan_contract;
+
+/// 書字方向ごとの分類を行い、一度の画素走査でインク群と白帯を調べる。
+fn blank_gaps_with_geometry(
+    rgb: &[u8],
+    width: usize,
+    height: usize,
+    threshold: u8,
+    word_gap_limit: usize,
+    vertical: bool,
+) -> Vec<BlankGap> {
+    let InkRunScan {
+        mut gaps,
+        widths: ink_widths,
+        heights: ink_heights,
+        extents: ink_extents,
+    } = scan_ink_runs(rgb, width, height, threshold);
     if vertical {
         return vertical::retain_glyph_boundaries(gaps, &ink_widths, &ink_extents, height);
     }
@@ -1204,3 +1262,6 @@ mod tests {
         }
     }
 }
+
+#[cfg(any(feature = "onnx", test))]
+pub(crate) use vertical::fallback_column_anchor_count;

@@ -1,0 +1,4 @@
+/Users/bokuweb/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/PIL/Image.py:3578: DecompressionBombWarning: Image size (94127800 pixels) exceeds limit of 89478485 pixels, could be decompression bomb DOS attack.
+  warnings.warn(
+/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/latin-dotted-body/final-restored/tmp/latin-dotted-body/verify_noise.py:26: DeprecationWarning: Image.Image.getdata is deprecated and will be removed in Pillow 14 (2027-10-15). Use get_flattened_data instead.
+  mask=Image.new('L',native.size);mask.putdata([255 if sum(p)<660 else 0 for p in native.getdata()]);fg=mask.getbbox();H=heights[x['native_id']];W,MH,points=expected_points(x['shape'],H)

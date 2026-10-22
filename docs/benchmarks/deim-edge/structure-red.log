@@ -1,0 +1,55 @@
+   Compiling ndlocr-lite-rs v0.1.0 (/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.55s
+     Running tests/detected_edge_bar_tests.rs (target/debug/deps/detected_edge_bar_tests-a3cc2d335a3ca881)
+
+running 4 tests
+test cascade_uses_the_same_completed_recognition_region ... FAILED
+test clipped_edge_bar_recovers_source_pixels_before_padding ... FAILED
+test tall_foreign_or_ambiguous_components_keep_original_bounds ... ok
+test completed_bar_follows_scale_shift_and_reflection ... FAILED
+
+failures:
+
+---- cascade_uses_the_same_completed_recognition_region stdout ----
+
+thread 'cascade_uses_the_same_completed_recognition_region' (39452138) panicked at tests/detected_edge_bar_tests.rs:65:13:
+assertion `left == right` failed
+  left: 295
+ right: 316
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+---- clipped_edge_bar_recovers_source_pixels_before_padding stdout ----
+
+thread 'clipped_edge_bar_recovers_source_pixels_before_padding' (39452139) panicked at tests/detected_edge_bar_tests.rs:40:5:
+assertion `left == right` failed
+  left: [64, 21, 361, 59]
+ right: [43, 21, 361, 59]
+
+---- completed_bar_follows_scale_shift_and_reflection stdout ----
+proptest: FileFailurePersistence::SourceParallel set, but failed to find lib.rs or main.rs
+proptest: FileFailurePersistence::SourceParallel set, but failed to find lib.rs or main.rs
+proptest: Saving this and future failures in /Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tests/detected_edge_bar_tests.proptest-regressions
+proptest: If this test was run on a CI system, you may wish to add the following line to your copy of the file. (You may need to create it.)
+cc eb50518f61aeaff4269b394db8dcfb1ec3cfa3029b3e3ab3f8a756256a201edf
+
+thread 'completed_bar_follows_scale_shift_and_reflection' (39452140) panicked at tests/detected_edge_bar_tests.rs:118:1:
+Test failed: assertion failed: `(left == right)` 
+  left: `[65, 22, 360, 58]`,
+ right: `[44, 22, 360, 58]` at tests/detected_edge_bar_tests.rs:126.
+minimal failing input: scale = 1, margin = 0, reflected = false
+	successes: 0
+	local rejects: 0
+	global rejects: 0
+
+
+
+failures:
+    cascade_uses_the_same_completed_recognition_region
+    clipped_edge_bar_recovers_source_pixels_before_padding
+    completed_bar_follows_scale_shift_and_reflection
+
+test result: FAILED. 1 passed; 3 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+error: test failed, to rerun pass `--test detected_edge_bar_tests`
+mbx[cache]: 0 hits, 0 misses, 2 not looked up, 2 incremental; 0 B downloaded, 0 B uploaded, 0 B stored locally
+mbx[savings]: every checkout believes it owns 102.9 GiB of outputs. the disk keeps one copy and says nothing.

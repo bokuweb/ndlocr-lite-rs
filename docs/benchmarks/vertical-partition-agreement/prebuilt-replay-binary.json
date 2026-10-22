@@ -1,0 +1,19 @@
+{
+  "sha256": "1bd63ff0e8a8f955c3672a2c81cbc5c94f664d8a249c2656ac41de1f5c5e3a53",
+  "features": [
+    "onnx"
+  ],
+  "source": "matrix-candidate-source-before-run",
+  "not_shipped": true,
+  "purpose": "optional exact same-architecture lib test binary; default reproduction compiles frozen source without models",
+  "also_allowed": [
+    {
+      "sha256": "d8ad53490bab72dcc361d10e55ec7baf2aaed7fa423ea0b7df1c6f9064666023",
+      "features": [
+        "default"
+      ],
+      "source": "packet-isolated-verification/replay-source",
+      "purpose": "exact already-tested pure source replay, no recognition"
+    }
+  ]
+}

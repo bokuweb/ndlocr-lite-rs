@@ -1,0 +1,11 @@
+{
+  "packet": "internal-detached-closer",
+  "reproducer_sha256": "90490d4b3fda6e82c7e93b21d47ae673516c7ec83515aa89e8f73298e415c04b",
+  "archives": {
+    "images": "7aa2c4259a4255651befdf604324a401746c327a48fcb3d865b24c047860bc70",
+    "inputs": "af5df4ca012127fa4db1124ade5582a661da33063db16d48e11dd43361d60d9c",
+    "diagnostics": "45ca8e447a03e835619b54362463f60893828a60cfaede1de5f440dd83602550",
+    "text": "1254bc26d79599f624fa11a66e1ea433e82c668d6853df3beacfd40c8d032ce6"
+  },
+  "nested_parents_json_sha256": "368ba5607f63e41865a75cc2db6e9bbcd5f4dd1419b5d3ff897775186579c799"
+}

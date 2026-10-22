@@ -1,0 +1,6 @@
+{
+  "jma_kobe_notice.txt": {
+    "source": "tests/fixtures/eval/truth/jma_kobe_notice.txt",
+    "sha256": "9759bf8c14a2a4bb4c09cc4fa9d89da6b1273c3b60b25c136ddbe9b6126fc839"
+  }
+}

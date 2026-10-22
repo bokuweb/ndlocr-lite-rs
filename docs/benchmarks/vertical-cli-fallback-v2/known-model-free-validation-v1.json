@@ -1,0 +1,12 @@
+{
+  "complete": true,
+  "archive_sha256": "6d2380606ceba95657c1c19ebbf554ddf4564e6fcffb7f183755de865a54808b",
+  "successful_settings": 3,
+  "all_recorded_settings": 9,
+  "independent_crop_RGBs": 9,
+  "preserved_failed_attempts": 3,
+  "quality_changes_initial": true,
+  "known_literal_CLI_processes": 2,
+  "new_accuracy_gain": false,
+  "new_model_calls_in_replay": 0
+}

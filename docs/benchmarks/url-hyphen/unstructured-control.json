@@ -1,0 +1,7 @@
+{
+  "before_binary": "tmp/short-line-order/candidate-ndlocr",
+  "after_binary": "tmp/url-hyphen/candidate-ndlocr",
+  "structure_rules": false,
+  "byte_identical": true,
+  "text_sha256": "ff89a6eb4c9396eff05af730cc4f8df70023e1b12991b73525367fec810ba765"
+}

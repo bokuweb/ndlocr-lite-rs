@@ -1,0 +1,14 @@
+{
+  "utc": "2026-10-20T20:13:17.054125+00:00",
+  "exit_code": 0,
+  "cwd": "/tmp",
+  "script_sha256": "223b70441019061d3b847394cbb137e6155e4a7c185d2951e0f2f9925fd71d7c",
+  "Rust_binary_sha256": "d8ad53490bab72dcc361d10e55ec7baf2aaed7fa423ea0b7df1c6f9064666023",
+  "Rust_replay_mode": "explicit SHA-allowlisted prebuilt, frozen policy source unchanged",
+  "new_NN_calls": 0,
+  "new_model_loads": 0,
+  "verified_native_CSV_rows": 7452,
+  "verified_Page_CSV_rows": 21312,
+  "verified_Rust_decisions": 1242,
+  "verified_Rust_plans": 1242
+}

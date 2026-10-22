@@ -1,0 +1,104 @@
+{
+  "archive": "model-free-preflight-v1.zip",
+  "bytes": 317064,
+  "sha256": "052d8ab254dbd686d8800f9ac7c4f45c925038579de8437e191c91047b91ed63",
+  "members": {
+    "evidence/full-bundle-red.stdout": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "evidence/full-bundle-red.stderr": {
+      "bytes": 2396,
+      "sha256": "950de737e7cb3f98e01b860fc8f818313d66296ca891b234736d697f6b502fa3"
+    },
+    "evidence/full-bundle-green.stdout": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "evidence/full-bundle-green.stderr": {
+      "bytes": 518,
+      "sha256": "8be48286812fbb73e312101194614ce4973c6980c025836e262dbc876ea5db50"
+    },
+    "evidence/full-harness-red.stdout": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "evidence/full-harness-red.stderr": {
+      "bytes": 2030,
+      "sha256": "1a4ae0c36d7e6d589f04a70682232449cf002da834d61d22f9d988b3750e9258"
+    },
+    "evidence/full-harness-green.stdout": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "evidence/full-harness-green.stderr": {
+      "bytes": 736,
+      "sha256": "d6f96db81ac246ff50614263e4e6aa64edde15f7095335cdd2e9a09e1de4e83f"
+    },
+    "evidence/full-bundle-validate.stdout": {
+      "bytes": 267,
+      "sha256": "1ce02c6c6d1c2ff87fc57d9a25b2542ac389ad8cb869dd0170ddea53f0acf5d0"
+    },
+    "evidence/full-bundle-validate.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "evidence/original-full-contracts-green.stdout": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "evidence/original-full-contracts-green.stderr": {
+      "bytes": 2325,
+      "sha256": "b6357315ee2f27ca0f93f3aa73c21d9ea1ca6668d1a2ab7c1d480a2c96f26523"
+    },
+    "evidence/pack_full_preflight_v1.py": {
+      "bytes": 1917,
+      "sha256": "a476d216e43a5c87e07c9d050db754fda07bb420bbac847741c7d1ed5b6f0d36"
+    },
+    "tools/vertical_cli_fallback_v2_full_matrix.py": {
+      "bytes": 6052,
+      "sha256": "3034e86f75625ee5370af272df610d03201d84156eac28b115863338f0f0063a"
+    },
+    "tools/vertical_cli_fallback_v2_full_scope.py": {
+      "bytes": 1756,
+      "sha256": "d0ce0be93b974ff164ed361df17db3bf929a85d438c344541e3b21c83c9771c6"
+    },
+    "tools/vertical_cli_fallback_v2_option_runner.py": {
+      "bytes": 504,
+      "sha256": "86254eddf823f26c9e6e6342ff3625e8170aec358e0a2dbd0793adb22d18e8cd"
+    },
+    "tools/verify_vertical_cli_fallback_v2.py": {
+      "bytes": 25599,
+      "sha256": "c96d7c373d92a97afca427479ab73f29fa03d0286c68a2391aed2376e6704566"
+    },
+    "tests/test_vertical_cli_fallback_v2_full_bundle.py": {
+      "bytes": 2492,
+      "sha256": "6d1fb4937d6ef2cd5fd5d11e4a8a3465c53753c43eb3cd996595c7a3c2778d34"
+    },
+    ".github/workflows/vertical-cli-fallback-v2-full-matrix.yml": {
+      "bytes": 5472,
+      "sha256": "16f41a3bf364864d438cbd3c7082c4245a880247f167ca738f066178d842d0b7"
+    },
+    "bundle/bundle.json": {
+      "bytes": 2666740,
+      "sha256": "02997e54e701bfdfe0aa5e3644d1ff04bffd014d4a54b4693aa25fc538970079"
+    },
+    "bundle/plan.json": {
+      "bytes": 333747,
+      "sha256": "149dbd48d9dcde04955419b4ca1285c6d70f4c6fa461c8d8e8f229d992d163d8"
+    },
+    "bundle/protocol-before-nn.md": {
+      "bytes": 2397,
+      "sha256": "d6e6577dd26430a9b9c7d417dd5cde082d0233c2cfc53fff63a5176d6c35c2f7"
+    },
+    "bundle/create_full_bundle_v1.py": {
+      "bytes": 1868,
+      "sha256": "5d6eacdad9bee0b522c120d0c1161be0e6ffd72c82dfd0e33b2774f2fa63e0ab"
+    }
+  },
+  "full_v2_NN_calls": 0,
+  "new72_gate_pass": true,
+  "options_gate_pass_local": true,
+  "option_results_path": "tmp/vertical-cli-fallback-v2/options-matrix-v2",
+  "contracts": "new bundle2Red->2Green;dependency pin1Red->3Green;scope3Green;old shared11Green"
+}

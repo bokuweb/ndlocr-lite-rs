@@ -1,0 +1,12 @@
+{
+  "packet": "narrow-round-marker",
+  "reproducer_sha256": "b14c245a57b23f4c2176122b7066434d8d753365c4b21071889a5b4556ea9b69",
+  "archives": {
+    "images": "7fa379bd54b9414376cf9418843e4d403e47574df85d17fec165df99dd5e0040",
+    "pixels": "6bc2e61126da46e4db54320172cc565e028c4cd8e80df9b7ca1d931a8987af1a",
+    "inputs": "788624f2a36948afa72f7b6a7fd290091d589c29b1e57c7c2a314e53f057144b",
+    "diagnostics": "c59c1a50630447d0bd3fe723324f8794c56c13933c7d247a1993de311b360ae5",
+    "text": "c7f24eb67184b787c862a2494463da2b3d2add489b37b289a3dbefdc73469d5b"
+  },
+  "nested_parents_json_sha256": "4f62ce23d0eed688c76c63e86d7db2c4b24017e28ed9287e8e58f1b40f1c2e67"
+}

@@ -1,0 +1,22 @@
+{
+  "argv": [
+    "cargo",
+    "clean",
+    "-p",
+    "ndlocr-lite-rs"
+  ],
+  "scope": "rebuildable compiled package outputs only",
+  "target": "/Users/bokuweb/Library/Caches/mbx/targets/v1/94d83282ed2e94b9c1c993ce534f658c42c61ae5a65235653883be27020cf792",
+  "protected_executable_sha256": {
+    "tmp/latin-pair-policy/probe-binary": "8145de822c586fbd789869e73f19a2bdba8c2010d2a66e06a9ce15aeebf2b7c4",
+    "tmp/latin-pair-policy/tensor-binary": "b40b92d7aa030d3dce0cf80c2216c9f5bb039364a1d4d486dc3561e510dd5538",
+    "tmp/latin-pair-policy/seed-binary": "a280220437875e09e13765f0297e968a86fef7287b217292b856138af0163c82",
+    "tmp/latin-pair-policy/verification-binary": "bb9c3cf0f4fc896d4d00c66b7d0cb5f767da06f89c3cfceb65568f9a643d1673",
+    "tmp/latin-pair-policy/cli-after-binary": "52c27bfb86b43bf06dce0f6714ff11f437cae4909e7b9708c6f92dd6f905e674",
+    "tmp/latin-pair-policy/product-seed-red-binary": "4ae42d4eca7391a163416ffa3522924e3ba0aed44571d78940e7f40007fab2c0"
+  },
+  "before_df": "Filesystem   1024-blocks      Used Available Capacity  iused    ifree %iused  Mounted on\n/dev/disk3s5   971298980 910935884   8713376   100% 12748692 87133760   13%   /System/Volumes/Data\n",
+  "exit_code": 0,
+  "all_frozen_executables_unchanged": true,
+  "after_df": "Filesystem   1024-blocks      Used Available Capacity  iused     ifree %iused  Mounted on\n/dev/disk3s5   971298980 900882592  18766668    98% 12722038 187666680    6%   /System/Volumes/Data\n"
+}

@@ -1,0 +1,55 @@
+   Compiling ndlocr-lite-rs v0.1.0 (/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.30s
+     Running tests/framed_lines_tests.rs (target/debug/deps/framed_lines_tests-1210cc372916260f)
+
+running 4 tests
+test paired_multiline_rules_stay_outside_text_bands ... FAILED
+test short_thick_single_or_sparse_rules_are_not_trimmed ... ok
+test frame_trimming_preserves_body_at_scale ... FAILED
+test kobe_box_sides_do_not_become_text ... FAILED
+
+failures:
+
+---- paired_multiline_rules_stay_outside_text_bands stdout ----
+
+thread 'paired_multiline_rules_stay_outside_text_bands' (39304164) panicked at tests/framed_lines_tests.rs:43:9:
+assertion `left == right` failed
+  left: (18, 583)
+ right: (48, 542)
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+---- frame_trimming_preserves_body_at_scale stdout ----
+proptest: FileFailurePersistence::SourceParallel set, but failed to find lib.rs or main.rs
+proptest: FileFailurePersistence::SourceParallel set, but failed to find lib.rs or main.rs
+proptest: Saving this and future failures in /Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tests/framed_lines_tests.proptest-regressions
+proptest: If this test was run on a CI system, you may wish to add the following line to your copy of the file. (You may need to create it.)
+cc 56b672c2f2e488954a1f71975411b0c0ce6a3848a542b3c7291aa7e0a94d3397
+
+thread 'frame_trimming_preserves_body_at_scale' (39304162) panicked at tests/framed_lines_tests.rs:79:1:
+Test failed: assertion failed: `(left == right)` 
+  left: `(18, 583)`,
+ right: `(48, 542)` at tests/framed_lines_tests.rs:87.
+minimal failing input: scale = 1, margin = 0
+	successes: 0
+	local rejects: 0
+	global rejects: 0
+
+
+---- kobe_box_sides_do_not_become_text stdout ----
+
+thread 'kobe_box_sides_do_not_become_text' (39304163) panicked at tests/framed_lines_tests.rs:73:5:
+assertion `left == right` failed
+  left: (26, 965)
+ right: (66, 948)
+
+
+failures:
+    frame_trimming_preserves_body_at_scale
+    kobe_box_sides_do_not_become_text
+    paired_multiline_rules_stay_outside_text_bands
+
+test result: FAILED. 1 passed; 3 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.19s
+
+error: test failed, to rerun pass `--test framed_lines_tests`
+mbx[cache]: 0 hits, 0 misses, 1 not looked up, 1 incremental; 0 B downloaded, 0 B uploaded, 0 B stored locally
+mbx[savings]: 1.2 TiB logical of target/ belonged to checkouts that no longer exist. neither does it.

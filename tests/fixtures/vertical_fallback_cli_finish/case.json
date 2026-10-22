@@ -1,0 +1,16 @@
+{
+  "original": {
+    "id": "fva_vertical_arial_40_12_pad0",
+    "width": 48,
+    "height": 592,
+    "rgb_sha256": "e276e6e859187c08ec01d0e1ed4684b2dffa190669030c7a45c03b30060c75c2",
+    "cohort": "new_fva_vertical_text",
+    "image": "images/8cbe07119044e486088c21b0c047dba59bacd5cb3fe1c30c8ce8eba913daaa34.png",
+    "image_sha256": "8cbe07119044e486088c21b0c047dba59bacd5cb3fe1c30c8ce8eba913daaa34"
+  },
+  "original_bundle_sha256": "7f372e72532c360f886d9101597e0c911ea2f5f815998b254071390e2c63868c",
+  "image": "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/vertical-cli-fallback-v2/known-fva-arial12.png",
+  "image_sha256": "8cbe07119044e486088c21b0c047dba59bacd5cb3fe1c30c8ce8eba913daaa34",
+  "GT_passed": false,
+  "selection": "known 12-char geometry; estimator includes ratio *2.5; no GT or predicted body selection"
+}

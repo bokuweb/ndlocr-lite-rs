@@ -1,0 +1,58 @@
+{
+  "comparisons": 11727,
+  "native_comparisons": 11439,
+  "cascade_comparisons": 288,
+  "modes": {
+    "single30": {
+      "equal_metrics": 3729,
+      "byte_equal": 1233,
+      "improved_metrics": 84,
+      "raw_improved": 28,
+      "complete_restored": 28,
+      "changed": 38,
+      "boundary_changed": 0,
+      "raw_ties_changed": 10
+    },
+    "single50": {
+      "equal_metrics": 3770,
+      "byte_equal": 1253,
+      "improved_metrics": 43,
+      "raw_improved": 15,
+      "complete_restored": 15,
+      "changed": 18,
+      "boundary_changed": 0,
+      "raw_ties_changed": 3
+    },
+    "single100": {
+      "equal_metrics": 3748,
+      "byte_equal": 1236,
+      "improved_metrics": 65,
+      "raw_improved": 21,
+      "complete_restored": 21,
+      "changed": 35,
+      "boundary_changed": 0,
+      "raw_ties_changed": 14
+    },
+    "cascade3": {
+      "equal_metrics": 96,
+      "byte_equal": 32
+    },
+    "cascade2": {
+      "equal_metrics": 96,
+      "byte_equal": 32
+    },
+    "cascade1": {
+      "equal_metrics": 96,
+      "byte_equal": 32
+    }
+  },
+  "remaining": {
+    "raw_correct_lost_before": 353,
+    "raw_correct_restored": 64,
+    "raw_correct_remaining": 289,
+    "new_boundary_raw_correct_lost": 24
+  },
+  "native_confidence_bits_unchanged": 3813,
+  "cascade_dispatch_histories_unchanged": 96,
+  "fresh_cli_each_phase": 257
+}

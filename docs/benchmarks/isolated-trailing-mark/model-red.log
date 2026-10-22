@@ -1,0 +1,41 @@
+   Compiling ndlocr-lite-rs v0.1.0 (/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs)
+warning: methods `recognize_batch_indexed` and `run_chunk_on_session` are never used
+   --> src/infer/cached.rs:606:8
+    |
+410 | impl ParseqPool {
+    | --------------- methods in this implementation
+...
+606 |     fn recognize_batch_indexed(
+    |        ^^^^^^^^^^^^^^^^^^^^^^^
+...
+725 |     fn run_chunk_on_session(
+    |        ^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: `ndlocr-lite-rs` (lib test) generated 1 warning
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 3.28s
+     Running unittests src/lib.rs (target/debug/deps/ndlocr_lite_rs-419bfb34943ac7d0)
+
+running 1 test
+test pipeline::line_chunks::trailing_symbols::tests::real_isolated_lower_marks_keep_horizontal_sentence_context ... FAILED
+
+failures:
+
+---- pipeline::line_chunks::trailing_symbols::tests::real_isolated_lower_marks_keep_horizontal_sentence_context stdout ----
+
+thread 'pipeline::line_chunks::trailing_symbols::tests::real_isolated_lower_marks_keep_horizontal_sentence_context' (39896681) panicked at src/pipeline/line_chunks/../../../tests/support/trailing_lower_mark_policy.rs:221:13:
+assertion `left == right` failed: parseq-ndl-24x256-30-tiny-189epoch-tegaki3-r8data-202604.onnx: japanese_gothic36
+  left: "図書館では資料の保存と公開を継続し、利用者が必要な情報を探せるように目録を整備しています。新しい電子資料を追加するときは10 文字の読み上げ、画面の拡大、色の変更、検索結果の表示などを確認し、担当者が検査の記録と改善の内容をまとめて公開します。"
+ right: "図書館では資料の保存と公開を継続し、利用者が必要な情報を探せるように目録を整備しています。新しい電子資料を追加するときは、文字の読み上げ、画面の拡大、色の変更、検索結果の表示などを確認し、担当者が検査の記録と改善の内容をまとめて公開します。"
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    pipeline::line_chunks::trailing_symbols::tests::real_isolated_lower_marks_keep_horizontal_sentence_context
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 187 filtered out; finished in 0.64s
+
+error: test failed, to rerun pass `--lib`
+mbx[cache]: 0 hits, 0 misses, 1 bypassed; 0 B downloaded, 0 B uploaded, 0 B stored locally
+mbx[savings]: your deleted worktrees left 1.2 TiB logical behind. left. past tense.

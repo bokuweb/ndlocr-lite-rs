@@ -1,0 +1,20 @@
+{
+  "argv": [
+    "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/vertical-strict-prefix/main-green-binary",
+    "--include-ignored"
+  ],
+  "env": {
+    "NDLOCR_INTRA_THREADS": "1",
+    "NDLOCR_TEST_PARSEQ_MODEL": "models/parseq-ndl-24x256-30-tiny-189epoch-tegaki3-r8data-202604.onnx",
+    "NDLOCR_TEST_CHARSET": "models/NDLmoji.yaml",
+    "NDLOCR_TEST_DEIM_MODEL": "models/deim-s-1024x1024.onnx",
+    "NDLOCR_TEST_REPEAT_IMAGE": "tests/fixtures/parseq_unprocessed/repeated_digits.png"
+  },
+  "exit_code": 0,
+  "seconds": 88.485812333,
+  "binary_sha256": "0cce298bca2fedcf266ef7da40e6596960b013d476642aec052065e81a3cd5aa",
+  "features": [
+    "default",
+    "onnx"
+  ]
+}

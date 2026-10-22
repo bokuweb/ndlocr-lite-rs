@@ -1,0 +1,51 @@
+{
+  "fragment": {
+    "char_equal": 9533,
+    "word_regressed": 338,
+    "char_improved": 1405,
+    "char_regressed": 213,
+    "changed": 952,
+    "raw_exact_restored": 329,
+    "raw_exact_remaining": 0,
+    "old80_restored": 80,
+    "complete_restored": 329
+  },
+  "no_space": {
+    "char_equal": 9957,
+    "word_regressed": 32,
+    "char_improved": 1188,
+    "changed": 596,
+    "raw_exact_restored": 327,
+    "raw_exact_remaining": 2,
+    "old80_restored": 80,
+    "complete_restored": 327,
+    "char_regressed": 6
+  },
+  "short_common": {
+    "char_equal": 10959,
+    "word_regressed": 0,
+    "char_improved": 192,
+    "changed": 92,
+    "raw_exact_restored": 64,
+    "raw_exact_remaining": 265,
+    "old80_restored": 44,
+    "complete_restored": 64,
+    "char_regressed": 0
+  },
+  "closer_body": {
+    "char_equal": 10959,
+    "word_regressed": 0,
+    "char_improved": 192,
+    "changed": 91,
+    "raw_exact_restored": 64,
+    "raw_exact_remaining": 265,
+    "old80_restored": 44,
+    "complete_restored": 64,
+    "char_regressed": 0
+  },
+  "comparisons_per_policy": 11151,
+  "raw_exact_lost_before": 329,
+  "remaining_selected": 265,
+  "selected_for_next_product_validation": "closer_body",
+  "product_behavior_changed": false
+}

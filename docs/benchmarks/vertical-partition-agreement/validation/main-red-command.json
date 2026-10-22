@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/vertical-strict-prefix/main-red-binary",
+    "infer::vertical_capacity::native::prefix_agreement::fragment_prefix_agreement_preserves_raw_and_extends_saturated_columns",
+    "--exact",
+    "--ignored",
+    "--nocapture"
+  ],
+  "exit_code": 101,
+  "seconds": 1.2832392910000001,
+  "binary_sha256": "9e1eb05c46753260129a52f765c2f37cf3d4c442952fe824e97bf0c923e391c4",
+  "test_only_changes_before_product_integration": true
+}

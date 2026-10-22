@@ -1,0 +1,30 @@
+{
+  "independently_verified_rows": 21312,
+  "both_char_word_errors_and_denominators": true,
+  "distance": "bit-vector checked against full matrix and varied Unicode/token/word-boundary cases",
+  "tables": [
+    {
+      "normalization": "none",
+      "csv_sha256": "83143cbb4c195c907842b3bde87643bf7f3d0e694b57e83eb74b22b5b9178838",
+      "rows": 7104
+    },
+    {
+      "normalization": "width",
+      "csv_sha256": "3c6e68caa55806b23fa97549952c7b5a639e136860b9f8aa472c7bd6990d30b6",
+      "rows": 7104
+    },
+    {
+      "normalization": "strict",
+      "csv_sha256": "82c4ffdc44414de9c04789b0b8fddb2fcd2cce66190e9dbcbc0dd03325c270bf",
+      "rows": 7104
+    }
+  ],
+  "source_sha256": {
+    "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/vertical-strict-prefix/verify_page_metrics.py": "de24be9686937c8c386f29d8f4ec695278e50905872dc72c0258deee2457a884",
+    "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/vertical-strict-prefix/fast_distance.py": "37fa997a77be25dce552166e878868179921bb483f3ea90ae4753ae024f03d02",
+    "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/vertical-strict-prefix/test_fast_distance.py": "300328bad15b8f3751276b25ed665c5517dddbae1b272a6ea2d0daa9a119c293"
+  },
+  "new_nn_calls": 0,
+  "new_model_loads": 0,
+  "internal_session_run_calls": 0
+}

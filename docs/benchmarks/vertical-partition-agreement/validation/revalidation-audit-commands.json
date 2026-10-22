@@ -1,0 +1,63 @@
+[
+  {
+    "name": "P2-ink-loss-audit",
+    "argv": [
+      "/Users/bokuweb/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "tmp/vertical-page-ink-loss/run.py"
+    ],
+    "exit_code": 0,
+    "seconds": 16.604519707999998
+  },
+  {
+    "name": "Page-v2-official-audit",
+    "argv": [
+      "/Users/bokuweb/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "tmp/vertical-strict-prefix/audit_pages_v2.py"
+    ],
+    "exit_code": 0,
+    "seconds": 49.26031795799986
+  },
+  {
+    "name": "Page-v2-independent-audit",
+    "argv": [
+      "/Users/bokuweb/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "tmp/vertical-strict-prefix/verify_page_metrics_v2.py",
+      "tmp/vertical-strict-prefix"
+    ],
+    "exit_code": 0,
+    "seconds": 1.517901959000028
+  },
+  {
+    "name": "P1-primary-audit",
+    "argv": [
+      "/Users/bokuweb/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "tmp/vertical-page-primary/audit.py"
+    ],
+    "exit_code": 0,
+    "seconds": 4.358542624999927
+  },
+  {
+    "name": "Page-v2-local-package",
+    "argv": [
+      "/Users/bokuweb/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "tmp/vertical-strict-prefix/package_page_v2.py"
+    ],
+    "exit_code": 0,
+    "seconds": 0.1745024580000063
+  },
+  {
+    "name": "Page-v2-reader-green",
+    "argv": [
+      "/Users/bokuweb/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "docs/benchmarks/vertical-partition-agreement",
+      "-p",
+      "test_reproduce_page.py"
+    ],
+    "exit_code": 0,
+    "seconds": 52.150371791
+  }
+]

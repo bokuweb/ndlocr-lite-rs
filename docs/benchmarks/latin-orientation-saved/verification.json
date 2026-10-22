@@ -1,0 +1,28 @@
+{
+  "evidence_sha256": "928f5e85b234f939312adced11c9a7ac12b9132eb9f770e9fe6f3dd796795fe3",
+  "parent_archives": {
+    "diagnostics-1": "45067f98b1ea81b8a499c61cb4b52e050b1799f9f5b2e04c19f2580fc526d638",
+    "originals": "489ab68cbcd1e1d82de5b998a55b3cec66750f3212a56bbc528b0e0ab9324270",
+    "decoded": "c2459a45c391c19383d05f2954b4cde7343b599d6bcab1cab0611ab7b62859e3",
+    "pixels-maru": "426ee8e0d84b5a595265131bb8c55b468c86f5c4808979672535496de21fc834",
+    "pixels-gothic": "043b69091cb2b3ce390020c6a66a7f2ac37dcd43919c5231e88807327d116d31",
+    "pixels-mincho": "9e813bf2acab0947a122033a9c51367676a681cb57abee76e7dcd197f52308f4"
+  },
+  "raw_pairs": 1908,
+  "original_images": 636,
+  "table_files_byte_equal": 18,
+  "recomputed_summary_and_regressions_equal": true,
+  "new_nn_forwards": 0,
+  "reproducer_sha256": "d64a3039588d4895444a63171fc76562c9241859772455988c4af561585e2fb0",
+  "execution_files_sha256": {
+    "reproduce.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reproduce.stdout": "ab07ccd3f09e3c42c1a9378d626b685c9da4ce95920929981b10bca3662c5827"
+  },
+  "command": [
+    "python3",
+    "docs/benchmarks/latin-orientation-saved/reproduce.py",
+    "--output",
+    "tmp/latin-orientation-saved/restored"
+  ],
+  "exit_code": 0
+}

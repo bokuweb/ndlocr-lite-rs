@@ -1,0 +1,20 @@
+   Compiling ndlocr-lite-rs v0.1.0 (/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.77s
+     Running unittests src/lib.rs (target/debug/deps/ndlocr_lite_rs-c6da13c5479ca659)
+
+running 10 tests
+test infer::dense_line_recovery::tests::overlapping_half_of_smaller_region_is_ambiguous_for_both ... ok
+test infer::dense_line_recovery::tests::support_must_explain_four_times_the_initial_text ... ok
+test infer::dense_line_recovery::tests::ambiguous_regions_are_invariant_under_order_scale_and_translation ... ok
+test infer::dense_line_recovery::tests::ineligible_inputs_never_call_recognition ... ok
+test infer::dense_line_recovery::tests::distinct_but_too_short_candidate_is_rejected ... ok
+test infer::dense_line_recovery::tests::confidence_weights_emitted_characters_without_added_spaces ... ok
+test infer::dense_line_recovery::tests::accepts_only_real_chunk_outputs_and_keeps_original_rgb ... ok
+test infer::dense_line_recovery::tests::short_or_repetitive_candidates_do_not_explain_dense_text ... ok
+test infer::dense_line_recovery::tests::failed_or_uncertain_chunks_abort_without_replacing_the_base ... ok
+test infer::dense_line_recovery::tests::insufficient_ink_height_is_always_skipped ... ok
+
+test result: ok. 10 passed; 0 failed; 0 ignored; 0 measured; 158 filtered out; finished in 0.57s
+
+mbx[cache]: 0 hits, 0 misses, 1 incremental; 0 B downloaded, 0 B uploaded, 0 B stored locally
+mbx[savings]: 1.3 TiB logical of old files removed to date. the broom sends its regards.

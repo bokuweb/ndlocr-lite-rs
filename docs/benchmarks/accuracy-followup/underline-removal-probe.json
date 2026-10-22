@@ -1,0 +1,34 @@
+[
+  {
+    "row": 28,
+    "raw": "1 https://www.jma-net.go.jp/kobe-",
+    "candidate": "1 https://www.jmanet.go.jp/kobe-",
+    "expected": "1 https://www.jma-net.go.jp/kobe-",
+    "before": 0,
+    "after": 1
+  },
+  {
+    "row": 29,
+    "raw": "c/press/2025/2025122401/R071224 kobe kishoukeihou happyoukuiki henkou.pdf",
+    "candidate": "c/press/2025/2025122401/R071224_kobe_kishoukeihou_happyoukuiki_henkou.pdf",
+    "expected": "c/press/2025/2025122401/R071224_kobe_kishoukeihou_happyoukuiki_henkou.pdf",
+    "before": 4,
+    "after": 0
+  },
+  {
+    "row": 30,
+    "raw": "2 https://www.jmanet.go.jp/kobe-",
+    "candidate": "2 https://www.jmanet.go.jp/kobe-",
+    "expected": "2 https://www.jma-net.go.jp/kobe-",
+    "before": 1,
+    "after": 1
+  },
+  {
+    "row": 31,
+    "raw": "c/press/2025/2025122401/RO71224 kobe doshakeikaijohotaishouchiiki henkou.pdf",
+    "candidate": "c/press/2025/2025122401/R071224_kobe_doshakeikaijohotaishouchiiki_henkou.pdf",
+    "expected": "c/press/2025/2025122401/R071224_kobe_doshakeikaijoho_taishouchiiki_henkou.pdf",
+    "before": 5,
+    "after": 1
+  }
+]

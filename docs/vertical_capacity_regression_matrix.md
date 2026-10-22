@@ -1,0 +1,28 @@
+# 縦列容量回復のページ回帰行列
+
+製品hookを固定し、判定条件を変更せず、既存287ページとNDL実本文6cropを比較前後の全8経路で
+新規実行する。APIは供給3モデル×eval/default、CLIは既定のDEIM/bands。全293画像の元画像/GTと
+binary/source/model SHAを先に保存する。終端LFを除く操作はCLI stdoutの1個だけとし、本文の
+stripで空白や行区切りを変えない。内部forward数は未計測としてAPI/プロセス数と分ける。
+
+追加の既存縦書き回帰として、long_verticalの既知6入力とvertical_handwritingの既知1ページも
+同じ比較前後8経路で測定する。前者GTは元manifestのtruth文字列、後者は既存Rustテスト同様に
+元truth.txtから終端LFを1個だけ除く。元ファイルもハッシュで保存し、文字列はNNへ渡さない。
+これは既にモデル出力を観測済みの開発回帰であり、独立holdoutでも追加未知資料でもない。
+検出数や文字認識が悪くても入力を除外しない。明示縦列APIの既存実モデルテストも併用する。
+
+入力ごとのnone/width/strict文字・単語距離、行数、矩形、confidence bit、本文byteを確認する。
+比較前と変更後の全出力を保ち、退行があれば採用せず調査する。性能の速度比較は目的にしない。
+
+## 製品のFragment APIの別ビルド照合
+
+ページ行列のsource凍結を保つため、同じ製品sourceの別コピーへtest-only recorderだけを加える。
+元worktreeのRustは変更しない。製品source/selector/可視反復処理のbyte同一を確認し、旧/追加全42画像を
+3モデルで、raw Session・通常Pool・Fragment Auto single/batch/single-session batchの5経路へ渡す。
+計630画像/経路組で、元rawと通常出力は既存保存値、Fragmentは固定selectorの選択結果へ既存の
+変更していないFragment後処理を適用した値と照合する。confidenceは固定f32bitと一致を要求する。
+全経路を保存してから比較失敗を報告し、余白/図形も除外しない。独立文書数や内部forward数とは数えない。
+
+同じ別コピーで全42画像の無補間回転RGB・支持mask・Otsu閾値もNNなしに保存し、独立の有理数計算と
+全byte照合する。追加資料の結果を観測した後の実装検査であり、判定条件の再調整や新しい認識結果とは
+数えない。maskが作れない入力もNoneとして残す。元worktreeの固定sourceは変えない。

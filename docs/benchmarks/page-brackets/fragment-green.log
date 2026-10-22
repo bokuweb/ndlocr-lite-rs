@@ -1,0 +1,29 @@
+   Compiling ndlocr-lite-rs v0.1.0 (/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.90s
+     Running tests/fragment_sanitize_tests.rs (target/debug/deps/fragment_sanitize_tests-d8778e18fd27db73)
+
+running 3 tests
+test closing_brackets_in_a_continuation_fragment_are_preserved ... ok
+test fragment_changes_only_the_bracket_deletion_policy ... ok
+test every_supported_closer_survives_without_an_opener ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+     Running tests/postprocess_tests.rs (target/debug/deps/postprocess_tests-74a919ddb5f8a570)
+
+running 10 tests
+test parseq_argmax_and_decode_produces_text ... ok
+test parseq_flat_logits_stops_on_low_confidence_tail ... ok
+test deim_build_detections_filters_and_scales ... ok
+test parseq_flat_logits_and_nested_logits_match ... ok
+test parseq_sanitize_collapses_repeated_phrases ... ok
+test parseq_sanitize_removes_unmatched_closing_brackets ... ok
+test parseq_sanitize_applies_common_japanese_ocr_replacements ... ok
+test parseq_sanitize_collapses_repeated_common_phrases ... ok
+test parseq_sanitize_reduces_repeated_noise ... ok
+test parseq_argmax_is_invariant_to_constant_shift ... ok
+
+test result: ok. 10 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+mbx[cache]: 0 hits, 0 misses, 3 not looked up, 4 incremental; 0 B downloaded, 0 B uploaded, 0 B stored locally
+mbx[savings]: has quietly disposed of 1.3 TiB logical of build leftovers. nobody saw anything.

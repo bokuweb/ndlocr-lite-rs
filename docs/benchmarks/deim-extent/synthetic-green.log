@@ -1,0 +1,23 @@
+   Compiling ndlocr-lite-rs v0.1.0 (/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.14s
+     Running tests/duplicate_line_detections_tests.rs (target/debug/deps/duplicate_line_detections_tests-b5b1aa6e868fde9d)
+
+running 3 tests
+test out_of_image_candidate_cannot_suppress_valid_line ... ok
+test cli_crops_keep_the_winning_detection_metadata ... ok
+test competing_line_classes_are_recognized_once_per_physical_line ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/multiline_duplicate_tests.rs (target/debug/deps/multiline_duplicate_tests-b3a8ce6c177ef966)
+
+running 4 tests
+test two_strong_rows_remove_only_the_weak_multiline_region ... ok
+test cascade_connection_recognizes_each_supported_row_once ... ok
+test uncertain_or_incomplete_support_keeps_the_candidate ... ok
+test suppression_preserves_winners_at_scale ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.13s
+
+mbx[cache]: 0 hits, 1 misses, 3 not looked up, 4 incremental; 0 B downloaded, 0 B uploaded, 0 B stored locally
+mbx[savings]: 1.2 TiB logical of target/ was waiting for checkouts that are never coming back. it has stopped waiting.

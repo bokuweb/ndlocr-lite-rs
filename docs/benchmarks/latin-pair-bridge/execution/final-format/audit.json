@@ -1,0 +1,23 @@
+{
+  "changes": {
+    "src/infer/visible_repetitions/latin_pair_policy.rs": {
+      "measured_sha256": "26e92298da191931dfeb7bcaecc1c2bbb247ed00ed5f19a3b8ad1bd177d5dc12",
+      "final_sha256": "753be1b6d53cc11133371b152a96042270c017d78b8b6e8b058d005d2647e4f0",
+      "exact_rustfmt_output": true,
+      "runtime_prefix_unchanged": true
+    },
+    "tests/support/latin_pair_model.rs": {
+      "measured_sha256": "73edefc13aff30fffec1d1240ff4ce455d4fbc675e11f3c6bcd9fa9504b8b58c",
+      "final_sha256": "1dcc675cf911a477cb4690e1d250d7d2c0f6f8e570c47aad95759b5c4528e5cc",
+      "exact_rustfmt_output": true,
+      "runtime_prefix_unchanged": true
+    }
+  },
+  "all_other_measured_source_bytes_equal": true,
+  "all_runtime_rust_bytes_equal_measured": true,
+  "numeric_conditions_unchanged": true,
+  "reason": "CI cargo fmt check; only cfg(test) code formatted",
+  "initial_ci_run": 39373776001,
+  "initial_ci_head": "9b6070271bd56c56b359fa98328801f65b91ed5a",
+  "driver_sha256": "98c57e6473dda59654960132a1d0944fc43c73c7a80604a2e2bb5af9ba9bd16e"
+}

@@ -1,0 +1,42 @@
+{
+  "run": 39552273440,
+  "head": "af1dcfa7512cdfc5782662469ddf0d20e7de7fa3",
+  "archive": "compile-fixture-failure-v1.zip",
+  "bytes": 6415,
+  "sha256": "a43a3cccb60e2b52fd85781ba4fcdd97aeab7bd4fcd92be4450b2496c630979e",
+  "members": {
+    "artifact/job.json": {
+      "bytes": 1926,
+      "sha256": "06d86aa19368cd35747ac06a41be9393f3d2cbfc8666c1cffc2dd1f7dadd412d"
+    },
+    "artifact/commands/observer-pure-tests.stderr": {
+      "bytes": 16596,
+      "sha256": "83ee2952e7d144ebdc43122dca843e82a0fdf7b0963c1d6b3679a0127dcf31a5"
+    },
+    "artifact/commands/observer-pure-tests.json": {
+      "bytes": 275,
+      "sha256": "62d393cdd7e68548fd0a6adc8c5fdb53cb9d1b0bffff7fb3e4d27a3e3f1b4058"
+    },
+    "artifact/commands/observer-pure-tests.stdout": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "remote-failure-v1.log": {
+      "bytes": 3535,
+      "sha256": "afa8d8acbdd440b34f0287042d6c69a351368688dabd5fa1f1542e1f9e88f4f4"
+    },
+    "frozen-fixture-red.stdout": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "frozen-fixture-red.stderr": {
+      "bytes": 1329,
+      "sha256": "5a66a94e3a6384ddf4eb7beb31cecf35019355500bf64e25e6a4d6906ce6aa58"
+    }
+  },
+  "CLI_processes": 0,
+  "NN_calls": 0,
+  "reason": "missing compile-time fixture; observer-pure-tests compile failed",
+  "original_bundle": "bundle-before-compile-fixture-v1.json",
+  "original_sources": "sources-before-compile-fixture-v1.zip"
+}

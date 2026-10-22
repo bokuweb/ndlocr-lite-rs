@@ -1,0 +1,8 @@
+{
+  "status": "not applied; GitHub OAuth credential lacks workflow scope",
+  "raw_patch_sha256": "0ef3f6e08c49852e89c8f4298f02537b7f01500d5a5ab0652dd7cde6b9848441",
+  "compressed_patch_sha256": "e0097fb3319f9501a07175fd43299eef71d6320fc558c8f36cf36e879325fd00",
+  "local_reader_tests": 6,
+  "reader_tests_local_result": "passed",
+  "existing_real_model_ci_includes_new_native_rust_test": true
+}

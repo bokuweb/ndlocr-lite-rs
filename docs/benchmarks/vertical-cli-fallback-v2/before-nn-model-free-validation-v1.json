@@ -1,0 +1,12 @@
+{
+  "complete": true,
+  "archive_sha256": "b2589bf2429c5c369659cf6c623674756925045b55834d2a567ef500c48ec23c",
+  "new_inputs": 72,
+  "known_inputs": 1239,
+  "annotated_glyphs": 4392,
+  "hash_overlap": 0,
+  "NN_calls_at_freeze": 0,
+  "new_model_calls_in_replay": 0,
+  "existing_finish_loop_and_initial_batch_unchanged": true,
+  "adopted": false
+}

@@ -1,0 +1,9 @@
+test_otsu_floors_the_rgb_average_and_keeps_the_first_tie (test_additional_real_scan_support.ScanSupportTest.test_otsu_floors_the_rgb_average_and_keeps_the_first_tie) ... ok
+test_support_mask_separates_gray_paper_but_does_not_modify_the_pixels (test_additional_real_scan_support.ScanSupportTest.test_support_mask_separates_gray_paper_but_does_not_modify_the_pixels) ... ok
+test_the_frozen_real_six_do_not_support_the_mask_only_proposal (test_additional_real_scan_support.ScanSupportTest.test_the_frozen_real_six_do_not_support_the_mask_only_proposal) ... ok
+test_uniform_and_invalid_inputs_have_no_invented_threshold (test_additional_real_scan_support.ScanSupportTest.test_uniform_and_invalid_inputs_have_no_invented_threshold) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.585s
+
+OK

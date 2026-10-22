@@ -1,0 +1,21 @@
+   Compiling ndlocr-lite-rs v0.1.0 (/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.43s
+     Running unittests src/lib.rs (target/debug/deps/ndlocr_lite_rs-c6da13c5479ca659)
+
+running 11 tests
+test pipeline::line_chunks::long_split::tests::avoids_a_narrow_gap_between_parts_of_one_glyph ... ok
+test pipeline::line_chunks::long_split::tests::honors_the_exact_ink_threshold ... ok
+test pipeline::line_chunks::long_split::tests::keeps_an_existing_blank_cut_even_when_the_gap_is_narrow ... ok
+test pipeline::line_chunks::long_split::tests::moves_an_ink_cut_to_the_nearby_blank_gap ... ok
+test pipeline::line_chunks::long_split::tests::preserves_a_safe_original_midpoint_and_real_word_space ... ok
+test pipeline::line_chunks::long_split::tests::preserves_nonconnecting_strokes_with_overlapping_column_projections ... ok
+test pipeline::line_chunks::long_split::tests::rejects_bad_dimensions_and_buffer_lengths ... ok
+test pipeline::line_chunks::long_split::tests::ties_choose_the_smaller_coordinate ... ok
+test pipeline::line_chunks::long_split::tests::refuses_distant_gaps_and_narrow_or_solid_lines ... ok
+test pipeline::line_chunks::long_split::tests::ignores_only_supported_underlines_for_the_split_decision ... ok
+test pipeline::line_chunks::long_split::tests::accepted_cuts_preserve_every_source_pixel_and_do_not_cross_ink ... ok
+
+test result: ok. 11 passed; 0 failed; 0 ignored; 0 measured; 147 filtered out; finished in 0.10s
+
+mbx[cache]: 0 hits, 0 misses, 1 incremental; 0 B downloaded, 0 B uploaded, 0 B stored locally
+mbx[savings]: rustc believes it compiled everything. it is down 11h 2m across 9027 builds. let it believe.

@@ -1,0 +1,8 @@
+{
+  "logical_files": 89080,
+  "backing_objects": 17671,
+  "verified_unique_payload_bytes": 1081263647,
+  "new_NN_calls": 0,
+  "new_model_loads": 0,
+  "internal_session_run_calls": 0
+}

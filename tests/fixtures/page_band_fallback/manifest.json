@@ -1,0 +1,257 @@
+{
+  "pillow_version": "12.3.0",
+  "fonts": [
+    {
+      "name": "gothic",
+      "file": "ヒラギノ角ゴシック W3.ttc",
+      "sha256": "ff92033a300f55aff2f45f57479a560af2c5467973b425d3f724f870af07f83e"
+    },
+    {
+      "name": "mincho",
+      "file": "ヒラギノ明朝 ProN.ttc",
+      "sha256": "366347c654f84acc43692e922d8d33d91949e750b8d383155bd07728b2bcbbfa"
+    }
+  ],
+  "rows": [
+    {
+      "id": "single_ja_gothic_png",
+      "image": "tests/fixtures/page_band_fallback/images/single_ja_gothic_png.png",
+      "truth": "雨",
+      "image_sha256": "f52989ca78fafaf29e67d7b78790ff836263d9b64cb57bdfa73986f7329895ad",
+      "truth_sha256": "124d60580dfa9072dbea270f1470a9be88a3152d1c6c6485eb0f9e1dc9345352",
+      "font": "gothic",
+      "font_size": 24,
+      "format": "png"
+    },
+    {
+      "id": "single_ja_gothic_jpeg75",
+      "image": "tests/fixtures/page_band_fallback/images/single_ja_gothic_jpeg75.jpg",
+      "truth": "雨",
+      "image_sha256": "dac2a3d0d3524ee88dbf50374f343b4bd6c371da47f12c4868bbad24d3183198",
+      "truth_sha256": "124d60580dfa9072dbea270f1470a9be88a3152d1c6c6485eb0f9e1dc9345352",
+      "font": "gothic",
+      "font_size": 24,
+      "format": "jpeg75"
+    },
+    {
+      "id": "sentence_ja_gothic_png",
+      "image": "tests/fixtures/page_band_fallback/images/sentence_ja_gothic_png.png",
+      "truth": "資料を確認します。",
+      "image_sha256": "8b6dbc952328714ef465fa54eb992f03fe7d3f1aa8a7e50553446525ec119209",
+      "truth_sha256": "cf28c9f7c203581cbbf1d7b9cd1bb97a5d5666277ca940de84a09dbf139a2ef9",
+      "font": "gothic",
+      "font_size": 24,
+      "format": "png"
+    },
+    {
+      "id": "sentence_ja_gothic_jpeg75",
+      "image": "tests/fixtures/page_band_fallback/images/sentence_ja_gothic_jpeg75.jpg",
+      "truth": "資料を確認します。",
+      "image_sha256": "4e76b68e9a94abd4b4b5349b24e6ca1a84e466df022a93ed16be7d77f47e7061",
+      "truth_sha256": "cf28c9f7c203581cbbf1d7b9cd1bb97a5d5666277ca940de84a09dbf139a2ef9",
+      "font": "gothic",
+      "font_size": 24,
+      "format": "jpeg75"
+    },
+    {
+      "id": "sentence_en_gothic_png",
+      "image": "tests/fixtures/page_band_fallback/images/sentence_en_gothic_png.png",
+      "truth": "Read and verify.",
+      "image_sha256": "08d2335fe62537be44b57e8f61ee6f2b4e3005991563411ec57b44952967ba5a",
+      "truth_sha256": "ba89ff7a7250172f83438481591a31914fdabf0f589f94cbfa3e6eae6c03c37b",
+      "font": "gothic",
+      "font_size": 24,
+      "format": "png"
+    },
+    {
+      "id": "sentence_en_gothic_jpeg75",
+      "image": "tests/fixtures/page_band_fallback/images/sentence_en_gothic_jpeg75.jpg",
+      "truth": "Read and verify.",
+      "image_sha256": "113a4c178fdd54bfc4524815d8770879ad1c70ffc1ac1a7711b1618b8ab1bbfe",
+      "truth_sha256": "ba89ff7a7250172f83438481591a31914fdabf0f589f94cbfa3e6eae6c03c37b",
+      "font": "gothic",
+      "font_size": 24,
+      "format": "jpeg75"
+    },
+    {
+      "id": "repeated_i_gothic_png",
+      "image": "tests/fixtures/page_band_fallback/images/repeated_i_gothic_png.png",
+      "truth": "IIIIII",
+      "image_sha256": "9b0d8b06fcdd26161005d67e22e90c23dfeb3617ba415c9ff2d90f97dfa4d6e6",
+      "truth_sha256": "28d3b6236942b10d8398c442a69ee57115ac279f3725b4012104615bc21a002b",
+      "font": "gothic",
+      "font_size": 24,
+      "format": "png"
+    },
+    {
+      "id": "repeated_i_gothic_jpeg75",
+      "image": "tests/fixtures/page_band_fallback/images/repeated_i_gothic_jpeg75.jpg",
+      "truth": "IIIIII",
+      "image_sha256": "5d74806d43dbfc22ff35e4d226a5f2e6ebd1d273432b0894b704d76009726c31",
+      "truth_sha256": "28d3b6236942b10d8398c442a69ee57115ac279f3725b4012104615bc21a002b",
+      "font": "gothic",
+      "font_size": 24,
+      "format": "jpeg75"
+    },
+    {
+      "id": "repeated_digits_gothic_png",
+      "image": "tests/fixtures/page_band_fallback/images/repeated_digits_gothic_png.png",
+      "truth": "111111",
+      "image_sha256": "52cc2972dbe8c7c203f829a9448808438466f2beb0c7b94204d6554511c76c7e",
+      "truth_sha256": "bcb15f821479b4d5772bd0ca866c00ad5f926e3580720659cc80d39c9d09802a",
+      "font": "gothic",
+      "font_size": 24,
+      "format": "png"
+    },
+    {
+      "id": "repeated_digits_gothic_jpeg75",
+      "image": "tests/fixtures/page_band_fallback/images/repeated_digits_gothic_jpeg75.jpg",
+      "truth": "111111",
+      "image_sha256": "4dbc483159e7508c0b22286ce520f9cd943a3f9175d0dc4658d003b945e2673e",
+      "truth_sha256": "bcb15f821479b4d5772bd0ca866c00ad5f926e3580720659cc80d39c9d09802a",
+      "font": "gothic",
+      "font_size": 24,
+      "format": "jpeg75"
+    },
+    {
+      "id": "two_rows_gothic_png",
+      "image": "tests/fixtures/page_band_fallback/images/two_rows_gothic_png.png",
+      "truth": "作業の記録を残します。\n次の担当者が確認します。",
+      "image_sha256": "94680d0912b083bf095fa65612f2f1d41f37f284682c142764eabac10b673fd9",
+      "truth_sha256": "ae4defa88f3f246d7ebd268fe7fcf4b08e861e029ccaec37fe0cfa21697e3aff",
+      "font": "gothic",
+      "font_size": 24,
+      "format": "png"
+    },
+    {
+      "id": "two_rows_gothic_jpeg75",
+      "image": "tests/fixtures/page_band_fallback/images/two_rows_gothic_jpeg75.jpg",
+      "truth": "作業の記録を残します。\n次の担当者が確認します。",
+      "image_sha256": "d4c749fc1d5ca502fef6007ed4e8bfc6bbe3ebcdb90f3bee344a141ff0b5425a",
+      "truth_sha256": "ae4defa88f3f246d7ebd268fe7fcf4b08e861e029ccaec37fe0cfa21697e3aff",
+      "font": "gothic",
+      "font_size": 24,
+      "format": "jpeg75"
+    },
+    {
+      "id": "single_ja_mincho_png",
+      "image": "tests/fixtures/page_band_fallback/images/single_ja_mincho_png.png",
+      "truth": "雨",
+      "image_sha256": "a837b748a0514de119b7b1fff310d1000281a3bd24493754dc4f377ee826761a",
+      "truth_sha256": "124d60580dfa9072dbea270f1470a9be88a3152d1c6c6485eb0f9e1dc9345352",
+      "font": "mincho",
+      "font_size": 24,
+      "format": "png"
+    },
+    {
+      "id": "single_ja_mincho_jpeg75",
+      "image": "tests/fixtures/page_band_fallback/images/single_ja_mincho_jpeg75.jpg",
+      "truth": "雨",
+      "image_sha256": "5b57b853ffc10c09582bc294903c2162df969e4d1f7a324403a8193154a4137c",
+      "truth_sha256": "124d60580dfa9072dbea270f1470a9be88a3152d1c6c6485eb0f9e1dc9345352",
+      "font": "mincho",
+      "font_size": 24,
+      "format": "jpeg75"
+    },
+    {
+      "id": "sentence_ja_mincho_png",
+      "image": "tests/fixtures/page_band_fallback/images/sentence_ja_mincho_png.png",
+      "truth": "資料を確認します。",
+      "image_sha256": "a03a70f97d1dcf465dc874c0ce943152751a9f7112175db6947eaf33a91104fb",
+      "truth_sha256": "cf28c9f7c203581cbbf1d7b9cd1bb97a5d5666277ca940de84a09dbf139a2ef9",
+      "font": "mincho",
+      "font_size": 24,
+      "format": "png"
+    },
+    {
+      "id": "sentence_ja_mincho_jpeg75",
+      "image": "tests/fixtures/page_band_fallback/images/sentence_ja_mincho_jpeg75.jpg",
+      "truth": "資料を確認します。",
+      "image_sha256": "a45824ffcdfae1be54a40d52d056dadd33bcbc3bdedc62d7a8675d37795f7261",
+      "truth_sha256": "cf28c9f7c203581cbbf1d7b9cd1bb97a5d5666277ca940de84a09dbf139a2ef9",
+      "font": "mincho",
+      "font_size": 24,
+      "format": "jpeg75"
+    },
+    {
+      "id": "sentence_en_mincho_png",
+      "image": "tests/fixtures/page_band_fallback/images/sentence_en_mincho_png.png",
+      "truth": "Read and verify.",
+      "image_sha256": "686bb4503d76da2b9348390fb9210bd2beb2def4476a3494e00a7df4509ce260",
+      "truth_sha256": "ba89ff7a7250172f83438481591a31914fdabf0f589f94cbfa3e6eae6c03c37b",
+      "font": "mincho",
+      "font_size": 24,
+      "format": "png"
+    },
+    {
+      "id": "sentence_en_mincho_jpeg75",
+      "image": "tests/fixtures/page_band_fallback/images/sentence_en_mincho_jpeg75.jpg",
+      "truth": "Read and verify.",
+      "image_sha256": "99510539f26339070f39edc86648c05a642cc88da7af169cba65a5d0f3b0906e",
+      "truth_sha256": "ba89ff7a7250172f83438481591a31914fdabf0f589f94cbfa3e6eae6c03c37b",
+      "font": "mincho",
+      "font_size": 24,
+      "format": "jpeg75"
+    },
+    {
+      "id": "repeated_i_mincho_png",
+      "image": "tests/fixtures/page_band_fallback/images/repeated_i_mincho_png.png",
+      "truth": "IIIIII",
+      "image_sha256": "f4fd6f72973531ed84b07e70baf8035a0c23a5b6d3207b8b652d6d7644ab49ba",
+      "truth_sha256": "28d3b6236942b10d8398c442a69ee57115ac279f3725b4012104615bc21a002b",
+      "font": "mincho",
+      "font_size": 24,
+      "format": "png"
+    },
+    {
+      "id": "repeated_i_mincho_jpeg75",
+      "image": "tests/fixtures/page_band_fallback/images/repeated_i_mincho_jpeg75.jpg",
+      "truth": "IIIIII",
+      "image_sha256": "b3bc98b62e3a1429c2732f9a444f94d37819476db9f27d742269034fc0d37178",
+      "truth_sha256": "28d3b6236942b10d8398c442a69ee57115ac279f3725b4012104615bc21a002b",
+      "font": "mincho",
+      "font_size": 24,
+      "format": "jpeg75"
+    },
+    {
+      "id": "repeated_digits_mincho_png",
+      "image": "tests/fixtures/page_band_fallback/images/repeated_digits_mincho_png.png",
+      "truth": "111111",
+      "image_sha256": "02bb705f595eb153cafef4034508e870688b8af9478559afa47e777f0ea93013",
+      "truth_sha256": "bcb15f821479b4d5772bd0ca866c00ad5f926e3580720659cc80d39c9d09802a",
+      "font": "mincho",
+      "font_size": 24,
+      "format": "png"
+    },
+    {
+      "id": "repeated_digits_mincho_jpeg75",
+      "image": "tests/fixtures/page_band_fallback/images/repeated_digits_mincho_jpeg75.jpg",
+      "truth": "111111",
+      "image_sha256": "1347d4e7fafc9a8c6d56ee821247d74fdf735ffd9906cc3695cad056eb32ddb7",
+      "truth_sha256": "bcb15f821479b4d5772bd0ca866c00ad5f926e3580720659cc80d39c9d09802a",
+      "font": "mincho",
+      "font_size": 24,
+      "format": "jpeg75"
+    },
+    {
+      "id": "two_rows_mincho_png",
+      "image": "tests/fixtures/page_band_fallback/images/two_rows_mincho_png.png",
+      "truth": "作業の記録を残します。\n次の担当者が確認します。",
+      "image_sha256": "7d43b80278e34a0a96b95bae64feaaf0bac9cd4f6eef5551d911a026b0fa82ea",
+      "truth_sha256": "ae4defa88f3f246d7ebd268fe7fcf4b08e861e029ccaec37fe0cfa21697e3aff",
+      "font": "mincho",
+      "font_size": 24,
+      "format": "png"
+    },
+    {
+      "id": "two_rows_mincho_jpeg75",
+      "image": "tests/fixtures/page_band_fallback/images/two_rows_mincho_jpeg75.jpg",
+      "truth": "作業の記録を残します。\n次の担当者が確認します。",
+      "image_sha256": "abed508e9938e2ba19b0b9f1952f06d05a865f7fdeb9996cef4fc41c0b19e765",
+      "truth_sha256": "ae4defa88f3f246d7ebd268fe7fcf4b08e861e029ccaec37fe0cfa21697e3aff",
+      "font": "mincho",
+      "font_size": 24,
+      "format": "jpeg75"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "packet": "detached-body-components",
+  "reproducer_sha256": "ad9baadbb9c88d72466194accee3fa0d0ba4f358dbd40f06ef594157a1ae29a9",
+  "archives": {
+    "initial-images": "6073551dfd2bec1ba20e21cbcf62f01b377d43b37523b4a89efdc076c7351fa7",
+    "initial-inputs": "a49e527cf3f56abe46431681f959e29fd1bf5957c21742c28e7c32dbb3b37ca9",
+    "positive-images": "e26cf491e467221f16f95a679e3b5ade939cacfa6c0c0eca2e7275f6d3030bcb",
+    "positive-inputs": "b14731bafb9581bc925f62d29d0972f5cbea3f668b2cb261b7c577c07dfc5696",
+    "diagnostics": "a4a6a84b9e06e44bba0afccb21e2c4141c22dfa40cbeff68913d5a9217e743de",
+    "text": "2a576232090d68cfd0bcb6814a00c51b53e9212f37264a0e82ab92b32b8680da"
+  },
+  "nested_parents_json_sha256": "cfdfd45fd42171f1ba48182992ab933057667a5bbff85b487d7e34c32dde7377"
+}

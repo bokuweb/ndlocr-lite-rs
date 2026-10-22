@@ -1,0 +1,30 @@
+[
+  {
+    "mode": "deim",
+    "normalization": "none",
+    "file": "crop_ja_heavy40_pad6.txt",
+    "before": 1,
+    "after": 2
+  },
+  {
+    "mode": "deim",
+    "normalization": "width",
+    "file": "crop_ja_heavy40_pad6.txt",
+    "before": 1,
+    "after": 2
+  },
+  {
+    "mode": "bands",
+    "normalization": "none",
+    "file": "crop_ja_heavy40_pad6.txt",
+    "before": 1,
+    "after": 2
+  },
+  {
+    "mode": "bands",
+    "normalization": "width",
+    "file": "crop_ja_heavy40_pad6.txt",
+    "before": 1,
+    "after": 2
+  }
+]

@@ -1,0 +1,15 @@
+{
+  "packet": "owned-parts-body-bridge",
+  "reproducer_sha256": "b1d7330d0e046e4e59c1660eab2902f5a1689f71bdfc0dd5d306995e2bc29411",
+  "archives": {
+    "images": "631ee118afaaa341a5f493d91235fcdc9289e8fc08ac3f69d73fb36d9388c2e0",
+    "pixels": "7343c41592904ebacf319e6cce84a0126a6e30c1f7c972b69a8dbbe7aac261c1",
+    "geometry-images": "c3df9e7c0066ce82f7432b2d7dbcce3b9f394faec6b3940bfbfb47801605bf8d",
+    "geometry-pixels": "567d31ed29023147d129847d7bd7571affe485a0d8c308d517c11a2338eba747",
+    "screens": "3442c6c9a6e5540e906ae533657dbfdac138070ca088c8ab30ef84aae0e27288",
+    "inputs": "6d6e60752054a97d7bf5999feeae7f4248b44f199e5059b35eb7427d31918264",
+    "diagnostics": "04f2f9d4a0a298f1d13f1929bdeeab2fc7918c9c2a9a7ec81a730ad17e21db10",
+    "text": "fb21df27b094e3303b077e00a7a0f4b20ad84cfdc41d943d7ea704cc1ab3c5b8"
+  },
+  "nested_parents_json_sha256": "199d401bb9e9da98768c7bfeaf55ec39e2a750c89d4b489e1b31008e758d7dc1"
+}

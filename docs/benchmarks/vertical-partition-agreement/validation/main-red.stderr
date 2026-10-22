@@ -1,0 +1,6 @@
+
+thread 'infer::vertical_capacity::native::prefix_agreement::fragment_prefix_agreement_preserves_raw_and_extends_saturated_columns' (45481095) panicked at src/infer/vertical_capacity/../../../tests/support/vertical_prefix_native.rs:46:9:
+assertion `left == right` failed: fragment/"uncertain_arial_31_pad0"
+  left: "朝の公園を通り抜けると池のほとりで小さな鳥が水を飲んでいまし"
+ right: "朝の公園を通り抜けると池のほとりで小さな鳥が水を飲んでいました"
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace

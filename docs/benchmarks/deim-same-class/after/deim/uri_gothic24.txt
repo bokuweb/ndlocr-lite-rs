@@ -1,0 +1,2 @@
+ple.invalid/library/collections/historical-maps/metadata/observaation_records/measurement_conditions/technical-report_2026.h
+/historical-maps/metadata/observation_records/nheasurement_conditions/technical-report_2026.ht

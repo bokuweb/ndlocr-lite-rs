@@ -1,0 +1,37 @@
+   Compiling ndlocr-lite-rs v0.1.0 (/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.67s
+     Running unittests src/lib.rs (target/debug/deps/ndlocr_lite_rs-c6da13c5479ca659)
+
+running 6 tests
+test infer::dense_line_recovery::tests::support_must_explain_four_times_the_initial_text ... ok
+test infer::dense_line_recovery::tests::short_or_repetitive_candidates_do_not_explain_dense_text ... ok
+test infer::dense_line_recovery::tests::failed_or_uncertain_chunks_abort_without_replacing_the_base ... FAILED
+test infer::dense_line_recovery::tests::ineligible_inputs_never_call_recognition ... ok
+test infer::dense_line_recovery::tests::accepts_only_real_chunk_outputs_and_keeps_original_rgb ... FAILED
+test infer::dense_line_recovery::tests::insufficient_ink_height_is_always_skipped ... ok
+
+failures:
+
+---- infer::dense_line_recovery::tests::failed_or_uncertain_chunks_abort_without_replacing_the_base stdout ----
+
+thread 'infer::dense_line_recovery::tests::failed_or_uncertain_chunks_abort_without_replacing_the_base' (39806923) panicked at src/infer/../../tests/support/dense_line_recovery_policy.rs:68:9:
+assertion `left == right` failed
+  left: 0
+ right: 1
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+---- infer::dense_line_recovery::tests::accepts_only_real_chunk_outputs_and_keeps_original_rgb stdout ----
+
+thread 'infer::dense_line_recovery::tests::accepts_only_real_chunk_outputs_and_keeps_original_rgb' (39806922) panicked at src/infer/../../tests/support/dense_line_recovery_policy.rs:27:8:
+many supported glyphs explain a truncated prefix
+
+
+failures:
+    infer::dense_line_recovery::tests::accepts_only_real_chunk_outputs_and_keeps_original_rgb
+    infer::dense_line_recovery::tests::failed_or_uncertain_chunks_abort_without_replacing_the_base
+
+test result: FAILED. 4 passed; 2 failed; 0 ignored; 0 measured; 158 filtered out; finished in 0.04s
+
+error: test failed, to rerun pass `--lib`
+mbx[cache]: 0 hits, 0 misses, 1 incremental; 0 B downloaded, 0 B uploaded, 0 B stored locally
+mbx[savings]: 11h 2m saved across 9045 builds. put it toward something with a progress bar.

@@ -1,0 +1,102 @@
+[
+  {
+    "config": "deim",
+    "file": "jma_climate_2025.txt",
+    "edits": [
+      {
+        "offset_before": 100,
+        "inserted": "』"
+      }
+    ]
+  },
+  {
+    "config": "deim",
+    "file": "jma_kobe_notice.txt",
+    "edits": [
+      {
+        "offset_before": 294,
+        "inserted": ")"
+      },
+      {
+        "offset_before": 688,
+        "inserted": "」"
+      }
+    ]
+  },
+  {
+    "config": "deim",
+    "file": "ndl_accessibility_p2.txt",
+    "edits": [
+      {
+        "offset_before": 49,
+        "inserted": ")"
+      },
+      {
+        "offset_before": 144,
+        "inserted": ")"
+      }
+    ]
+  },
+  {
+    "config": "deim",
+    "file": "ndl_logo_ja.txt",
+    "edits": []
+  },
+  {
+    "config": "deim",
+    "file": "scaned0.txt",
+    "edits": []
+  },
+  {
+    "config": "bands",
+    "file": "jma_climate_2025.txt",
+    "edits": [
+      {
+        "offset_before": 100,
+        "inserted": "』"
+      }
+    ]
+  },
+  {
+    "config": "bands",
+    "file": "jma_kobe_notice.txt",
+    "edits": [
+      {
+        "offset_before": 294,
+        "inserted": ")"
+      },
+      {
+        "offset_before": 403,
+        "inserted": "」"
+      },
+      {
+        "offset_before": 685,
+        "inserted": "」"
+      }
+    ]
+  },
+  {
+    "config": "bands",
+    "file": "ndl_accessibility_p2.txt",
+    "edits": [
+      {
+        "offset_before": 50,
+        "inserted": ")"
+      },
+      {
+        "offset_before": 145,
+        "inserted": ")"
+      }
+    ]
+  },
+  {
+    "config": "bands",
+    "file": "ndl_logo_ja.txt",
+    "edits": []
+  },
+  {
+    "config": "bands",
+    "file": "scaned0.txt",
+    "edits": []
+  }
+]

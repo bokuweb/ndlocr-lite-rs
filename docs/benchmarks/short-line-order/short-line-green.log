@@ -1,0 +1,39 @@
+   Compiling ndlocr-lite-rs v0.1.0 (/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs)
+warning: methods `recognize_batch_indexed` and `run_chunk_on_session` are never used
+   --> src/infer/cached.rs:572:8
+    |
+410 | impl ParseqPool {
+    | --------------- methods in this implementation
+...
+572 |     fn recognize_batch_indexed(
+    |        ^^^^^^^^^^^^^^^^^^^^^^^
+...
+691 |     fn run_chunk_on_session(
+    |        ^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: `ndlocr-lite-rs` (lib) generated 1 warning
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 3.51s
+     Running tests/short_horizontal_line_tests.rs (target/debug/deps/short_horizontal_line_tests-c064f539fafed1df)
+
+running 1 test
+parseq-ndl-24x256-30-tiny-189epoch-tegaki3-r8data-202604.onnx [103, 824, 148, 845] Auto "進行"
+parseq-ndl-24x256-30-tiny-189epoch-tegaki3-r8data-202604.onnx [103, 824, 148, 845] Horizontal "進行"
+parseq-ndl-24x256-30-tiny-189epoch-tegaki3-r8data-202604.onnx [104, 902, 175, 924] Auto "昇上で"
+parseq-ndl-24x256-30-tiny-189epoch-tegaki3-r8data-202604.onnx [104, 902, 175, 924] Horizontal "昇上で"
+parseq-ndl-24x384-50-tiny-300epoch-tegaki3-r8data-202604.onnx [103, 824, 148, 845] Auto "進行"
+parseq-ndl-24x384-50-tiny-300epoch-tegaki3-r8data-202604.onnx [103, 824, 148, 845] Horizontal "進行"
+parseq-ndl-24x384-50-tiny-300epoch-tegaki3-r8data-202604.onnx [104, 902, 175, 924] Auto "で上昇"
+parseq-ndl-24x384-50-tiny-300epoch-tegaki3-r8data-202604.onnx [104, 902, 175, 924] Horizontal "で上昇"
+parseq-ndl-24x768-100-tiny-153epoch-tegaki3-r8data-202604.onnx [103, 824, 148, 845] Auto "進行"
+parseq-ndl-24x768-100-tiny-153epoch-tegaki3-r8data-202604.onnx [103, 824, 148, 845] Horizontal "進行"
+parseq-ndl-24x768-100-tiny-153epoch-tegaki3-r8data-202604.onnx [104, 902, 175, 924] Auto "で上昇"
+parseq-ndl-24x768-100-tiny-153epoch-tegaki3-r8data-202604.onnx [104, 902, 175, 924] Horizontal "で上昇"
+mbx[progress]: 15s elapsed; 0 hits, 0 misses, 3 bypassed, 0 not looked up; ~0s compiler work saved
+test climate_short_horizontal_continuation_keeps_its_order ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 11.12s
+
+mbx[cache]: 0 hits, 0 misses, 3 bypassed; 0 B downloaded, 0 B uploaded, 0 B stored locally
+mbx[savings]: 102.9 GiB in every checkout, 102.9 GiB on disk. arithmetic declined to comment.

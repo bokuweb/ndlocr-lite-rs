@@ -25,8 +25,11 @@ use super::parseq::{
     ParseqCandidateResult, ParseqOrientation, PreprocessScratch, RecognizeResult,
     load_charset_from_yaml_str, predict_text_from_flat_logits_with_candidates,
     predict_text_from_flat_logits_with_confidence, preprocess_rgb_u8_into_with_scratch,
-    preprocess_rgb_u8_with_orientation, sanitize_recognized_text,
+    preprocess_rgb_u8_with_orientation,
 };
+
+#[cfg(test)]
+use super::parseq::sanitize_recognized_text;
 
 pub fn default_parseq_parallelism() -> usize {
     std::env::var("NDLOCR_PARSEQ_PARALLELISM")
@@ -140,7 +143,13 @@ impl ParseqSession {
         height: usize,
     ) -> Result<RecognizeResult> {
         let mut result = self.recognize_rgb_u8_unprocessed(rgb, width, height)?;
-        result.text = sanitize_recognized_text(&result.text);
+        result.text = super::visible_repetitions::sanitize_visible_single_line(
+            &result.text,
+            rgb,
+            width,
+            height,
+            ParseqOrientation::Auto,
+        );
         Ok(result)
     }
 
@@ -272,8 +281,14 @@ fn run_batch_on_session(
         charset,
         items,
     )?;
-    for result in &mut results {
-        result.text = sanitize_recognized_text(&result.text);
+    for (result, &(rgb, width, height)) in results.iter_mut().zip(items) {
+        result.text = super::visible_repetitions::sanitize_visible_single_line(
+            &result.text,
+            rgb,
+            width,
+            height,
+            ParseqOrientation::Auto,
+        );
     }
     Ok(results)
 }
@@ -394,6 +409,12 @@ fn use_direct_batch_preprocess(batch_len: usize, _has_vertical_crop: bool) -> bo
     batch_len < 16
 }
 
+#[derive(Clone, Copy)]
+enum ParseqTextPolicy {
+    SingleLine,
+    Fragment,
+}
+
 /// 同じモデルから複数の `Session` を作って round-robin に貸し出すプール。
 pub struct ParseqPool {
     sessions: Vec<Mutex<SessionCell>>,
@@ -404,6 +425,7 @@ pub struct ParseqPool {
     input_h: usize,
     batch_dim_dynamic: bool,
     charset: Vec<char>,
+    postprocess: ParseqTextPolicy,
 }
 
 impl ParseqPool {
@@ -448,7 +470,185 @@ impl ParseqPool {
             input_h,
             batch_dim_dynamic,
             charset,
+            postprocess: ParseqTextPolicy::SingleLine,
         })
+    }
+
+    /// ページの行・chunkに、文の途中の閉じ括弧を保持する後処理を使う。
+    /// 同じRGBの独立した画線群が文字数を支持するときだけ反復制限を省く。
+    pub(crate) fn load_for_fragments(
+        model: &Path,
+        charset: &Path,
+        parallelism: usize,
+    ) -> Result<Self> {
+        Ok(Self::load(model, charset, parallelism)?.for_fragments())
+    }
+
+    pub(crate) fn for_fragments(mut self) -> Self {
+        self.postprocess = ParseqTextPolicy::Fragment;
+        self
+    }
+
+    /// 同じ推論結果にだけ方針を適用し、session選択とconfidenceを変えない。
+    fn run_on_session(
+        &self,
+        session: &mut Session,
+        items: &[(&[u8], usize, usize)],
+    ) -> Result<Vec<RecognizeResult>> {
+        self.run_on_session_oriented(session, items, ParseqOrientation::Auto)
+    }
+
+    fn run_on_session_oriented(
+        &self,
+        session: &mut Session,
+        items: &[(&[u8], usize, usize)],
+        orientation: ParseqOrientation,
+    ) -> Result<Vec<RecognizeResult>> {
+        let fragment_auto = matches!(self.postprocess, ParseqTextPolicy::Fragment)
+            && matches!(orientation, ParseqOrientation::Auto);
+        let frame_limit = if fragment_auto {
+            super::output_capacity::selected_frame_limit(
+                session.outputs().iter().map(|output| {
+                    let shape = output.dtype().tensor_shape().map(|shape| {
+                        let dimensions: &[i64] = shape;
+                        dimensions
+                    });
+                    (output.name(), shape)
+                }),
+                &self.output_name,
+                self.charset.len(),
+            )
+        } else {
+            None
+        };
+        let (mut results, matching_frames): (Vec<RecognizeResult>, Vec<bool>) = if let Some(limit) =
+            frame_limit
+        {
+            let decoded = run_batch_on_session_with_decoder(
+                session,
+                &self.input_name,
+                &self.output_name,
+                self.input_w,
+                self.input_h,
+                &self.charset,
+                items,
+                orientation,
+                |logits, t, c, charset| {
+                    let raw = predict_text_from_flat_logits_with_confidence(logits, t, c, charset)?;
+                    Ok((raw, t == limit))
+                },
+            )?;
+            decoded.into_iter().unzip()
+        } else {
+            (
+                run_batch_on_session_with_orientation(
+                    session,
+                    &self.input_name,
+                    &self.output_name,
+                    self.input_w,
+                    self.input_h,
+                    &self.charset,
+                    items,
+                    orientation,
+                )?,
+                Vec::new(),
+            )
+        };
+        for (index, (result, &(rgb, width, height))) in results.iter_mut().zip(items).enumerate() {
+            let mut recovered_by_h = false;
+            // Preserve the original raw whitespace when deciding whether a vertical
+            // page fragment supports recovery. Chunks reuse this borrowed session.
+            if matches!(self.postprocess, ParseqTextPolicy::Fragment)
+                && matches!(orientation, ParseqOrientation::Auto)
+                && let Some(recovered) = super::vertical_capacity::recover(
+                    result,
+                    rgb,
+                    (width, height),
+                    self.input_dimensions(),
+                    |pixels, w, h| {
+                        let mut parts = run_batch_on_session_with_orientation(
+                            session,
+                            &self.input_name,
+                            &self.output_name,
+                            self.input_w,
+                            self.input_h,
+                            &self.charset,
+                            &[(pixels, w, h)],
+                            ParseqOrientation::Horizontal,
+                        )?;
+                        parts
+                            .pop()
+                            .ok_or_else(|| anyhow!("empty vertical chunk result"))
+                    },
+                )
+            {
+                *result = recovered;
+                recovered_by_h = true;
+            }
+            if !recovered_by_h
+                && fragment_auto
+                && matching_frames.get(index).copied().unwrap_or(false)
+                && let Some(recovered) = super::vertical_capacity::recover_prefix(
+                    result,
+                    rgb,
+                    (width, height),
+                    self.input_dimensions(),
+                    frame_limit,
+                    |pixels, w, h| {
+                        let mut parts = run_batch_on_session_with_orientation(
+                            session,
+                            &self.input_name,
+                            &self.output_name,
+                            self.input_w,
+                            self.input_h,
+                            &self.charset,
+                            &[(pixels, w, h)],
+                            ParseqOrientation::Horizontal,
+                        )?;
+                        parts
+                            .pop()
+                            .ok_or_else(|| anyhow!("empty prefix vertical chunk result"))
+                    },
+                )
+            {
+                *result = recovered;
+            }
+            result.text = match self.postprocess {
+                ParseqTextPolicy::SingleLine => {
+                    super::visible_repetitions::sanitize_visible_single_line(
+                        &result.text,
+                        rgb,
+                        width,
+                        height,
+                        orientation,
+                    )
+                }
+                ParseqTextPolicy::Fragment => {
+                    super::visible_repetitions::sanitize_visible_repetitions(
+                        &result.text,
+                        rgb,
+                        width,
+                        height,
+                        orientation,
+                    )
+                }
+            };
+        }
+        Ok(results)
+    }
+
+    pub(crate) fn input_dimensions(&self) -> (usize, usize) {
+        (self.input_w, self.input_h)
+    }
+
+    /// 横書きと確認した行の部分画像だけ方向を固定する。
+    pub(crate) fn recognize_horizontal_rgb_u8(
+        &self,
+        rgb: &[u8],
+        width: usize,
+        height: usize,
+    ) -> Result<RecognizeResult> {
+        self.recognize_rgb_u8_oriented(rgb, width, height, ParseqOrientation::Horizontal)
     }
 
     pub fn parallelism(&self) -> usize {
@@ -464,6 +664,16 @@ impl ParseqPool {
         rgb: &[u8],
         width: usize,
         height: usize,
+    ) -> Result<RecognizeResult> {
+        self.recognize_rgb_u8_oriented(rgb, width, height, ParseqOrientation::Auto)
+    }
+
+    fn recognize_rgb_u8_oriented(
+        &self,
+        rgb: &[u8],
+        width: usize,
+        height: usize,
+        orientation: ParseqOrientation,
     ) -> Result<RecognizeResult> {
         let n = self.sessions.len();
         let start = self.next.fetch_add(1, Ordering::Relaxed) % n;
@@ -482,15 +692,7 @@ impl ParseqPool {
                 .map_err(|_| anyhow!("parseq pool mutex poisoned"))?,
         };
         let single = [(rgb, width, height)];
-        let mut out = run_batch_on_session(
-            &mut guard.0,
-            &self.input_name,
-            &self.output_name,
-            self.input_w,
-            self.input_h,
-            &self.charset,
-            &single,
-        )?;
+        let mut out = self.run_on_session_oriented(&mut guard.0, &single, orientation)?;
         out.pop().ok_or_else(|| anyhow!("empty batch result"))
     }
 
@@ -508,6 +710,21 @@ impl ParseqPool {
     pub fn recognize_batch_single_session_rgb_u8(
         &self,
         items: &[(&[u8], usize, usize)],
+    ) -> Result<Vec<RecognizeResult>> {
+        self.recognize_batch_single_session_oriented(items, ParseqOrientation::Auto)
+    }
+
+    pub(crate) fn recognize_batch_single_session_horizontal_rgb_u8(
+        &self,
+        items: &[(&[u8], usize, usize)],
+    ) -> Result<Vec<RecognizeResult>> {
+        self.recognize_batch_single_session_oriented(items, ParseqOrientation::Horizontal)
+    }
+
+    fn recognize_batch_single_session_oriented(
+        &self,
+        items: &[(&[u8], usize, usize)],
+        orientation: ParseqOrientation,
     ) -> Result<Vec<RecognizeResult>> {
         if items.is_empty() {
             return Ok(vec![]);
@@ -529,28 +746,12 @@ impl ParseqPool {
                 .map_err(|_| anyhow!("parseq pool mutex poisoned"))?,
         };
         if self.batch_dim_dynamic {
-            run_batch_on_session(
-                &mut guard.0,
-                &self.input_name,
-                &self.output_name,
-                self.input_w,
-                self.input_h,
-                &self.charset,
-                items,
-            )
+            self.run_on_session_oriented(&mut guard.0, items, orientation)
         } else {
             let mut out = Vec::with_capacity(items.len());
             for it in items {
                 let single = [*it];
-                out.extend(run_batch_on_session(
-                    &mut guard.0,
-                    &self.input_name,
-                    &self.output_name,
-                    self.input_w,
-                    self.input_h,
-                    &self.charset,
-                    &single,
-                )?);
+                out.extend(self.run_on_session_oriented(&mut guard.0, &single, orientation)?);
             }
             Ok(out)
         }
@@ -656,28 +857,12 @@ impl ParseqPool {
         let payload: Vec<(&[u8], usize, usize)> =
             items.iter().map(|(_, r, w, hh)| (*r, *w, *hh)).collect();
         let recs = if self.batch_dim_dynamic {
-            run_batch_on_session(
-                session,
-                &self.input_name,
-                &self.output_name,
-                self.input_w,
-                self.input_h,
-                &self.charset,
-                &payload,
-            )?
+            self.run_on_session(session, &payload)?
         } else {
             let mut out = Vec::with_capacity(payload.len());
             for it in &payload {
                 let single = [*it];
-                out.extend(run_batch_on_session(
-                    session,
-                    &self.input_name,
-                    &self.output_name,
-                    self.input_w,
-                    self.input_h,
-                    &self.charset,
-                    &single,
-                )?);
+                out.extend(self.run_on_session(session, &single)?);
             }
             out
         };
@@ -704,28 +889,12 @@ impl ParseqPool {
         let payload: Vec<(&[u8], usize, usize)> =
             chunk.iter().map(|(_, r, w, hh)| (*r, *w, *hh)).collect();
         let recs = if self.batch_dim_dynamic {
-            run_batch_on_session(
-                session,
-                &self.input_name,
-                &self.output_name,
-                self.input_w,
-                self.input_h,
-                &self.charset,
-                &payload,
-            )?
+            self.run_on_session(session, &payload)?
         } else {
             let mut out = Vec::with_capacity(payload.len());
             for it in &payload {
                 let single = [*it];
-                out.extend(run_batch_on_session(
-                    session,
-                    &self.input_name,
-                    &self.output_name,
-                    self.input_w,
-                    self.input_h,
-                    &self.charset,
-                    &single,
-                )?);
+                out.extend(self.run_on_session(session, &single)?);
             }
             out
         };
@@ -1006,6 +1175,10 @@ fn bucket_from_pred_char_count(pcc: Option<f32>) -> u8 {
 }
 
 #[cfg(test)]
+#[path = "../../tests/support/dense_pool_orientation.rs"]
+mod dense_pool_orientation_tests;
+
+#[cfg(test)]
 mod tests {
     use super::*;
 
@@ -1025,3 +1198,47 @@ mod tests {
         assert!(!use_direct_batch_preprocess(32, true));
     }
 }
+
+#[cfg(test)]
+#[path = "../../tests/support/visible_repetitions_model.rs"]
+mod visible_repetition_model_tests;
+
+#[cfg(test)]
+#[path = "../../tests/support/single_pixel_bridge_model.rs"]
+mod single_pixel_bridge_model_tests;
+
+#[cfg(test)]
+#[path = "../../tests/support/detached_body_model.rs"]
+mod detached_body_model_tests;
+
+#[cfg(test)]
+#[path = "../../tests/support/internal_detached_model.rs"]
+mod internal_detached_model_tests;
+
+#[cfg(test)]
+#[path = "../../tests/support/punctuation_context_model.rs"]
+mod punctuation_context_model_tests;
+
+#[cfg(test)]
+#[path = "../../tests/support/punctuation_context_capture.rs"]
+mod punctuation_context_capture;
+
+#[cfg(test)]
+#[path = "../../tests/support/owned_parts_bridge_model.rs"]
+mod owned_parts_bridge_model_tests;
+
+#[cfg(test)]
+#[path = "../../tests/support/narrow_round_model.rs"]
+mod narrow_round_model_tests;
+
+#[cfg(test)]
+#[path = "../../tests/support/latin_pair_model.rs"]
+mod latin_pair_model_tests;
+
+#[cfg(test)]
+#[path = "../../tests/support/latin_dotted_model.rs"]
+mod latin_dotted_model_tests;
+
+#[cfg(test)]
+#[path = "../../tests/support/output_capacity_metadata.rs"]
+mod output_capacity_metadata;

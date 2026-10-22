@@ -1,0 +1,12 @@
+{
+  "complete": true,
+  "archive_sha256": "c910d1089a90858137676a034b49ff7c0736d5f14219fb479a2c96513a86d4f7",
+  "CLI_processes": 576,
+  "verified_CSV_rows": 1728,
+  "raw_gain_pairs": 22,
+  "unique_body_images_improved": 10,
+  "regressions": 0,
+  "accepted_stopped_results": 0,
+  "matrix_gate_pass": true,
+  "new_model_calls_in_replay": 0
+}

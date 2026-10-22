@@ -1,0 +1,15 @@
+   Compiling ndlocr-lite-rs v0.1.0 (/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.28s
+     Running tests/url_hyphen_tests.rs (target/debug/deps/url_hyphen_tests-457e803b46e2521f)
+
+running 5 tests
+test url_line_ends_keep_literal_hyphens_and_physical_lines ... ok
+test url_earlier_in_a_sentence_does_not_disable_ordinary_english_joining ... ok
+test visible_path_tokens_do_not_lose_their_separators ... ok
+test plain_latin_word_hyphenation_keeps_its_existing_behavior ... ok
+test literal_url_suffixes_are_preserved ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.03s
+
+mbx[cache]: 0 hits, 0 misses, 1 not looked up, 1 incremental; 0 B downloaded, 0 B uploaded, 0 B stored locally
+mbx[savings]: worktrees come and go. their 1.2 TiB logical now goes with them.

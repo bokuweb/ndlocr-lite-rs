@@ -1,0 +1,172 @@
+{
+  "archive": "before-nn-v1.zip",
+  "bytes": 8672263,
+  "sha256": "8b7a3846325c7b8e4cc93babbc247bbdc4f73b22bafbfa368a77826eef47cf19",
+  "members": {
+    "geometry-source-new/src/infer/vertical_capacity.rs": {
+      "bytes": 10226,
+      "sha256": "fec4ae2af954312965ce3936fe76529796d157cb15b8cf9c5ad737e86d661cab"
+    },
+    "geometry-source-new/src/infer/vertical_fallback.rs": {
+      "bytes": 4118,
+      "sha256": "cdac7db67f1369f8ab223cbeb7cd5477421929792a2778b8e4dedddf027b5f81"
+    },
+    "geometry-source-new/tests/cli_tests.rs": {
+      "bytes": 7146,
+      "sha256": "8f76159d624905f29f77395b15a0c3721ddf4dd2d10c96e9cd54092a8c75ade3"
+    },
+    "geometry-source-new/tests/vertical_fallback_page_tests.rs": {
+      "bytes": 3278,
+      "sha256": "54aa971a274e798273926a9a5735977d5c5fa2b44f47b49d014eae3ebdb7347c"
+    },
+    "geometry-source-new/tests/support/vertical_primary_partition_geometry.rs": {
+      "bytes": 6100,
+      "sha256": "7664e5ca19e7f947fd9d249b511d168b587baad3ebb25f3b8213e1d5a5a4cbd0"
+    },
+    "geometry-source-new/tests/support/vertical_fallback_geometry.rs": {
+      "bytes": 13196,
+      "sha256": "59da6f9270d221b0ce9aa302f026ef5800b429c8ced9a7c5959a5dc4fa8f1f1f"
+    },
+    "evidence/source-bridge-v1.json": {
+      "bytes": 214703,
+      "sha256": "94b3f749f4a3e76b974a705534647345acd8ba2c1b89f43f8075b47ec224bef7"
+    },
+    "evidence/geometry-binary-frozen-v1.json": {
+      "bytes": 104457,
+      "sha256": "9822922b2585510c6708cc835fb0f6e0158fee19688d80e619bbc1ee5eab5d13"
+    },
+    "evidence/default-full-v1.stdout": {
+      "bytes": 55993,
+      "sha256": "9c9b251f21fd79b5cdb654ec1a44c9835c68d1b47d263efa08969cea6b08a6f4"
+    },
+    "evidence/default-full-v1.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "evidence/run_geometry_v1.py": {
+      "bytes": 3337,
+      "sha256": "902fffab5421e77d09e9d5072458012a4ed94c33d50325a6ad39d8e5a86f4227"
+    },
+    "evidence/original-primary-v1.zip": {
+      "bytes": 1122930,
+      "sha256": "7feebe5874ac056ac502df9df62797caaf662e8699cad66812960e673ec06cb1"
+    },
+    "evidence/geometry-manifest-v1.json": {
+      "bytes": 7400,
+      "sha256": "3f90ca3493f35d4c3c48f93f8729f2c40030c5b8a0dc8fc6bd7026a21d7972a9"
+    },
+    "evidence/geometry-before-v1.json": {
+      "bytes": 150187,
+      "sha256": "11e45e332bed9eec8647ce79c6fd3ef9bf0a292a8137ba38b069d9c0c6e83086"
+    },
+    "evidence/geometry-command-v1.json": {
+      "bytes": 150244,
+      "sha256": "2cc979e8b2ad42548b9472e0baf9bb8fcc295c552b9f37369bd7334b80158fbd"
+    },
+    "evidence/geometry-v1.stdout": {
+      "bytes": 287,
+      "sha256": "d98c454d2fa228bde271511ff60822ab94e38211e30e97f58f937998fa89f54f"
+    },
+    "evidence/geometry-v1.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "evidence/run-geometry-v1.stdout": {
+      "bytes": 93,
+      "sha256": "f172132651ee4f6e21ca1d222af67f32cafda92a41d3a4484a9ebd7aba1c86e9"
+    },
+    "evidence/run-geometry-v1.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "evidence/geometry-v1/parts.zip": {
+      "bytes": 7387144,
+      "sha256": "2c1a0c80a44a86e7f3533fcc8dbd951e95f8908e0f43ae70fc6377b900e35de8"
+    },
+    "evidence/geometry-v1/records.json": {
+      "bytes": 34973,
+      "sha256": "046a14095bd809caf24f9e32a06c8f61db87c1912e8f2974d8f10b5a5cfc3444"
+    },
+    "evidence/part-references-v1.json": {
+      "bytes": 87630,
+      "sha256": "08f4cbc73347832cb70be8c00ed9c49585413695320ae41af426eae622a3063e"
+    },
+    "evidence/NN-30-v1.json": {
+      "bytes": 17702,
+      "sha256": "70ce63c0fa2202d0bf9bfeab72682ad8cb404098fde6c83d045b8f48ee5b3ba7"
+    },
+    "evidence/NN-50-v1.json": {
+      "bytes": 17702,
+      "sha256": "6bebfb7bb049f016fdd85530a56edbee3454cb3e892ecab56a94a9d0ad2f58df"
+    },
+    "evidence/NN-100-v1.json": {
+      "bytes": 17704,
+      "sha256": "aaccee8eae386c688d79a838aaf415f48a4d807020ae94b5142bfc96d5c19398"
+    },
+    "evidence/prepare_part_nn_v1.py": {
+      "bytes": 5210,
+      "sha256": "cca0fb7bfe0ccd83beb11be3c3aad578e0e13a67887f151c33840c550fff27fc"
+    },
+    "evidence/run_part_nn_v1.py": {
+      "bytes": 1302,
+      "sha256": "af4c40cfec50576a4fc970f8f90f1f9b4bf9dc0ac8cca6c4384972bb3a3bd5b2"
+    },
+    "evidence/before-part-NN-v1.json": {
+      "bytes": 213040,
+      "sha256": "769ab9734bf7380be5b3aa4a76a01cd424241cbc61a615652e33845961c02d7b"
+    },
+    "evidence/prepare-part-nn-v1.stdout": {
+      "bytes": 135,
+      "sha256": "fc8c36b94857c340b25782c0cf970da32e1ddb2ce8de735da8ea58d8bf323e1c"
+    },
+    "evidence/prepare-part-nn-v1.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "TDD/partition-red.jsonl": {
+      "bytes": 173134,
+      "sha256": "05faf12f78e92006428b65005d7d3461e7dda7eb90674135e4bb96d12112bb60"
+    },
+    "TDD/partition-red.stderr": {
+      "bytes": 2153,
+      "sha256": "3ca59d09ffe1acc572b9b699122697625803ed54ad9087c5df014347a2a88008"
+    },
+    "TDD/partition-red-source-v1.zip": {
+      "bytes": 4806,
+      "sha256": "b5c559aaadcca86f7edf4dc12220b6bf40f380a8932ed8817b4e5b3fce765018"
+    },
+    "TDD/partition-green.jsonl": {
+      "bytes": 172999,
+      "sha256": "1e4933ed338b519905cd0cd9a85e334aa3e314e9259f751e2fe56412fd375ad4"
+    },
+    "TDD/partition-green.stderr": {
+      "bytes": 721,
+      "sha256": "cad9727e1e49662eba0fb1fa366dcb8849ee4556f954dbf3b5273334ea192821"
+    },
+    "TDD/partition-green-v2.jsonl": {
+      "bytes": 167010,
+      "sha256": "6ad383d75ab46df34ade31d8fbe4d2a6be1a5d62f38b4ee70ec71faff3b2041e"
+    },
+    "TDD/partition-green-v2.stderr": {
+      "bytes": 419,
+      "sha256": "cca8f99c7749a2cd73752540c687029399cd65b4c0074d933da91636b07ec62f"
+    },
+    "docs/real_vertical_primary_partition_probe.md": {
+      "bytes": 1303,
+      "sha256": "cbd977953ca3829966a402ade0fc58ac8b85e266de9c0ffa90bdc297a533539c"
+    },
+    "docs/real_vertical_primary_partition_controls.md": {
+      "bytes": 1058,
+      "sha256": "501c0879de9c2717c5c3dcc1d18add91cb810448108c7da66c84e0d2cf4a651e"
+    }
+  },
+  "source_reference_packet_SHA256": {
+    "FVCv2": "b2589bf2429c5c369659cf6c623674756925045b55834d2a567ef500c48ec23c",
+    "stop": "4ac87777874dfbc994c0cd441d316557e41a0d47f80be776f11e97aa912c4cc2"
+  },
+  "primary_inputs": 18,
+  "Page_routes": 36,
+  "part_API_calls_planned": 117,
+  "NN_calls_at_freeze": 0,
+  "native_executables_in_public_packet": false
+}

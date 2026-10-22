@@ -1,0 +1,110 @@
+name: Frozen vertical Page matrix
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/vertical-page-matrix.yml'
+      - 'tools/vertical_page_matrix.py'
+      - 'tests/test_vertical_page_matrix.py'
+      - 'docs/benchmarks/vertical-page-fallback/bundle.json'
+      - 'docs/benchmarks/vertical-page-fallback/data.zip'
+      - 'docs/benchmarks/vertical-page-fallback/sources.zip'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  changes:
+    name: Check frozen matrix inputs
+    runs-on: ubuntu-latest
+    outputs:
+      run: ${{ steps.diff.outputs.run }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          sparse-checkout: tools
+      - id: diff
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          EVENT_ACTION: ${{ github.event.action }}
+          BEFORE: ${{ github.event.before }}
+        run: |
+          if [ "$EVENT_NAME" = pull_request ] && [ "$EVENT_ACTION" = synchronize ] && [ -n "$BEFORE" ]; then
+            git fetch --depth=1 origin "$BEFORE"
+            python3 tools/vertical_page_matrix.py --changes-from "$BEFORE" >> "$GITHUB_OUTPUT"
+          else
+            printf 'run=true\n' >> "$GITHUB_OUTPUT"
+          fi
+
+  matrix:
+    needs: changes
+    if: needs.changes.outputs.run == 'true'
+    name: frozen FVB (${{ matrix.kind }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    strategy:
+      fail-fast: false
+      matrix:
+        kind: [page30, page50, page100, cli]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - name: Fetch declared baseline commit
+        run: git fetch --depth=1 origin 1f240be66f71dc1819a99c89095ad9fdf8953695
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Check matrix integrity contracts
+        run: |
+          python -m unittest discover -s tests -p test_vertical_page_matrix.py -v
+          python tools/vertical_page_matrix.py --validate
+      - name: Fetch pinned official models
+        run: |
+          python tools/fetch_upstream_assets.py models
+          python tools/fetch_upstream_assets.py models --offline
+      - name: Build both frozen sources and recognize all inputs
+        run: python tools/vertical_page_matrix.py --kind '${{ matrix.kind }}' --output 'out/${{ matrix.kind }}'
+      - name: Preserve raw results and failures
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: vertical-fallback-${{ matrix.kind }}
+          path: out/${{ matrix.kind }}/evidence
+          if-no-files-found: error
+          retention-days: 30
+
+  compare:
+    name: frozen FVB full gate
+    needs: [changes, matrix]
+    if: always() && needs.changes.outputs.run == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: vertical-fallback-*
+          path: artifacts
+      - name: Verify all bindings and independent accuracy metrics
+        run: python tools/vertical_page_matrix.py --artifacts artifacts --output verified
+      - name: Preserve every metric and gate result
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: vertical-fallback-verification
+          path: |
+            verified/summary.json
+            verified/all-input-pairs.json
+            verified/commands.json
+            verified/failure.json
+            verified/metrics
+          if-no-files-found: error
+          retention-days: 30

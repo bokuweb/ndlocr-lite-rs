@@ -1,0 +1,37 @@
+{
+  "archive": "ci-reader-proof-v1.zip",
+  "bytes": 5334,
+  "sha256": "1308809ab0dffcefc0e55329543f2e23529057f0c9a2688384b86a734e6db9ea",
+  "members": {
+    "tools/verify_vertical_cli_fallback_v2_root_ci.py": {
+      "bytes": 4103,
+      "sha256": "553e7d36c481d79f47c4ea24c840d84383316199de57a46ce1ee03915890ccac"
+    },
+    "tests/test_vertical_cli_fallback_v2_root_ci.py": {
+      "bytes": 2499,
+      "sha256": "592b86c9b408215def60733ff24c0e2ffc5dba71876db3f55d9815562956cb67"
+    },
+    "docs/vertical_cli_fallback_v2_root_ci.md": {
+      "bytes": 1270,
+      "sha256": "4f5444b4fd2a2cb173a25d7578aee209a627ef456e001958e8ad217683705d60"
+    },
+    "TDD/root-ci-reader-red-v1.stdout": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "TDD/root-ci-reader-red-v1.stderr": {
+      "bytes": 1403,
+      "sha256": "8318d058ae364ebe92bfc2399e62281bf158b100e43853efdc07e917de130513"
+    },
+    "TDD/root-ci-reader-green-v1.stdout": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "TDD/root-ci-reader-green-v1.stderr": {
+      "bytes": 365,
+      "sha256": "55b5fd232f1b8f902ecfa2fe653f5984e3945e03f11c89c6555726055b17134b"
+    }
+  },
+  "completed_CI_packet_sha256": "d0b053b8e362729c3f02a46a27803869b461890e6e5fbe49fafe56a0c26f6a7d",
+  "NN_calls": 0
+}

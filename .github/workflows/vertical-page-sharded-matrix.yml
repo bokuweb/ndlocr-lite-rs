@@ -1,0 +1,152 @@
+name: Frozen vertical Page sharded retry
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/vertical-page-sharded-matrix.yml'
+      - 'tools/vertical_page_matrix.py'
+      - 'tools/vertical_page_sharded_matrix.py'
+      - 'tools/vertical_page_shards.py'
+      - 'tests/test_vertical_page*.py'
+      - 'docs/vertical_page_sharded_matrix.md'
+  workflow_dispatch:
+    inputs:
+      retry_kinds:
+        description: 'JSON array of incomplete kinds to recognize again'
+        type: string
+        required: true
+        default: '["page50","page100","cli"]'
+      completed_kinds:
+        description: 'JSON array of complete unsharded kinds to reuse'
+        type: string
+        required: true
+        default: '["page30"]'
+      completed_run:
+        description: 'Run containing complete frozen unsharded artifacts'
+        type: string
+        required: true
+        default: '39514388558'
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  contracts:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check existing contracts and complete shard coverage
+        run: python3 -m unittest discover -s tests -p 'test_vertical_page*.py' -v
+
+  plan:
+    needs: contracts
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    outputs:
+      kinds: ${{ steps.plan.outputs.kinds }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: plan
+        env:
+          RETRY_KINDS: ${{ inputs.retry_kinds }}
+          COMPLETED_KINDS: ${{ inputs.completed_kinds }}
+          COMPLETED_RUN: ${{ inputs.completed_run }}
+        run: |
+          python3 - <<'PY'
+          import json, os
+          retry = json.loads(os.environ['RETRY_KINDS'])
+          completed = json.loads(os.environ['COMPLETED_KINDS'])
+          expected = {'page30', 'page50', 'page100', 'cli'}
+          assert isinstance(retry, list) and retry
+          assert isinstance(completed, list)
+          assert len(set(retry)) == len(retry) and len(set(completed)) == len(completed)
+          assert not set(retry).intersection(completed)
+          assert set(retry) | set(completed) == expected
+          assert os.environ['COMPLETED_RUN'].isdigit()
+          with open(os.environ['GITHUB_OUTPUT'], 'a') as out:
+              out.write('kinds=' + json.dumps(retry) + '\n')
+          PY
+
+  matrix:
+    needs: plan
+    name: frozen FVB (${{ matrix.kind }} shard ${{ matrix.index }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    strategy:
+      fail-fast: false
+      matrix:
+        kind: ${{ fromJSON(needs.plan.outputs.kinds) }}
+        index: [0, 1, 2, 3]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - name: Fetch declared baseline commit
+        run: git fetch --depth=1 origin 1f240be66f71dc1819a99c89095ad9fdf8953695
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Fetch pinned official models
+        run: |
+          python tools/fetch_upstream_assets.py models
+          python tools/fetch_upstream_assets.py models --offline
+      - name: Recognize both frozen sources on the declared shard
+        run: python tools/vertical_page_sharded_matrix.py --kind '${{ matrix.kind }}' --index '${{ matrix.index }}' --total 4 --output out/shard
+      - name: Preserve raw results and failures
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: vertical-fallback-shard-${{ matrix.kind }}-${{ matrix.index }}
+          path: |
+            out/shard/evidence
+            out/shard/failure.json
+            out/shard-plan.json
+          if-no-files-found: error
+          retention-days: 30
+
+  compare:
+    name: frozen FVB complete sharded gate
+    needs: [plan, matrix]
+    if: always() && needs.plan.result == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: vertical-fallback-shard-*
+          path: artifacts
+      - name: Obtain only completed unsharded artifacts
+        env:
+          GH_TOKEN: ${{ github.token }}
+          COMPLETED_RUN: ${{ inputs.completed_run }}
+          COMPLETED_KINDS: ${{ inputs.completed_kinds }}
+        run: |
+          python - <<'PY'
+          import json, os, subprocess
+          for kind in json.loads(os.environ['COMPLETED_KINDS']):
+              subprocess.run(['gh', 'run', 'download', os.environ['COMPLETED_RUN'],
+                              '--repo', os.environ['GITHUB_REPOSITORY'],
+                              '--name', 'vertical-fallback-' + kind,
+                              '--dir', 'artifacts/unsharded-' + kind], check=True)
+          PY
+      - name: Verify complete input coverage and unchanged accuracy gates
+        run: python tools/vertical_page_sharded_matrix.py --artifacts artifacts --output verified
+      - name: Preserve all metrics and failed gates
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: vertical-fallback-sharded-verification
+          path: |
+            verified/summary.json
+            verified/all-input-pairs.json
+            verified/commands.json
+            verified/failure.json
+            verified/metrics
+          if-no-files-found: error
+          retention-days: 30

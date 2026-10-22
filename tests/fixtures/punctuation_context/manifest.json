@@ -1,0 +1,142 @@
+[
+  {
+    "file": "joined30.png",
+    "source_id": "prior_old_first_known_maru24",
+    "sha256": "4281933323d4240304df424c4ca28c00c21ad78cf106cc116deda85a0833086a",
+    "truth": "測定場所、時刻、",
+    "model30": {
+      "model": "30",
+      "id": "prior_old_first_known_maru24",
+      "base": {
+        "text": "測定場所、 時刻、",
+        "mean_confidence": 0.9996209740638733
+      },
+      "candidates": [
+        {
+          "text": "測定場所、時刻、",
+          "mean_confidence": 0.9996550679206848
+        },
+        {
+          "text": "測定場所、時刻、",
+          "mean_confidence": 0.9996428489685059
+        },
+        {
+          "text": "測定場所、時刻、",
+          "mean_confidence": 0.9993406534194946
+        }
+      ]
+    }
+  },
+  {
+    "file": "real_space30.png",
+    "source_id": "d_t0_comma_sp1_maru_24_paper0_png",
+    "sha256": "e957fef3d68128a26abd46fc63de5a0f5b4eb89f54563cbbf6a3f486108547b9",
+    "truth": "受付番地、 通知先",
+    "model30": {
+      "model": "30",
+      "id": "d_t0_comma_sp1_maru_24_paper0_png",
+      "base": {
+        "text": "受付番地、 通知先",
+        "mean_confidence": 0.9998496174812317
+      },
+      "candidates": [
+        {
+          "text": "受付番地、通知先",
+          "mean_confidence": 0.9998520612716675
+        },
+        {
+          "text": "受付番地、通知先",
+          "mean_confidence": 0.9997366666793823
+        },
+        {
+          "text": "受付番地、通知先",
+          "mean_confidence": 0.9997758865356445
+        }
+      ]
+    }
+  },
+  {
+    "file": "joined50.png",
+    "source_id": "prior_new_t1_joined_mincho_20_paper0_jpeg75",
+    "sha256": "7eb06a6fbded99ff8842b937c2f5310af9ec916f71e8c9bd76e0a83af9c03295",
+    "truth": "登録内容、保存先",
+    "model50": {
+      "model": "50",
+      "id": "prior_new_t1_joined_mincho_20_paper0_jpeg75",
+      "base": {
+        "text": "登録内容、 保存先",
+        "mean_confidence": 0.9980801343917847
+      },
+      "candidates": [
+        {
+          "text": "登録内容、保存先",
+          "mean_confidence": 0.9993023872375488
+        },
+        {
+          "text": "登録内容、保存先",
+          "mean_confidence": 0.9992043375968933
+        },
+        {
+          "text": "登録内容、保存先",
+          "mean_confidence": 0.9993376731872559
+        }
+      ]
+    }
+  },
+  {
+    "file": "joined100.png",
+    "source_id": "prior_new_t1_joined_gothic_20_paper0_png",
+    "sha256": "c5cf0f0801a0b513f52103f60826e21a5233760bd65ba6a2843de970f09bfff9",
+    "truth": "登録内容、保存先",
+    "model100": {
+      "model": "100",
+      "id": "prior_new_t1_joined_gothic_20_paper0_png",
+      "base": {
+        "text": "登録内容、 保存先",
+        "mean_confidence": 0.997767984867096
+      },
+      "candidates": [
+        {
+          "text": "登録内容、保存先",
+          "mean_confidence": 0.9991745948791504
+        },
+        {
+          "text": "登録内容、保存先",
+          "mean_confidence": 0.9994066953659058
+        },
+        {
+          "text": "登録内容、保存先",
+          "mean_confidence": 0.9995447397232056
+        }
+      ]
+    }
+  },
+  {
+    "file": "condensed_real_space100.png",
+    "source_id": "a_t0_sp1_gothic_24_x65_paper0_png",
+    "sha256": "e1c4797dbd5a91fc8609d6378434495423d07b5872b74f2bfc9ee97669733829",
+    "truth": "案内方法、 連絡先",
+    "model100": {
+      "model": "100",
+      "id": "a_t0_sp1_gothic_24_x65_paper0_png",
+      "base": {
+        "text": "案内方法、 連絡先",
+        "mean_confidence": 0.9986962080001831
+      },
+      "candidates": [
+        {
+          "text": "案内方法、連絡先",
+          "mean_confidence": 0.9992710947990417
+        },
+        {
+          "text": "案内方法、連絡先",
+          "mean_confidence": 0.9992387890815735
+        },
+        {
+          "text": "案内方法、連絡先",
+          "mean_confidence": 0.9992742538452148
+        }
+      ]
+    }
+  }
+]

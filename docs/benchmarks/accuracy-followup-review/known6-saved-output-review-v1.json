@@ -1,0 +1,420 @@
+{
+  "known_scope_only": true,
+  "new_NN_calls": 0,
+  "public_packets": {
+    "docs/benchmarks/real-vertical-additional-stop-probe/before-nn-v1.index.json": "4ac87777874dfbc994c0cd441d316557e41a0d47f80be776f11e97aa912c4cc2",
+    "docs/benchmarks/real-vertical-additional-stop-probe/results-v1.index.json": "3fe8c0225c26af7c2ed48df92038c1cae28bc039fcb5a1987f46670a8d27dbd7",
+    "docs/benchmarks/real-vertical-additional-controls/FVB-baseline-real6-v1.index.json": "b5095d678c1695cc6f3e4d5214411d2037fff3c9ac5d797647f9ba93ff670c08",
+    "docs/benchmarks/vertical-cli-fallback-v2/full-matrix-v1/completed-linux-v1.index.json": "9ec47903ccfbaba1796f5718d87bca034faf6559b17e4a325d242dada43bb78b"
+  },
+  "crossmodel": [
+    {
+      "id": "ichiyo_1088069_06_column1",
+      "model50_equals100": true,
+      "CLI_DEIM_equals50": true,
+      "CLI_DEIM_equals50_after_terminal_newline_removal": true,
+      "model30_length": 23,
+      "model50_length": 44,
+      "model30_fullprefix_of50": false
+    },
+    {
+      "id": "ichiyo_1088069_06_column2",
+      "model50_equals100": true,
+      "CLI_DEIM_equals50": true,
+      "CLI_DEIM_equals50_after_terminal_newline_removal": true,
+      "model30_length": 22,
+      "model50_length": 42,
+      "model30_fullprefix_of50": false
+    },
+    {
+      "id": "ichiyo_1088069_06_column3",
+      "model50_equals100": true,
+      "CLI_DEIM_equals50": true,
+      "CLI_DEIM_equals50_after_terminal_newline_removal": true,
+      "model30_length": 11,
+      "model50_length": 43,
+      "model30_fullprefix_of50": false
+    },
+    {
+      "id": "jigoku_1908126_07_column1",
+      "model50_equals100": true,
+      "CLI_DEIM_equals50": true,
+      "CLI_DEIM_equals50_after_terminal_newline_removal": true,
+      "model30_length": 30,
+      "model50_length": 32,
+      "model30_fullprefix_of50": false
+    },
+    {
+      "id": "jigoku_1908126_07_column2",
+      "model50_equals100": true,
+      "CLI_DEIM_equals50": true,
+      "CLI_DEIM_equals50_after_terminal_newline_removal": true,
+      "model30_length": 30,
+      "model50_length": 31,
+      "model30_fullprefix_of50": true
+    },
+    {
+      "id": "jigoku_1908126_07_column3",
+      "model50_equals100": true,
+      "CLI_DEIM_equals50": true,
+      "CLI_DEIM_equals50_after_terminal_newline_removal": true,
+      "model30_length": 30,
+      "model50_length": 31,
+      "model30_fullprefix_of50": false
+    }
+  ],
+  "CLI_all_alias_raw_pairs": [
+    {
+      "id": "ichiyo_1088069_06_column1",
+      "scoring_id": "ichiyo_1088069_06_column1_primary",
+      "kind": "cli_deim_on",
+      "char_errors_before": 2,
+      "char_errors_after": 2,
+      "body_unchanged": true
+    },
+    {
+      "id": "ichiyo_1088069_06_column2",
+      "scoring_id": "ichiyo_1088069_06_column2_primary",
+      "kind": "cli_deim_on",
+      "char_errors_before": 0,
+      "char_errors_after": 0,
+      "body_unchanged": true
+    },
+    {
+      "id": "ichiyo_1088069_06_column3",
+      "scoring_id": "ichiyo_1088069_06_column3_gai_uso_jis",
+      "kind": "cli_deim_on",
+      "char_errors_before": 5,
+      "char_errors_after": 5,
+      "body_unchanged": true
+    },
+    {
+      "id": "ichiyo_1088069_06_column3",
+      "scoring_id": "ichiyo_1088069_06_column3_gai_uso_cjk",
+      "kind": "cli_deim_on",
+      "char_errors_before": 6,
+      "char_errors_after": 6,
+      "body_unchanged": true
+    },
+    {
+      "id": "ichiyo_1088069_06_column3",
+      "scoring_id": "ichiyo_1088069_06_column3_chi_uso_jis",
+      "kind": "cli_deim_on",
+      "char_errors_before": 6,
+      "char_errors_after": 6,
+      "body_unchanged": true
+    },
+    {
+      "id": "ichiyo_1088069_06_column3",
+      "scoring_id": "ichiyo_1088069_06_column3_chi_uso_cjk",
+      "kind": "cli_deim_on",
+      "char_errors_before": 7,
+      "char_errors_after": 7,
+      "body_unchanged": true
+    },
+    {
+      "id": "jigoku_1908126_07_column1",
+      "scoring_id": "jigoku_1908126_07_column1_col1_old",
+      "kind": "cli_deim_on",
+      "char_errors_before": 2,
+      "char_errors_after": 2,
+      "body_unchanged": true
+    },
+    {
+      "id": "jigoku_1908126_07_column1",
+      "scoring_id": "jigoku_1908126_07_column1_col1_jis",
+      "kind": "cli_deim_on",
+      "char_errors_before": 3,
+      "char_errors_after": 3,
+      "body_unchanged": true
+    },
+    {
+      "id": "jigoku_1908126_07_column2",
+      "scoring_id": "jigoku_1908126_07_column2_col2_primary",
+      "kind": "cli_deim_on",
+      "char_errors_before": 0,
+      "char_errors_after": 0,
+      "body_unchanged": true
+    },
+    {
+      "id": "jigoku_1908126_07_column3",
+      "scoring_id": "jigoku_1908126_07_column3_col3_old",
+      "kind": "cli_deim_on",
+      "char_errors_before": 1,
+      "char_errors_after": 1,
+      "body_unchanged": true
+    },
+    {
+      "id": "jigoku_1908126_07_column3",
+      "scoring_id": "jigoku_1908126_07_column3_col3_jis",
+      "kind": "cli_deim_on",
+      "char_errors_before": 0,
+      "char_errors_after": 0,
+      "body_unchanged": true
+    },
+    {
+      "id": "ichiyo_1088069_06_column1",
+      "scoring_id": "ichiyo_1088069_06_column1_primary",
+      "kind": "cli_deim_off",
+      "char_errors_before": 2,
+      "char_errors_after": 2,
+      "body_unchanged": true
+    },
+    {
+      "id": "ichiyo_1088069_06_column2",
+      "scoring_id": "ichiyo_1088069_06_column2_primary",
+      "kind": "cli_deim_off",
+      "char_errors_before": 0,
+      "char_errors_after": 0,
+      "body_unchanged": true
+    },
+    {
+      "id": "ichiyo_1088069_06_column3",
+      "scoring_id": "ichiyo_1088069_06_column3_gai_uso_jis",
+      "kind": "cli_deim_off",
+      "char_errors_before": 5,
+      "char_errors_after": 5,
+      "body_unchanged": true
+    },
+    {
+      "id": "ichiyo_1088069_06_column3",
+      "scoring_id": "ichiyo_1088069_06_column3_gai_uso_cjk",
+      "kind": "cli_deim_off",
+      "char_errors_before": 6,
+      "char_errors_after": 6,
+      "body_unchanged": true
+    },
+    {
+      "id": "ichiyo_1088069_06_column3",
+      "scoring_id": "ichiyo_1088069_06_column3_chi_uso_jis",
+      "kind": "cli_deim_off",
+      "char_errors_before": 6,
+      "char_errors_after": 6,
+      "body_unchanged": true
+    },
+    {
+      "id": "ichiyo_1088069_06_column3",
+      "scoring_id": "ichiyo_1088069_06_column3_chi_uso_cjk",
+      "kind": "cli_deim_off",
+      "char_errors_before": 7,
+      "char_errors_after": 7,
+      "body_unchanged": true
+    },
+    {
+      "id": "jigoku_1908126_07_column1",
+      "scoring_id": "jigoku_1908126_07_column1_col1_old",
+      "kind": "cli_deim_off",
+      "char_errors_before": 2,
+      "char_errors_after": 2,
+      "body_unchanged": true
+    },
+    {
+      "id": "jigoku_1908126_07_column1",
+      "scoring_id": "jigoku_1908126_07_column1_col1_jis",
+      "kind": "cli_deim_off",
+      "char_errors_before": 3,
+      "char_errors_after": 3,
+      "body_unchanged": true
+    },
+    {
+      "id": "jigoku_1908126_07_column2",
+      "scoring_id": "jigoku_1908126_07_column2_col2_primary",
+      "kind": "cli_deim_off",
+      "char_errors_before": 0,
+      "char_errors_after": 0,
+      "body_unchanged": true
+    },
+    {
+      "id": "jigoku_1908126_07_column3",
+      "scoring_id": "jigoku_1908126_07_column3_col3_old",
+      "kind": "cli_deim_off",
+      "char_errors_before": 1,
+      "char_errors_after": 1,
+      "body_unchanged": true
+    },
+    {
+      "id": "jigoku_1908126_07_column3",
+      "scoring_id": "jigoku_1908126_07_column3_col3_jis",
+      "kind": "cli_deim_off",
+      "char_errors_before": 0,
+      "char_errors_after": 0,
+      "body_unchanged": true
+    },
+    {
+      "id": "ichiyo_1088069_06_column1",
+      "scoring_id": "ichiyo_1088069_06_column1_primary",
+      "kind": "cli_bands_on",
+      "char_errors_before": 51,
+      "char_errors_after": 0,
+      "body_unchanged": false
+    },
+    {
+      "id": "ichiyo_1088069_06_column2",
+      "scoring_id": "ichiyo_1088069_06_column2_primary",
+      "kind": "cli_bands_on",
+      "char_errors_before": 65,
+      "char_errors_after": 3,
+      "body_unchanged": false
+    },
+    {
+      "id": "ichiyo_1088069_06_column3",
+      "scoring_id": "ichiyo_1088069_06_column3_gai_uso_jis",
+      "kind": "cli_bands_on",
+      "char_errors_before": 67,
+      "char_errors_after": 3,
+      "body_unchanged": false
+    },
+    {
+      "id": "ichiyo_1088069_06_column3",
+      "scoring_id": "ichiyo_1088069_06_column3_gai_uso_cjk",
+      "kind": "cli_bands_on",
+      "char_errors_before": 67,
+      "char_errors_after": 4,
+      "body_unchanged": false
+    },
+    {
+      "id": "ichiyo_1088069_06_column3",
+      "scoring_id": "ichiyo_1088069_06_column3_chi_uso_jis",
+      "kind": "cli_bands_on",
+      "char_errors_before": 67,
+      "char_errors_after": 4,
+      "body_unchanged": false
+    },
+    {
+      "id": "ichiyo_1088069_06_column3",
+      "scoring_id": "ichiyo_1088069_06_column3_chi_uso_cjk",
+      "kind": "cli_bands_on",
+      "char_errors_before": 67,
+      "char_errors_after": 5,
+      "body_unchanged": false
+    },
+    {
+      "id": "jigoku_1908126_07_column1",
+      "scoring_id": "jigoku_1908126_07_column1_col1_old",
+      "kind": "cli_bands_on",
+      "char_errors_before": 20,
+      "char_errors_after": 20,
+      "body_unchanged": true
+    },
+    {
+      "id": "jigoku_1908126_07_column1",
+      "scoring_id": "jigoku_1908126_07_column1_col1_jis",
+      "kind": "cli_bands_on",
+      "char_errors_before": 20,
+      "char_errors_after": 20,
+      "body_unchanged": true
+    },
+    {
+      "id": "jigoku_1908126_07_column2",
+      "scoring_id": "jigoku_1908126_07_column2_col2_primary",
+      "kind": "cli_bands_on",
+      "char_errors_before": 5,
+      "char_errors_after": 5,
+      "body_unchanged": true
+    },
+    {
+      "id": "jigoku_1908126_07_column3",
+      "scoring_id": "jigoku_1908126_07_column3_col3_old",
+      "kind": "cli_bands_on",
+      "char_errors_before": 14,
+      "char_errors_after": 14,
+      "body_unchanged": true
+    },
+    {
+      "id": "jigoku_1908126_07_column3",
+      "scoring_id": "jigoku_1908126_07_column3_col3_jis",
+      "kind": "cli_bands_on",
+      "char_errors_before": 14,
+      "char_errors_after": 14,
+      "body_unchanged": true
+    },
+    {
+      "id": "ichiyo_1088069_06_column1",
+      "scoring_id": "ichiyo_1088069_06_column1_primary",
+      "kind": "cli_bands_off",
+      "char_errors_before": 55,
+      "char_errors_after": 0,
+      "body_unchanged": false
+    },
+    {
+      "id": "ichiyo_1088069_06_column2",
+      "scoring_id": "ichiyo_1088069_06_column2_primary",
+      "kind": "cli_bands_off",
+      "char_errors_before": 60,
+      "char_errors_after": 3,
+      "body_unchanged": false
+    },
+    {
+      "id": "ichiyo_1088069_06_column3",
+      "scoring_id": "ichiyo_1088069_06_column3_gai_uso_jis",
+      "kind": "cli_bands_off",
+      "char_errors_before": 60,
+      "char_errors_after": 3,
+      "body_unchanged": false
+    },
+    {
+      "id": "ichiyo_1088069_06_column3",
+      "scoring_id": "ichiyo_1088069_06_column3_gai_uso_cjk",
+      "kind": "cli_bands_off",
+      "char_errors_before": 60,
+      "char_errors_after": 4,
+      "body_unchanged": false
+    },
+    {
+      "id": "ichiyo_1088069_06_column3",
+      "scoring_id": "ichiyo_1088069_06_column3_chi_uso_jis",
+      "kind": "cli_bands_off",
+      "char_errors_before": 60,
+      "char_errors_after": 4,
+      "body_unchanged": false
+    },
+    {
+      "id": "ichiyo_1088069_06_column3",
+      "scoring_id": "ichiyo_1088069_06_column3_chi_uso_cjk",
+      "kind": "cli_bands_off",
+      "char_errors_before": 60,
+      "char_errors_after": 5,
+      "body_unchanged": false
+    },
+    {
+      "id": "jigoku_1908126_07_column1",
+      "scoring_id": "jigoku_1908126_07_column1_col1_old",
+      "kind": "cli_bands_off",
+      "char_errors_before": 21,
+      "char_errors_after": 21,
+      "body_unchanged": true
+    },
+    {
+      "id": "jigoku_1908126_07_column1",
+      "scoring_id": "jigoku_1908126_07_column1_col1_jis",
+      "kind": "cli_bands_off",
+      "char_errors_before": 22,
+      "char_errors_after": 22,
+      "body_unchanged": true
+    },
+    {
+      "id": "jigoku_1908126_07_column2",
+      "scoring_id": "jigoku_1908126_07_column2_col2_primary",
+      "kind": "cli_bands_off",
+      "char_errors_before": 3,
+      "char_errors_after": 3,
+      "body_unchanged": true
+    },
+    {
+      "id": "jigoku_1908126_07_column3",
+      "scoring_id": "jigoku_1908126_07_column3_col3_old",
+      "kind": "cli_bands_off",
+      "char_errors_before": 10,
+      "char_errors_after": 10,
+      "body_unchanged": true
+    },
+    {
+      "id": "jigoku_1908126_07_column3",
+      "scoring_id": "jigoku_1908126_07_column3_col3_jis",
+      "kind": "cli_bands_off",
+      "char_errors_before": 11,
+      "char_errors_after": 11,
+      "body_unchanged": true
+    }
+  ]
+}

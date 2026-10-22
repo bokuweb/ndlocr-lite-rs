@@ -1,0 +1,56 @@
+   Compiling ndlocr-lite-rs v0.1.0 (/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.36s
+     Running tests/url_hyphen_tests.rs (target/debug/deps/url_hyphen_tests-457e803b46e2521f)
+
+running 5 tests
+test url_earlier_in_a_sentence_does_not_disable_ordinary_english_joining ... ok
+test visible_path_tokens_do_not_lose_their_separators ... FAILED
+test url_line_ends_keep_literal_hyphens_and_physical_lines ... FAILED
+test literal_url_suffixes_are_preserved ... FAILED
+test plain_latin_word_hyphenation_keeps_its_existing_behavior ... ok
+
+failures:
+
+---- visible_path_tokens_do_not_lose_their_separators stdout ----
+
+thread 'visible_path_tokens_do_not_lose_their_separators' (39544622) panicked at tests/url_hyphen_tests.rs:29:9:
+assertion `left == right` failed
+  left: ["docs/longfilename.txt"]
+ right: ["docs/long-", "filename.txt"]
+
+---- url_line_ends_keep_literal_hyphens_and_physical_lines stdout ----
+
+thread 'url_line_ends_keep_literal_hyphens_and_physical_lines' (39544621) panicked at tests/url_hyphen_tests.rs:17:9:
+assertion `left == right` failed
+  left: ["https://example.invalid/ab/page.pdf"]
+ right: ["https://example.invalid/a-", "b/page.pdf"]
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+---- literal_url_suffixes_are_preserved stdout ----
+proptest: FileFailurePersistence::SourceParallel set, but failed to find lib.rs or main.rs
+proptest: FileFailurePersistence::SourceParallel set, but failed to find lib.rs or main.rs
+proptest: Saving this and future failures in /Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tests/url_hyphen_tests.proptest-regressions
+proptest: If this test was run on a CI system, you may wish to add the following line to your copy of the file. (You may need to create it.)
+cc 4ba07c60d113c431500354f775b2139e052db234eb330ce35cb2b37a818a91b6
+
+thread 'literal_url_suffixes_are_preserved' (39544618) panicked at tests/url_hyphen_tests.rs:48:1:
+Test failed: assertion failed: `(left == right)`
+  left: `["Ref https://a.invalid/aaaaa/file.pdf"]`,
+ right: `["Ref https://a.invalid/a-", "aaaa/file.pdf"]` at tests/url_hyphen_tests.rs:53.
+minimal failing input: host = "a", path = "a", next = "aaaa"
+	successes: 0
+	local rejects: 0
+	global rejects: 0
+
+
+
+failures:
+    literal_url_suffixes_are_preserved
+    url_line_ends_keep_literal_hyphens_and_physical_lines
+    visible_path_tokens_do_not_lose_their_separators
+
+test result: FAILED. 2 passed; 3 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.03s
+
+error: test failed, to rerun pass `--test url_hyphen_tests`
+mbx[cache]: 0 hits, 0 misses, 2 not looked up, 2 incremental; 0 B downloaded, 0 B uploaded, 0 B stored locally
+mbx[savings]: 58476 compilations served. the monocle stays on.

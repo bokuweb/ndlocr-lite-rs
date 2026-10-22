@@ -1,0 +1,112 @@
+{
+  "archive": "model-free-preflight-v2.zip",
+  "bytes": 326909,
+  "sha256": "9eac40da4e49dab62432399fe9374ebcb4a1d3044729091ce99798259ed8bd53",
+  "members": {
+    "evidence/metric-count-green.stderr": {
+      "bytes": 412,
+      "sha256": "a52aeef94cdf3d28431ab8b96b5e8e621e533874cc754a9f664eee72139a28b9"
+    },
+    "evidence/metric-count-green.stdout": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "evidence/metric-count-old-contracts-green.stderr": {
+      "bytes": 2325,
+      "sha256": "be17458e9eb27444937dea81394c3de139833b766f09a52c77ef9a902b30ee7d"
+    },
+    "evidence/metric-count-old-contracts-green.stdout": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "evidence/metric-count-red.stderr": {
+      "bytes": 1996,
+      "sha256": "86e52a8564ce82a19812d85ec48793fac9ddd09d86b24106ac84da118bf5a797"
+    },
+    "evidence/metric-count-red.stdout": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "evidence/metric-count-source-bridge-v1.json": {
+      "bytes": 249,
+      "sha256": "f4a1e7f13d77942896c57f03675b66f465e41f3f12d82c5a07eb7a2138982911"
+    },
+    "evidence/metric-count-v2-bundle-green.stderr": {
+      "bytes": 736,
+      "sha256": "79a161b5af4763b287b855748ece862c81a70d1fb20ddcf26293c70354f13b18"
+    },
+    "evidence/metric-count-v2-bundle-green.stdout": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "evidence/count-final-test_vertical_cli_fallback_full_matrix.py.log": {
+      "bytes": 2325,
+      "sha256": "8f1aca7cb2c7d81f145fc5a83c9e84d1b6b0f4f823ec1d320159caaa3b62339f"
+    },
+    "evidence/count-final-test_vertical_cli_fallback_v2_full_bundle.py.log": {
+      "bytes": 736,
+      "sha256": "6735955818bcdf869f61bb01c40d6dd07c0d4a7cd0ad86ff43191c6c63650cf4"
+    },
+    "evidence/count-final-test_vertical_cli_fallback_v2_full_scope.py.log": {
+      "bytes": 687,
+      "sha256": "e5f0083a2f3bd7dcb97f97c31044c0ff41a0b9cd7e68acd9416c99bbf2f9c362"
+    },
+    "evidence/count-final-test_vertical_full_metric_count.py.log": {
+      "bytes": 412,
+      "sha256": "a0fcb7be6884d11d172198f62e34967dd78f3a210d2fbbccfe6e0a996d444384"
+    },
+    "evidence/full-protocol-v2-green.stderr": {
+      "bytes": 736,
+      "sha256": "19f0c80fa774d76e89645ff2332a8e517ad7be20cda94397cc0e94e8c1dcfea2"
+    },
+    "evidence/full-protocol-v2-green.stdout": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "evidence/full-first-cancel-status-v1.json": {
+      "bytes": 4531,
+      "sha256": "01522d5be0ed017b8a4521f3f423c97883231f76c4b39f2fac68beb26a4c9e08"
+    },
+    "evidence/old-full-runner-before-metric-count-v1.py": {
+      "bytes": 33180,
+      "sha256": "1a21ed809b2befd85a20870f482d835d6c834364737efa3406bd4d24819dbb2e"
+    },
+    "tools/vertical_cli_fallback_full_matrix.py": {
+      "bytes": 33427,
+      "sha256": "ab7b0f9b509c34c157759c12c784c97ca2506431473ab950556a22927d41bdea"
+    },
+    "tools/vertical_cli_fallback_v2_full_matrix.py": {
+      "bytes": 6097,
+      "sha256": "c45e48a6e3aa4148d8836ffbbd1117d3bd8ca4e73695369f625cdb5735c5fd39"
+    },
+    "tests/test_vertical_full_metric_count.py": {
+      "bytes": 824,
+      "sha256": "1d54bbdc06782369b0b0a9bdaba66cbfd2003b5832aac0d4f0ef33cd3a2f3513"
+    },
+    ".github/workflows/vertical-cli-fallback-v2-full-matrix.yml": {
+      "bytes": 5611,
+      "sha256": "08da9434bc91c175788fa81985008bed39009f9bd10cc18e367253f0c58d43e0"
+    },
+    "docs/vertical_cli_fallback_v2_metric_count.md": {
+      "bytes": 1167,
+      "sha256": "276612a576114782d266614949775fa6bb3399b626e15a24c2fb3447fb100dfe"
+    },
+    "bundle/bundle.json": {
+      "bytes": 2666787,
+      "sha256": "77052d7d27df37ecf46681a3ed0e7f568022c0277737c3594fc5360025feda72"
+    },
+    "bundle/plan.json": {
+      "bytes": 333747,
+      "sha256": "149dbd48d9dcde04955419b4ca1285c6d70f4c6fa461c8d8e8f229d992d163d8"
+    },
+    "bundle/protocol-before-nn-v2.md": {
+      "bytes": 3050,
+      "sha256": "299103cb5036a4a92eced62577099bdfbb59396570e175a596b162a208bbe5a6"
+    }
+  },
+  "cancelled_run": 39591981411,
+  "cancelled_run_NN_calls": 0,
+  "cancelled_during_build_checkout": true,
+  "full_v2_NN_calls": 0,
+  "contracts": "count2, old11, union3, bundle3 pass; source bridge exact"
+}

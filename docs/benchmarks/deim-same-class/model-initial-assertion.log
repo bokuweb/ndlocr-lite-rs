@@ -1,0 +1,44 @@
+   Compiling ndlocr-lite-rs v0.1.0 (/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs)
+warning: methods `recognize_batch_indexed` and `run_chunk_on_session` are never used
+   --> src/infer/cached.rs:572:8
+    |
+410 | impl ParseqPool {
+    | --------------- methods in this implementation
+...
+572 |     fn recognize_batch_indexed(
+    |        ^^^^^^^^^^^^^^^^^^^^^^^
+...
+691 |     fn run_chunk_on_session(
+    |        ^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: `ndlocr-lite-rs` (lib) generated 1 warning
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.69s
+     Running tests/same_class_line_duplicates_tests.rs (target/debug/deps/same_class_line_duplicates_tests-7993d6a301bd1c7e)
+
+running 4 tests
+test overlapping_same_class_queries_are_recognized_once ... ok
+test distinct_same_class_rows_and_partial_regions_are_retained ... ok
+test same_class_winner_keeps_metadata_under_scale_and_input_reversal ... ok
+test real_deim_retains_raw_queries_but_recognizes_one_physical_uri_line ... FAILED
+
+failures:
+
+---- real_deim_retains_raw_queries_but_recognizes_one_physical_uri_line stdout ----
+
+thread 'real_deim_retains_raw_queries_but_recognizes_one_physical_uri_line' (39691060) panicked at tests/same_class_line_duplicates_tests.rs:66:5:
+assertion `left == right` failed
+  left: [224, 0, 2494, 39]
+ right: [152, 0, 2479, 40]
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    real_deim_retains_raw_queries_but_recognizes_one_physical_uri_line
+
+test result: FAILED. 3 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.71s
+
+error: test failed, to rerun pass `--test same_class_line_duplicates_tests`
+mbx[cache]: 0 hits, 0 misses, 3 bypassed; 0 B downloaded, 0 B uploaded, 0 B stored locally
+mbx[savings]: 11h 2m saved across 9033 builds. put it toward something with a progress bar.

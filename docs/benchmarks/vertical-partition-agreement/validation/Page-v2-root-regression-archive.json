@@ -1,0 +1,10 @@
+{
+  "original_path": "tmp/vertical-strict-prefix/Page-v2-root-regression-binary",
+  "original_sha256": "de8f030834b0ea38280312dd19611dd12051a537645c5bd09a5439881296cb53",
+  "original_bytes": 77137168,
+  "archive": "tmp/vertical-strict-prefix/Page-v2-root-regression-binary.gz",
+  "archive_sha256": "72e97c161e686ab062e47ba4c3ce01d870657e080fec01422c062516d8385730",
+  "archive_bytes": 19485621,
+  "roundtrip_verified": true,
+  "process_terminal": true
+}

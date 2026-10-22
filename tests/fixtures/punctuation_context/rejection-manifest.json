@@ -1,0 +1,101 @@
+[
+  {
+    "model": "30",
+    "file": "proportional_real_space30.png",
+    "source_id": "p_t0_sp1_gothic_32_palt1_x100_paper0_png",
+    "image_sha256": "d115709b6217fc1eff7aadca17be7de92e17065f0cb521f1db8ecc781de11470",
+    "rgb_sha256": "f03d5ab43dbd86f8d1137f4146b7aa34f21631b9f282b3ea0b0f26015f4b929a",
+    "truth": "調査結果、 提出先",
+    "raw": {
+      "text": "調査結果、 提出先",
+      "mean_confidence": 0.9992116093635559
+    },
+    "candidates": [
+      {
+        "text": "調査結果、提出先",
+        "mean_confidence": 0.999657154083252
+      },
+      {
+        "text": "調査結果、提出先",
+        "mean_confidence": 0.9996913075447083
+      },
+      {
+        "text": "調査結果、提出先",
+        "mean_confidence": 0.9994760155677795
+      }
+    ],
+    "body_mean": 0.9991298913955688,
+    "G_selected": true,
+    "font": "gothic",
+    "size": 32,
+    "palt": 1,
+    "horizontal_percent": 100,
+    "format": "png"
+  },
+  {
+    "model": "50",
+    "file": "proportional_real_space50.png",
+    "source_id": "g_t0_sp1_mincho_30_palt1_x60_paper0_jpeg75",
+    "image_sha256": "542e914438995c8bab9d46884aab466aedb69601794a7df2eb9071a14be39da8",
+    "rgb_sha256": "73a5a95020a54476843ff1470cc7440db8a2ac4c0970de346e15bcce575179fc",
+    "truth": "作業内容、 確認先",
+    "raw": {
+      "text": "作業内容、 確認先",
+      "mean_confidence": 0.9938066005706787
+    },
+    "candidates": [
+      {
+        "text": "作業内容、確認先",
+        "mean_confidence": 0.9985142946243286
+      },
+      {
+        "text": "作業内容、確認先",
+        "mean_confidence": 0.9992095828056335
+      },
+      {
+        "text": "作業内容、確認先",
+        "mean_confidence": 0.998364269733429
+      }
+    ],
+    "body_mean": 0.9930469989776611,
+    "G_selected": true,
+    "font": "mincho",
+    "size": 30,
+    "palt": 1,
+    "horizontal_percent": 60,
+    "format": "jpeg75"
+  },
+  {
+    "model": "100",
+    "file": "proportional_real_space100.png",
+    "source_id": "p_t0_sp1_maru_32_palt1_x70_paper0_png",
+    "image_sha256": "5e13123c90a8c9badbe87c4d5a884f7e04eaf2a80dd19cd1e521e7552ad097a8",
+    "rgb_sha256": "3f59fa5ca1aa420cf647a64efd07020acf83917464f1220fd19c0f40e42cd674",
+    "truth": "調査結果、 提出先",
+    "raw": {
+      "text": "調査結果、 提出先",
+      "mean_confidence": 0.9995331168174744
+    },
+    "candidates": [
+      {
+        "text": "調査結果、提出先",
+        "mean_confidence": 0.999649167060852
+      },
+      {
+        "text": "調査結果、提出先",
+        "mean_confidence": 0.9996632933616638
+      },
+      {
+        "text": "調査結果、提出先",
+        "mean_confidence": 0.9997671246528625
+      }
+    ],
+    "body_mean": 0.9994857907295227,
+    "G_selected": true,
+    "font": "maru",
+    "size": 32,
+    "palt": 1,
+    "horizontal_percent": 70,
+    "format": "png"
+  }
+]

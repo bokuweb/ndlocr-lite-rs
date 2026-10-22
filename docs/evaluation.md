@@ -152,7 +152,7 @@ tools/run_eval_rust_ab.sh \
 ### いま済んでいること（ブロッカーなし）
 
 - PARSEQ 行画像の前処理は `ndlocr/src/parseq.py` と整合（全面ストレッチのバイリニア相当、BGR NCHW）。Rust と original の認識差の主要因を解消済み。
-- 同梱の定量比較用データは `tests/fixtures/eval/` の **2枚**（`scaned0` と `ndl_logo_ja`）。手順は本書および `docs/examples.md` の「CER/WER 評価」。
+- 同梱の定量比較用データは `tests/fixtures/eval/` の **5枚**（`scaned0`、`ndl_logo_ja`、`jma_kobe_notice`、`ndl_accessibility_p2`、`jma_climate_2025`）。手順は本書および `docs/examples.md` の「CER/WER 評価」。
 - **参考（同一環境・同梱2枚・strict CER の集計）**: Rust 約 **0.034**、original（`ocr.py`）約 **0.043**（2026-03 時点の目安。モデル・ORT・ルールパックで変動する）。
 - 文書固有の置換はコアに入れず、`--rule-pack`（例: `docs/rule_pack.scaned0.yaml`）で吸収する方針（`AGENTS.md`）。
 
@@ -181,3 +181,19 @@ tools/run_eval_rust_ab.sh \
 `recognize-page` の **wall-clock** と **CER/WER** を同一の Markdown に出すには `docs/evaluation_report.md`（`tools/report_rust_ocr_eval.py`）を参照してください。
 
 **NDLOCR-Lite（`ocr.py`）と並べて比較**する場合は `tools/compare_rust_original_eval.py`（手順は同じく `docs/evaluation_report.md`）。
+
+## 10. 句読点の誤空白と原RGB文脈の比較
+
+[実験・再現手順](benchmarks/punctuation-space-context/README.md) に、紙余白・ノイズ・横縮尺・
+実空白を区別した開発対照を保存する。採用候補Fは同じ供給モデルの3候補合意に加え、
+成分高と水平被覆幅/文字数によるgap支持を要求する。
+3,446入力×3モデルの診断では114本文組の文字距離改善、うち70完全一致回復、
+31,014文字/単語指標の退行0。Rust製品選択の全件replayと、影響する全入力を含む
+158対照の8単行経路の実NN測定は区別して記録する。
+途中の候補C/Dの失敗も同じデータ群に残し、成功例だけを抜き出さない。
+追加対照は固定フォントの合成開発材料であり、未知実資料の精度を保証するものではない。
+
+その後、比例組版の576対照を追加した4,022入力ではFが11本文組の実空白を消し、
+22文字/22単語指標が退行したため採用判断を撤回した。
+[比例組版の結果](punctuation_space_proportional_controls.md) と
+[同じ文字集合のconfidenceを比較するGの先行仕様](punctuation_space_matched_confidence.md)を参照する。

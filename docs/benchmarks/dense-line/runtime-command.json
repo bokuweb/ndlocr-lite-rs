@@ -1,0 +1,34 @@
+{
+  "argv": [
+    "cargo",
+    "test",
+    "--features",
+    "onnx",
+    "--test",
+    "dense_page_runtime_probe_tests",
+    "--",
+    "--include-ignored"
+  ],
+  "env": {
+    "NDLOCR_INTRA_THREADS": "1"
+  },
+  "options": {
+    "det_conf_threshold": 0.25,
+    "min_line_confidence": 0.3,
+    "drop_empty_text": true
+  },
+  "parallelism": 1,
+  "inputs": 79,
+  "models": [
+    30,
+    100
+  ],
+  "before": {
+    "NDLOCR_DENSE_RUNTIME_OUTPUT": "tmp/dense-line/before",
+    "manifest": "tmp/dense-line/evaluation-manifest.json (initial diagnostic read default)"
+  },
+  "after": {
+    "NDLOCR_DENSE_RUNTIME_OUTPUT": "tmp/dense-line/after",
+    "NDLOCR_DENSE_MANIFEST": "tmp/dense-line/evaluation-manifest.json"
+  }
+}

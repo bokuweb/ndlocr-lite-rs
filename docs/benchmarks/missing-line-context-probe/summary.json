@@ -1,0 +1,235 @@
+{
+  "raw_inference_source_commit": "11b611885e20914f205fd9e95455d6d6bc09fb3d",
+  "page_baseline_source_commit": "bae38d32dd8382e90af8e68655f5bb12d47c505e",
+  "source_sha256": {
+    "evaluation-manifest.json": "56720a48bcc44d0d0ff86d56f8dbac288c3a19b7fe65497b48a7069c41ae29cb",
+    "visible-probe.json": "4f5dfe9199e116b9dd21e8623a4ad7bddc54afe9c08f32a844e07d568d8396e5",
+    "after/runtime30_eval/results.json": "6cea0144b5f855515c546ee1a9711d70df341ef94c871d984fbe782e2dc21d00",
+    "after/runtime30_default/results.json": "c19ccd2c304f7a21acc43d443896c91b7005648bf0402ae25b932a0cb0f6f4f9",
+    "after/runtime100_eval/results.json": "09e85f8574508a34fd3d4be6883230a29df61d31beba849dd11d9d86cb5426dc",
+    "after/runtime100_default/results.json": "aa5ac988059f7fa279eb80350b36a16d49eba3cc49c05e047db3d47b57584fb6"
+  },
+  "models": {
+    "models/deim-s-1024x1024.onnx": "c156ce0c4e704bc3bf7e4016d0a87b949cffa8b3724f4b4cc696b8284c3c7373",
+    "models/parseq-ndl-24x256-30-tiny-189epoch-tegaki3-r8data-202604.onnx": "9e651bae4c1a4d5254da1127e86e82e21ef62d5339b37e62d4a3d3d30831772d",
+    "models/parseq-ndl-24x384-50-tiny-300epoch-tegaki3-r8data-202604.onnx": "49cea9db4552f19eb05c8ee202fcf74714977749b2f4c9376b127fde41b07a99",
+    "models/parseq-ndl-24x768-100-tiny-153epoch-tegaki3-r8data-202604.onnx": "06462b0dbd5b0b8508545c8c3d485cf20dbf4ffa652fe145e69c9e7457080602"
+  },
+  "charset_sha256": "f6ad5a2de444b495155866af811cf1a98309dcae3225db802767ea531a2dc529",
+  "baseline_pairs": 736,
+  "candidate_rows": 1368,
+  "full_ink_candidate_rows": 1232,
+  "summary": {
+    "runtime30_eval/original/full_native_single_missing_high": {
+      "candidates": 23,
+      "char_improved": 29,
+      "char_equal": 40,
+      "char_worse": 0,
+      "word_worse": 0,
+      "regressions": []
+    },
+    "runtime30_eval/original/plus_confidence_dominance": {
+      "candidates": 16,
+      "char_improved": 26,
+      "char_equal": 22,
+      "char_worse": 0,
+      "word_worse": 0,
+      "regressions": []
+    },
+    "runtime30_eval/original/relative_without_fixed_floor": {
+      "candidates": 16,
+      "char_improved": 26,
+      "char_equal": 22,
+      "char_worse": 0,
+      "word_worse": 0,
+      "regressions": []
+    },
+    "runtime30_eval/bands/full_native_single_missing_high": {
+      "candidates": 9,
+      "char_improved": 9,
+      "char_equal": 18,
+      "char_worse": 0,
+      "word_worse": 0,
+      "regressions": []
+    },
+    "runtime30_eval/bands/plus_confidence_dominance": {
+      "candidates": 6,
+      "char_improved": 6,
+      "char_equal": 12,
+      "char_worse": 0,
+      "word_worse": 0,
+      "regressions": []
+    },
+    "runtime30_eval/bands/relative_without_fixed_floor": {
+      "candidates": 6,
+      "char_improved": 6,
+      "char_equal": 12,
+      "char_worse": 0,
+      "word_worse": 0,
+      "regressions": []
+    },
+    "runtime30_default/original/full_native_single_missing_high": {
+      "candidates": 23,
+      "char_improved": 32,
+      "char_equal": 37,
+      "char_worse": 0,
+      "word_worse": 0,
+      "regressions": []
+    },
+    "runtime30_default/original/plus_confidence_dominance": {
+      "candidates": 17,
+      "char_improved": 29,
+      "char_equal": 22,
+      "char_worse": 0,
+      "word_worse": 0,
+      "regressions": []
+    },
+    "runtime30_default/original/relative_without_fixed_floor": {
+      "candidates": 17,
+      "char_improved": 29,
+      "char_equal": 22,
+      "char_worse": 0,
+      "word_worse": 0,
+      "regressions": []
+    },
+    "runtime30_default/bands/full_native_single_missing_high": {
+      "candidates": 9,
+      "char_improved": 9,
+      "char_equal": 18,
+      "char_worse": 0,
+      "word_worse": 0,
+      "regressions": []
+    },
+    "runtime30_default/bands/plus_confidence_dominance": {
+      "candidates": 6,
+      "char_improved": 6,
+      "char_equal": 12,
+      "char_worse": 0,
+      "word_worse": 0,
+      "regressions": []
+    },
+    "runtime30_default/bands/relative_without_fixed_floor": {
+      "candidates": 6,
+      "char_improved": 6,
+      "char_equal": 12,
+      "char_worse": 0,
+      "word_worse": 0,
+      "regressions": []
+    },
+    "runtime100_eval/original/relative_without_fixed_floor": {
+      "candidates": 13,
+      "char_improved": 11,
+      "char_equal": 28,
+      "char_worse": 0,
+      "word_worse": 0,
+      "regressions": []
+    },
+    "runtime100_eval/bands/relative_without_fixed_floor": {
+      "candidates": 7,
+      "char_improved": 9,
+      "char_equal": 12,
+      "char_worse": 0,
+      "word_worse": 0,
+      "regressions": []
+    },
+    "runtime100_eval/original/full_native_single_missing_high": {
+      "candidates": 15,
+      "char_improved": 5,
+      "char_equal": 40,
+      "char_worse": 0,
+      "word_worse": 0,
+      "regressions": []
+    },
+    "runtime100_eval/original/plus_confidence_dominance": {
+      "candidates": 10,
+      "char_improved": 2,
+      "char_equal": 28,
+      "char_worse": 0,
+      "word_worse": 0,
+      "regressions": []
+    },
+    "runtime100_eval/bands/full_native_single_missing_high": {
+      "candidates": 6,
+      "char_improved": 3,
+      "char_equal": 15,
+      "char_worse": 0,
+      "word_worse": 0,
+      "regressions": []
+    },
+    "runtime100_eval/bands/plus_confidence_dominance": {
+      "candidates": 4,
+      "char_improved": 0,
+      "char_equal": 12,
+      "char_worse": 0,
+      "word_worse": 0,
+      "regressions": []
+    },
+    "runtime100_default/original/relative_without_fixed_floor": {
+      "candidates": 14,
+      "char_improved": 14,
+      "char_equal": 28,
+      "char_worse": 0,
+      "word_worse": 0,
+      "regressions": []
+    },
+    "runtime100_default/bands/relative_without_fixed_floor": {
+      "candidates": 7,
+      "char_improved": 9,
+      "char_equal": 12,
+      "char_worse": 0,
+      "word_worse": 0,
+      "regressions": []
+    },
+    "runtime100_default/original/full_native_single_missing_high": {
+      "candidates": 15,
+      "char_improved": 5,
+      "char_equal": 40,
+      "char_worse": 0,
+      "word_worse": 0,
+      "regressions": []
+    },
+    "runtime100_default/original/plus_confidence_dominance": {
+      "candidates": 10,
+      "char_improved": 2,
+      "char_equal": 28,
+      "char_worse": 0,
+      "word_worse": 0,
+      "regressions": []
+    },
+    "runtime100_default/bands/full_native_single_missing_high": {
+      "candidates": 6,
+      "char_improved": 3,
+      "char_equal": 15,
+      "char_worse": 0,
+      "word_worse": 0,
+      "regressions": []
+    },
+    "runtime100_default/bands/plus_confidence_dominance": {
+      "candidates": 4,
+      "char_improved": 0,
+      "char_equal": 12,
+      "char_worse": 0,
+      "word_worse": 0,
+      "regressions": []
+    }
+  },
+  "naive_audit": {
+    "all_full": {
+      "candidates": 1232,
+      "char_regressions": 150
+    },
+    "full_native_high": {
+      "candidates": 928,
+      "char_regressions": 54
+    },
+    "full_native_relative": {
+      "candidates": 744,
+      "char_regressions": 24
+    }
+  },
+  "replay": {
+    "original_sha256": "3669c3273ce54aaaadce1f5fe8fb00c0315a0b0a595b1df0b07cc097ee6ddca2",
+    "replay_sha256": "3669c3273ce54aaaadce1f5fe8fb00c0315a0b0a595b1df0b07cc097ee6ddca2",
+    "byte_equal": true
+  }
+}

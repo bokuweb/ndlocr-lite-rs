@@ -1,0 +1,601 @@
+{
+  "pillow_version": "12.3.0",
+  "fonts": [
+    {
+      "variant": "gothic24",
+      "font": "ヒラギノ角ゴシック W3.ttc",
+      "size": 24,
+      "font_sha256": "ff92033a300f55aff2f45f57479a560af2c5467973b425d3f724f870af07f83e"
+    },
+    {
+      "variant": "mincho24",
+      "font": "ヒラギノ明朝 ProN.ttc",
+      "size": 24,
+      "font_sha256": "366347c654f84acc43692e922d8d33d91949e750b8d383155bd07728b2bcbbfa"
+    },
+    {
+      "variant": "gothic16",
+      "font": "ヒラギノ角ゴシック W3.ttc",
+      "size": 16,
+      "font_sha256": "ff92033a300f55aff2f45f57479a560af2c5467973b425d3f724f870af07f83e"
+    }
+  ],
+  "rows": [
+    {
+      "id": "gothic24_00",
+      "image": "tests/fixtures/short_line_order/images/gothic24_00.png",
+      "truth": "で上昇",
+      "sha256": "e4889851b97dea451896a2a0d736c9368de4073e68b1ce99b99ed9218d3e92af"
+    },
+    {
+      "id": "gothic24_01",
+      "image": "tests/fixtures/short_line_order/images/gothic24_01.png",
+      "truth": "上昇で",
+      "sha256": "70f68c28a7bcc2c615ea1c528cab9220169914fc8e0ec2bbbcb3b9bc844124d7"
+    },
+    {
+      "id": "gothic24_02",
+      "image": "tests/fixtures/short_line_order/images/gothic24_02.png",
+      "truth": "進行",
+      "sha256": "51acd4a05e98d05e846e51535017b8bdf865103eb98f2c6ac78bbb0e851e15d5"
+    },
+    {
+      "id": "gothic24_03",
+      "image": "tests/fixtures/short_line_order/images/gothic24_03.png",
+      "truth": "行進",
+      "sha256": "b11795dcc6d75ff7575f979d121780ac202369cfe38cdde6080d31aadc133004"
+    },
+    {
+      "id": "gothic24_04",
+      "image": "tests/fixtures/short_line_order/images/gothic24_04.png",
+      "truth": "第１章",
+      "sha256": "a5eab888cb1f4c2278e651b8308b3f1dd17eb6465bad57fce7a4fc8b444bf7d2"
+    },
+    {
+      "id": "gothic24_05",
+      "image": "tests/fixtures/short_line_order/images/gothic24_05.png",
+      "truth": "第一章",
+      "sha256": "0d3c0af8d1a754414db02a3d9bc67b99680dbbd8a91882077ed65f81bd50f15c"
+    },
+    {
+      "id": "gothic24_06",
+      "image": "tests/fixtures/short_line_order/images/gothic24_06.png",
+      "truth": "本日",
+      "sha256": "6b92307a87efb2f97a2f2f5de950f955f610e9b5061f90cf033344d11d84168e"
+    },
+    {
+      "id": "gothic24_07",
+      "image": "tests/fixtures/short_line_order/images/gothic24_07.png",
+      "truth": "日本",
+      "sha256": "46b95795419dfa7be163019ccb29c5313815f2698c3743947c4ea5fac669798a"
+    },
+    {
+      "id": "gothic24_08",
+      "image": "tests/fixtures/short_line_order/images/gothic24_08.png",
+      "truth": "国会",
+      "sha256": "9449cdd4b1b7ff80ae2d73345f65925ec7c93611b0810ae76fc77221a160b3c7"
+    },
+    {
+      "id": "gothic24_09",
+      "image": "tests/fixtures/short_line_order/images/gothic24_09.png",
+      "truth": "会国",
+      "sha256": "4d661ce35f7daf00c0b7dbdc81fa35ab8b7ea5999b0413a6e35a606e3e577e6a"
+    },
+    {
+      "id": "gothic24_10",
+      "image": "tests/fixtures/short_line_order/images/gothic24_10.png",
+      "truth": "AB",
+      "sha256": "0f2370fa81798311646bdaf89ede044d7c997fbdbbaa6f7b0ac005d7ab64f72b"
+    },
+    {
+      "id": "gothic24_11",
+      "image": "tests/fixtures/short_line_order/images/gothic24_11.png",
+      "truth": "BA",
+      "sha256": "2f389373bd3096707d6b33a460f36ba46560722942e195bbefc1776210e808ef"
+    },
+    {
+      "id": "gothic24_12",
+      "image": "tests/fixtures/short_line_order/images/gothic24_12.png",
+      "truth": "ABC",
+      "sha256": "bd8b79bbd74988fd34f815cdb059caf2860673e9843a06826665637d58d34d70"
+    },
+    {
+      "id": "gothic24_13",
+      "image": "tests/fixtures/short_line_order/images/gothic24_13.png",
+      "truth": "CBA",
+      "sha256": "af5d12aacb260390b2938f8f2c449d0ba579ba812848422ea7f30055603bfd3b"
+    },
+    {
+      "id": "gothic24_14",
+      "image": "tests/fixtures/short_line_order/images/gothic24_14.png",
+      "truth": "12",
+      "sha256": "8f2e98d194efa5987951b4656748cda6dc1ec58b210d928039e1758a74db2f92"
+    },
+    {
+      "id": "gothic24_15",
+      "image": "tests/fixtures/short_line_order/images/gothic24_15.png",
+      "truth": "21",
+      "sha256": "78711a6ae3290a8fef89216bf2bad2d62d6c4e57e157a2740bf7e6c43737202e"
+    },
+    {
+      "id": "gothic24_16",
+      "image": "tests/fixtures/short_line_order/images/gothic24_16.png",
+      "truth": "123",
+      "sha256": "293e954abc8f4886307c7cf8ebfd0df2544ab589c9d0650b96ab69f491e45572"
+    },
+    {
+      "id": "gothic24_17",
+      "image": "tests/fixtures/short_line_order/images/gothic24_17.png",
+      "truth": "321",
+      "sha256": "ad15ee2e0ed69fa16c6ff0750a05ac6c93b5388a647e1ba8b1cc591372c0875b"
+    },
+    {
+      "id": "gothic24_18",
+      "image": "tests/fixtures/short_line_order/images/gothic24_18.png",
+      "truth": "AAB",
+      "sha256": "a8f43f84921904a7b244f901eea4d8e642f4a8b39c2538b95a6493a0b19ff9e8"
+    },
+    {
+      "id": "gothic24_19",
+      "image": "tests/fixtures/short_line_order/images/gothic24_19.png",
+      "truth": "ABA",
+      "sha256": "f44a4abfaee05b43845bb52366d420ff415ae5e1394b1ad118d2b0b478d2db86"
+    },
+    {
+      "id": "gothic24_20",
+      "image": "tests/fixtures/short_line_order/images/gothic24_20.png",
+      "truth": "ＢＡ",
+      "sha256": "1e9c2bfb8a08aa06ce8b01202fa9af7f8774ee3425445e6b560828f288f5dfbd"
+    },
+    {
+      "id": "gothic24_21",
+      "image": "tests/fixtures/short_line_order/images/gothic24_21.png",
+      "truth": "ＡＢ",
+      "sha256": "1944ddcf2d9ad44a3be92198506bedb200f6f50890c492c3249533710403203d"
+    },
+    {
+      "id": "gothic24_22",
+      "image": "tests/fixtures/short_line_order/images/gothic24_22.png",
+      "truth": "一二三",
+      "sha256": "653f57495e78f49bd0353e5181b59912856b76925fa81f6075dfea7b496f590a"
+    },
+    {
+      "id": "gothic24_23",
+      "image": "tests/fixtures/short_line_order/images/gothic24_23.png",
+      "truth": "三二一",
+      "sha256": "dea0c8a66226740e401b09132556796d64b588f5f293c0a34c13db708127e5e4"
+    },
+    {
+      "id": "gothic24_24",
+      "image": "tests/fixtures/short_line_order/images/gothic24_24.png",
+      "truth": "あいう",
+      "sha256": "12413d9711e409ac4af1c36845c38614083700c2f56a06fc1772c57cdca9d339"
+    },
+    {
+      "id": "gothic24_25",
+      "image": "tests/fixtures/short_line_order/images/gothic24_25.png",
+      "truth": "ういあ",
+      "sha256": "ebe45e6da2ac6b61aa430e86d608472d4954231ddca8cbce26003f3e5903b790"
+    },
+    {
+      "id": "gothic24_26",
+      "image": "tests/fixtures/short_line_order/images/gothic24_26.png",
+      "truth": "カキク",
+      "sha256": "0e220f9b8547f241a0d26c49275509c232299004dd33693141bbfb389667605c"
+    },
+    {
+      "id": "gothic24_27",
+      "image": "tests/fixtures/short_line_order/images/gothic24_27.png",
+      "truth": "クキカ",
+      "sha256": "eab3a5368caa301df9f97fe129ae11531c69c243e48b183c4eca0a889ee84a81"
+    },
+    {
+      "id": "gothic24_28",
+      "image": "tests/fixtures/short_line_order/images/gothic24_28.png",
+      "truth": "により",
+      "sha256": "f51ee99112859459b404fb711edc16c865239187ae5f9ca86d7c2dc1e5ecec63"
+    },
+    {
+      "id": "gothic24_29",
+      "image": "tests/fixtures/short_line_order/images/gothic24_29.png",
+      "truth": "よりに",
+      "sha256": "c95248916fea0a446f70214c92414b50087d48f19e004f1f84cd8376c468e22b"
+    },
+    {
+      "id": "gothic24_30",
+      "image": "tests/fixtures/short_line_order/images/gothic24_30.png",
+      "truth": "令和",
+      "sha256": "d13b38907f7a8323bebfb1c01e7711bae82e8dea5b52a5c43befac30389dfb0a"
+    },
+    {
+      "id": "gothic24_31",
+      "image": "tests/fixtures/short_line_order/images/gothic24_31.png",
+      "truth": "和令",
+      "sha256": "8675191df522e70f621e26bb827b480b823f7579417bb3881c3b32550d307f2c"
+    },
+    {
+      "id": "mincho24_00",
+      "image": "tests/fixtures/short_line_order/images/mincho24_00.png",
+      "truth": "で上昇",
+      "sha256": "75ed9a8cfe3c8ff8e51f298262ba5847da23486ffee31ad6f5814cc73a671a28"
+    },
+    {
+      "id": "mincho24_01",
+      "image": "tests/fixtures/short_line_order/images/mincho24_01.png",
+      "truth": "上昇で",
+      "sha256": "e69d57231c71fdae6c823c4039ef13a5725c3b0e39f89e5127a63c5527a6cd95"
+    },
+    {
+      "id": "mincho24_02",
+      "image": "tests/fixtures/short_line_order/images/mincho24_02.png",
+      "truth": "進行",
+      "sha256": "71ac39bc9b7038f30dff53edc9edf8f57d79f6443c5d83828c7d305949929ed2"
+    },
+    {
+      "id": "mincho24_03",
+      "image": "tests/fixtures/short_line_order/images/mincho24_03.png",
+      "truth": "行進",
+      "sha256": "62f1f222d5a7cace8b77caee287c49f1be86320a074c22b66d2eec581f13edb8"
+    },
+    {
+      "id": "mincho24_04",
+      "image": "tests/fixtures/short_line_order/images/mincho24_04.png",
+      "truth": "第１章",
+      "sha256": "cb87ab8b72a5dbfdc4a61e4a2f48f2a70f144f85f933986fc1140141f0dfb580"
+    },
+    {
+      "id": "mincho24_05",
+      "image": "tests/fixtures/short_line_order/images/mincho24_05.png",
+      "truth": "第一章",
+      "sha256": "59fcd52668837bbd961019a4ce9ae8500daae0944612bc64a0dc2769d8f6c226"
+    },
+    {
+      "id": "mincho24_06",
+      "image": "tests/fixtures/short_line_order/images/mincho24_06.png",
+      "truth": "本日",
+      "sha256": "2ae958c7106793b4f9532dd5c3a74997a69cb8e60b2e53af784c73b2ab72de1c"
+    },
+    {
+      "id": "mincho24_07",
+      "image": "tests/fixtures/short_line_order/images/mincho24_07.png",
+      "truth": "日本",
+      "sha256": "8035671d0a23392faed1dd8e9dfa2ebb4ddfe9fdd305968a4f75e018d2c0b14d"
+    },
+    {
+      "id": "mincho24_08",
+      "image": "tests/fixtures/short_line_order/images/mincho24_08.png",
+      "truth": "国会",
+      "sha256": "5c19128aa7f621fa3118a832ddd8c9732624b64911ef8c7810e4dc4060155690"
+    },
+    {
+      "id": "mincho24_09",
+      "image": "tests/fixtures/short_line_order/images/mincho24_09.png",
+      "truth": "会国",
+      "sha256": "9aceb6793cc9c1408b8761b0370a378c4accc0153de255a22e98ea170e3f2091"
+    },
+    {
+      "id": "mincho24_10",
+      "image": "tests/fixtures/short_line_order/images/mincho24_10.png",
+      "truth": "AB",
+      "sha256": "562cacda1ef8fc7877990944ca60baf1695076f90177e631dcab2b356829b819"
+    },
+    {
+      "id": "mincho24_11",
+      "image": "tests/fixtures/short_line_order/images/mincho24_11.png",
+      "truth": "BA",
+      "sha256": "ea6b838d17f78802c9ea8efb95fd70aaecb965752c91e7706f938419022a3dee"
+    },
+    {
+      "id": "mincho24_12",
+      "image": "tests/fixtures/short_line_order/images/mincho24_12.png",
+      "truth": "ABC",
+      "sha256": "2ad6ef9b820cb151911ee7f4ef4759664fcc3cf7c770936a87bc67cbf0ddc5b7"
+    },
+    {
+      "id": "mincho24_13",
+      "image": "tests/fixtures/short_line_order/images/mincho24_13.png",
+      "truth": "CBA",
+      "sha256": "eb593478ed23a77825da742e4200bf0c683391ac74f90fcb68210e5abac6455c"
+    },
+    {
+      "id": "mincho24_14",
+      "image": "tests/fixtures/short_line_order/images/mincho24_14.png",
+      "truth": "12",
+      "sha256": "6d8efe2984c93f21cda2f428ffb3ddf253bbb98aebe78e480dbab44190982335"
+    },
+    {
+      "id": "mincho24_15",
+      "image": "tests/fixtures/short_line_order/images/mincho24_15.png",
+      "truth": "21",
+      "sha256": "4daaf2b0a57dc7852e1059b1429abe8d686ef2ca36d04b808fa915270fc675a0"
+    },
+    {
+      "id": "mincho24_16",
+      "image": "tests/fixtures/short_line_order/images/mincho24_16.png",
+      "truth": "123",
+      "sha256": "718fe8b8fb08b2fd17707af55c02ec60ef75e2d58a2d768f014b23ff5ce8e712"
+    },
+    {
+      "id": "mincho24_17",
+      "image": "tests/fixtures/short_line_order/images/mincho24_17.png",
+      "truth": "321",
+      "sha256": "8208a8a8af007f282cc9bc278cef827287bd5b5bdb16caf39bb2b57f958acc87"
+    },
+    {
+      "id": "mincho24_18",
+      "image": "tests/fixtures/short_line_order/images/mincho24_18.png",
+      "truth": "AAB",
+      "sha256": "7b9a66705cfadcff7df4b37e419814b83512ce3ee9cd384b4eb104d746853177"
+    },
+    {
+      "id": "mincho24_19",
+      "image": "tests/fixtures/short_line_order/images/mincho24_19.png",
+      "truth": "ABA",
+      "sha256": "57fc341a3ae93157972be87b51c4e87faf464599bb1777acb853cae6416570e0"
+    },
+    {
+      "id": "mincho24_20",
+      "image": "tests/fixtures/short_line_order/images/mincho24_20.png",
+      "truth": "ＢＡ",
+      "sha256": "8e7a9c33e51ce68a895dfb6cf8f58e10a6e5c6f6274ce213855209a3799fc753"
+    },
+    {
+      "id": "mincho24_21",
+      "image": "tests/fixtures/short_line_order/images/mincho24_21.png",
+      "truth": "ＡＢ",
+      "sha256": "930b39a49691f52e7ca2452c5b10c307bc1d91f6b9ca78b30b983f47f86a1f59"
+    },
+    {
+      "id": "mincho24_22",
+      "image": "tests/fixtures/short_line_order/images/mincho24_22.png",
+      "truth": "一二三",
+      "sha256": "d3124118adeed959955877103aaae3e11a53017e87397b87cd7357676bb7c9ba"
+    },
+    {
+      "id": "mincho24_23",
+      "image": "tests/fixtures/short_line_order/images/mincho24_23.png",
+      "truth": "三二一",
+      "sha256": "0d6b4bafff22ae32cc6a1183659e67bf8f088b3c0627ba3007e0e3dd2dac1205"
+    },
+    {
+      "id": "mincho24_24",
+      "image": "tests/fixtures/short_line_order/images/mincho24_24.png",
+      "truth": "あいう",
+      "sha256": "6d32f56d9db08e4dcc725bf11294a2389942deef3d876d55ff785250d9ba375c"
+    },
+    {
+      "id": "mincho24_25",
+      "image": "tests/fixtures/short_line_order/images/mincho24_25.png",
+      "truth": "ういあ",
+      "sha256": "6dbf2c588e97906330c9643aef1c23651a9a347d76d838378bf11e9a30b0f389"
+    },
+    {
+      "id": "mincho24_26",
+      "image": "tests/fixtures/short_line_order/images/mincho24_26.png",
+      "truth": "カキク",
+      "sha256": "9e2bc776e779e2324b01be620a1a77e6c242cb2b68c15e2de8913f240a5cf4ff"
+    },
+    {
+      "id": "mincho24_27",
+      "image": "tests/fixtures/short_line_order/images/mincho24_27.png",
+      "truth": "クキカ",
+      "sha256": "e64efc3d270dd3009fa32e9d9fc15dd93c749a132f4d9f0b655b73e3c7ff22a6"
+    },
+    {
+      "id": "mincho24_28",
+      "image": "tests/fixtures/short_line_order/images/mincho24_28.png",
+      "truth": "により",
+      "sha256": "ac5756a37303e1a36e667cc54a9daf3203390f1ced9153a1c6ad0bb7d0f169fe"
+    },
+    {
+      "id": "mincho24_29",
+      "image": "tests/fixtures/short_line_order/images/mincho24_29.png",
+      "truth": "よりに",
+      "sha256": "3ce803fa3f578dbc595204c55dc3d1163654594cc87b1db6a2d278e65924e1f8"
+    },
+    {
+      "id": "mincho24_30",
+      "image": "tests/fixtures/short_line_order/images/mincho24_30.png",
+      "truth": "令和",
+      "sha256": "5cb03af1123f126991b569b01a4c3dce111acc4813a1c63c3c69235168fd09ce"
+    },
+    {
+      "id": "mincho24_31",
+      "image": "tests/fixtures/short_line_order/images/mincho24_31.png",
+      "truth": "和令",
+      "sha256": "82689a34248e12f38625469513664e88785d620eb94f83077a35c8f1bb2538d1"
+    },
+    {
+      "id": "gothic16_00",
+      "image": "tests/fixtures/short_line_order/images/gothic16_00.png",
+      "truth": "で上昇",
+      "sha256": "151850c9fd83708ae2854d218397b2ddeddfc6e1f178a147a5994b41b24fac30"
+    },
+    {
+      "id": "gothic16_01",
+      "image": "tests/fixtures/short_line_order/images/gothic16_01.png",
+      "truth": "上昇で",
+      "sha256": "7b9a5d14f54e8530e742c723237275e4db8c40ee6d8f6a3ea41cb6e2c37e86e3"
+    },
+    {
+      "id": "gothic16_02",
+      "image": "tests/fixtures/short_line_order/images/gothic16_02.png",
+      "truth": "進行",
+      "sha256": "ca31019c33648d42c0ea1f96f58726364f40eb2c39e62385f019594f7ba1d227"
+    },
+    {
+      "id": "gothic16_03",
+      "image": "tests/fixtures/short_line_order/images/gothic16_03.png",
+      "truth": "行進",
+      "sha256": "e7eff05ce81035999259976291a4a93c06a2bf8b210b05634a954411d6e28733"
+    },
+    {
+      "id": "gothic16_04",
+      "image": "tests/fixtures/short_line_order/images/gothic16_04.png",
+      "truth": "第１章",
+      "sha256": "696692400b1e4faa097b808a03d0a56ef86117821a5eb9792e4b1040883c705a"
+    },
+    {
+      "id": "gothic16_05",
+      "image": "tests/fixtures/short_line_order/images/gothic16_05.png",
+      "truth": "第一章",
+      "sha256": "74dc936810bb5aa1073beafafdd49744507b709312094a18defa6b5c3bc2f686"
+    },
+    {
+      "id": "gothic16_06",
+      "image": "tests/fixtures/short_line_order/images/gothic16_06.png",
+      "truth": "本日",
+      "sha256": "00f48544bac6ab90ab93701938dbede9f9c1cb1363aebabab925bd83bf0b5cb6"
+    },
+    {
+      "id": "gothic16_07",
+      "image": "tests/fixtures/short_line_order/images/gothic16_07.png",
+      "truth": "日本",
+      "sha256": "b93d253a3de42cead31999e5a922d46c5e48f4c165d77e0b9957ebf7aec9ff06"
+    },
+    {
+      "id": "gothic16_08",
+      "image": "tests/fixtures/short_line_order/images/gothic16_08.png",
+      "truth": "国会",
+      "sha256": "8188bd82a55643a9dc057da4172a16d888e0f0c73ddfe0d285c695b13106718d"
+    },
+    {
+      "id": "gothic16_09",
+      "image": "tests/fixtures/short_line_order/images/gothic16_09.png",
+      "truth": "会国",
+      "sha256": "071fe3d9e33854d4e60ee334b3944670945b36fcc909a35200b9e85a3437497f"
+    },
+    {
+      "id": "gothic16_10",
+      "image": "tests/fixtures/short_line_order/images/gothic16_10.png",
+      "truth": "AB",
+      "sha256": "1ed60a8cba00fa92a4b05d4d912f714291ce989f7adc24feaf4be1ecd6a99f04"
+    },
+    {
+      "id": "gothic16_11",
+      "image": "tests/fixtures/short_line_order/images/gothic16_11.png",
+      "truth": "BA",
+      "sha256": "4ae9c4d5cc7c94271644b0d513cbfbcdfc250d31071524c955dad7a5853d900b"
+    },
+    {
+      "id": "gothic16_12",
+      "image": "tests/fixtures/short_line_order/images/gothic16_12.png",
+      "truth": "ABC",
+      "sha256": "9db593915104959db54ae17eb6a0dce3c8006d3142c833c8a84604601282e8da"
+    },
+    {
+      "id": "gothic16_13",
+      "image": "tests/fixtures/short_line_order/images/gothic16_13.png",
+      "truth": "CBA",
+      "sha256": "4c946dd95afd092a57ec7470cf8195db3fd53e988e2cf3df6bde8ecad18e96da"
+    },
+    {
+      "id": "gothic16_14",
+      "image": "tests/fixtures/short_line_order/images/gothic16_14.png",
+      "truth": "12",
+      "sha256": "ea9260217d9889d0e44fefa0a6dcfc70308362da829b5f76a8ce6f8791e38feb"
+    },
+    {
+      "id": "gothic16_15",
+      "image": "tests/fixtures/short_line_order/images/gothic16_15.png",
+      "truth": "21",
+      "sha256": "e082e119db76a6c4f9b079a804b0b725fe374335613b543a61a53f1cfb880711"
+    },
+    {
+      "id": "gothic16_16",
+      "image": "tests/fixtures/short_line_order/images/gothic16_16.png",
+      "truth": "123",
+      "sha256": "1b372c229776f2a405765bd58e682aabcb0d0dcdab9fb0f75320278747b56d50"
+    },
+    {
+      "id": "gothic16_17",
+      "image": "tests/fixtures/short_line_order/images/gothic16_17.png",
+      "truth": "321",
+      "sha256": "d685bed6e5a404c8e22bd0a4ac756ec5fad5c4f20b900b31ba64c39490f98f0e"
+    },
+    {
+      "id": "gothic16_18",
+      "image": "tests/fixtures/short_line_order/images/gothic16_18.png",
+      "truth": "AAB",
+      "sha256": "1ce60da1ab80d9d7393984140628bcdf0961b376659369d80b3e9a4ae8734638"
+    },
+    {
+      "id": "gothic16_19",
+      "image": "tests/fixtures/short_line_order/images/gothic16_19.png",
+      "truth": "ABA",
+      "sha256": "d477f968d87581d62c59b9e9a0f9426e2ad1af972f6e0306a8d4f64d83abacd2"
+    },
+    {
+      "id": "gothic16_20",
+      "image": "tests/fixtures/short_line_order/images/gothic16_20.png",
+      "truth": "ＢＡ",
+      "sha256": "562fb5f791345253d1931effffc19a530a2bfbcd2839ec64693132a8d1f2cc7f"
+    },
+    {
+      "id": "gothic16_21",
+      "image": "tests/fixtures/short_line_order/images/gothic16_21.png",
+      "truth": "ＡＢ",
+      "sha256": "fb07219e0faf691f5ca5f74476e1e64d67d4aba971b48eb72330851fc6184abb"
+    },
+    {
+      "id": "gothic16_22",
+      "image": "tests/fixtures/short_line_order/images/gothic16_22.png",
+      "truth": "一二三",
+      "sha256": "97269a1ec8f85ffb994833a51e396ec1822cc27a09b8843c676c4a4b7a8dbb35"
+    },
+    {
+      "id": "gothic16_23",
+      "image": "tests/fixtures/short_line_order/images/gothic16_23.png",
+      "truth": "三二一",
+      "sha256": "98f729effbcbe86de4ad4a5429c990a3902d7497546a58b5b4e999f92b824fca"
+    },
+    {
+      "id": "gothic16_24",
+      "image": "tests/fixtures/short_line_order/images/gothic16_24.png",
+      "truth": "あいう",
+      "sha256": "8855bdf092108311e2587ab89d1a1945d8be29d6fc5f8b46fccf59c14441e7c5"
+    },
+    {
+      "id": "gothic16_25",
+      "image": "tests/fixtures/short_line_order/images/gothic16_25.png",
+      "truth": "ういあ",
+      "sha256": "768beb233a599e8056a249a213c596834017825fada318864fdea1ad3ca02be0"
+    },
+    {
+      "id": "gothic16_26",
+      "image": "tests/fixtures/short_line_order/images/gothic16_26.png",
+      "truth": "カキク",
+      "sha256": "34b84a685b426bb1a439d919888da2e2427ce26d176e1feef4d877b36e0535fe"
+    },
+    {
+      "id": "gothic16_27",
+      "image": "tests/fixtures/short_line_order/images/gothic16_27.png",
+      "truth": "クキカ",
+      "sha256": "7b04d4b5e0afa88d18c2c2ef3dbd12e69389839df20879c21124678accfe2565"
+    },
+    {
+      "id": "gothic16_28",
+      "image": "tests/fixtures/short_line_order/images/gothic16_28.png",
+      "truth": "により",
+      "sha256": "ffd7bb47ca6580cec0b7a9e1e4c5c93edf52ff036aa24b48d3829c24a8a5ccff"
+    },
+    {
+      "id": "gothic16_29",
+      "image": "tests/fixtures/short_line_order/images/gothic16_29.png",
+      "truth": "よりに",
+      "sha256": "b56e5992e5c5b7e8ef053f7fb6053885510c7b95f8f402dc59142d7bd901ba50"
+    },
+    {
+      "id": "gothic16_30",
+      "image": "tests/fixtures/short_line_order/images/gothic16_30.png",
+      "truth": "令和",
+      "sha256": "a55879f82b4d0b46509c28ee0f3ab35d232de1428a7642c64da0c1d4e600912a"
+    },
+    {
+      "id": "gothic16_31",
+      "image": "tests/fixtures/short_line_order/images/gothic16_31.png",
+      "truth": "和令",
+      "sha256": "3adea0fbc9decb73af7056e0cc914f1872b0dc3cc63519300e6561b0a0f34181"
+    }
+  ]
+}

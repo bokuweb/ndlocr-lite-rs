@@ -1,0 +1,38 @@
+[
+  {
+    "id": "uncertain_arial_31_pad0",
+    "image": "uncertain_arial_31_pad0.png",
+    "image_sha256": "a6ef173d8d5cf7aa99d2d83008f15dad2aaf63f10a2bd25d3cfbc9e581fc9d39",
+    "rgb_sha256": "5828191488c911e7f826c880ca955694dcddc71b8d7ff81423073d32d1cbb019",
+    "width": 56,
+    "height": 1628,
+    "raw": "朝の公園を通り抜けると池のほとりで小さな鳥が水を飲んでいまし",
+    "expected": "朝の公園を通り抜けると池のほとりで小さな鳥が水を飲んでいました",
+    "recovers": true,
+    "truth": "朝の公園を通り抜けると池のほとりで小さな鳥が水を飲んでいました"
+  },
+  {
+    "id": "uncertain_arial_35_pad0",
+    "image": "uncertain_arial_35_pad0.png",
+    "image_sha256": "e03ec087916c18d16f824c1581b154e0171bdc43caca655b4da2a33c499e8286",
+    "rgb_sha256": "edf4abea12542d4efb5571e69bd7fd04a7bcec063be487b28fa8157e08aeb054",
+    "width": 56,
+    "height": 1836,
+    "raw": "朝の公園を通り抜けると池のほとりで小さな鳥が水を飲んでいまし",
+    "expected": "朝の公園を通り抜けると池のほとりで小さな鳥が水を飲んでいました。散歩を",
+    "recovers": true,
+    "truth": "朝の公園を通り抜けると池のほとりで小さな鳥が水を飲んでいました。散歩を"
+  },
+  {
+    "id": "prefix_bold_31_pad0",
+    "image": "prefix_bold_31_pad0.png",
+    "image_sha256": "f60fe7e615fce82a6592cfcf1b3421f8c3b4e5b661fcbfd322e3ba81a995abe1",
+    "rgb_sha256": "aa587dae7f8492b0aadcbe505576618dbd1571f756a4a4840f0be111f7d41425",
+    "width": 56,
+    "height": 1628,
+    "raw": "朝の港では小さな船が静かに澤を離れ漁師たちは沖に向かって手を",
+    "expected": "朝の港では小さな船が静かに澤を離れ漁師たちは沖に向かって手を",
+    "recovers": false,
+    "truth": "朝の港では小さな船が静かに岸を離れ漁師たちは沖に向かって手を振"
+  }
+]

@@ -1,0 +1,47 @@
+FEFF
+======================================================================
+ERROR: test_selected_snapshot_restores_original_paths_without_other_inputs (test_history_reader.HistoryTests.test_selected_snapshot_restores_original_paths_without_other_inputs)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/vertical-strict-prefix/packet-stage/test_history_reader.py", line 35, in test_selected_snapshot_restores_original_paths_without_other_inputs
+    self.assertEqual((output/'tmp/phase/source/src/lib.rs').read_bytes(),b'fn main() {}\n')
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/bokuweb/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/pathlib.py", line 1019, in read_bytes
+    with self.open(mode='rb') as f:
+         ^^^^^^^^^^^^^^^^^^^^
+  File "/Users/bokuweb/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/pathlib.py", line 1013, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/var/folders/5f/tq6b_pvn5rg_229hj88pngnr0000gn/T/tmpfqm1fd1d/restored/tmp/phase/source/src/lib.rs'
+
+======================================================================
+FAIL: test_changed_object_bytes_are_rejected (test_history_reader.HistoryTests.test_changed_object_bytes_are_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/vertical-strict-prefix/packet-stage/test_history_reader.py", line 31, in test_changed_object_bytes_are_rejected
+    with self.assertRaises((AssertionError,ValueError)):reader.verify_history(root)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: (<class 'AssertionError'>, <class 'ValueError'>) not raised
+
+======================================================================
+FAIL: test_unsafe_logical_path_is_rejected_before_output_is_created (test_history_reader.HistoryTests.test_unsafe_logical_path_is_rejected_before_output_is_created)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/vertical-strict-prefix/packet-stage/test_history_reader.py", line 40, in test_unsafe_logical_path_is_rejected_before_output_is_created
+    with self.assertRaises((AssertionError,ValueError)):reader.restore_history(root,output,'')
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: (<class 'AssertionError'>, <class 'ValueError'>) not raised
+
+======================================================================
+FAIL: test_verifies_content_addressed_objects_and_dataset_aliases (test_history_reader.HistoryTests.test_verifies_content_addressed_objects_and_dataset_aliases)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/vertical-strict-prefix/packet-stage/test_history_reader.py", line 27, in test_verifies_content_addressed_objects_and_dataset_aliases
+    self.assertEqual(result['logical_files'],2);self.assertEqual(result['backing_objects'],2)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0 != 2
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.005s
+
+FAILED (failures=3, errors=1)

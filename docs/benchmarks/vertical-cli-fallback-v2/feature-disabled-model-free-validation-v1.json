@@ -1,0 +1,9 @@
+{
+  "complete": true,
+  "archive_sha256": "0122389c07611c0ce3cd65dedf704a92602a61e642a3fb964a5c134ae1ce7533",
+  "CLI_processes": 16,
+  "compared_cases": 8,
+  "identical_exit_stdout_stderr_body": true,
+  "NN_calls": 0,
+  "new_model_calls_in_replay": 0
+}

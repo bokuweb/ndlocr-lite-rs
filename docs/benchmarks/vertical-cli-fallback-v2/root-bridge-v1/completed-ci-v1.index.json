@@ -1,0 +1,71 @@
+{
+  "archive": "completed-ci-v1.zip",
+  "bytes": 163620,
+  "sha256": "d0b053b8e362729c3f02a46a27803869b461890e6e5fbe49fafe56a0c26f6a7d",
+  "members": {
+    "evidence/run.json": {
+      "bytes": 13004,
+      "sha256": "02a547728d1615bc73821a72e746c798423dad997bd64278a470633a6c988a74"
+    },
+    "evidence/jobs.json": {
+      "bytes": 16246,
+      "sha256": "b256518c5f61b1dd809c3cb6321ac53da7124aec4c7de69fdbd48a36f52b2967"
+    },
+    "evidence/artifacts.json": {
+      "bytes": 1480,
+      "sha256": "36cfd73f3a10fee812791d4904d19d0215de4b8a42774606c9225c24cb3aa4d1"
+    },
+    "evidence/attempt1-run.json": {
+      "bytes": 12660,
+      "sha256": "64be5a9554874be3648daefa07f5a2585b07a136178ce24f36f0fd71b63bd800"
+    },
+    "evidence/CLI-audit.json": {
+      "bytes": 1260,
+      "sha256": "30c7703f2df577750058ea3bf8f5c5bd67cf4d5d92ca9e3d6770e0f48156b597"
+    },
+    "evidence/log-audit.json": {
+      "bytes": 415,
+      "sha256": "d2ab02601620592c3d5308c07dfc19280129abc77b823a7ff9c2d9642b8ad918"
+    },
+    "evidence/root-frozen.json": {
+      "bytes": 113596,
+      "sha256": "10456b74ecffb2b91c9c9924cef4f703284b2c585719ca1d2b4b2a5742df0d17"
+    },
+    "artifacts/root-fvc-cli-ubuntu-latest-attempt2.zip": {
+      "bytes": 2786,
+      "sha256": "2b78751b1f9b62ebd67c4dc8e0e91d8e69f0fe18ec31c50848d34a54d121301a"
+    },
+    "logs/linux-attempt1.log": {
+      "bytes": 41125,
+      "sha256": "e8283c3186580d04676a39adc026e7665c399c3b5af9999f17f6f37ddbeb717d"
+    },
+    "logs/linux-attempt2.log": {
+      "bytes": 228531,
+      "sha256": "673bcdf4aaeef357e5dee7f3b8fbc776acc2bc438c15e69f11436302c56936b9"
+    },
+    "artifacts/root-fvc-cli-macos-latest-attempt2.zip": {
+      "bytes": 2789,
+      "sha256": "4d7e712765ec6cc8d05b4106496a563e7008a76447469602f65fa301474d55c9"
+    },
+    "logs/mac-attempt1.log": {
+      "bytes": 42286,
+      "sha256": "9558832ba5457103d5212ec3176e3c6f610a8b5b6a87bfe7d25317c047d0d285"
+    },
+    "logs/mac-attempt2.log": {
+      "bytes": 227198,
+      "sha256": "7ef14ce5dde6de4b95d5232f1f2d4675277becdbf6fa54701886a6cef143dd3b"
+    },
+    "fixture-case.json": {
+      "bytes": 851,
+      "sha256": "9510ba1f2ac8b8ab2da7564e0f0c365fee67ddb9b52717480082e3105b015e66"
+    },
+    "docs/vertical_cli_fallback_v2_root_ci.md": {
+      "bytes": 1270,
+      "sha256": "4f5444b4fd2a2cb173a25d7578aee209a627ef456e001958e8ad217683705d60"
+    }
+  },
+  "head": "0a0f421c0dd6f564f0ab09ccf2ca46836e29b349",
+  "run": 39627691771,
+  "root_completed_packet_sha256": "9a2c3ed2ed0e05c3149c5a1b3d816672bc1a92c9fe20837193db1d8278f3a827",
+  "NN_calls_in_replay": 0
+}

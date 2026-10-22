@@ -1,0 +1,47 @@
+   Compiling ndlocr-lite-rs v0.1.0 (/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs)
+warning: methods `recognize_batch_indexed` and `run_chunk_on_session` are never used
+   --> src/infer/cached.rs:606:8
+    |
+410 | impl ParseqPool {
+    | --------------- methods in this implementation
+...
+606 |     fn recognize_batch_indexed(
+    |        ^^^^^^^^^^^^^^^^^^^^^^^
+...
+725 |     fn run_chunk_on_session(
+    |        ^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: `ndlocr-lite-rs` (lib) generated 1 warning
+warning: `ndlocr-lite-rs` (lib test) generated 1 warning (1 duplicate)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 2.44s
+     Running unittests src/lib.rs (target/debug/deps/ndlocr_lite_rs-419bfb34943ac7d0)
+
+running 13 tests
+test infer::dense_line_recovery::tests::support_must_explain_four_times_the_initial_text ... ok
+test infer::dense_line_recovery::tests::ambiguous_regions_are_invariant_under_order_scale_and_translation ... ok
+test infer::dense_line_recovery::tests::overlapping_half_of_smaller_region_is_ambiguous_for_both ... ok
+test infer::dense_line_recovery::tests::ineligible_inputs_never_call_recognition ... ok
+test pipeline::line_chunks::tests::splits_dense_glyphs_even_below_aspect_limit ... ok
+test infer::dense_line_recovery::tests::distinct_but_too_short_candidate_is_rejected ... ok
+test infer::dense_line_recovery::tests::confidence_weights_emitted_characters_without_added_spaces ... ok
+test infer::dense_line_recovery::tests::accepts_only_real_chunk_outputs_and_keeps_original_rgb ... ok
+test infer::dense_line_recovery::tests::short_or_repetitive_candidates_do_not_explain_dense_text ... ok
+test infer::dense_line_recovery::tests::failed_or_uncertain_chunks_abort_without_replacing_the_base ... ok
+test infer::dense_line_recovery::tests::insufficient_ink_height_is_always_skipped ... ok
+test infer::cached::dense_pool_orientation_tests::dense_pool_horizontal_preserves_auto_and_matches_session ... ok
+test infer::dense_line_recovery::tests::dense_full_width_model_recovers_four_frozen_japanese_lines ... ok
+
+test result: ok. 13 passed; 0 failed; 0 ignored; 0 measured; 169 filtered out; finished in 3.72s
+
+     Running tests/dense_line_regression_tests.rs (target/debug/deps/dense_line_regression_tests-f7ae1f55b740a1df)
+
+running 2 tests
+test dense_runtime_recovers_long_horizontal_japanese_with_each_primary_model ... ok
+test dense_cli_recovery_respects_explicit_split_disable ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 1 filtered out; finished in 4.33s
+
+mbx[cache]: 0 hits, 0 misses, 4 bypassed; 0 B downloaded, 0 B uploaded, 0 B stored locally
+mbx[savings]: has saved 11h 2m across 9057 builds. this line is the only thanks it needs.

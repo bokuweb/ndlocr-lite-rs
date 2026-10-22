@@ -1,0 +1,17 @@
+{
+  "archive": "source-bridge-v1.zip",
+  "bytes": 17526,
+  "sha256": "499eb8b46e0fa32bf59567de9097c715112bf2629193a1fc4e74b0901037a27d",
+  "members": {
+    "src/infer/parseq.rs": {
+      "bytes": 26504,
+      "sha256": "b60ea7a1f92898d0bf07c7f144cd791fd96be6cbab2205587a4284d693b96a88"
+    },
+    "src/infer/cached.rs": {
+      "bytes": 45063,
+      "sha256": "0e7dc66da6e94fef1f3e0653b15a776b3cbc6631885efb78e5a9ce63b6094044"
+    }
+  },
+  "copied_after_NN_but_exact_pre_NN_binding": true,
+  "new_model_calls": 0
+}

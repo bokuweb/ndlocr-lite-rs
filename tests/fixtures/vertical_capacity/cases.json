@@ -1,0 +1,38 @@
+[
+  {
+    "image": "tests/fixtures/vertical_capacity/ndl_botchan_1884801_05_first3_column2.png",
+    "id": "ndl_botchan_1884801_05_first3_column2",
+    "raw": "有つたもんだ。 元",
+    "expected": "有つたもんだ。 兄は實業家になるとか云つて頻りに英語を勉強して居た。元來女の樣な性分で",
+    "recovers": true,
+    "image_sha256": "646aaf91eac72ab1400c0717551ce90266fba842fca5fa5e0a0b5328113ced23",
+    "rgb_sha256": "9223feabbede3fea897c44a592882ded27104392f29266a5bdef0db426d1d0d2"
+  },
+  {
+    "image": "tests/fixtures/vertical_capacity/body-06-column1.png",
+    "id": "body-06-column1",
+    "raw": "しぼらくすると井戸",
+    "expected": "しばらくすると井戸端でざあ〳〵音がするから、出て見たら竹の先へ蝦蟇口の紐を引き懸けたの",
+    "recovers": true,
+    "image_sha256": "48b09aeb2dc8e231922d68f582ab5eea25de8399ee6d260ada5bd084f72c8772",
+    "rgb_sha256": "78bdd1f0d9c833a554e148cc67bf78c9a477d4e8a92bcd1c0a8b14c26710a592"
+  },
+  {
+    "image": "tests/fixtures/vertical_capacity/ndl_botchan_1884801_03_first3_column1.png",
+    "id": "ndl_botchan_1884801_03_first3_column1",
+    "raw": "親織りの無選",
+    "expected": "親織りの無選",
+    "recovers": false,
+    "image_sha256": "a165dedd2edef6f0e385dbf81c4dacb28234a6143d93ff3b779e796f5f71fa63",
+    "rgb_sha256": "3ace5304bd294da7c4ca95ae0f48dcc17cb257336be64eaeec718155e429e96d"
+  },
+  {
+    "image": "tests/fixtures/vertical_capacity/warm-zigzag-60.png",
+    "id": "warm-zigzag-60",
+    "raw": "時は時間",
+    "expected": "時は時間",
+    "recovers": false,
+    "image_sha256": "56f3755150acd9e8490565d4a5f9fbdbe09ae80b7104c97526560abde05f265d",
+    "rgb_sha256": "c256c469457fbfd4eb44bbf2ae361bea1cc19bce8a07e2aebc50cc21be69d173"
+  }
+]

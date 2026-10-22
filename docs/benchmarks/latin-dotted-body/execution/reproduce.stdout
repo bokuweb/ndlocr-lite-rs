@@ -1,0 +1,81 @@
+rescored dotted-fresh 100 19440
+rescored dotted-fresh 30 19440
+rescored dotted-fresh 50 19440
+rescored dotted-horizontal 100 334
+rescored dotted-horizontal 30 334
+rescored dotted-horizontal 50 334
+rescored fresh 100 3648
+rescored fresh 30 3648
+rescored fresh 50 3648
+rescored horizontal 100 128
+rescored horizontal 30 128
+rescored horizontal 50 128
+rescored internal 100 5088
+rescored internal 30 5088
+rescored internal 50 5088
+rescored internal-horizontal 100 56
+rescored internal-horizontal 30 56
+rescored internal-horizontal 50 56
+rescored latin-fresh 100 19440
+rescored latin-fresh 30 19440
+rescored latin-fresh 50 19440
+rescored latin-horizontal 100 636
+rescored latin-horizontal 30 636
+rescored latin-horizontal 50 636
+rescored narrow-fresh 100 8064
+rescored narrow-fresh 30 8064
+rescored narrow-fresh 50 8064
+rescored narrow-horizontal 100 244
+rescored narrow-horizontal 30 244
+rescored narrow-horizontal 50 244
+rescored new 100 10944
+rescored new 30 10944
+rescored new 50 10944
+rescored old 100 2871
+rescored old 30 2871
+rescored old 50 2871
+rescored owned-fresh 100 7632
+rescored owned-fresh 30 7632
+rescored owned-fresh 50 7632
+rescored owned-horizontal 100 24
+rescored owned-horizontal 30 24
+rescored owned-horizontal 50 24
+rescored positive 100 10944
+rescored positive 30 10944
+rescored positive 50 10944
+rescored positive-horizontal 100 64
+rescored positive-horizontal 30 64
+rescored positive-horizontal 50 64
+rescored spaces 100 4598
+rescored spaces 30 4598
+rescored spaces 50 4598
+19774 actual NN RGB frames equal effective RGB, dimensions, IDs and whole ROI
+4536 pre-JPEG pairs independently reconstructed;body ink preserved;overlap0
+{
+  "archive_sha256": {
+    "evidence-0": "c4b3509581784f17b944a29b91a7988853a06aab0bdda6b7f35148fd613cf099",
+    "evidence-1": "0d2f6e77e2150afa376d21b15d47bfd94986288b7cefe11cc65189a39e887cdf",
+    "evidence-2": "8508c7df739af88065c6eea1ecb7e70788067edad04b1aba52810f120aef9ff1",
+    "evidence-3": "fa0af0894010e113d3b5df0b02f8098f114ce48e36766fac3da190373eebce08",
+    "evidence-4": "a5f776ba3a111aaaf68c706881457031475da9a9f03162abbc86d046802d81f0",
+    "evidence-5": "e47c30b902ea85572e200d53840d9f444ae2c940c8aecd78462fe0309b74407a",
+    "evidence-6": "b0300d0150529bc35424e245092084f7a3a4e73fe9cb7c9ce1170f27a93fb26c",
+    "evidence-7": "9577cd416139c32f38a7a55507c92cf81c7b9dfcfaa481e0823b30d848e2c5dc",
+    "evidence-8": "1febf99fdbb35472a52b8e996e4b0c09bb3795b8c91dcb68751cf2c7fde8d5a8",
+    "evidence-9": "81b6b4d7ef99b1fa8492d69b806cb60e2358266f344d97c7e701383935cdef63"
+  },
+  "product_pairs": 282465,
+  "table_files_byte_equal": 306,
+  "metadata_summaries_recomputed_equal": 711,
+  "new_raw_forwards_verified": 59322,
+  "api_pairs_verified": 426,
+  "cli_processes_verified": 426,
+  "frozen_owner_and_policy_body_equal": true,
+  "new_page_accuracy_runs": 0,
+  "parent_all_historical_tables_rerun": false,
+  "unseen_conditions": 19440,
+  "unique_unseen_rgb": 13320,
+  "actual_nn_rgb_captures": 19774,
+  "saved_independent_native_redraws_verified": 1854,
+  "noise_png_reconstructed": 4536
+}

@@ -1,0 +1,9 @@
+{
+  "archive_and_members_verified": 84,
+  "exact_source_crop_PNG_RGB_and_raw_rows": 6,
+  "GT_bindings": 11,
+  "index_sha256": "b1ccc702699d81e1df9c0f98f25a40e48b46b80646b0d06fd1e2e0f1d3e99ffe",
+  "OCR_NN_calls": 0,
+  "model_loads": 0,
+  "production_baseline_selected": false
+}

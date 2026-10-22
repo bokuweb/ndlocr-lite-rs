@@ -1,0 +1,12 @@
+   Compiling ndlocr-lite-rs v0.1.0 (/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.45s
+     Running unittests src/lib.rs (target/debug/deps/ndlocr_lite_rs-c6da13c5479ca659)
+
+running 2 tests
+test pipeline::line_chunks::trailing_symbols::tests::diagonal_lower_mark_connectivity_uses_all_eight_neighbors ... ok
+test pipeline::line_chunks::trailing_symbols::tests::lower_mark_gap_and_half_height_limits_are_inclusive ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 173 filtered out; finished in 0.00s
+
+mbx[cache]: 0 hits, 0 misses, 1 incremental; 0 B downloaded, 0 B uploaded, 0 B stored locally
+mbx[savings]: 1.3 TiB logical of build debris binned so far. cargo clean remains unemployed.

@@ -1,0 +1,75 @@
+warning: methods `recognize_batch_indexed` and `run_chunk_on_session` are never used
+   --> src/infer/cached.rs:572:8
+    |
+410 | impl ParseqPool {
+    | --------------- methods in this implementation
+...
+572 |     fn recognize_batch_indexed(
+    |        ^^^^^^^^^^^^^^^^^^^^^^^
+...
+691 |     fn run_chunk_on_session(
+    |        ^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: `ndlocr-lite-rs` (lib) generated 1 warning
+   Compiling ndlocr-lite-rs v0.1.0 (/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.58s
+     Running tests/page_chunk_probe_tests.rs (target/debug/deps/page_chunk_probe_tests-d622951bf5e7c47c)
+
+running 1 test
+deim docs/benchmarks/deim-edge/quality/images/jma_climate_2025_half.png: 25 crops
+bands docs/benchmarks/deim-edge/quality/images/jma_climate_2025_half.png: 25 crops
+deim docs/benchmarks/deim-edge/quality/images/jma_climate_2025_jpeg75.jpg: 25 crops
+bands docs/benchmarks/deim-edge/quality/images/jma_climate_2025_jpeg75.jpg: 25 crops
+mbx[progress]: 15s elapsed; 0 hits, 0 misses, 1 bypassed, 0 not looked up; ~0s compiler work saved
+deim docs/benchmarks/deim-edge/quality/images/jma_climate_2025_jpeg90.jpg: 25 crops
+bands docs/benchmarks/deim-edge/quality/images/jma_climate_2025_jpeg90.jpg: 25 crops
+mbx[progress]: 30s elapsed; 0 hits, 0 misses, 1 bypassed, 0 not looked up; ~0s compiler work saved
+deim docs/benchmarks/deim-edge/quality/images/jma_kobe_notice_half.png: 32 crops
+bands docs/benchmarks/deim-edge/quality/images/jma_kobe_notice_half.png: 30 crops
+deim docs/benchmarks/deim-edge/quality/images/jma_kobe_notice_jpeg75.jpg: 33 crops
+mbx[progress]: 45s elapsed; 0 hits, 0 misses, 1 bypassed, 0 not looked up; ~0s compiler work saved
+bands docs/benchmarks/deim-edge/quality/images/jma_kobe_notice_jpeg75.jpg: 32 crops
+deim docs/benchmarks/deim-edge/quality/images/jma_kobe_notice_jpeg90.jpg: 33 crops
+mbx[progress]: 1m elapsed; 0 hits, 0 misses, 1 bypassed, 0 not looked up; ~0s compiler work saved
+test compare_full_width_and_safe_chunks_on_frozen_pages has been running for over 60 seconds
+bands docs/benchmarks/deim-edge/quality/images/jma_kobe_notice_jpeg90.jpg: 32 crops
+deim docs/benchmarks/deim-edge/quality/images/ndl_accessibility_p2_half.png: 26 crops
+mbx[progress]: 1m 15s elapsed; 0 hits, 0 misses, 1 bypassed, 0 not looked up; ~0s compiler work saved
+bands docs/benchmarks/deim-edge/quality/images/ndl_accessibility_p2_half.png: 26 crops
+deim docs/benchmarks/deim-edge/quality/images/ndl_accessibility_p2_jpeg75.jpg: 26 crops
+mbx[progress]: 1m 30s elapsed; 0 hits, 0 misses, 1 bypassed, 0 not looked up; ~0s compiler work saved
+bands docs/benchmarks/deim-edge/quality/images/ndl_accessibility_p2_jpeg75.jpg: 26 crops
+deim docs/benchmarks/deim-edge/quality/images/ndl_accessibility_p2_jpeg90.jpg: 26 crops
+mbx[progress]: 1m 45s elapsed; 0 hits, 0 misses, 1 bypassed, 0 not looked up; ~0s compiler work saved
+bands docs/benchmarks/deim-edge/quality/images/ndl_accessibility_p2_jpeg90.jpg: 26 crops
+deim docs/benchmarks/deim-edge/quality/images/ndl_logo_ja_half.png: 1 crops
+bands docs/benchmarks/deim-edge/quality/images/ndl_logo_ja_half.png: 1 crops
+deim docs/benchmarks/deim-edge/quality/images/ndl_logo_ja_jpeg75.jpg: 1 crops
+bands docs/benchmarks/deim-edge/quality/images/ndl_logo_ja_jpeg75.jpg: 1 crops
+deim docs/benchmarks/deim-edge/quality/images/ndl_logo_ja_jpeg90.jpg: 1 crops
+bands docs/benchmarks/deim-edge/quality/images/ndl_logo_ja_jpeg90.jpg: 1 crops
+deim docs/benchmarks/deim-edge/quality/images/scaned0_half.png: 8 crops
+bands docs/benchmarks/deim-edge/quality/images/scaned0_half.png: 7 crops
+deim docs/benchmarks/deim-edge/quality/images/scaned0_jpeg75.jpg: 8 crops
+bands docs/benchmarks/deim-edge/quality/images/scaned0_jpeg75.jpg: 7 crops
+mbx[progress]: 2m elapsed; 0 hits, 0 misses, 1 bypassed, 0 not looked up; ~0s compiler work saved
+deim docs/benchmarks/deim-edge/quality/images/scaned0_jpeg90.jpg: 7 crops
+bands docs/benchmarks/deim-edge/quality/images/scaned0_jpeg90.jpg: 7 crops
+deim tests/fixtures/eval/images/jma_climate_2025.png: 25 crops
+bands tests/fixtures/eval/images/jma_climate_2025.png: 25 crops
+deim tests/fixtures/eval/images/jma_kobe_notice.png: 32 crops
+bands tests/fixtures/eval/images/jma_kobe_notice.png: 32 crops
+deim tests/fixtures/eval/images/ndl_accessibility_p2.png: 26 crops
+bands tests/fixtures/eval/images/ndl_accessibility_p2.png: 26 crops
+deim tests/fixtures/eval/images/ndl_logo_ja.png: 1 crops
+bands tests/fixtures/eval/images/ndl_logo_ja.png: 1 crops
+deim tests/fixtures/eval/images/scaned0.png: 7 crops
+bands tests/fixtures/eval/images/scaned0.png: 7 crops
+test compare_full_width_and_safe_chunks_on_frozen_pages ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 168.69s
+
+mbx[cache]: 0 hits, 0 misses, 1 bypassed; 0 B downloaded, 0 B uploaded, 0 B stored locally
+mbx[savings]: your deleted worktrees left 1.2 TiB logical behind. left. past tense.

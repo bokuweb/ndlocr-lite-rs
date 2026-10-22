@@ -1,0 +1,128 @@
+name: Frozen FVC full Page and CLI gate
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/vertical-cli-fallback-full-matrix.yml'
+      - 'tools/vertical_cli_fallback_full_matrix.py'
+      - 'tests/test_vertical_cli_fallback_full_matrix.py'
+      - 'docs/benchmarks/vertical-cli-fallback/full-matrix-v1/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  contracts:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Frozen source, input union, complete shards and retry contracts
+        run: |
+          python -m unittest discover -s tests -p test_vertical_cli_fallback_full_matrix.py -v
+          python -m unittest discover -s tests -p test_vertical_cli_fallback_packet.py -v
+          python tools/vertical_cli_fallback_full_matrix.py --validate
+
+  build:
+    needs: contracts
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    outputs:
+      stage_artifact: ${{ steps.stage.outputs.name }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - id: stage
+        run: echo "name=fvc-full-build-attempt${GITHUB_RUN_ATTEMPT}" >> "$GITHUB_OUTPUT"
+      - name: Fresh frozen release builds and portable runtime
+        run: python tools/vertical_cli_fallback_full_matrix.py --build --output out/build
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ${{ steps.stage.outputs.name }}
+          path: out/build/stage
+          if-no-files-found: error
+          retention-days: 30
+      - name: Preserve build failures and command logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fvc-full-build-logs-attempt${{ github.run_attempt }}
+          path: |
+            out/build/evidence
+            out/build/failure.json
+          if-no-files-found: error
+          retention-days: 30
+
+  matrix:
+    needs: build
+    name: FVC ${{ matrix.kind }} shard ${{ matrix.index }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    strategy:
+      fail-fast: false
+      max-parallel: 16
+      matrix:
+        kind: [page30, page50, page100, cli_deim_on, cli_deim_off, cli_bands_on, cli_bands_off]
+        index: [0, 1, 2, 3, 4, 5, 6, 7]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/download-artifact@v4
+        with:
+          name: ${{ needs.build.outputs.stage_artifact }}
+          path: stage
+      - name: Fetch pinned official assets
+        run: |
+          python tools/fetch_upstream_assets.py models
+          python tools/fetch_upstream_assets.py models --offline
+      - name: Recognize both frozen variants on the complete shard
+        run: python tools/vertical_cli_fallback_full_matrix.py --stage stage --kind '${{ matrix.kind }}' --index '${{ matrix.index }}' --total 8 --output out/shard
+      - name: Preserve every complete or partial attempt
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fvc-full-result-${{ matrix.kind }}-${{ matrix.index }}-attempt${{ github.run_attempt }}
+          path: |
+            out/shard/evidence
+            out/shard/failure.json
+          if-no-files-found: error
+          retention-days: 30
+
+  compare:
+    needs: [build, matrix]
+    if: always() && needs.build.result == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/download-artifact@v4
+        with:
+          name: ${{ needs.build.outputs.stage_artifact }}
+          path: stage
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: fvc-full-result-*
+          path: results
+      - name: Require all 56 complete shards and verify every official score
+        run: python tools/vertical_cli_fallback_full_matrix.py --stage stage --artifacts results --output out/full-compare
+      - name: Preserve source selection, exact comparisons and failures
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fvc-full-comparison-attempt${{ github.run_attempt }}
+          path: out/full-compare
+          if-no-files-found: error
+          retention-days: 30

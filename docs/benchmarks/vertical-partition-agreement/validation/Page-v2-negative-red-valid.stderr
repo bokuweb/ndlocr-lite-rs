@@ -1,0 +1,45 @@
+test_same_binary_is_rejected_even_if_manifest_declares_distinct (page_tests.SavedPageEvidence.test_same_binary_is_rejected_even_if_manifest_declares_distinct) ... ERROR
+test_fresh_cache_artifact_is_rejected_even_if_manifest_declares_rebuild (page_tests.SavedPageEvidence.test_fresh_cache_artifact_is_rejected_even_if_manifest_declares_rebuild) ... ERROR
+
+======================================================================
+ERROR: test_same_binary_is_rejected_even_if_manifest_declares_distinct (page_tests.SavedPageEvidence.test_same_binary_is_rejected_even_if_manifest_declares_distinct)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/docs/benchmarks/vertical-partition-agreement/test_reproduce_page.py", line 24, in test_same_binary_is_rejected_even_if_manifest_declares_distinct
+    self.assert_invalid_artifact_rejected_before_dataset_access(same_binary=True)
+  File "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/docs/benchmarks/vertical-partition-agreement/test_reproduce_page.py", line 21, in assert_invalid_artifact_rejected_before_dataset_access
+    reader.verify_page(root,root/'output',scorer)
+  File "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/vertical-strict-prefix/reproduce-before-Page-v2.py", line 98, in verify_page
+    index=json.loads((packet/'page-inputs.json').read_text());inputs=index['inputs'];assert len(inputs)==444
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/bokuweb/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/pathlib.py", line 1027, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/bokuweb/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/pathlib.py", line 1013, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/var/folders/5f/tq6b_pvn5rg_229hj88pngnr0000gn/T/tmp26w0rczu/page-inputs.json'
+
+======================================================================
+ERROR: test_fresh_cache_artifact_is_rejected_even_if_manifest_declares_rebuild (page_tests.SavedPageEvidence.test_fresh_cache_artifact_is_rejected_even_if_manifest_declares_rebuild)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/docs/benchmarks/vertical-partition-agreement/test_reproduce_page.py", line 27, in test_fresh_cache_artifact_is_rejected_even_if_manifest_declares_rebuild
+    self.assert_invalid_artifact_rejected_before_dataset_access(fresh=True)
+  File "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/docs/benchmarks/vertical-partition-agreement/test_reproduce_page.py", line 21, in assert_invalid_artifact_rejected_before_dataset_access
+    reader.verify_page(root,root/'output',scorer)
+  File "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/vertical-strict-prefix/reproduce-before-Page-v2.py", line 98, in verify_page
+    index=json.loads((packet/'page-inputs.json').read_text());inputs=index['inputs'];assert len(inputs)==444
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/bokuweb/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/pathlib.py", line 1027, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/bokuweb/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/pathlib.py", line 1013, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/var/folders/5f/tq6b_pvn5rg_229hj88pngnr0000gn/T/tmp1muz3ewg/page-inputs.json'
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.004s
+
+FAILED (errors=2)

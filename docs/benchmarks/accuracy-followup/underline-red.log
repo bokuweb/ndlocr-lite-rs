@@ -1,0 +1,70 @@
+   Compiling ndlocr-lite-rs v0.1.0 (/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.32s
+     Running tests/underlined_line_tests.rs (target/debug/deps/underlined_line_tests-618412b1ad0778bd)
+
+running 4 tests
+test long_underline_allows_boundaries_without_changing_pixels ... FAILED
+test unsupported_rules_keep_the_original_error ... ok
+test underlined_splits_preserve_coverage_and_glyphs ... FAILED
+test real_url_bands_are_splittable_in_both_detection_paths ... FAILED
+
+failures:
+
+---- long_underline_allows_boundaries_without_changing_pixels stdout ----
+
+thread 'long_underline_allows_boundaries_without_changing_pixels' (39280168) panicked at tests/underlined_line_tests.rs:35:65:
+called `Result::unwrap()` on an `Err` value: "long OCR line has no safe blank-column boundary after column 0"
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+---- underlined_splits_preserve_coverage_and_glyphs stdout ----
+proptest: FileFailurePersistence::SourceParallel set, but failed to find lib.rs or main.rs
+
+thread 'underlined_splits_preserve_coverage_and_glyphs' (39280170) panicked at tests/underlined_line_tests.rs:90:62:
+called `Result::unwrap()` on an `Err` value: "long OCR line has no safe blank-column boundary after column 0"
+
+thread 'underlined_splits_preserve_coverage_and_glyphs' (39280170) panicked at tests/underlined_line_tests.rs:90:62:
+called `Result::unwrap()` on an `Err` value: "long OCR line has no safe blank-column boundary after column 0"
+
+thread 'underlined_splits_preserve_coverage_and_glyphs' (39280170) panicked at tests/underlined_line_tests.rs:90:62:
+called `Result::unwrap()` on an `Err` value: "long OCR line has no safe blank-column boundary after column 0"
+
+thread 'underlined_splits_preserve_coverage_and_glyphs' (39280170) panicked at tests/underlined_line_tests.rs:90:62:
+called `Result::unwrap()` on an `Err` value: "long OCR line has no safe blank-column boundary after column 0"
+
+thread 'underlined_splits_preserve_coverage_and_glyphs' (39280170) panicked at tests/underlined_line_tests.rs:90:62:
+called `Result::unwrap()` on an `Err` value: "long OCR line has no safe blank-column boundary after column 0"
+
+thread 'underlined_splits_preserve_coverage_and_glyphs' (39280170) panicked at tests/underlined_line_tests.rs:90:62:
+called `Result::unwrap()` on an `Err` value: "long OCR line has no safe blank-column boundary after column 0"
+
+thread 'underlined_splits_preserve_coverage_and_glyphs' (39280170) panicked at tests/underlined_line_tests.rs:90:62:
+called `Result::unwrap()` on an `Err` value: "long OCR line has no safe blank-column boundary after column 0"
+proptest: FileFailurePersistence::SourceParallel set, but failed to find lib.rs or main.rs
+proptest: Saving this and future failures in /Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tests/underlined_line_tests.proptest-regressions
+proptest: If this test was run on a CI system, you may wish to add the following line to your copy of the file. (You may need to create it.)
+cc 0748e53da74a8f2d6e77a4d946a57a5da1196db4941c6fb0dfbb87e08fdad429
+
+thread 'underlined_splits_preserve_coverage_and_glyphs' (39280170) panicked at tests/underlined_line_tests.rs:85:1:
+Test failed: called `Result::unwrap()` on an `Err` value: "long OCR line has no safe blank-column boundary after column 0".
+minimal failing input: scale = 1, margin = 0
+	successes: 0
+	local rejects: 0
+	global rejects: 0
+
+
+---- real_url_bands_are_splittable_in_both_detection_paths stdout ----
+
+thread 'real_url_bands_are_splittable_in_both_detection_paths' (39280169) panicked at tests/underlined_line_tests.rs:79:85:
+called `Result::unwrap()` on an `Err` value: "long OCR line has no safe blank-column boundary after column 0"
+
+
+failures:
+    long_underline_allows_boundaries_without_changing_pixels
+    real_url_bands_are_splittable_in_both_detection_paths
+    underlined_splits_preserve_coverage_and_glyphs
+
+test result: FAILED. 1 passed; 3 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.18s
+
+error: test failed, to rerun pass `--test underlined_line_tests`
+mbx[cache]: 0 hits, 0 misses, 3 not looked up; 0 B downloaded, 0 B uploaded, 55.4 MiB stored locally
+mbx[savings]: 58362 compilations on file. the box remembers.

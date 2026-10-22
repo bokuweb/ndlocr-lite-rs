@@ -1,0 +1,54 @@
+{
+  "archive": "known-cli-red-green-v1.zip",
+  "bytes": 37746,
+  "sha256": "c74805694dab84a6e058ee438b6f2c89174544b5304cad5facbf6520c1546d21",
+  "members": {
+    "known-regression-v1/baseline-body-from-assertion.txt": {
+      "bytes": 72,
+      "sha256": "404298b494956385a8976d3cd0460e7646b3f62783e525e22a83f4c4ea33d9cd"
+    },
+    "known-regression-v1/candidate.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "known-regression-v1/baseline.stdout": {
+      "bytes": 294,
+      "sha256": "bc85491801ece9b32e3e9e1838cb0862f987f8f148720a91e6444080545ab5da"
+    },
+    "known-regression-v1/baseline.stderr": {
+      "bytes": 1729,
+      "sha256": "06bf608f71040f82ccba2e919bb779fe961a7e03871c5df03eef292644262f1f"
+    },
+    "known-regression-v1/receipt.json": {
+      "bytes": 108392,
+      "sha256": "0bb2fc17145751b66dede466ff7130b1b295c3d95e19b802f3702233b859184f"
+    },
+    "known-regression-v1/candidate.stdout": {
+      "bytes": 192,
+      "sha256": "a916d923201bdb4d3d6aabe3956821d198c8acf9f4f1c08e0976c6754cb08c50"
+    },
+    "run_known_regression_v1.py": {
+      "bytes": 3473,
+      "sha256": "4deeecbf0032638902ba3b811af6f5bd5ab8290f9f6ad5289ed2c6f86222949c"
+    },
+    "known-regression-v1.stdout": {
+      "bytes": 1332,
+      "sha256": "5e58079b2a97d784a681525699ddd070f8b8f693eee3c6fada038b3fd5eeebb7"
+    },
+    "known-regression-v1.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "source_data_packet_sha256": "263d0d7004aee4fca51d9d0f74bee1f80d2609707766642a079aaba48553af67",
+  "test_processes": 2,
+  "CLI_processes": 2,
+  "baseline_Red": 1,
+  "candidate_Green": 1,
+  "baseline_body_scalars_from_assertion": 24,
+  "candidate_literal_body_scalars_verified_by_test": 71,
+  "candidate_raw_body_not_retained_by_test": true,
+  "known_case_only": true,
+  "new_body_gain_count": 0,
+  "source_assets_inputs_after_unchanged": true
+}

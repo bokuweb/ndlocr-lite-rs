@@ -1,0 +1,10 @@
+[
+  {
+    "mode": "runtime30",
+    "byte_equal": 103
+  },
+  {
+    "mode": "runtime100",
+    "byte_equal": 103
+  }
+]

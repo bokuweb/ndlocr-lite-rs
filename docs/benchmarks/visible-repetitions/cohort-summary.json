@@ -1,0 +1,377 @@
+{
+  "deim": {
+    "long_line": {
+      "pairs": 26,
+      "raw_char_improved": 0,
+      "raw_char_regressed": 0,
+      "byte_equal": 26,
+      "raw_char_ties_changed": 0
+    },
+    "dense_crop": {
+      "pairs": 24,
+      "raw_char_improved": 0,
+      "raw_char_regressed": 0,
+      "byte_equal": 24,
+      "raw_char_ties_changed": 0
+    },
+    "dense_line": {
+      "pairs": 33,
+      "raw_char_improved": 1,
+      "raw_char_regressed": 0,
+      "byte_equal": 32,
+      "raw_char_ties_changed": 0
+    },
+    "page_band_fallback": {
+      "pairs": 24,
+      "raw_char_improved": 1,
+      "raw_char_regressed": 0,
+      "byte_equal": 23,
+      "raw_char_ties_changed": 0
+    },
+    "existing": {
+      "pairs": 20,
+      "raw_char_improved": 0,
+      "raw_char_regressed": 0,
+      "byte_equal": 20,
+      "raw_char_ties_changed": 0
+    },
+    "repeated_glyph": {
+      "pairs": 160,
+      "raw_char_improved": 36,
+      "raw_char_regressed": 0,
+      "byte_equal": 112,
+      "raw_char_ties_changed": 12
+    }
+  },
+  "bands": {
+    "long_line": {
+      "pairs": 26,
+      "raw_char_improved": 0,
+      "raw_char_regressed": 0,
+      "byte_equal": 26,
+      "raw_char_ties_changed": 0
+    },
+    "dense_crop": {
+      "pairs": 24,
+      "raw_char_improved": 0,
+      "raw_char_regressed": 0,
+      "byte_equal": 24,
+      "raw_char_ties_changed": 0
+    },
+    "dense_line": {
+      "pairs": 33,
+      "raw_char_improved": 1,
+      "raw_char_regressed": 0,
+      "byte_equal": 32,
+      "raw_char_ties_changed": 0
+    },
+    "page_band_fallback": {
+      "pairs": 24,
+      "raw_char_improved": 1,
+      "raw_char_regressed": 0,
+      "byte_equal": 23,
+      "raw_char_ties_changed": 0
+    },
+    "existing": {
+      "pairs": 20,
+      "raw_char_improved": 0,
+      "raw_char_regressed": 0,
+      "byte_equal": 20,
+      "raw_char_ties_changed": 0
+    },
+    "repeated_glyph": {
+      "pairs": 160,
+      "raw_char_improved": 37,
+      "raw_char_regressed": 0,
+      "byte_equal": 110,
+      "raw_char_ties_changed": 13
+    }
+  },
+  "runtime30_eval": {
+    "long_line": {
+      "pairs": 26,
+      "raw_char_improved": 0,
+      "raw_char_regressed": 0,
+      "byte_equal": 26,
+      "raw_char_ties_changed": 0
+    },
+    "dense_crop": {
+      "pairs": 24,
+      "raw_char_improved": 0,
+      "raw_char_regressed": 0,
+      "byte_equal": 24,
+      "raw_char_ties_changed": 0
+    },
+    "dense_line": {
+      "pairs": 33,
+      "raw_char_improved": 0,
+      "raw_char_regressed": 0,
+      "byte_equal": 33,
+      "raw_char_ties_changed": 0
+    },
+    "page_band_fallback": {
+      "pairs": 24,
+      "raw_char_improved": 1,
+      "raw_char_regressed": 0,
+      "byte_equal": 23,
+      "raw_char_ties_changed": 0
+    },
+    "existing": {
+      "pairs": 20,
+      "raw_char_improved": 0,
+      "raw_char_regressed": 0,
+      "byte_equal": 20,
+      "raw_char_ties_changed": 0
+    },
+    "repeated_glyph": {
+      "pairs": 160,
+      "raw_char_improved": 36,
+      "raw_char_regressed": 0,
+      "byte_equal": 112,
+      "raw_char_ties_changed": 12
+    }
+  },
+  "runtime30_default": {
+    "long_line": {
+      "pairs": 26,
+      "raw_char_improved": 0,
+      "raw_char_regressed": 0,
+      "byte_equal": 26,
+      "raw_char_ties_changed": 0
+    },
+    "dense_crop": {
+      "pairs": 24,
+      "raw_char_improved": 0,
+      "raw_char_regressed": 0,
+      "byte_equal": 24,
+      "raw_char_ties_changed": 0
+    },
+    "dense_line": {
+      "pairs": 33,
+      "raw_char_improved": 0,
+      "raw_char_regressed": 0,
+      "byte_equal": 33,
+      "raw_char_ties_changed": 0
+    },
+    "page_band_fallback": {
+      "pairs": 24,
+      "raw_char_improved": 1,
+      "raw_char_regressed": 0,
+      "byte_equal": 23,
+      "raw_char_ties_changed": 0
+    },
+    "existing": {
+      "pairs": 20,
+      "raw_char_improved": 0,
+      "raw_char_regressed": 0,
+      "byte_equal": 20,
+      "raw_char_ties_changed": 0
+    },
+    "repeated_glyph": {
+      "pairs": 160,
+      "raw_char_improved": 36,
+      "raw_char_regressed": 0,
+      "byte_equal": 112,
+      "raw_char_ties_changed": 12
+    }
+  },
+  "runtime100_eval": {
+    "long_line": {
+      "pairs": 26,
+      "raw_char_improved": 0,
+      "raw_char_regressed": 0,
+      "byte_equal": 26,
+      "raw_char_ties_changed": 0
+    },
+    "dense_crop": {
+      "pairs": 24,
+      "raw_char_improved": 0,
+      "raw_char_regressed": 0,
+      "byte_equal": 24,
+      "raw_char_ties_changed": 0
+    },
+    "dense_line": {
+      "pairs": 33,
+      "raw_char_improved": 0,
+      "raw_char_regressed": 0,
+      "byte_equal": 33,
+      "raw_char_ties_changed": 0
+    },
+    "page_band_fallback": {
+      "pairs": 24,
+      "raw_char_improved": 2,
+      "raw_char_regressed": 0,
+      "byte_equal": 22,
+      "raw_char_ties_changed": 0
+    },
+    "existing": {
+      "pairs": 20,
+      "raw_char_improved": 0,
+      "raw_char_regressed": 0,
+      "byte_equal": 20,
+      "raw_char_ties_changed": 0
+    },
+    "repeated_glyph": {
+      "pairs": 160,
+      "raw_char_improved": 37,
+      "raw_char_regressed": 0,
+      "byte_equal": 111,
+      "raw_char_ties_changed": 12
+    }
+  },
+  "runtime100_default": {
+    "long_line": {
+      "pairs": 26,
+      "raw_char_improved": 0,
+      "raw_char_regressed": 0,
+      "byte_equal": 26,
+      "raw_char_ties_changed": 0
+    },
+    "dense_crop": {
+      "pairs": 24,
+      "raw_char_improved": 0,
+      "raw_char_regressed": 0,
+      "byte_equal": 24,
+      "raw_char_ties_changed": 0
+    },
+    "dense_line": {
+      "pairs": 33,
+      "raw_char_improved": 0,
+      "raw_char_regressed": 0,
+      "byte_equal": 33,
+      "raw_char_ties_changed": 0
+    },
+    "page_band_fallback": {
+      "pairs": 24,
+      "raw_char_improved": 2,
+      "raw_char_regressed": 0,
+      "byte_equal": 22,
+      "raw_char_ties_changed": 0
+    },
+    "existing": {
+      "pairs": 20,
+      "raw_char_improved": 0,
+      "raw_char_regressed": 0,
+      "byte_equal": 20,
+      "raw_char_ties_changed": 0
+    },
+    "repeated_glyph": {
+      "pairs": 160,
+      "raw_char_improved": 37,
+      "raw_char_regressed": 0,
+      "byte_equal": 111,
+      "raw_char_ties_changed": 12
+    }
+  },
+  "single30": {
+    "long_line": {
+      "pairs": 26,
+      "raw_char_improved": 0,
+      "raw_char_regressed": 0,
+      "byte_equal": 26,
+      "raw_char_ties_changed": 0
+    },
+    "dense_crop": {
+      "pairs": 24,
+      "raw_char_improved": 0,
+      "raw_char_regressed": 0,
+      "byte_equal": 24,
+      "raw_char_ties_changed": 0
+    },
+    "dense_line": {
+      "pairs": 33,
+      "raw_char_improved": 0,
+      "raw_char_regressed": 0,
+      "byte_equal": 33,
+      "raw_char_ties_changed": 0
+    },
+    "page_band_fallback": {
+      "pairs": 20,
+      "raw_char_improved": 5,
+      "raw_char_regressed": 0,
+      "byte_equal": 15,
+      "raw_char_ties_changed": 0
+    },
+    "repeated_glyph": {
+      "pairs": 160,
+      "raw_char_improved": 53,
+      "raw_char_regressed": 0,
+      "byte_equal": 94,
+      "raw_char_ties_changed": 13
+    }
+  },
+  "single50": {
+    "long_line": {
+      "pairs": 26,
+      "raw_char_improved": 0,
+      "raw_char_regressed": 0,
+      "byte_equal": 26,
+      "raw_char_ties_changed": 0
+    },
+    "dense_crop": {
+      "pairs": 24,
+      "raw_char_improved": 0,
+      "raw_char_regressed": 0,
+      "byte_equal": 24,
+      "raw_char_ties_changed": 0
+    },
+    "dense_line": {
+      "pairs": 33,
+      "raw_char_improved": 0,
+      "raw_char_regressed": 0,
+      "byte_equal": 33,
+      "raw_char_ties_changed": 0
+    },
+    "page_band_fallback": {
+      "pairs": 20,
+      "raw_char_improved": 4,
+      "raw_char_regressed": 0,
+      "byte_equal": 15,
+      "raw_char_ties_changed": 1
+    },
+    "repeated_glyph": {
+      "pairs": 160,
+      "raw_char_improved": 54,
+      "raw_char_regressed": 0,
+      "byte_equal": 92,
+      "raw_char_ties_changed": 14
+    }
+  },
+  "single100": {
+    "long_line": {
+      "pairs": 26,
+      "raw_char_improved": 0,
+      "raw_char_regressed": 0,
+      "byte_equal": 26,
+      "raw_char_ties_changed": 0
+    },
+    "dense_crop": {
+      "pairs": 24,
+      "raw_char_improved": 0,
+      "raw_char_regressed": 0,
+      "byte_equal": 24,
+      "raw_char_ties_changed": 0
+    },
+    "dense_line": {
+      "pairs": 33,
+      "raw_char_improved": 0,
+      "raw_char_regressed": 0,
+      "byte_equal": 33,
+      "raw_char_ties_changed": 0
+    },
+    "page_band_fallback": {
+      "pairs": 20,
+      "raw_char_improved": 2,
+      "raw_char_regressed": 0,
+      "byte_equal": 18,
+      "raw_char_ties_changed": 0
+    },
+    "repeated_glyph": {
+      "pairs": 160,
+      "raw_char_improved": 45,
+      "raw_char_regressed": 0,
+      "byte_equal": 103,
+      "raw_char_ties_changed": 12
+    }
+  }
+}

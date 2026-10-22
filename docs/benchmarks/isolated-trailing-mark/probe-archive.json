@@ -1,0 +1,13 @@
+{
+  "uncompressed_bytes": 5470117,
+  "sha256": "e2f3b3986e78efb44f21a459b03002662e150c401e6769460fa35cb25f5607b7",
+  "gzip_sha256": "fbad48624c8215c72c55923fd15807848d8691cf8d46c03a3c518e2a70c9a172",
+  "scanned_images": 79,
+  "wide_crop_records": 88,
+  "images_with_wide_crops": 36,
+  "padding_crop_comparisons_each": 79,
+  "chunk_forwards": 6470,
+  "base_forwards": 88,
+  "product_baseline": "e9b1bd300d2a7905ad1966ec355d4b36cdca9883",
+  "note": "Only height >=12 and aspect >2x model input crops receive detailed PARSeq recording; remaining inputs are indexed in inventory.json."
+}

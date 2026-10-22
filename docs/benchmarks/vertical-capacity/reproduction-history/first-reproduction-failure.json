@@ -1,0 +1,12 @@
+{
+  "utc": "2026-10-20T11:15:32.907547+00:00",
+  "failure": "Cargo test changed working directory; recorded relative paths were not resolved to restoration root",
+  "all_archived_paths_still_match_sha256": 14839,
+  "all_126_inputs_and81chunks_present": true,
+  "original_archives_unchanged": {
+    "inputs": "4debbf24b74319191955b5a11bb453100b82ef5263bde75804a07e86dba6371b",
+    "evidence": "6fc97b5dafd0d2356ffde8c9ff3cda2a1ddf33233fa2a8e088c4a4d8be4ec2b7"
+  },
+  "failed_logs_preserved_in": "packet-work/reproduce-first.*,rust-first.*,reader-cwd-red-source.py",
+  "cleanup_only_generated_failed_restoration": "tmp/vertical-capacity/restored-final"
+}

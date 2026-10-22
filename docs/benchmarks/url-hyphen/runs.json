@@ -1,0 +1,1282 @@
+[
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/short-line-order/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "tests/fixtures/eval/images/jma_climate_2025.png",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--output-txt",
+      "tmp/url-hyphen/deim/before/jma_climate_2025.txt"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 8.147033667,
+    "stdout_sha256": "1a62ff81e032d93074ab90572ddf67b5e8204f606ca31841f95c8788da05bf8d"
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/url-hyphen/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "tests/fixtures/eval/images/jma_climate_2025.png",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--output-txt",
+      "tmp/url-hyphen/deim/after/jma_climate_2025.txt"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 9.154489042,
+    "stdout_sha256": "1a62ff81e032d93074ab90572ddf67b5e8204f606ca31841f95c8788da05bf8d"
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/short-line-order/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "tests/fixtures/eval/images/jma_climate_2025.png",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--output-txt",
+      "tmp/url-hyphen/bands/before/jma_climate_2025.txt",
+      "--use-deim-detection",
+      "false"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 6.649868334,
+    "stdout_sha256": "86c0bf3163be2ab238e764f3ff4a14a463d640ce8352de14172651344c6a286f"
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/url-hyphen/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "tests/fixtures/eval/images/jma_climate_2025.png",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--output-txt",
+      "tmp/url-hyphen/bands/after/jma_climate_2025.txt",
+      "--use-deim-detection",
+      "false"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 8.893850666,
+    "stdout_sha256": "86c0bf3163be2ab238e764f3ff4a14a463d640ce8352de14172651344c6a286f"
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/short-line-order/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "tests/fixtures/eval/images/jma_kobe_notice.png",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--output-txt",
+      "tmp/url-hyphen/deim/before/jma_kobe_notice.txt"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 5.9531895420000005,
+    "stdout_sha256": "01801d24b6661b449e5061e1358d19e52e797113674768fc7bfeec61601f6bf6"
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/url-hyphen/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "tests/fixtures/eval/images/jma_kobe_notice.png",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--output-txt",
+      "tmp/url-hyphen/deim/after/jma_kobe_notice.txt"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 4.706226917,
+    "stdout_sha256": "7be062c4f2fd59b9655c1fd71778111d21d23b9189bab84865627965aa29701e"
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/short-line-order/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "tests/fixtures/eval/images/jma_kobe_notice.png",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--output-txt",
+      "tmp/url-hyphen/bands/before/jma_kobe_notice.txt",
+      "--use-deim-detection",
+      "false"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 4.191457,
+    "stdout_sha256": "ef7c518bba561d848afeb54afd5de761330d17d9aee1f3d86496985c00a045cb"
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/url-hyphen/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "tests/fixtures/eval/images/jma_kobe_notice.png",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--output-txt",
+      "tmp/url-hyphen/bands/after/jma_kobe_notice.txt",
+      "--use-deim-detection",
+      "false"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 4.3351214580000015,
+    "stdout_sha256": "651ab86fe106fe330838c141c3296301871a0e16341991505030490ed73b1be4"
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/short-line-order/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "tests/fixtures/eval/images/ndl_accessibility_p2.png",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--output-txt",
+      "tmp/url-hyphen/deim/before/ndl_accessibility_p2.txt"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 3.9264562919999992,
+    "stdout_sha256": "16f3321e4acc00b47403859745139b6efaa403f0eb93b02731d86c7de4524b44"
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/url-hyphen/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "tests/fixtures/eval/images/ndl_accessibility_p2.png",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--output-txt",
+      "tmp/url-hyphen/deim/after/ndl_accessibility_p2.txt"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 3.9444001250000014,
+    "stdout_sha256": "16f3321e4acc00b47403859745139b6efaa403f0eb93b02731d86c7de4524b44"
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/short-line-order/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "tests/fixtures/eval/images/ndl_accessibility_p2.png",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--output-txt",
+      "tmp/url-hyphen/bands/before/ndl_accessibility_p2.txt",
+      "--use-deim-detection",
+      "false"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 3.722698916999999,
+    "stdout_sha256": "10a3b46b0a7fe49b03f0a53fe48e13d8e1b3c21b808a874ce769bbd95d054de1"
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/url-hyphen/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "tests/fixtures/eval/images/ndl_accessibility_p2.png",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--output-txt",
+      "tmp/url-hyphen/bands/after/ndl_accessibility_p2.txt",
+      "--use-deim-detection",
+      "false"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 3.7591254580000015,
+    "stdout_sha256": "10a3b46b0a7fe49b03f0a53fe48e13d8e1b3c21b808a874ce769bbd95d054de1"
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/short-line-order/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "tests/fixtures/eval/images/ndl_logo_ja.png",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--output-txt",
+      "tmp/url-hyphen/deim/before/ndl_logo_ja.txt"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 2.8799422079999992,
+    "stdout_sha256": "9fa80f1b267c9efaf3812a1a53b501b2ee0bbe7ac4c3f91f43685922b9b9f740"
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/url-hyphen/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "tests/fixtures/eval/images/ndl_logo_ja.png",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--output-txt",
+      "tmp/url-hyphen/deim/after/ndl_logo_ja.txt"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 2.817833458999999,
+    "stdout_sha256": "9fa80f1b267c9efaf3812a1a53b501b2ee0bbe7ac4c3f91f43685922b9b9f740"
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/short-line-order/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "tests/fixtures/eval/images/ndl_logo_ja.png",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--output-txt",
+      "tmp/url-hyphen/bands/before/ndl_logo_ja.txt",
+      "--use-deim-detection",
+      "false"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 2.104124875,
+    "stdout_sha256": "9fa80f1b267c9efaf3812a1a53b501b2ee0bbe7ac4c3f91f43685922b9b9f740"
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/url-hyphen/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "tests/fixtures/eval/images/ndl_logo_ja.png",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--output-txt",
+      "tmp/url-hyphen/bands/after/ndl_logo_ja.txt",
+      "--use-deim-detection",
+      "false"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 1.9676547500000012,
+    "stdout_sha256": "9fa80f1b267c9efaf3812a1a53b501b2ee0bbe7ac4c3f91f43685922b9b9f740"
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/short-line-order/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "tests/fixtures/eval/images/scaned0.png",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--output-txt",
+      "tmp/url-hyphen/deim/before/scaned0.txt"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 3.0494399580000007,
+    "stdout_sha256": "ad714c600745f1195d8d1c8fa9a85c4518ea975da438b8869041459c5e7e2f21"
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/url-hyphen/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "tests/fixtures/eval/images/scaned0.png",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--output-txt",
+      "tmp/url-hyphen/deim/after/scaned0.txt"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 3.0873810410000004,
+    "stdout_sha256": "ad714c600745f1195d8d1c8fa9a85c4518ea975da438b8869041459c5e7e2f21"
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/short-line-order/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "tests/fixtures/eval/images/scaned0.png",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--output-txt",
+      "tmp/url-hyphen/bands/before/scaned0.txt",
+      "--use-deim-detection",
+      "false"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 2.4170366670000014,
+    "stdout_sha256": "ad714c600745f1195d8d1c8fa9a85c4518ea975da438b8869041459c5e7e2f21"
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/url-hyphen/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "tests/fixtures/eval/images/scaned0.png",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--output-txt",
+      "tmp/url-hyphen/bands/after/scaned0.txt",
+      "--use-deim-detection",
+      "false"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 2.4464207500000015,
+    "stdout_sha256": "ad714c600745f1195d8d1c8fa9a85c4518ea975da438b8869041459c5e7e2f21"
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/short-line-order/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "docs/benchmarks/deim-edge/quality/images/jma_climate_2025_half.png",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--output-txt",
+      "tmp/url-hyphen/deim/before/jma_climate_2025_half.txt"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 3.6305477500000016,
+    "stdout_sha256": "d818f9794b9dfad6861777ba30886c54cbe7c84a8d37c8ca6878916bafd72936"
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/url-hyphen/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "docs/benchmarks/deim-edge/quality/images/jma_climate_2025_half.png",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--output-txt",
+      "tmp/url-hyphen/deim/after/jma_climate_2025_half.txt"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 3.6634388339999973,
+    "stdout_sha256": "d818f9794b9dfad6861777ba30886c54cbe7c84a8d37c8ca6878916bafd72936"
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/short-line-order/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "docs/benchmarks/deim-edge/quality/images/jma_climate_2025_half.png",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--output-txt",
+      "tmp/url-hyphen/bands/before/jma_climate_2025_half.txt",
+      "--use-deim-detection",
+      "false"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 3.4301380839999993,
+    "stdout_sha256": "b1811dd4d8f308fcdae1e943ebf1203178bcfa59bad181c2807d2aaaffd1b98a"
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/url-hyphen/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "docs/benchmarks/deim-edge/quality/images/jma_climate_2025_half.png",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--output-txt",
+      "tmp/url-hyphen/bands/after/jma_climate_2025_half.txt",
+      "--use-deim-detection",
+      "false"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 3.3528375419999996,
+    "stdout_sha256": "b1811dd4d8f308fcdae1e943ebf1203178bcfa59bad181c2807d2aaaffd1b98a"
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/short-line-order/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "docs/benchmarks/deim-edge/quality/images/jma_climate_2025_jpeg75.jpg",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--output-txt",
+      "tmp/url-hyphen/deim/before/jma_climate_2025_jpeg75.txt"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 3.6883212090000015,
+    "stdout_sha256": "b28aa18e2f1ced21e9619bdcb97f599a20658c430e14fc3b8ec011c37fc273a8"
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/url-hyphen/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "docs/benchmarks/deim-edge/quality/images/jma_climate_2025_jpeg75.jpg",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--output-txt",
+      "tmp/url-hyphen/deim/after/jma_climate_2025_jpeg75.txt"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 3.703539667000001,
+    "stdout_sha256": "b28aa18e2f1ced21e9619bdcb97f599a20658c430e14fc3b8ec011c37fc273a8"
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/short-line-order/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "docs/benchmarks/deim-edge/quality/images/jma_climate_2025_jpeg75.jpg",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--output-txt",
+      "tmp/url-hyphen/bands/before/jma_climate_2025_jpeg75.txt",
+      "--use-deim-detection",
+      "false"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 3.5190983749999987,
+    "stdout_sha256": "a7468dfc57a950880dabdc3b47deb1e11545d91d92aee92a0a9855d745061ece"
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/url-hyphen/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "docs/benchmarks/deim-edge/quality/images/jma_climate_2025_jpeg75.jpg",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--output-txt",
+      "tmp/url-hyphen/bands/after/jma_climate_2025_jpeg75.txt",
+      "--use-deim-detection",
+      "false"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 3.481009042,
+    "stdout_sha256": "a7468dfc57a950880dabdc3b47deb1e11545d91d92aee92a0a9855d745061ece"
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/short-line-order/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "docs/benchmarks/deim-edge/quality/images/jma_climate_2025_jpeg90.jpg",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--output-txt",
+      "tmp/url-hyphen/deim/before/jma_climate_2025_jpeg90.txt"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 4.718540208,
+    "stdout_sha256": "57942f274c238de5023819d83a546f4ffc8e18094c1abe39c36572ae3197085c"
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/url-hyphen/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "docs/benchmarks/deim-edge/quality/images/jma_climate_2025_jpeg90.jpg",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--output-txt",
+      "tmp/url-hyphen/deim/after/jma_climate_2025_jpeg90.txt"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 4.7191240830000005,
+    "stdout_sha256": "57942f274c238de5023819d83a546f4ffc8e18094c1abe39c36572ae3197085c"
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/short-line-order/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "docs/benchmarks/deim-edge/quality/images/jma_climate_2025_jpeg90.jpg",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--output-txt",
+      "tmp/url-hyphen/bands/before/jma_climate_2025_jpeg90.txt",
+      "--use-deim-detection",
+      "false"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 4.5484546250000015,
+    "stdout_sha256": "86c0bf3163be2ab238e764f3ff4a14a463d640ce8352de14172651344c6a286f"
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/url-hyphen/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "docs/benchmarks/deim-edge/quality/images/jma_climate_2025_jpeg90.jpg",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--output-txt",
+      "tmp/url-hyphen/bands/after/jma_climate_2025_jpeg90.txt",
+      "--use-deim-detection",
+      "false"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 4.403903207999999,
+    "stdout_sha256": "86c0bf3163be2ab238e764f3ff4a14a463d640ce8352de14172651344c6a286f"
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/short-line-order/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "docs/benchmarks/deim-edge/quality/images/jma_kobe_notice_half.png",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--output-txt",
+      "tmp/url-hyphen/deim/before/jma_kobe_notice_half.txt"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 4.257671459000001,
+    "stdout_sha256": "d9555e0dd5f2d0d1ae394bfd93cff70e97d927abcdf059e35053cbfdd3153688"
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/url-hyphen/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "docs/benchmarks/deim-edge/quality/images/jma_kobe_notice_half.png",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--output-txt",
+      "tmp/url-hyphen/deim/after/jma_kobe_notice_half.txt"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 4.2059887920000065,
+    "stdout_sha256": "210d767b4447444274e421457e56d8f6926d6474204e241a093934abe5f89ef8"
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/short-line-order/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "docs/benchmarks/deim-edge/quality/images/jma_kobe_notice_half.png",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--output-txt",
+      "tmp/url-hyphen/bands/before/jma_kobe_notice_half.txt",
+      "--use-deim-detection",
+      "false"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 3.8989287919999995,
+    "stdout_sha256": "4d4a3f6df52c9011ca95d79ef70816226f8579bf5e2477a20d8e7b2e052bf315"
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/url-hyphen/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "docs/benchmarks/deim-edge/quality/images/jma_kobe_notice_half.png",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--output-txt",
+      "tmp/url-hyphen/bands/after/jma_kobe_notice_half.txt",
+      "--use-deim-detection",
+      "false"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 3.9086444579999977,
+    "stdout_sha256": "4d4a3f6df52c9011ca95d79ef70816226f8579bf5e2477a20d8e7b2e052bf315"
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/short-line-order/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "docs/benchmarks/deim-edge/quality/images/jma_kobe_notice_jpeg75.jpg",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--output-txt",
+      "tmp/url-hyphen/deim/before/jma_kobe_notice_jpeg75.txt"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 4.243685916000004,
+    "stdout_sha256": "3e7bb84df0affaf070f94c762bd441c7d26688f15b545653b9d866b7645a3771"
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/url-hyphen/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "docs/benchmarks/deim-edge/quality/images/jma_kobe_notice_jpeg75.jpg",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--output-txt",
+      "tmp/url-hyphen/deim/after/jma_kobe_notice_jpeg75.txt"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 4.233907332999998,
+    "stdout_sha256": "800e3709d0da61244a5a0a25f15bce4daed80b1c56f2532f27aeb6928b962db1"
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/short-line-order/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "docs/benchmarks/deim-edge/quality/images/jma_kobe_notice_jpeg75.jpg",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--output-txt",
+      "tmp/url-hyphen/bands/before/jma_kobe_notice_jpeg75.txt",
+      "--use-deim-detection",
+      "false"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 4.137098915999999,
+    "stdout_sha256": "04c2fedbc19d9457c70256d230011ffa101dc0b89068276cfb6d1629ac37879a"
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/url-hyphen/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "docs/benchmarks/deim-edge/quality/images/jma_kobe_notice_jpeg75.jpg",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--output-txt",
+      "tmp/url-hyphen/bands/after/jma_kobe_notice_jpeg75.txt",
+      "--use-deim-detection",
+      "false"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 4.129838625000005,
+    "stdout_sha256": "dc317772191dc8e99fc6e4c6aa7bd98e55f59ba5ecc10d012d5bc6e7ab7223bc"
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/short-line-order/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "docs/benchmarks/deim-edge/quality/images/jma_kobe_notice_jpeg90.jpg",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--output-txt",
+      "tmp/url-hyphen/deim/before/jma_kobe_notice_jpeg90.txt"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 4.197968834000001,
+    "stdout_sha256": "326eba98666a1126bed98bc2f79cfa844a62e887e1572b434df2294a3b17d26e"
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/url-hyphen/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "docs/benchmarks/deim-edge/quality/images/jma_kobe_notice_jpeg90.jpg",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--output-txt",
+      "tmp/url-hyphen/deim/after/jma_kobe_notice_jpeg90.txt"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 4.163846458000002,
+    "stdout_sha256": "b458a1406424aaa13d255474d478cce5e432630c982b236294565a0539a481a9"
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/short-line-order/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "docs/benchmarks/deim-edge/quality/images/jma_kobe_notice_jpeg90.jpg",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--output-txt",
+      "tmp/url-hyphen/bands/before/jma_kobe_notice_jpeg90.txt",
+      "--use-deim-detection",
+      "false"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 4.088586667000001,
+    "stdout_sha256": "b9ed01f0df2cbda75538651426b788bbaccf1f06deb8d662a3ae4e912cd821ef"
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/url-hyphen/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "docs/benchmarks/deim-edge/quality/images/jma_kobe_notice_jpeg90.jpg",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--output-txt",
+      "tmp/url-hyphen/bands/after/jma_kobe_notice_jpeg90.txt",
+      "--use-deim-detection",
+      "false"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 4.092181124999996,
+    "stdout_sha256": "36de066b1623c746bff81b47c5465f42f4ab8513368406853772963e23b8b07e"
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/short-line-order/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "docs/benchmarks/deim-edge/quality/images/ndl_accessibility_p2_half.png",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--output-txt",
+      "tmp/url-hyphen/deim/before/ndl_accessibility_p2_half.txt"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 4.0375421660000015,
+    "stdout_sha256": "50b55dce84d618c91c9f0511dd6f55444e5ad7335e9da32ad1e8be1277acd573"
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/url-hyphen/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "docs/benchmarks/deim-edge/quality/images/ndl_accessibility_p2_half.png",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--output-txt",
+      "tmp/url-hyphen/deim/after/ndl_accessibility_p2_half.txt"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 4.039397708000003,
+    "stdout_sha256": "50b55dce84d618c91c9f0511dd6f55444e5ad7335e9da32ad1e8be1277acd573"
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/short-line-order/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "docs/benchmarks/deim-edge/quality/images/ndl_accessibility_p2_half.png",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--output-txt",
+      "tmp/url-hyphen/bands/before/ndl_accessibility_p2_half.txt",
+      "--use-deim-detection",
+      "false"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 3.8585582500000015,
+    "stdout_sha256": "bce9496ecdeee58f7fcde1ee7a3b72e811ac17ec155bb94548d73746bccdcb4d"
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/url-hyphen/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "docs/benchmarks/deim-edge/quality/images/ndl_accessibility_p2_half.png",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--output-txt",
+      "tmp/url-hyphen/bands/after/ndl_accessibility_p2_half.txt",
+      "--use-deim-detection",
+      "false"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 3.861058542000002,
+    "stdout_sha256": "bce9496ecdeee58f7fcde1ee7a3b72e811ac17ec155bb94548d73746bccdcb4d"
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/short-line-order/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "docs/benchmarks/deim-edge/quality/images/ndl_accessibility_p2_jpeg75.jpg",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--output-txt",
+      "tmp/url-hyphen/deim/before/ndl_accessibility_p2_jpeg75.txt"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 4.341410457999999,
+    "stdout_sha256": "c0387936a2890439aa875fa2c3805ea9469a57e2d1d5bd1f1bf7d8b2ff15f8ec"
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/url-hyphen/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "docs/benchmarks/deim-edge/quality/images/ndl_accessibility_p2_jpeg75.jpg",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--output-txt",
+      "tmp/url-hyphen/deim/after/ndl_accessibility_p2_jpeg75.txt"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 4.334483958,
+    "stdout_sha256": "c0387936a2890439aa875fa2c3805ea9469a57e2d1d5bd1f1bf7d8b2ff15f8ec"
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/short-line-order/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "docs/benchmarks/deim-edge/quality/images/ndl_accessibility_p2_jpeg75.jpg",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--output-txt",
+      "tmp/url-hyphen/bands/before/ndl_accessibility_p2_jpeg75.txt",
+      "--use-deim-detection",
+      "false"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 4.1476406670000046,
+    "stdout_sha256": "e5b3449631c6ef3c8e1bd7540e2e3cbf46c7c1a4fda75cdaa72b4d0866a15932"
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/url-hyphen/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "docs/benchmarks/deim-edge/quality/images/ndl_accessibility_p2_jpeg75.jpg",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--output-txt",
+      "tmp/url-hyphen/bands/after/ndl_accessibility_p2_jpeg75.txt",
+      "--use-deim-detection",
+      "false"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 4.186149999999998,
+    "stdout_sha256": "e5b3449631c6ef3c8e1bd7540e2e3cbf46c7c1a4fda75cdaa72b4d0866a15932"
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/short-line-order/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "docs/benchmarks/deim-edge/quality/images/ndl_accessibility_p2_jpeg90.jpg",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--output-txt",
+      "tmp/url-hyphen/deim/before/ndl_accessibility_p2_jpeg90.txt"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 4.314847,
+    "stdout_sha256": "abef6f283bfca30ae14a0d8b4326d357fc0999a36061ef6ee6c703581bddb5ad"
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/url-hyphen/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "docs/benchmarks/deim-edge/quality/images/ndl_accessibility_p2_jpeg90.jpg",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--output-txt",
+      "tmp/url-hyphen/deim/after/ndl_accessibility_p2_jpeg90.txt"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 4.3143005840000015,
+    "stdout_sha256": "abef6f283bfca30ae14a0d8b4326d357fc0999a36061ef6ee6c703581bddb5ad"
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/short-line-order/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "docs/benchmarks/deim-edge/quality/images/ndl_accessibility_p2_jpeg90.jpg",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--output-txt",
+      "tmp/url-hyphen/bands/before/ndl_accessibility_p2_jpeg90.txt",
+      "--use-deim-detection",
+      "false"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 4.133912291999998,
+    "stdout_sha256": "c7ad1f5c2b898e570bee93213d34dea4f192c077eff8d1c543bdf13c906edc6d"
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/url-hyphen/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "docs/benchmarks/deim-edge/quality/images/ndl_accessibility_p2_jpeg90.jpg",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--output-txt",
+      "tmp/url-hyphen/bands/after/ndl_accessibility_p2_jpeg90.txt",
+      "--use-deim-detection",
+      "false"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 4.151565208000001,
+    "stdout_sha256": "c7ad1f5c2b898e570bee93213d34dea4f192c077eff8d1c543bdf13c906edc6d"
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/short-line-order/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "docs/benchmarks/deim-edge/quality/images/ndl_logo_ja_half.png",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--output-txt",
+      "tmp/url-hyphen/deim/before/ndl_logo_ja_half.txt"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 3.070794833000001,
+    "stdout_sha256": "9fa80f1b267c9efaf3812a1a53b501b2ee0bbe7ac4c3f91f43685922b9b9f740"
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/url-hyphen/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "docs/benchmarks/deim-edge/quality/images/ndl_logo_ja_half.png",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--output-txt",
+      "tmp/url-hyphen/deim/after/ndl_logo_ja_half.txt"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 3.1180963340000005,
+    "stdout_sha256": "9fa80f1b267c9efaf3812a1a53b501b2ee0bbe7ac4c3f91f43685922b9b9f740"
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/short-line-order/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "docs/benchmarks/deim-edge/quality/images/ndl_logo_ja_half.png",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--output-txt",
+      "tmp/url-hyphen/bands/before/ndl_logo_ja_half.txt",
+      "--use-deim-detection",
+      "false"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 2.1574197500000025,
+    "stdout_sha256": "9fa80f1b267c9efaf3812a1a53b501b2ee0bbe7ac4c3f91f43685922b9b9f740"
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/url-hyphen/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "docs/benchmarks/deim-edge/quality/images/ndl_logo_ja_half.png",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--output-txt",
+      "tmp/url-hyphen/bands/after/ndl_logo_ja_half.txt",
+      "--use-deim-detection",
+      "false"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 2.1544687499999995,
+    "stdout_sha256": "9fa80f1b267c9efaf3812a1a53b501b2ee0bbe7ac4c3f91f43685922b9b9f740"
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/short-line-order/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "docs/benchmarks/deim-edge/quality/images/ndl_logo_ja_jpeg75.jpg",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--output-txt",
+      "tmp/url-hyphen/deim/before/ndl_logo_ja_jpeg75.txt"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 3.101188833000002,
+    "stdout_sha256": "9fa80f1b267c9efaf3812a1a53b501b2ee0bbe7ac4c3f91f43685922b9b9f740"
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/url-hyphen/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "docs/benchmarks/deim-edge/quality/images/ndl_logo_ja_jpeg75.jpg",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--output-txt",
+      "tmp/url-hyphen/deim/after/ndl_logo_ja_jpeg75.txt"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 3.0903067499999963,
+    "stdout_sha256": "9fa80f1b267c9efaf3812a1a53b501b2ee0bbe7ac4c3f91f43685922b9b9f740"
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/short-line-order/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "docs/benchmarks/deim-edge/quality/images/ndl_logo_ja_jpeg75.jpg",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--output-txt",
+      "tmp/url-hyphen/bands/before/ndl_logo_ja_jpeg75.txt",
+      "--use-deim-detection",
+      "false"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 2.199683666999995,
+    "stdout_sha256": "9fa80f1b267c9efaf3812a1a53b501b2ee0bbe7ac4c3f91f43685922b9b9f740"
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/url-hyphen/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "docs/benchmarks/deim-edge/quality/images/ndl_logo_ja_jpeg75.jpg",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--output-txt",
+      "tmp/url-hyphen/bands/after/ndl_logo_ja_jpeg75.txt",
+      "--use-deim-detection",
+      "false"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 2.147852875000005,
+    "stdout_sha256": "9fa80f1b267c9efaf3812a1a53b501b2ee0bbe7ac4c3f91f43685922b9b9f740"
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/short-line-order/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "docs/benchmarks/deim-edge/quality/images/ndl_logo_ja_jpeg90.jpg",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--output-txt",
+      "tmp/url-hyphen/deim/before/ndl_logo_ja_jpeg90.txt"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 3.060406625000006,
+    "stdout_sha256": "9fa80f1b267c9efaf3812a1a53b501b2ee0bbe7ac4c3f91f43685922b9b9f740"
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/url-hyphen/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "docs/benchmarks/deim-edge/quality/images/ndl_logo_ja_jpeg90.jpg",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--output-txt",
+      "tmp/url-hyphen/deim/after/ndl_logo_ja_jpeg90.txt"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 3.082246375000004,
+    "stdout_sha256": "9fa80f1b267c9efaf3812a1a53b501b2ee0bbe7ac4c3f91f43685922b9b9f740"
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/short-line-order/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "docs/benchmarks/deim-edge/quality/images/ndl_logo_ja_jpeg90.jpg",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--output-txt",
+      "tmp/url-hyphen/bands/before/ndl_logo_ja_jpeg90.txt",
+      "--use-deim-detection",
+      "false"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 2.1728772919999955,
+    "stdout_sha256": "9fa80f1b267c9efaf3812a1a53b501b2ee0bbe7ac4c3f91f43685922b9b9f740"
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/url-hyphen/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "docs/benchmarks/deim-edge/quality/images/ndl_logo_ja_jpeg90.jpg",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--output-txt",
+      "tmp/url-hyphen/bands/after/ndl_logo_ja_jpeg90.txt",
+      "--use-deim-detection",
+      "false"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 2.2025059999999996,
+    "stdout_sha256": "9fa80f1b267c9efaf3812a1a53b501b2ee0bbe7ac4c3f91f43685922b9b9f740"
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/short-line-order/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "docs/benchmarks/deim-edge/quality/images/scaned0_half.png",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--output-txt",
+      "tmp/url-hyphen/deim/before/scaned0_half.txt"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 3.2949842920000094,
+    "stdout_sha256": "ad714c600745f1195d8d1c8fa9a85c4518ea975da438b8869041459c5e7e2f21"
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/url-hyphen/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "docs/benchmarks/deim-edge/quality/images/scaned0_half.png",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--output-txt",
+      "tmp/url-hyphen/deim/after/scaned0_half.txt"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 3.2268782910000056,
+    "stdout_sha256": "ad714c600745f1195d8d1c8fa9a85c4518ea975da438b8869041459c5e7e2f21"
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/short-line-order/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "docs/benchmarks/deim-edge/quality/images/scaned0_half.png",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--output-txt",
+      "tmp/url-hyphen/bands/before/scaned0_half.txt",
+      "--use-deim-detection",
+      "false"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 2.529918916999989,
+    "stdout_sha256": "06bf6864f633271c972c05731e0505e66bd22fd97510f4fdea33525e1e3be7bc"
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/url-hyphen/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "docs/benchmarks/deim-edge/quality/images/scaned0_half.png",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--output-txt",
+      "tmp/url-hyphen/bands/after/scaned0_half.txt",
+      "--use-deim-detection",
+      "false"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 2.501476749999995,
+    "stdout_sha256": "06bf6864f633271c972c05731e0505e66bd22fd97510f4fdea33525e1e3be7bc"
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/short-line-order/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "docs/benchmarks/deim-edge/quality/images/scaned0_jpeg75.jpg",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--output-txt",
+      "tmp/url-hyphen/deim/before/scaned0_jpeg75.txt"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 3.711055290999994,
+    "stdout_sha256": "ad714c600745f1195d8d1c8fa9a85c4518ea975da438b8869041459c5e7e2f21"
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/url-hyphen/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "docs/benchmarks/deim-edge/quality/images/scaned0_jpeg75.jpg",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--output-txt",
+      "tmp/url-hyphen/deim/after/scaned0_jpeg75.txt"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 3.6941169159999987,
+    "stdout_sha256": "ad714c600745f1195d8d1c8fa9a85c4518ea975da438b8869041459c5e7e2f21"
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/short-line-order/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "docs/benchmarks/deim-edge/quality/images/scaned0_jpeg75.jpg",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--output-txt",
+      "tmp/url-hyphen/bands/before/scaned0_jpeg75.txt",
+      "--use-deim-detection",
+      "false"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 2.8890910829999967,
+    "stdout_sha256": "ad714c600745f1195d8d1c8fa9a85c4518ea975da438b8869041459c5e7e2f21"
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/url-hyphen/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "docs/benchmarks/deim-edge/quality/images/scaned0_jpeg75.jpg",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--output-txt",
+      "tmp/url-hyphen/bands/after/scaned0_jpeg75.txt",
+      "--use-deim-detection",
+      "false"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 2.9371867079999987,
+    "stdout_sha256": "ad714c600745f1195d8d1c8fa9a85c4518ea975da438b8869041459c5e7e2f21"
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/short-line-order/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "docs/benchmarks/deim-edge/quality/images/scaned0_jpeg90.jpg",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--output-txt",
+      "tmp/url-hyphen/deim/before/scaned0_jpeg90.txt"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 3.580715459000004,
+    "stdout_sha256": "ad714c600745f1195d8d1c8fa9a85c4518ea975da438b8869041459c5e7e2f21"
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/url-hyphen/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "docs/benchmarks/deim-edge/quality/images/scaned0_jpeg90.jpg",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--output-txt",
+      "tmp/url-hyphen/deim/after/scaned0_jpeg90.txt"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 3.5070204579999995,
+    "stdout_sha256": "ad714c600745f1195d8d1c8fa9a85c4518ea975da438b8869041459c5e7e2f21"
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/short-line-order/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "docs/benchmarks/deim-edge/quality/images/scaned0_jpeg90.jpg",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--output-txt",
+      "tmp/url-hyphen/bands/before/scaned0_jpeg90.txt",
+      "--use-deim-detection",
+      "false"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 2.8232123330000007,
+    "stdout_sha256": "ad714c600745f1195d8d1c8fa9a85c4518ea975da438b8869041459c5e7e2f21"
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/url-hyphen/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "docs/benchmarks/deim-edge/quality/images/scaned0_jpeg90.jpg",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--output-txt",
+      "tmp/url-hyphen/bands/after/scaned0_jpeg90.txt",
+      "--use-deim-detection",
+      "false"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 2.8087422910000015,
+    "stdout_sha256": "ad714c600745f1195d8d1c8fa9a85c4518ea975da438b8869041459c5e7e2f21"
+  }
+]

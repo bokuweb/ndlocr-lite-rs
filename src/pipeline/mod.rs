@@ -12,7 +12,7 @@ mod fragment_bands;
 pub mod horizontal_margins;
 /// 横書き行を画素欠落のない短い認識区間に分割する。
 pub mod line_chunks;
-/// 行クラスの競合検出を、認識前に共通の条件で選ぶ。
+/// 行検出の重複候補を、認識前に共通の条件で選ぶ。
 pub(crate) mod line_detections;
 /// 原領域を保持し、予算内の隣接帯結合を採点候補として列挙する。
 pub mod line_hypotheses;
@@ -25,3 +25,11 @@ pub mod reading_order;
 pub mod run_page;
 /// 既知の縦書きページを元座標の右から左の列へ分ける。
 pub mod vertical_segment;
+
+/// 複数行の本文を囲む縦罫線を切り出し範囲から外す。
+mod framed_lines;
+
+pub(crate) mod band_text_support;
+
+#[cfg(any(feature = "onnx", test))]
+pub(crate) mod line_context;

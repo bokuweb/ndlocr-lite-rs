@@ -1,0 +1,46 @@
+   Compiling ndlocr-lite-rs v0.1.0 (/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.92s
+     Running tests/same_class_line_duplicates_tests.rs (target/debug/deps/same_class_line_duplicates_tests-496a1e1ca0175dff)
+
+running 3 tests
+test distinct_same_class_rows_and_partial_regions_are_retained ... ok
+test overlapping_same_class_queries_are_recognized_once ... FAILED
+test same_class_winner_keeps_metadata_under_scale_and_input_reversal ... FAILED
+
+failures:
+
+---- overlapping_same_class_queries_are_recognized_once stdout ----
+
+thread 'overlapping_same_class_queries_are_recognized_once' (39676433) panicked at tests/same_class_line_duplicates_tests.rs:20:5:
+assertion `left == right` failed
+  left: 3
+ right: 1
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+---- same_class_winner_keeps_metadata_under_scale_and_input_reversal stdout ----
+proptest: FileFailurePersistence::SourceParallel set, but failed to find lib.rs or main.rs
+proptest: FileFailurePersistence::SourceParallel set, but failed to find lib.rs or main.rs
+proptest: Saving this and future failures in /Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tests/same_class_line_duplicates_tests.proptest-regressions
+proptest: If this test was run on a CI system, you may wish to add the following line to your copy of the file. (You may need to create it.)
+cc 82a0ae37454102e1635e6c800156202a91d45d686190c66e3c92bbf11ef7354b
+
+thread 'same_class_winner_keeps_metadata_under_scale_and_input_reversal' (39676434) panicked at tests/same_class_line_duplicates_tests.rs:39:1:
+Test failed: assertion failed: `(left == right)`
+  left: `2`,
+ right: `1` at tests/same_class_line_duplicates_tests.rs:45.
+minimal failing input: scale = 1, x = 0, y = 0, reverse = false
+	successes: 0
+	local rejects: 0
+	global rejects: 0
+
+
+
+failures:
+    overlapping_same_class_queries_are_recognized_once
+    same_class_winner_keeps_metadata_under_scale_and_input_reversal
+
+test result: FAILED. 1 passed; 2 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+error: test failed, to rerun pass `--test same_class_line_duplicates_tests`
+mbx[cache]: 0 hits, 0 misses, 2 not looked up, 3 incremental; 0 B downloaded, 0 B uploaded, 0 B stored locally
+mbx[savings]: 58476 compilations old. not one compiled twice.

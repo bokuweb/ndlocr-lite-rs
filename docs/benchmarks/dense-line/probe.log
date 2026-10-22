@@ -1,0 +1,28 @@
+   Compiling ndlocr-lite-rs v0.1.0 (/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs)
+warning: methods `recognize_batch_indexed` and `run_chunk_on_session` are never used
+   --> src/infer/cached.rs:572:8
+    |
+410 | impl ParseqPool {
+    | --------------- methods in this implementation
+...
+572 |     fn recognize_batch_indexed(
+    |        ^^^^^^^^^^^^^^^^^^^^^^^
+...
+691 |     fn run_chunk_on_session(
+    |        ^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: `ndlocr-lite-rs` (lib) generated 1 warning
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 3.82s
+     Running tests/dense_line_probe_tests.rs (target/debug/deps/dense_line_probe_tests-cb5335bbf57971f4)
+
+running 1 test
+mbx[progress]: 15s elapsed; 0 hits, 0 misses, 3 bypassed, 0 not looked up; ~0s compiler work saved
+test inspect_dense_line_stop_reasons_and_model_context ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 16.38s
+
+mbx[cache]: 0 hits, 0 misses, 3 bypassed; 0 B downloaded, 0 B uploaded, 0 B stored locally
+mbx[gc]: evicted 0 objects and 0 action results (2.2 MiB logical); 23.0 GiB logical remain
+mbx[savings]: has saved 11h 2m across 9044 builds. this line is the only thanks it needs.

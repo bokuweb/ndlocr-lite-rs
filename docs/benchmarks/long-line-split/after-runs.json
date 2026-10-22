@@ -1,0 +1,1474 @@
+[
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/long-line-split/final/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "tests/fixtures/long_line_split/images/library_gothic24.png",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--use-deim-detection",
+      "true",
+      "--output-txt",
+      "tmp/long-line-split/final/after/deim/library_gothic24.txt"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 6.523099125
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/long-line-split/final/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "tests/fixtures/long_line_split/images/library_gothic24.png",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--use-deim-detection",
+      "false",
+      "--output-txt",
+      "tmp/long-line-split/final/after/bands/library_gothic24.txt"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 4.799681458999999
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/long-line-split/final/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "tests/fixtures/long_line_split/images/observations_gothic24.png",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--use-deim-detection",
+      "true",
+      "--output-txt",
+      "tmp/long-line-split/final/after/deim/observations_gothic24.txt"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 6.609498
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/long-line-split/final/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "tests/fixtures/long_line_split/images/observations_gothic24.png",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--use-deim-detection",
+      "false",
+      "--output-txt",
+      "tmp/long-line-split/final/after/bands/observations_gothic24.txt"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 4.977386291
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/long-line-split/final/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "tests/fixtures/long_line_split/images/japanese_gothic24.png",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--use-deim-detection",
+      "true",
+      "--output-txt",
+      "tmp/long-line-split/final/after/deim/japanese_gothic24.txt"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 5.471308625
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/long-line-split/final/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "tests/fixtures/long_line_split/images/japanese_gothic24.png",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--use-deim-detection",
+      "false",
+      "--output-txt",
+      "tmp/long-line-split/final/after/bands/japanese_gothic24.txt"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 4.017776874999999
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/long-line-split/final/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "tests/fixtures/long_line_split/images/uri_gothic24.png",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--use-deim-detection",
+      "true",
+      "--output-txt",
+      "tmp/long-line-split/final/after/deim/uri_gothic24.txt"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 5.041826916
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/long-line-split/final/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "tests/fixtures/long_line_split/images/uri_gothic24.png",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--use-deim-detection",
+      "false",
+      "--output-txt",
+      "tmp/long-line-split/final/after/bands/uri_gothic24.txt"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 3.8809721249999996
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/long-line-split/final/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "tests/fixtures/long_line_split/images/control_en_gothic24.png",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--use-deim-detection",
+      "true",
+      "--output-txt",
+      "tmp/long-line-split/final/after/deim/control_en_gothic24.txt"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 3.603838541
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/long-line-split/final/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "tests/fixtures/long_line_split/images/control_en_gothic24.png",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--use-deim-detection",
+      "false",
+      "--output-txt",
+      "tmp/long-line-split/final/after/bands/control_en_gothic24.txt"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 2.378585749999999
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/long-line-split/final/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "tests/fixtures/long_line_split/images/control_ja_gothic24.png",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--use-deim-detection",
+      "true",
+      "--output-txt",
+      "tmp/long-line-split/final/after/deim/control_ja_gothic24.txt"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 3.0401381249999986
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/long-line-split/final/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "tests/fixtures/long_line_split/images/control_ja_gothic24.png",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--use-deim-detection",
+      "false",
+      "--output-txt",
+      "tmp/long-line-split/final/after/bands/control_ja_gothic24.txt"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 2.0600397079999997
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/long-line-split/final/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "tests/fixtures/long_line_split/images/library_gothic36.png",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--use-deim-detection",
+      "true",
+      "--output-txt",
+      "tmp/long-line-split/final/after/deim/library_gothic36.txt"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 3.153598875
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/long-line-split/final/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "tests/fixtures/long_line_split/images/library_gothic36.png",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--use-deim-detection",
+      "false",
+      "--output-txt",
+      "tmp/long-line-split/final/after/bands/library_gothic36.txt"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 2.3382074999999993
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/long-line-split/final/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "tests/fixtures/long_line_split/images/observations_gothic36.png",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--use-deim-detection",
+      "true",
+      "--output-txt",
+      "tmp/long-line-split/final/after/deim/observations_gothic36.txt"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 3.084714625
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/long-line-split/final/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "tests/fixtures/long_line_split/images/observations_gothic36.png",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--use-deim-detection",
+      "false",
+      "--output-txt",
+      "tmp/long-line-split/final/after/bands/observations_gothic36.txt"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 2.2977102499999997
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/long-line-split/final/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "tests/fixtures/long_line_split/images/japanese_gothic36.png",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--use-deim-detection",
+      "true",
+      "--output-txt",
+      "tmp/long-line-split/final/after/deim/japanese_gothic36.txt"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 2.9967679590000014
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/long-line-split/final/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "tests/fixtures/long_line_split/images/japanese_gothic36.png",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--use-deim-detection",
+      "false",
+      "--output-txt",
+      "tmp/long-line-split/final/after/bands/japanese_gothic36.txt"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 2.127719958
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/long-line-split/final/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "tests/fixtures/long_line_split/images/uri_gothic36.png",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--use-deim-detection",
+      "true",
+      "--output-txt",
+      "tmp/long-line-split/final/after/deim/uri_gothic36.txt"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 3.2140222079999994
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/long-line-split/final/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "tests/fixtures/long_line_split/images/uri_gothic36.png",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--use-deim-detection",
+      "false",
+      "--output-txt",
+      "tmp/long-line-split/final/after/bands/uri_gothic36.txt"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 2.2551855409999995
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/long-line-split/final/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "tests/fixtures/long_line_split/images/control_en_gothic36.png",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--use-deim-detection",
+      "true",
+      "--output-txt",
+      "tmp/long-line-split/final/after/deim/control_en_gothic36.txt"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 4.622255166999999
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/long-line-split/final/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "tests/fixtures/long_line_split/images/control_en_gothic36.png",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--use-deim-detection",
+      "false",
+      "--output-txt",
+      "tmp/long-line-split/final/after/bands/control_en_gothic36.txt"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 3.329913417
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/long-line-split/final/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "tests/fixtures/long_line_split/images/control_ja_gothic36.png",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--use-deim-detection",
+      "true",
+      "--output-txt",
+      "tmp/long-line-split/final/after/deim/control_ja_gothic36.txt"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 4.857403874999999
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/long-line-split/final/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "tests/fixtures/long_line_split/images/control_ja_gothic36.png",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--use-deim-detection",
+      "false",
+      "--output-txt",
+      "tmp/long-line-split/final/after/bands/control_ja_gothic36.txt"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 3.9977056249999983
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/long-line-split/final/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "tests/fixtures/long_line_split/images/library_mincho24.png",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--use-deim-detection",
+      "true",
+      "--output-txt",
+      "tmp/long-line-split/final/after/deim/library_mincho24.txt"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 4.008465666999999
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/long-line-split/final/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "tests/fixtures/long_line_split/images/library_mincho24.png",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--use-deim-detection",
+      "false",
+      "--output-txt",
+      "tmp/long-line-split/final/after/bands/library_mincho24.txt"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 2.7397442079999976
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/long-line-split/final/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "tests/fixtures/long_line_split/images/observations_mincho24.png",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--use-deim-detection",
+      "true",
+      "--output-txt",
+      "tmp/long-line-split/final/after/deim/observations_mincho24.txt"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 3.4105809580000006
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/long-line-split/final/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "tests/fixtures/long_line_split/images/observations_mincho24.png",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--use-deim-detection",
+      "false",
+      "--output-txt",
+      "tmp/long-line-split/final/after/bands/observations_mincho24.txt"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 2.5470113330000004
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/long-line-split/final/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "tests/fixtures/long_line_split/images/japanese_mincho24.png",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--use-deim-detection",
+      "true",
+      "--output-txt",
+      "tmp/long-line-split/final/after/deim/japanese_mincho24.txt"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 3.1360041669999994
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/long-line-split/final/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "tests/fixtures/long_line_split/images/japanese_mincho24.png",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--use-deim-detection",
+      "false",
+      "--output-txt",
+      "tmp/long-line-split/final/after/bands/japanese_mincho24.txt"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 2.3201579169999995
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/long-line-split/final/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "tests/fixtures/long_line_split/images/uri_mincho24.png",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--use-deim-detection",
+      "true",
+      "--output-txt",
+      "tmp/long-line-split/final/after/deim/uri_mincho24.txt"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 3.1048772500000013
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/long-line-split/final/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "tests/fixtures/long_line_split/images/uri_mincho24.png",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--use-deim-detection",
+      "false",
+      "--output-txt",
+      "tmp/long-line-split/final/after/bands/uri_mincho24.txt"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 2.288821125000002
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/long-line-split/final/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "tests/fixtures/long_line_split/images/control_en_mincho24.png",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--use-deim-detection",
+      "true",
+      "--output-txt",
+      "tmp/long-line-split/final/after/deim/control_en_mincho24.txt"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 2.9847488329999976
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/long-line-split/final/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "tests/fixtures/long_line_split/images/control_en_mincho24.png",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--use-deim-detection",
+      "false",
+      "--output-txt",
+      "tmp/long-line-split/final/after/bands/control_en_mincho24.txt"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 2.114630625
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/long-line-split/final/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "tests/fixtures/long_line_split/images/control_ja_mincho24.png",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--use-deim-detection",
+      "true",
+      "--output-txt",
+      "tmp/long-line-split/final/after/deim/control_ja_mincho24.txt"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 3.0025638749999963
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/long-line-split/final/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "tests/fixtures/long_line_split/images/control_ja_mincho24.png",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--use-deim-detection",
+      "false",
+      "--output-txt",
+      "tmp/long-line-split/final/after/bands/control_ja_mincho24.txt"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 2.131018541000003
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/long-line-split/final/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "tests/fixtures/long_line_split/images/library_mincho36.png",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--use-deim-detection",
+      "true",
+      "--output-txt",
+      "tmp/long-line-split/final/after/deim/library_mincho36.txt"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 3.2182178750000006
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/long-line-split/final/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "tests/fixtures/long_line_split/images/library_mincho36.png",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--use-deim-detection",
+      "false",
+      "--output-txt",
+      "tmp/long-line-split/final/after/bands/library_mincho36.txt"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 2.379022749999997
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/long-line-split/final/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "tests/fixtures/long_line_split/images/observations_mincho36.png",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--use-deim-detection",
+      "true",
+      "--output-txt",
+      "tmp/long-line-split/final/after/deim/observations_mincho36.txt"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 3.1702740000000027
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/long-line-split/final/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "tests/fixtures/long_line_split/images/observations_mincho36.png",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--use-deim-detection",
+      "false",
+      "--output-txt",
+      "tmp/long-line-split/final/after/bands/observations_mincho36.txt"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 2.3823748749999965
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/long-line-split/final/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "tests/fixtures/long_line_split/images/japanese_mincho36.png",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--use-deim-detection",
+      "true",
+      "--output-txt",
+      "tmp/long-line-split/final/after/deim/japanese_mincho36.txt"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 3.006625249999999
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/long-line-split/final/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "tests/fixtures/long_line_split/images/japanese_mincho36.png",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--use-deim-detection",
+      "false",
+      "--output-txt",
+      "tmp/long-line-split/final/after/bands/japanese_mincho36.txt"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 2.169242833999995
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/long-line-split/final/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "tests/fixtures/long_line_split/images/uri_mincho36.png",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--use-deim-detection",
+      "true",
+      "--output-txt",
+      "tmp/long-line-split/final/after/deim/uri_mincho36.txt"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 3.1497968329999964
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/long-line-split/final/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "tests/fixtures/long_line_split/images/uri_mincho36.png",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--use-deim-detection",
+      "false",
+      "--output-txt",
+      "tmp/long-line-split/final/after/bands/uri_mincho36.txt"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 2.3095989169999953
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/long-line-split/final/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "tests/fixtures/long_line_split/images/control_en_mincho36.png",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--use-deim-detection",
+      "true",
+      "--output-txt",
+      "tmp/long-line-split/final/after/deim/control_en_mincho36.txt"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 3.042696915999997
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/long-line-split/final/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "tests/fixtures/long_line_split/images/control_en_mincho36.png",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--use-deim-detection",
+      "false",
+      "--output-txt",
+      "tmp/long-line-split/final/after/bands/control_en_mincho36.txt"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 2.2590219999999945
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/long-line-split/final/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "tests/fixtures/long_line_split/images/control_ja_mincho36.png",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--use-deim-detection",
+      "true",
+      "--output-txt",
+      "tmp/long-line-split/final/after/deim/control_ja_mincho36.txt"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 2.962435499999998
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/long-line-split/final/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "tests/fixtures/long_line_split/images/control_ja_mincho36.png",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--use-deim-detection",
+      "false",
+      "--output-txt",
+      "tmp/long-line-split/final/after/bands/control_ja_mincho36.txt"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 2.255687375000001
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/long-line-split/final/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "tests/fixtures/long_line_split/images/paragraph_raw.png",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--use-deim-detection",
+      "true",
+      "--output-txt",
+      "tmp/long-line-split/final/after/deim/paragraph_raw.txt"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 3.0739630420000026
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/long-line-split/final/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "tests/fixtures/long_line_split/images/paragraph_raw.png",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--use-deim-detection",
+      "false",
+      "--output-txt",
+      "tmp/long-line-split/final/after/bands/paragraph_raw.txt"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 2.283118832999996
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/long-line-split/final/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "tests/fixtures/long_line_split/images/paragraph_normalized.png",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--use-deim-detection",
+      "true",
+      "--output-txt",
+      "tmp/long-line-split/final/after/deim/paragraph_normalized.txt"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 3.1498858339999956
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/long-line-split/final/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "tests/fixtures/long_line_split/images/paragraph_normalized.png",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--use-deim-detection",
+      "false",
+      "--output-txt",
+      "tmp/long-line-split/final/after/bands/paragraph_normalized.txt"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 2.328396290999997
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/long-line-split/final/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "tests/fixtures/eval/images/jma_climate_2025.png",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--use-deim-detection",
+      "true",
+      "--output-txt",
+      "tmp/long-line-split/final/after/deim/jma_climate_2025.txt"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 3.7291302089999974
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/long-line-split/final/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "tests/fixtures/eval/images/jma_climate_2025.png",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--use-deim-detection",
+      "false",
+      "--output-txt",
+      "tmp/long-line-split/final/after/bands/jma_climate_2025.txt"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 3.5320966670000047
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/long-line-split/final/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "tests/fixtures/eval/images/jma_kobe_notice.png",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--use-deim-detection",
+      "true",
+      "--output-txt",
+      "tmp/long-line-split/final/after/deim/jma_kobe_notice.txt"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 3.856970957999998
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/long-line-split/final/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "tests/fixtures/eval/images/jma_kobe_notice.png",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--use-deim-detection",
+      "false",
+      "--output-txt",
+      "tmp/long-line-split/final/after/bands/jma_kobe_notice.txt"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 3.869412415999996
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/long-line-split/final/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "tests/fixtures/eval/images/ndl_accessibility_p2.png",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--use-deim-detection",
+      "true",
+      "--output-txt",
+      "tmp/long-line-split/final/after/deim/ndl_accessibility_p2.txt"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 3.8583782919999976
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/long-line-split/final/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "tests/fixtures/eval/images/ndl_accessibility_p2.png",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--use-deim-detection",
+      "false",
+      "--output-txt",
+      "tmp/long-line-split/final/after/bands/ndl_accessibility_p2.txt"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 3.649293791000005
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/long-line-split/final/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "tests/fixtures/eval/images/ndl_logo_ja.png",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--use-deim-detection",
+      "true",
+      "--output-txt",
+      "tmp/long-line-split/final/after/deim/ndl_logo_ja.txt"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 2.842565416999996
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/long-line-split/final/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "tests/fixtures/eval/images/ndl_logo_ja.png",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--use-deim-detection",
+      "false",
+      "--output-txt",
+      "tmp/long-line-split/final/after/bands/ndl_logo_ja.txt"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 2.0790310000000005
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/long-line-split/final/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "tests/fixtures/eval/images/scaned0.png",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--use-deim-detection",
+      "true",
+      "--output-txt",
+      "tmp/long-line-split/final/after/deim/scaned0.txt"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 3.164866125000003
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/long-line-split/final/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "tests/fixtures/eval/images/scaned0.png",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--use-deim-detection",
+      "false",
+      "--output-txt",
+      "tmp/long-line-split/final/after/bands/scaned0.txt"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 2.4293075829999964
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/long-line-split/final/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "docs/benchmarks/deim-edge/quality/images/jma_climate_2025_half.png",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--use-deim-detection",
+      "true",
+      "--output-txt",
+      "tmp/long-line-split/final/after/deim/jma_climate_2025_half.txt"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 3.547360542
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/long-line-split/final/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "docs/benchmarks/deim-edge/quality/images/jma_climate_2025_half.png",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--use-deim-detection",
+      "false",
+      "--output-txt",
+      "tmp/long-line-split/final/after/bands/jma_climate_2025_half.txt"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 3.195879583
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/long-line-split/final/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "docs/benchmarks/deim-edge/quality/images/jma_climate_2025_jpeg75.jpg",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--use-deim-detection",
+      "true",
+      "--output-txt",
+      "tmp/long-line-split/final/after/deim/jma_climate_2025_jpeg75.txt"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 3.6525967500000007
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/long-line-split/final/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "docs/benchmarks/deim-edge/quality/images/jma_climate_2025_jpeg75.jpg",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--use-deim-detection",
+      "false",
+      "--output-txt",
+      "tmp/long-line-split/final/after/bands/jma_climate_2025_jpeg75.txt"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 3.3671262919999947
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/long-line-split/final/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "docs/benchmarks/deim-edge/quality/images/jma_climate_2025_jpeg90.jpg",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--use-deim-detection",
+      "true",
+      "--output-txt",
+      "tmp/long-line-split/final/after/deim/jma_climate_2025_jpeg90.txt"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 3.757130416999999
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/long-line-split/final/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "docs/benchmarks/deim-edge/quality/images/jma_climate_2025_jpeg90.jpg",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--use-deim-detection",
+      "false",
+      "--output-txt",
+      "tmp/long-line-split/final/after/bands/jma_climate_2025_jpeg90.txt"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 3.6030348749999987
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/long-line-split/final/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "docs/benchmarks/deim-edge/quality/images/jma_kobe_notice_half.png",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--use-deim-detection",
+      "true",
+      "--output-txt",
+      "tmp/long-line-split/final/after/deim/jma_kobe_notice_half.txt"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 4.008173041999996
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/long-line-split/final/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "docs/benchmarks/deim-edge/quality/images/jma_kobe_notice_half.png",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--use-deim-detection",
+      "false",
+      "--output-txt",
+      "tmp/long-line-split/final/after/bands/jma_kobe_notice_half.txt"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 3.6903858330000006
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/long-line-split/final/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "docs/benchmarks/deim-edge/quality/images/jma_kobe_notice_jpeg75.jpg",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--use-deim-detection",
+      "true",
+      "--output-txt",
+      "tmp/long-line-split/final/after/deim/jma_kobe_notice_jpeg75.txt"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 4.033797624999998
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/long-line-split/final/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "docs/benchmarks/deim-edge/quality/images/jma_kobe_notice_jpeg75.jpg",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--use-deim-detection",
+      "false",
+      "--output-txt",
+      "tmp/long-line-split/final/after/bands/jma_kobe_notice_jpeg75.txt"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 3.956013334000005
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/long-line-split/final/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "docs/benchmarks/deim-edge/quality/images/jma_kobe_notice_jpeg90.jpg",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--use-deim-detection",
+      "true",
+      "--output-txt",
+      "tmp/long-line-split/final/after/deim/jma_kobe_notice_jpeg90.txt"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 3.978446499999997
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/long-line-split/final/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "docs/benchmarks/deim-edge/quality/images/jma_kobe_notice_jpeg90.jpg",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--use-deim-detection",
+      "false",
+      "--output-txt",
+      "tmp/long-line-split/final/after/bands/jma_kobe_notice_jpeg90.txt"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 3.8109572500000013
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/long-line-split/final/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "docs/benchmarks/deim-edge/quality/images/ndl_accessibility_p2_half.png",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--use-deim-detection",
+      "true",
+      "--output-txt",
+      "tmp/long-line-split/final/after/deim/ndl_accessibility_p2_half.txt"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 3.869981166999999
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/long-line-split/final/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "docs/benchmarks/deim-edge/quality/images/ndl_accessibility_p2_half.png",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--use-deim-detection",
+      "false",
+      "--output-txt",
+      "tmp/long-line-split/final/after/bands/ndl_accessibility_p2_half.txt"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 3.642694833
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/long-line-split/final/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "docs/benchmarks/deim-edge/quality/images/ndl_accessibility_p2_jpeg75.jpg",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--use-deim-detection",
+      "true",
+      "--output-txt",
+      "tmp/long-line-split/final/after/deim/ndl_accessibility_p2_jpeg75.txt"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 4.050444874999997
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/long-line-split/final/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "docs/benchmarks/deim-edge/quality/images/ndl_accessibility_p2_jpeg75.jpg",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--use-deim-detection",
+      "false",
+      "--output-txt",
+      "tmp/long-line-split/final/after/bands/ndl_accessibility_p2_jpeg75.txt"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 3.764577833000004
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/long-line-split/final/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "docs/benchmarks/deim-edge/quality/images/ndl_accessibility_p2_jpeg90.jpg",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--use-deim-detection",
+      "true",
+      "--output-txt",
+      "tmp/long-line-split/final/after/deim/ndl_accessibility_p2_jpeg90.txt"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 4.01097575
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/long-line-split/final/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "docs/benchmarks/deim-edge/quality/images/ndl_accessibility_p2_jpeg90.jpg",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--use-deim-detection",
+      "false",
+      "--output-txt",
+      "tmp/long-line-split/final/after/bands/ndl_accessibility_p2_jpeg90.txt"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 3.8001372080000024
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/long-line-split/final/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "docs/benchmarks/deim-edge/quality/images/ndl_logo_ja_half.png",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--use-deim-detection",
+      "true",
+      "--output-txt",
+      "tmp/long-line-split/final/after/deim/ndl_logo_ja_half.txt"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 3.081397042000006
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/long-line-split/final/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "docs/benchmarks/deim-edge/quality/images/ndl_logo_ja_half.png",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--use-deim-detection",
+      "false",
+      "--output-txt",
+      "tmp/long-line-split/final/after/bands/ndl_logo_ja_half.txt"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 2.171347041000004
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/long-line-split/final/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "docs/benchmarks/deim-edge/quality/images/ndl_logo_ja_jpeg75.jpg",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--use-deim-detection",
+      "true",
+      "--output-txt",
+      "tmp/long-line-split/final/after/deim/ndl_logo_ja_jpeg75.txt"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 2.9860866249999987
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/long-line-split/final/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "docs/benchmarks/deim-edge/quality/images/ndl_logo_ja_jpeg75.jpg",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--use-deim-detection",
+      "false",
+      "--output-txt",
+      "tmp/long-line-split/final/after/bands/ndl_logo_ja_jpeg75.txt"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 2.1259034169999893
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/long-line-split/final/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "docs/benchmarks/deim-edge/quality/images/ndl_logo_ja_jpeg90.jpg",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--use-deim-detection",
+      "true",
+      "--output-txt",
+      "tmp/long-line-split/final/after/deim/ndl_logo_ja_jpeg90.txt"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 2.9551086669999904
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/long-line-split/final/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "docs/benchmarks/deim-edge/quality/images/ndl_logo_ja_jpeg90.jpg",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--use-deim-detection",
+      "false",
+      "--output-txt",
+      "tmp/long-line-split/final/after/bands/ndl_logo_ja_jpeg90.txt"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 2.119299916000003
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/long-line-split/final/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "docs/benchmarks/deim-edge/quality/images/scaned0_half.png",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--use-deim-detection",
+      "true",
+      "--output-txt",
+      "tmp/long-line-split/final/after/deim/scaned0_half.txt"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 3.050655083999999
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/long-line-split/final/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "docs/benchmarks/deim-edge/quality/images/scaned0_half.png",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--use-deim-detection",
+      "false",
+      "--output-txt",
+      "tmp/long-line-split/final/after/bands/scaned0_half.txt"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 2.332218999999995
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/long-line-split/final/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "docs/benchmarks/deim-edge/quality/images/scaned0_jpeg75.jpg",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--use-deim-detection",
+      "true",
+      "--output-txt",
+      "tmp/long-line-split/final/after/deim/scaned0_jpeg75.txt"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 2.997400583000001
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/long-line-split/final/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "docs/benchmarks/deim-edge/quality/images/scaned0_jpeg75.jpg",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--use-deim-detection",
+      "false",
+      "--output-txt",
+      "tmp/long-line-split/final/after/bands/scaned0_jpeg75.txt"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 2.489034708999995
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/long-line-split/final/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "docs/benchmarks/deim-edge/quality/images/scaned0_jpeg90.jpg",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--use-deim-detection",
+      "true",
+      "--output-txt",
+      "tmp/long-line-split/final/after/deim/scaned0_jpeg90.txt"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 2.7083587080000058
+  },
+  {
+    "argv": [
+      "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/long-line-split/final/candidate-ndlocr",
+      "recognize-page",
+      "--image",
+      "docs/benchmarks/deim-edge/quality/images/scaned0_jpeg90.jpg",
+      "--charset",
+      "models/NDLmoji.yaml",
+      "--use-deim-detection",
+      "false",
+      "--output-txt",
+      "tmp/long-line-split/final/after/bands/scaned0_jpeg90.txt"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 2.2743851669999913
+  }
+]

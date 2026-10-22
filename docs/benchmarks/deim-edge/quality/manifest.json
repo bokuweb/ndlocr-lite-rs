@@ -1,0 +1,140 @@
+{
+  "pillow_version": "12.3.0",
+  "inputs": [
+    {
+      "source": "tests/fixtures/eval/images/jma_climate_2025.png",
+      "transform": "jpeg90",
+      "image": "tmp/deim-edge/quality/images/jma_climate_2025_jpeg90.jpg",
+      "sha256": "0fb78b8ddc485263794317813128bbc7b175bc1ad96ae68fe4aad4bbf0e4e1cc",
+      "truth_sha256": "141df98934af4904246d95d0faeae1ba258f203a145a37119fc911c540002f0a",
+      "source_sha256": "510f9d13c35771cf14a986ccfc6c1fe84674dc75ed21672cce0ac580f98abf2d",
+      "frozen_image": "images/jma_climate_2025_jpeg90.jpg"
+    },
+    {
+      "source": "tests/fixtures/eval/images/jma_climate_2025.png",
+      "transform": "jpeg75",
+      "image": "tmp/deim-edge/quality/images/jma_climate_2025_jpeg75.jpg",
+      "sha256": "97e3bafd9088a3cac2d9b0f621e28178ce45b3f661f2e4dece3c6c10a4b329cd",
+      "truth_sha256": "141df98934af4904246d95d0faeae1ba258f203a145a37119fc911c540002f0a",
+      "source_sha256": "510f9d13c35771cf14a986ccfc6c1fe84674dc75ed21672cce0ac580f98abf2d",
+      "frozen_image": "images/jma_climate_2025_jpeg75.jpg"
+    },
+    {
+      "source": "tests/fixtures/eval/images/jma_climate_2025.png",
+      "transform": "half",
+      "image": "tmp/deim-edge/quality/images/jma_climate_2025_half.png",
+      "sha256": "80d95846eeba79a82abb6a929e75d442c10d3bf035f9c568d8fd56e0f9552769",
+      "truth_sha256": "141df98934af4904246d95d0faeae1ba258f203a145a37119fc911c540002f0a",
+      "source_sha256": "510f9d13c35771cf14a986ccfc6c1fe84674dc75ed21672cce0ac580f98abf2d",
+      "frozen_image": "images/jma_climate_2025_half.png"
+    },
+    {
+      "source": "tests/fixtures/eval/images/jma_kobe_notice.png",
+      "transform": "jpeg90",
+      "image": "tmp/deim-edge/quality/images/jma_kobe_notice_jpeg90.jpg",
+      "sha256": "d1eee6fbf9702604e10fa0aac50f462d674963b0f53ed4cedd4bd6772458beb9",
+      "truth_sha256": "9759bf8c14a2a4bb4c09cc4fa9d89da6b1273c3b60b25c136ddbe9b6126fc839",
+      "source_sha256": "39fc07a08d60ce140055c885a8017673ae477da21a357429913ee5b615792e83",
+      "frozen_image": "images/jma_kobe_notice_jpeg90.jpg"
+    },
+    {
+      "source": "tests/fixtures/eval/images/jma_kobe_notice.png",
+      "transform": "jpeg75",
+      "image": "tmp/deim-edge/quality/images/jma_kobe_notice_jpeg75.jpg",
+      "sha256": "ae86dd046ff7008db7932b7835573e5cd96d60d6c0ab802b49e8dc285ba3907b",
+      "truth_sha256": "9759bf8c14a2a4bb4c09cc4fa9d89da6b1273c3b60b25c136ddbe9b6126fc839",
+      "source_sha256": "39fc07a08d60ce140055c885a8017673ae477da21a357429913ee5b615792e83",
+      "frozen_image": "images/jma_kobe_notice_jpeg75.jpg"
+    },
+    {
+      "source": "tests/fixtures/eval/images/jma_kobe_notice.png",
+      "transform": "half",
+      "image": "tmp/deim-edge/quality/images/jma_kobe_notice_half.png",
+      "sha256": "424028fd57f3e26eb8778afdf0ba69595677d8403885304ffe4755600d1012c1",
+      "truth_sha256": "9759bf8c14a2a4bb4c09cc4fa9d89da6b1273c3b60b25c136ddbe9b6126fc839",
+      "source_sha256": "39fc07a08d60ce140055c885a8017673ae477da21a357429913ee5b615792e83",
+      "frozen_image": "images/jma_kobe_notice_half.png"
+    },
+    {
+      "source": "tests/fixtures/eval/images/ndl_accessibility_p2.png",
+      "transform": "jpeg90",
+      "image": "tmp/deim-edge/quality/images/ndl_accessibility_p2_jpeg90.jpg",
+      "sha256": "8759c41153c196dda266f634df484daf3640a5fd6d10b97091e311cf37e76c90",
+      "truth_sha256": "e43426f86c2bde33369a6ff88ea8a18510fcacf03219d11a1de2ac771b071659",
+      "source_sha256": "c78d3792c550169925f44681d40f82c468b5e081d66004cee0a2d11851a4d30d",
+      "frozen_image": "images/ndl_accessibility_p2_jpeg90.jpg"
+    },
+    {
+      "source": "tests/fixtures/eval/images/ndl_accessibility_p2.png",
+      "transform": "jpeg75",
+      "image": "tmp/deim-edge/quality/images/ndl_accessibility_p2_jpeg75.jpg",
+      "sha256": "722b41e5d7aa9d788a8478c25da216665a55531d00080d6f32b0bbef6b379956",
+      "truth_sha256": "e43426f86c2bde33369a6ff88ea8a18510fcacf03219d11a1de2ac771b071659",
+      "source_sha256": "c78d3792c550169925f44681d40f82c468b5e081d66004cee0a2d11851a4d30d",
+      "frozen_image": "images/ndl_accessibility_p2_jpeg75.jpg"
+    },
+    {
+      "source": "tests/fixtures/eval/images/ndl_accessibility_p2.png",
+      "transform": "half",
+      "image": "tmp/deim-edge/quality/images/ndl_accessibility_p2_half.png",
+      "sha256": "45573ce515e0baf79c93efaddb532b3d070da92944553a6f1463dba57a88e1d3",
+      "truth_sha256": "e43426f86c2bde33369a6ff88ea8a18510fcacf03219d11a1de2ac771b071659",
+      "source_sha256": "c78d3792c550169925f44681d40f82c468b5e081d66004cee0a2d11851a4d30d",
+      "frozen_image": "images/ndl_accessibility_p2_half.png"
+    },
+    {
+      "source": "tests/fixtures/eval/images/ndl_logo_ja.png",
+      "transform": "jpeg90",
+      "image": "tmp/deim-edge/quality/images/ndl_logo_ja_jpeg90.jpg",
+      "sha256": "812d2e4eda593490b846f15bb326ccd0251792a5b2b9d8a58a7ac355fe3a4c70",
+      "truth_sha256": "9fa80f1b267c9efaf3812a1a53b501b2ee0bbe7ac4c3f91f43685922b9b9f740",
+      "source_sha256": "e276b26027e0dc5f7a4fb0ae2ef73e75d1e25c2fc9349d15699281bb34fe92b0",
+      "frozen_image": "images/ndl_logo_ja_jpeg90.jpg"
+    },
+    {
+      "source": "tests/fixtures/eval/images/ndl_logo_ja.png",
+      "transform": "jpeg75",
+      "image": "tmp/deim-edge/quality/images/ndl_logo_ja_jpeg75.jpg",
+      "sha256": "c683160509bfe079f4556786502609bfca4e3fec5f375807bdf20f58a38c0371",
+      "truth_sha256": "9fa80f1b267c9efaf3812a1a53b501b2ee0bbe7ac4c3f91f43685922b9b9f740",
+      "source_sha256": "e276b26027e0dc5f7a4fb0ae2ef73e75d1e25c2fc9349d15699281bb34fe92b0",
+      "frozen_image": "images/ndl_logo_ja_jpeg75.jpg"
+    },
+    {
+      "source": "tests/fixtures/eval/images/ndl_logo_ja.png",
+      "transform": "half",
+      "image": "tmp/deim-edge/quality/images/ndl_logo_ja_half.png",
+      "sha256": "371756abe65c77d27e67e47cda5dca5be5b1e4289c7e754b9ae917bf7f18cc20",
+      "truth_sha256": "9fa80f1b267c9efaf3812a1a53b501b2ee0bbe7ac4c3f91f43685922b9b9f740",
+      "source_sha256": "e276b26027e0dc5f7a4fb0ae2ef73e75d1e25c2fc9349d15699281bb34fe92b0",
+      "frozen_image": "images/ndl_logo_ja_half.png"
+    },
+    {
+      "source": "tests/fixtures/eval/images/scaned0.png",
+      "transform": "jpeg90",
+      "image": "tmp/deim-edge/quality/images/scaned0_jpeg90.jpg",
+      "sha256": "2357c74f5d1fc9f8d931db6ede5ed1baa74b49dbc2cb249039ade85eb15f2eb8",
+      "truth_sha256": "b5328ef4a7e9376456b2fb66233662d58f62c806b6cae343559ddb78c89fce30",
+      "source_sha256": "ebda3b944590310c11497df8981f5dc88e5976ae9a3e46ceab6e9c6911e94ddb",
+      "frozen_image": "images/scaned0_jpeg90.jpg"
+    },
+    {
+      "source": "tests/fixtures/eval/images/scaned0.png",
+      "transform": "jpeg75",
+      "image": "tmp/deim-edge/quality/images/scaned0_jpeg75.jpg",
+      "sha256": "63e20580606a398d491e9f58bcf84a7e0bedf8ed577cad842ba9d005b9728721",
+      "truth_sha256": "b5328ef4a7e9376456b2fb66233662d58f62c806b6cae343559ddb78c89fce30",
+      "source_sha256": "ebda3b944590310c11497df8981f5dc88e5976ae9a3e46ceab6e9c6911e94ddb",
+      "frozen_image": "images/scaned0_jpeg75.jpg"
+    },
+    {
+      "source": "tests/fixtures/eval/images/scaned0.png",
+      "transform": "half",
+      "image": "tmp/deim-edge/quality/images/scaned0_half.png",
+      "sha256": "99c6e934956cab3418281b9609e164ece2d52be482fa777b00163a9cf57f384d",
+      "truth_sha256": "b5328ef4a7e9376456b2fb66233662d58f62c806b6cae343559ddb78c89fce30",
+      "source_sha256": "ebda3b944590310c11497df8981f5dc88e5976ae9a3e46ceab6e9c6911e94ddb",
+      "frozen_image": "images/scaned0_half.png"
+    }
+  ]
+}

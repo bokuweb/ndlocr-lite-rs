@@ -1,0 +1,17 @@
+# 既知quality設定回帰の入力と実行準備
+
+元の凍結test sourceはCLIのdefault charset pathを使うため、最初の呼出しはcharset不足でload前に停止した。
+その失敗と全argvを保持し、同じ実行物を、固定modelsへのsymlinkと同じcharset byteのdefault pathを持つ専用cwdで再実行した。
+この二回目は3設定すべてで既存full pipelineと本文/mean bitsが一致したが、arial43の初期bucketが100だったため
+quality設定で結果が変わるというfixture確認が失敗した。誤りを隠すassert削除や製品変更はしない。
+
+次は全件既知manifestの`uncertain_arial_30_pad0`を使う。GTや予測で選ばず、短い既知縦列の寸法を根拠とする。
+元PNGを公開data.zipからSHA照合して取り出し、同じsource/凍結test実行物、同じ3設定で比較する。
+旧43画像の失敗/全3結果を残し、30画像も初期/既存finish/採用経路finishの本文とf32 bitsを保存する。
+変化がなければ設定を試しただけで「skipなら失敗する回帰」とは主張しない。
+どちらも既知入力の診断で、新72の新規精度改善へ数えない。
+
+30字画像も結果不変だった。推定器を確認するとreading-axis比率に2.5を掛けるため、30字相当の縦列もinitial100になる。
+比率だけを字数と見なした選択を訂正し、この失敗と全3結果も保持する。
+次の既知入力は`fva_vertical_arial_40_12_pad0`（48×592）。12字の既知合成列で、同じ推定器なら
+initial50となる長さを選ぶ。入力/GTの追加生成や認識方針の変更はなく、同じ凍結test実行物を使う。

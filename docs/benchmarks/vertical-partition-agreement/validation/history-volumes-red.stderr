@@ -1,0 +1,37 @@
+FEFF
+======================================================================
+ERROR: test_exact_capacity_then_one_byte_rolls_and_duplicate_reuses_reference (test_history_volumes.HistoryVolumes)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/vertical-strict-prefix/test_history_volumes.py", line 8, in test_exact_capacity_then_one_byte_rolls_and_duplicate_reuses_reference
+    self.assertEqual(a,again);self.assertEqual(a['archive'],b['archive']);self.assertNotEqual(a['archive'],c['archive']);self.assertEqual(w.payload_sizes,[16,1]);self.assertEqual(len(backers),3)
+TypeError: 'NoneType' object is not subscriptable
+
+======================================================================
+FAIL: test_all_small_length_sequences_preserve_bytes_and_budget (test_history_volumes.HistoryVolumes)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/vertical-strict-prefix/test_history_volumes.py", line 23, in test_all_small_length_sequences_preserve_bytes_and_budget
+    self.assertTrue(all(n<=5 for n in w.payload_sizes));self.assertEqual(sum(w.payload_sizes),sum(sizes))
+AssertionError: 0 != 3
+
+======================================================================
+FAIL: test_external_backing_reused_and_empty_payload_preserved (test_history_volumes.HistoryVolumes)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/vertical-strict-prefix/test_history_volumes.py", line 12, in test_external_backing_reused_and_empty_payload_preserved
+    self.assertEqual(w.add(b'old'),old);self.assertEqual(w.archives,[]);ref=w.add(b'');w.close()
+AssertionError: None != {'archive': 'old.zip', 'member': 'old', 'bytes': 3}
+
+======================================================================
+FAIL: test_single_payload_over_budget_rejected_before_creating_archive (test_history_volumes.HistoryVolumes)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/vertical-strict-prefix/test_history_volumes.py", line 17, in test_single_payload_over_budget_rejected_before_creating_archive
+    with self.assertRaises(ValueError):w.add(b'123')
+AssertionError: ValueError not raised
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.002s
+
+FAILED (failures=3, errors=1)

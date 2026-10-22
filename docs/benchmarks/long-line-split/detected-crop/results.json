@@ -1,0 +1,46 @@
+[
+  {
+    "bounds": [
+      224,
+      0,
+      2494,
+      39
+    ],
+    "bucket": 0.0,
+    "detector_confidence": 0.5317959189414978,
+    "parseq_confidence": 0.9655998945236206,
+    "raw": "pleinvald//brany/colections/mistorica-maps/metadata/observation records/measurement Conditions/techr",
+    "size": [
+      2270,
+      39
+    ],
+    "variants": [
+      {
+        "cut": 1135,
+        "parts": [
+          {
+            "confidence": 0.9906489253044128,
+            "text": "Aple.invalid/library/collections/historical-maps/metadata/observ:"
+          },
+          {
+            "confidence": 0.9943826198577881,
+            "text": "ation_records/measurement_conditions/technical-report_2026.1"
+          }
+        ]
+      },
+      {
+        "cut": 1129,
+        "parts": [
+          {
+            "confidence": 0.9890384674072266,
+            "text": "Aple.invalid/library/collections/historical-maps/metadata/observ"
+          },
+          {
+            "confidence": 0.9931418299674988,
+            "text": "ation_records/measurement_conditions/technical-report_2026.1"
+          }
+        ]
+      }
+    ]
+  }
+]

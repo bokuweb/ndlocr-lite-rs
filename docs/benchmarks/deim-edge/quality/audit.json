@@ -1,0 +1,635 @@
+{
+  "paired_texts_identical": false,
+  "metrics": [
+    {
+      "config": "deim",
+      "normalize": "none",
+      "file": "jma_climate_2025_half.txt",
+      "before": 58,
+      "after": 58
+    },
+    {
+      "config": "deim",
+      "normalize": "none",
+      "file": "jma_climate_2025_jpeg75.txt",
+      "before": 58,
+      "after": 58
+    },
+    {
+      "config": "deim",
+      "normalize": "none",
+      "file": "jma_climate_2025_jpeg90.txt",
+      "before": 62,
+      "after": 62
+    },
+    {
+      "config": "deim",
+      "normalize": "none",
+      "file": "jma_kobe_notice_half.txt",
+      "before": 75,
+      "after": 75
+    },
+    {
+      "config": "deim",
+      "normalize": "none",
+      "file": "jma_kobe_notice_jpeg75.txt",
+      "before": 117,
+      "after": 117
+    },
+    {
+      "config": "deim",
+      "normalize": "none",
+      "file": "jma_kobe_notice_jpeg90.txt",
+      "before": 112,
+      "after": 112
+    },
+    {
+      "config": "deim",
+      "normalize": "none",
+      "file": "ndl_accessibility_p2_half.txt",
+      "before": 66,
+      "after": 66
+    },
+    {
+      "config": "deim",
+      "normalize": "none",
+      "file": "ndl_accessibility_p2_jpeg75.txt",
+      "before": 85,
+      "after": 83
+    },
+    {
+      "config": "deim",
+      "normalize": "none",
+      "file": "ndl_accessibility_p2_jpeg90.txt",
+      "before": 62,
+      "after": 61
+    },
+    {
+      "config": "deim",
+      "normalize": "none",
+      "file": "ndl_logo_ja_half.txt",
+      "before": 1,
+      "after": 1
+    },
+    {
+      "config": "deim",
+      "normalize": "none",
+      "file": "ndl_logo_ja_jpeg75.txt",
+      "before": 1,
+      "after": 1
+    },
+    {
+      "config": "deim",
+      "normalize": "none",
+      "file": "ndl_logo_ja_jpeg90.txt",
+      "before": 1,
+      "after": 1
+    },
+    {
+      "config": "deim",
+      "normalize": "none",
+      "file": "scaned0_half.txt",
+      "before": 9,
+      "after": 9
+    },
+    {
+      "config": "deim",
+      "normalize": "none",
+      "file": "scaned0_jpeg75.txt",
+      "before": 9,
+      "after": 9
+    },
+    {
+      "config": "deim",
+      "normalize": "none",
+      "file": "scaned0_jpeg90.txt",
+      "before": 9,
+      "after": 9
+    },
+    {
+      "config": "deim",
+      "normalize": "width",
+      "file": "jma_climate_2025_half.txt",
+      "before": 47,
+      "after": 47
+    },
+    {
+      "config": "deim",
+      "normalize": "width",
+      "file": "jma_climate_2025_jpeg75.txt",
+      "before": 47,
+      "after": 47
+    },
+    {
+      "config": "deim",
+      "normalize": "width",
+      "file": "jma_climate_2025_jpeg90.txt",
+      "before": 51,
+      "after": 51
+    },
+    {
+      "config": "deim",
+      "normalize": "width",
+      "file": "jma_kobe_notice_half.txt",
+      "before": 27,
+      "after": 27
+    },
+    {
+      "config": "deim",
+      "normalize": "width",
+      "file": "jma_kobe_notice_jpeg75.txt",
+      "before": 69,
+      "after": 69
+    },
+    {
+      "config": "deim",
+      "normalize": "width",
+      "file": "jma_kobe_notice_jpeg90.txt",
+      "before": 64,
+      "after": 64
+    },
+    {
+      "config": "deim",
+      "normalize": "width",
+      "file": "ndl_accessibility_p2_half.txt",
+      "before": 59,
+      "after": 59
+    },
+    {
+      "config": "deim",
+      "normalize": "width",
+      "file": "ndl_accessibility_p2_jpeg75.txt",
+      "before": 78,
+      "after": 76
+    },
+    {
+      "config": "deim",
+      "normalize": "width",
+      "file": "ndl_accessibility_p2_jpeg90.txt",
+      "before": 55,
+      "after": 54
+    },
+    {
+      "config": "deim",
+      "normalize": "width",
+      "file": "ndl_logo_ja_half.txt",
+      "before": 1,
+      "after": 1
+    },
+    {
+      "config": "deim",
+      "normalize": "width",
+      "file": "ndl_logo_ja_jpeg75.txt",
+      "before": 1,
+      "after": 1
+    },
+    {
+      "config": "deim",
+      "normalize": "width",
+      "file": "ndl_logo_ja_jpeg90.txt",
+      "before": 1,
+      "after": 1
+    },
+    {
+      "config": "deim",
+      "normalize": "width",
+      "file": "scaned0_half.txt",
+      "before": 7,
+      "after": 7
+    },
+    {
+      "config": "deim",
+      "normalize": "width",
+      "file": "scaned0_jpeg75.txt",
+      "before": 7,
+      "after": 7
+    },
+    {
+      "config": "deim",
+      "normalize": "width",
+      "file": "scaned0_jpeg90.txt",
+      "before": 7,
+      "after": 7
+    },
+    {
+      "config": "deim",
+      "normalize": "strict",
+      "file": "jma_climate_2025_half.txt",
+      "before": 20,
+      "after": 20
+    },
+    {
+      "config": "deim",
+      "normalize": "strict",
+      "file": "jma_climate_2025_jpeg75.txt",
+      "before": 22,
+      "after": 22
+    },
+    {
+      "config": "deim",
+      "normalize": "strict",
+      "file": "jma_climate_2025_jpeg90.txt",
+      "before": 24,
+      "after": 24
+    },
+    {
+      "config": "deim",
+      "normalize": "strict",
+      "file": "jma_kobe_notice_half.txt",
+      "before": 57,
+      "after": 57
+    },
+    {
+      "config": "deim",
+      "normalize": "strict",
+      "file": "jma_kobe_notice_jpeg75.txt",
+      "before": 97,
+      "after": 97
+    },
+    {
+      "config": "deim",
+      "normalize": "strict",
+      "file": "jma_kobe_notice_jpeg90.txt",
+      "before": 94,
+      "after": 94
+    },
+    {
+      "config": "deim",
+      "normalize": "strict",
+      "file": "ndl_accessibility_p2_half.txt",
+      "before": 17,
+      "after": 17
+    },
+    {
+      "config": "deim",
+      "normalize": "strict",
+      "file": "ndl_accessibility_p2_jpeg75.txt",
+      "before": 34,
+      "after": 32
+    },
+    {
+      "config": "deim",
+      "normalize": "strict",
+      "file": "ndl_accessibility_p2_jpeg90.txt",
+      "before": 13,
+      "after": 12
+    },
+    {
+      "config": "deim",
+      "normalize": "strict",
+      "file": "ndl_logo_ja_half.txt",
+      "before": 0,
+      "after": 0
+    },
+    {
+      "config": "deim",
+      "normalize": "strict",
+      "file": "ndl_logo_ja_jpeg75.txt",
+      "before": 0,
+      "after": 0
+    },
+    {
+      "config": "deim",
+      "normalize": "strict",
+      "file": "ndl_logo_ja_jpeg90.txt",
+      "before": 0,
+      "after": 0
+    },
+    {
+      "config": "deim",
+      "normalize": "strict",
+      "file": "scaned0_half.txt",
+      "before": 8,
+      "after": 8
+    },
+    {
+      "config": "deim",
+      "normalize": "strict",
+      "file": "scaned0_jpeg75.txt",
+      "before": 8,
+      "after": 8
+    },
+    {
+      "config": "deim",
+      "normalize": "strict",
+      "file": "scaned0_jpeg90.txt",
+      "before": 8,
+      "after": 8
+    },
+    {
+      "config": "bands",
+      "normalize": "none",
+      "file": "jma_climate_2025_half.txt",
+      "before": 57,
+      "after": 57
+    },
+    {
+      "config": "bands",
+      "normalize": "none",
+      "file": "jma_climate_2025_jpeg75.txt",
+      "before": 61,
+      "after": 61
+    },
+    {
+      "config": "bands",
+      "normalize": "none",
+      "file": "jma_climate_2025_jpeg90.txt",
+      "before": 62,
+      "after": 62
+    },
+    {
+      "config": "bands",
+      "normalize": "none",
+      "file": "jma_kobe_notice_half.txt",
+      "before": 284,
+      "after": 284
+    },
+    {
+      "config": "bands",
+      "normalize": "none",
+      "file": "jma_kobe_notice_jpeg75.txt",
+      "before": 77,
+      "after": 77
+    },
+    {
+      "config": "bands",
+      "normalize": "none",
+      "file": "jma_kobe_notice_jpeg90.txt",
+      "before": 78,
+      "after": 78
+    },
+    {
+      "config": "bands",
+      "normalize": "none",
+      "file": "ndl_accessibility_p2_half.txt",
+      "before": 52,
+      "after": 52
+    },
+    {
+      "config": "bands",
+      "normalize": "none",
+      "file": "ndl_accessibility_p2_jpeg75.txt",
+      "before": 61,
+      "after": 61
+    },
+    {
+      "config": "bands",
+      "normalize": "none",
+      "file": "ndl_accessibility_p2_jpeg90.txt",
+      "before": 53,
+      "after": 53
+    },
+    {
+      "config": "bands",
+      "normalize": "none",
+      "file": "ndl_logo_ja_half.txt",
+      "before": 1,
+      "after": 1
+    },
+    {
+      "config": "bands",
+      "normalize": "none",
+      "file": "ndl_logo_ja_jpeg75.txt",
+      "before": 1,
+      "after": 1
+    },
+    {
+      "config": "bands",
+      "normalize": "none",
+      "file": "ndl_logo_ja_jpeg90.txt",
+      "before": 1,
+      "after": 1
+    },
+    {
+      "config": "bands",
+      "normalize": "none",
+      "file": "scaned0_half.txt",
+      "before": 11,
+      "after": 11
+    },
+    {
+      "config": "bands",
+      "normalize": "none",
+      "file": "scaned0_jpeg75.txt",
+      "before": 9,
+      "after": 9
+    },
+    {
+      "config": "bands",
+      "normalize": "none",
+      "file": "scaned0_jpeg90.txt",
+      "before": 9,
+      "after": 9
+    },
+    {
+      "config": "bands",
+      "normalize": "width",
+      "file": "jma_climate_2025_half.txt",
+      "before": 45,
+      "after": 45
+    },
+    {
+      "config": "bands",
+      "normalize": "width",
+      "file": "jma_climate_2025_jpeg75.txt",
+      "before": 50,
+      "after": 50
+    },
+    {
+      "config": "bands",
+      "normalize": "width",
+      "file": "jma_climate_2025_jpeg90.txt",
+      "before": 51,
+      "after": 51
+    },
+    {
+      "config": "bands",
+      "normalize": "width",
+      "file": "jma_kobe_notice_half.txt",
+      "before": 237,
+      "after": 237
+    },
+    {
+      "config": "bands",
+      "normalize": "width",
+      "file": "jma_kobe_notice_jpeg75.txt",
+      "before": 28,
+      "after": 28
+    },
+    {
+      "config": "bands",
+      "normalize": "width",
+      "file": "jma_kobe_notice_jpeg90.txt",
+      "before": 29,
+      "after": 29
+    },
+    {
+      "config": "bands",
+      "normalize": "width",
+      "file": "ndl_accessibility_p2_half.txt",
+      "before": 45,
+      "after": 45
+    },
+    {
+      "config": "bands",
+      "normalize": "width",
+      "file": "ndl_accessibility_p2_jpeg75.txt",
+      "before": 54,
+      "after": 54
+    },
+    {
+      "config": "bands",
+      "normalize": "width",
+      "file": "ndl_accessibility_p2_jpeg90.txt",
+      "before": 46,
+      "after": 46
+    },
+    {
+      "config": "bands",
+      "normalize": "width",
+      "file": "ndl_logo_ja_half.txt",
+      "before": 1,
+      "after": 1
+    },
+    {
+      "config": "bands",
+      "normalize": "width",
+      "file": "ndl_logo_ja_jpeg75.txt",
+      "before": 1,
+      "after": 1
+    },
+    {
+      "config": "bands",
+      "normalize": "width",
+      "file": "ndl_logo_ja_jpeg90.txt",
+      "before": 1,
+      "after": 1
+    },
+    {
+      "config": "bands",
+      "normalize": "width",
+      "file": "scaned0_half.txt",
+      "before": 9,
+      "after": 9
+    },
+    {
+      "config": "bands",
+      "normalize": "width",
+      "file": "scaned0_jpeg75.txt",
+      "before": 7,
+      "after": 7
+    },
+    {
+      "config": "bands",
+      "normalize": "width",
+      "file": "scaned0_jpeg90.txt",
+      "before": 7,
+      "after": 7
+    },
+    {
+      "config": "bands",
+      "normalize": "strict",
+      "file": "jma_climate_2025_half.txt",
+      "before": 21,
+      "after": 21
+    },
+    {
+      "config": "bands",
+      "normalize": "strict",
+      "file": "jma_climate_2025_jpeg75.txt",
+      "before": 21,
+      "after": 21
+    },
+    {
+      "config": "bands",
+      "normalize": "strict",
+      "file": "jma_climate_2025_jpeg90.txt",
+      "before": 22,
+      "after": 22
+    },
+    {
+      "config": "bands",
+      "normalize": "strict",
+      "file": "jma_kobe_notice_half.txt",
+      "before": 235,
+      "after": 235
+    },
+    {
+      "config": "bands",
+      "normalize": "strict",
+      "file": "jma_kobe_notice_jpeg75.txt",
+      "before": 57,
+      "after": 57
+    },
+    {
+      "config": "bands",
+      "normalize": "strict",
+      "file": "jma_kobe_notice_jpeg90.txt",
+      "before": 59,
+      "after": 59
+    },
+    {
+      "config": "bands",
+      "normalize": "strict",
+      "file": "ndl_accessibility_p2_half.txt",
+      "before": 13,
+      "after": 13
+    },
+    {
+      "config": "bands",
+      "normalize": "strict",
+      "file": "ndl_accessibility_p2_jpeg75.txt",
+      "before": 15,
+      "after": 15
+    },
+    {
+      "config": "bands",
+      "normalize": "strict",
+      "file": "ndl_accessibility_p2_jpeg90.txt",
+      "before": 9,
+      "after": 9
+    },
+    {
+      "config": "bands",
+      "normalize": "strict",
+      "file": "ndl_logo_ja_half.txt",
+      "before": 0,
+      "after": 0
+    },
+    {
+      "config": "bands",
+      "normalize": "strict",
+      "file": "ndl_logo_ja_jpeg75.txt",
+      "before": 0,
+      "after": 0
+    },
+    {
+      "config": "bands",
+      "normalize": "strict",
+      "file": "ndl_logo_ja_jpeg90.txt",
+      "before": 0,
+      "after": 0
+    },
+    {
+      "config": "bands",
+      "normalize": "strict",
+      "file": "scaned0_half.txt",
+      "before": 8,
+      "after": 8
+    },
+    {
+      "config": "bands",
+      "normalize": "strict",
+      "file": "scaned0_jpeg75.txt",
+      "before": 8,
+      "after": 8
+    },
+    {
+      "config": "bands",
+      "normalize": "strict",
+      "file": "scaned0_jpeg90.txt",
+      "before": 8,
+      "after": 8
+    }
+  ]
+}

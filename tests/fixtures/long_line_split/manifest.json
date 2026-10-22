@@ -1,0 +1,249 @@
+{
+  "pillow_version": "12.3.0",
+  "fonts": [
+    {
+      "name": "gothic",
+      "path": "ヒラギノ角ゴシック W3.ttc",
+      "sha256": "ff92033a300f55aff2f45f57479a560af2c5467973b425d3f724f870af07f83e"
+    },
+    {
+      "name": "mincho",
+      "path": "ヒラギノ明朝 ProN.ttc",
+      "sha256": "366347c654f84acc43692e922d8d33d91949e750b8d383155bd07728b2bcbbfa"
+    }
+  ],
+  "rows": [
+    {
+      "id": "library_gothic24",
+      "image": "tests/fixtures/long_line_split/images/library_gothic24.png",
+      "truth": "The library preserves historical books, maps, photographs, and newspapers so that future readers can study their contents.",
+      "underlined": false,
+      "font": "gothic",
+      "font_size": 24,
+      "sha256": "f9db244088cd448369099f1f52e5bf96a24f27dfff535768b26dff2d9292e18e"
+    },
+    {
+      "id": "observations_gothic24",
+      "image": "tests/fixtures/long_line_split/images/observations_gothic24.png",
+      "truth": "Each observation includes the station name, measurement time, instrument settings, and a short note describing the local conditions.",
+      "underlined": false,
+      "font": "gothic",
+      "font_size": 24,
+      "sha256": "202d5eeef1aa9b5b62d02f09f897d143f210290309b44d14170971ee3c5f4cb5"
+    },
+    {
+      "id": "japanese_gothic24",
+      "image": "tests/fixtures/long_line_split/images/japanese_gothic24.png",
+      "truth": "図書館では資料の保存と公開を継続し、利用者が必要な情報を探せるように目録を整備しています。新しい電子資料を追加するときは、文字の読み上げ、画面の拡大、色の変更、検索結果の表示などを確認し、担当者が検査の記録と改善の内容をまとめて公開します。",
+      "underlined": false,
+      "font": "gothic",
+      "font_size": 24,
+      "sha256": "b4c104277a7b462086d1f345504327efe6d78d269501d1b18f4cc152c149c50e"
+    },
+    {
+      "id": "uri_gothic24",
+      "image": "tests/fixtures/long_line_split/images/uri_gothic24.png",
+      "truth": "https://example.invalid/library/collections/historical-maps/metadata/observation_records/measurement_conditions/technical-report_2026.html",
+      "underlined": true,
+      "font": "gothic",
+      "font_size": 24,
+      "sha256": "ea4cfd730cff9ee9c39436908b2c77f6e62439a98b6e65684504cc815e3fb031"
+    },
+    {
+      "id": "control_en_gothic24",
+      "image": "tests/fixtures/long_line_split/images/control_en_gothic24.png",
+      "truth": "Readers can search the catalogue online.",
+      "underlined": false,
+      "font": "gothic",
+      "font_size": 24,
+      "sha256": "e072a0c59d31c3d0df2126a26e5fff7822517c6a55b866ec0b0c5ea835209589"
+    },
+    {
+      "id": "control_ja_gothic24",
+      "image": "tests/fixtures/long_line_split/images/control_ja_gothic24.png",
+      "truth": "図書館の資料を検索して閲覧できます。",
+      "underlined": false,
+      "font": "gothic",
+      "font_size": 24,
+      "sha256": "356000e557c6867aac0658f4c5b5ba1a7f19e2f2f75c641a51287416e7fb2717"
+    },
+    {
+      "id": "library_gothic36",
+      "image": "tests/fixtures/long_line_split/images/library_gothic36.png",
+      "truth": "The library preserves historical books, maps, photographs, and newspapers so that future readers can study their contents.",
+      "underlined": false,
+      "font": "gothic",
+      "font_size": 36,
+      "sha256": "68f8af0d75151d26cc7d0438919c035fc7fd6fd6a1d6603a691687e3617e0121"
+    },
+    {
+      "id": "observations_gothic36",
+      "image": "tests/fixtures/long_line_split/images/observations_gothic36.png",
+      "truth": "Each observation includes the station name, measurement time, instrument settings, and a short note describing the local conditions.",
+      "underlined": false,
+      "font": "gothic",
+      "font_size": 36,
+      "sha256": "324f67cafb171f65f26cae302873b6c0680c1d317a513458139320081918c59f"
+    },
+    {
+      "id": "japanese_gothic36",
+      "image": "tests/fixtures/long_line_split/images/japanese_gothic36.png",
+      "truth": "図書館では資料の保存と公開を継続し、利用者が必要な情報を探せるように目録を整備しています。新しい電子資料を追加するときは、文字の読み上げ、画面の拡大、色の変更、検索結果の表示などを確認し、担当者が検査の記録と改善の内容をまとめて公開します。",
+      "underlined": false,
+      "font": "gothic",
+      "font_size": 36,
+      "sha256": "ebb756247a90cf847fa94ec9afae72347d6e436921f22a44b566e4a902e513d6"
+    },
+    {
+      "id": "uri_gothic36",
+      "image": "tests/fixtures/long_line_split/images/uri_gothic36.png",
+      "truth": "https://example.invalid/library/collections/historical-maps/metadata/observation_records/measurement_conditions/technical-report_2026.html",
+      "underlined": true,
+      "font": "gothic",
+      "font_size": 36,
+      "sha256": "6a0e7506ca4cd6bc52a2c74dbc6d3b3c9b17baf1bb182cc2ad97e7996ce16528"
+    },
+    {
+      "id": "control_en_gothic36",
+      "image": "tests/fixtures/long_line_split/images/control_en_gothic36.png",
+      "truth": "Readers can search the catalogue online.",
+      "underlined": false,
+      "font": "gothic",
+      "font_size": 36,
+      "sha256": "56d5d760e3b41c5f882e346df34e82deadb59d1ab9a84bcaff5395f7962c4685"
+    },
+    {
+      "id": "control_ja_gothic36",
+      "image": "tests/fixtures/long_line_split/images/control_ja_gothic36.png",
+      "truth": "図書館の資料を検索して閲覧できます。",
+      "underlined": false,
+      "font": "gothic",
+      "font_size": 36,
+      "sha256": "6e06dad2205106245bddc7de9f66caef0d844c2239ffff61dd134d504efa7e66"
+    },
+    {
+      "id": "library_mincho24",
+      "image": "tests/fixtures/long_line_split/images/library_mincho24.png",
+      "truth": "The library preserves historical books, maps, photographs, and newspapers so that future readers can study their contents.",
+      "underlined": false,
+      "font": "mincho",
+      "font_size": 24,
+      "sha256": "fdd17ab95d7d10201e6e47c9c9e9cbdc083d28fdd42c209a242fa696ed9d3afa"
+    },
+    {
+      "id": "observations_mincho24",
+      "image": "tests/fixtures/long_line_split/images/observations_mincho24.png",
+      "truth": "Each observation includes the station name, measurement time, instrument settings, and a short note describing the local conditions.",
+      "underlined": false,
+      "font": "mincho",
+      "font_size": 24,
+      "sha256": "851db51ad5e4d6b8544f96107048b959849e32233c570a930e093c110d1aaa4a"
+    },
+    {
+      "id": "japanese_mincho24",
+      "image": "tests/fixtures/long_line_split/images/japanese_mincho24.png",
+      "truth": "図書館では資料の保存と公開を継続し、利用者が必要な情報を探せるように目録を整備しています。新しい電子資料を追加するときは、文字の読み上げ、画面の拡大、色の変更、検索結果の表示などを確認し、担当者が検査の記録と改善の内容をまとめて公開します。",
+      "underlined": false,
+      "font": "mincho",
+      "font_size": 24,
+      "sha256": "1f2043f01d4d5d73f4945d04ca4373bfedeff714b9da247e3e3ae9fc4caa7588"
+    },
+    {
+      "id": "uri_mincho24",
+      "image": "tests/fixtures/long_line_split/images/uri_mincho24.png",
+      "truth": "https://example.invalid/library/collections/historical-maps/metadata/observation_records/measurement_conditions/technical-report_2026.html",
+      "underlined": true,
+      "font": "mincho",
+      "font_size": 24,
+      "sha256": "f430a493e281017e20a18aaa42189b48851a54c6ddd884c4bc1d97e72791e5ac"
+    },
+    {
+      "id": "control_en_mincho24",
+      "image": "tests/fixtures/long_line_split/images/control_en_mincho24.png",
+      "truth": "Readers can search the catalogue online.",
+      "underlined": false,
+      "font": "mincho",
+      "font_size": 24,
+      "sha256": "33743b9a0780e36c7ee2a2867ecc279390141fe10d31d6adf206b7df4617242b"
+    },
+    {
+      "id": "control_ja_mincho24",
+      "image": "tests/fixtures/long_line_split/images/control_ja_mincho24.png",
+      "truth": "図書館の資料を検索して閲覧できます。",
+      "underlined": false,
+      "font": "mincho",
+      "font_size": 24,
+      "sha256": "8955356bf3b65b29710fba55d3cbe19454849bebd582420476bd84a9d8fdd8df"
+    },
+    {
+      "id": "library_mincho36",
+      "image": "tests/fixtures/long_line_split/images/library_mincho36.png",
+      "truth": "The library preserves historical books, maps, photographs, and newspapers so that future readers can study their contents.",
+      "underlined": false,
+      "font": "mincho",
+      "font_size": 36,
+      "sha256": "255d0d2a5255ea89e4923baa45fdbe525d72324505fd93790eab980264234eaa"
+    },
+    {
+      "id": "observations_mincho36",
+      "image": "tests/fixtures/long_line_split/images/observations_mincho36.png",
+      "truth": "Each observation includes the station name, measurement time, instrument settings, and a short note describing the local conditions.",
+      "underlined": false,
+      "font": "mincho",
+      "font_size": 36,
+      "sha256": "a50058f142261e2ed10ee3650a6d862603249bac5e59c669cf02c7e539bffad9"
+    },
+    {
+      "id": "japanese_mincho36",
+      "image": "tests/fixtures/long_line_split/images/japanese_mincho36.png",
+      "truth": "図書館では資料の保存と公開を継続し、利用者が必要な情報を探せるように目録を整備しています。新しい電子資料を追加するときは、文字の読み上げ、画面の拡大、色の変更、検索結果の表示などを確認し、担当者が検査の記録と改善の内容をまとめて公開します。",
+      "underlined": false,
+      "font": "mincho",
+      "font_size": 36,
+      "sha256": "91c773b70de7983efae68592b1932f2c32ca5d081b5428d3501ed9079ccacce2"
+    },
+    {
+      "id": "uri_mincho36",
+      "image": "tests/fixtures/long_line_split/images/uri_mincho36.png",
+      "truth": "https://example.invalid/library/collections/historical-maps/metadata/observation_records/measurement_conditions/technical-report_2026.html",
+      "underlined": true,
+      "font": "mincho",
+      "font_size": 36,
+      "sha256": "7b4a07dc930dd6fafd9a9bc1c3c9934dbda98e777069a7f2ce67cd38ad7f291f"
+    },
+    {
+      "id": "control_en_mincho36",
+      "image": "tests/fixtures/long_line_split/images/control_en_mincho36.png",
+      "truth": "Readers can search the catalogue online.",
+      "underlined": false,
+      "font": "mincho",
+      "font_size": 36,
+      "sha256": "c2b180271e3104cfaebc5795a28b942d93685bb792227a6cae60531f01d95ab8"
+    },
+    {
+      "id": "control_ja_mincho36",
+      "image": "tests/fixtures/long_line_split/images/control_ja_mincho36.png",
+      "truth": "図書館の資料を検索して閲覧できます。",
+      "underlined": false,
+      "font": "mincho",
+      "font_size": 36,
+      "sha256": "1a192d1a2aed8868acaa3a0cb315ef0e5b66861785a68acc0d73b0ff2084e6a9"
+    },
+    {
+      "id": "paragraph_raw",
+      "image": "tests/fixtures/long_line_split/images/paragraph_raw.png",
+      "truth": "turpis. Volutpat nibh, nunc magna non diam euismod sed dolore non diam nibh tempus donec",
+      "source": "tests/fixtures/residual_spaces/paragraph.png",
+      "source_metadata": "tests/fixtures/residual_spaces/paragraph.json",
+      "sha256": "4d765f133216355553141d1f65eeb704bb9e2a9513756e185508b6042e8e55d9"
+    },
+    {
+      "id": "paragraph_normalized",
+      "image": "tests/fixtures/long_line_split/images/paragraph_normalized.png",
+      "truth": "turpis. Volutpat nibh, nunc magna non diam euismod sed dolore non diam nibh tempus donec",
+      "source": "tests/fixtures/residual_spaces/paragraph-normalized.png",
+      "source_metadata": "tests/fixtures/residual_spaces/paragraph.json",
+      "sha256": "e3a880d5eade83936f2f26c852dc89d270f9463029c8e7cfc675a7fa29819e2d"
+    }
+  ]
+}

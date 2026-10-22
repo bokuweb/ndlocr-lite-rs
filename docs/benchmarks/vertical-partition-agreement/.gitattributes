@@ -1,0 +1,7 @@
+# Preserve exact evidence bytes; generated records use binary diffs.
+* -text
+*.csv -diff
+*.json -diff
+*.jsonl -diff
+*.stdout -diff
+*.stderr -diff

@@ -1,0 +1,23 @@
+# FVC採用経路の既存後段を保持する（v2、追加NN前）
+
+v1はsupported columnのcallbackでrecognize_initial_batchを呼び、採用した結果を直ちに再利用した。
+既存recognize_for_page_batchにあるshort-line order、long-line split、quality boost、dense recoveryの後段を
+採用経路だけが通らない。defaultの精度gateが成功しても、利用者のquality boost等の設定を保持した証明にならない。
+実行中run39568828241はv1の凍結結果として最後まで保持するが、v2のsourceの成功へ流用しない。
+
+修正は隔離sourceのv2で行い、本体FVBとv1 source/実行物を変更しない。
+recognize_for_page_batchの既存初期batch後のloopを、同じ引数と順序のfinish_for_page_batchへ切り出す。
+通常経路は初期batch→finish、縦列採用経路も既存初期結果→finishを一度だけ通る。
+採否の支持条件は元の初期結果に適用し、finish後に再度support条件を課してlegacyへ戻さない。
+不採用時のlegacyとfeature-disabled経路は保持し、初期認識を二度呼ばない。
+
+まず純粋テストで採用結果/元cropをfinishへ一度だけ渡すこと、legacyを呼ばないこと、
+finishの本文/confidence bitsとerrorをそのまま返すこと、不採用時はfinishを呼ばずlegacyを一度だけ呼ぶことを
+Red→Greenにする。通常/縦列の両方から同じfinishを呼び、既存loopのbyte同値も確認する。
+実モデルでは固定済み本文cropの初期/finishを比較し、quality boostのon/offとminimum deltaが同じ順に適用されることを
+本文/f32 confidence bitsで検証する。画像、設定、argv、source、fresh実行物は追加認識前に固定する。
+これは既知入力の設定保持回帰で、新しい精度改善には数えない。
+
+v1の新72は既知対照となっている。v2は新たな未測定対照をNN前に固定し、新本文改善と全入力別文字/語非悪化を
+確認してからv2 sourceで必要な全件gate・非default設定・suite/CIへ進む。
+v1全件結果が成功してもv2の全件成功とは主張しない。

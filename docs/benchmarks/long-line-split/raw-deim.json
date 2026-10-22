@@ -1,0 +1,35 @@
+[
+  {
+    "bounds": [
+      224,
+      0,
+      2494,
+      39
+    ],
+    "class": "line_main",
+    "detector_confidence": 0.5317959189414978,
+    "pred_char_count": 0.0
+  },
+  {
+    "bounds": [
+      152,
+      0,
+      2479,
+      40
+    ],
+    "class": "line_main",
+    "detector_confidence": 0.38660311698913574,
+    "pred_char_count": 1.0
+  },
+  {
+    "bounds": [
+      168,
+      0,
+      2488,
+      41
+    ],
+    "class": "line_main",
+    "detector_confidence": 0.35815736651420593,
+    "pred_char_count": 1.0
+  }
+]

@@ -1,0 +1,39 @@
+warning: methods `recognize_batch_indexed` and `run_chunk_on_session` are never used
+   --> src/infer/cached.rs:572:8
+    |
+410 | impl ParseqPool {
+    | --------------- methods in this implementation
+...
+572 |     fn recognize_batch_indexed(
+    |        ^^^^^^^^^^^^^^^^^^^^^^^
+...
+691 |     fn run_chunk_on_session(
+    |        ^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: `ndlocr-lite-rs` (lib) generated 1 warning
+   Compiling ndlocr-lite-rs v0.1.0 (/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.31s
+     Running tests/short_horizontal_line_tests.rs (target/debug/deps/short_horizontal_line_tests-c064f539fafed1df)
+
+running 2 tests
+parseq-ndl-24x256-30-tiny-189epoch-tegaki3-r8data-202604.onnx [103, 824, 148, 845] Auto "進行"
+parseq-ndl-24x256-30-tiny-189epoch-tegaki3-r8data-202604.onnx [103, 824, 148, 845] Horizontal "進行"
+parseq-ndl-24x256-30-tiny-189epoch-tegaki3-r8data-202604.onnx [104, 902, 175, 924] Auto "昇上で"
+parseq-ndl-24x256-30-tiny-189epoch-tegaki3-r8data-202604.onnx [104, 902, 175, 924] Horizontal "昇上で"
+parseq-ndl-24x384-50-tiny-300epoch-tegaki3-r8data-202604.onnx [103, 824, 148, 845] Auto "進行"
+parseq-ndl-24x384-50-tiny-300epoch-tegaki3-r8data-202604.onnx [103, 824, 148, 845] Horizontal "進行"
+parseq-ndl-24x384-50-tiny-300epoch-tegaki3-r8data-202604.onnx [104, 902, 175, 924] Auto "で上昇"
+parseq-ndl-24x384-50-tiny-300epoch-tegaki3-r8data-202604.onnx [104, 902, 175, 924] Horizontal "で上昇"
+parseq-ndl-24x768-100-tiny-153epoch-tegaki3-r8data-202604.onnx [103, 824, 148, 845] Auto "進行"
+parseq-ndl-24x768-100-tiny-153epoch-tegaki3-r8data-202604.onnx [103, 824, 148, 845] Horizontal "進行"
+parseq-ndl-24x768-100-tiny-153epoch-tegaki3-r8data-202604.onnx [104, 902, 175, 924] Auto "で上昇"
+parseq-ndl-24x768-100-tiny-153epoch-tegaki3-r8data-202604.onnx [104, 902, 175, 924] Horizontal "で上昇"
+test climate_short_horizontal_continuation_keeps_its_order ... ok
+test short_order_check_respects_cascade_and_available_pools ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 7.73s
+
+mbx[cache]: 0 hits, 0 misses, 1 bypassed; 0 B downloaded, 0 B uploaded, 0 B stored locally
+mbx[savings]: disposed of 1.3 TiB logical without being asked. that is rather the point.

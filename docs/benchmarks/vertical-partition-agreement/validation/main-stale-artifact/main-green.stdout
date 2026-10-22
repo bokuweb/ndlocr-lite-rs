@@ -1,0 +1,53 @@
+
+running 34 tests
+test infer::vertical_capacity::capture::capture_capacity_candidates ... ok
+test infer::vertical_capacity::otsu::tests::fractions_are_ordered_without_overflowing_the_cross_product ... ok
+test infer::vertical_capacity::otsu::tests::uniform_gray_levels_are_split_at_the_middle ... ok
+test infer::vertical_capacity::otsu::tests::empty_single_tone_and_unrepresentable_scores_have_no_threshold ... ok
+test infer::vertical_capacity::otsu::tests::two_tones_and_tied_three_tones_keep_the_lowest_maximum ... ok
+test infer::vertical_capacity::otsu::tests::mask_rejects_partial_rgb_pixels_and_single_gray_levels ... ok
+test infer::vertical_capacity::otsu::tests::mask_uses_the_floored_rgb_average_and_keeps_the_threshold_bin_black ... ok
+test infer::vertical_capacity::policy::tests::complete_supported_parts_use_scalar_weighted_confidence_and_exact_text ... ok
+test infer::vertical_capacity::otsu::tests::exact_comparison_agrees_with_safe_small_cross_products ... ok
+test infer::vertical_capacity::policy::tests::weak_empty_short_or_repetitive_parts_do_not_replace_the_original ... ok
+test infer::vertical_capacity::policy::tests::whitespace_addition_removal_type_change_or_reordering_rejects_the_candidate ... ok
+test infer::vertical_capacity::policy::tests::a_supported_long_column_splits_original_rgb_without_word_spaces ... ok
+test infer::vertical_capacity::prefix::capture::record_two_partition_geometry_without_nn ... ok
+test infer::vertical_capacity::prefix::tests::agreement_cannot_change_prefix_whitespace_or_accept_saturated_and_bad_chunks ... ok
+test infer::vertical_capacity::prefix::tests::agreement_extends_the_whole_prefix_and_weights_only_the_primary_partition ... ok
+test infer::vertical_capacity::policy::tests::capacity_is_strict_and_existing_complete_results_are_not_replanned ... ok
+test infer::vertical_capacity::prefix::tests::callback_failure_never_returns_a_partial_extension ... ok
+test infer::vertical_capacity::prefix::tests::unsupported_capacity_and_geometry_never_call_recognition ... ok
+test infer::vertical_capacity::tests::otsu_support_keeps_the_lossless_original_and_exposes_the_threshold ... ok
+test infer::vertical_capacity::policy::tests::raw_chunk_whitespace_is_not_trimmed_to_make_a_candidate_acceptable ... ok
+test infer::vertical_capacity::tests::record_otsu_prepared_columns_and_existing_splits ... ok
+test infer::vertical_capacity::tests::record_prepared_columns_and_existing_splits ... ok
+test infer::vertical_capacity::policy::tests::unsupported_geometry_never_calls_recognition_and_an_error_never_returns_partial_text ... ok
+test infer::vertical_capacity::prefix::tests::both_routes_crop_the_same_original_pixels_with_distinct_boundaries ... ok
+test infer::vertical_capacity::prefix::tests::prefix_and_unicode_whitespace_are_invariant ... ok
+test infer::vertical_capacity::policy::tests::recovery_reads_original_chunks_even_when_the_old_confidence_is_high ... ok
+test infer::vertical_capacity::policy::tests::sparse_marks_insufficient_groups_and_invalid_inputs_are_not_supported ... ok
+test infer::vertical_capacity::otsu::tests::non_saturating_gray_translation_moves_the_threshold_by_the_same_amount ... ok
+test infer::vertical_capacity::otsu::tests::positive_histogram_scaling_does_not_change_the_threshold ... ok
+test infer::vertical_capacity::tests::support_can_whiten_warm_paper_without_recoloring_the_recognition_pixels ... ok
+test infer::vertical_capacity::tests::recognition_retains_every_rgb_value_for_varied_dimensions_and_palettes ... ok
+test infer::vertical_capacity::policy::tests::every_requested_crop_retains_original_coordinates_and_colored_paper ... ok
+test infer::vertical_capacity::native::prefix_agreement::fragment_prefix_agreement_preserves_raw_and_extends_saturated_columns ... FAILED
+test infer::vertical_capacity::native::fragment_auto_recovers_supported_columns_and_preserves_rejected_candidates ... ok
+
+failures:
+
+---- infer::vertical_capacity::native::prefix_agreement::fragment_prefix_agreement_preserves_raw_and_extends_saturated_columns stdout ----
+
+thread 'infer::vertical_capacity::native::prefix_agreement::fragment_prefix_agreement_preserves_raw_and_extends_saturated_columns' (45482631) panicked at src/infer/vertical_capacity/../../../tests/support/vertical_prefix_native.rs:46:9:
+assertion `left == right` failed: fragment/"uncertain_arial_31_pad0"
+  left: "朝の公園を通り抜けると池のほとりで小さな鳥が水を飲んでいまし"
+ right: "朝の公園を通り抜けると池のほとりで小さな鳥が水を飲んでいました"
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    infer::vertical_capacity::native::prefix_agreement::fragment_prefix_agreement_preserves_raw_and_extends_saturated_columns
+
+test result: FAILED. 33 passed; 1 failed; 0 ignored; 0 measured; 484 filtered out; finished in 1.20s
+

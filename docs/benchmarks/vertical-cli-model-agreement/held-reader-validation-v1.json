@@ -1,0 +1,16 @@
+{
+  "reader_Red_missing_function": 1,
+  "reader_Green_tests": 3,
+  "verified_CSV_rows": 2304,
+  "raw_body_unchanged_pairs": 384,
+  "decision": "HOLD_C1_NO_NEW_BODY_GAIN",
+  "logs": {
+    "held-reader-red.stderr": "E..\n======================================================================\nERROR: test_all_768_results_replay_and_keep_the_policy_held (test_vertical_cli_model_agreement_packet.CliAgreementHeldControlsTest.test_all_768_results_replay_and_keep_the_policy_held)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tests/test_vertical_cli_model_agreement_packet.py\", line 31, in test_all_768_results_replay_and_keep_the_policy_held\n    from verify_vertical_cli_model_agreement import verify_new_controls\nImportError: cannot import name 'verify_new_controls' from 'verify_vertical_cli_model_agreement' (/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tools/verify_vertical_cli_model_agreement.py)\n\n----------------------------------------------------------------------\nRan 3 tests in 0.331s\n\nFAILED (errors=1)\n",
+    "held-reader-green.stderr": "...\n----------------------------------------------------------------------\nRan 3 tests in 0.547s\n\nOK\n",
+    "held-model-free-replay-v1.json": "{\n  \"complete\": true,\n  \"image_results\": 768,\n  \"verified_CSV_rows\": 2304,\n  \"raw_body_unchanged_pairs\": 384,\n  \"new_body_raw_gain_pairs\": 0,\n  \"regression_pairs\": 0,\n  \"decision\": \"HOLD_C1_NO_NEW_BODY_GAIN\"\n}\n"
+  },
+  "source_sha256": {
+    "tools/verify_vertical_cli_model_agreement.py": "71eec197e041f6a35d171b44245ee4b29ace03273e829f60175fa7f67733e425",
+    "tests/test_vertical_cli_model_agreement_packet.py": "4dcc90f88e946e5e48c9c5ee8f31d8b3eb04ab29c4cbacbc91fb68d6728c057b"
+  }
+}

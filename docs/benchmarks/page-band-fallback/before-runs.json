@@ -1,0 +1,1391 @@
+{
+  "binary_sha256": "6a0946fb5df0da324d84e2742446856fa73579971800166e2d064d370c3220ee",
+  "runs": [
+    {
+      "reused": "tmp/page-band-fallback/before/deim/library_gothic24.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/bands/library_gothic24.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/deim/observations_gothic24.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/bands/observations_gothic24.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/deim/japanese_gothic24.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/bands/japanese_gothic24.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/deim/uri_gothic24.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/bands/uri_gothic24.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/deim/control_en_gothic24.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/bands/control_en_gothic24.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/deim/control_ja_gothic24.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/bands/control_ja_gothic24.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/deim/library_gothic36.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/bands/library_gothic36.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/deim/observations_gothic36.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/bands/observations_gothic36.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/deim/japanese_gothic36.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/bands/japanese_gothic36.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/deim/uri_gothic36.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/bands/uri_gothic36.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/deim/control_en_gothic36.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/bands/control_en_gothic36.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/deim/control_ja_gothic36.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/bands/control_ja_gothic36.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/deim/library_mincho24.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/bands/library_mincho24.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/deim/observations_mincho24.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/bands/observations_mincho24.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/deim/japanese_mincho24.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/bands/japanese_mincho24.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/deim/uri_mincho24.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/bands/uri_mincho24.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/deim/control_en_mincho24.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/bands/control_en_mincho24.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/deim/control_ja_mincho24.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/bands/control_ja_mincho24.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/deim/library_mincho36.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/bands/library_mincho36.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/deim/observations_mincho36.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/bands/observations_mincho36.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/deim/japanese_mincho36.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/bands/japanese_mincho36.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/deim/uri_mincho36.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/bands/uri_mincho36.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/deim/control_en_mincho36.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/bands/control_en_mincho36.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/deim/control_ja_mincho36.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/bands/control_ja_mincho36.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/deim/paragraph_raw.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/bands/paragraph_raw.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/deim/paragraph_normalized.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/bands/paragraph_normalized.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/deim/jma_climate_2025.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/bands/jma_climate_2025.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/deim/jma_kobe_notice.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/bands/jma_kobe_notice.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/deim/ndl_accessibility_p2.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/bands/ndl_accessibility_p2.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/deim/ndl_logo_ja.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/bands/ndl_logo_ja.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/deim/scaned0.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/bands/scaned0.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/deim/jma_climate_2025_half.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/bands/jma_climate_2025_half.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/deim/jma_climate_2025_jpeg75.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/bands/jma_climate_2025_jpeg75.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/deim/jma_climate_2025_jpeg90.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/bands/jma_climate_2025_jpeg90.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/deim/jma_kobe_notice_half.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/bands/jma_kobe_notice_half.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/deim/jma_kobe_notice_jpeg75.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/bands/jma_kobe_notice_jpeg75.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/deim/jma_kobe_notice_jpeg90.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/bands/jma_kobe_notice_jpeg90.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/deim/ndl_accessibility_p2_half.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/bands/ndl_accessibility_p2_half.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/deim/ndl_accessibility_p2_jpeg75.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/bands/ndl_accessibility_p2_jpeg75.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/deim/ndl_accessibility_p2_jpeg90.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/bands/ndl_accessibility_p2_jpeg90.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/deim/ndl_logo_ja_half.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/bands/ndl_logo_ja_half.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/deim/ndl_logo_ja_jpeg75.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/bands/ndl_logo_ja_jpeg75.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/deim/ndl_logo_ja_jpeg90.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/bands/ndl_logo_ja_jpeg90.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/deim/scaned0_half.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/bands/scaned0_half.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/deim/scaned0_jpeg75.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/bands/scaned0_jpeg75.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/deim/scaned0_jpeg90.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/bands/scaned0_jpeg90.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/deim/dense_library_maru24_original.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/bands/dense_library_maru24_original.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/deim/dense_library_maru24_jpeg75.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/bands/dense_library_maru24_jpeg75.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/deim/dense_library_maru24_half.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/bands/dense_library_maru24_half.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/deim/dense_observations_maru24_original.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/bands/dense_observations_maru24_original.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/deim/dense_observations_maru24_jpeg75.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/bands/dense_observations_maru24_jpeg75.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/deim/dense_observations_maru24_half.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/bands/dense_observations_maru24_half.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/deim/dense_library_maru36_original.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/bands/dense_library_maru36_original.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/deim/dense_library_maru36_jpeg75.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/bands/dense_library_maru36_jpeg75.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/deim/dense_library_maru36_half.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/bands/dense_library_maru36_half.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/deim/dense_observations_maru36_original.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/bands/dense_observations_maru36_original.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/deim/dense_observations_maru36_jpeg75.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/bands/dense_observations_maru36_jpeg75.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/deim/dense_observations_maru36_half.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/bands/dense_observations_maru36_half.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/deim/dense_library_bold24_original.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/bands/dense_library_bold24_original.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/deim/dense_library_bold24_jpeg75.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/bands/dense_library_bold24_jpeg75.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/deim/dense_library_bold24_half.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/bands/dense_library_bold24_half.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/deim/dense_observations_bold24_original.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/bands/dense_observations_bold24_original.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/deim/dense_observations_bold24_jpeg75.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/bands/dense_observations_bold24_jpeg75.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/deim/dense_observations_bold24_half.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/bands/dense_observations_bold24_half.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/deim/dense_library_bold36_original.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/bands/dense_library_bold36_original.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/deim/dense_library_bold36_jpeg75.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/bands/dense_library_bold36_jpeg75.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/deim/dense_library_bold36_half.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/bands/dense_library_bold36_half.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/deim/dense_observations_bold36_original.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/bands/dense_observations_bold36_original.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/deim/dense_observations_bold36_jpeg75.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/bands/dense_observations_bold36_jpeg75.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/deim/dense_observations_bold36_half.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/bands/dense_observations_bold36_half.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/deim/dense_blank.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/bands/dense_blank.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/deim/dense_rule.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/bands/dense_rule.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/deim/dense_solid.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/bands/dense_solid.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/deim/dense_speckles.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/bands/dense_speckles.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/deim/dense_horizontal_marks.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/bands/dense_horizontal_marks.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/deim/dense_vertical_bars.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/bands/dense_vertical_bars.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/deim/dense_spaced_short.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/bands/dense_spaced_short.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/deim/dense_repeated_i.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/bands/dense_repeated_i.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/deim/dense_repeated_digits.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/bands/dense_repeated_digits.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/deim/crop_ja_thin20_pad0.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/bands/crop_ja_thin20_pad0.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/deim/crop_ja_thin20_pad0_jpeg75.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/bands/crop_ja_thin20_pad0_jpeg75.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/deim/crop_ja_thin20_pad6.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/bands/crop_ja_thin20_pad6.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/deim/crop_en_thin20_pad0.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/bands/crop_en_thin20_pad0.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/deim/crop_en_thin20_pad0_jpeg75.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/bands/crop_en_thin20_pad0_jpeg75.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/deim/crop_en_thin20_pad6.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/bands/crop_en_thin20_pad6.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/deim/crop_ja_thin40_pad0.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/bands/crop_ja_thin40_pad0.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/deim/crop_ja_thin40_pad0_jpeg75.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/bands/crop_ja_thin40_pad0_jpeg75.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/deim/crop_ja_thin40_pad6.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/bands/crop_ja_thin40_pad6.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/deim/crop_en_thin40_pad0.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/bands/crop_en_thin40_pad0.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/deim/crop_en_thin40_pad0_jpeg75.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/bands/crop_en_thin40_pad0_jpeg75.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/deim/crop_en_thin40_pad6.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/bands/crop_en_thin40_pad6.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/deim/crop_ja_heavy20_pad0.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/bands/crop_ja_heavy20_pad0.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/deim/crop_ja_heavy20_pad0_jpeg75.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/bands/crop_ja_heavy20_pad0_jpeg75.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/deim/crop_ja_heavy20_pad6.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/bands/crop_ja_heavy20_pad6.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/deim/crop_en_heavy20_pad0.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/bands/crop_en_heavy20_pad0.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/deim/crop_en_heavy20_pad0_jpeg75.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/bands/crop_en_heavy20_pad0_jpeg75.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/deim/crop_en_heavy20_pad6.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/bands/crop_en_heavy20_pad6.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/deim/crop_ja_heavy40_pad0.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/bands/crop_ja_heavy40_pad0.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/deim/crop_ja_heavy40_pad0_jpeg75.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/bands/crop_ja_heavy40_pad0_jpeg75.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/deim/crop_ja_heavy40_pad6.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/bands/crop_ja_heavy40_pad6.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/deim/crop_en_heavy40_pad0.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/bands/crop_en_heavy40_pad0.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/deim/crop_en_heavy40_pad0_jpeg75.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/bands/crop_en_heavy40_pad0_jpeg75.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/deim/crop_en_heavy40_pad6.txt"
+    },
+    {
+      "reused": "tmp/page-band-fallback/before/bands/crop_en_heavy40_pad6.txt"
+    },
+    {
+      "argv": [
+        "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/dense-crop/candidate-ndlocr",
+        "recognize-page",
+        "--image",
+        "tests/fixtures/page_band_fallback/images/single_ja_gothic_png.png",
+        "--charset",
+        "models/NDLmoji.yaml",
+        "--use-deim-detection",
+        "true",
+        "--output-txt",
+        "tmp/page-band-fallback/before/deim/fallback_single_ja_gothic_png.txt"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 2.936038584
+    },
+    {
+      "argv": [
+        "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/dense-crop/candidate-ndlocr",
+        "recognize-page",
+        "--image",
+        "tests/fixtures/page_band_fallback/images/single_ja_gothic_png.png",
+        "--charset",
+        "models/NDLmoji.yaml",
+        "--use-deim-detection",
+        "false",
+        "--output-txt",
+        "tmp/page-band-fallback/before/bands/fallback_single_ja_gothic_png.txt"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 2.086497542
+    },
+    {
+      "argv": [
+        "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/dense-crop/candidate-ndlocr",
+        "recognize-page",
+        "--image",
+        "tests/fixtures/page_band_fallback/images/single_ja_gothic_jpeg75.jpg",
+        "--charset",
+        "models/NDLmoji.yaml",
+        "--use-deim-detection",
+        "true",
+        "--output-txt",
+        "tmp/page-band-fallback/before/deim/fallback_single_ja_gothic_jpeg75.txt"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 2.9015565
+    },
+    {
+      "argv": [
+        "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/dense-crop/candidate-ndlocr",
+        "recognize-page",
+        "--image",
+        "tests/fixtures/page_band_fallback/images/single_ja_gothic_jpeg75.jpg",
+        "--charset",
+        "models/NDLmoji.yaml",
+        "--use-deim-detection",
+        "false",
+        "--output-txt",
+        "tmp/page-band-fallback/before/bands/fallback_single_ja_gothic_jpeg75.txt"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 2.107063667
+    },
+    {
+      "argv": [
+        "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/dense-crop/candidate-ndlocr",
+        "recognize-page",
+        "--image",
+        "tests/fixtures/page_band_fallback/images/sentence_ja_gothic_png.png",
+        "--charset",
+        "models/NDLmoji.yaml",
+        "--use-deim-detection",
+        "true",
+        "--output-txt",
+        "tmp/page-band-fallback/before/deim/fallback_sentence_ja_gothic_png.txt"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 2.8577464580000003
+    },
+    {
+      "argv": [
+        "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/dense-crop/candidate-ndlocr",
+        "recognize-page",
+        "--image",
+        "tests/fixtures/page_band_fallback/images/sentence_ja_gothic_png.png",
+        "--charset",
+        "models/NDLmoji.yaml",
+        "--use-deim-detection",
+        "false",
+        "--output-txt",
+        "tmp/page-band-fallback/before/bands/fallback_sentence_ja_gothic_png.txt"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 2.154307625
+    },
+    {
+      "argv": [
+        "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/dense-crop/candidate-ndlocr",
+        "recognize-page",
+        "--image",
+        "tests/fixtures/page_band_fallback/images/sentence_ja_gothic_jpeg75.jpg",
+        "--charset",
+        "models/NDLmoji.yaml",
+        "--use-deim-detection",
+        "true",
+        "--output-txt",
+        "tmp/page-band-fallback/before/deim/fallback_sentence_ja_gothic_jpeg75.txt"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 2.9834599170000002
+    },
+    {
+      "argv": [
+        "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/dense-crop/candidate-ndlocr",
+        "recognize-page",
+        "--image",
+        "tests/fixtures/page_band_fallback/images/sentence_ja_gothic_jpeg75.jpg",
+        "--charset",
+        "models/NDLmoji.yaml",
+        "--use-deim-detection",
+        "false",
+        "--output-txt",
+        "tmp/page-band-fallback/before/bands/fallback_sentence_ja_gothic_jpeg75.txt"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 2.120202916
+    },
+    {
+      "argv": [
+        "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/dense-crop/candidate-ndlocr",
+        "recognize-page",
+        "--image",
+        "tests/fixtures/page_band_fallback/images/sentence_en_gothic_png.png",
+        "--charset",
+        "models/NDLmoji.yaml",
+        "--use-deim-detection",
+        "true",
+        "--output-txt",
+        "tmp/page-band-fallback/before/deim/fallback_sentence_en_gothic_png.txt"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 2.965377041000001
+    },
+    {
+      "argv": [
+        "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/dense-crop/candidate-ndlocr",
+        "recognize-page",
+        "--image",
+        "tests/fixtures/page_band_fallback/images/sentence_en_gothic_png.png",
+        "--charset",
+        "models/NDLmoji.yaml",
+        "--use-deim-detection",
+        "false",
+        "--output-txt",
+        "tmp/page-band-fallback/before/bands/fallback_sentence_en_gothic_png.txt"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 2.099557667
+    },
+    {
+      "argv": [
+        "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/dense-crop/candidate-ndlocr",
+        "recognize-page",
+        "--image",
+        "tests/fixtures/page_band_fallback/images/sentence_en_gothic_jpeg75.jpg",
+        "--charset",
+        "models/NDLmoji.yaml",
+        "--use-deim-detection",
+        "true",
+        "--output-txt",
+        "tmp/page-band-fallback/before/deim/fallback_sentence_en_gothic_jpeg75.txt"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 2.937439875000001
+    },
+    {
+      "argv": [
+        "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/dense-crop/candidate-ndlocr",
+        "recognize-page",
+        "--image",
+        "tests/fixtures/page_band_fallback/images/sentence_en_gothic_jpeg75.jpg",
+        "--charset",
+        "models/NDLmoji.yaml",
+        "--use-deim-detection",
+        "false",
+        "--output-txt",
+        "tmp/page-band-fallback/before/bands/fallback_sentence_en_gothic_jpeg75.txt"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 2.0890242079999997
+    },
+    {
+      "argv": [
+        "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/dense-crop/candidate-ndlocr",
+        "recognize-page",
+        "--image",
+        "tests/fixtures/page_band_fallback/images/repeated_i_gothic_png.png",
+        "--charset",
+        "models/NDLmoji.yaml",
+        "--use-deim-detection",
+        "true",
+        "--output-txt",
+        "tmp/page-band-fallback/before/deim/fallback_repeated_i_gothic_png.txt"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 2.950481708
+    },
+    {
+      "argv": [
+        "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/dense-crop/candidate-ndlocr",
+        "recognize-page",
+        "--image",
+        "tests/fixtures/page_band_fallback/images/repeated_i_gothic_png.png",
+        "--charset",
+        "models/NDLmoji.yaml",
+        "--use-deim-detection",
+        "false",
+        "--output-txt",
+        "tmp/page-band-fallback/before/bands/fallback_repeated_i_gothic_png.txt"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 2.107354334
+    },
+    {
+      "argv": [
+        "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/dense-crop/candidate-ndlocr",
+        "recognize-page",
+        "--image",
+        "tests/fixtures/page_band_fallback/images/repeated_i_gothic_jpeg75.jpg",
+        "--charset",
+        "models/NDLmoji.yaml",
+        "--use-deim-detection",
+        "true",
+        "--output-txt",
+        "tmp/page-band-fallback/before/deim/fallback_repeated_i_gothic_jpeg75.txt"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 2.9431903749999986
+    },
+    {
+      "argv": [
+        "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/dense-crop/candidate-ndlocr",
+        "recognize-page",
+        "--image",
+        "tests/fixtures/page_band_fallback/images/repeated_i_gothic_jpeg75.jpg",
+        "--charset",
+        "models/NDLmoji.yaml",
+        "--use-deim-detection",
+        "false",
+        "--output-txt",
+        "tmp/page-band-fallback/before/bands/fallback_repeated_i_gothic_jpeg75.txt"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 2.107722625000001
+    },
+    {
+      "argv": [
+        "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/dense-crop/candidate-ndlocr",
+        "recognize-page",
+        "--image",
+        "tests/fixtures/page_band_fallback/images/repeated_digits_gothic_png.png",
+        "--charset",
+        "models/NDLmoji.yaml",
+        "--use-deim-detection",
+        "true",
+        "--output-txt",
+        "tmp/page-band-fallback/before/deim/fallback_repeated_digits_gothic_png.txt"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 2.9049175409999997
+    },
+    {
+      "argv": [
+        "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/dense-crop/candidate-ndlocr",
+        "recognize-page",
+        "--image",
+        "tests/fixtures/page_band_fallback/images/repeated_digits_gothic_png.png",
+        "--charset",
+        "models/NDLmoji.yaml",
+        "--use-deim-detection",
+        "false",
+        "--output-txt",
+        "tmp/page-band-fallback/before/bands/fallback_repeated_digits_gothic_png.txt"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 2.045630709000001
+    },
+    {
+      "argv": [
+        "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/dense-crop/candidate-ndlocr",
+        "recognize-page",
+        "--image",
+        "tests/fixtures/page_band_fallback/images/repeated_digits_gothic_jpeg75.jpg",
+        "--charset",
+        "models/NDLmoji.yaml",
+        "--use-deim-detection",
+        "true",
+        "--output-txt",
+        "tmp/page-band-fallback/before/deim/fallback_repeated_digits_gothic_jpeg75.txt"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 2.8957636670000007
+    },
+    {
+      "argv": [
+        "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/dense-crop/candidate-ndlocr",
+        "recognize-page",
+        "--image",
+        "tests/fixtures/page_band_fallback/images/repeated_digits_gothic_jpeg75.jpg",
+        "--charset",
+        "models/NDLmoji.yaml",
+        "--use-deim-detection",
+        "false",
+        "--output-txt",
+        "tmp/page-band-fallback/before/bands/fallback_repeated_digits_gothic_jpeg75.txt"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 2.0508149169999985
+    },
+    {
+      "argv": [
+        "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/dense-crop/candidate-ndlocr",
+        "recognize-page",
+        "--image",
+        "tests/fixtures/page_band_fallback/images/two_rows_gothic_png.png",
+        "--charset",
+        "models/NDLmoji.yaml",
+        "--use-deim-detection",
+        "true",
+        "--output-txt",
+        "tmp/page-band-fallback/before/deim/fallback_two_rows_gothic_png.txt"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 2.900632250000001
+    },
+    {
+      "argv": [
+        "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/dense-crop/candidate-ndlocr",
+        "recognize-page",
+        "--image",
+        "tests/fixtures/page_band_fallback/images/two_rows_gothic_png.png",
+        "--charset",
+        "models/NDLmoji.yaml",
+        "--use-deim-detection",
+        "false",
+        "--output-txt",
+        "tmp/page-band-fallback/before/bands/fallback_two_rows_gothic_png.txt"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 2.0933991249999977
+    },
+    {
+      "argv": [
+        "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/dense-crop/candidate-ndlocr",
+        "recognize-page",
+        "--image",
+        "tests/fixtures/page_band_fallback/images/two_rows_gothic_jpeg75.jpg",
+        "--charset",
+        "models/NDLmoji.yaml",
+        "--use-deim-detection",
+        "true",
+        "--output-txt",
+        "tmp/page-band-fallback/before/deim/fallback_two_rows_gothic_jpeg75.txt"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 2.935694958999999
+    },
+    {
+      "argv": [
+        "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/dense-crop/candidate-ndlocr",
+        "recognize-page",
+        "--image",
+        "tests/fixtures/page_band_fallback/images/two_rows_gothic_jpeg75.jpg",
+        "--charset",
+        "models/NDLmoji.yaml",
+        "--use-deim-detection",
+        "false",
+        "--output-txt",
+        "tmp/page-band-fallback/before/bands/fallback_two_rows_gothic_jpeg75.txt"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 2.0774549580000006
+    },
+    {
+      "argv": [
+        "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/dense-crop/candidate-ndlocr",
+        "recognize-page",
+        "--image",
+        "tests/fixtures/page_band_fallback/images/single_ja_mincho_png.png",
+        "--charset",
+        "models/NDLmoji.yaml",
+        "--use-deim-detection",
+        "true",
+        "--output-txt",
+        "tmp/page-band-fallback/before/deim/fallback_single_ja_mincho_png.txt"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 2.8561824169999994
+    },
+    {
+      "argv": [
+        "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/dense-crop/candidate-ndlocr",
+        "recognize-page",
+        "--image",
+        "tests/fixtures/page_band_fallback/images/single_ja_mincho_png.png",
+        "--charset",
+        "models/NDLmoji.yaml",
+        "--use-deim-detection",
+        "false",
+        "--output-txt",
+        "tmp/page-band-fallback/before/bands/fallback_single_ja_mincho_png.txt"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 2.0263310829999988
+    },
+    {
+      "argv": [
+        "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/dense-crop/candidate-ndlocr",
+        "recognize-page",
+        "--image",
+        "tests/fixtures/page_band_fallback/images/single_ja_mincho_jpeg75.jpg",
+        "--charset",
+        "models/NDLmoji.yaml",
+        "--use-deim-detection",
+        "true",
+        "--output-txt",
+        "tmp/page-band-fallback/before/deim/fallback_single_ja_mincho_jpeg75.txt"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 2.920019542000002
+    },
+    {
+      "argv": [
+        "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/dense-crop/candidate-ndlocr",
+        "recognize-page",
+        "--image",
+        "tests/fixtures/page_band_fallback/images/single_ja_mincho_jpeg75.jpg",
+        "--charset",
+        "models/NDLmoji.yaml",
+        "--use-deim-detection",
+        "false",
+        "--output-txt",
+        "tmp/page-band-fallback/before/bands/fallback_single_ja_mincho_jpeg75.txt"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 2.0480764580000006
+    },
+    {
+      "argv": [
+        "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/dense-crop/candidate-ndlocr",
+        "recognize-page",
+        "--image",
+        "tests/fixtures/page_band_fallback/images/sentence_ja_mincho_png.png",
+        "--charset",
+        "models/NDLmoji.yaml",
+        "--use-deim-detection",
+        "true",
+        "--output-txt",
+        "tmp/page-band-fallback/before/deim/fallback_sentence_ja_mincho_png.txt"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 2.913540833999999
+    },
+    {
+      "argv": [
+        "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/dense-crop/candidate-ndlocr",
+        "recognize-page",
+        "--image",
+        "tests/fixtures/page_band_fallback/images/sentence_ja_mincho_png.png",
+        "--charset",
+        "models/NDLmoji.yaml",
+        "--use-deim-detection",
+        "false",
+        "--output-txt",
+        "tmp/page-band-fallback/before/bands/fallback_sentence_ja_mincho_png.txt"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 2.027770083
+    },
+    {
+      "argv": [
+        "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/dense-crop/candidate-ndlocr",
+        "recognize-page",
+        "--image",
+        "tests/fixtures/page_band_fallback/images/sentence_ja_mincho_jpeg75.jpg",
+        "--charset",
+        "models/NDLmoji.yaml",
+        "--use-deim-detection",
+        "true",
+        "--output-txt",
+        "tmp/page-band-fallback/before/deim/fallback_sentence_ja_mincho_jpeg75.txt"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 2.8697369169999973
+    },
+    {
+      "argv": [
+        "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/dense-crop/candidate-ndlocr",
+        "recognize-page",
+        "--image",
+        "tests/fixtures/page_band_fallback/images/sentence_ja_mincho_jpeg75.jpg",
+        "--charset",
+        "models/NDLmoji.yaml",
+        "--use-deim-detection",
+        "false",
+        "--output-txt",
+        "tmp/page-band-fallback/before/bands/fallback_sentence_ja_mincho_jpeg75.txt"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 2.012069874999998
+    },
+    {
+      "argv": [
+        "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/dense-crop/candidate-ndlocr",
+        "recognize-page",
+        "--image",
+        "tests/fixtures/page_band_fallback/images/sentence_en_mincho_png.png",
+        "--charset",
+        "models/NDLmoji.yaml",
+        "--use-deim-detection",
+        "true",
+        "--output-txt",
+        "tmp/page-band-fallback/before/deim/fallback_sentence_en_mincho_png.txt"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 2.9386614999999985
+    },
+    {
+      "argv": [
+        "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/dense-crop/candidate-ndlocr",
+        "recognize-page",
+        "--image",
+        "tests/fixtures/page_band_fallback/images/sentence_en_mincho_png.png",
+        "--charset",
+        "models/NDLmoji.yaml",
+        "--use-deim-detection",
+        "false",
+        "--output-txt",
+        "tmp/page-band-fallback/before/bands/fallback_sentence_en_mincho_png.txt"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 2.108715709000002
+    },
+    {
+      "argv": [
+        "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/dense-crop/candidate-ndlocr",
+        "recognize-page",
+        "--image",
+        "tests/fixtures/page_band_fallback/images/sentence_en_mincho_jpeg75.jpg",
+        "--charset",
+        "models/NDLmoji.yaml",
+        "--use-deim-detection",
+        "true",
+        "--output-txt",
+        "tmp/page-band-fallback/before/deim/fallback_sentence_en_mincho_jpeg75.txt"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 2.9690559589999985
+    },
+    {
+      "argv": [
+        "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/dense-crop/candidate-ndlocr",
+        "recognize-page",
+        "--image",
+        "tests/fixtures/page_band_fallback/images/sentence_en_mincho_jpeg75.jpg",
+        "--charset",
+        "models/NDLmoji.yaml",
+        "--use-deim-detection",
+        "false",
+        "--output-txt",
+        "tmp/page-band-fallback/before/bands/fallback_sentence_en_mincho_jpeg75.txt"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 2.075503625000003
+    },
+    {
+      "argv": [
+        "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/dense-crop/candidate-ndlocr",
+        "recognize-page",
+        "--image",
+        "tests/fixtures/page_band_fallback/images/repeated_i_mincho_png.png",
+        "--charset",
+        "models/NDLmoji.yaml",
+        "--use-deim-detection",
+        "true",
+        "--output-txt",
+        "tmp/page-band-fallback/before/deim/fallback_repeated_i_mincho_png.txt"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 2.9477744580000014
+    },
+    {
+      "argv": [
+        "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/dense-crop/candidate-ndlocr",
+        "recognize-page",
+        "--image",
+        "tests/fixtures/page_band_fallback/images/repeated_i_mincho_png.png",
+        "--charset",
+        "models/NDLmoji.yaml",
+        "--use-deim-detection",
+        "false",
+        "--output-txt",
+        "tmp/page-band-fallback/before/bands/fallback_repeated_i_mincho_png.txt"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 2.0740617079999986
+    },
+    {
+      "argv": [
+        "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/dense-crop/candidate-ndlocr",
+        "recognize-page",
+        "--image",
+        "tests/fixtures/page_band_fallback/images/repeated_i_mincho_jpeg75.jpg",
+        "--charset",
+        "models/NDLmoji.yaml",
+        "--use-deim-detection",
+        "true",
+        "--output-txt",
+        "tmp/page-band-fallback/before/deim/fallback_repeated_i_mincho_jpeg75.txt"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 2.9218317499999955
+    },
+    {
+      "argv": [
+        "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/dense-crop/candidate-ndlocr",
+        "recognize-page",
+        "--image",
+        "tests/fixtures/page_band_fallback/images/repeated_i_mincho_jpeg75.jpg",
+        "--charset",
+        "models/NDLmoji.yaml",
+        "--use-deim-detection",
+        "false",
+        "--output-txt",
+        "tmp/page-band-fallback/before/bands/fallback_repeated_i_mincho_jpeg75.txt"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 2.1154243750000035
+    },
+    {
+      "argv": [
+        "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/dense-crop/candidate-ndlocr",
+        "recognize-page",
+        "--image",
+        "tests/fixtures/page_band_fallback/images/repeated_digits_mincho_png.png",
+        "--charset",
+        "models/NDLmoji.yaml",
+        "--use-deim-detection",
+        "true",
+        "--output-txt",
+        "tmp/page-band-fallback/before/deim/fallback_repeated_digits_mincho_png.txt"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 2.9835585410000007
+    },
+    {
+      "argv": [
+        "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/dense-crop/candidate-ndlocr",
+        "recognize-page",
+        "--image",
+        "tests/fixtures/page_band_fallback/images/repeated_digits_mincho_png.png",
+        "--charset",
+        "models/NDLmoji.yaml",
+        "--use-deim-detection",
+        "false",
+        "--output-txt",
+        "tmp/page-band-fallback/before/bands/fallback_repeated_digits_mincho_png.txt"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 2.1015424169999974
+    },
+    {
+      "argv": [
+        "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/dense-crop/candidate-ndlocr",
+        "recognize-page",
+        "--image",
+        "tests/fixtures/page_band_fallback/images/repeated_digits_mincho_jpeg75.jpg",
+        "--charset",
+        "models/NDLmoji.yaml",
+        "--use-deim-detection",
+        "true",
+        "--output-txt",
+        "tmp/page-band-fallback/before/deim/fallback_repeated_digits_mincho_jpeg75.txt"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 2.980103708999998
+    },
+    {
+      "argv": [
+        "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/dense-crop/candidate-ndlocr",
+        "recognize-page",
+        "--image",
+        "tests/fixtures/page_band_fallback/images/repeated_digits_mincho_jpeg75.jpg",
+        "--charset",
+        "models/NDLmoji.yaml",
+        "--use-deim-detection",
+        "false",
+        "--output-txt",
+        "tmp/page-band-fallback/before/bands/fallback_repeated_digits_mincho_jpeg75.txt"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 2.0945133750000053
+    },
+    {
+      "argv": [
+        "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/dense-crop/candidate-ndlocr",
+        "recognize-page",
+        "--image",
+        "tests/fixtures/page_band_fallback/images/two_rows_mincho_png.png",
+        "--charset",
+        "models/NDLmoji.yaml",
+        "--use-deim-detection",
+        "true",
+        "--output-txt",
+        "tmp/page-band-fallback/before/deim/fallback_two_rows_mincho_png.txt"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 2.952597875000002
+    },
+    {
+      "argv": [
+        "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/dense-crop/candidate-ndlocr",
+        "recognize-page",
+        "--image",
+        "tests/fixtures/page_band_fallback/images/two_rows_mincho_png.png",
+        "--charset",
+        "models/NDLmoji.yaml",
+        "--use-deim-detection",
+        "false",
+        "--output-txt",
+        "tmp/page-band-fallback/before/bands/fallback_two_rows_mincho_png.txt"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 2.154411084000003
+    },
+    {
+      "argv": [
+        "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/dense-crop/candidate-ndlocr",
+        "recognize-page",
+        "--image",
+        "tests/fixtures/page_band_fallback/images/two_rows_mincho_jpeg75.jpg",
+        "--charset",
+        "models/NDLmoji.yaml",
+        "--use-deim-detection",
+        "true",
+        "--output-txt",
+        "tmp/page-band-fallback/before/deim/fallback_two_rows_mincho_jpeg75.txt"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 2.871697042000001
+    },
+    {
+      "argv": [
+        "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/dense-crop/candidate-ndlocr",
+        "recognize-page",
+        "--image",
+        "tests/fixtures/page_band_fallback/images/two_rows_mincho_jpeg75.jpg",
+        "--charset",
+        "models/NDLmoji.yaml",
+        "--use-deim-detection",
+        "false",
+        "--output-txt",
+        "tmp/page-band-fallback/before/bands/fallback_two_rows_mincho_jpeg75.txt"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 1.920950708999996
+    }
+  ]
+}

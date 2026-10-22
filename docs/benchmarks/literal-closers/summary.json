@@ -1,0 +1,38 @@
+{
+  "single30": {
+    "byte_equal": 535,
+    "raw_char_improved": 38,
+    "changed": 48,
+    "old_images_changed": 0,
+    "raw_exact_lost_before": 76,
+    "raw_exact_restored": 38,
+    "raw_exact_remaining": 38,
+    "raw_char_ties_changed": 10
+  },
+  "single50": {
+    "byte_equal": 547,
+    "raw_char_improved": 32,
+    "changed": 36,
+    "old_images_changed": 0,
+    "raw_exact_lost_before": 51,
+    "raw_exact_restored": 32,
+    "raw_exact_remaining": 19,
+    "raw_char_ties_changed": 4
+  },
+  "single100": {
+    "byte_equal": 540,
+    "raw_char_improved": 34,
+    "changed": 43,
+    "old_images_changed": 0,
+    "raw_exact_lost_before": 57,
+    "raw_exact_restored": 34,
+    "raw_exact_remaining": 23,
+    "raw_char_ties_changed": 9
+  },
+  "comparisons": 5247,
+  "char_regressions": 0,
+  "word_regressions": 0,
+  "before_fresh": 960,
+  "before_reused": 789,
+  "after_fresh": 1749
+}

@@ -4,7 +4,7 @@ use std::collections::HashMap;
 use crate::infer::deim::Detection;
 use crate::pipeline::cascade::{LineCandidate, run_cascade_with_idx};
 use crate::pipeline::crop::{BBox, CroppedImage, crop_rgb_u8};
-use crate::pipeline::line_detections::select_line_detections;
+use crate::pipeline::line_detections::line_recognition_regions;
 
 #[derive(Clone, Debug, PartialEq)]
 pub struct RecognizedLine {
@@ -60,18 +60,18 @@ where
     let mut crop_map = HashMap::new();
     let mut bbox_map = HashMap::new();
     let mut conf_map = HashMap::new();
-    for det in select_line_detections(detections, width, height) {
+    for (det, bounds) in line_recognition_regions(detections, rgb, width, height) {
         let idx = lines.len();
         let bbox = BBox::new(
-            det.box_xyxy[0] as usize,
-            det.box_xyxy[1] as usize,
-            det.box_xyxy[2] as usize,
-            det.box_xyxy[3] as usize,
+            bounds[0] as usize,
+            bounds[1] as usize,
+            bounds[2] as usize,
+            bounds[3] as usize,
         );
         let crop = crop_rgb_u8(rgb, width, height, bbox)?;
         lines.push(LineCandidate::new(idx, det.pred_char_count));
         crop_map.insert(idx, crop);
-        bbox_map.insert(idx, det.box_xyxy);
+        bbox_map.insert(idx, bounds);
         conf_map.insert(idx, det.confidence);
     }
     let res = run_cascade_with_idx(

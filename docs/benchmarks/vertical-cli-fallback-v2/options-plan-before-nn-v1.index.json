@@ -1,0 +1,70 @@
+{
+  "archive": "options-plan-before-nn-v1.zip",
+  "bytes": 30462,
+  "sha256": "c874aa4fd1914c99e3ef8d0e7908bc704b5782dc6435e068f684a8c003555ff5",
+  "members": {
+    "evidence/option-plan-before-NN-v1.json": {
+      "bytes": 1003171,
+      "sha256": "94d74459447d44599763c06897f36accb7581583d2470086165d852918453ede"
+    },
+    "evidence/option-plan-before-NN-v1.meta.json": {
+      "bytes": 1082,
+      "sha256": "672e02b24340609e13d0011af1c341e8cca5de0d4e3edc3dd03f6f70c6e2cf13"
+    },
+    "evidence/freeze_option_plan_v1.py": {
+      "bytes": 3098,
+      "sha256": "d68b0f5047b1392965a17ed3d78308cc69f2f2cdf8298b5e9521935ae4f06daf"
+    },
+    "evidence/options-plan-red.stdout": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "evidence/options-plan-red.stderr": {
+      "bytes": 1996,
+      "sha256": "c118d17efc38588d5ed35683246be70e44cd669372a47aa1a5cf363539caeb99"
+    },
+    "evidence/options-plan-green.stdout": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "evidence/options-plan-green.stderr": {
+      "bytes": 528,
+      "sha256": "cc521de0fb5ea52ed19d069c9a9b414ab5434548ced151bfe97c51a6a2e6099c"
+    },
+    "evidence/options-command-red.stdout": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "evidence/options-command-red.stderr": {
+      "bytes": 1531,
+      "sha256": "6107551d4750cfd4673e50203149218bef54d2797ca619a72e3cc231519f3d23"
+    },
+    "evidence/options-command-green.stdout": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "evidence/options-command-green.stderr": {
+      "bytes": 710,
+      "sha256": "1671ee3c813cf005a2696d000994c19df5154d6b282567e4f01df06510a72440"
+    },
+    "docs/vertical_cli_fallback_v2_option_controls.md": {
+      "bytes": 2257,
+      "sha256": "7f0dac1c55601a89645589751f5c2051b26b36e1f781d6ac1673aeb7dba01d94"
+    },
+    "tools/vertical_cli_fallback_v2_options.py": {
+      "bytes": 2562,
+      "sha256": "092f299d9a1f70d38218322712c6cd95af2ec382a32814cdcccc96294a7e156b"
+    },
+    "tests/test_vertical_cli_fallback_v2_options.py": {
+      "bytes": 2610,
+      "sha256": "a15cb38edbdb96aa68c748d448689e72526cb58c17309c6014631fe1eca09f7e"
+    },
+    "tools/vertical_page_matrix.py": {
+      "bytes": 34030,
+      "sha256": "03f5e9e2db74aa53c8912df0490b96a64624a236b84a087cefb231bb2ffd7700"
+    }
+  },
+  "option_matrix_NN_calls": 0,
+  "CLI_processes_planned": 384,
+  "required_new72_gate": "pending; not an adoption or execution result"
+}
