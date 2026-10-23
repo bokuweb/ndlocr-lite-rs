@@ -1,0 +1,20 @@
+   Compiling ndlocr-lite-rs v0.1.0 (/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs)
+    Finished `test` profile [unoptimized] target(s) in 3.36s
+     Running tests/adaptive_horizontal_layout_tests.rs (/Volumes/ssd/ndlocr-kanpo-layout-20261023-target/debug/deps/adaptive_horizontal_layout_tests-8f1b73db5d441a6d)
+
+running 5 tests
+test partial_deim_does_not_hide_the_other_confirmed_column_rows ... ok
+test repeated_same_row_fragments_choose_complete_pixel_bands ... ok
+test unique_lines_and_one_ambiguous_row_keep_deim_identity ... ok
+test invalid_uncertain_or_nearly_identical_hypotheses_are_not_switch_evidence ... ok
+test repeated_fragment_selection_is_translation_and_scale_invariant ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 3.03s
+
+     Running tests/adaptive_layout_guards_tests.rs (/Volumes/ssd/ndlocr-kanpo-layout-20261023-target/debug/deps/adaptive_layout_guards_tests-667f50d5383225b3)
+
+running 1 test
+test duplicated_captions_cannot_select_a_merged_multiline_body ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+

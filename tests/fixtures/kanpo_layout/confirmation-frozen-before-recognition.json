@@ -1,0 +1,19 @@
+{
+  "source": "20260730h017580024 page0-draw0.png",
+  "roi": [
+    240,
+    180,
+    1775,
+    2300
+  ],
+  "annotation": "manual visual transcription before recognition; source runtime frozen in docs/benchmarks/kanpo-layout/source-before-confirmation.json",
+  "files": {
+    "confirmation-source.png": "6f13149e96b527d68b237faff79ebf2b6de67b9043c0e23d10910372a980078a",
+    "confirmation-col2.txt": "c4a216ed506a3fecc7b313843bcf63d82fdcdc7a9db28afc272c77ba9ed6fc4e",
+    "confirmation-col1.txt": "9c63d130578832f90c4ea2f42c96d80dc5d65e69912fe5eb799efe6b7d07a1fc",
+    "confirmation-two-columns.png": "42346880ff72bc7ae700c63b9912fe51ba3f0137b7f922e143fa804217b30e8f",
+    "confirmation-manifest.json": "610f6506bee0b04f261606ac907b41844b7b7ebfdb462d7a215596f6ccfbb780",
+    "confirmation-two-columns.txt": "f391a61f2ba2c9bd153f4a1b3d9fdce793e83afbe11b229c95e8b17004211a4c"
+  },
+  "normalized_characters": 1491
+}

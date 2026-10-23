@@ -1,0 +1,9 @@
+{
+  "baseline_commit": "0ba1c0007c12c91f2527d40a9033ca7815d18795",
+  "baseline_binary_sha256": "f3e51ed3250337c678e30836aba7a1b136627706762485fc919446c6f76fd150",
+  "final_binary_sha256": "2f07774b15a8cd8fadfd66a69ca10381591a9f79939a16957cfbafd0591d9646",
+  "final_source_zip_sha256": "0f92af0a5cb7be130186a054fb510287f2a6e3eeeb86e8254ae62d57265c6125",
+  "rustc": "rustc 1.99.0 (b940084d7 2026-09-28)",
+  "machine": "arm64",
+  "timing_caveat": "External CPU workload present. Own inference sequential. Initial baseline crops overlapped release build; final first-crop start may overlap the tail of Clippy. Full-page and confirmation measurements do not overlap own builds. No speed superiority claim."
+}

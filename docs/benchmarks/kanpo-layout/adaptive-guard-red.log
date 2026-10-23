@@ -1,0 +1,24 @@
+   Compiling ndlocr-lite-rs v0.1.0 (/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs)
+    Finished `test` profile [unoptimized] target(s) in 4.99s
+     Running tests/adaptive_layout_guards_tests.rs (/Volumes/ssd/ndlocr-kanpo-layout-20261023-target/debug/deps/adaptive_layout_guards_tests-667f50d5383225b3)
+
+running 1 test
+test duplicated_captions_cannot_select_a_merged_multiline_body ... FAILED
+
+failures:
+
+---- duplicated_captions_cannot_select_a_merged_multiline_body stdout ----
+
+thread 'duplicated_captions_cannot_select_a_merged_multiline_body' (51224535) panicked at tests/adaptive_layout_guards_tests.rs:14:5:
+assertion `left == right` failed
+  left: "duplicate_horizontal_rows"
+ right: "deim"
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    duplicated_captions_cannot_select_a_merged_multiline_body
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+error: test failed, to rerun pass `--test adaptive_layout_guards_tests`

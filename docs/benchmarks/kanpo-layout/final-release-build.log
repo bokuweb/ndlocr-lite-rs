@@ -1,0 +1,20 @@
+   Compiling rav1e v0.8.1
+   Compiling ravif v0.13.0
+   Compiling image v0.25.10
+   Compiling ndlocr-lite-rs v0.1.0 (/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs)
+warning: methods `recognize_batch_indexed` and `run_chunk_on_session` are never used
+   --> src/infer/cached.rs:760:8
+    |
+431 | impl ParseqPool {
+    | --------------- methods in this implementation
+...
+760 |     fn recognize_batch_indexed(
+    |        ^^^^^^^^^^^^^^^^^^^^^^^
+...
+879 |     fn run_chunk_on_session(
+    |        ^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: `ndlocr-lite-rs` (lib) generated 1 warning
+    Finished `release` profile [optimized] target(s) in 38.81s

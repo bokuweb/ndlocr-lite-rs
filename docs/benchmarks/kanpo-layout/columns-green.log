@@ -1,0 +1,39 @@
+   Compiling ndlocr-lite-rs v0.1.0 (/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs)
+warning: variable does not need to be mutable
+   --> src/app.rs:639:17
+    |
+639 |             let mut prepare_legacy = || -> Result<Vec<PreparedLineCrop>> {
+    |                 ----^^^^^^^^^^^^^^
+    |                 |
+    |                 help: remove this `mut`
+    |
+    = note: `#[warn(unused_mut)]` (part of `#[warn(unused)]`) on by default
+
+warning: fields `x0` and `x1` are never read
+ --> src/pipeline/horizontal_columns.rs:5:9
+  |
+4 | pub(crate) struct Column {
+  |                   ------ fields in this struct
+5 |     pub x0: usize,
+  |         ^^
+6 |     pub x1: usize,
+  |         ^^
+  |
+  = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: `ndlocr-lite-rs` (lib) generated 2 warnings (run `cargo fix --lib -p ndlocr-lite-rs` to apply 1 suggestion)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 2.47s
+     Running tests/multicolumn_fallback_tests.rs (target/debug/deps/multicolumn_fallback_tests-7aa0e6ad1dcb87e6)
+
+running 3 tests
+test a_word_gap_in_one_line_does_not_create_columns ... ok
+test staggered_columns_do_not_become_one_multiline_region ... ok
+test columns_preserve_all_staggered_lines_and_image_coordinates ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 3.14s
+
+mbx[cache]: 0 hits, 0 misses, 2 not looked up, 3 incremental; 0 B downloaded, 0 B uploaded, 0 B stored locally
+mbx[gc]: 2.3 GiB free on the disk holding /Users/bokuweb/Library/Caches/mbx, under the 50.0 GiB minimum; collecting private state and managed targets past their budgets, then shared cache objects if the cache disk is short
+mbx[gc]: evicted 0 objects and 0 action results (203.5 KiB logical); 556.5 MiB logical remain
+mbx[gc]: evicted 673 shared cache objects and 103 action results below gc.max_size because the disk was under gc.min_free_size (556.5 MiB logical freed)
+mbx[savings]: 123.8 GiB on loan to every checkout simultaneously. the paperwork is an inode.

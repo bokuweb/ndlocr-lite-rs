@@ -1,0 +1,202 @@
+//! Whitespace-separated horizontal text columns; no document-specific rules.
+use super::line_segment::{detect_textline_bands_fast, detect_textline_bands_naive};
+
+pub(crate) struct Column {
+    pub x0: usize,
+    pub x1: usize,
+    pub bands: Vec<[usize; 4]>,
+}
+
+pub(crate) fn bands(rgb: &[u8], width: usize, height: usize, threshold: u8) -> Vec<[usize; 4]> {
+    if width.saturating_mul(height) >= 1_000_000 {
+        detect_textline_bands_fast(rgb, width, height, threshold)
+    } else {
+        detect_textline_bands_naive(rgb, width, height, threshold)
+    }
+}
+
+pub(crate) fn page_bands(
+    rgb: &[u8],
+    width: usize,
+    height: usize,
+    threshold: u8,
+    columns: &[Column],
+) -> Vec<[usize; 4]> {
+    if columns.is_empty() {
+        bands(rgb, width, height, threshold)
+    } else {
+        columns
+            .iter()
+            .flat_map(|column| column.bands.iter().copied())
+            .collect()
+    }
+}
+
+/// Accept only full-height empty gutters with repeated horizontal lines on every side.
+pub(crate) fn detect(rgb: &[u8], width: usize, height: usize, threshold: u8) -> Vec<Column> {
+    if width == 0
+        || height == 0
+        || width.checked_mul(height).and_then(|n| n.checked_mul(3)) != Some(rgb.len())
+    {
+        return Vec::new();
+    }
+    let mut occupied = vec![false; width];
+    for row in rgb.chunks_exact(width * 3) {
+        for (x, pixel) in row.chunks_exact(3).enumerate() {
+            occupied[x] |=
+                pixel.iter().map(|&v| u16::from(v)).sum::<u16>() < u16::from(threshold) * 3;
+        }
+    }
+    let Some(left) = occupied.iter().position(|&v| v) else {
+        return Vec::new();
+    };
+    let right = occupied.iter().rposition(|&v| v).unwrap() + 1;
+    let minimum_gutter = (height / 120).max(12);
+    let minimum_width = (width / 10).max(80);
+    let mut edges = vec![0];
+    let mut x = left;
+    while x < right {
+        if occupied[x] {
+            x += 1;
+            continue;
+        }
+        let start = x;
+        while x < right && !occupied[x] {
+            x += 1;
+        }
+        let cut = start + (x - start) / 2;
+        if x - start >= minimum_gutter
+            && start.saturating_sub(*edges.last().unwrap()) >= minimum_width
+            && right - x >= minimum_width
+        {
+            edges.push(cut);
+        }
+    }
+    if edges.len() == 1 {
+        return Vec::new();
+    }
+    edges.push(width);
+    let mut columns = Vec::new();
+    for edge in edges.windows(2) {
+        let (x0, x1) = (edge[0], edge[1]);
+        let mut crop = Vec::with_capacity((x1 - x0) * height * 3);
+        for row in rgb.chunks_exact(width * 3) {
+            crop.extend_from_slice(&row[x0 * 3..x1 * 3]);
+        }
+        let local = bands(&crop, x1 - x0, height, threshold);
+        if local
+            .iter()
+            .filter(|b| b[2] - b[0] >= 3 * (b[3] - b[1]))
+            .count()
+            < 3
+        {
+            return Vec::new();
+        }
+        columns.push(Column {
+            x0,
+            x1,
+            bands: local
+                .into_iter()
+                .map(|[a, b, c, d]| [a + x0, b, c + x0, d])
+                .collect(),
+        });
+    }
+    columns
+}
+
+/// Reorder only when every horizontal line belongs wholly to one confirmed column.
+pub(crate) fn sort(lines: &mut [crate::pipeline::connect::RecognizedLine], columns: &[Column]) {
+    crate::pipeline::reading_order::sort_lines_in_reading_order(lines);
+    let column_index = |line: &crate::pipeline::connect::RecognizedLine| {
+        columns.iter().position(|column| {
+            i64::from(line.bbox_xyxy[3]) - i64::from(line.bbox_xyxy[1])
+                <= 3 * (i64::from(line.bbox_xyxy[2]) - i64::from(line.bbox_xyxy[0]))
+                && line.bbox_xyxy[0] >= column.x0 as i32
+                && line.bbox_xyxy[2] <= column.x1 as i32
+        })
+    };
+    if columns.len() >= 2 && lines.iter().all(|line| column_index(line).is_some()) {
+        lines.sort_by_key(|line| (column_index(line), line.bbox_xyxy[1], line.bbox_xyxy[0]));
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::pipeline::connect::RecognizedLine;
+
+    #[test]
+    fn complete_columns_are_read_left_to_right_without_row_interleaving() {
+        let columns = vec![
+            Column {
+                x0: 0,
+                x1: 220,
+                bands: vec![],
+            },
+            Column {
+                x0: 220,
+                x1: 440,
+                bands: vec![],
+            },
+        ];
+        let mut lines: Vec<_> = [
+            ([245, 29, 420, 51], "right1"),
+            ([20, 50, 195, 72], "left2"),
+            ([245, 69, 420, 91], "right2"),
+            ([20, 10, 195, 32], "left1"),
+        ]
+        .into_iter()
+        .map(|(bbox, text)| RecognizedLine {
+            bbox_xyxy: bbox,
+            text: text.into(),
+            confidence: 1.0,
+            is_vertical: false,
+        })
+        .collect();
+        sort(&mut lines, &columns);
+        assert_eq!(
+            lines.iter().map(|l| l.text.as_str()).collect::<Vec<_>>(),
+            ["left1", "left2", "right1", "right2"]
+        );
+    }
+    #[test]
+    fn a_single_horizontal_digit_inherits_the_confirmed_column_order() {
+        let columns = vec![
+            Column {
+                x0: 0,
+                x1: 220,
+                bands: vec![],
+            },
+            Column {
+                x0: 220,
+                x1: 440,
+                bands: vec![],
+            },
+        ];
+        let mut lines = vec![
+            RecognizedLine {
+                bbox_xyxy: [240, 50, 420, 70],
+                text: "right".into(),
+                confidence: 1.0,
+                is_vertical: false,
+            },
+            RecognizedLine {
+                bbox_xyxy: [20, 70, 32, 100],
+                text: "2".into(),
+                confidence: 1.0,
+                is_vertical: true,
+            },
+            RecognizedLine {
+                bbox_xyxy: [20, 10, 195, 32],
+                text: "left".into(),
+                confidence: 1.0,
+                is_vertical: false,
+            },
+        ];
+        sort(&mut lines, &columns);
+        assert_eq!(
+            lines.iter().map(|l| l.text.as_str()).collect::<Vec<_>>(),
+            ["left", "2", "right"]
+        );
+    }
+}

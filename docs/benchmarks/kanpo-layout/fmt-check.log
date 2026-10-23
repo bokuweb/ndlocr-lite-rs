@@ -1,0 +1,15 @@
+Diff in /Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tests/cli_trace_tests.rs:66:
+     assert!(!prepared.is_empty());
+     assert_eq!(prepared.len(), recognized.len());
+     let regions = audit["stages"]["region_selection"].as_array().unwrap();
+-    assert_eq!(regions.iter().filter(|r| r["decision"] == "prepared").count(), prepared.len());
++    assert_eq!(
++        regions
++            .iter()
++            .filter(|r| r["decision"] == "prepared")
++            .count(),
++        prepared.len()
++    );
+     assert!(
+         !audit["stages"]["reading_order"]
+             .as_array()

@@ -1,0 +1,75 @@
+   Compiling libc v0.2.191
+   Compiling core-foundation-sys v0.8.7
+   Compiling getrandom v0.4.3
+   Compiling httparse v1.10.1
+   Compiling zeroize v1.9.1
+   Compiling native-tls v0.2.18
+   Compiling once_cell v1.21.4
+   Compiling bytes v1.12.1
+   Compiling base64ct v1.8.3
+   Compiling base64 v0.23.1
+   Compiling byteorder v1.5.0
+   Compiling utf8-zero v0.8.1
+   Compiling rustls-pki-types v1.15.1
+   Compiling pem-rfc7468 v1.0.0
+   Compiling percent-encoding v2.3.2
+   Compiling matrixmultiply v0.3.11
+   Compiling hmac-sha256 v1.1.15
+   Compiling lzma-rust2 v0.15.8
+   Compiling smallvec v1.16.3
+   Compiling der v0.8.2
+   Compiling webpki-root-certs v1.0.9
+   Compiling http v1.5.0
+   Compiling rawpointer v0.2.1
+   Compiling exr v1.74.2
+   Compiling ureq-proto v0.6.5
+   Compiling ndarray v0.17.2
+   Compiling errno v0.3.14
+   Compiling security-framework-sys v2.17.0
+   Compiling core-foundation v0.10.1
+   Compiling socks v0.3.4
+   Compiling rustix v1.1.5
+   Compiling security-framework v3.7.0
+   Compiling tempfile v3.27.0
+   Compiling ureq v3.4.2
+   Compiling image v0.25.10
+   Compiling ort-sys v2.0.0-rc.13
+   Compiling ort v2.0.0-rc.13
+   Compiling ndlocr-lite-rs v0.1.0 (/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs)
+warning: variable does not need to be mutable
+   --> src/app.rs:635:17
+    |
+635 |             let mut prepare_legacy = || -> Result<Vec<PreparedLineCrop>> {
+    |                 ----^^^^^^^^^^^^^^
+    |                 |
+    |                 help: remove this `mut`
+    |
+    = note: `#[warn(unused_mut)]` (part of `#[warn(unused)]`) on by default
+
+warning: methods `recognize_batch_indexed` and `run_chunk_on_session` are never used
+   --> src/infer/cached.rs:760:8
+    |
+431 | impl ParseqPool {
+    | --------------- methods in this implementation
+...
+760 |     fn recognize_batch_indexed(
+    |        ^^^^^^^^^^^^^^^^^^^^^^^
+...
+879 |     fn run_chunk_on_session(
+    |        ^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: `ndlocr-lite-rs` (lib) generated 2 warnings (run `cargo fix --lib -p ndlocr-lite-rs` to apply 1 suggestion)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 9.99s
+     Running tests/cli_trace_tests.rs (target/debug/deps/cli_trace_tests-a0e7f6b3e1eff525)
+
+running 2 tests
+test page_trace_is_optional_and_accepts_a_separate_json_path ... ok
+mbx[progress]: 15s elapsed; 0 hits, 47 misses, 5 bypassed, 0 not looked up; ~0s compiler work saved
+test trace_preserves_real_cli_stdout_and_accounts_for_recognition ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 8.55s
+
+mbx[cache]: 0 hits, 47 misses, 5 bypassed; 0 B downloaded, 0 B uploaded, 123.0 MiB stored locally
+mbx[savings]: 1.5 TiB logical of old files removed to date. the broom sends its regards.

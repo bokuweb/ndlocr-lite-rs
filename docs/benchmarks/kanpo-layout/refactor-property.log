@@ -1,0 +1,61 @@
+   Compiling ndlocr-lite-rs v0.1.0 (/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs)
+warning: methods `recognize_batch_indexed` and `run_chunk_on_session` are never used
+   --> src/infer/cached.rs:760:8
+    |
+431 | impl ParseqPool {
+    | --------------- methods in this implementation
+...
+760 |     fn recognize_batch_indexed(
+    |        ^^^^^^^^^^^^^^^^^^^^^^^
+...
+879 |     fn run_chunk_on_session(
+    |        ^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: `ndlocr-lite-rs` (lib test) generated 1 warning
+    Finished `test` profile [unoptimized] target(s) in 12.59s
+     Running unittests src/lib.rs (/Volumes/ssd/ndlocr-kanpo-layout-20261023-target/debug/deps/ndlocr_lite_rs-c216cfd6dc8d67a3)
+
+running 2 tests
+test pipeline::horizontal_columns::tests::a_single_horizontal_digit_inherits_the_confirmed_column_order ... ok
+test pipeline::horizontal_columns::tests::complete_columns_are_read_left_to_right_without_row_interleaving ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 583 filtered out; finished in 0.00s
+
+   Compiling ndlocr-lite-rs v0.1.0 (/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs)
+warning: methods `recognize_batch_indexed` and `run_chunk_on_session` are never used
+   --> src/infer/cached.rs:760:8
+    |
+431 | impl ParseqPool {
+    | --------------- methods in this implementation
+...
+760 |     fn recognize_batch_indexed(
+    |        ^^^^^^^^^^^^^^^^^^^^^^^
+...
+879 |     fn run_chunk_on_session(
+    |        ^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: `ndlocr-lite-rs` (lib) generated 1 warning
+    Finished `test` profile [unoptimized] target(s) in 4.61s
+     Running tests/cli_trace_tests.rs (/Volumes/ssd/ndlocr-kanpo-layout-20261023-target/debug/deps/cli_trace_tests-e04167c745e7796c)
+
+running 2 tests
+test page_trace_is_optional_and_accepts_a_separate_json_path ... ok
+test trace_preserves_real_cli_stdout_and_accounts_for_recognition ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 14.33s
+
+     Running tests/multicolumn_fallback_tests.rs (/Volumes/ssd/ndlocr-kanpo-layout-20261023-target/debug/deps/multicolumn_fallback_tests-52afb5e97a69c0fc)
+
+running 5 tests
+test a_word_gap_in_one_line_does_not_create_columns ... ok
+test tall_vertical_regions_do_not_justify_horizontal_columns ... ok
+test spanning_header_keeps_the_legacy_layout ... ok
+test staggered_columns_do_not_become_one_multiline_region ... ok
+test columns_preserve_all_staggered_lines_and_image_coordinates ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 4.16s
+

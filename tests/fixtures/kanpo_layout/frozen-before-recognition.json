@@ -1,0 +1,41 @@
+{
+  "source": "lawrenceanum/.cache/kanpo-227/pdf-ocr-pipeline61/20261019g002290021-one-pass/decoded/page0-draw0.png",
+  "annotation": "manual visual transcription by primary agent, before recognition of this page; no OCR output used as truth",
+  "scope": "one held-out whole page, four horizontal columns; new transcription, not a broad independent corpus",
+  "normalization": "NFKC + remove whitespace, scoring only",
+  "columns": [
+    [
+      250,
+      180,
+      1004,
+      2300
+    ],
+    [
+      1010,
+      180,
+      1772,
+      2300
+    ],
+    [
+      1780,
+      180,
+      2538,
+      2300
+    ],
+    [
+      2545,
+      180,
+      3300,
+      2300
+    ]
+  ],
+  "files": {
+    "heldout-col1.txt": "9ba566ccc24dda3deedad3f35f1895b0a900056e606bcc257c7830e051277bd6",
+    "heldout-col2.txt": "4e6853645a1ca1f2646ed691d9f401c6c57de164e590d4fb2f73fb8fb1cc60f1",
+    "heldout-col3.txt": "e9126e6717903221623de767b099504286ac5494caaddba1abe42a1b0a8038a6",
+    "heldout-col4.txt": "b44aafb9803ecd74ad59f4879f5d841d6f2e0e278690c7aa75f74aedea5eedc4",
+    "heldout-page.png": "df2a2842598494087871d23a9283fd193f53c8ef269660d490033a569c0da575",
+    "heldout-page.txt": "2c550fa8181da3dffc2e987087e4e91bee6c6660f78a6da594bf747fb2bdb038"
+  },
+  "normalized_characters": 2613
+}

@@ -1,0 +1,9 @@
+{
+  "reason": "remove the sole new Clippy warning; identical RGB triples, no selection parameter change; before confirmation inference",
+  "before_sha256": "3421ebad812e7d15a74fe3eda5ce51c194b68fe595f7e75981c99e6a8075bd42",
+  "after_sha256": "5e8b49c5e2cd68b36a6b18923b9e33fcb836f7d04f81247beb0be53537cdc115",
+  "literal_replacement": [
+    "row.chunks_exact(3).enumerate()",
+    "row.as_chunks::<3>().0.iter().enumerate()"
+  ]
+}

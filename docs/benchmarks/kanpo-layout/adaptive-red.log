@@ -1,0 +1,12 @@
+   Compiling ndlocr-lite-rs v0.1.0 (/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs)
+error[E0432]: unresolved import `ndlocr_lite_rs::app::prepare_page_line_detections`
+ --> tests/adaptive_horizontal_layout_tests.rs:1:5
+  |
+1 | use ndlocr_lite_rs::app::prepare_page_line_detections;
+  |     ^^^^^^^^^^^^^^^^^^^^^----------------------------
+  |                          |
+  |                          no `prepare_page_line_detections` in `app`
+
+For more information about this error, try `rustc --explain E0432`.
+error: could not compile `ndlocr-lite-rs` (test "adaptive_horizontal_layout_tests") due to 1 previous error
+warning: build failed, waiting for other jobs to finish...

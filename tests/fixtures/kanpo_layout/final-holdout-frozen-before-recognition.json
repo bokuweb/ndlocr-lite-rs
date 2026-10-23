@@ -1,0 +1,20 @@
+{
+  "source": "20260727g001670057 page0-draw0.png",
+  "roi": [
+    240,
+    180,
+    1775,
+    2300
+  ],
+  "annotation": "manual visual transcription after source strategy freeze and before all recognition of this page; never copied from OCR",
+  "selection_note": "first candidate 20260722h017520032 was portrait vertical, retained as byte-equality regression control. Next horizontal source selected on layout alone, before any OCR output.",
+  "files": {
+    "final-holdout-two-columns.txt": "2fbb5124d3e15af04c2984892a83ef06f1ff845b4d031cf59d853e8d3064a78a",
+    "final-holdout-two-columns.png": "a32b8ef3d98873a79078333d7e3813d78f74b30a34ffdfbb69c7ff270e77303f",
+    "final-holdout-source.png": "81648a7f49db2f82fcd2af9364e439f0da7aab108f647300db9fe7c753630bdf",
+    "final-holdout-manifest.json": "e858c5fc7c920ebb753d53d0ba28cc036f862d8614d6c843634bb83e9bbe33bd",
+    "final-holdout-col2.txt": "2acadfd524147637b4536e75ffaf61e0513fa96565c7b3e35d8b316b116c442b",
+    "final-holdout-col1.txt": "a80fdaefacec26b94a008600b3b42b18df362431902a8e86b3c069c0366641ed"
+  },
+  "normalized_characters": 1069
+}

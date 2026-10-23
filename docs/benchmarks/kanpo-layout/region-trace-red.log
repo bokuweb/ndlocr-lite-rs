@@ -1,0 +1,14 @@
+   Compiling ndlocr-lite-rs v0.1.0 (/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs)
+error[E0599]: no method named `regions` found for struct `app_trace::PageTrace` in the current scope
+  --> src/app_trace.rs:74:15
+   |
+ 8 | pub(crate) struct PageTrace(Option<Value>);
+   | --------------------------- method `regions` not found for this struct
+...
+74 |         trace.regions(&detections,&vec![255;100*40*3],100,40,0);
+   |               ^^^^^^^ method not found in `app_trace::PageTrace`
+
+For more information about this error, try `rustc --explain E0599`.
+error: could not compile `ndlocr-lite-rs` (lib test) due to 1 previous error
+mbx[cache]: 0 hits, 0 misses, 1 incremental; 0 B downloaded, 0 B uploaded, 0 B stored locally
+mbx[savings]: 67563 compilations dispensed from stock. inventory immaculate.
