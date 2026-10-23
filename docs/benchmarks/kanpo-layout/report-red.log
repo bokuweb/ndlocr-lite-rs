@@ -1,0 +1,21 @@
+.EE
+======================================================================
+ERROR: test_metric_preserves_repetitions_and_detects_excess (test_kanpo_layout_report.KanpoReportTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tests/test_kanpo_layout_report.py", line 20, in test_metric_preserves_repetitions_and_detects_excess
+    from summarize_kanpo_layout import score
+ModuleNotFoundError: No module named 'summarize_kanpo_layout'
+
+======================================================================
+ERROR: test_missing_edges_and_number_order_are_visible (test_kanpo_layout_report.KanpoReportTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tests/test_kanpo_layout_report.py", line 28, in test_missing_edges_and_number_order_are_visible
+    from summarize_kanpo_layout import score
+ModuleNotFoundError: No module named 'summarize_kanpo_layout'
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.001s
+
+FAILED (errors=2)

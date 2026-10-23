@@ -1,0 +1,45 @@
+{
+  "source_runtime_unchanged_since_final_holdout_freeze": true,
+  "source_archive_verified": true,
+  "installed_release_matches_measured_binary": true,
+  "raw_zip_verified": true,
+  "raw_members": 1198,
+  "test_counts_passed_failed_ignored": {
+    "adaptive-final-regression-default.log": [
+      843,
+      0,
+      40
+    ],
+    "final-onnx-model-optional.log": [
+      482,
+      0,
+      115
+    ],
+    "final-mandatory-models.log": [
+      5,
+      0,
+      0
+    ]
+  },
+  "tesseract_versions": [
+    "6.0.1"
+  ],
+  "tesseract_model_sha256": [
+    "1f5de9236d2e85f5fdf4b3c500f2d4926f8d9449f28f5394472d9e8d83b91b4d"
+  ],
+  "tesseract_psm_oem_dpi": [
+    [
+      3,
+      1,
+      300
+    ]
+  ],
+  "tool_hashes": {
+    "ndlocr-lite-rs": [
+      "cad0997bbfbffa719ba675cc95cf5ee859b457b4eeea175ace042c82fc84c98f"
+    ],
+    "tesseract.js": [
+      "8b793f88223d8f0dc3f85ef0cdc7355012245c6e6b286d62af0cec1a164677cc"
+    ]
+  }
+}

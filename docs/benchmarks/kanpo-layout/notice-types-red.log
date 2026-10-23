@@ -1,0 +1,13 @@
+....F
+======================================================================
+FAIL: test_notice_order_also_covers_non_bankruptcy_case_types (test_kanpo_layout_report.KanpoReportTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tests/test_kanpo_layout_report.py", line 35, in test_notice_order_also_covers_non_bankruptcy_case_types
+    self.assertFalse(score(truth, '令和8年（再イ）第4号\n令和8年（再イ）第3号')['notice_order_equal'])
+AssertionError: True is not false
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.012s
+
+FAILED (failures=1)

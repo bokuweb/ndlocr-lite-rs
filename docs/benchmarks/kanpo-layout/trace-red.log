@@ -1,0 +1,195 @@
+   Compiling proc-macro2 v1.0.107
+   Compiling quote v1.0.47
+   Compiling unicode-ident v1.0.27
+   Compiling cfg-if v1.0.5
+   Compiling autocfg v1.5.1
+   Compiling libc v0.2.191
+   Compiling crossbeam-utils v0.8.23
+   Compiling crossbeam-epoch v0.9.21
+   Compiling simd-adler32 v0.3.10
+   Compiling memchr v2.8.3
+   Compiling crossbeam-deque v0.8.8
+   Compiling rayon-core v1.13.0
+   Compiling either v1.19.0
+   Compiling zerocopy v0.8.63
+   Compiling crc32fast v1.5.2
+   Compiling num-traits v0.2.19
+   Compiling bitflags v2.13.2
+   Compiling serde_core v1.0.229
+   Compiling adler2 v2.0.1
+   Compiling paste v1.0.15
+   Compiling anyhow v1.0.104
+   Compiling log v0.4.34
+   Compiling thiserror v2.0.21
+   Compiling serde v1.0.229
+   Compiling stable_deref_trait v1.2.1
+   Compiling arrayvec v0.7.8
+   Compiling as-slice v0.2.1
+   Compiling miniz_oxide v0.9.1
+   Compiling rand_core v0.10.1
+   Compiling libm v0.2.16
+   Compiling built v0.8.1
+   Compiling bytemuck v1.25.2
+   Compiling utf8parse v0.2.2
+   Compiling zmij v1.0.23
+   Compiling num-integer v0.1.47
+   Compiling av-scenechange v0.14.1
+   Compiling zlib-rs v0.6.8
+   Compiling version_check v0.9.5
+   Compiling syn v2.0.119
+   Compiling syn v3.0.9
+   Compiling num-bigint v0.4.8
+   Compiling rav1e v0.8.1
+   Compiling anstyle-parse v1.0.0
+   Compiling pulp v0.22.3
+   Compiling aligned v0.4.3
+   Compiling no_std_io2 v0.9.4
+   Compiling nom v8.0.0
+   Compiling rayon v1.12.0
+   Compiling getrandom v0.4.3
+   Compiling pastey v0.1.1
+   Compiling serde_json v1.0.154
+   Compiling is_terminal_polyfill v1.70.2
+   Compiling anstyle-query v1.1.5
+   Compiling once_cell v1.21.4
+   Compiling quick-error v2.0.1
+   Compiling itoa v1.0.18
+   Compiling colorchoice v1.0.5
+   Compiling anstyle v1.0.14
+   Compiling y4m v0.8.0
+   Compiling cfg_aliases v0.2.2
+   Compiling nix v0.31.3
+   Compiling anstream v1.0.0
+   Compiling num-rational v0.4.2
+   Compiling bitstream-io v4.10.0
+   Compiling simd_helpers v0.1.0
+   Compiling num-complex v0.4.6
+   Compiling miniz_oxide v0.8.9
+   Compiling itertools v0.14.0
+   Compiling zune-core v0.5.3
+   Compiling heck v0.5.0
+   Compiling clap_lex v1.1.1
+   Compiling reborrow v0.5.5
+   Compiling hashbrown v0.17.1
+   Compiling strsim v0.11.1
+   Compiling noop_proc_macro v0.3.0
+   Compiling new_debug_unreachable v1.0.6
+   Compiling imgref v1.12.3
+   Compiling weezl v0.1.12
+   Compiling pulp-wasm-simd-flag v0.1.1
+   Compiling maybe-rayon v0.1.1
+   Compiling rustix v1.1.5
+   Compiling equivalent v1.0.3
+   Compiling loop9 v0.1.5
+   Compiling clap_builder v4.6.7
+   Compiling zune-jpeg v0.5.15
+   Compiling indexmap v2.14.2
+   Compiling errno v0.3.14
+   Compiling serde_derive v1.0.229
+   Compiling thiserror-impl v2.0.21
+   Compiling clap_derive v4.6.7
+   Compiling avif-serialize v0.8.9
+   Compiling zune-inflate v0.2.54
+   Compiling fdeflate v0.3.7
+   Compiling lebe v0.5.3
+   Compiling color_quant v1.1.0
+   Compiling regex-syntax v0.8.11
+   Compiling smallvec v1.16.3
+   Compiling pxfm v0.1.30
+   Compiling fax v0.2.7
+   Compiling rgb v0.8.53
+   Compiling equator-macro v0.4.2
+   Compiling zerocopy-derive v0.8.63
+   Compiling arg_enum_proc_macro v0.3.4
+   Compiling profiling-procmacros v1.0.18
+   Compiling equator v0.4.2
+   Compiling flate2 v1.1.10
+   Compiling profiling v1.0.18
+   Compiling num-derive v0.4.2
+   Compiling aligned-vec v0.6.4
+   Compiling bit_field v0.10.3
+   Compiling bumpalo v3.20.3
+   Compiling byteorder-lite v0.1.0
+   Compiling v_frame v0.3.9
+   Compiling zopfli v0.8.4
+   Compiling clap v4.6.7
+   Compiling png v0.18.1
+   Compiling av1-grain v0.2.5
+   Compiling image-webp v0.2.4
+   Compiling gif v0.14.2
+   Compiling moxcms v0.8.1
+   Compiling qoi v0.4.1
+   Compiling typed-path v0.12.3
+   Compiling ryu v1.0.23
+   Compiling fastrand v2.5.0
+   Compiling plotters-backend v0.3.7
+   Compiling ciborium-io v0.2.2
+   Compiling unsafe-libyaml v0.2.11
+   Compiling plotters-svg v0.3.7
+   Compiling tempfile v3.27.0
+   Compiling regex-automata v0.4.18
+   Compiling wait-timeout v0.2.1
+   Compiling itertools v0.10.5
+   Compiling bit-vec v0.10.1
+   Compiling cast v0.3.0
+   Compiling fnv v1.0.7
+   Compiling zip v9.0.5
+   Compiling same-file v1.0.6
+   Compiling unicode-width v0.2.2
+   Compiling quick-error v1.2.3
+   Compiling walkdir v2.5.0
+   Compiling rusty-fork v0.3.1
+   Compiling serde_yaml v0.9.34+deprecated
+   Compiling bit-set v0.11.1
+   Compiling plotters v0.3.7
+   Compiling tinytemplate v1.2.1
+   Compiling rand v0.10.3
+   Compiling is-terminal v0.4.17
+   Compiling chacha20 v0.10.2
+   Compiling rand_xorshift v0.5.0
+   Compiling core_detect v1.0.0
+   Compiling criterion-plot v0.5.0
+   Compiling anes v0.1.6
+   Compiling unarray v0.1.4
+   Compiling oorandom v11.1.5
+   Compiling proptest v1.12.0
+   Compiling regex v1.13.1
+   Compiling half v2.7.1
+   Compiling exr v1.74.2
+   Compiling tiff v0.11.3
+   Compiling ciborium-ll v0.2.2
+   Compiling ciborium v0.2.2
+   Compiling criterion v0.5.1
+   Compiling ravif v0.13.0
+   Compiling image v0.25.10
+mbx[progress]: 15s elapsed; 0 hits, 210 misses, 1 bypassed, 3 not looked up; ~0s compiler work saved
+   Compiling ndlocr-lite-rs v0.1.0 (/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 18.60s
+     Running tests/cli_trace_tests.rs (target/debug/deps/cli_trace_tests-5c2011062530b472)
+
+running 1 test
+test page_trace_is_optional_and_accepts_a_separate_json_path ... FAILED
+
+failures:
+
+---- page_trace_is_optional_and_accepts_a_separate_json_path stdout ----
+
+thread 'page_trace_is_optional_and_accepts_a_separate_json_path' (51085967) panicked at tests/cli_trace_tests.rs:11:5:
+diagnostics must parse without changing TXT options: Err(ErrorInner { kind: UnknownArgument, context: FlatMap { keys: [InvalidArg, Usage], values: [String("--trace-json"), StyledStr(StyledStr("\u{1b}[1m\u{1b}[4mUsage:\u{1b}[0m \u{1b}[1mocr recognize-page\u{1b}[0m \u{1b}[1m--image\u{1b}[0m <IMAGE>"))] }, message: None, source: None, help_flag: Some("--help"), styles: Styles { header: Style { fg: None, bg: None, underline: None, effects: Effects(BOLD | UNDERLINE) }, error: Style { fg: Some(Ansi(Red)), bg: None, underline: None, effects: Effects(BOLD) }, usage: Style { fg: None, bg: None, underline: None, effects: Effects(BOLD | UNDERLINE) }, literal: Style { fg: None, bg: None, underline: None, effects: Effects(BOLD) }, placeholder: Style { fg: None, bg: None, underline: None, effects: Effects() }, valid: Style { fg: Some(Ansi(Green)), bg: None, underline: None, effects: Effects() }, invalid: Style { fg: Some(Ansi(Yellow)), bg: None, underline: None, effects: Effects() }, context: Style { fg: None, bg: None, underline: None, effects: Effects() }, context_value: None }, color_when: Auto, color_help_when: Auto, backtrace: None })
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    page_trace_is_optional_and_accepts_a_separate_json_path
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+error: test failed, to rerun pass `--test cli_trace_tests`
+mbx[cache]: 0 hits, 216 misses, 4 not looked up, 1 bypassed; 0 B downloaded, 0 B uploaded, 603.9 MiB stored locally
+mbx[gc]: 4.1 GiB free on the disk holding /Users/bokuweb/Library/Caches/mbx, under the 50.0 GiB minimum; collecting private state and managed targets past their budgets, then shared cache objects if the cache disk is short
+mbx[gc]: evicted 0 objects and 0 action results (180.8 KiB logical); 169.1 MiB logical remain
+mbx[gc]: evicted 375 shared cache objects and 63 action results below gc.max_size because the disk was under gc.min_free_size (171.7 MiB logical freed)
+mbx[gc]: evicted 344 shared cache objects and 56 action results below gc.max_size because the disk was under gc.min_free_size (55.3 MiB logical freed)
+mbx[gc]: evicted 317 shared cache objects and 47 action results below gc.max_size because the disk was under gc.min_free_size (94.3 MiB logical freed)
+mbx[gc]: evicted 285 shared cache objects and 41 action results below gc.max_size because the disk was under gc.min_free_size (106.5 MiB logical freed)
+mbx[savings]: the checkouts are gone. their 1.3 TiB logical has gone to join them.

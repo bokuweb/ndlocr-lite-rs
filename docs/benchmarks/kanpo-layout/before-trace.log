@@ -1,0 +1,15 @@
+first 0.25 {'confidence_filter': 22, 'context_selection': 22, 'fallback_bands': 0, 'missing_context': 22, 'prepared': 22, 'reading_order': 22, 'recognized': 22} 263
+first 0.9 {'confidence_filter': 11, 'context_selection': 11, 'fallback_bands': 11, 'missing_context': 11, 'prepared': 11, 'reading_order': 11, 'recognized': 11} 174
+numbered 0.25 {'confidence_filter': 27, 'context_selection': 27, 'fallback_bands': 0, 'missing_context': 27, 'prepared': 27, 'reading_order': 27, 'recognized': 27} 339
+numbered 0.9 {'confidence_filter': 12, 'context_selection': 12, 'fallback_bands': 12, 'missing_context': 12, 'prepared': 12, 'reading_order': 12, 'recognized': 12} 202
+20261007g002210006 0.25 {'confidence_filter': 200, 'context_selection': 200, 'fallback_bands': 0, 'missing_context': 200, 'prepared': 201, 'reading_order': 200, 'recognized': 201} 3127
+20261007g002210006 0.9 {'confidence_filter': 10, 'context_selection': 10, 'fallback_bands': 11, 'missing_context': 10, 'prepared': 10, 'reading_order': 10, 'recognized': 10} 129
+20260723h017530015 0.25 {'confidence_filter': 184, 'context_selection': 184, 'fallback_bands': 0, 'missing_context': 184, 'prepared': 184, 'reading_order': 184, 'recognized': 184} 3027
+20260723h017530015 0.9 {'confidence_filter': 9, 'context_selection': 9, 'fallback_bands': 9, 'missing_context': 9, 'prepared': 9, 'reading_order': 9, 'recognized': 9} 109
+Traceback (most recent call last):
+  File "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tmp/kanpo-layout/trace_baseline.py", line 8, in <module>
+    result=subprocess.run(cmd,capture_output=True); assert result.returncode==0,result.stderr.decode()
+                                                           ^^^^^^^^^^^^^^^^^^^^
+AssertionError: warn: deim detection failed, fallback to threshold bands: onnx feature is disabled. Rebuild with `--features onnx`.
+Error: onnx feature is disabled. Rebuild with `--features onnx`.
+

@@ -1,0 +1,45 @@
+warning: methods `recognize_batch_indexed` and `run_chunk_on_session` are never used
+   --> src/infer/cached.rs:760:8
+    |
+431 | impl ParseqPool {
+    | --------------- methods in this implementation
+...
+760 |     fn recognize_batch_indexed(
+    |        ^^^^^^^^^^^^^^^^^^^^^^^
+...
+879 |     fn run_chunk_on_session(
+    |        ^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: `ndlocr-lite-rs` (lib) generated 1 warning
+    Finished `test` profile [unoptimized] target(s) in 0.12s
+     Running tests/cli_trace_tests.rs (/Volumes/ssd/ndlocr-kanpo-layout-20261023-target/debug/deps/cli_trace_tests-e04167c745e7796c)
+
+running 1 test
+test trace_preserves_real_cli_stdout_and_accounts_for_recognition ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 1 filtered out; finished in 10.83s
+
+     Running tests/long_line_cli_regression_tests.rs (/Volumes/ssd/ndlocr-kanpo-layout-20261023-target/debug/deps/long_line_cli_regression_tests-f9425e2c98d636af)
+
+running 1 test
+test long_line_cli_preserves_literal_text_and_existing_correct_boundaries ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 17.22s
+
+     Running tests/page_band_cli_tests.rs (/Volumes/ssd/ndlocr-kanpo-layout-20261023-target/debug/deps/page_band_cli_tests-9fce1c5556fce25f)
+
+running 1 test
+test fallback_band_selection_rejects_filled_graphics_in_both_cli_modes ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 20.85s
+
+     Running tests/vertical_fallback_cli_tests.rs (/Volumes/ssd/ndlocr-kanpo-layout-20261023-target/debug/deps/vertical_fallback_cli_tests-6e917899cc7e0eb0)
+
+running 2 tests
+test supported_vertical_cli_fallback_restores_literal_body_deim_off ... ok
+test supported_vertical_cli_fallback_restores_literal_body_deim_on ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 2.64s
+

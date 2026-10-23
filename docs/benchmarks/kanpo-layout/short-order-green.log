@@ -1,0 +1,27 @@
+   Compiling serde_core v1.0.229
+   Compiling thiserror v2.0.21
+   Compiling av-scenechange v0.14.1
+   Compiling rav1e v0.8.1
+   Compiling serde v1.0.229
+   Compiling serde_json v1.0.154
+   Compiling ciborium v0.2.2
+   Compiling serde_yaml v0.9.34+deprecated
+   Compiling tinytemplate v1.2.1
+   Compiling criterion v0.5.1
+   Compiling ravif v0.13.0
+   Compiling image v0.25.10
+   Compiling ndlocr-lite-rs v0.1.0 (/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 9.23s
+     Running unittests src/lib.rs (target/debug/deps/ndlocr_lite_rs-c29f18f36ce4a6a7)
+
+running 2 tests
+test pipeline::horizontal_columns::tests::a_single_horizontal_digit_inherits_the_confirmed_column_order ... ok
+test pipeline::horizontal_columns::tests::complete_columns_are_read_left_to_right_without_row_interleaving ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 495 filtered out; finished in 0.00s
+
+mbx[cache]: 0 hits, 12 misses, 1 incremental; 0 B downloaded, 0 B uploaded, 146.3 MiB stored locally
+mbx[gc]: 1.7 GiB free on the disk holding /Users/bokuweb/Library/Caches/mbx, under the 50.0 GiB minimum; collecting private state and managed targets past their budgets, then shared cache objects if the cache disk is short
+mbx[gc]: evicted 0 objects and 0 action results (583.4 KiB logical); 236.3 MiB logical remain
+mbx[gc]: evicted 154 shared cache objects and 22 action results below gc.max_size because the disk was under gc.min_free_size (236.3 MiB logical freed)
+mbx[savings]: swept up 1.5 TiB logical so far. the broom is content-addressed.

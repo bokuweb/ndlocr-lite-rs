@@ -12,8 +12,6 @@ use crate::output::docx::save_text_as_docx;
 use crate::pipeline::connect::RecognizedLine;
 use crate::pipeline::crop::{BBox, crop_rgb_u8, expand_bbox_xyxy_clamped};
 use crate::pipeline::line_detections::line_recognition_regions;
-use crate::pipeline::line_segment::{detect_textline_bands_fast, detect_textline_bands_naive};
-use crate::pipeline::reading_order::sort_lines_in_reading_order;
 use crate::pipeline::run_page::{PageInput, run_page};
 use crate::postprocess::dict::PostprocessDict;
 use crate::postprocess::page_rules::apply_structural_rules;
@@ -119,11 +117,27 @@ pub fn fallback_line_detections_from_bands(
     cascade_threshold_30_to_50: usize,
     cascade_threshold_50_to_100: usize,
 ) -> Vec<deim::Detection> {
-    let bands = if width.saturating_mul(height) >= 1_000_000 {
-        detect_textline_bands_fast(rgb, width, height, binarize_threshold)
-    } else {
-        detect_textline_bands_naive(rgb, width, height, binarize_threshold)
-    };
+    let columns =
+        crate::pipeline::horizontal_columns::detect(rgb, width, height, binarize_threshold);
+    let bands = crate::pipeline::horizontal_columns::page_bands(
+        rgb,
+        width,
+        height,
+        binarize_threshold,
+        &columns,
+    );
+    detections_from_bands(
+        bands,
+        cascade_threshold_30_to_50,
+        cascade_threshold_50_to_100,
+    )
+}
+
+fn detections_from_bands(
+    bands: Vec<[usize; 4]>,
+    cascade_threshold_30_to_50: usize,
+    cascade_threshold_50_to_100: usize,
+) -> Vec<deim::Detection> {
     bands
         .into_iter()
         .map(|[x0, y0, x1, y1]| deim::Detection {
@@ -139,6 +153,105 @@ pub fn fallback_line_detections_from_bands(
             class_name: "line_main".to_string(),
         })
         .collect()
+}
+
+/// Prefer image-supported horizontal rows over partial or nested DEIM hypotheses.
+/// The returned reason is also used by the optional page trace.
+pub fn prepare_page_line_detections(
+    rgb: &[u8],
+    width: usize,
+    height: usize,
+    detections: Vec<deim::Detection>,
+    threshold: u8,
+    threshold30: usize,
+    threshold50: usize,
+) -> (Vec<deim::Detection>, &'static str) {
+    let columns = crate::pipeline::horizontal_columns::detect(rgb, width, height, threshold);
+    let bands =
+        crate::pipeline::horizontal_columns::page_bands(rgb, width, height, threshold, &columns);
+    let uniform_rows = bands
+        .iter()
+        .map(|b| b[3] - b[1])
+        .min()
+        .is_some_and(|shortest| {
+            shortest > 0
+                && bands
+                    .iter()
+                    .all(|b| b[3] - b[1] <= shortest.saturating_mul(2))
+        });
+    let reason = if detections.is_empty() {
+        "empty_deim"
+    } else if columns.len() >= 2 {
+        "horizontal_columns"
+    } else if uniform_rows
+        && bands
+            .iter()
+            .filter(|b| b[2] - b[0] >= 3 * (b[3] - b[1]))
+            .count()
+            >= 3
+        && bands
+            .iter()
+            .filter(|band| competing_horizontal_regions(&detections, **band, width, height))
+            .take(2)
+            .count()
+            >= 2
+    {
+        "duplicate_horizontal_rows"
+    } else {
+        return (detections, "deim");
+    };
+    (
+        detections_from_bands(bands, threshold30, threshold50),
+        reason,
+    )
+}
+
+fn competing_horizontal_regions(
+    detections: &[deim::Detection],
+    band: [usize; 4],
+    width: usize,
+    height: usize,
+) -> bool {
+    let band = band.map(|v| v as i64);
+    let band_width = band[2] - band[0];
+    let band_height = band[3] - band[1];
+    if band_width < 3 * band_height {
+        return false;
+    }
+    let pad = (band_height / 4).max(1);
+    let aligned = |d: &deim::Detection| {
+        let b = d.box_xyxy.map(i64::from);
+        d.class_name.starts_with("line_")
+            && d.confidence.is_finite()
+            && d.confidence <= 1.0
+            && b[0] >= 0
+            && b[1] >= 0
+            && b[2] <= width as i64
+            && b[3] <= height as i64
+            && b[2] > b[0]
+            && b[3] > b[1]
+            && b[2] - b[0] > b[3] - b[1]
+            && (b[1] - band[1]).abs() <= pad
+            && (b[3] - band[3]).abs() <= pad
+            && b[0] >= band[0] - pad
+            && b[2] <= band[2] + pad
+    };
+    detections.iter().any(|parent| {
+        if !aligned(parent) || parent.confidence < 0.5 {
+            return false;
+        }
+        let p = parent.box_xyxy.map(i64::from);
+        let parent_width = p[2] - p[0];
+        parent_width * 4 >= band_width * 3
+            && detections.iter().any(|child| {
+                let c = child.box_xyxy.map(i64::from);
+                aligned(child)
+                    && child.confidence >= 0.25
+                    && (c[2] - c[0]) * 4 <= parent_width * 3
+                    && c[0] >= p[0]
+                    && c[2] <= p[2]
+            })
+    })
 }
 
 struct MockConfig {
@@ -547,7 +660,24 @@ pub fn run_cli(cli: Cli) -> Result<()> {
                 None
             };
             let mut img = crate::io::load_rgb_u8(&args.image)?;
+            let mut trace = crate::app_trace::PageTrace::new(
+                args.trace_json.is_some(),
+                img.width,
+                img.height,
+                || {
+                    serde_json::json!({
+                        "det_conf_threshold": args.det_conf_threshold,
+                        "min_line_confidence": args.min_line_confidence,
+                        "use_deim_detection": args.use_deim_detection,
+                        "binarize_threshold": args.binarize_threshold,
+                        "quality_boost": args.quality_boost,
+                        "structure_rules": args.structure_rules,
+                    })
+                },
+            );
+            let mut detection_status = "disabled".to_string();
             let deim_lines = if args.use_deim_detection {
+                detection_status = "ok".to_string();
                 match deim::detect_rgb_u8(
                     &args.det_model,
                     &img.data,
@@ -560,6 +690,7 @@ pub fn run_cli(cli: Cli) -> Result<()> {
                         .filter(|d| d.class_name.starts_with("line_"))
                         .collect::<Vec<_>>(),
                     Err(err) => {
+                        detection_status = format!("error: {err}");
                         eprintln!(
                             "warn: deim detection failed, fallback to threshold bands: {err}"
                         );
@@ -569,7 +700,22 @@ pub fn run_cli(cli: Cli) -> Result<()> {
             } else {
                 Vec::new()
             };
-            let using_fallback = deim_lines.is_empty();
+            let (mut chosen_lines, selection_reason) = prepare_page_line_detections(
+                &img.data,
+                img.width,
+                img.height,
+                deim_lines.clone(),
+                args.binarize_threshold,
+                args.cascade_threshold_30_to_50,
+                args.cascade_threshold_50_to_100,
+            );
+            let using_fallback = selection_reason != "deim";
+            trace.record("detection", || {
+                serde_json::json!({
+                    "status": detection_status, "using_fallback": using_fallback, "selection_reason": selection_reason,
+                    "lines": deim_lines.iter().map(crate::app_trace::detection).collect::<Vec<_>>(),
+                })
+            });
             if using_fallback {
                 // 検出と認識で同じ画素を使い、色背景だけを本文と取り違えない。
                 if let std::borrow::Cow::Owned(prepared) =
@@ -579,8 +725,26 @@ pub fn run_cli(cli: Cli) -> Result<()> {
                     .map_err(anyhow::Error::msg)?
                 {
                     img.data = prepared;
+                    chosen_lines = fallback_line_detections_from_bands(
+                        &img.data,
+                        img.width,
+                        img.height,
+                        args.binarize_threshold,
+                        args.cascade_threshold_30_to_50,
+                        args.cascade_threshold_50_to_100,
+                    );
                 }
             }
+            let columns = if using_fallback {
+                crate::pipeline::horizontal_columns::detect(
+                    &img.data,
+                    img.width,
+                    img.height,
+                    args.binarize_threshold,
+                )
+            } else {
+                Vec::new()
+            };
             #[cfg(feature = "onnx")]
             let cached_parseq = CachedPageRecognizer::load(&args)?;
             #[cfg(feature = "onnx")]
@@ -608,32 +772,57 @@ pub fn run_cli(cli: Cli) -> Result<()> {
                     Ok(results.remove(0))
                 },
             );
+            #[cfg(feature = "onnx")]
+            trace.record("vertical_fallback_accepted", || {
+                serde_json::json!(accepted_vertical.is_some())
+            });
             let prepare_legacy = || -> Result<Vec<PreparedLineCrop>> {
+                let mut fallback_audit = Vec::new();
                 let line_detections = if using_fallback {
-                    fallback_line_detections_from_bands(
-                        &img.data,
-                        img.width,
-                        img.height,
-                        args.binarize_threshold,
-                        args.cascade_threshold_30_to_50,
-                        args.cascade_threshold_50_to_100,
-                    )
-                    .into_iter()
-                    .filter(|line| {
-                        // Keep feature-disabled errors reachable in builds without inference.
-                        !cfg!(feature = "onnx")
-                            || crate::pipeline::band_text_support::has_text_like_ink(
-                                &img.data,
-                                img.width,
-                                img.height,
-                                line.box_xyxy,
-                                args.binarize_threshold,
-                            )
-                    })
-                    .collect()
+                    chosen_lines
+                        .into_iter()
+                        .filter(|line| {
+                            // Keep feature-disabled errors reachable in builds without inference.
+                            let accepted = !cfg!(feature = "onnx")
+                                || crate::pipeline::band_text_support::has_text_like_ink(
+                                    &img.data,
+                                    img.width,
+                                    img.height,
+                                    line.box_xyxy,
+                                    args.binarize_threshold,
+                                );
+                            if args.trace_json.is_some() {
+                                fallback_audit.push((line.clone(), accepted));
+                            }
+                            accepted
+                        })
+                        .collect()
                 } else {
-                    deim_lines
+                    chosen_lines
                 };
+                trace.record("fallback_bands", || {
+                    serde_json::json!(
+                        fallback_audit
+                            .iter()
+                            .map(|(d, keep)| {
+                                let mut value = crate::app_trace::detection(d);
+                                value["decision"] = serde_json::json!(if *keep {
+                                    "accepted"
+                                } else {
+                                    "no_text_like_ink"
+                                });
+                                value
+                            })
+                            .collect::<Vec<_>>()
+                    )
+                });
+                trace.regions(
+                    &line_detections,
+                    &img.data,
+                    img.width,
+                    img.height,
+                    args.line_crop_padding as usize,
+                );
                 prepare_line_crops(
                     &img.data,
                     img.width,
@@ -700,6 +889,17 @@ pub fn run_cli(cli: Cli) -> Result<()> {
                 }
                 out
             };
+            trace.record("prepared", || {
+                serde_json::json!(prepared.iter().map(|line| serde_json::json!({
+                "bbox": line.bbox_xyxy, "confidence": line.confidence,
+                "pred_char_count": line.pred_char_count, "is_vertical": line.is_vertical,
+            })).collect::<Vec<_>>())
+            });
+            trace.record("recognized", || serde_json::json!(prepared.iter().zip(&recognized_results).map(|(line, result)| serde_json::json!({
+                "bbox": line.bbox_xyxy, "text": result.text, "confidence": result.mean_confidence,
+                "decision": if result.mean_confidence < args.min_line_confidence { "low_confidence" }
+                    else if result.text.trim().is_empty() { "empty" } else { "accepted" },
+            })).collect::<Vec<_>>()));
             let mut recognized_lines = Vec::new();
             for (line, recognized) in prepared.iter().zip(recognized_results) {
                 if recognized.mean_confidence >= args.min_line_confidence
@@ -713,6 +913,7 @@ pub fn run_cli(cli: Cli) -> Result<()> {
                     });
                 }
             }
+            trace.lines("confidence_filter", &recognized_lines);
             #[cfg(feature = "onnx")]
             {
                 let scored: Vec<_> = recognized_lines
@@ -741,6 +942,7 @@ pub fn run_cli(cli: Cli) -> Result<()> {
                     })
                     .collect();
             }
+            trace.lines("context_selection", &recognized_lines);
             #[cfg(feature = "onnx")]
             {
                 let scored: Vec<_> = recognized_lines
@@ -773,12 +975,17 @@ pub fn run_cli(cli: Cli) -> Result<()> {
                     }];
                 }
             }
+            trace.lines("missing_context", &recognized_lines);
             if let Some(dict) = post_dict.as_ref() {
                 for line in &mut recognized_lines {
                     line.text = dict.apply(&line.text);
                 }
             }
-            sort_lines_in_reading_order(&mut recognized_lines);
+            trace.record("horizontal_columns", || {
+                serde_json::json!(columns.iter().map(|c| [c.x0, c.x1]).collect::<Vec<_>>())
+            });
+            crate::pipeline::horizontal_columns::sort(&mut recognized_lines, &columns);
+            trace.lines("reading_order", &recognized_lines);
             let mut lines: Vec<String> = recognized_lines.into_iter().map(|l| l.text).collect();
             if args.structure_rules {
                 lines = apply_structural_rules(&lines);
@@ -798,6 +1005,7 @@ pub fn run_cli(cli: Cli) -> Result<()> {
             if let Some(path) = args.output_docx.as_ref() {
                 save_text_as_docx(&lines, path)?;
             }
+            trace.save(args.trace_json.as_deref(), &body)?;
             println!("{body}");
         }
         Command::MockPage(args) => {

@@ -1,0 +1,20 @@
+{
+  "baseline_commit": "0ba1c0007c12c91f2527d40a9033ca7815d18795",
+  "binary_sha256": "c6a27f8dfd3df75264532836890b09244401592ec19384da436512bac891a544",
+  "installed_release_sha256": "c6a27f8dfd3df75264532836890b09244401592ec19384da436512bac891a544",
+  "source_zip_sha256": "6b82ab0a56dafb37b19211e71e452ae64349c7e69c1b61663c63c58161a20591",
+  "cpu": "Apple M6",
+  "ram_bytes": 34359738368,
+  "det_conf_threshold": 0.25,
+  "structure_rules": false,
+  "quality_boost": false,
+  "post_dict": null,
+  "normalization": "NFKC + remove whitespace for kanpo evaluation only",
+  "timing_caveat": "Sequential new-process engine runs. External CPU load is not isolated. Precision comparison is primary; speed superiority is not claimed.",
+  "environment": {
+    "NDLOCR_INTRA_THREADS": null,
+    "NDLOCR_PARSEQ_PARALLELISM": null,
+    "ORT_DYLIB_PATH": null,
+    "OMP_NUM_THREADS": null
+  }
+}

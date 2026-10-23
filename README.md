@@ -16,6 +16,36 @@ PoC repository for reimplementing the `ndlocr` OCR pipeline in Rust + ONNX.
 - Example that performs PDF → image conversion on the example side
 - Benchmarks with `criterion` (preprocess, postprocess, line extraction)
 
+## Horizontal multicolumn accuracy (2026-10-23)
+
+Image-supported column separation, duplicate detection selection and reading order
+improve horizontal Japanese Gazette OCR at the default DEIM threshold of **0.25**.
+On an independent two-column sample (1,069 reference characters, 80 physical lines),
+the implementation and manually transcribed reference were frozen before recognition:
+
+| Engine | Character errors | CER |
+|---|---:|---:|
+| ndlocr-lite-rs | **1** | **0.094%** |
+| Tesseract.js 6.0.1 | 36 | 3.368% |
+
+Both engines produced identical raw text across three runs each. ndlocr-lite-rs had
+one substitution, zero insertions/deletions, correct notice order and no excess
+duplicate reference lines. The development full-page sample (2,613 characters)
+scored 0.421% CER versus Tesseract.js's 22.465%.
+
+The comparison uses identical PNGs, fixed DEIM/PARSeq models versus fixed
+`tessdata_fast` Japanese (OEM 1, PSM 3, DPI 300), with NFKC and whitespace removal
+only for scoring. NDLOCR quality boost, structure rules, dictionaries and rule packs
+were disabled. This result covers the evaluated horizontal Gazette samples;
+broader document accuracy remains unverified. On the independent sample, median
+runtime was 13.855 s versus 4.302 s for Tesseract.js on the measured Mac, so this
+change does not establish a speed advantage.
+
+See the [full results and limitations](docs/kanpo_layout_accuracy_results.md) and
+[frozen inputs, raw outputs and reproduction steps](docs/benchmarks/kanpo-layout/README.md).
+Use `recognize-page --trace-json path/to/trace.json` to save selection, crop,
+recognition and reading-order diagnostics alongside the usual TXT output.
+
 ## Setup
 
 ```bash

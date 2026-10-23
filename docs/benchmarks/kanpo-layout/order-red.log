@@ -1,0 +1,63 @@
+   Compiling serde_core v1.0.229
+   Compiling thiserror v2.0.21
+   Compiling av-scenechange v0.14.1
+   Compiling rav1e v0.8.1
+   Compiling serde v1.0.229
+   Compiling serde_json v1.0.154
+   Compiling ciborium v0.2.2
+   Compiling serde_yaml v0.9.34+deprecated
+   Compiling tinytemplate v1.2.1
+   Compiling criterion v0.5.1
+   Compiling ravif v0.13.0
+   Compiling image v0.25.10
+   Compiling ndlocr-lite-rs v0.1.0 (/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs)
+error[E0425]: cannot find function `sort` in this scope
+   --> src/pipeline/horizontal_columns.rs:102:9
+    |
+102 |         sort(&mut lines,&columns);
+    |         ^^^^ not found in this scope
+    |
+help: use the `.` operator to call the method `sort` on `&mut [RecognizedLine]`
+    |
+102 -         sort(&mut lines,&columns);
+102 +         (&mut lines).sort(&columns);
+    |
+
+error[E0277]: the trait bound `RecognizedLine: Ord` is not satisfied
+   --> src/pipeline/horizontal_columns.rs:102:14
+    |
+102 |         sort(&mut lines,&columns);
+    |         ---- ^^^^^^^^^^ unsatisfied trait bound
+    |         |
+    |         required by a bound introduced by this call
+    |
+help: the trait `Ord` is not implemented for `RecognizedLine`
+   --> src/pipeline/connect.rs:10:1
+    |
+ 10 | pub struct RecognizedLine {
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^
+note: required by a bound in `std::slice::<impl [T]>::sort`
+   --> /Users/bokuweb/.rustup/toolchains/stable-aarch64-apple-darwin/lib/rustlib/src/rust/library/alloc/src/slice.rs:133:12
+    |
+131 |     pub fn sort(&mut self)
+    |            ---- required by a bound in this associated function
+132 |     where
+133 |         T: Ord,
+    |            ^^^ required by this bound in `std::slice::<impl [T]>::sort`
+
+warning: variable does not need to be mutable
+   --> src/app.rs:639:17
+    |
+639 |             let mut prepare_legacy = || -> Result<Vec<PreparedLineCrop>> {
+    |                 ----^^^^^^^^^^^^^^
+    |                 |
+    |                 help: remove this `mut`
+    |
+    = note: `#[warn(unused_mut)]` (part of `#[warn(unused)]`) on by default
+
+Some errors have detailed explanations: E0277, E0425.
+For more information about an error, try `rustc --explain E0277`.
+warning: `ndlocr-lite-rs` (lib test) generated 1 warning
+error: could not compile `ndlocr-lite-rs` (lib test) due to 2 previous errors; 1 warning emitted
+mbx[cache]: 0 hits, 13 misses; 0 B downloaded, 0 B uploaded, 146.3 MiB stored locally
+mbx[savings]: 123.8 GiB of outputs materialized without a copy. the copy machine stays off.

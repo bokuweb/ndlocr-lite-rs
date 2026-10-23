@@ -1,0 +1,13 @@
+E...
+======================================================================
+ERROR: test_edit_breakdown_distinguishes_deletions_insertions_and_substitutions (test_kanpo_layout_report.KanpoReportTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs/tests/test_kanpo_layout_report.py", line 29, in test_edit_breakdown_distinguishes_deletions_insertions_and_substitutions
+    self.assertEqual(score('ABC', 'AC')['deletions'], 1)
+KeyError: 'deletions'
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.015s
+
+FAILED (errors=1)

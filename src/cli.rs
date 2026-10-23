@@ -91,6 +91,9 @@ pub struct RecognizePageArgs {
     pub rule_pack: Option<PathBuf>,
     #[arg(long)]
     pub output_txt: Option<PathBuf>,
+    /// Save optional page-stage diagnostics without changing TXT output.
+    #[arg(long)]
+    pub trace_json: Option<PathBuf>,
     #[arg(long)]
     pub output_docx: Option<PathBuf>,
     #[arg(long)]

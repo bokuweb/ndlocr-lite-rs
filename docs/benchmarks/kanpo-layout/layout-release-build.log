@@ -1,0 +1,38 @@
+   Compiling thiserror v2.0.21
+   Compiling serde_core v1.0.229
+   Compiling av-scenechange v0.14.1
+   Compiling rav1e v0.8.1
+   Compiling serde v1.0.229
+   Compiling serde_json v1.0.154
+   Compiling serde_yaml v0.9.34+deprecated
+   Compiling ravif v0.13.0
+   Compiling image v0.25.10
+   Compiling ndlocr-lite-rs v0.1.0 (/Users/bokuweb/ghq/github.com/bokuweb/ndlocr-lite-rs)
+warning: unused import: `crate::pipeline::reading_order::sort_lines_in_reading_order`
+  --> src/app.rs:15:5
+   |
+15 | use crate::pipeline::reading_order::sort_lines_in_reading_order;
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |
+   = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+
+mbx[progress]: 15s elapsed; 0 hits, 8 misses, 1 bypassed, 0 not looked up; ~0s compiler work saved
+warning: methods `recognize_batch_indexed` and `run_chunk_on_session` are never used
+   --> src/infer/cached.rs:760:8
+    |
+431 | impl ParseqPool {
+    | --------------- methods in this implementation
+...
+760 |     fn recognize_batch_indexed(
+    |        ^^^^^^^^^^^^^^^^^^^^^^^
+...
+879 |     fn run_chunk_on_session(
+    |        ^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: `ndlocr-lite-rs` (lib) generated 2 warnings (run `cargo fix --lib -p ndlocr-lite-rs` to apply 1 suggestion)
+mbx[progress]: 30s elapsed; 0 hits, 9 misses, 2 bypassed, 0 not looked up; ~0s compiler work saved
+    Finished `release` profile [optimized] target(s) in 29.98s
+mbx[cache]: 0 hits, 9 misses, 2 bypassed; 0 B downloaded, 0 B uploaded, 52.7 MiB stored locally
+mbx[savings]: 67563 compilations, and the box has forgotten none of them.
