@@ -51,6 +51,9 @@ pub struct RecognizePageArgs {
     pub det_conf_threshold: f32,
     #[arg(long, default_value_t = true, action = ArgAction::Set)]
     pub use_deim_detection: bool,
+    /// 行検出をページ全体に加えて N×N のタイルでも行い統合する（1 は従来どおり。docs/tiled_detection.md）。
+    #[arg(long, default_value_t = 1)]
+    pub detect_tiles: usize,
     #[arg(long, default_value = DEFAULT_RECOGNIZE_MODEL_PATH)]
     pub model: PathBuf,
     #[arg(long)]
