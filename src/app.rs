@@ -638,6 +638,34 @@ impl CachedPageRecognizer {
     }
 }
 
+/// ページ全体の行検出 `full` に、`--detect-tiles` の格子の各タイルの検出を統合する（docs/tiled_detection.md）。
+/// タイルの検出に失敗したら、そのタイルは使わない。
+fn tiled_line_detections(
+    args: &crate::cli::RecognizePageArgs,
+    img: &crate::io::RgbImageData,
+    full: Vec<deim::Detection>,
+) -> Vec<deim::Detection> {
+    use crate::infer::tiled_detect::{merge_tiled_detections, tile_rects};
+    let mut tiles = Vec::new();
+    for t in tile_rects(img.width, img.height, args.detect_tiles) {
+        let (w, h) = (t[2] - t[0], t[3] - t[1]);
+        let mut crop = Vec::with_capacity(w * h * 3);
+        for y in t[1]..t[3] {
+            let row = (y * img.width + t[0]) * 3;
+            crop.extend_from_slice(&img.data[row..row + w * 3]);
+        }
+        let Ok(dets) = deim::detect_rgb_u8(&args.det_model, &crop, w, h, args.det_conf_threshold) else {
+            continue;
+        };
+        for mut d in dets.into_iter().filter(|d| d.class_name.starts_with("line_")) {
+            let b = d.box_xyxy;
+            d.box_xyxy = [b[0] + t[0] as i32, b[1] + t[1] as i32, b[2] + t[0] as i32, b[3] + t[1] as i32];
+            tiles.push((d, t));
+        }
+    }
+    merge_tiled_detections(full, tiles, img.width, img.height)
+}
+
 pub fn run_cli(cli: Cli) -> Result<()> {
     match cli.command {
         Command::Detect(args) => {
@@ -685,10 +713,17 @@ pub fn run_cli(cli: Cli) -> Result<()> {
                     img.height,
                     args.det_conf_threshold,
                 ) {
-                    Ok(dets) => dets
-                        .into_iter()
-                        .filter(|d| d.class_name.starts_with("line_"))
-                        .collect::<Vec<_>>(),
+                    Ok(dets) => {
+                        let full = dets
+                            .into_iter()
+                            .filter(|d| d.class_name.starts_with("line_"))
+                            .collect::<Vec<_>>();
+                        if args.detect_tiles > 1 {
+                            tiled_line_detections(&args, &img, full)
+                        } else {
+                            full
+                        }
+                    }
                     Err(err) => {
                         detection_status = format!("error: {err}");
                         eprintln!(
