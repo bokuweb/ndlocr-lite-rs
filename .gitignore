@@ -171,3 +171,6 @@ ndlocr/src/model/*-int8.onnx
 # Keep documentation in models directory
 !models/README.md
 
+
+# Browser package generated from Rust and pinned npm dependencies
+/web/generated/

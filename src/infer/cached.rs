@@ -21,8 +21,10 @@ use super::parseq::{
     ParseqCandidateResult, ParseqOrientation, PreprocessScratch, RecognizeResult,
     load_charset_from_yaml_str, predict_text_from_flat_logits_with_candidates,
     predict_text_from_flat_logits_with_confidence, preprocess_rgb_u8_into_with_scratch,
-    preprocess_rgb_u8_with_orientation,
 };
+
+#[cfg(not(target_arch = "wasm32"))]
+use super::parseq::preprocess_rgb_u8_with_orientation;
 
 #[cfg(test)]
 use super::parseq::sanitize_recognized_text;
@@ -340,6 +342,52 @@ fn run_batch_on_session_with_decoder<R>(
     orientation: ParseqOrientation,
     decode: impl Fn(&[f32], usize, usize, &[char]) -> Result<R>,
 ) -> Result<Vec<R>> {
+    #[cfg(target_arch = "wasm32")]
+    {
+        // Bound logits and bridge memory; 100-character models emit several MiB per line.
+        let mut results = Vec::with_capacity(items.len());
+        for chunk in items.chunks(4) {
+            results.extend(run_batch_on_session_with_decoder_inner(
+                session,
+                input_name,
+                output_name,
+                input_w,
+                input_h,
+                charset,
+                chunk,
+                orientation,
+                &decode,
+            )?);
+        }
+        Ok(results)
+    }
+    #[cfg(not(target_arch = "wasm32"))]
+    run_batch_on_session_with_decoder_inner(
+        session,
+        input_name,
+        output_name,
+        input_w,
+        input_h,
+        charset,
+        items,
+        orientation,
+        &decode,
+    )
+}
+
+#[allow(clippy::too_many_arguments)]
+fn run_batch_on_session_with_decoder_inner<R>(
+    session: &mut Session,
+    input_name: &str,
+    output_name: &str,
+    input_w: usize,
+    input_h: usize,
+    charset: &[char],
+    items: &[(&[u8], usize, usize)],
+    orientation: ParseqOrientation,
+    decode: &impl Fn(&[f32], usize, usize, &[char]) -> Result<R>,
+) -> Result<Vec<R>> {
+    #[cfg(not(target_arch = "wasm32"))]
     use rayon::prelude::*;
     let n = items.len();
     let plane = 3 * input_h * input_w;
@@ -348,8 +396,27 @@ fn run_batch_on_session_with_decoder<R>(
     // 有利だが、大きい batch は local Vec -> memcpy の方が速いケースがある
     // ため、bench に基づいて path を選ぶ。
     let plane_local = plane;
+    #[cfg(not(target_arch = "wasm32"))]
     let use_direct_slots =
         use_direct_batch_preprocess(items.len(), items.iter().any(|(_, w, h)| h > w));
+    #[cfg(target_arch = "wasm32")]
+    let preprocess_results: Result<()> = {
+        let mut scratch = PreprocessScratch::with_orientation(orientation);
+        buf.chunks_mut(plane_local)
+            .zip(items.iter())
+            .try_for_each(|(slot, (rgb, w, h))| {
+                preprocess_rgb_u8_into_with_scratch(
+                    slot,
+                    rgb,
+                    *w,
+                    *h,
+                    input_w,
+                    input_h,
+                    &mut scratch,
+                )
+            })
+    };
+    #[cfg(not(target_arch = "wasm32"))]
     let preprocess_results: Result<()> = if use_direct_slots {
         buf.par_chunks_mut(plane_local)
             .zip(items.par_iter())
@@ -772,8 +839,8 @@ impl ParseqPool {
         let mut chunk_results: Vec<Result<Vec<(usize, RecognizeResult)>>> =
             (0..n_chunks).map(|_| Ok(Vec::new())).collect();
 
-        std::thread::scope(|scope| {
-            let mut handles: Vec<(usize, std::thread::ScopedJoinHandle<'_, _>)> =
+        super::execution::scope(|scope| {
+            let mut handles: Vec<(usize, super::execution::ScopedJoinHandle<'_, _>)> =
                 Vec::with_capacity(n_chunks);
             for (ci, chunk) in chunks.iter().enumerate() {
                 if chunk.is_empty() {
@@ -925,7 +992,7 @@ impl ParseqCascadePool {
         let mut r30: Result<ParseqPool> = Err(anyhow!("not run"));
         let mut r50: Result<ParseqPool> = Err(anyhow!("not run"));
         let mut r100: Result<ParseqPool> = Err(anyhow!("not run"));
-        std::thread::scope(|s| {
+        super::execution::scope(|s| {
             let h30 = s.spawn(|| ParseqPool::load(model30, charset, parallelism));
             let h50 = s.spawn(|| ParseqPool::load(model50, charset, parallelism));
             let h100 = s.spawn(|| ParseqPool::load(model100, charset, parallelism));
@@ -1074,7 +1141,7 @@ fn run_three_pools_skipping_empty(
     let mut r30: Result<Vec<(usize, RecognizeResult)>> = Ok(Vec::new());
     let mut r50: Result<Vec<(usize, RecognizeResult)>> = Ok(Vec::new());
     let mut r100: Result<Vec<(usize, RecognizeResult)>> = Ok(Vec::new());
-    std::thread::scope(|s| {
+    super::execution::scope(|s| {
         let h30 = if items30.is_empty() {
             None
         } else {
@@ -1135,7 +1202,7 @@ fn run_two_pools_skipping_empty(
     }
     let mut r50: Result<Vec<(usize, RecognizeResult)>> = Ok(Vec::new());
     let mut r100: Result<Vec<(usize, RecognizeResult)>> = Ok(Vec::new());
-    std::thread::scope(|s| {
+    super::execution::scope(|s| {
         let h1 = s.spawn(|| p50.recognize_batch_indexed_single_session(items50));
         let h2 = s.spawn(|| p100.recognize_batch_indexed_single_session(items100));
         r50 = h1

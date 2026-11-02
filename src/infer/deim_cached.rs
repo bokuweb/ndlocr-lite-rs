@@ -283,8 +283,8 @@ impl DeimPool {
         let mut chunk_results: Vec<Result<Vec<IndexedDetections>>> =
             (0..n_chunks).map(|_| Ok(Vec::new())).collect();
 
-        std::thread::scope(|scope| {
-            let mut handles: Vec<(usize, std::thread::ScopedJoinHandle<'_, _>)> =
+        super::execution::scope(|scope| {
+            let mut handles: Vec<(usize, super::execution::ScopedJoinHandle<'_, _>)> =
                 Vec::with_capacity(n_chunks);
             for (ci, chunk) in chunks.iter().enumerate() {
                 if chunk.is_empty() {

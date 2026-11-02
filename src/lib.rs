@@ -8,3 +8,6 @@ pub mod io;
 pub mod output;
 pub mod pipeline;
 pub mod postprocess;
+
+#[cfg(all(feature = "web", target_arch = "wasm32"))]
+mod web;
