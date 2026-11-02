@@ -34,7 +34,7 @@
 //! 十分な文字量を説明できた場合に採用する。consumer 側で必要に応じて
 //! [`crate::postprocess::page_rules::apply_structural_rules`] を呼ぶ。
 
-#![cfg(feature = "onnx")]
+#![cfg(feature = "inference")]
 
 use anyhow::{Result, anyhow};
 use std::path::Path;

@@ -1,12 +1,12 @@
 //! Conservative capacity recovery for very long vertical page fragments.
 
-#[cfg(all(test, feature = "onnx"))]
+#[cfg(all(test, feature = "inference"))]
 mod capture;
-#[cfg(all(test, feature = "onnx"))]
+#[cfg(all(test, feature = "inference"))]
 mod native;
 mod otsu;
 mod policy;
-#[cfg(any(feature = "onnx", test))]
+#[cfg(any(feature = "inference", test))]
 mod prefix;
 
 #[cfg(test)]
@@ -54,7 +54,7 @@ fn prepare_otsu(rgb: &[u8], width: usize, height: usize) -> Option<(PreparedColu
     ))
 }
 
-#[cfg(feature = "onnx")]
+#[cfg(feature = "inference")]
 pub(super) fn recover<F>(
     base: &crate::infer::parseq::RecognizeResult,
     rgb: &[u8],
@@ -68,7 +68,7 @@ where
     policy::recover(base, rgb, dimensions, input, recognize)
 }
 
-#[cfg(feature = "onnx")]
+#[cfg(feature = "inference")]
 pub(super) fn recover_prefix<F>(
     base: &crate::infer::parseq::RecognizeResult,
     rgb: &[u8],

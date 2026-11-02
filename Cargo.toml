@@ -8,7 +8,9 @@ repository = "https://github.com/bokuweb/ndlocr-lite-rs"
 [features]
 default = []
 # ONNX Runtime 推論を有効化。`ort` 2.x (download-binaries で自前バイナリ取得) を使う。
-onnx = ["dep:ort", "dep:ndarray"]
+onnx = ["inference", "dep:ort", "dep:ndarray"]
+# 推論パイプライン本体（`infer::backend` 経由）。単独では既定のバックエンドを持たない。
+inference = []
 # CoreML EP (現状未サポート: parseq の dynamic batch / DEIM の op の都合で
 # `Failed to build the model execution plan` か MatMul shape mismatch で
 # ロード or 推論失敗するため、有効化しても動かない。フォローアップ用の placeholder。

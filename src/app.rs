@@ -2,7 +2,7 @@ use anyhow::{Result, bail};
 use std::path::{Path, PathBuf};
 
 use crate::cli::{Cli, Command, LineOrientation, MockPageArgs, RecognizePageArgs};
-#[cfg(feature = "onnx")]
+#[cfg(feature = "inference")]
 use crate::infer::cached::{ParseqPool, default_parseq_parallelism};
 use crate::infer::{deim, parseq};
 use crate::output::artifacts::save_page_artifacts;
@@ -168,7 +168,7 @@ pub fn prepare_line_crops(
     Ok(crops)
 }
 
-#[cfg(feature = "onnx")]
+#[cfg(feature = "inference")]
 fn sorted_batch_results(
     mut indexed: Vec<(usize, parseq::RecognizeResult)>,
 ) -> Vec<parseq::RecognizeResult> {
@@ -403,14 +403,14 @@ impl MockConfig {
     }
 }
 
-#[cfg(feature = "onnx")]
+#[cfg(feature = "inference")]
 struct CachedPageRecognizer {
     pool100: ParseqPool,
     pool30: Option<ParseqPool>,
     pool50: Option<ParseqPool>,
 }
 
-#[cfg(feature = "onnx")]
+#[cfg(feature = "inference")]
 impl CachedPageRecognizer {
     fn context_input_dimensions(&self) -> (usize, usize) {
         [
@@ -429,7 +429,7 @@ impl CachedPageRecognizer {
         let parallelism = default_parseq_parallelism();
         let pool100 =
             ParseqPool::load_for_fragments(&options.model, &options.charset, parallelism)?;
-        let pool30 = if options.model30.is_file() {
+        let pool30 = if crate::infer::backend::backend().is_file(&options.model30) {
             Some(ParseqPool::load_for_fragments(
                 &options.model30,
                 &options.charset,
@@ -438,7 +438,7 @@ impl CachedPageRecognizer {
         } else {
             None
         };
-        let pool50 = if options.model50.is_file() {
+        let pool50 = if crate::infer::backend::backend().is_file(&options.model50) {
             Some(ParseqPool::load_for_fragments(
                 &options.model50,
                 &options.charset,
@@ -891,9 +891,9 @@ pub fn recognize_page_rgb_u8(
     } else {
         Vec::new()
     };
-    #[cfg(feature = "onnx")]
+    #[cfg(feature = "inference")]
     let cached_parseq = CachedPageRecognizer::load(options)?;
-    #[cfg(feature = "onnx")]
+    #[cfg(feature = "inference")]
     let accepted_vertical = vertical_fallback::try_prepared_if_empty(
         !using_fallback,
         &data,
@@ -918,7 +918,7 @@ pub fn recognize_page_rgb_u8(
             Ok(results.remove(0))
         },
     );
-    #[cfg(feature = "onnx")]
+    #[cfg(feature = "inference")]
     trace.record("vertical_fallback_accepted", || {
         serde_json::json!(accepted_vertical.is_some())
     });
@@ -929,7 +929,7 @@ pub fn recognize_page_rgb_u8(
                 .into_iter()
                 .filter(|line| {
                     // Keep feature-disabled errors reachable in builds without inference.
-                    let accepted = !cfg!(feature = "onnx")
+                    let accepted = !cfg!(feature = "inference")
                         || crate::pipeline::band_text_support::has_text_like_ink(
                             &data,
                             width,
@@ -977,7 +977,7 @@ pub fn recognize_page_rgb_u8(
             options.line_crop_padding as usize,
         )
     };
-    #[cfg(feature = "onnx")]
+    #[cfg(feature = "inference")]
     let (prepared, recognized_results) = vertical_fallback::reuse_or_legacy(
         accepted_vertical,
         |crops, results| cached_parseq.finish_for_page_batch(crops, results, options),
@@ -987,9 +987,9 @@ pub fn recognize_page_rgb_u8(
             Ok((prepared, recognized))
         },
     )?;
-    #[cfg(not(feature = "onnx"))]
+    #[cfg(not(feature = "inference"))]
     let prepared = prepare_legacy()?;
-    #[cfg(not(feature = "onnx"))]
+    #[cfg(not(feature = "inference"))]
     let recognized_results: Vec<parseq::RecognizeResult> = {
         let mut out = Vec::with_capacity(prepared.len());
         for line in &prepared {
@@ -1065,7 +1065,7 @@ pub fn recognize_page_rgb_u8(
         }
     }
     trace.lines("confidence_filter", &recognized_lines);
-    #[cfg(feature = "onnx")]
+    #[cfg(feature = "inference")]
     {
         let scored: Vec<_> = recognized_lines
             .iter()
@@ -1094,7 +1094,7 @@ pub fn recognize_page_rgb_u8(
             .collect();
     }
     trace.lines("context_selection", &recognized_lines);
-    #[cfg(feature = "onnx")]
+    #[cfg(feature = "inference")]
     {
         let scored: Vec<_> = recognized_lines
             .iter()
@@ -1262,7 +1262,7 @@ pub fn run_cli(cli: Cli) -> Result<()> {
     Ok(())
 }
 
-#[cfg(not(feature = "onnx"))]
+#[cfg(not(feature = "inference"))]
 fn recognize_line_with_optional_cascade(
     model100: &Path,
     model30: &Path,
@@ -1281,8 +1281,16 @@ fn recognize_line_with_optional_cascade(
     }
 
     // Fallback to the 100-model when cascade models are unavailable.
-    let model30 = if model30.is_file() { model30 } else { model100 };
-    let model50 = if model50.is_file() { model50 } else { model100 };
+    let model30 = if crate::infer::backend::backend().is_file(&model30) {
+        model30
+    } else {
+        model100
+    };
+    let model50 = if crate::infer::backend::backend().is_file(&model50) {
+        model50
+    } else {
+        model100
+    };
     let pred_char_bucket = pred_char_count_hint
         .map(normalize_pred_char_bucket)
         .unwrap_or_else(|| estimate_pred_char_bucket(width, height, th_30_to_50, th_50_to_100));
@@ -1319,7 +1327,7 @@ fn normalize_pred_char_bucket(v: f32) -> f32 {
 // app.rs は薄い alias 経由で使い続ける。
 use crate::cascade::estimate_pred_char_bucket;
 
-#[cfg(not(feature = "onnx"))]
+#[cfg(not(feature = "inference"))]
 fn maybe_split_long_line_and_recognize(
     recognized: parseq::RecognizeResult,
     model100: &Path,
@@ -1388,7 +1396,7 @@ fn maybe_split_long_line_and_recognize(
     })
 }
 
-#[cfg(not(feature = "onnx"))]
+#[cfg(not(feature = "inference"))]
 fn maybe_rerank_line_quality(
     base: parseq::RecognizeResult,
     model100: &Path,
@@ -1423,7 +1431,7 @@ fn maybe_rerank_line_quality(
         estimate_pred_char_bucket(width, height, cascade_th_30_to_50, cascade_th_50_to_100);
 
     // 短い行（256 系モデル向け）: カスケードが 50/100 に振り替わったあとも 30 単体がマシな場合がある。
-    if bucket == 3.0 && model30.is_file() {
+    if bucket == 3.0 && crate::infer::backend::backend().is_file(&model30) {
         let direct30 = parseq::recognize_rgb_u8_with_score(model30, rgb, width, height, charset)?;
         let direct30_score = quality_score(&direct30.text, direct30.mean_confidence);
         if direct30_score > best_score + quality_boost_min_delta {
@@ -1433,7 +1441,7 @@ fn maybe_rerank_line_quality(
     }
 
     // 中幅行（384 系モデル向け）: カスケードが 100 に振り替わったあとも 50 単体がマシな場合がある。
-    if bucket == 2.0 && model50.is_file() {
+    if bucket == 2.0 && crate::infer::backend::backend().is_file(&model50) {
         let direct50 = parseq::recognize_rgb_u8_with_score(model50, rgb, width, height, charset)?;
         let direct50_score = quality_score(&direct50.text, direct50.mean_confidence);
         if direct50_score > best_score + quality_boost_min_delta {
@@ -1573,9 +1581,9 @@ mod tests {
     }
 }
 
-#[cfg(any(feature = "onnx", test))]
+#[cfg(any(feature = "inference", test))]
 mod vertical_fallback;
 
-#[cfg(all(test, feature = "onnx"))]
+#[cfg(all(test, feature = "inference"))]
 #[path = "../tests/support/vertical_cli_finish_known.rs"]
 mod vertical_cli_finish_known;

@@ -14,10 +14,12 @@
 //! 固定する変更がモデル側にも必要。CPU EP は ort 2.0 に同梱されている既定
 //! 実装で、こちらは旧 `onnxruntime` 0.0.14 比 ~30-40% 速い。
 
-#![cfg(feature = "onnx")]
+#![cfg(feature = "inference")]
 
+#[cfg(feature = "onnx")]
 use once_cell::sync::OnceCell;
 
+#[cfg(feature = "onnx")]
 static INITIALIZED: OnceCell<()> = OnceCell::new();
 
 /// `ort::Error` は内部に `NonNull` を持っており `Send + Sync` ではない。
@@ -72,6 +74,7 @@ fn resolve_intra_threads(raw: Option<&str>, cpus: usize, pool_parallelism: usize
 }
 
 /// 最初の [`ort::session::Session`] を作る前に呼ぶ。多重呼び出しは no-op。
+#[cfg(feature = "onnx")]
 pub fn ensure_init() {
     INITIALIZED.get_or_init(|| {
         #[allow(unused_mut)]

@@ -6,10 +6,10 @@ pub(crate) struct RecoveredContext {
     pub recognized: RecognizeResult,
 }
 
-#[cfg(all(test, feature = "onnx"))]
+#[cfg(all(test, feature = "inference"))]
 static CONTEXT_TRACE: std::sync::Mutex<Vec<serde_json::Value>> = std::sync::Mutex::new(Vec::new());
 
-#[cfg(all(test, feature = "onnx"))]
+#[cfg(all(test, feature = "inference"))]
 pub(crate) fn take_context_trace() -> Vec<serde_json::Value> {
     std::mem::take(&mut *CONTEXT_TRACE.lock().unwrap())
 }
@@ -127,7 +127,7 @@ where
             .ok()?;
             recognize(&crop.data, crop.width, crop.height)
         };
-        #[cfg(all(test, feature = "onnx"))]
+        #[cfg(all(test, feature = "inference"))]
         if std::env::var_os("NDLOCR_CONTEXT_CAPTURE").is_some() {
             CONTEXT_TRACE.lock().unwrap().push(serde_json::json!({
                 "bounds":bounds,"input_dimensions":[w,h],"native":[native.0,native.1],"baseline_mean":mean,

@@ -8,19 +8,15 @@
 //! `coreml` feature 有効時は [`super::ort_init`] が CoreML EP を登録するので、
 //! macOS (Apple Silicon) では ANE/GPU に乗って CPU 比 ~3-5x 速い。
 
-#![cfg(feature = "onnx")]
+#![cfg(feature = "inference")]
 
 use anyhow::{Context, Result, anyhow, bail};
-use ndarray::Array;
-use ort::inputs;
-use ort::session::Session;
-use ort::session::builder::GraphOptimizationLevel;
-use ort::value::TensorRef;
 use std::path::Path;
 use std::sync::Mutex;
 use std::sync::atomic::{AtomicUsize, Ordering};
 
-use super::ort_init::{OrtAnyhow, auto_intra_threads, ensure_init};
+use super::backend::{Input, Session, SessionOptions, backend};
+use super::ort_init::auto_intra_threads;
 use super::parseq::{
     ParseqCandidateResult, ParseqOrientation, PreprocessScratch, RecognizeResult,
     load_charset_from_yaml_str, predict_text_from_flat_logits_with_candidates,
@@ -58,18 +54,9 @@ pub struct ParseqSession {
 }
 
 fn build_session(model_path: &Path, intra_threads: usize) -> Result<Session> {
-    ensure_init();
     // intra_threads = 1 を渡すと旧挙動 (1 セッション 1 スレッド)。pool 並列度
     // から `auto_intra_threads` で算出するのが既定。
-    let session = Session::builder()
-        .anyort()?
-        .with_optimization_level(GraphOptimizationLevel::Level3)
-        .anyort()?
-        .with_intra_threads(intra_threads.max(1))
-        .anyort()?
-        .commit_from_file(model_path)
-        .anyort()?;
-    Ok(session)
+    backend().load(model_path, SessionOptions { intra_threads })
 }
 
 fn extract_input_meta(session: &Session) -> Result<(String, String, usize, usize, bool)> {
@@ -77,11 +64,10 @@ fn extract_input_meta(session: &Session) -> Result<(String, String, usize, usize
     let input = inputs
         .first()
         .ok_or_else(|| anyhow!("model has no input"))?;
-    let shape = input
-        .dtype()
-        .tensor_shape()
+    let dims: &[i64] = input
+        .shape
+        .as_deref()
         .ok_or_else(|| anyhow!("input is not a tensor"))?;
-    let dims: &[i64] = shape;
     if dims.len() < 4 {
         bail!("unexpected model input rank");
     }
@@ -91,13 +77,13 @@ fn extract_input_meta(session: &Session) -> Result<(String, String, usize, usize
     let input_h = dims[2] as usize;
     let input_w = dims[3] as usize;
     let batch_dim_dynamic = dims[0] <= 0;
-    let input_name = input.name().to_string();
+    let input_name = input.name.clone();
     let outputs = session.outputs();
     let output_name = outputs
         .first()
         .ok_or_else(|| anyhow!("model has no output"))?
-        .name()
-        .to_string();
+        .name
+        .clone();
     Ok((input_name, output_name, input_w, input_h, batch_dim_dynamic))
 }
 
@@ -108,13 +94,14 @@ impl ParseqSession {
     }
 
     pub fn load(model_path: &Path, charset_path: &Path) -> Result<Self> {
-        if !model_path.is_file() {
+        if !backend().is_file(model_path) {
             bail!("parseq model not found: {}", model_path.display());
         }
-        if !charset_path.is_file() {
+        if !backend().is_file(charset_path) {
             bail!("charset not found: {}", charset_path.display());
         }
-        let yaml_body = std::fs::read_to_string(charset_path)
+        let yaml_body = backend()
+            .read_to_string(charset_path)
             .with_context(|| format!("failed to read {}", charset_path.display()))?;
         let charset = load_charset_from_yaml_str(&yaml_body)?;
         // 単発 Session なので pool=1 として intra を取る (= cpu 数を最大限使う)。
@@ -385,11 +372,8 @@ fn run_batch_on_session_with_decoder<R>(
             })
     };
     preprocess_results?;
-    let arr = Array::from_shape_vec((n, 3, input_h, input_w), buf)?;
-    let tensor = TensorRef::from_array_view(arr.view()).anyort()?;
-    let outputs = session.run(inputs![input_name => tensor]).anyort()?;
-    let (shape, data) = outputs[output_name].try_extract_tensor::<f32>().anyort()?;
-    let shape: Vec<i64> = shape.to_vec();
+    let outputs = session.run(&[Input::f32(input_name, &[n, 3, input_h, input_w], &buf)])?;
+    let (shape, data) = outputs.f32(output_name)?;
     // 期待出力形状: [N, T, C]。古い ONNX で [T, C] が返る場合は N=1 のみ許容。
     let (t, c) = match shape.as_slice() {
         [bn, t, c] if *bn as usize == n => (*t as usize, *c as usize),
@@ -430,14 +414,15 @@ pub struct ParseqPool {
 
 impl ParseqPool {
     pub fn load(model_path: &Path, charset_path: &Path, parallelism: usize) -> Result<Self> {
-        if !model_path.is_file() {
+        if !backend().is_file(model_path) {
             bail!("parseq model not found: {}", model_path.display());
         }
-        if !charset_path.is_file() {
+        if !backend().is_file(charset_path) {
             bail!("charset not found: {}", charset_path.display());
         }
         let parallelism = parallelism.max(1);
-        let yaml_body = std::fs::read_to_string(charset_path)
+        let yaml_body = backend()
+            .read_to_string(charset_path)
             .with_context(|| format!("failed to read {}", charset_path.display()))?;
         let charset = load_charset_from_yaml_str(&yaml_body)?;
 
@@ -508,13 +493,10 @@ impl ParseqPool {
             && matches!(orientation, ParseqOrientation::Auto);
         let frame_limit = if fragment_auto {
             super::output_capacity::selected_frame_limit(
-                session.outputs().iter().map(|output| {
-                    let shape = output.dtype().tensor_shape().map(|shape| {
-                        let dimensions: &[i64] = shape;
-                        dimensions
-                    });
-                    (output.name(), shape)
-                }),
+                session
+                    .outputs()
+                    .iter()
+                    .map(|output| (output.name.as_str(), output.shape.as_deref())),
                 &self.output_name,
                 self.charset.len(),
             )

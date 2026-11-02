@@ -13,20 +13,16 @@
 //!
 //! API は [`infer::deim::detect_rgb_u8`] と同等の `Detection` を返す。
 
-#![cfg(feature = "onnx")]
+#![cfg(feature = "inference")]
 
 use anyhow::{Result, anyhow, bail};
-use ndarray::{Array2, Array4};
-use ort::inputs;
-use ort::session::Session;
-use ort::session::builder::GraphOptimizationLevel;
-use ort::value::TensorRef;
 use std::path::Path;
 use std::sync::Mutex;
 use std::sync::atomic::{AtomicUsize, Ordering};
 
+use super::backend::{Input, Session, SessionOptions, backend};
 use super::deim::{Detection, ScaleContext, build_detections, preprocess_rgb_u8};
-use super::ort_init::{OrtAnyhow, auto_intra_threads, ensure_init};
+use super::ort_init::auto_intra_threads;
 
 pub struct DeimSession {
     session: Mutex<Session>,
@@ -35,16 +31,7 @@ pub struct DeimSession {
 }
 
 fn build_session(model_path: &Path, intra_threads: usize) -> Result<Session> {
-    ensure_init();
-    let session = Session::builder()
-        .anyort()?
-        .with_optimization_level(GraphOptimizationLevel::Level3)
-        .anyort()?
-        .with_intra_threads(intra_threads.max(1))
-        .anyort()?
-        .commit_from_file(model_path)
-        .anyort()?;
-    Ok(session)
+    backend().load(model_path, SessionOptions { intra_threads })
 }
 
 fn extract_input_size(session: &Session) -> Result<(usize, usize)> {
@@ -52,11 +39,10 @@ fn extract_input_size(session: &Session) -> Result<(usize, usize)> {
     let m = inputs
         .first()
         .ok_or_else(|| anyhow!("model has no input"))?;
-    let shape = m
-        .dtype()
-        .tensor_shape()
+    let dims: &[i64] = m
+        .shape
+        .as_deref()
         .ok_or_else(|| anyhow!("input is not tensor"))?;
-    let dims: &[i64] = shape;
     if dims.len() < 4 {
         bail!("unexpected model input rank");
     }
@@ -67,7 +53,7 @@ fn extract_input_size(session: &Session) -> Result<(usize, usize)> {
 
 impl DeimSession {
     pub fn load(model_path: &Path) -> Result<Self> {
-        if !model_path.is_file() {
+        if !backend().is_file(model_path) {
             bail!("deim model not found: {}", model_path.display());
         }
         // 単発 Session なので pool=1 として intra を取る (= cpu 数を最大限使う)。
@@ -119,24 +105,20 @@ fn run_detect_on_session(
     conf_threshold: f32,
 ) -> Result<Vec<Detection>> {
     let prep = preprocess_rgb_u8(rgb, width, height, input_w, input_h)?;
-    let image_arr: Array4<f32> = Array4::from_shape_vec((1, 3, input_h, input_w), prep.tensor)?;
-    let size_arr: Array2<i64> =
-        Array2::from_shape_vec((1, 2), vec![input_h as i64, input_w as i64])?;
+    if prep.tensor.len() != 3 * input_h * input_w {
+        bail!("DEIM input tensor has an unexpected length");
+    }
+    let sizes = [input_h as i64, input_w as i64];
+    let outputs = session.run(&[
+        Input::f32("images", &[1, 3, input_h, input_w], &prep.tensor),
+        Input::i64("orig_target_sizes", &[1, 2], &sizes),
+    ])?;
 
-    let img_tensor = TensorRef::from_array_view(image_arr.view()).anyort()?;
-    let size_tensor = TensorRef::from_array_view(size_arr.view()).anyort()?;
-    let outputs = session
-        .run(inputs![
-            "images" => img_tensor,
-            "orig_target_sizes" => size_tensor,
-        ])
-        .anyort()?;
-
-    let (_, labels) = outputs["labels"].try_extract_tensor::<i64>().anyort()?;
-    let (_, boxes_flat) = outputs["boxes"].try_extract_tensor::<f32>().anyort()?;
-    let (_, scores) = outputs["scores"].try_extract_tensor::<f32>().anyort()?;
-    let char_counts: Vec<f32> = if let Some(v) = outputs.get("char_count") {
-        let (_, raw) = v.try_extract_tensor::<i64>().anyort()?;
+    let (_, labels) = outputs.i64("labels")?;
+    let (_, boxes_flat) = outputs.f32("boxes")?;
+    let (_, scores) = outputs.f32("scores")?;
+    let char_counts: Vec<f32> = if outputs.contains("char_count") {
+        let (_, raw) = outputs.i64("char_count")?;
         raw.iter().map(|&v| v as f32).collect()
     } else {
         vec![100.0; scores.len()]
@@ -193,7 +175,7 @@ type IndexedDetections = (usize, Vec<Detection>);
 
 impl DeimPool {
     pub fn load(model_path: &Path, parallelism: usize) -> Result<Self> {
-        if !model_path.is_file() {
+        if !backend().is_file(model_path) {
             bail!("deim model not found: {}", model_path.display());
         }
         let parallelism = parallelism.max(1);

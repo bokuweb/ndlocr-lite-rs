@@ -75,7 +75,7 @@ pub(crate) fn sanitize_visible_single_line(
     current
 }
 
-#[cfg(any(feature = "onnx", test))]
+#[cfg(any(feature = "inference", test))]
 pub(crate) fn sanitize_visible_repetitions(
     raw: &str,
     rgb: &[u8],
@@ -464,7 +464,7 @@ fn compact_leading_space_from_boxes(
 #[path = "../../tests/support/visible_repetitions_policy.rs"]
 mod tests;
 
-#[cfg(all(test, feature = "onnx"))]
+#[cfg(all(test, feature = "inference"))]
 #[path = "../../tests/support/literal_closer_probe.rs"]
 mod closer_probe;
 
@@ -472,7 +472,7 @@ mod closer_probe;
 #[path = "../../tests/support/closer_geometry_probe.rs"]
 mod geometry_probe;
 
-#[cfg(all(test, feature = "onnx"))]
+#[cfg(all(test, feature = "inference"))]
 #[path = "../../tests/support/body_closer_recovery.rs"]
 mod body_closer_tests;
 
