@@ -10,6 +10,6 @@ for (const name of ['ort-wasm-simd-threaded.wasm', 'ort-wasm-simd-threaded.mjs']
   await copyFile(path.join(root, 'node_modules/onnxruntime-web/dist', name), path.join(out, name));
 }
 await copyFile(path.join(root, 'generated/ndlocr_wasm_bg.wasm'), path.join(out, 'ndlocr_wasm_bg.wasm'));
-await copyFile(path.join(root, 'third_party/onnxruntime-LICENSE'), path.join(out, 'onnxruntime-LICENSE'));
+await copyFile(path.join(root, 'onnxruntime-LICENSE'), path.join(out, 'onnxruntime-LICENSE'));
 await copyFile(path.join(root, 'ndlocr.d.ts'), path.join(out, 'ndlocr.d.ts'));
 console.log(`Browser OCR package: ${out}`);
