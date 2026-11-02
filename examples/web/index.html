@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="ja">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<title>NDLOCR browser page OCR</title>
+<style>body{font:16px system-ui;max-width:900px;margin:40px auto;padding:0 20px}pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#f4f4f4;padding:16px}button,input{margin:8px 0}</style>
+<h1>NDLOCR browser page OCR</h1>
+<p>画像をこのブラウザで認識します。モデルの初回読み込みは約150 MBです。</p>
+<input id="image" type="file" accept="image/*">
+<button id="sample">官報サンプルを認識</button>
+<pre id="progress"></pre>
+<pre id="result"></pre>
+<script type="module">
+import { createRecognizer } from '../../web/dist/ndlocr.js';
+const progress = document.querySelector('#progress');
+const result = document.querySelector('#result');
+let recognizer;
+window.runOcr = async function(url) {
+  const start = performance.now();
+  recognizer ??= await createRecognizer({modelBaseUrl: '../../models/', onProgress: message => progress.textContent += message + '\n'});
+  const image = await createImageBitmap(await (await fetch(url)).blob());
+  const canvas = new OffscreenCanvas(image.width, image.height);
+  const context = canvas.getContext('2d');
+  context.drawImage(image, 0, 0);
+  const pixels = context.getImageData(0,0,image.width,image.height).data;
+  const gray = new Uint8Array(image.width*image.height);
+  for (let i=0;i<gray.length;i++) gray[i] = Math.round(pixels[i*4]*0.299 + pixels[i*4+1]*0.587 + pixels[i*4+2]*0.114);
+  const loaded = performance.now();
+  const trace = await recognizer.recognizePage(gray, image.width, image.height);
+  const seconds = (performance.now()-loaded)/1000;
+  window.lastResult = {trace, seconds, totalSeconds: (performance.now()-start)/1000};
+  progress.textContent += `OCR: ${seconds.toFixed(2)} 秒、読込含む: ${window.lastResult.totalSeconds.toFixed(2)} 秒\n`;
+  result.textContent = JSON.stringify(window.lastResult, null, 2);
+  image.close();
+  return window.lastResult;
+};
+const run = url => window.runOcr(url).catch(error => {result.textContent = String(error); throw error;});
+document.querySelector('#sample').onclick = () => run('../../tests/fixtures/kanpo_layout/20261007g002210006.png');
+document.querySelector('#image').onchange = async event => {
+  const file = event.target.files[0]; if (!file) return;
+  const url = URL.createObjectURL(file);
+  try {await run(url);} finally {URL.revokeObjectURL(url);}
+};
+</script>
+</html>

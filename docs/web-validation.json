@@ -1,0 +1,57 @@
+{
+  "date": "2026-11-02",
+  "hardware": {
+    "cpu": "Apple M6",
+    "ram_bytes": 34359738368
+  },
+  "runtime": {
+    "browser": "147.0.7727.15",
+    "onnxruntime_web": "1.24.3",
+    "num_threads": 2
+  },
+  "input": {
+    "path": "tests/fixtures/kanpo_layout/20261007g002210006.png",
+    "sha256": "a0f34491e5394af5815cde4410e9e573595586c549e313190e9453b085add7ff",
+    "width": 3509,
+    "height": 2480
+  },
+  "runs": [
+    {
+      "seconds": 24.492045000076295,
+      "totalSeconds": 24.57472500038147,
+      "characters": 3027,
+      "lines": 185
+    },
+    {
+      "seconds": 21.279775000095366,
+      "totalSeconds": 21.372669999599456,
+      "characters": 3027,
+      "lines": 185
+    }
+  ],
+  "browser_body_sha256": "499113a40f6563427d9f462c56df70430cce805e96fd8136742009a9ef51a26c",
+  "native_body_sha256": "499113a40f6563427d9f462c56df70430cce805e96fd8136742009a9ef51a26c",
+  "native_cli_matrix": {
+    "runs": 34,
+    "files": 165,
+    "byte_identical": true
+  },
+  "tests": {
+    "default_passed": 854,
+    "real_model_passed": 813,
+    "js_passed": 9
+  },
+  "consumer": {
+    "subpath": "/sub/",
+    "input": "honshi1749 page13, image-only PDF",
+    "input_sha256": "188650692a4bfa689abd62262a8ca496c513cd8b41578996d1e6ae7d952f2349",
+    "seconds": 35.0,
+    "recognized_images": 1,
+    "docx_text_characters": 2864
+  },
+  "limits": [
+    "Localhost and warm HTTP cache; not remote R2 download speed.",
+    "Other native verification tasks ran concurrently; timings are observations, not isolated benchmarks.",
+    "Body parity is one page, not accuracy certification or all-browser parity."
+  ]
+}

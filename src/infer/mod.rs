@@ -65,3 +65,9 @@ mod output_capacity;
 
 #[cfg(any(feature = "inference", test))]
 pub(crate) mod vertical_fallback;
+
+#[cfg(feature = "inference")]
+pub(crate) mod execution;
+
+#[cfg(all(feature = "web", target_arch = "wasm32"))]
+pub mod web_backend;

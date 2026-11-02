@@ -143,7 +143,7 @@ impl PageRecognizer {
         let buf: Vec<Mutex<Option<PageResult>>> =
             (0..items.len()).map(|_| Mutex::new(None)).collect();
 
-        let result: Result<()> = std::thread::scope(|scope| {
+        let result: Result<()> = super::execution::scope(|scope| {
             let mut handles = Vec::with_capacity(workers);
             for _ in 0..workers {
                 let cursor = &cursor;

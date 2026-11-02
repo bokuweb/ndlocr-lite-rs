@@ -122,3 +122,31 @@ jobs:
           export NDLOCR_DIAGNOSTIC_PYTHON="$(command -v python)"
           cargo run --locked --features onnx --example compare_parseq_opencv -- --manifest tests/fixtures/resampling_comparison/pages.json --model models/parseq-ndl-24x256-30-tiny-189epoch-tegaki3-r8data-202604.onnx --charset models/NDLmoji.yaml --output opencv-comparison.json
           python -c 'import json,math; r=json.load(open("opencv-comparison.json")); assert r["model_dimensions"]==[256,24]; assert len(r["pages"])==1; lines=r["pages"][0]["lines"]; assert len(lines)==1; line=lines[0]; assert line["bilinear"]==line["opencv"]=="1"; assert len(line["chunks"])==1; c=line["chunks"][0]; assert all(c[m]["error"] is None and math.isfinite(c[m]["confidence"]) for m in ("bilinear","opencv"))'
+
+  web:
+    name: browser WASM
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: wasm32-unknown-unknown
+      - uses: Swatinem/rust-cache@v2
+        with:
+          key: web
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+      - run: cargo build --target wasm32-unknown-unknown --features web
+      - run: cargo test --features inference --test inference_backend_tests
+      - run: npm ci --prefix web
+      - run: npm test --prefix web
+      - run: bash tools/build_web.sh
+      - run: python3 tools/fetch_upstream_assets.py models
+      - name: Install Chromium
+        working-directory: web
+        run: npx playwright install --with-deps chromium
+      - run: npm run test:browser --prefix web
