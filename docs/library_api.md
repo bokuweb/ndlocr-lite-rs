@@ -41,3 +41,7 @@ The CLI output must not change. Compare stdout, `--output-txt`, `--trace-json` a
 `--output-docx` from the previous binary and the new one on the same inputs (kanpo
 pages, vertical pages, band-fallback pages, a missing detector model, `--detect-tiles 2
 --quality-boost`, `--use-deim-detection false` with a rule pack and a post dictionary).
+
+The frozen vertical fallback quality regression converts CLI arguments with
+`page_options(None, None)` before calling the cached recognizer. It varies the
+quality options on that same `PageOptions` so the test still detects skipped finishing.
