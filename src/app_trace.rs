@@ -93,16 +93,20 @@ impl PageTrace {
         });
     }
 
-    pub(crate) fn save(self, path: Option<&Path>, body: &str) -> Result<()> {
-        if let (Some(path), Some(mut trace)) = (path, self.0) {
+    pub(crate) fn finish(self, body: &str) -> Option<Value> {
+        self.0.map(|mut trace| {
             trace["body"] = json!(body);
-            if let Some(parent) = path.parent().filter(|p| !p.as_os_str().is_empty()) {
-                std::fs::create_dir_all(parent)?;
-            }
-            std::fs::write(path, serde_json::to_vec_pretty(&trace)?)?;
-        }
-        Ok(())
+            trace
+        })
     }
+}
+
+pub(crate) fn write_json(path: &Path, trace: &Value) -> Result<()> {
+    if let Some(parent) = path.parent().filter(|p| !p.as_os_str().is_empty()) {
+        std::fs::create_dir_all(parent)?;
+    }
+    std::fs::write(path, serde_json::to_vec_pretty(trace)?)?;
+    Ok(())
 }
 
 pub(crate) fn detection(d: &Detection) -> Value {

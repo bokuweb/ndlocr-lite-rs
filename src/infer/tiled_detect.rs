@@ -51,17 +51,31 @@ pub fn merge_tiled_detections(
             || (t[2] < width && b[2] >= t[2] as i32 - tol)
             || (t[3] < height && b[3] >= t[3] as i32 - tol)
     };
-    let kept: Vec<Detection> = tiles.into_iter().filter(|(d, t)| !touches_inner_edge(d, t)).map(|(d, _)| d).collect();
+    let kept: Vec<Detection> = tiles
+        .into_iter()
+        .filter(|(d, t)| !touches_inner_edge(d, t))
+        .map(|(d, _)| d)
+        .collect();
     // 2. 複数の行をつないだページ全体の枠を捨てる。中にあるタイルの検出のうち、互いに重ならないもの（別の行）が 2 つ以上あるとき
     // だけ。同じ行の断片（「公示送」「送達」「送」）は重なり合うので数えない。
-    let inside = |f: &Detection, t: &Detection| intersection(&f.box_xyxy, &t.box_xyxy) >= 0.8 * area(&t.box_xyxy) && area(&t.box_xyxy) < area(&f.box_xyxy);
+    let inside = |f: &Detection, t: &Detection| {
+        intersection(&f.box_xyxy, &t.box_xyxy) >= 0.8 * area(&t.box_xyxy)
+            && area(&t.box_xyxy) < area(&f.box_xyxy)
+    };
     let joins_lines = |f: &Detection| {
         let parts: Vec<&Detection> = kept.iter().filter(|t| inside(f, t)).collect();
-        parts.iter().enumerate().any(|(i, a)| parts[i + 1..].iter().any(|b| intersection(&a.box_xyxy, &b.box_xyxy) == 0.0))
+        parts.iter().enumerate().any(|(i, a)| {
+            parts[i + 1..]
+                .iter()
+                .any(|b| intersection(&a.box_xyxy, &b.box_xyxy) == 0.0)
+        })
     };
     let full: Vec<Detection> = full.into_iter().filter(|f| !joins_lines(f)).collect();
     // 3. 残ったページ全体の枠の中にほぼ収まるタイルの検出は、その行の断片なので捨てる。
-    let kept: Vec<Detection> = kept.into_iter().filter(|t| !full.iter().any(|f| inside(f, t))).collect();
+    let kept: Vec<Detection> = kept
+        .into_iter()
+        .filter(|t| !full.iter().any(|f| inside(f, t)))
+        .collect();
     // 4. 重なる組は確信度の高い方を残す。
     let mut all: Vec<Detection> = full.into_iter().chain(kept).collect();
     all.sort_by(|a, b| b.confidence.total_cmp(&a.confidence));
@@ -84,7 +98,13 @@ mod tests {
     use super::*;
 
     fn det(b: [i32; 4], c: f32) -> Detection {
-        Detection { class_index: 0, confidence: c, box_xyxy: b, pred_char_count: 0.0, class_name: "line_main".into() }
+        Detection {
+            class_index: 0,
+            confidence: c,
+            box_xyxy: b,
+            pred_char_count: 0.0,
+            class_name: "line_main".into(),
+        }
     }
 
     #[test]
@@ -103,7 +123,10 @@ mod tests {
     #[test]
     fn a_full_page_box_joining_two_lines_is_replaced_by_the_tile_lines() {
         let full = vec![det([0, 100, 700, 130], 0.9)];
-        let tiles = vec![(det([10, 100, 300, 130], 0.8), [0, 0, 450, 450]), (det([380, 100, 440, 130], 0.8), [0, 0, 450, 450])];
+        let tiles = vec![
+            (det([10, 100, 300, 130], 0.8), [0, 0, 450, 450]),
+            (det([380, 100, 440, 130], 0.8), [0, 0, 450, 450]),
+        ];
         let out = merge_tiled_detections(full, tiles, 800, 800);
         let mut boxes: Vec<[i32; 4]> = out.iter().map(|d| d.box_xyxy).collect();
         boxes.sort();
@@ -115,16 +138,26 @@ mod tests {
         let full = vec![det([100, 200, 700, 230], 0.9)];
         let tiles = vec![(det([100, 200, 450, 230], 0.95), [0, 0, 450, 450])];
         let out = merge_tiled_detections(full, tiles, 800, 800);
-        assert_eq!(out.iter().map(|d| d.box_xyxy).collect::<Vec<_>>(), vec![[100, 200, 700, 230]]);
+        assert_eq!(
+            out.iter().map(|d| d.box_xyxy).collect::<Vec<_>>(),
+            vec![[100, 200, 700, 230]]
+        );
     }
 
     #[test]
     fn overlapping_fragments_of_one_line_keep_the_full_page_box() {
         let full = vec![det([2297, 441, 2781, 479], 0.9)];
         let t = [1645, 0, 2741, 800];
-        let tiles = vec![(det([2297, 441, 2631, 474], 0.8), t), (det([2595, 441, 2700, 475], 0.8), t), (det([2595, 441, 2631, 474], 0.7), t)];
+        let tiles = vec![
+            (det([2297, 441, 2631, 474], 0.8), t),
+            (det([2595, 441, 2700, 475], 0.8), t),
+            (det([2595, 441, 2631, 474], 0.7), t),
+        ];
         let out = merge_tiled_detections(full, tiles, 3509, 2480);
-        assert_eq!(out.iter().map(|d| d.box_xyxy).collect::<Vec<_>>(), vec![[2297, 441, 2781, 479]]);
+        assert_eq!(
+            out.iter().map(|d| d.box_xyxy).collect::<Vec<_>>(),
+            vec![[2297, 441, 2781, 479]]
+        );
     }
 
     #[test]
@@ -132,7 +165,10 @@ mod tests {
         let full = vec![det([10, 10, 200, 40], 0.7)];
         let tiles = vec![(det([12, 11, 199, 40], 0.9), [0, 0, 450, 450])];
         let out = merge_tiled_detections(full, tiles, 800, 800);
-        assert_eq!(out.iter().map(|d| d.box_xyxy).collect::<Vec<_>>(), vec![[10, 10, 200, 40]]);
+        assert_eq!(
+            out.iter().map(|d| d.box_xyxy).collect::<Vec<_>>(),
+            vec![[10, 10, 200, 40]]
+        );
     }
 
     #[test]

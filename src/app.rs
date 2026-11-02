@@ -1,9 +1,7 @@
 use anyhow::{Result, bail};
-use std::path::Path;
+use std::path::{Path, PathBuf};
 
-#[cfg(feature = "onnx")]
-use crate::cli::RecognizePageArgs;
-use crate::cli::{Cli, Command, LineOrientation, MockPageArgs};
+use crate::cli::{Cli, Command, LineOrientation, MockPageArgs, RecognizePageArgs};
 #[cfg(feature = "onnx")]
 use crate::infer::cached::{ParseqPool, default_parseq_parallelism};
 use crate::infer::{deim, parseq};
@@ -16,6 +14,119 @@ use crate::pipeline::run_page::{PageInput, run_page};
 use crate::postprocess::dict::PostprocessDict;
 use crate::postprocess::page_rules::apply_structural_rules;
 use crate::postprocess::rule_pack::RulePack;
+
+/// Options for [`recognize_page_rgb_u8`]. [`Default`] matches the `recognize-page` CLI defaults.
+#[derive(Clone, Debug)]
+pub struct PageOptions {
+    pub det_model: PathBuf,
+    pub det_conf_threshold: f32,
+    pub use_deim_detection: bool,
+    pub detect_tiles: usize,
+    pub model: PathBuf,
+    pub model30: PathBuf,
+    pub model50: PathBuf,
+    pub charset: PathBuf,
+    pub line_crop_padding: u32,
+    pub binarize_threshold: u8,
+    pub min_line_confidence: f32,
+    pub enable_cascade: bool,
+    pub cascade_threshold_30_to_50: usize,
+    pub cascade_threshold_50_to_100: usize,
+    pub split_long_lines: bool,
+    pub split_long_line_char_threshold: usize,
+    pub quality_boost: bool,
+    pub quality_boost_min_delta: f32,
+    pub structure_rules: bool,
+    pub post_dict: Option<PostprocessDict>,
+    pub rule_pack: Option<RulePack>,
+    /// Build the `--trace-json` document in [`PageResult::trace`].
+    pub trace: bool,
+}
+
+impl Default for PageOptions {
+    fn default() -> Self {
+        use crate::cli::*;
+        Self {
+            det_model: DEFAULT_DETECT_MODEL_PATH.into(),
+            det_conf_threshold: 0.25,
+            use_deim_detection: true,
+            detect_tiles: 1,
+            model: DEFAULT_RECOGNIZE_MODEL_PATH.into(),
+            model30: DEFAULT_RECOGNIZE_MODEL30_PATH.into(),
+            model50: DEFAULT_RECOGNIZE_MODEL50_PATH.into(),
+            charset: DEFAULT_CHARSET_PATH.into(),
+            line_crop_padding: 0,
+            binarize_threshold: 220,
+            min_line_confidence: 0.30,
+            enable_cascade: true,
+            cascade_threshold_30_to_50: 25,
+            cascade_threshold_50_to_100: 45,
+            split_long_lines: true,
+            split_long_line_char_threshold: 80,
+            quality_boost: false,
+            quality_boost_min_delta: 0.03,
+            structure_rules: true,
+            post_dict: None,
+            rule_pack: None,
+            trace: false,
+        }
+    }
+}
+
+impl RecognizePageArgs {
+    /// The library options equivalent to these CLI arguments.
+    pub fn page_options(
+        &self,
+        post_dict: Option<PostprocessDict>,
+        rule_pack: Option<RulePack>,
+    ) -> PageOptions {
+        PageOptions {
+            det_model: self.det_model.clone(),
+            det_conf_threshold: self.det_conf_threshold,
+            use_deim_detection: self.use_deim_detection,
+            detect_tiles: self.detect_tiles,
+            model: self.model.clone(),
+            model30: self.model30.clone(),
+            model50: self.model50.clone(),
+            charset: self.charset.clone(),
+            line_crop_padding: self.line_crop_padding,
+            binarize_threshold: self.binarize_threshold,
+            min_line_confidence: self.min_line_confidence,
+            enable_cascade: self.enable_cascade,
+            cascade_threshold_30_to_50: self.cascade_threshold_30_to_50,
+            cascade_threshold_50_to_100: self.cascade_threshold_50_to_100,
+            split_long_lines: self.split_long_lines,
+            split_long_line_char_threshold: self.split_long_line_char_threshold,
+            quality_boost: self.quality_boost,
+            quality_boost_min_delta: self.quality_boost_min_delta,
+            structure_rules: self.structure_rules,
+            post_dict,
+            rule_pack,
+            trace: self.trace_json.is_some(),
+        }
+    }
+}
+
+/// Output of [`recognize_page_rgb_u8`].
+#[derive(Clone, Debug)]
+pub struct PageResult {
+    /// Final text lines in reading order (what `--output-docx` writes).
+    pub lines: Vec<String>,
+    /// `lines` joined by `\n` (what the CLI prints and `--output-txt` writes).
+    pub body: String,
+    /// The `--trace-json` document when [`PageOptions::trace`] is set:
+    /// `schema_version`, `width`, `height`, `settings`, `stages.*` and `body`.
+    pub trace: Option<serde_json::Value>,
+}
+
+impl PageResult {
+    /// The trace serialized exactly as `--trace-json` writes it.
+    pub fn trace_json(&self) -> Option<Vec<u8>> {
+        self.trace
+            .as_ref()
+            .map(|t| serde_json::to_vec_pretty(t).expect("trace values are always serializable"))
+    }
+}
 
 #[derive(Clone, Debug)]
 pub struct PreparedLineCrop {
@@ -314,22 +425,23 @@ impl CachedPageRecognizer {
         .unwrap()
     }
 
-    fn load(args: &RecognizePageArgs) -> Result<Self> {
+    fn load(options: &PageOptions) -> Result<Self> {
         let parallelism = default_parseq_parallelism();
-        let pool100 = ParseqPool::load_for_fragments(&args.model, &args.charset, parallelism)?;
-        let pool30 = if args.model30.is_file() {
+        let pool100 =
+            ParseqPool::load_for_fragments(&options.model, &options.charset, parallelism)?;
+        let pool30 = if options.model30.is_file() {
             Some(ParseqPool::load_for_fragments(
-                &args.model30,
-                &args.charset,
+                &options.model30,
+                &options.charset,
                 parallelism,
             )?)
         } else {
             None
         };
-        let pool50 = if args.model50.is_file() {
+        let pool50 = if options.model50.is_file() {
             Some(ParseqPool::load_for_fragments(
-                &args.model50,
-                &args.charset,
+                &options.model50,
+                &options.charset,
                 parallelism,
             )?)
         } else {
@@ -345,22 +457,22 @@ impl CachedPageRecognizer {
     fn recognize_for_page_batch(
         &self,
         crops: &[PreparedLineCrop],
-        args: &RecognizePageArgs,
+        options: &PageOptions,
     ) -> Result<Vec<parseq::RecognizeResult>> {
-        let recognized = self.recognize_initial_batch(crops, args)?;
-        self.finish_for_page_batch(crops, recognized, args)
+        let recognized = self.recognize_initial_batch(crops, options)?;
+        self.finish_for_page_batch(crops, recognized, options)
     }
 
     fn finish_for_page_batch(
         &self,
         crops: &[PreparedLineCrop],
         mut recognized: Vec<parseq::RecognizeResult>,
-        args: &RecognizePageArgs,
+        options: &PageOptions,
     ) -> Result<Vec<parseq::RecognizeResult>> {
         let bounds: Vec<_> = crops.iter().map(|line| line.bbox_xyxy).collect();
         let isolated = crate::infer::dense_line_recovery::isolated_recovery_regions(&bounds);
         for ((line, result), isolated) in crops.iter().zip(recognized.iter_mut()).zip(isolated) {
-            if args.enable_cascade
+            if options.enable_cascade
                 && self.pool30.is_some()
                 && normalize_pred_char_bucket(line.pred_char_count) == 3.0
                 && let Some(pool50) = self.pool50.as_ref()
@@ -384,22 +496,22 @@ impl CachedPageRecognizer {
                 &line.crop.data,
                 line.crop.width,
                 line.crop.height,
-                args.split_long_lines,
-                args.split_long_line_char_threshold,
+                options.split_long_lines,
+                options.split_long_line_char_threshold,
             )?;
             *result = self.maybe_rerank_line_quality(
                 after_split,
                 &line.crop.data,
                 line.crop.width,
                 line.crop.height,
-                args.quality_boost,
-                args.quality_boost_min_delta,
-                args.split_long_lines,
-                args.split_long_line_char_threshold,
-                args.cascade_threshold_30_to_50,
-                args.cascade_threshold_50_to_100,
+                options.quality_boost,
+                options.quality_boost_min_delta,
+                options.split_long_lines,
+                options.split_long_line_char_threshold,
+                options.cascade_threshold_30_to_50,
+                options.cascade_threshold_50_to_100,
             )?;
-            if args.split_long_lines
+            if options.split_long_lines
                 && isolated
                 && let Some(recovered) =
                     crate::infer::dense_line_recovery::recover_dense_horizontal_line(
@@ -420,12 +532,12 @@ impl CachedPageRecognizer {
     fn recognize_initial_batch(
         &self,
         crops: &[PreparedLineCrop],
-        args: &RecognizePageArgs,
+        options: &PageOptions,
     ) -> Result<Vec<parseq::RecognizeResult>> {
         if crops.is_empty() {
             return Ok(Vec::new());
         }
-        if !args.enable_cascade {
+        if !options.enable_cascade {
             let items: Vec<(usize, &PreparedLineCrop)> = crops.iter().enumerate().collect();
             return self
                 .recognize_batch_on_pool_or_100(None, &items)
@@ -462,16 +574,16 @@ impl CachedPageRecognizer {
         for (i, line) in crops.iter().enumerate() {
             let bucket = normalize_pred_char_bucket(line.pred_char_count);
             let len = all[i].as_ref().map(|r| r.text.chars().count()).unwrap_or(0);
-            if bucket == 3.0 && len >= args.cascade_threshold_30_to_50 {
+            if bucket == 3.0 && len >= options.cascade_threshold_30_to_50 {
                 redo50.push((i, line));
-            } else if bucket == 2.0 && len >= args.cascade_threshold_50_to_100 {
+            } else if bucket == 2.0 && len >= options.cascade_threshold_50_to_100 {
                 redo100.push((i, line));
             }
         }
 
         let mut redo50_to_100 = Vec::new();
         for (idx, result) in self.recognize_batch_on_pool_or_100(self.pool50.as_ref(), &redo50)? {
-            if result.text.chars().count() >= args.cascade_threshold_50_to_100 {
+            if result.text.chars().count() >= options.cascade_threshold_50_to_100 {
                 redo50_to_100.push((idx, &crops[idx]));
             } else {
                 all[idx] = Some(result);
@@ -641,29 +753,418 @@ impl CachedPageRecognizer {
 /// ページ全体の行検出 `full` に、`--detect-tiles` の格子の各タイルの検出を統合する（docs/tiled_detection.md）。
 /// タイルの検出に失敗したら、そのタイルは使わない。
 fn tiled_line_detections(
-    args: &crate::cli::RecognizePageArgs,
-    img: &crate::io::RgbImageData,
+    options: &PageOptions,
+    rgb: &[u8],
+    width: usize,
+    height: usize,
     full: Vec<deim::Detection>,
 ) -> Vec<deim::Detection> {
     use crate::infer::tiled_detect::{merge_tiled_detections, tile_rects};
     let mut tiles = Vec::new();
-    for t in tile_rects(img.width, img.height, args.detect_tiles) {
+    for t in tile_rects(width, height, options.detect_tiles) {
         let (w, h) = (t[2] - t[0], t[3] - t[1]);
         let mut crop = Vec::with_capacity(w * h * 3);
         for y in t[1]..t[3] {
-            let row = (y * img.width + t[0]) * 3;
-            crop.extend_from_slice(&img.data[row..row + w * 3]);
+            let row = (y * width + t[0]) * 3;
+            crop.extend_from_slice(&rgb[row..row + w * 3]);
         }
-        let Ok(dets) = deim::detect_rgb_u8(&args.det_model, &crop, w, h, args.det_conf_threshold) else {
+        let Ok(dets) =
+            deim::detect_rgb_u8(&options.det_model, &crop, w, h, options.det_conf_threshold)
+        else {
             continue;
         };
-        for mut d in dets.into_iter().filter(|d| d.class_name.starts_with("line_")) {
+        for mut d in dets
+            .into_iter()
+            .filter(|d| d.class_name.starts_with("line_"))
+        {
             let b = d.box_xyxy;
-            d.box_xyxy = [b[0] + t[0] as i32, b[1] + t[1] as i32, b[2] + t[0] as i32, b[3] + t[1] as i32];
+            d.box_xyxy = [
+                b[0] + t[0] as i32,
+                b[1] + t[1] as i32,
+                b[2] + t[0] as i32,
+                b[3] + t[1] as i32,
+            ];
             tiles.push((d, t));
         }
     }
-    merge_tiled_detections(full, tiles, img.width, img.height)
+    merge_tiled_detections(full, tiles, width, height)
+}
+
+/// Recognize one page held as 8-bit RGB pixels (row-major, `width * height * 3` bytes).
+///
+/// This is the body of `recognize-page`: the CLI only loads the image and the
+/// optional dictionaries, calls this function and writes [`PageResult`].
+/// Models are loaded from the paths in `options` on every call, like the CLI.
+pub fn recognize_page_rgb_u8(
+    rgb: &[u8],
+    width: usize,
+    height: usize,
+    options: &PageOptions,
+) -> Result<PageResult> {
+    if width.checked_mul(height).and_then(|n| n.checked_mul(3)) != Some(rgb.len()) {
+        bail!(
+            "rgb buffer length {} does not match {width}x{height}x3",
+            rgb.len()
+        );
+    }
+    let mut data = std::borrow::Cow::Borrowed(rgb);
+    let mut trace = crate::app_trace::PageTrace::new(options.trace, width, height, || {
+        serde_json::json!({
+            "det_conf_threshold": options.det_conf_threshold,
+            "min_line_confidence": options.min_line_confidence,
+            "use_deim_detection": options.use_deim_detection,
+            "binarize_threshold": options.binarize_threshold,
+            "quality_boost": options.quality_boost,
+            "structure_rules": options.structure_rules,
+        })
+    });
+    let mut detection_status = "disabled".to_string();
+    let deim_lines = if options.use_deim_detection {
+        detection_status = "ok".to_string();
+        match deim::detect_rgb_u8(
+            &options.det_model,
+            &data,
+            width,
+            height,
+            options.det_conf_threshold,
+        ) {
+            Ok(dets) => {
+                let full = dets
+                    .into_iter()
+                    .filter(|d| d.class_name.starts_with("line_"))
+                    .collect::<Vec<_>>();
+                if options.detect_tiles > 1 {
+                    tiled_line_detections(options, rgb, width, height, full)
+                } else {
+                    full
+                }
+            }
+            Err(err) => {
+                detection_status = format!("error: {err}");
+                eprintln!("warn: deim detection failed, fallback to threshold bands: {err}");
+                Vec::new()
+            }
+        }
+    } else {
+        Vec::new()
+    };
+    let (mut chosen_lines, selection_reason) = prepare_page_line_detections(
+        &data,
+        width,
+        height,
+        deim_lines.clone(),
+        options.binarize_threshold,
+        options.cascade_threshold_30_to_50,
+        options.cascade_threshold_50_to_100,
+    );
+    let using_fallback = selection_reason != "deim";
+    trace.record("detection", || {
+        serde_json::json!({
+            "status": detection_status, "using_fallback": using_fallback, "selection_reason": selection_reason,
+            "lines": deim_lines.iter().map(crate::app_trace::detection).collect::<Vec<_>>(),
+        })
+    });
+    if using_fallback {
+        // 検出と認識で同じ画素を使い、色背景だけを本文と取り違えない。
+        if let std::borrow::Cow::Owned(prepared) =
+            crate::pipeline::background::normalize_chromatic_panels(&data, width, height)
+                .map_err(anyhow::Error::msg)?
+        {
+            data = std::borrow::Cow::Owned(prepared);
+            chosen_lines = fallback_line_detections_from_bands(
+                &data,
+                width,
+                height,
+                options.binarize_threshold,
+                options.cascade_threshold_30_to_50,
+                options.cascade_threshold_50_to_100,
+            );
+        }
+    }
+    let columns = if using_fallback {
+        crate::pipeline::horizontal_columns::detect(
+            &data,
+            width,
+            height,
+            options.binarize_threshold,
+        )
+    } else {
+        Vec::new()
+    };
+    #[cfg(feature = "onnx")]
+    let cached_parseq = CachedPageRecognizer::load(options)?;
+    #[cfg(feature = "onnx")]
+    let accepted_vertical = vertical_fallback::try_prepared_if_empty(
+        !using_fallback,
+        &data,
+        (width, height),
+        vertical_fallback::Options {
+            minimum_confidence: options.min_line_confidence,
+            padding: options.line_crop_padding as usize,
+        },
+        (
+            options.cascade_threshold_30_to_50,
+            options.cascade_threshold_50_to_100,
+        ),
+        |line| {
+            let mut results =
+                cached_parseq.recognize_initial_batch(std::slice::from_ref(line), options)?;
+            if results.len() != 1 {
+                bail!(
+                    "vertical CLI fallback expected one result, got {}",
+                    results.len()
+                );
+            }
+            Ok(results.remove(0))
+        },
+    );
+    #[cfg(feature = "onnx")]
+    trace.record("vertical_fallback_accepted", || {
+        serde_json::json!(accepted_vertical.is_some())
+    });
+    let prepare_legacy = || -> Result<Vec<PreparedLineCrop>> {
+        let mut fallback_audit = Vec::new();
+        let line_detections = if using_fallback {
+            chosen_lines
+                .into_iter()
+                .filter(|line| {
+                    // Keep feature-disabled errors reachable in builds without inference.
+                    let accepted = !cfg!(feature = "onnx")
+                        || crate::pipeline::band_text_support::has_text_like_ink(
+                            &data,
+                            width,
+                            height,
+                            line.box_xyxy,
+                            options.binarize_threshold,
+                        );
+                    if options.trace {
+                        fallback_audit.push((line.clone(), accepted));
+                    }
+                    accepted
+                })
+                .collect()
+        } else {
+            chosen_lines
+        };
+        trace.record("fallback_bands", || {
+            serde_json::json!(
+                fallback_audit
+                    .iter()
+                    .map(|(d, keep)| {
+                        let mut value = crate::app_trace::detection(d);
+                        value["decision"] = serde_json::json!(if *keep {
+                            "accepted"
+                        } else {
+                            "no_text_like_ink"
+                        });
+                        value
+                    })
+                    .collect::<Vec<_>>()
+            )
+        });
+        trace.regions(
+            &line_detections,
+            &data,
+            width,
+            height,
+            options.line_crop_padding as usize,
+        );
+        prepare_line_crops(
+            &data,
+            width,
+            height,
+            line_detections,
+            options.line_crop_padding as usize,
+        )
+    };
+    #[cfg(feature = "onnx")]
+    let (prepared, recognized_results) = vertical_fallback::reuse_or_legacy(
+        accepted_vertical,
+        |crops, results| cached_parseq.finish_for_page_batch(crops, results, options),
+        || {
+            let prepared = prepare_legacy()?;
+            let recognized = cached_parseq.recognize_for_page_batch(&prepared, options)?;
+            Ok((prepared, recognized))
+        },
+    )?;
+    #[cfg(not(feature = "onnx"))]
+    let prepared = prepare_legacy()?;
+    #[cfg(not(feature = "onnx"))]
+    let recognized_results: Vec<parseq::RecognizeResult> = {
+        let mut out = Vec::with_capacity(prepared.len());
+        for line in &prepared {
+            let recognized = recognize_line_with_optional_cascade(
+                &options.model,
+                &options.model30,
+                &options.model50,
+                options.enable_cascade,
+                options.cascade_threshold_30_to_50,
+                options.cascade_threshold_50_to_100,
+                Some(line.pred_char_count),
+                &line.crop.data,
+                line.crop.width,
+                line.crop.height,
+                &options.charset,
+            )?;
+            let recognized = maybe_split_long_line_and_recognize(
+                recognized,
+                &options.model,
+                &line.crop.data,
+                line.crop.width,
+                line.crop.height,
+                &options.charset,
+                options.split_long_lines,
+                options.split_long_line_char_threshold,
+            )?;
+            out.push(maybe_rerank_line_quality(
+                recognized,
+                &options.model,
+                &options.model30,
+                &options.model50,
+                &line.crop.data,
+                line.crop.width,
+                line.crop.height,
+                &options.charset,
+                options.quality_boost,
+                options.quality_boost_min_delta,
+                options.split_long_lines,
+                options.split_long_line_char_threshold,
+                options.cascade_threshold_30_to_50,
+                options.cascade_threshold_50_to_100,
+            )?);
+        }
+        out
+    };
+    trace.record("prepared", || {
+        serde_json::json!(
+            prepared
+                .iter()
+                .map(|line| serde_json::json!({
+                    "bbox": line.bbox_xyxy, "confidence": line.confidence,
+                    "pred_char_count": line.pred_char_count, "is_vertical": line.is_vertical,
+                }))
+                .collect::<Vec<_>>()
+        )
+    });
+    trace.record("recognized", || serde_json::json!(prepared.iter().zip(&recognized_results).map(|(line, result)| serde_json::json!({
+        "bbox": line.bbox_xyxy, "text": result.text, "confidence": result.mean_confidence,
+        "decision": if result.mean_confidence < options.min_line_confidence { "low_confidence" }
+            else if result.text.trim().is_empty() { "empty" } else { "accepted" },
+    })).collect::<Vec<_>>()));
+    let mut recognized_lines = Vec::new();
+    for (line, recognized) in prepared.iter().zip(recognized_results) {
+        if recognized.mean_confidence >= options.min_line_confidence
+            && !recognized.text.trim().is_empty()
+        {
+            recognized_lines.push(RecognizedLine {
+                bbox_xyxy: line.bbox_xyxy,
+                text: recognized.text,
+                confidence: recognized.mean_confidence,
+                is_vertical: line.is_vertical,
+            });
+        }
+    }
+    trace.lines("confidence_filter", &recognized_lines);
+    #[cfg(feature = "onnx")]
+    {
+        let scored: Vec<_> = recognized_lines
+            .iter()
+            .map(|line| crate::pipeline::line_context::ScoredRegion {
+                bounds: line.bbox_xyxy,
+                text: &line.text,
+                mean_confidence: line.confidence,
+            })
+            .collect();
+        let keep = crate::pipeline::line_context::select_contexts(
+            &scored,
+            cached_parseq.context_input_dimensions(),
+        );
+        let mut keep = keep.into_iter().peekable();
+        recognized_lines = recognized_lines
+            .into_iter()
+            .enumerate()
+            .filter_map(|(i, line)| {
+                if keep.peek() == Some(&i) {
+                    keep.next();
+                    Some(line)
+                } else {
+                    None
+                }
+            })
+            .collect();
+    }
+    trace.lines("context_selection", &recognized_lines);
+    #[cfg(feature = "onnx")]
+    {
+        let scored: Vec<_> = recognized_lines
+            .iter()
+            .map(|line| crate::pipeline::line_context::ScoredRegion {
+                bounds: line.bbox_xyxy,
+                text: &line.text,
+                mean_confidence: line.confidence,
+            })
+            .collect();
+        if let Some(context) = crate::infer::missing_line_context::recover_missing_line_context(
+            &scored,
+            &data,
+            width,
+            height,
+            cached_parseq.pool100.input_dimensions(),
+            |data, w, h| {
+                cached_parseq
+                    .pool100
+                    .recognize_horizontal_rgb_u8(data, w, h)
+            },
+        ) {
+            recognized_lines = vec![RecognizedLine {
+                bbox_xyxy: context.bounds,
+                text: context.recognized.text,
+                confidence: context.recognized.mean_confidence,
+                is_vertical: false,
+            }];
+        }
+    }
+    trace.lines("missing_context", &recognized_lines);
+    if let Some(dict) = options.post_dict.as_ref() {
+        for line in &mut recognized_lines {
+            line.text = dict.apply(&line.text);
+        }
+    }
+    trace.record("horizontal_columns", || {
+        serde_json::json!(columns.iter().map(|c| [c.x0, c.x1]).collect::<Vec<_>>())
+    });
+    crate::pipeline::horizontal_columns::sort(&mut recognized_lines, &columns);
+    trace.lines("reading_order", &recognized_lines);
+    let mut lines: Vec<String> = recognized_lines.into_iter().map(|l| l.text).collect();
+    if options.structure_rules {
+        lines = apply_structural_rules(&lines);
+    }
+    if let Some(pack) = options.rule_pack.as_ref() {
+        lines = pack.apply(&lines);
+    }
+    let body = lines.join("\n");
+    let trace = trace.finish(&body);
+    Ok(PageResult { lines, body, trace })
+}
+
+/// Recognize one page held as 8-bit grayscale pixels (`width * height` bytes).
+///
+/// Each gray value is copied to R, G and B, which is what the CLI does when it
+/// opens a grayscale PNG, so the result equals `recognize-page` on that PNG.
+pub fn recognize_page_gray_u8(
+    gray: &[u8],
+    width: usize,
+    height: usize,
+    options: &PageOptions,
+) -> Result<PageResult> {
+    if width.checked_mul(height) != Some(gray.len()) {
+        bail!(
+            "gray buffer length {} does not match {width}x{height}",
+            gray.len()
+        );
+    }
+    let rgb: Vec<u8> = gray.iter().flat_map(|&v| [v, v, v]).collect();
+    recognize_page_rgb_u8(&rgb, width, height, options)
 }
 
 pub fn run_cli(cli: Cli) -> Result<()> {
@@ -687,361 +1188,24 @@ pub fn run_cli(cli: Cli) -> Result<()> {
             } else {
                 None
             };
-            let mut img = crate::io::load_rgb_u8(&args.image)?;
-            let mut trace = crate::app_trace::PageTrace::new(
-                args.trace_json.is_some(),
-                img.width,
-                img.height,
-                || {
-                    serde_json::json!({
-                        "det_conf_threshold": args.det_conf_threshold,
-                        "min_line_confidence": args.min_line_confidence,
-                        "use_deim_detection": args.use_deim_detection,
-                        "binarize_threshold": args.binarize_threshold,
-                        "quality_boost": args.quality_boost,
-                        "structure_rules": args.structure_rules,
-                    })
-                },
-            );
-            let mut detection_status = "disabled".to_string();
-            let deim_lines = if args.use_deim_detection {
-                detection_status = "ok".to_string();
-                match deim::detect_rgb_u8(
-                    &args.det_model,
-                    &img.data,
-                    img.width,
-                    img.height,
-                    args.det_conf_threshold,
-                ) {
-                    Ok(dets) => {
-                        let full = dets
-                            .into_iter()
-                            .filter(|d| d.class_name.starts_with("line_"))
-                            .collect::<Vec<_>>();
-                        if args.detect_tiles > 1 {
-                            tiled_line_detections(&args, &img, full)
-                        } else {
-                            full
-                        }
-                    }
-                    Err(err) => {
-                        detection_status = format!("error: {err}");
-                        eprintln!(
-                            "warn: deim detection failed, fallback to threshold bands: {err}"
-                        );
-                        Vec::new()
-                    }
-                }
-            } else {
-                Vec::new()
-            };
-            let (mut chosen_lines, selection_reason) = prepare_page_line_detections(
-                &img.data,
-                img.width,
-                img.height,
-                deim_lines.clone(),
-                args.binarize_threshold,
-                args.cascade_threshold_30_to_50,
-                args.cascade_threshold_50_to_100,
-            );
-            let using_fallback = selection_reason != "deim";
-            trace.record("detection", || {
-                serde_json::json!({
-                    "status": detection_status, "using_fallback": using_fallback, "selection_reason": selection_reason,
-                    "lines": deim_lines.iter().map(crate::app_trace::detection).collect::<Vec<_>>(),
-                })
-            });
-            if using_fallback {
-                // 検出と認識で同じ画素を使い、色背景だけを本文と取り違えない。
-                if let std::borrow::Cow::Owned(prepared) =
-                    crate::pipeline::background::normalize_chromatic_panels(
-                        &img.data, img.width, img.height,
-                    )
-                    .map_err(anyhow::Error::msg)?
-                {
-                    img.data = prepared;
-                    chosen_lines = fallback_line_detections_from_bands(
-                        &img.data,
-                        img.width,
-                        img.height,
-                        args.binarize_threshold,
-                        args.cascade_threshold_30_to_50,
-                        args.cascade_threshold_50_to_100,
-                    );
-                }
-            }
-            let columns = if using_fallback {
-                crate::pipeline::horizontal_columns::detect(
-                    &img.data,
-                    img.width,
-                    img.height,
-                    args.binarize_threshold,
-                )
-            } else {
-                Vec::new()
-            };
-            #[cfg(feature = "onnx")]
-            let cached_parseq = CachedPageRecognizer::load(&args)?;
-            #[cfg(feature = "onnx")]
-            let accepted_vertical = vertical_fallback::try_prepared_if_empty(
-                !using_fallback,
-                &img.data,
-                (img.width, img.height),
-                vertical_fallback::Options {
-                    minimum_confidence: args.min_line_confidence,
-                    padding: args.line_crop_padding as usize,
-                },
-                (
-                    args.cascade_threshold_30_to_50,
-                    args.cascade_threshold_50_to_100,
-                ),
-                |line| {
-                    let mut results =
-                        cached_parseq.recognize_initial_batch(std::slice::from_ref(line), &args)?;
-                    if results.len() != 1 {
-                        bail!(
-                            "vertical CLI fallback expected one result, got {}",
-                            results.len()
-                        );
-                    }
-                    Ok(results.remove(0))
-                },
-            );
-            #[cfg(feature = "onnx")]
-            trace.record("vertical_fallback_accepted", || {
-                serde_json::json!(accepted_vertical.is_some())
-            });
-            let prepare_legacy = || -> Result<Vec<PreparedLineCrop>> {
-                let mut fallback_audit = Vec::new();
-                let line_detections = if using_fallback {
-                    chosen_lines
-                        .into_iter()
-                        .filter(|line| {
-                            // Keep feature-disabled errors reachable in builds without inference.
-                            let accepted = !cfg!(feature = "onnx")
-                                || crate::pipeline::band_text_support::has_text_like_ink(
-                                    &img.data,
-                                    img.width,
-                                    img.height,
-                                    line.box_xyxy,
-                                    args.binarize_threshold,
-                                );
-                            if args.trace_json.is_some() {
-                                fallback_audit.push((line.clone(), accepted));
-                            }
-                            accepted
-                        })
-                        .collect()
-                } else {
-                    chosen_lines
-                };
-                trace.record("fallback_bands", || {
-                    serde_json::json!(
-                        fallback_audit
-                            .iter()
-                            .map(|(d, keep)| {
-                                let mut value = crate::app_trace::detection(d);
-                                value["decision"] = serde_json::json!(if *keep {
-                                    "accepted"
-                                } else {
-                                    "no_text_like_ink"
-                                });
-                                value
-                            })
-                            .collect::<Vec<_>>()
-                    )
-                });
-                trace.regions(
-                    &line_detections,
-                    &img.data,
-                    img.width,
-                    img.height,
-                    args.line_crop_padding as usize,
-                );
-                prepare_line_crops(
-                    &img.data,
-                    img.width,
-                    img.height,
-                    line_detections,
-                    args.line_crop_padding as usize,
-                )
-            };
-            #[cfg(feature = "onnx")]
-            let (prepared, recognized_results) = vertical_fallback::reuse_or_legacy(
-                accepted_vertical,
-                |crops, results| cached_parseq.finish_for_page_batch(crops, results, &args),
-                || {
-                    let prepared = prepare_legacy()?;
-                    let recognized = cached_parseq.recognize_for_page_batch(&prepared, &args)?;
-                    Ok((prepared, recognized))
-                },
-            )?;
-            #[cfg(not(feature = "onnx"))]
-            let prepared = prepare_legacy()?;
-            #[cfg(not(feature = "onnx"))]
-            let recognized_results: Vec<parseq::RecognizeResult> = {
-                let mut out = Vec::with_capacity(prepared.len());
-                for line in &prepared {
-                    let recognized = recognize_line_with_optional_cascade(
-                        &args.model,
-                        &args.model30,
-                        &args.model50,
-                        args.enable_cascade,
-                        args.cascade_threshold_30_to_50,
-                        args.cascade_threshold_50_to_100,
-                        Some(line.pred_char_count),
-                        &line.crop.data,
-                        line.crop.width,
-                        line.crop.height,
-                        &args.charset,
-                    )?;
-                    let recognized = maybe_split_long_line_and_recognize(
-                        recognized,
-                        &args.model,
-                        &line.crop.data,
-                        line.crop.width,
-                        line.crop.height,
-                        &args.charset,
-                        args.split_long_lines,
-                        args.split_long_line_char_threshold,
-                    )?;
-                    out.push(maybe_rerank_line_quality(
-                        recognized,
-                        &args.model,
-                        &args.model30,
-                        &args.model50,
-                        &line.crop.data,
-                        line.crop.width,
-                        line.crop.height,
-                        &args.charset,
-                        args.quality_boost,
-                        args.quality_boost_min_delta,
-                        args.split_long_lines,
-                        args.split_long_line_char_threshold,
-                        args.cascade_threshold_30_to_50,
-                        args.cascade_threshold_50_to_100,
-                    )?);
-                }
-                out
-            };
-            trace.record("prepared", || {
-                serde_json::json!(prepared.iter().map(|line| serde_json::json!({
-                "bbox": line.bbox_xyxy, "confidence": line.confidence,
-                "pred_char_count": line.pred_char_count, "is_vertical": line.is_vertical,
-            })).collect::<Vec<_>>())
-            });
-            trace.record("recognized", || serde_json::json!(prepared.iter().zip(&recognized_results).map(|(line, result)| serde_json::json!({
-                "bbox": line.bbox_xyxy, "text": result.text, "confidence": result.mean_confidence,
-                "decision": if result.mean_confidence < args.min_line_confidence { "low_confidence" }
-                    else if result.text.trim().is_empty() { "empty" } else { "accepted" },
-            })).collect::<Vec<_>>()));
-            let mut recognized_lines = Vec::new();
-            for (line, recognized) in prepared.iter().zip(recognized_results) {
-                if recognized.mean_confidence >= args.min_line_confidence
-                    && !recognized.text.trim().is_empty()
-                {
-                    recognized_lines.push(RecognizedLine {
-                        bbox_xyxy: line.bbox_xyxy,
-                        text: recognized.text,
-                        confidence: recognized.mean_confidence,
-                        is_vertical: line.is_vertical,
-                    });
-                }
-            }
-            trace.lines("confidence_filter", &recognized_lines);
-            #[cfg(feature = "onnx")]
-            {
-                let scored: Vec<_> = recognized_lines
-                    .iter()
-                    .map(|line| crate::pipeline::line_context::ScoredRegion {
-                        bounds: line.bbox_xyxy,
-                        text: &line.text,
-                        mean_confidence: line.confidence,
-                    })
-                    .collect();
-                let keep = crate::pipeline::line_context::select_contexts(
-                    &scored,
-                    cached_parseq.context_input_dimensions(),
-                );
-                let mut keep = keep.into_iter().peekable();
-                recognized_lines = recognized_lines
-                    .into_iter()
-                    .enumerate()
-                    .filter_map(|(i, line)| {
-                        if keep.peek() == Some(&i) {
-                            keep.next();
-                            Some(line)
-                        } else {
-                            None
-                        }
-                    })
-                    .collect();
-            }
-            trace.lines("context_selection", &recognized_lines);
-            #[cfg(feature = "onnx")]
-            {
-                let scored: Vec<_> = recognized_lines
-                    .iter()
-                    .map(|line| crate::pipeline::line_context::ScoredRegion {
-                        bounds: line.bbox_xyxy,
-                        text: &line.text,
-                        mean_confidence: line.confidence,
-                    })
-                    .collect();
-                if let Some(context) =
-                    crate::infer::missing_line_context::recover_missing_line_context(
-                        &scored,
-                        &img.data,
-                        img.width,
-                        img.height,
-                        cached_parseq.pool100.input_dimensions(),
-                        |data, w, h| {
-                            cached_parseq
-                                .pool100
-                                .recognize_horizontal_rgb_u8(data, w, h)
-                        },
-                    )
-                {
-                    recognized_lines = vec![RecognizedLine {
-                        bbox_xyxy: context.bounds,
-                        text: context.recognized.text,
-                        confidence: context.recognized.mean_confidence,
-                        is_vertical: false,
-                    }];
-                }
-            }
-            trace.lines("missing_context", &recognized_lines);
-            if let Some(dict) = post_dict.as_ref() {
-                for line in &mut recognized_lines {
-                    line.text = dict.apply(&line.text);
-                }
-            }
-            trace.record("horizontal_columns", || {
-                serde_json::json!(columns.iter().map(|c| [c.x0, c.x1]).collect::<Vec<_>>())
-            });
-            crate::pipeline::horizontal_columns::sort(&mut recognized_lines, &columns);
-            trace.lines("reading_order", &recognized_lines);
-            let mut lines: Vec<String> = recognized_lines.into_iter().map(|l| l.text).collect();
-            if args.structure_rules {
-                lines = apply_structural_rules(&lines);
-            }
-            if let Some(pack) = rule_pack.as_ref() {
-                lines = pack.apply(&lines);
-            }
-            let body = lines.join("\n");
+            let img = crate::io::load_rgb_u8(&args.image)?;
+            let options = args.page_options(post_dict, rule_pack);
+            let page = recognize_page_rgb_u8(&img.data, img.width, img.height, &options)?;
             if let Some(path) = args.output_txt.as_ref() {
                 if let Some(parent) = path.parent()
                     && !parent.as_os_str().is_empty()
                 {
                     std::fs::create_dir_all(parent)?;
                 }
-                std::fs::write(path, &body)?;
+                std::fs::write(path, &page.body)?;
             }
             if let Some(path) = args.output_docx.as_ref() {
-                save_text_as_docx(&lines, path)?;
+                save_text_as_docx(&page.lines, path)?;
             }
-            trace.save(args.trace_json.as_deref(), &body)?;
-            println!("{body}");
+            if let (Some(path), Some(trace)) = (args.trace_json.as_ref(), page.trace.as_ref()) {
+                crate::app_trace::write_json(path, trace)?;
+            }
+            println!("{}", page.body);
         }
         Command::MockPage(args) => {
             let img = crate::io::load_rgb_u8(&args.image)?;

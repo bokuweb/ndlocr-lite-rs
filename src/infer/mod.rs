@@ -1,8 +1,8 @@
 pub mod deim;
-/// タイル分割の行検出の統合（opt-in、`docs/tiled_detection.md`）。
-pub mod tiled_detect;
 pub mod parseq;
 mod preprocess;
+/// タイル分割の行検出の統合（opt-in、`docs/tiled_detection.md`）。
+pub mod tiled_detect;
 
 #[cfg(feature = "onnx")]
 pub mod cached;
