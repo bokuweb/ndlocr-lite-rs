@@ -82,3 +82,6 @@ harness = false
 [target.'cfg(target_arch = "wasm32")'.dependencies]
 wasm-bindgen = { version = "=0.2.121", optional = true }
 js-sys = { version = "0.3", optional = true }
+
+# Keep consumer-side source checkouts independent of any enclosing Cargo workspace.
+[workspace]

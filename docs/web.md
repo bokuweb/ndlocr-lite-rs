@@ -84,3 +84,7 @@ Generated files: `ndlocr.js`, `ndlocr.d.ts`, `ocr.worker.js`, `ort.worker.js`,
 `ndlocr_wasm_bg.wasm`, `ort-wasm-simd-threaded.mjs`,
 `ort-wasm-simd-threaded.wasm`, `onnxruntime-LICENSE`. Both ORT runtime assets are
 bundled from the same pinned npm package as its JS. Models are separate.
+
+The source package declares its own Cargo workspace so a consumer may fetch it
+under its own target directory. The nested-workspace regression reproduces CI
+without relying on a target symlink escaping the consumer workspace.

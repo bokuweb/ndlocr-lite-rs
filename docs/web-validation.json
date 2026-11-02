@@ -39,7 +39,7 @@
   "tests": {
     "default_passed": 854,
     "real_model_passed": 813,
-    "js_passed": 8
+    "js_passed": 9
   },
   "consumer": {
     "subpath": "/sub/",
