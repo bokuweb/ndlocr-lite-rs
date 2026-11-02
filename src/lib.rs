@@ -1,4 +1,5 @@
 pub mod app;
+pub use app::{PageOptions, PageResult, recognize_page_gray_u8, recognize_page_rgb_u8};
 mod app_trace;
 pub mod cascade;
 pub mod cli;

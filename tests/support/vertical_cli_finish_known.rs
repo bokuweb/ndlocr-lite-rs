@@ -41,31 +41,32 @@ fn accepted_vertical_finishes_like_existing_page_batch_with_quality_options() {
         "false",
     ])
     .unwrap();
-    let Command::RecognizePage(mut args) = cli.command else {
+    let Command::RecognizePage(args) = cli.command else {
         panic!("wrong CLI command")
     };
     let image = crate::io::load_rgb_u8(&args.image).unwrap();
-    let cached = CachedPageRecognizer::load(&args).unwrap();
+    let mut options = args.page_options(None, None);
+    let cached = CachedPageRecognizer::load(&options).unwrap();
     let mut records = Vec::new();
     let mut option_changed_initial = false;
     for (quality, delta) in [(false, 0.03), (true, 0.03), (true, -100.0)] {
-        args.quality_boost = quality;
-        args.quality_boost_min_delta = delta;
+        options.quality_boost = quality;
+        options.quality_boost_min_delta = delta;
         let accepted = vertical_fallback::try_prepared_if_empty(
             false,
             &image.data,
             (image.width, image.height),
             vertical_fallback::Options {
-                minimum_confidence: args.min_line_confidence,
-                padding: args.line_crop_padding as usize,
+                minimum_confidence: options.min_line_confidence,
+                padding: options.line_crop_padding as usize,
             },
             (
-                args.cascade_threshold_30_to_50,
-                args.cascade_threshold_50_to_100,
+                options.cascade_threshold_30_to_50,
+                options.cascade_threshold_50_to_100,
             ),
             |line| {
                 let mut results =
-                    cached.recognize_initial_batch(std::slice::from_ref(line), &args)?;
+                    cached.recognize_initial_batch(std::slice::from_ref(line), &options)?;
                 assert_eq!(results.len(), 1);
                 Ok(results.remove(0))
             },
@@ -74,11 +75,11 @@ fn accepted_vertical_finishes_like_existing_page_batch_with_quality_options() {
         let line = accepted.0.clone();
         let initial = accepted.1.clone();
         let expected = cached
-            .recognize_for_page_batch(std::slice::from_ref(&line), &args)
+            .recognize_for_page_batch(std::slice::from_ref(&line), &options)
             .unwrap();
         let (crops, actual) = vertical_fallback::reuse_or_legacy(
             Some(accepted),
-            |crops, results| cached.finish_for_page_batch(crops, results, &args),
+            |crops, results| cached.finish_for_page_batch(crops, results, &options),
             || panic!("known accepted column must not use legacy"),
         )
         .unwrap();
