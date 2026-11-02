@@ -429,7 +429,7 @@ impl CachedPageRecognizer {
         let parallelism = default_parseq_parallelism();
         let pool100 =
             ParseqPool::load_for_fragments(&options.model, &options.charset, parallelism)?;
-        let pool30 = if options.model30.is_file() {
+        let pool30 = if crate::infer::backend::backend().is_file(&options.model30) {
             Some(ParseqPool::load_for_fragments(
                 &options.model30,
                 &options.charset,
@@ -438,7 +438,7 @@ impl CachedPageRecognizer {
         } else {
             None
         };
-        let pool50 = if options.model50.is_file() {
+        let pool50 = if crate::infer::backend::backend().is_file(&options.model50) {
             Some(ParseqPool::load_for_fragments(
                 &options.model50,
                 &options.charset,
@@ -1281,8 +1281,16 @@ fn recognize_line_with_optional_cascade(
     }
 
     // Fallback to the 100-model when cascade models are unavailable.
-    let model30 = if model30.is_file() { model30 } else { model100 };
-    let model50 = if model50.is_file() { model50 } else { model100 };
+    let model30 = if crate::infer::backend::backend().is_file(&model30) {
+        model30
+    } else {
+        model100
+    };
+    let model50 = if crate::infer::backend::backend().is_file(&model50) {
+        model50
+    } else {
+        model100
+    };
     let pred_char_bucket = pred_char_count_hint
         .map(normalize_pred_char_bucket)
         .unwrap_or_else(|| estimate_pred_char_bucket(width, height, th_30_to_50, th_50_to_100));
@@ -1423,7 +1431,7 @@ fn maybe_rerank_line_quality(
         estimate_pred_char_bucket(width, height, cascade_th_30_to_50, cascade_th_50_to_100);
 
     // 短い行（256 系モデル向け）: カスケードが 50/100 に振り替わったあとも 30 単体がマシな場合がある。
-    if bucket == 3.0 && model30.is_file() {
+    if bucket == 3.0 && crate::infer::backend::backend().is_file(&model30) {
         let direct30 = parseq::recognize_rgb_u8_with_score(model30, rgb, width, height, charset)?;
         let direct30_score = quality_score(&direct30.text, direct30.mean_confidence);
         if direct30_score > best_score + quality_boost_min_delta {
@@ -1433,7 +1441,7 @@ fn maybe_rerank_line_quality(
     }
 
     // 中幅行（384 系モデル向け）: カスケードが 100 に振り替わったあとも 50 単体がマシな場合がある。
-    if bucket == 2.0 && model50.is_file() {
+    if bucket == 2.0 && crate::infer::backend::backend().is_file(&model50) {
         let direct50 = parseq::recognize_rgb_u8_with_score(model50, rgb, width, height, charset)?;
         let direct50_score = quality_score(&direct50.text, direct50.mean_confidence);
         if direct50_score > best_score + quality_boost_min_delta {

@@ -19,3 +19,6 @@ regressions and the preserved 34-run/165-output CLI comparison must pass.
 The mock backend must exercise virtual charset/model loading, f32 image inputs,
 i64 DEIM sizes/labels/counts, dynamic metadata and borrowed outputs through the
 actual cached sessions. This is the interface the browser backend will implement.
+
+Virtual files also control optional page cascade model selection and all single-line
+RGB APIs. A browser must load the 30/50 models even though no local filesystem exists.

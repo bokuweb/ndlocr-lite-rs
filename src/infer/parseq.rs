@@ -1,7 +1,7 @@
+use super::backend::backend;
 use super::preprocess::{checked_tensor_len, zeroed_tensor};
 use crate::io;
 use anyhow::{Context, Result, bail};
-use std::fs;
 use std::path::Path;
 
 mod candidates;
@@ -536,10 +536,11 @@ pub fn load_charset_from_yaml_str(yaml_body: &str) -> Result<Vec<char>> {
 }
 
 pub fn smoke_recognize(model_path: &Path, image_path: &Path, charset_path: &Path) -> Result<()> {
-    if !image_path.is_file() || !model_path.is_file() || !charset_path.is_file() {
+    if !image_path.is_file() || !backend().is_file(model_path) || !backend().is_file(charset_path) {
         bail!("file not found");
     }
-    let yaml_body = fs::read_to_string(charset_path)
+    let yaml_body = backend()
+        .read_to_string(charset_path)
         .with_context(|| format!("failed to read {}", charset_path.display()))?;
     let _charset = load_charset_from_yaml_str(&yaml_body)?;
     let img = io::load_rgb_u8(image_path)?;
@@ -552,10 +553,11 @@ pub fn recognize_image(
     image_path: &Path,
     charset_path: &Path,
 ) -> Result<String> {
-    if !image_path.is_file() || !model_path.is_file() || !charset_path.is_file() {
+    if !image_path.is_file() || !backend().is_file(model_path) || !backend().is_file(charset_path) {
         bail!("file not found");
     }
-    let yaml_body = fs::read_to_string(charset_path)
+    let yaml_body = backend()
+        .read_to_string(charset_path)
         .with_context(|| format!("failed to read {}", charset_path.display()))?;
     let charset = load_charset_from_yaml_str(&yaml_body)?;
     let img = io::load_rgb_u8(image_path)?;
@@ -569,10 +571,11 @@ pub fn recognize_rgb_u8(
     height: usize,
     charset_path: &Path,
 ) -> Result<String> {
-    if !model_path.is_file() || !charset_path.is_file() {
+    if !backend().is_file(model_path) || !backend().is_file(charset_path) {
         bail!("file not found");
     }
-    let yaml_body = fs::read_to_string(charset_path)
+    let yaml_body = backend()
+        .read_to_string(charset_path)
         .with_context(|| format!("failed to read {}", charset_path.display()))?;
     let charset = load_charset_from_yaml_str(&yaml_body)?;
     Ok(recognize_image_impl(model_path, rgb, width, height, &charset)?.text)
@@ -585,10 +588,11 @@ pub fn recognize_rgb_u8_with_score(
     height: usize,
     charset_path: &Path,
 ) -> Result<RecognizeResult> {
-    if !model_path.is_file() || !charset_path.is_file() {
+    if !backend().is_file(model_path) || !backend().is_file(charset_path) {
         bail!("file not found");
     }
-    let yaml_body = fs::read_to_string(charset_path)
+    let yaml_body = backend()
+        .read_to_string(charset_path)
         .with_context(|| format!("failed to read {}", charset_path.display()))?;
     let charset = load_charset_from_yaml_str(&yaml_body)?;
     recognize_image_impl(model_path, rgb, width, height, &charset)
@@ -605,10 +609,11 @@ pub fn recognize_rgb_u8_with_score_unprocessed(
     height: usize,
     charset_path: &Path,
 ) -> Result<RecognizeResult> {
-    if !model_path.is_file() || !charset_path.is_file() {
+    if !backend().is_file(model_path) || !backend().is_file(charset_path) {
         bail!("file not found");
     }
-    let yaml_body = fs::read_to_string(charset_path)
+    let yaml_body = backend()
+        .read_to_string(charset_path)
         .with_context(|| format!("failed to read {}", charset_path.display()))?;
     let charset = load_charset_from_yaml_str(&yaml_body)?;
     recognize_image_unprocessed_impl(model_path, rgb, width, height, &charset)

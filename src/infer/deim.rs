@@ -155,7 +155,7 @@ pub fn build_detections(
 }
 
 pub fn smoke_detect(model_path: &Path, image_path: &Path) -> Result<()> {
-    if !image_path.is_file() || !model_path.is_file() {
+    if !image_path.is_file() || !crate::infer::backend::backend().is_file(model_path) {
         bail!("file not found");
     }
     let img = io::load_rgb_u8(image_path)?;
