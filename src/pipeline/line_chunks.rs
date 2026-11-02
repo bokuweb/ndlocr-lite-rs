@@ -40,7 +40,7 @@ mod vertical;
 #[cfg(test)]
 pub(crate) use vertical::has_fallback_column_support;
 pub use vertical::split_rotated_vertical_column_for_input;
-#[cfg(any(feature = "onnx", test))]
+#[cfg(any(feature = "inference", test))]
 pub(crate) use vertical::split_supported_vertical_column_for_input;
 
 use slanted_spaces::restore_slanted_word_spaces;
@@ -1263,5 +1263,5 @@ mod tests {
     }
 }
 
-#[cfg(any(feature = "onnx", test))]
+#[cfg(any(feature = "inference", test))]
 pub(crate) use vertical::fallback_column_anchor_count;

@@ -633,24 +633,16 @@ fn recognize_image_impl(
     Ok(result)
 }
 
-#[cfg(feature = "onnx")]
+#[cfg(feature = "inference")]
 fn smoke_recognize_impl(model_path: &Path) -> Result<()> {
-    use crate::infer::ort_init::OrtAnyhow;
-    use ort::session::Session;
-    use ort::session::builder::GraphOptimizationLevel;
-    crate::infer::ort_init::ensure_init();
-    let _session = Session::builder()
-        .anyort()?
-        .with_optimization_level(GraphOptimizationLevel::Level3)
-        .anyort()?
-        .with_intra_threads(1)
-        .anyort()?
-        .commit_from_file(model_path)
-        .anyort()?;
+    let _session = crate::infer::backend::backend().load(
+        model_path,
+        crate::infer::backend::SessionOptions { intra_threads: 1 },
+    )?;
     Ok(())
 }
 
-#[cfg(feature = "onnx")]
+#[cfg(feature = "inference")]
 /// RGB画像を推論し、文字単位のデコード結果を変更せず返す。
 fn recognize_image_unprocessed_impl(
     model_path: &Path,
@@ -659,33 +651,19 @@ fn recognize_image_unprocessed_impl(
     height: usize,
     charset: &[char],
 ) -> Result<RecognizeResult> {
-    use crate::infer::ort_init::OrtAnyhow;
+    use crate::infer::backend::{Input, SessionOptions, backend};
     use anyhow::anyhow;
-    use ndarray::Array4;
-    use ort::inputs;
-    use ort::session::Session;
-    use ort::session::builder::GraphOptimizationLevel;
-    use ort::value::TensorRef;
 
-    crate::infer::ort_init::ensure_init();
-    let mut session = Session::builder()
-        .anyort()?
-        .with_optimization_level(GraphOptimizationLevel::Level3)
-        .anyort()?
-        .with_intra_threads(1)
-        .anyort()?
-        .commit_from_file(model_path)
-        .anyort()?;
+    let mut session = backend().load(model_path, SessionOptions { intra_threads: 1 })?;
 
     let inputs_meta = session.inputs();
     let input_meta = inputs_meta
         .first()
         .ok_or_else(|| anyhow!("model has no input"))?;
-    let shape_meta = input_meta
-        .dtype()
-        .tensor_shape()
+    let dims: &[i64] = input_meta
+        .shape
+        .as_deref()
         .ok_or_else(|| anyhow!("input is not a tensor"))?;
-    let dims: &[i64] = shape_meta;
     if dims.len() < 4 {
         bail!("unexpected model input rank");
     }
@@ -694,24 +672,20 @@ fn recognize_image_unprocessed_impl(
     }
     let input_h = dims[2] as usize;
     let input_w = dims[3] as usize;
-    let input_name = input_meta.name().to_string();
-    let outputs_meta = session.outputs();
-    let output_name = outputs_meta
+    let input_name = input_meta.name.clone();
+    let output_name = session
+        .outputs()
         .first()
         .ok_or_else(|| anyhow!("model has no output"))?
-        .name()
-        .to_string();
-    let _ = outputs_meta;
-    let _ = inputs_meta;
+        .name
+        .clone();
 
     let tensor = preprocess_rgb_u8(rgb, width, height, input_w, input_h)?;
-    let input_array: Array4<f32> = Array4::from_shape_vec((1, 3, input_h, input_w), tensor)?;
-    let tref = TensorRef::from_array_view(input_array.view()).anyort()?;
-    let outputs = session.run(inputs![input_name.as_str() => tref]).anyort()?;
-    let (shape, data) = outputs[output_name.as_str()]
-        .try_extract_tensor::<f32>()
-        .anyort()?;
-    let shape: Vec<i64> = shape.to_vec();
+    if tensor.len() != 3 * input_h * input_w {
+        bail!("PARSeq input tensor has an unexpected length");
+    }
+    let outputs = session.run(&[Input::f32(&input_name, &[1, 3, input_h, input_w], &tensor)])?;
+    let (shape, data) = outputs.f32(&output_name)?;
     let result = match shape.as_slice() {
         [1, t, c] => {
             predict_text_from_flat_logits_with_confidence(data, *t as usize, *c as usize, charset)
@@ -724,12 +698,12 @@ fn recognize_image_unprocessed_impl(
     Ok(result)
 }
 
-#[cfg(not(feature = "onnx"))]
+#[cfg(not(feature = "inference"))]
 fn smoke_recognize_impl(_model_path: &Path) -> Result<()> {
     bail!("onnx feature is disabled. Rebuild with `--features onnx`.");
 }
 
-#[cfg(not(feature = "onnx"))]
+#[cfg(not(feature = "inference"))]
 /// 推論runtimeを持たない構成は明示的に失敗する。
 fn recognize_image_unprocessed_impl(
     _model_path: &Path,

@@ -173,24 +173,16 @@ pub fn detect_rgb_u8(
     detect_rgb_u8_impl(model_path, rgb, width, height, conf_threshold)
 }
 
-#[cfg(feature = "onnx")]
+#[cfg(feature = "inference")]
 fn smoke_detect_impl(model_path: &Path) -> Result<()> {
-    use crate::infer::ort_init::OrtAnyhow;
-    use ort::session::Session;
-    use ort::session::builder::GraphOptimizationLevel;
-    crate::infer::ort_init::ensure_init();
-    let _session = Session::builder()
-        .anyort()?
-        .with_optimization_level(GraphOptimizationLevel::Level3)
-        .anyort()?
-        .with_intra_threads(1)
-        .anyort()?
-        .commit_from_file(model_path)
-        .anyort()?;
+    let _session = crate::infer::backend::backend().load(
+        model_path,
+        crate::infer::backend::SessionOptions { intra_threads: 1 },
+    )?;
     Ok(())
 }
 
-#[cfg(feature = "onnx")]
+#[cfg(feature = "inference")]
 fn detect_rgb_u8_impl(
     model_path: &Path,
     rgb: &[u8],
@@ -198,26 +190,13 @@ fn detect_rgb_u8_impl(
     height: usize,
     conf_threshold: f32,
 ) -> Result<Vec<Detection>> {
-    use crate::infer::ort_init::OrtAnyhow;
+    use crate::infer::backend::{Input, SessionOptions, backend};
     use anyhow::anyhow;
-    use ndarray::{Array2, Array4};
-    use ort::inputs;
-    use ort::session::Session;
-    use ort::session::builder::GraphOptimizationLevel;
-    use ort::value::TensorRef;
 
-    if !model_path.is_file() {
+    if !backend().is_file(model_path) {
         bail!("file not found");
     }
-    crate::infer::ort_init::ensure_init();
-    let mut session = Session::builder()
-        .anyort()?
-        .with_optimization_level(GraphOptimizationLevel::Level3)
-        .anyort()?
-        .with_intra_threads(1)
-        .anyort()?
-        .commit_from_file(model_path)
-        .anyort()?;
+    let mut session = backend().load(model_path, SessionOptions { intra_threads: 1 })?;
 
     // モデル入力 H/W をクエリ。固定 (例: 800x800) ならその値、動的なら 800 を使う。
     let (input_w, input_h) = {
@@ -225,11 +204,10 @@ fn detect_rgb_u8_impl(
         let m = inputs_meta
             .first()
             .ok_or_else(|| anyhow!("model has no input"))?;
-        let shape = m
-            .dtype()
-            .tensor_shape()
+        let dims: &[i64] = m
+            .shape
+            .as_deref()
             .ok_or_else(|| anyhow!("input is not tensor"))?;
-        let dims: &[i64] = shape;
         if dims.len() < 4 {
             bail!("unexpected model input rank");
         }
@@ -239,24 +217,20 @@ fn detect_rgb_u8_impl(
     };
 
     let prep = preprocess_rgb_u8(rgb, width, height, input_w, input_h)?;
-    let image_arr: Array4<f32> = Array4::from_shape_vec((1, 3, input_h, input_w), prep.tensor)?;
-    let size_arr: Array2<i64> =
-        Array2::from_shape_vec((1, 2), vec![input_h as i64, input_w as i64])?;
+    if prep.tensor.len() != 3 * input_h * input_w {
+        bail!("DEIM input tensor has an unexpected length");
+    }
+    let sizes = [input_h as i64, input_w as i64];
+    let outputs = session.run(&[
+        Input::f32("images", &[1, 3, input_h, input_w], &prep.tensor),
+        Input::i64("orig_target_sizes", &[1, 2], &sizes),
+    ])?;
 
-    let img_t = TensorRef::from_array_view(image_arr.view()).anyort()?;
-    let size_t = TensorRef::from_array_view(size_arr.view()).anyort()?;
-    let outputs = session
-        .run(inputs![
-            "images" => img_t,
-            "orig_target_sizes" => size_t,
-        ])
-        .anyort()?;
-
-    let (_, labels) = outputs["labels"].try_extract_tensor::<i64>().anyort()?;
-    let (_, boxes_flat) = outputs["boxes"].try_extract_tensor::<f32>().anyort()?;
-    let (_, scores) = outputs["scores"].try_extract_tensor::<f32>().anyort()?;
-    let char_counts: Vec<f32> = if let Some(v) = outputs.get("char_count") {
-        let (_, raw) = v.try_extract_tensor::<i64>().anyort()?;
+    let (_, labels) = outputs.i64("labels")?;
+    let (_, boxes_flat) = outputs.f32("boxes")?;
+    let (_, scores) = outputs.f32("scores")?;
+    let char_counts: Vec<f32> = if outputs.contains("char_count") {
+        let (_, raw) = outputs.i64("char_count")?;
         raw.iter().map(|&v| v as f32).collect()
     } else {
         vec![100.0; scores.len()]
@@ -291,7 +265,7 @@ fn detect_rgb_u8_impl(
     dets.retain(|d| d.box_xyxy[2] > d.box_xyxy[0] && d.box_xyxy[3] > d.box_xyxy[1]);
     Ok(dets)
 }
-#[cfg(feature = "onnx")]
+#[cfg(feature = "inference")]
 fn default_ndl_classes() -> Vec<String> {
     [
         "text_block",
@@ -317,12 +291,12 @@ fn default_ndl_classes() -> Vec<String> {
     .collect()
 }
 
-#[cfg(not(feature = "onnx"))]
+#[cfg(not(feature = "inference"))]
 fn smoke_detect_impl(_model_path: &Path) -> Result<()> {
     bail!("onnx feature is disabled. Rebuild with `--features onnx`.");
 }
 
-#[cfg(not(feature = "onnx"))]
+#[cfg(not(feature = "inference"))]
 fn detect_rgb_u8_impl(
     _model_path: &Path,
     _rgb: &[u8],

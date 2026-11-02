@@ -19,22 +19,16 @@ fn capture_output_capacity_metadata_without_nn() {
         let session = build_session(Path::new(model["path"].as_str().unwrap()), 1).unwrap();
         let mut inputs = Vec::new();
         for input in session.inputs() {
-            let dimensions = input.dtype().tensor_shape().map(|shape| {
-                let dims: &[i64] = shape;
-                dims.to_vec()
-            });
-            inputs.push(serde_json::json!({"name":input.name(),"dtype_debug":format!("{:?}",input.dtype()),"dimensions":dimensions}));
+            let dimensions = input.shape.clone();
+            inputs.push(serde_json::json!({"name":input.name,"dtype_debug":format!("{:?}",input),"dimensions":dimensions}));
         }
         let mut outputs = Vec::new();
         for output in session.outputs() {
-            let dimensions = output.dtype().tensor_shape().map(|shape| {
-                let dims: &[i64] = shape;
-                dims.to_vec()
-            });
+            let dimensions = output.shape.clone();
             let bound = dimensions.as_deref().and_then(|shape| {
                 super::super::output_capacity::static_frame_limit(shape, charset.len())
             });
-            outputs.push(serde_json::json!({"name":output.name(),"dtype_debug":format!("{:?}",output.dtype()),"dimensions":dimensions,"max_raw_scalars_from_static_shape":bound}));
+            outputs.push(serde_json::json!({"name":output.name,"dtype_debug":format!("{:?}",output),"dimensions":dimensions,"max_raw_scalars_from_static_shape":bound}));
         }
         records.push(serde_json::json!({"label":model["label"],"path":model["path"],"charset_scalars":charset.len(),"inputs":inputs,"outputs":outputs,"image_recognition_calls":0,"session_run_calls":0}));
     }

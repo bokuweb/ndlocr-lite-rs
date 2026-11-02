@@ -31,7 +31,7 @@ mod framed_lines;
 
 pub(crate) mod band_text_support;
 
-#[cfg(any(feature = "onnx", test))]
+#[cfg(any(feature = "inference", test))]
 pub(crate) mod line_context;
 
 pub(crate) mod horizontal_columns;

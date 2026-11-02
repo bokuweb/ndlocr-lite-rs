@@ -4,7 +4,7 @@ use super::{BlankGap, LineChunk, blank_gaps_with_geometry, split_line_at_preferr
 #[path = "../../../tests/support/supported_vertical_contract.rs"]
 mod supported_contract;
 
-#[cfg(any(feature = "onnx", test))]
+#[cfg(any(feature = "inference", test))]
 pub(crate) fn split_supported_vertical_column_for_input(
     rgb: &[u8],
     width: usize,
@@ -50,7 +50,7 @@ pub(crate) fn split_supported_vertical_column_for_input(
     Ok(chunks)
 }
 
-#[cfg(any(feature = "onnx", test))]
+#[cfg(any(feature = "inference", test))]
 fn retain_advance_boundaries(
     mut gaps: Vec<BlankGap>,
     widths: &[usize],
@@ -215,7 +215,7 @@ pub(crate) fn has_fallback_column_support(rgb: &[u8], width: usize, height: usiz
     fallback_column_anchor_count(rgb, width, height).is_some()
 }
 
-#[cfg(any(feature = "onnx", test))]
+#[cfg(any(feature = "inference", test))]
 pub(crate) fn fallback_column_anchor_count(
     rgb: &[u8],
     width: usize,

@@ -84,6 +84,6 @@ fn pair(column: usize, width: usize, gap: Option<&BlankGap>) -> [LineChunk; 2] {
 #[path = "../../../tests/support/long_line_split_policy.rs"]
 mod tests;
 
-#[cfg(all(test, feature = "onnx"))]
+#[cfg(all(test, feature = "inference"))]
 #[path = "../../../tests/support/long_line_model_probe.rs"]
 mod model_tests;
